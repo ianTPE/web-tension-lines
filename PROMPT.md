@@ -138,7 +138,24 @@ license: CC-BY-4.0（上游指南）
 - 這是發想，放在線標記外的細節裡，不放進四槽，也不寫成指南的宣稱。
 - 寫成具體的東西（「可重排的即時儀表板」），不要寫成形容詞（「更流暢的體驗」）。
 
-### 5. 結束
+### 5. 英文譯文 `i18n/en.json`
+
+網頁有英文版，譯文獨立存放，線檔本身維持中文。本週每條新線都要在 `lines` 底下加一筆，key 是 line_id：
+
+```json
+"mwg:<guide-id>": {"title": "", "action": "", "blocker": "", "outcome": "", "story": "", "unlock": "", "support": ""}
+```
+
+- `blocker` 末尾照中文版附上英文原句引文：`(quote: "…")`。
+- `outcome` 只寫破折號後面的內容，不寫勝／部分改善這類分類（頁面會自己加）。
+- 糾錯的線 `unlock` 留空字串。
+- 新開的對手組加進 `groups`，新指南的標題加進 `guides`。
+- 修改既有的線時，對應的譯文也要一起改。
+- 寫完確認檔案是合法 JSON。
+
+漏掉也不會壞：頁面會退回顯示中文，並標上 `untranslated`。
+
+### 6. 結束
 
 最後更新 `state.json` 的 `last_commit`、`last_release`、`last_run`。`scripts/weekly.sh` 會在你結束後檢查這一步。
 
@@ -149,4 +166,4 @@ license: CC-BY-4.0（上游指南）
 - 四槽只根據上游指南原文判斷；每個對手與戰報都要能指回原句。發想只出現在「解鎖」與「本週靈感」，並標明是發想。
 - 不替指南補它沒寫的對手或成效；不為湊齊四槽牽強加料。
 - 不改動上游檔案、不開 issue、不推送任何東西（commit 與 push 由腳本負責）。
-- 不修改 `PROMPT.md`、`README.md`、`scripts/`、`wants.md`（`wants.md` 只讀）。
+- 不修改 `PROMPT.md`、`README.md`、`README.en.md`、`scripts/`、`docs/`、`wants.md`（`wants.md` 只讀；`docs/` 由腳本產生）。

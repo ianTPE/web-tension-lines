@@ -1,0 +1,316 @@
+{
+  "who": "A developer (or a coding agent)",
+  "kind": {"新能力": "New capability", "糾錯": "Correction"},
+  "result": {"勝": "Win", "部分改善": "Partial", "僵持": "Stalemate", "缺": "Missing"},
+  "level": {"Widely": "Widely", "Newly": "Newly", "Limited": "Limited", "無瀏覽器支援": "No browser support", "不適用": "N/A"},
+  "groups": {
+    "安裝入口受限": "Install entry points are limited",
+    "截字傷可及性": "Truncation hurts accessibility",
+    "只能 hover 才看得到": "Only reachable by hover",
+    "視覺順序與DOM順序脫鉤": "Visual order drifts from DOM order",
+    "互動中畫面抖動": "Jitter during interaction",
+    "重建DOM丟狀態": "Rebuilding the DOM loses state",
+    "播報過量": "Over-announcing",
+    "比對錯型別": "Comparing the wrong type",
+    "原生元素角色實作不一致": "Inconsistent roles of native elements",
+    "新功能的副作用": "Side effects of a new feature",
+    "隱藏或停用把人擋在外面": "Hiding or disabling locks people out",
+    "彈出層脫離觸發點": "Popups detach from their trigger",
+    "外觀暗示錯的結構": "Appearance implies the wrong structure",
+    "焦點或狀態指示消失": "Focus or state indicators disappear",
+    "重複內容干擾輔助技術": "Duplicate content confuses assistive tech",
+    "每顆按鈕手接JS": "Wiring JS to every button",
+    "版面依賴錯的量測": "Layout depends on the wrong measurement",
+    "手寫焦點管理": "Hand-written focus management",
+    "版面擠壓破壞可讀性": "Cramped layout hurts readability"
+  },
+  "guides": {
+    "install-web-app": "Installing web apps",
+    "single-line-overflow": "Single-line text overflow",
+    "drag-and-drop": "Reordering with drag and drop",
+    "dynamic-sort": "User-triggered dynamic sorting",
+    "sortable-table": "Sortable table",
+    "accordion": "Accordion",
+    "app-menus": "Application menu bar",
+    "breadcrumbs": "Breadcrumbs",
+    "carousel": "Carousel",
+    "copy-button": "Copy button",
+    "navbar": "Responsive site navigation",
+    "tabs": "Tabbed interfaces",
+    "toolbar": "Toolbar",
+    "form-factor-adaptation": "Adapting to the form factor",
+    "natural-interactions": "Natural interaction feedback"
+  },
+  "lines": {
+    "mwg:install-web-app": {
+      "title": "Use <install> / navigator.install() instead of beforeinstallprompt, which can only install itself",
+      "action": "Offer an explicit in-page install entry with the HTML `<install>` element or `navigator.install()`, including installing *other* apps (for example from an app catalog)",
+      "blocker": "The existing `beforeinstallprompt` can only install the current app; a catalog cannot offer installs for other apps (quote: \"Unlike `navigator.install()`, this event cannot install a different app.\")",
+      "outcome": "Neither new entry point is supported by any major browser yet; in practice you still rely on `beforeinstallprompt` or the browser's own install UI (official claim)",
+      "story": "The guide funnels installation through browser-controlled consent UI, so sites cannot install silently. The new entry points would let a catalog install other apps in one click, but the guide states \"<install> is not natively supported by any major browser yet\", and the same goes for `navigator.install()`. Until support lands, the only fallback is the old event, which is exactly what cannot install across apps.",
+      "unlock": "One page could offer install buttons for *other* web apps, so a self-made catalog or toolbox page could install each small tool in one click. No browser supports it yet; track it for now.",
+      "support": "`<install>`: not natively supported by any major browser yet; `navigator.install()`: same; Web app manifest: Limited (not in Firefox)"
+    },
+    "mwg:single-line-overflow": {
+      "title": "Truncate visually with CSS instead of cutting strings in script",
+      "action": "When a single-line label (tab, table cell, file name) is too long, truncate only on screen with `text-overflow: ellipsis` or a mask fade, keeping the full text in the DOM",
+      "blocker": "Cutting the string in script means screen readers, find-in-page and copy all get the mangled text (quote: \"Screen readers announce the full text, find-in-page matches it, and copying copies it. This is why the string must never be cut in script.\")",
+      "outcome": "Truncation happens only at paint time; assistive tech, search and copy still get the full text. Ellipsis and masks are Widely available (official claim)",
+      "story": "The common approach is to cut the string to N characters before rendering and append \"…\", which removes the full text from the DOM. The guide requires truncation to be visual only; to keep a tail such as a file extension, split it in the markup rather than cutting characters. Another trap: a single gradient mask also hides the focus outline (\"it also hides the element's focus outline\").",
+      "unlock": "",
+      "support": "Masks: Widely (2023-12-07); Container queries (size): Widely (2023-02-14)"
+    },
+    "mwg:single-line-overflow:2": {
+      "title": "Make truncated text reachable for keyboard and touch too",
+      "action": "Scroll the text into view on `:hover` and `:focus-visible`, with scroll-driven animations controlling the fade and hint",
+      "blocker": "Relying on the `title` attribute alone to show the full text leaves keyboard and touch users without it (quote: \"DO NOT rely on `title` alone: it is unreachable from the keyboard and on touch.\")",
+      "outcome": "Keyboard users see the full text via focus, but touch still has no hover or focus, so the guide asks for another route (the selected item is never truncated, a detail view opens). Scroll-driven animations only just became Newly available (official claim)",
+      "story": "`title` is the easiest option but only works with a mouse. The new approach scrolls the text inside its box on hover and focus, shrinking the fade as it scrolls so the end is readable. The guide also admits \"Hover and focus reveal nothing on touch\", so on touch the opponent is sidestepped by interface design rather than defeated by the feature. Without scroll-driven animations, the fade and hint never appear and the text is clipped with no indication; a `ResizeObserver` fallback is needed.",
+      "unlock": "Truncated long labels (file names, tab names) can scroll to reveal the full text on hover or focus in pure CSS, with no JS width measuring and no `title`.",
+      "support": "Scroll-driven animations: Newly (2026-10-27); Container style queries: Newly (2026-05-19)"
+    },
+    "mwg:drag-and-drop": {
+      "title": "Move the real DOM nodes instead of faking order with CSS",
+      "action": "On drop, move the existing node once with `container.moveBefore(item, ref)` so visual, keyboard and reading order stay aligned",
+      "blocker": "Changing on-screen order with CSS `order` or `flex-direction: *-reverse` leaves DOM order unchanged, so Tab and screen readers follow the old order (quote: \"Reorder the real children in the DOM (not via CSS `order` or `flex-direction: *-reverse`) so visual, keyboard, and reading order stay aligned.\")",
+      "outcome": "Moving real nodes fixes the order mismatch, but keeping internal state needs `moveBefore()`, which Safari lacks; the `before()` fallback loses focus and other state inside items (official claim)",
+      "story": "The cheapest drag-to-reorder is changing `order`: it looks right, but keyboard users jump through the old order. The guide moves the real node once on release and uses `moveBefore()` to keep focus and iframe state. When visual and DOM order truly cannot match in a complex layout, `reading-flow` is the tool, but only Chrome/Edge support it.",
+      "unlock": "A playing video, a live iframe widget or a half-filled form can be moved elsewhere without resetting. Previously every move reloaded it, which made a rearrangeable live dashboard painful.",
+      "support": "moveBefore(): Limited (Chrome 133, Edge 133, Firefox 144; not Safari); reading-flow: Limited (Chrome/Edge 137; not Firefox or Safari)"
+    },
+    "mwg:drag-and-drop:2": {
+      "title": "Show a drop marker while dragging; move only on release",
+      "action": "Keep the source item in its slot during the drag, draw a drop marker with `::before`/`::after`, and move on `pointerup`",
+      "blocker": "Reordering live while dragging makes siblings shift and the list jitter (quote: \"Don't reorder while the pointer moves: shifting siblings feel jittery.\")",
+      "outcome": "A drop marker replaces live shifting and the jitter is gone; pointer capture and fixed positioning are mature features (official claim)",
+      "story": "Many drag implementations reorder on `pointermove`, so the whole list jumps every time the pointer passes an item. The guide shows only a drop line during the drag, moves once on release, and animates every move so items travel instead of jumping.",
+      "unlock": "",
+      "support": "Pointer events: Widely"
+    },
+    "mwg:dynamic-sort": {
+      "title": "Sort by moving existing nodes, not rebuilding with innerHTML",
+      "action": "When the user changes sort order, move the existing nodes into the new order with `moveBefore()`, optionally wrapped in a view transition",
+      "blocker": "Creating new nodes with `innerHTML` or a full re-render loses focus, scroll position inside items and image state, and breaks view transitions (quote: \"Recreating nodes with `innerHTML` or a re-render that replaces them discards focus, scroll position inside items, and image state, and it breaks view transitions, which match old and new elements by identity.\")",
+      "outcome": "Moving nodes alone stops focus and scroll loss. `moveBefore()` is missing in Safari; the `append()` fallback keeps order but may lose iframe, animation or inner focus state. View transitions are Newly (official claim)",
+      "story": "Redrawing the whole list after sorting is the usual approach, and the cost is that the button the user just clicked loses focus and a half-scrolled card jumps to the top. The guide turns sorting into \"moving house\" rather than \"rebuilding\", with animation as an optional enhancement.",
+      "unlock": "After sorting or filtering, the list animates items to their new places with a view transition while scroll, focus and playback inside each item survive. Suits lists of heavy items (embedded previews, video cards).",
+      "support": "moveBefore(): Limited (not Safari); View transitions: Newly (2025-10-14)"
+    },
+    "mwg:dynamic-sort:2": {
+      "title": "Announce the sort result once",
+      "action": "Announce the result once through a single `role=\"status\"` region and keep focus on the control that triggered the sort",
+      "blocker": "Putting `aria-live` on the list makes every moved item get announced (quote: \"DO NOT put `aria-live` on the list, which would announce every moved item.\")",
+      "outcome": "The user performed one action and hears one announcement (official claim)",
+      "story": "A reorder moves many nodes, but the user did one thing. With `aria-live` on the list, screen readers treat every node move as an update. A single status region announcing once is enough.",
+      "unlock": "",
+      "support": "ARIA live regions: Widely"
+    },
+    "mwg:sortable-table": {
+      "title": "Move <tr> elements when sorting; don't rebuild the tbody",
+      "action": "When a `<button>` in a column header is clicked, move the existing `<tr>` elements within `<tbody>` and mark the sorted column with `aria-sort`",
+      "blocker": "Rebuilding `<tbody>` with `innerHTML` or a re-render on sort loses focus and row state and breaks view transitions (quote: \"DO NOT re-render the `<tbody>` or `<table>` on sort; it discards focus and state and breaks view transitions.\")",
+      "outcome": "Moving existing rows uses mature DOM operations and focus stays on the header button; animation is optional (official claim)",
+      "story": "This is the table version of dynamic-sort. The guide also puts the button inside `<th>` rather than making `<th>` clickable, keeps `aria-sort` on one column only, and keeps the button label as the column name instead of \"Sort ascending\". Invoker commands are recommended over a click listener per button, but without saying what concretely goes wrong with the old way.",
+      "unlock": "",
+      "support": "Invoker commands: Newly (2025-12-12)"
+    },
+    "mwg:sortable-table:2": {
+      "title": "Compare by column type, not formatted strings",
+      "action": "Declare each column's type with `data-type` and compare numbers and dates by their underlying values",
+      "blocker": "Comparing the formatted strings on screen sorts numbers and dates in the wrong order (quote: \"DO NOT sort formatted strings when the underlying values are numbers or dates.\")",
+      "outcome": "Type-aware comparison gives the correct order; no new feature involved (official claim)",
+      "story": "\"1,200\" sorting before \"950\", or \"2026/1/10\" before \"2025/12/3\", is what string comparison does. The guide has each column declare its type instead of guessing from content.",
+      "unlock": "",
+      "support": "—"
+    },
+    "mwg:accordion": {
+      "title": "Don't put headings inside summary when items need their own heading",
+      "action": "Build accordions from adjacent `<details>`; when each item needs its own heading, build a custom accordion instead",
+      "blocker": "With a heading inside `<summary>`, JAWS and TalkBack expose summary as a button and drop the heading, so users cannot jump between items by heading (quote: \"JAWS and TalkBack expose `summary` as a button and drop any heading inside it, so their users cannot move between items by heading.\")",
+      "outcome": "A custom accordion keeps the headings in the accessibility tree (official claim)",
+      "story": "`<details>` makes a good accordion, but the summary role swallows inner structure. The guide names two specific screen readers, which makes this an opponent you can verify yourself. The navbar guide gives the same warning about inconsistent summary roles.",
+      "unlock": "",
+      "support": "details: Widely"
+    },
+    "mwg:accordion:2": {
+      "title": "Avoid exclusive <details name> so content doesn't jump out of view",
+      "action": "Allow several items open at once by default; don't use the exclusive behaviour of `<details name>`",
+      "blocker": "In an exclusive accordion, opening one item closes another and content shifts out of view, which seriously affects screen-magnifier users (quote: \"They also can cause content to shift out of the user’s view which can cause significant problems for those using screen magnifiers.\")",
+      "outcome": "Without exclusivity there is no such shift; the guide takes a clear stance where the new feature itself is the opponent (official claim)",
+      "story": "`<details name>` only became Baseline in 2024, yet the guide advises against it. What makes this line unusual is that the opponent is not an old technique but a side effect of a new feature. When exclusivity is truly needed, the guide says to use it only as a last resort.",
+      "unlock": "",
+      "support": "Mutually exclusive <details>: Newly (2024-09-03)"
+    },
+    "mwg:accordion:3": {
+      "title": "Collapse with ::details-content to keep find-in-page and animation",
+      "action": "Collapsed content lives in `::details-content` and is hidden with `content-visibility: hidden` rather than `display: none`",
+      "blocker": "Hiding collapsed content with `display: none` makes it unfindable by find-in-page and its height cannot animate (quote: \"While closed it is hidden with `content-visibility: hidden`, not `display: none`, which is what keeps it findable and lets its size animate.\")",
+      "outcome": "In supporting browsers content is searchable and slides open; `::details-content` is only Newly, so older browsers get no animation (official claim)",
+      "story": "Once a collapsed section is `display: none`, Ctrl+F cannot find it. The new pseudo-element lets the browser expand the section automatically on a search hit and animate its height. Conversely, use `display: none` deliberately when the content should not be searchable.",
+      "unlock": "A long page can be fully collapsed while Ctrl+F still finds and expands matches, with an opening animation. Long docs, FAQs and weekly notes no longer have to choose between collapsing and being findable.",
+      "support": "::details-content: Newly (2025-09-16); transition-behavior: Newly (2024-08-06)"
+    },
+    "mwg:app-menus": {
+      "title": "Pin menus to their trigger with anchor positioning",
+      "action": "Each menu in a menu bar (File/Edit/View) is a popover placed next to its trigger with CSS anchor positioning",
+      "blocker": "Without anchor positioning a popover falls back to the centered viewport position, detaching the menu from its trigger, and a centered submenu covers its parent (quote: \"Never ship that for a menu: it detaches the menu from its trigger, and a centered submenu covers its parent.\")",
+      "outcome": "Menus stay attached to their triggers. The core anchor properties (`anchor-name`, `position-area`, `anchor()`) are supported in Chrome 125, Firefox 147 and Safari 26 (Baseline Newly, 2026-01-13); older browsers still need an `@supports` gate (official claim; support corrected after verification on 2026-11-12)",
+      "story": "A menu bar is one widget: one Tab stop, left/right arrows switch menus, focus previews. Each menu must sit under its trigger, but a native popover defaults to the middle of the viewport. The guide's support section says anchor positioning is \"supported only in Safari 27\", but that is the status of the whole feature group, not of the properties this guide uses; see the details.",
+      "unlock": "A desktop-style File/Edit/View menu bar can be built almost declaratively with popover plus anchor positioning, with menus attached to their buttons. Web tools can look and behave like desktop programs.",
+      "support": "Anchor positioning core properties: Newly (2026-01-13; `position-anchor` 2026-09-14). The guide says \"Supported by: Safari 27. Unsupported in: Chrome, Edge, and Firefox.\", which is the lowest common support of the whole web-features `anchor-positioning` group (325 sub-features); Chrome and Firefox only lack the `position-visibility: anchor-valid / anchor-visible` values (Chrome 157 beta, not Firefox), which this guide does not use. Popover: Newly (2025-01-27); focusgroup: Limited (Chrome/Edge 150)"
+    },
+    "mwg:breadcrumbs": {
+      "title": "Keep separators so breadcrumbs read as a hierarchy, not siblings",
+      "action": "Build breadcrumbs with `<nav>` + `<ol>`, with separators generated in CSS and hidden from assistive tech",
+      "blocker": "Pill or segmented styles without separators look like tabs or filters (items on the same level), not a hierarchy (quote: \"Pills, tags and a segmented bar without one look like tabs or filters (items on the same level), not a hierarchy.\")",
+      "outcome": "Separators are CSS-generated content and work in every browser (official claim)",
+      "story": "Designers often want breadcrumbs to look more like a button row, and the result implies the wrong structure. The guide treats separators as essential and uses `ol` rather than `ul` to express order.",
+      "unlock": "",
+      "support": "—"
+    },
+    "mwg:breadcrumbs:2": {
+      "title": "Use border-shape so borders and focus rings follow slanted segments",
+      "action": "Draw slanted or arrow-shaped segments with `corner-shape` / `border-shape`, with borders and focus outlines following the shape",
+      "blocker": "Cutting shapes with `clip-path` also clips borders and focus outlines; forced-colors mode removes the background, so a clipped segment loses its outline (quote: \"`clip-path` clips borders and outlines, so under the fallback use a color/background change plus negative `outline-offset` for focus instead of an outside outline.\")",
+      "outcome": "`corner-shape` and `border-shape` are Chrome/Edge only; other browsers fall back to rectangular segments with separators, and the guide says rounded corners are not an acceptable substitute for slants (official claim)",
+      "story": "Arrow-shaped breadcrumbs used to rely on `clip-path`, so the keyboard focus ring was cut off and whole segments vanished in high-contrast mode. The new properties make the border itself the shape, but Firefox and Safari do not support them yet.",
+      "unlock": "Slanted, arrow or notched shapes can carry their borders and focus rings along the shape, without sacrificing accessibility to clip-path. Chromium only for now.",
+      "support": "corner-shape: Limited (Chrome/Edge 139); border-shape: Limited (Chrome/Edge 147)"
+    },
+    "mwg:carousel": {
+      "title": "Loop a carousel without cloning slides by parking one with order",
+      "action": "For looping, use `--current` and CSS `order` to park the first or last slide beside the current one and mark it `inert`, without cloning or moving slides",
+      "blocker": "Cloning slides or moving them in the DOM for infinite looping conflicts with frameworks and makes assistive tech read duplicate content (quote: \"Do not clone slides or move them in the DOM, which conflicts with frameworks and duplicates content for assistive technology.\")",
+      "outcome": "No clones means no duplicate content, but the offset must be compensated when scrolling settles with snapping briefly turned off, and `scrollend` is only Newly (official claim)",
+      "story": "The usual infinite carousel clones a slide at each end, so screen readers hear the same slide twice. The guide instead visually parks a single slide at the other end and makes it inert, so Tab order and the accessibility tree match what is on screen. The guide also says not to use `::scroll-button()` / `::scroll-marker` \"for now\", without giving a reason.",
+      "unlock": "An infinitely looping carousel without cloned slides: park one slide with CSS order and compensate the offset once scrolling settles. Content exists once, so frameworks and screen readers don't fight.",
+      "support": "Scroll snap: Widely (2020-01-15); scrollend: Newly (2025-12-12); Scroll-driven animations: Newly (2026-10-27)"
+    },
+    "mwg:copy-button": {
+      "title": "Don't disable the button while showing feedback",
+      "action": "After copying, show feedback; on repeat clicks, reset the timer and restart the animation instead of setting the button to disabled",
+      "blocker": "Disabling the button during feedback drops keyboard focus and announces a misleading unavailable state (quote: \"DO NOT disable the button while showing feedback: copying is idempotent, and disabling drops keyboard focus, announces a misleading unavailable state\")",
+      "outcome": "The button stays usable and focus stays put (official claim)",
+      "story": "Disabling the button to prevent double clicks is an intuitive safeguard, but copying twice has no side effect. Disabling makes a keyboard user's next Tab start again from the top of the page.",
+      "unlock": "",
+      "support": "Clipboard.writeText: Widely (2020-03-24)"
+    },
+    "mwg:copy-button:2": {
+      "title": "Declare the copy target with Invoker Commands",
+      "action": "Use `command` + `commandfor` to declare which element a button copies, instead of wiring JavaScript to each button",
+      "blocker": "(missing) The guide only says it replaces \"per-button JavaScript wiring\" without pointing to a moment where the old way fails (quote: \"Declare the target with Invoker Commands (`command` + `commandfor`) instead of per-button JavaScript wiring\")",
+      "outcome": "The guide does not say what improves with invoker commands; the fallback when unsupported is \"add a click listener that calls the same function\", i.e. the old way (official claim)",
+      "story": "The same recommendation appears in sortable-table and accordion: declarative attributes instead of click listeners. None of the three guides says where hand-wired listeners break; they only describe the new style. Both slot 3 and the outcome are missing on this line.",
+      "unlock": "What a button does to another element can be written directly in HTML (`command`/`commandfor`) with no JS wiring; custom `--commands` let one button trigger any behaviour.",
+      "support": "Invoker commands: Newly (2025-12-12)"
+    },
+    "mwg:copy-button:3": {
+      "title": "Hide repeated copy buttons with opacity",
+      "action": "Hide the many repeated copy buttons on a page until hover or focus, using only `opacity`",
+      "blocker": "Hiding buttons with `display: none` or `visibility: hidden` removes them from the tab order, so keyboard users can never reach them (quote: \"`display: none` and `visibility: hidden` remove the button from the tab order, so keyboard users could never reach it.\")",
+      "outcome": "Opacity hiding does not affect focusability; devices without hover always show the button (official claim)",
+      "story": "A copy button on every code block is noisy, so they are often shown only on hover. The catch is how they are hidden: most hiding methods also take the button out of the Tab order. The guide also forbids \"hiding\" with `aria-hidden` or `inert`.",
+      "unlock": "",
+      "support": "—"
+    },
+    "mwg:navbar": {
+      "title": "No hard-coded breakpoint: collapse only when it doesn't fit",
+      "action": "Use one `<nav>` tree; script compares `scrollWidth` with `clientWidth` and collapses into a native popover only when the row doesn't fit",
+      "blocker": "With a hard-coded breakpoint, adding a link, switching language or enlarging text makes the nav overflow or collapse too early at the wrong width (quote: \"There is no hard-coded breakpoint. Script collapses the navigation only when the inline row (brand, actions and every link) does not fit, so adding a link, a translation or larger text moves the point automatically.\")",
+      "outcome": "The collapse point follows the actual content, but deciding still needs JS measurement; popover is Newly and older browsers need a polyfill (official claim)",
+      "story": "Traditional navbars switch to a hamburger at a fixed media-query width, so after translation into a longer language the links overflow before the breakpoint. The guide measures whether the row actually fits, and defaults to the collapsed layout without script so it always works.",
+      "unlock": "A navbar collapses into a native popover when it doesn't fit, with keyboard, Esc and click-outside closing built in; changing the number of links or the language needs no breakpoint tuning.",
+      "support": "Popover: Newly (2025-01-27); @starting-style: Newly (2024-08-06)"
+    },
+    "mwg:navbar:2": {
+      "title": "Use button + aria-expanded for submenus, not details/summary",
+      "action": "Trigger nested navigation with `<button aria-expanded aria-controls>`, immediately followed by the submenu list",
+      "blocker": "Building submenus with `<details>`/`<summary>`: `summary` should map to the button role but is not implemented consistently (quote: \"DO NOT use `<details>` and `<summary>`: `<summary>` should map to a `button` role, but has not been consistently implemented\")",
+      "outcome": "The button role is consistent across assistive tech (official claim)",
+      "story": "Same opponent as the accordion guide: summary behaves differently across screen readers. `<details>` opens and closes without JS, which is tempting, but in navigation an unstable role costs more.",
+      "unlock": "",
+      "support": "—"
+    },
+    "mwg:tabs": {
+      "title": "Replace hand-written roving tabindex with focusgroup",
+      "action": "Put `focusgroup` on the tablist to get the right roles and arrow-key movement automatically",
+      "blocker": "(missing) The guide only says it replaces manually implementing roving tabindex or activedescendant, without saying where the hand-written version fails (quote: \"Instead of manually implementing a roving tabindex or ARIA activedescendant pattern to meet the focus management requirement of the ARIA `tablist` role, we can use `focusgroup`\")",
+      "outcome": "`focusgroup` is only in Chrome/Edge 150; Firefox and Safari still need the hand-written version (official claim)",
+      "story": "The tabs keyboard model (one Tab stop, arrows switch) has always been hand-written. The new attribute lets the browser do it, but the opponent is described only as \"implementing it manually\": effort, not an observable failure.",
+      "unlock": "\"One Tab stop, arrows move inside\" for a group of elements becomes a single attribute instead of hand-written roving tabindex. Keyboard-first interfaces (grid menus, kanban boards) get much cheaper; Chromium only for now.",
+      "support": "focusgroup: Limited (Chrome/Edge 150; not Firefox or Safari)"
+    },
+    "mwg:tabs:2": {
+      "title": "Draw the selected underline as a pseudo-element border so it survives forced colors",
+      "action": "Draw the selected tab's underline with a border on a pseudo-element, styled from `aria-selected`",
+      "blocker": "Drawing the underline with `box-shadow` or a background leaves no indicator at all, because forced-colors mode removes both (quote: \"DO NOT use `box-shadow` or a background: forced colors mode removes both, leaving no indicator.\")",
+      "outcome": "Borders survive forced-colors mode, so the selected state stays visible (official claim)",
+      "story": "High-contrast users otherwise see a row of identical buttons. The guide also forbids indicating selection with colour alone (WCAG 1.4.1) and ties styling to `aria-selected`, so the visual and accessible states cannot disagree.",
+      "unlock": "",
+      "support": "—"
+    },
+    "mwg:tabs:3": {
+      "title": "Keep tabs on one row; scroll or overflow into a menu",
+      "action": "Keep tabs on a single row; when they don't fit, scroll horizontally with edge fades or move extras into a \"More\" menu",
+      "blocker": "Wrapping tabs onto several rows makes the tab order and the selected tab hard to follow (quote: \"DO NOT wrap them onto multiple rows: wrapped rows make the tab order and the selected tab hard to follow.\")",
+      "outcome": "A single scrolling row works; the scroll fades rely on scroll-driven animations (Newly) and `hidden=until-found` is Limited (official claim)",
+      "story": "When there are too many tabs, wrapping feels natural, but the selected tab may end up on the second row and the visual \"you are here\" disappears. The guide offers three strategies, each with its own fallback.",
+      "unlock": "Edge fades on a scroll container follow the scroll position and vanish at the end, in pure CSS. Rows with many tabs or tags can stay on one line without getting lost.",
+      "support": "Scroll-driven animations: Newly (2026-10-27); hidden=\"until-found\": Limited; interpolate-size: Limited"
+    },
+    "mwg:toolbar": {
+      "title": "Disable with aria-disabled so controls stay focusable",
+      "action": "Mark temporarily unavailable toolbar buttons with `aria-disabled=\"true\"` and ignore clicks",
+      "blocker": "With `disabled`, the button cannot be focused and arrow-key movement skips it, so users don't know it exists (quote: \"Disable with `aria-disabled=\\\"true\\\"` rather than `disabled` so the control stays focusable and reachable by arrow keys.\")",
+      "outcome": "The button stays focusable and its state can be read out (official claim)",
+      "story": "Same opponent group as copy-button: the way something is disabled or hidden locks keyboard users out. In a toolbar, with one Tab stop and arrow keys stepping through, a skipped button effectively does not exist.",
+      "unlock": "",
+      "support": "—"
+    },
+    "mwg:toolbar:2": {
+      "title": "Give the toolbar a single Tab stop with focusgroup",
+      "action": "Add `focusgroup=\"toolbar wrap\"` to the `role=\"toolbar\"` container and let the browser handle arrow keys and the roving tab stop",
+      "blocker": "(missing) The guide requires \"only one item in the tab order at a time\" but does not describe what concretely happens when every button is a Tab stop (quote: \"MANDATORY: Only one item is in the tab order at a time.\")",
+      "outcome": "`focusgroup` is only in Chrome/Edge 150 (official claim)",
+      "story": "Same shape as the tabs focusgroup line: a new attribute replaces hand-written focus management, but the opponent is stated only as a rule.",
+      "unlock": "Like focusgroup for tabs: the whole toolbar is one Tab stop with arrow-key movement handled by the browser. Keyboard support for editor-style tools comes almost for free.",
+      "support": "focusgroup: Limited (Chrome/Edge 150); Anchor positioning core properties: Newly (the Limited stated in the guide is the group status; see app-menus)"
+    },
+    "mwg:form-factor-adaptation": {
+      "title": "Lay out components with container queries, not viewport width",
+      "action": "Use container queries for component layout; keep media queries for the input device and user settings",
+      "blocker": "Laying out components with viewport-width media queries means a component cannot adapt when placed in a sidebar or narrow column (quote: \"Use container queries instead of viewport-width media queries for component layout, so a component adapts wherever it is placed.\")",
+      "outcome": "Container queries are Widely available; components adapt to the container they are in (official claim)",
+      "story": "The same card in the main column and in a sidebar sees the same viewport width but very different available width. The guide also warns that querying height on an `inline-size` container does nothing (\"it measures only width\").",
+      "unlock": "",
+      "support": "Container queries (size): Widely (2023-02-14)"
+    },
+    "mwg:form-factor-adaptation:2": {
+      "title": "Nothing clipped at 320px wide",
+      "action": "Use `min-block-size` instead of a fixed height on anything with text, don't truncate headings with ellipsis, and don't clip controls with `overflow: hidden` on parents",
+      "blocker": "Fixed heights, truncated headings and clipping parents cut off text or buttons on narrow screens or with enlarged text (quote: \"DO NOT truncate headings with `text-overflow: ellipsis`, and do not clip controls with `overflow: hidden` on their parents.\")",
+      "outcome": "Only mature properties are used, and content stays intact at 320 CSS px (official claim)",
+      "story": "WCAG 1.4.10 requires no clipping at 320px wide. The split with single-line-overflow: labels may be truncated visually, headings may not.",
+      "unlock": "",
+      "support": "text-wrap: balance: Newly (2024-05-13)"
+    },
+    "mwg:natural-interactions": {
+      "title": "Never remove focus outlines without an equally visible replacement",
+      "action": "Use `:focus-visible` to show keyboard focus rings and hide them only for mouse clicks",
+      "blocker": "`outline: none` removes the focus ring, so keyboard users cannot see where they are (quote: \"DO NOT remove focus outlines (`outline: none` or `outline: 0`) without providing an equally visible replacement with at least a 3:1 contrast ratio against the page (WCAG 1.4.11).\")",
+      "outcome": "`:focus-visible` is Widely available: no ring on mouse click, a ring for keyboard use (official claim)",
+      "story": "Focus rings usually get removed so an ugly box doesn't appear after clicking. `:focus-visible` separates the two needs, so looks no longer cost keyboard users.",
+      "unlock": "",
+      "support": "—"
+    },
+    "mwg:natural-interactions:2": {
+      "title": "Menus may open on hover, but never only on hover",
+      "action": "Trigger dropdowns declaratively with `<button popovertarget>` so click, tap and keyboard all open them and `Esc` closes them",
+      "blocker": "Opening menus only on hover leaves keyboard and touch users unable to open them (quote: \"Menus and dropdowns may open on hover, but never only on hover: they also open on click, tap, and keyboard activation, stay open while the pointer moves onto them, and close with Esc (WCAG 2.1.1, 1.4.13).\")",
+      "outcome": "Popover builds in click, keyboard and dismissal behaviour; popover is Newly and older browsers need a polyfill (official claim)",
+      "story": "Same group as the `title` line in single-line-overflow: interactions that only work with a mouse. A declarative popover lets the browser provide open and close behaviour, so you don't have to add keyboard and touch support yourself.",
+      "unlock": "Dropdowns and overlays declared with `popovertarget` get click, keyboard, Esc and click-outside behaviour, and an animation growing from the trigger needs only CSS.",
+      "support": "Popover: Newly (2025-01-27)"
+    }
+  }
+}

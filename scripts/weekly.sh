@@ -52,7 +52,7 @@ if [ "$NOW" != "$TO" ]; then
 fi
 
 python3 scripts/build_page.py
-git add -A lines ledger.csv weekly state.json docs
+git add -A lines ledger.csv weekly state.json docs i18n
 if ! git diff --cached --quiet; then
   git commit -q -m "weekly: modern-web-guidance $MWG_RELEASE ($MWG_FROM..$MWG_TO)"
   git push -q origin main || echo "WARN: push failed"
