@@ -1,0 +1,31 @@
+日期,版本,guide_id,line_id,功能,對手組,對手,戰報,支援狀態,證據,槽3,上游issue候選,狀態
+2026-11-11,v1.0.0,install-web-app,mwg:install-web-app,"<install>, navigator.install()",安裝入口受限,現有的 `beforeinstallprompt` 只能安裝目前這個 app，無法替目錄裡的其他 app 提供安裝,僵持,無瀏覽器支援,宣稱,有,無（fallback 有交代：空元素不渲染、改用 beforeinstallprompt）,有效
+2026-11-11,v1.0.0,single-line-overflow,mwg:single-line-overflow,"text-overflow, mask-image",截字傷可及性,在 script 裡把字串切短後，螢幕閱讀器、頁內搜尋、複製拿到的都是殘缺文字,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,single-line-overflow,mwg:single-line-overflow:2,"scroll-driven animations, container style queries",只能 hover 才看得到,只靠 `title` 屬性顯示全文，鍵盤和觸控使用者都碰不到,部分改善,Newly,宣稱,有,無,有效
+2026-11-11,v1.0.0,drag-and-drop,mwg:drag-and-drop,"moveBefore(), reading-flow",視覺順序與DOM順序脫鉤,用 CSS `order` 或 `flex-direction: *-reverse` 改變畫面順序，DOM 順序沒變，Tab 鍵與螢幕閱讀器仍照舊順序走,部分改善,Limited,宣稱,有,無,有效
+2026-11-11,v1.0.0,drag-and-drop,mwg:drag-and-drop:2,"pointer capture, ::before/::after 標記",互動中畫面抖動,拖曳時即時重排，兄弟項目跟著位移，畫面抖動,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,dynamic-sort,mwg:dynamic-sort,"moveBefore(), view transitions",重建DOM丟狀態,用 `innerHTML` 或整批重新 render 產生新節點，焦點、項目內捲動位置、圖片狀態全部丟失，view transition 也對不上,部分改善,Limited,宣稱,有,無,有效
+2026-11-11,v1.0.0,dynamic-sort,mwg:dynamic-sort:2,role=status,播報過量,把 `aria-live` 放在清單上，每個被搬動的項目都被唸一次,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,sortable-table,mwg:sortable-table,"aria-sort, insertBefore",重建DOM丟狀態,排序時用 `innerHTML` 或重新 render 重建 `<tbody>`，焦點與列內狀態丟失、view transition 失效,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,sortable-table,mwg:sortable-table:2,data-type 宣告,比對錯型別,直接比對畫面上格式化過的字串，數字與日期排出錯誤順序,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,accordion,mwg:accordion,<details>/<summary>,原生元素角色實作不一致,在 `<summary>` 裡放 heading，JAWS 與 TalkBack 把 summary 當按鈕並丟掉裡面的標題，使用者無法用標題在項目間跳,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,accordion,mwg:accordion:2,<details name>,新功能的副作用,互斥手風琴開一項就關另一項，內容位移出使用者的視野，對使用螢幕放大鏡的人影響很大,勝,Newly,宣稱,有,無,有效
+2026-11-11,v1.0.0,accordion,mwg:accordion:3,"::details-content, content-visibility",隱藏或停用把人擋在外面,用 `display: none` 隱藏收合內容，頁內搜尋找不到、高度也無法動畫,部分改善,Newly,宣稱,有,無,有效
+2026-11-11,v1.0.0,app-menus,mwg:app-menus,"popover, anchor positioning, focusgroup",彈出層脫離觸發點,沒有 anchor positioning 時 popover 退回視窗置中，選單脫離觸發鈕，置中的子選單還會蓋住父選單,僵持,Limited,宣稱,有,支援資料疑誤：多份指南（app-menus、toolbar、navbar、persistent-toast-notifications、persistent-app-tours）都寫 anchor positioning 僅 Safari 27 支援、Chrome 不支援，需確認是否為資料來源取錯子功能,有效
+2026-11-11,v1.0.0,breadcrumbs,mwg:breadcrumbs,::before 產生的分隔符,外觀暗示錯的結構,做成膠囊或分段條卻拿掉分隔符，看起來像分頁或篩選器（同層項目），不像層級,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,breadcrumbs,mwg:breadcrumbs:2,"corner-shape, border-shape",焦點或狀態指示消失,用 `clip-path` 切形狀會切掉邊框與焦點外框；強制色彩模式又移除背景，被切的段落失去輪廓,僵持,Limited,宣稱,有,無,有效
+2026-11-11,v1.0.0,carousel,mwg:carousel,"scroll snap, order, inert, scrollend",重複內容干擾輔助技術,複製投影片或在 DOM 裡搬動來做無限循環，和框架衝突，輔助技術也會讀到重複內容,部分改善,Newly,宣稱,有,"要求 ""Do not use `::scroll-button()` or `::scroll-marker` for now"" 但未說明理由（支援度？無障礙問題？），戰報缺",有效
+2026-11-11,v1.0.0,copy-button,mwg:copy-button,Async Clipboard,隱藏或停用把人擋在外面,顯示回饋期間停用按鈕，鍵盤焦點掉出去，還宣告了誤導的「不可用」狀態,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,copy-button,mwg:copy-button:2,Invoker commands,每顆按鈕手接JS,"指南只說要取代 ""per-button JavaScript wiring""，沒有指出舊寫法具體在哪個時刻出問題",缺,Newly,宣稱,缺,copy-button、sortable-table、accordion 都推薦 invoker commands 取代 click listener，但沒說舊寫法的具體問題，也沒說改善了什麼,有效
+2026-11-11,v1.0.0,copy-button,mwg:copy-button:3,"opacity, (hover: none)",隱藏或停用把人擋在外面,用 `display: none` 或 `visibility: hidden` 藏按鈕，按鈕從 Tab 順序中消失，鍵盤使用者永遠到不了,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,navbar,mwg:navbar,"popover, scrollWidth 量測",版面依賴錯的量測,寫死的斷點：加一個連結、換一種語言、放大文字，導覽列就在錯的寬度擠爆或過早收合,部分改善,Newly,宣稱,有,無,有效
+2026-11-11,v1.0.0,navbar,mwg:navbar:2,<button aria-expanded>,原生元素角色實作不一致,用 `<details>`/`<summary>` 做子選單，`summary` 該對應 button 角色卻沒有被一致實作,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,tabs,mwg:tabs,focusgroup,手寫焦點管理,只說要取代手動實作 roving tabindex 或 activedescendant，沒說手寫版在哪個情境出錯,僵持,Limited,宣稱,缺,無（同類問題已在 copy-button 線一併提出）,有效
+2026-11-11,v1.0.0,tabs,mwg:tabs:2,"::after border, aria-selected",焦點或狀態指示消失,用 `box-shadow` 或背景畫底線，強制色彩模式把兩者都移除，選中狀態完全沒有指示,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,tabs,mwg:tabs:3,"scroll-driven animations, hidden=until-found",版面擠壓破壞可讀性,分頁換成多列，Tab 順序與選中的分頁都難以追蹤,部分改善,Limited,宣稱,有,無,有效
+2026-11-11,v1.0.0,toolbar,mwg:toolbar,aria-disabled,隱藏或停用把人擋在外面,用 `disabled` 停用後按鈕無法聚焦，方向鍵移動時直接跳過，使用者不知道它存在,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,toolbar,mwg:toolbar:2,focusgroup,手寫焦點管理,指南規定「同時只能有一個項目在 Tab 順序中」，但沒有描述每個按鈕都是 Tab 停點時具體造成什麼,僵持,Limited,宣稱,缺,無,有效
+2026-11-11,v1.0.0,form-factor-adaptation,mwg:form-factor-adaptation,container queries,版面依賴錯的量測,用視窗寬度的 media query 排元件，同一個元件放進側欄或窄欄時無法跟著調整,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,form-factor-adaptation,mwg:form-factor-adaptation:2,"min-block-size, text-wrap",截字傷可及性,固定高度、標題截斷與父層裁切，在窄螢幕或放大文字時讓文字或按鈕被切掉,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,natural-interactions,mwg:natural-interactions,:focus-visible,焦點或狀態指示消失,`outline: none` 直接拿掉焦點框，鍵盤使用者看不到自己在哪,勝,Widely,宣稱,有,無,有效
+2026-11-11,v1.0.0,natural-interactions,mwg:natural-interactions:2,"popover, popovertarget",只能 hover 才看得到,只在 hover 時開選單，鍵盤和觸控使用者打不開,部分改善,Newly,宣稱,有,無,有效

@@ -1,0 +1,122 @@
+# 每週任務：把 modern-web-guidance 的新指南拆成問題線
+
+你在 `/home/iand03/GitHub/web-tension-lines` 執行。`scripts/weekly.sh` 已經把上游 `GoogleChrome/modern-web-guidance` 抓到 `.cache/upstream`，並把本週差異寫進 `.cache/diff.txt`（`git diff --name-status <上次 commit> <這次 commit> -- skills/modern-web-guidance/guides`）。環境變數 `MWG_FROM`、`MWG_TO`、`MWG_RELEASE` 給出兩個 commit 與版本名。
+
+上游指南路徑：`.cache/upstream/skills/modern-web-guidance/guides/<分類>/<guide-id>.md`
+
+## 範圍
+
+- `A`（新增）：每份都拆，寫成問題線。
+- `M`（修改）：先看 `git -C .cache/upstream diff $MWG_FROM $MWG_TO -- <檔案>`。
+  - 本 repo 已有 `lines/<分類>/<guide-id>.md`：只在**對手、戰報或支援狀態**變了時改那條線，並在線尾的「變更紀錄」記一行。
+  - 沒有線檔、且這次改動是新增整段做法（新增 ≥40 行 prose，不算程式碼）：當成新增處理。
+  - 其他（措辭、程式碼範例、連結）：不拆，只在週記列出檔名。
+- `D`／`R`（刪除、改名）：在線檔頂端加 `> 上游已刪除／改名為 …（日期）`，不刪檔；ledger 對應列的「狀態」改成 `上游已刪除` 或 `改名`。
+- 一次超過 20 份要拆時，只拆前 20 份（依路徑排序），其餘在週記列為「待拆」，下週優先處理。
+
+## 四槽（照張力句教練的定義，以下是套用到功能指南時的調整）
+
+這些是**別人寫的功能指南**，教練 Prompt 預設會走「純觀察」放行；這裡明確指定：**一律照解決問題型拆**。
+
+1. **誰在做**：固定為「開發者（或寫程式的代理）」，指南若指定角色（例如「內容作者」「擴充功能開發者」）就照指南。
+2. **動作＋對象**：用哪個平台功能／做法，處理哪個介面或行為。寫出功能名（`moveBefore()`、`focusgroup`、`<details name>`）。
+3. **被什麼擋**：舊做法或常見錯誤的**具體**後果，要能指到一個可觀察的現象，並引用指南原文（英文原句，短引）。
+   - 「臃腫的 JS」「體驗不好」「不夠現代」這類只有標籤、指不到現象的，判**缺**。
+   - 指南只有做法、沒說舊做法哪裡壞，判**缺**。不要替指南補對手。
+4. **戰報**：換成新做法後，同一個對手退了多少。只能寫指南宣稱的內容，並依支援狀態分類：
+   - `勝`：功能已 Baseline Widely available，對手直接消失。
+   - `部分改善`：Newly available，或 fallback 能保住主要行為但失去部分好處。
+   - `僵持`：Limited availability／沒有任何主要瀏覽器支援，實務上仍得用舊做法。
+   - `缺`：指南沒說新做法對那個對手有什麼影響。
+
+每條線的戰報都是**官方宣稱**，在 ledger 的「證據」欄寫 `宣稱`。只有使用者自己實測過的才改成 `實測`（自動任務永遠不寫 `實測`）。
+
+一份指南可能有兩條以上的問題線（對手不同就分開）。超過三條時，只寫前三條（依指南出現順序），在線檔尾註明「另有 N 條未拆」。
+
+## 輸出
+
+### 1. 線檔 `lines/<分類>/<guide-id>.md`
+
+格式照 skill-line-coach（CtxFST）：四槽與一段短敘述放在標記內，細節放標記外。標記內約 300–900 字。
+
+```markdown
+---
+guide: <guide-id>
+category: <分類>
+upstream: https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/<分類>/<guide-id>.md
+first_seen: <YYYY-MM-DD>（<版本>）
+license: CC-BY-4.0（上游指南）
+---
+
+# <指南標題中譯>
+
+%% line-start id="mwg:<guide-id>" %%
+## <一句話：用 X 擋掉 Y>
+- 誰在做：…
+- 動作＋對象：…
+- 被什麼擋：…（引用："…"）
+- 戰報：<勝／部分改善／僵持／缺>——…（官方宣稱）
+
+經過：兩到四句，說清楚舊做法在哪個時刻出事、新做法怎麼避開、還剩什麼沒解決。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：<見 ledger 的對手組>
+- 支援狀態：<功能>：<Baseline 狀態／Supported by 原句>
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有或缺／戰報 有或缺
+- 上游 issue 候選：無，或一句說明（見下）
+- 變更紀錄：<YYYY-MM-DD>（<版本>）首次拆出
+```
+
+第二條線的 id 用 `mwg:<guide-id>:2`。
+
+### 2. 累積表 `ledger.csv`
+
+每條線一列，追加，不重寫舊列（修改時改該列）。欄位固定：
+
+`日期,版本,guide_id,line_id,功能,對手組,對手,戰報,支援狀態,證據,槽3,上游issue候選,狀態`
+
+- `對手組`：先用 `ledger.csv` 已有的組名；真的對不上才新增，並在週記說明為什麼新開一組。
+- `支援狀態`：取該線關鍵功能的最低狀態：`Widely`／`Newly`／`Limited`／`無瀏覽器支援`。
+- `狀態`：`有效`、`上游已刪除`、`改名`。
+- 欄位內有逗號時用雙引號包起來。
+
+### 3. 週記 `weekly/<YYYY-MM-DD>.md`
+
+```markdown
+# <YYYY-MM-DD> 週記：modern-web-guidance <版本>
+
+- 上游範圍：<from>..<to>，新增 N、修改 N、刪除 N
+- 本週拆出：N 條線（N 份指南）
+
+## 這週的對手
+按對手組列，每組一行：組名——哪幾條線，一句話說這組的共同形狀。
+標出**重複出現**的對手（跨週累計 ≥3 條線的組，查 ledger）。
+
+## 僵持中的線
+戰報為「僵持」的線，各一行：功能、卡在哪個瀏覽器。
+
+## 上游 issue 候選
+（沒有就寫「本週無」）
+
+## 未拆
+修改但未拆的檔名，一行一個；「待拆」清單。
+```
+
+### 4. 上游 issue 候選
+
+只在以下情況列出，**不自動開 issue**（回報處是 `GoogleChrome/modern-web-guidance-src`，由使用者決定）：
+- 槽 3 判缺：指南推薦新做法，但沒說舊做法具體會出什麼問題。
+- 戰報判缺：說要用新功能，但沒說改善了什麼。
+- 戰報與支援狀態矛盾：推薦 Limited／無支援的功能為主路徑，fallback 卻沒交代或不可用。
+
+### 5. 結束
+
+最後更新 `state.json` 的 `last_commit`、`last_release`、`last_run`。`scripts/weekly.sh` 會在你結束後檢查這一步。
+
+## 邊界
+
+- 只根據上游指南原文判斷；每個對手與戰報都要能指回原句。
+- 不替指南補它沒寫的對手或成效；不為湊齊四槽牽強加料。
+- 不改動上游檔案、不開 issue、不推送任何東西。
+- 不修改 `PROMPT.md`、`README.md`、`scripts/`。
