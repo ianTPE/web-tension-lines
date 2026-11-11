@@ -1,6 +1,6 @@
 # 每週任務：把 modern-web-guidance 的新指南拆成問題線
 
-你在 `/home/iand03/GitHub/web-tension-lines` 執行。`scripts/weekly.sh` 已經把上游 `GoogleChrome/modern-web-guidance` 抓到 `.cache/upstream`，並把本週差異寫進 `.cache/diff.txt`（`git diff --name-status <上次 commit> <這次 commit> -- skills/modern-web-guidance/guides`）。環境變數 `MWG_FROM`、`MWG_TO`、`MWG_RELEASE` 給出兩個 commit 與版本名。
+你在 repo 根目錄（目前工作目錄）執行；下面所有路徑都是相對於這裡，不要讀寫這個目錄以外的地方。`scripts/weekly.sh` 已經把上游 `GoogleChrome/modern-web-guidance` 抓到 `.cache/upstream`，並把本週差異寫進 `.cache/diff.txt`（`git diff --name-status <上次 commit> <這次 commit> -- skills/modern-web-guidance/guides`）。環境變數 `MWG_FROM`、`MWG_TO`、`MWG_RELEASE` 給出兩個 commit 與版本名。
 
 上游指南路徑：`.cache/upstream/skills/modern-web-guidance/guides/<分類>/<guide-id>.md`
 
@@ -28,6 +28,8 @@
    - `部分改善`：Newly available，或 fallback 能保住主要行為但失去部分好處。
    - `僵持`：Limited availability／沒有任何主要瀏覽器支援，實務上仍得用舊做法。
    - `缺`：指南沒說新做法對那個對手有什麼影響。
+
+指南完全沒有瀏覽器支援資料時（工具鏈、WebAssembly 建置這類），支援狀態寫 `不適用`，戰報只看指南宣稱：說對手消失為 `勝`，說改善但有代價或限制為 `部分改善`，沒說改善了什麼為 `缺`。不要自行補外部支援資料，也不要發明其他分類。
 
 每條線的戰報都是**官方宣稱**，在 ledger 的「證據」欄寫 `宣稱`。只有使用者自己實測過的才改成 `實測`（自動任務永遠不寫 `實測`）。
 
@@ -77,7 +79,7 @@ license: CC-BY-4.0（上游指南）
 `日期,版本,guide_id,line_id,功能,對手組,對手,戰報,支援狀態,證據,槽3,上游issue候選,狀態`
 
 - `對手組`：先用 `ledger.csv` 已有的組名；真的對不上才新增，並在週記說明為什麼新開一組。
-- `支援狀態`：取該線關鍵功能的最低狀態：`Widely`／`Newly`／`Limited`／`無瀏覽器支援`。
+- `支援狀態`：取該線關鍵功能的最低狀態：`Widely`／`Newly`／`Limited`／`無瀏覽器支援`／`不適用`。
 - `狀態`：`有效`、`上游已刪除`、`改名`。
 - 欄位內有逗號時用雙引號包起來。
 
@@ -113,6 +115,8 @@ license: CC-BY-4.0（上游指南）
 ### 5. 結束
 
 最後更新 `state.json` 的 `last_commit`、`last_release`、`last_run`。`scripts/weekly.sh` 會在你結束後檢查這一步。
+
+結束時的總結用繁體中文寫，它會留在 `logs/` 給使用者看。
 
 ## 邊界
 
