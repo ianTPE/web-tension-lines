@@ -16,7 +16,7 @@
 
 ## 四槽
 
-這些是別人寫的功能指南，不是自己的筆記；這裡一律把它們當成「解決問題」的文字來拆：有人用某個做法對付某個問題。
+四槽原始定義見 https://github.com/ctxfst/skill-line-coach/blob/main/references/four-slot-coach.md ；以下是套用到功能指南時的版本。這些是別人寫的功能指南，不是自己的筆記；這裡一律把它們當成「解決問題」的文字來拆：有人用某個做法對付某個問題。
 
 1. **誰在做**：固定為「開發者（或寫程式的代理）」，指南若指定角色（例如「內容作者」「擴充功能開發者」）就照指南。
 2. **動作＋對象**：用哪個平台功能／做法，處理哪個介面或行為。寫出功能名（`moveBefore()`、`focusgroup`、`<details name>`）。
@@ -43,7 +43,7 @@
 
 ### 1. 線檔 `lines/<分類>/<guide-id>.md`
 
-四槽與一段短敘述放在 `%% line-start %%`／`%% line-end %%` 標記內，細節放標記外；程式只擷取標記內的文字。標記內約 300–900 字。
+格式照 CtxFST（https://github.com/ctxfst/skill-line-coach/blob/main/references/ctxfst-spec.md ）：四槽與一段短敘述放在 `%% line-start %%`／`%% line-end %%` 標記內，細節放標記外；程式只擷取標記內的文字。標記內約 300–900 字。
 
 ```markdown
 ---

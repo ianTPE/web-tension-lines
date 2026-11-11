@@ -17,13 +17,13 @@
 
 這樣拆的好處是：好幾份指南擋的如果是同一個對手（例如都在處理「隱藏方式把鍵盤使用者擋在外面」），在 `ledger.csv` 按「對手組」一篩就看得到。
 
-完整規則（包含怎麼套用到功能指南、何時判缺）見 [PROMPT.md](PROMPT.md)。
+四槽來自 [ctxfst](https://github.com/ctxfst) 的張力句四槽教練，原始定義見 [skill-line-coach/references/four-slot-coach.md](https://github.com/ctxfst/skill-line-coach/blob/main/references/four-slot-coach.md)。原本是寫筆記時用的教練規則，這裡把它拿來拆別人寫的功能指南；調整過的地方（例如「誰在做」固定為開發者、戰報依瀏覽器支援度分級）寫在 [PROMPT.md](PROMPT.md)。
 
 ## 結構
 
 | 路徑 | 內容 |
 |---|---|
-| `lines/<分類>/<guide-id>.md` | 一份指南一個檔，裡面一到三條問題線。每條線包在 `%% line-start id="…" %%` 和 `%% line-end %%` 之間（Obsidian 的註解語法，畫面上看不到），方便程式逐條擷取；標記外的「細節」是給人看的補充 |
+| `lines/<分類>/<guide-id>.md` | 一份指南一個檔，裡面一到三條問題線。每條線包在 `%% line-start id="…" %%` 和 `%% line-end %%` 之間（Obsidian 的註解語法，畫面上看不到），格式照 [CtxFST 規格](https://github.com/ctxfst/skill-line-coach/blob/main/references/ctxfst-spec.md)，可直接用 skill-line-coach 的 `shape_layer.py` 逐條建索引；標記外的「細節」是給人看的補充 |
 | `ledger.csv` | 累積表，一條線一列；按「對手組」篩選可以看到哪些老問題被反覆對付 |
 | `weekly/<日期>.md` | 每期週記：這週的對手、僵持中的線、上游 issue 候選 |
 | `PROMPT.md` | 每週自動任務的完整指示 |
