@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 每週：抓上游 modern-web-guidance，有新 commit 就叫 claude 照 PROMPT.md 拆成問題線。
-# crontab: 0 9 * * 3  /home/iand03/GitHub/web-tension-lines/scripts/weekly.sh
+# crontab: 0 9 * * 3  /path/to/web-tension-lines/scripts/weekly.sh
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
