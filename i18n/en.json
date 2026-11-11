@@ -1,8 +1,22 @@
 {
   "who": "A developer (or a coding agent)",
-  "kind": {"新能力": "New capability", "糾錯": "Correction"},
-  "result": {"勝": "Win", "部分改善": "Partial", "僵持": "Stalemate", "缺": "Missing"},
-  "level": {"Widely": "Widely", "Newly": "Newly", "Limited": "Limited", "無瀏覽器支援": "No browser support", "不適用": "N/A"},
+  "kind": {
+    "新能力": "New capability",
+    "糾錯": "Correction"
+  },
+  "result": {
+    "勝": "Win",
+    "部分改善": "Partial",
+    "僵持": "Stalemate",
+    "缺": "Missing"
+  },
+  "level": {
+    "Widely": "Widely",
+    "Newly": "Newly",
+    "Limited": "Limited",
+    "無瀏覽器支援": "No browser support",
+    "不適用": "N/A"
+  },
   "groups": {
     "安裝入口受限": "Install entry points are limited",
     "截字傷可及性": "Truncation hurts accessibility",
@@ -146,9 +160,9 @@
       "action": "Collapsed content lives in `::details-content` and is hidden with `content-visibility: hidden` rather than `display: none`",
       "blocker": "Hiding collapsed content with `display: none` makes it unfindable by find-in-page and its height cannot animate (quote: \"While closed it is hidden with `content-visibility: hidden`, not `display: none`, which is what keeps it findable and lets its size animate.\")",
       "outcome": "In supporting browsers content is searchable and slides open; `::details-content` is only Newly, so older browsers get no animation (official claim)",
-      "story": "Once a collapsed section is `display: none`, Ctrl+F cannot find it. The new pseudo-element lets the browser expand the section automatically on a search hit and animate its height. Conversely, use `display: none` deliberately when the content should not be searchable.",
+      "story": "Once a collapsed section is `display: none`, Ctrl+F cannot find it. A closed `<details>` hides its content with `content-visibility: hidden` instead, so the content is still there and searchable, and the browser opens it automatically on a search hit. The `::details-content` pseudo-element is what lets you select, style and animate the height of the collapsed part. Conversely, use `display: none` deliberately when the content should not be searchable.",
       "unlock": "A long page can be fully collapsed while Ctrl+F still finds and expands matches, with an opening animation. Long docs, FAQs and weekly notes no longer have to choose between collapsing and being findable.",
-      "support": "::details-content: Newly (2025-09-16); transition-behavior: Newly (2024-08-06)"
+      "support": "`<details>` auto-opens on find-in-page match: Chrome 97, Firefox 148, Safari 26.2 (Safari does not scroll to the matched text correctly, WebKit bug 304174; not mapped to any web-features feature, so no Baseline label); ::details-content: Newly (2025-09-16); transition-behavior: Newly (2024-08-06)"
     },
     "mwg:app-menus": {
       "title": "Pin menus to their trigger with anchor positioning",

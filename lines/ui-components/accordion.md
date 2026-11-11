@@ -49,13 +49,14 @@ license: CC-BY-4.0（上游指南）
 - 被什麼擋：用 `display: none` 隱藏收合內容，頁內搜尋找不到、高度也無法動畫（引用："While closed it is hidden with `content-visibility: hidden`, not `display: none`, which is what keeps it findable and lets its size animate."）
 - 戰報：部分改善——支援的瀏覽器裡內容可被搜尋並能滑動展開；`::details-content` 才 Newly，舊瀏覽器沒有動畫（官方宣稱）
 
-經過：收合區塊的內容一旦 `display: none`，Ctrl+F 就找不到。新偽元素讓瀏覽器在搜尋命中時自動展開，並能對高度做動畫。反過來，不想被搜尋到時才刻意用 `display: none`。
+經過：收合區塊的內容一旦 `display: none`，Ctrl+F 就找不到。`<details>` 收合時改用 `content-visibility: hidden`，內容仍在、搜得到，瀏覽器在搜尋命中時會自動打開它；`::details-content` 這個偽元素則讓收合區塊可以被選取、加樣式、對高度做動畫。反過來，不想被搜尋到時才刻意用 `display: none`。
 %% line-end %%
 
 ### 細節（不索引）
 - 對手組：隱藏或停用把人擋在外面
-- 支援狀態：::details-content：Newly（2025-09-16）；transition-behavior：Newly（2024-08-06）
+- 支援狀態：`<details>` 搜尋命中自動展開：Chrome 97、Firefox 148、Safari 26.2（Safari 不會正確捲到命中文字，WebKit bug 304174；web-features 未列入任何功能，沒有 Baseline 標籤）；::details-content：Newly（2025-09-16）；transition-behavior：Newly（2024-08-06）
 - 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
 - 類型：新能力
 - 解鎖（發想，非指南原文）：可以把很長的頁面全部摺起來，Ctrl+F 照樣找得到並自動展開，還能做展開動畫。長文件、FAQ、週記這類「想摺疊又怕找不到」的頁面不再兩難
 - 變更紀錄：2026-11-11（v1.0.0）首次拆出
+- 變更紀錄：2026-11-12 更正「經過」：搜尋命中自動展開是 `<details>` 的行為，不是 `::details-content` 帶來的；補上三家支援資料（@mdn/browser-compat-data 8.1.8）
