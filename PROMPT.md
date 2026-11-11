@@ -31,6 +31,10 @@
 
 指南完全沒有瀏覽器支援資料時（工具鏈、WebAssembly 建置這類），支援狀態寫 `不適用`，戰報只看指南宣稱：說對手消失為 `勝`，說改善但有代價或限制為 `部分改善`，沒說改善了什麼為 `缺`。不要自行補外部支援資料，也不要發明其他分類。
 
+**已驗證的支援資料偏差**（照這裡判，不照指南原文）：
+
+- **Anchor positioning**：指南寫 "Supported by: Safari 27 … Unsupported in: Chrome, Edge, and Firefox"，那是 web-features 整個群組的狀態，只因 `position-visibility: anchor-valid / anchor-visible` 兩個值而拖累。若該線沒用到 `position-visibility`，支援狀態記 `Newly`（核心屬性 2026-01-13 起 Baseline），並在細節註明「群組狀態誤導，見 `lines/ui-components/app-menus.md`」。（2026-11-12 驗證，web-features 3.45.0）
+
 每條線的戰報都是**官方宣稱**，在 ledger 的「證據」欄寫 `宣稱`。只有使用者自己實測過的才改成 `實測`（自動任務永遠不寫 `實測`）。
 
 一份指南可能有兩條以上的問題線（對手不同就分開）。超過三條時，只寫前三條（依指南出現順序），在線檔尾註明「另有 N 條未拆」。

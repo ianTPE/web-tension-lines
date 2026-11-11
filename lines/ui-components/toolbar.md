@@ -37,7 +37,7 @@ license: CC-BY-4.0（上游指南）
 
 ### 細節（不索引）
 - 對手組：手寫焦點管理
-- 支援狀態：focusgroup：Limited（Chrome/Edge 150）；Anchor positioning：Limited（資料疑誤，見 app-menus）
+- 支援狀態：focusgroup：Limited（Chrome/Edge 150）；Anchor positioning 核心屬性：Newly（指南寫的 Limited 是群組狀態，見 app-menus）
 - 槽判定：誰在做 有／動作＋對象 有／被什麼擋 缺／戰報 有
 - 上游 issue 候選：無
 - 變更紀錄：2026-11-11（v1.0.0）首次拆出

@@ -11,7 +11,7 @@
 2026-11-11,v1.0.0,accordion,mwg:accordion,<details>/<summary>,原生元素角色實作不一致,在 `<summary>` 裡放 heading，JAWS 與 TalkBack 把 summary 當按鈕並丟掉裡面的標題，使用者無法用標題在項目間跳,勝,Widely,宣稱,有,無,有效
 2026-11-11,v1.0.0,accordion,mwg:accordion:2,<details name>,新功能的副作用,互斥手風琴開一項就關另一項，內容位移出使用者的視野，對使用螢幕放大鏡的人影響很大,勝,Newly,宣稱,有,無,有效
 2026-11-11,v1.0.0,accordion,mwg:accordion:3,"::details-content, content-visibility",隱藏或停用把人擋在外面,用 `display: none` 隱藏收合內容，頁內搜尋找不到、高度也無法動畫,部分改善,Newly,宣稱,有,無,有效
-2026-11-11,v1.0.0,app-menus,mwg:app-menus,"popover, anchor positioning, focusgroup",彈出層脫離觸發點,沒有 anchor positioning 時 popover 退回視窗置中，選單脫離觸發鈕，置中的子選單還會蓋住父選單,僵持,Limited,宣稱,有,支援資料疑誤：多份指南（app-menus、toolbar、navbar、persistent-toast-notifications、persistent-app-tours）都寫 anchor positioning 僅 Safari 27 支援、Chrome 不支援，需確認是否為資料來源取錯子功能,有效
+2026-11-11,v1.0.0,app-menus,mwg:app-menus,"popover, anchor positioning, focusgroup",彈出層脫離觸發點,沒有 anchor positioning 時 popover 退回視窗置中，選單脫離觸發鈕，置中的子選單還會蓋住父選單,部分改善,Newly,宣稱,有,已驗證：11 份指南的 anchor positioning 支援段用的是整個 web-features 群組狀態，因 position-visibility: anchor-valid/anchor-visible 兩個未使用的值而顯示 Chrome 不支援,有效
 2026-11-11,v1.0.0,breadcrumbs,mwg:breadcrumbs,::before 產生的分隔符,外觀暗示錯的結構,做成膠囊或分段條卻拿掉分隔符，看起來像分頁或篩選器（同層項目），不像層級,勝,Widely,宣稱,有,無,有效
 2026-11-11,v1.0.0,breadcrumbs,mwg:breadcrumbs:2,"corner-shape, border-shape",焦點或狀態指示消失,用 `clip-path` 切形狀會切掉邊框與焦點外框；強制色彩模式又移除背景，被切的段落失去輪廓,僵持,Limited,宣稱,有,無,有效
 2026-11-11,v1.0.0,carousel,mwg:carousel,"scroll snap, order, inert, scrollend",重複內容干擾輔助技術,複製投影片或在 DOM 裡搬動來做無限循環，和框架衝突，輔助技術也會讀到重複內容,部分改善,Newly,宣稱,有,"要求 ""Do not use `::scroll-button()` or `::scroll-marker` for now"" 但未說明理由（支援度？無障礙問題？），戰報缺",有效
