@@ -20,8 +20,9 @@ license: CC-BY-4.0（上游指南）
 
 ### 細節（不索引）
 - 對手組：彈出層脫離觸發點
-- 支援狀態：Anchor positioning 核心屬性：Newly（2026-01-13；`position-anchor` 2026-09-14）。指南原寫 "Supported by: Safari 27. Unsupported in: Chrome, Edge, and Firefox."，那是 web-features 整個 `anchor-positioning` 群組（325 個子項）的最低共同支援；Chrome 與 Firefox 只缺 `position-visibility: anchor-valid / anchor-visible` 兩個值（Chrome 157 beta 才加，Firefox 未支援），本指南沒用到。驗證見 `weekly/2026-11-11.md`。Popover：Newly（2025-01-27）；focusgroup：Limited（Chrome/Edge 150）
+- 支援狀態：Anchor positioning 核心屬性：Newly（2026-01-13；`position-anchor` 2026-09-14）。指南原寫 "Supported by: Safari 27. Unsupported in: Chrome, Edge, and Firefox."，那是 web-features 整個 `anchor-positioning` 群組（325 個子項）的最低共同支援；Chrome 與 Firefox 只缺 `position-visibility: anchor-valid / anchor-visible` 兩個值（Chrome 157 beta 才加，Firefox 未支援），本指南沒用到。（2026-11-12 以 web-features 3.45.0 的 `by_compat_key` 逐項驗證）Popover：Newly（2025-01-27）；focusgroup：Limited（Chrome/Edge 150）
 - 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
-- 上游 issue 候選：已驗證。11 份指南的 anchor positioning 支援段引用整個 web-features 群組狀態，因兩個沒用到的 `position-visibility` 值而顯示「Chrome 不支援」，會誤導讀者（與代理）以為核心功能不可用
+- 類型：新能力
+- 解鎖（發想，非指南原文）：File／Edit／View 這種桌面應用的選單列可以用 popover 加錨點定位幾乎宣告式地做出來，選單黏在觸發鈕上。網頁工具看起來、用起來都能像桌面程式
 - 變更紀錄：2026-11-12 戰報由「僵持」改為「部分改善」，支援狀態由 Limited 改為 Newly（驗證 web-features 3.45.0、@mdn/browser-compat-data）
 - 變更紀錄：2026-11-11（v1.0.0）首次拆出

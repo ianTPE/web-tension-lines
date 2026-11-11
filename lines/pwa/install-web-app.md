@@ -22,5 +22,6 @@ license: CC-BY-4.0（上游指南）
 - 對手組：安裝入口受限
 - 支援狀態：`<install>`：not natively supported by any major browser yet；`navigator.install()`：同；Web app manifest：Limited（Firefox 不支援）
 - 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
-- 上游 issue 候選：無（fallback 有交代：空元素不渲染、改用 beforeinstallprompt）
+- 類型：新能力
+- 解鎖（發想，非指南原文）：一個頁面可以替「別的」web app 提供安裝按鈕，自建 app 目錄或工具集合頁就能一鍵安裝每個小工具。目前沒有瀏覽器支援，只能先追蹤
 - 變更紀錄：2026-11-11（v1.0.0）首次拆出

@@ -22,7 +22,7 @@ license: CC-BY-4.0（上游指南）
 - 對手組：截字傷可及性
 - 支援狀態：Masks：Widely（2023-12-07）；Container queries (size)：Widely（2023-02-14）
 - 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
-- 上游 issue 候選：無
+- 類型：糾錯
 - 變更紀錄：2026-11-11（v1.0.0）首次拆出
 
 %% line-start id="mwg:single-line-overflow:2" %%
@@ -39,5 +39,6 @@ license: CC-BY-4.0（上游指南）
 - 對手組：只能 hover 才看得到
 - 支援狀態：Scroll-driven animations：Newly（2026-10-27）；Container style queries：Newly（2026-05-19）
 - 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
-- 上游 issue 候選：無
+- 類型：新能力
+- 解鎖（發想，非指南原文）：被截斷的長標籤（檔名、分頁名）可以用純 CSS 在 hover 或 focus 時捲動顯示全文，不必寫 JS 量寬度、也不必用 title
 - 變更紀錄：2026-11-11（v1.0.0）首次拆出

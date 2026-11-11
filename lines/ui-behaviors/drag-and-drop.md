@@ -22,7 +22,8 @@ license: CC-BY-4.0（上游指南）
 - 對手組：視覺順序與DOM順序脫鉤
 - 支援狀態：moveBefore()：Limited（Chrome 133、Edge 133、Firefox 144；Safari 不支援）；reading-flow：Limited（Chrome/Edge 137；Firefox、Safari 不支援）
 - 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
-- 上游 issue 候選：無
+- 類型：新能力
+- 解鎖（發想，非指南原文）：可以把正在播放的影片、iframe 小工具、輸入到一半的表單整塊搬到別的位置而狀態不重置。以前一搬就重新載入，所以「可重排的即時儀表板」做起來很痛
 - 變更紀錄：2026-11-11（v1.0.0）首次拆出
 
 %% line-start id="mwg:drag-and-drop:2" %%
@@ -39,5 +40,5 @@ license: CC-BY-4.0（上游指南）
 - 對手組：互動中畫面抖動
 - 支援狀態：Pointer events：Widely
 - 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
-- 上游 issue 候選：無
+- 類型：糾錯
 - 變更紀錄：2026-11-11（v1.0.0）首次拆出

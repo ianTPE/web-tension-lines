@@ -1,6 +1,6 @@
 # web-tension-lines
 
-每週檢查 [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance) 的新指南，用張力句四槽（誰在做／動作＋對象／被什麼擋／戰報）拆成問題線。拆出來的不是功能清單，而是「哪個新做法擋掉了哪個老問題」。
+每週檢查 [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance) 的新指南，用張力句四槽（誰在做／動作＋對象／被什麼擋／戰報）拆成問題線。拆出來的不是功能清單，而是「哪個新做法擋掉了哪個老問題」，再從「擋掉之後什麼變得做得到」去想新應用。
 
 ## 什麼是「問題線」
 
@@ -25,7 +25,7 @@
 |---|---|
 | `lines/<分類>/<guide-id>.md` | 一份指南一個檔，裡面一到三條問題線。每條線包在 `%% line-start id="…" %%` 和 `%% line-end %%` 之間（Obsidian 的註解語法，畫面上看不到），格式照 [CtxFST 規格](https://github.com/ctxfst/skill-line-coach/blob/main/references/ctxfst-spec.md)，可直接用 skill-line-coach 的 `shape_layer.py` 逐條建索引；標記外的「細節」是給人看的補充 |
 | `ledger.csv` | 累積表，一條線一列；按「對手組」篩選可以看到哪些老問題被反覆對付 |
-| `weekly/<日期>.md` | 每期週記：這週的對手、僵持中的線、上游 issue 候選 |
+| `weekly/<日期>.md` | 每期週記：這週的對手、僵持中的線、**本週靈感**（用新能力組出的應用點子與小 demo） |
 | `PROMPT.md` | 每週自動任務的完整指示 |
 | `scripts/weekly.sh` | 抓上游、算差異、叫 `claude -p` 跑 PROMPT.md |
 | `state.json` | 上次處理到的上游 commit |
@@ -34,7 +34,9 @@
 
 - **戰報**：`勝`（Widely available，對手消失）、`部分改善`（Newly 或 fallback 會失去部分好處）、`僵持`（Limited 或沒有瀏覽器支援）、`缺`（指南沒說改善了什麼）。
 - **證據**：一律 `宣稱`，因為戰報來自官方指南。自己在瀏覽器實測過的，手動改成 `實測`。
-- **槽3 = 缺**：指南推薦了新做法，卻沒說舊做法具體壞在哪。這些通常就是值得回報上游的地方。
+- **類型**：`新能力`（新平台功能讓某件事變得可行）或 `糾錯`（糾正常見錯誤，用的是早就能用的功能）。找靈感時只看新能力。
+- **解鎖**：新能力的線才有，一句話寫「以前卡在哪 → 現在能做出什麼」。這是發想，不是指南原文。
+- **槽3 = 缺**：指南推薦了新做法，卻沒說舊做法具體壞在哪。
 
 ## 排程
 

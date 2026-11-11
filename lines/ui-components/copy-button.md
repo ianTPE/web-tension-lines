@@ -22,7 +22,7 @@ license: CC-BY-4.0（上游指南）
 - 對手組：隱藏或停用把人擋在外面
 - 支援狀態：Clipboard.writeText：Widely（2020-03-24）
 - 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
-- 上游 issue 候選：無
+- 類型：糾錯
 - 變更紀錄：2026-11-11（v1.0.0）首次拆出
 
 %% line-start id="mwg:copy-button:2" %%
@@ -39,7 +39,8 @@ license: CC-BY-4.0（上游指南）
 - 對手組：每顆按鈕手接JS
 - 支援狀態：Invoker commands：Newly（2025-12-12）
 - 槽判定：誰在做 有／動作＋對象 有／被什麼擋 缺／戰報 缺
-- 上游 issue 候選：copy-button、sortable-table、accordion 都推薦 invoker commands 取代 click listener，但沒說舊寫法的具體問題，也沒說改善了什麼
+- 類型：新能力
+- 解鎖（發想，非指南原文）：按鈕要對另一個元素做什麼可以直接寫在 HTML（`command`/`commandfor`），不寫 JS 接線；自訂 `--指令` 讓一顆按鈕觸發任意行為
 - 變更紀錄：2026-11-11（v1.0.0）首次拆出
 
 %% line-start id="mwg:copy-button:3" %%
@@ -56,5 +57,5 @@ license: CC-BY-4.0（上游指南）
 - 對手組：隱藏或停用把人擋在外面
 - 支援狀態：—
 - 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
-- 上游 issue 候選：無
+- 類型：糾錯
 - 變更紀錄：2026-11-11（v1.0.0）首次拆出

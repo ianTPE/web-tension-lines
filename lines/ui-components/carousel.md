@@ -22,5 +22,6 @@ license: CC-BY-4.0（上游指南）
 - 對手組：重複內容干擾輔助技術
 - 支援狀態：Scroll snap：Widely（2020-01-15）；scrollend：Newly（2025-12-12）；Scroll-driven animations：Newly（2026-10-27）
 - 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
-- 上游 issue 候選：要求 "Do not use `::scroll-button()` or `::scroll-marker` for now" 但未說明理由（支援度？無障礙問題？），戰報缺
+- 類型：新能力
+- 解鎖（發想，非指南原文）：無限循環的輪播不用複製投影片：用 CSS order 暫停一張、捲動停下後再補償位移。內容只有一份，框架和讀屏都不會打架
 - 變更紀錄：2026-11-11（v1.0.0）首次拆出
