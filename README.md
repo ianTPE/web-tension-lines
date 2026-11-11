@@ -1,5 +1,7 @@
 # web-tension-lines
 
+**繁體中文** · [English](README.en.md)
+
 **線上瀏覽：https://iantpe.github.io/web-tension-lines/**（可搜尋、可篩選、可展開）
 
 每週檢查 [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance) 的新指南，用張力句四槽（誰在做／動作＋對象／被什麼擋／戰報）拆成問題線。拆出來的不是功能清單，而是「哪個新做法擋掉了哪個老問題」，再從「擋掉之後什麼變得做得到」去想新應用。
