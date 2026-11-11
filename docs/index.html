@@ -27,7 +27,7 @@ input[type=search]:focus-visible{outline:2px solid var(--accent);outline-offset:
 .chip:focus-visible,.act:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .count{color:var(--mute);font-size:.85rem;margin-inline-start:auto}
 h2{font-size:1rem;color:var(--mute);margin:1.75rem 0 .5rem;font-weight:600}
-.line{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:.5rem 0}
+.line{scroll-margin-top:12rem;background:var(--card);border:1px solid var(--line);border-radius:10px;margin:.5rem 0}
 .line summary{cursor:pointer;padding:.75rem 1rem;list-style:none;display:grid;gap:.25rem}
 .line summary::-webkit-details-marker{display:none}
 .t{font-weight:600}
@@ -58,7 +58,7 @@ mark{background:color-mix(in srgb,var(--part) 35%,transparent);color:inherit;bor
 @media (prefers-reduced-motion:reduce){.line::details-content,.t::before{transition:none}}
 footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 </style></head><body><main>
-<p class="switch"><b>繁體中文</b> · <a href="en/">English</a></p>
+<p class="switch"><b>繁體中文</b> · <a href="en/">English</a> · <a href="weekly/">週記</a></p>
 <h1>Web 張力線</h1>
 <p class="lead">把 <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a> 的新指南拆成問題線：誰在做、做了什麼、被什麼擋、做完之後擋住的東西退了沒。找靈感時看<b>新能力</b>那幾條的「解鎖」。共 30 條線（新能力 14 條），處理到上游 v1.0.0。<a href="https://github.com/ianTPE/web-tension-lines">repo</a></p>
 <div class="bar">
@@ -68,210 +68,210 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 <div class="row"><span class="lbl">分組</span><button type="button" class="chip" aria-pressed="true" data-g="group">對手組</button><button type="button" class="chip" aria-pressed="false" data-g="guide">指南</button>
 <button type="button" class="act" id="all" data-e="全部展開" data-c="全部收合">全部展開</button><span class="count" id="count" role="status"></span></div>
 </div>
-<div id="list"><details class="line" data-kind="新能力" data-result="僵持" data-group="安裝入口受限" data-guide="安裝網頁應用">
+<div id="list"><details class="line" id="mwg--install-web-app" data-kind="新能力" data-result="僵持" data-group="安裝入口受限" data-guide="安裝網頁應用">
 <summary><span class="t">用 &lt;install&gt; / navigator.install() 取代只能裝自己的 beforeinstallprompt</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
 <span class="meta">安裝網頁應用 · 安裝入口受限</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>一個頁面可以替「別的」web app 提供安裝按鈕，自建 app 目錄或工具集合頁就能一鍵安裝每個小工具。目前沒有瀏覽器支援，只能先追蹤</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 HTML <code>&lt;install&gt;</code> 元素或 <code>navigator.install()</code> 在頁面內提供明確的安裝入口，而且可以安裝別的 app（例如 app 目錄）</dd><dt>被什麼擋</dt><dd>現有的 <code>beforeinstallprompt</code> 只能安裝目前這個 app，無法替目錄裡的其他 app 提供安裝（引用："Unlike <code>navigator.install()</code>, this event cannot install a different app."）</dd><dt>戰報</dt><dd>僵持——兩個新入口都還沒有任何主要瀏覽器支援，實務上仍得靠 <code>beforeinstallprompt</code> 或瀏覽器自己的安裝 UI（官方宣稱）</dd></dl><p class="story">指南把安裝流程收斂到瀏覽器控制的同意介面，網站不能偷偷安裝。新入口讓 app 目錄也能一鍵安裝別的 app，但原文直說 "&lt;install&gt; is not natively supported by any major browser yet"，<code>navigator.install()</code> 也一樣。在支援出現前，替代方案只有舊事件，而舊事件正好做不到跨 app 安裝。</p>
 <p class="support"><b>支援</b> <code>&lt;install&gt;</code>：not natively supported by any major browser yet；<code>navigator.install()</code>：同；Web app manifest：Limited（Firefox 不支援）</p>
 <p class="links"><code>mwg:install-web-app</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/pwa/install-web-app.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/pwa/install-web-app.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="截字傷可及性" data-guide="單行文字溢出">
+<details class="line" id="mwg--single-line-overflow" data-kind="糾錯" data-result="勝" data-group="截字傷可及性" data-guide="單行文字溢出">
 <summary><span class="t">用 CSS 視覺截斷取代在 script 裡砍字串</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">單行文字溢出 · 截字傷可及性</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>單行標籤（分頁、表格格、檔名）過長時，用 <code>text-overflow: ellipsis</code> 或 mask 淡出只在畫面上截斷，全文留在 DOM</dd><dt>被什麼擋</dt><dd>在 script 裡把字串切短後，螢幕閱讀器、頁內搜尋、複製拿到的都是殘缺文字（引用："Screen readers announce the full text, find-in-page matches it, and copying copies it. This is why the string must never be cut in script."）</dd><dt>戰報</dt><dd>勝——截斷只發生在繪製層，輔助技術、搜尋、複製都還拿得到全文；省略號與 mask 都是 Widely available（官方宣稱）</dd></dl><p class="story">常見寫法是在渲染前把字串截到 N 個字再加「…」，結果全文從 DOM 消失。指南要求截斷只做在視覺上；要保留副檔名這類尾巴時，在 markup 裡分段包起來，而不是切字元。另一個坑是用單一漸層當 mask：它會連焦點外框一起遮掉（"it also hides the element's focus outline"）。</p>
 <p class="support"><b>支援</b> Masks：Widely（2023-12-07）；Container queries (size)：Widely（2023-02-14）</p>
 <p class="links"><code>mwg:single-line-overflow</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-atoms/single-line-overflow.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-atoms/single-line-overflow.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="新能力" data-result="部分改善" data-group="只能 hover 才看得到" data-guide="單行文字溢出">
+<details class="line" id="mwg--single-line-overflow--2" data-kind="新能力" data-result="部分改善" data-group="只能 hover 才看得到" data-guide="單行文字溢出">
 <summary><span class="t">讓被截斷的全文對鍵盤與觸控也找得到</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
 <span class="meta">單行文字溢出 · 只能 hover 才看得到</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>被截斷的長標籤（檔名、分頁名）可以用純 CSS 在 hover 或 focus 時捲動顯示全文，不必寫 JS 量寬度、也不必用 title</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 <code>:hover</code> 與 <code>:focus-visible</code> 觸發文字捲動顯示，並以 scroll-driven animations 控制淡出與提示</dd><dt>被什麼擋</dt><dd>只靠 <code>title</code> 屬性顯示全文，鍵盤和觸控使用者都碰不到（引用："DO NOT rely on <code>title</code> alone: it is unreachable from the keyboard and on touch."）</dd><dt>戰報</dt><dd>部分改善——鍵盤可經由 focus 看到全文；但觸控仍沒有 hover/focus，指南改要求另開一條路（選中的項目不截斷、打開詳情）；scroll-driven animations 才剛 Newly available（官方宣稱）</dd></dl><p class="story"><code>title</code> 是最省事的做法，但只對滑鼠有效。新做法在 hover 和 focus 時讓文字在框內捲動，淡出寬度跟著捲動縮小，捲到底時尾端可讀。原文也承認 "Hover and focus reveal nothing on touch"，所以觸控這一側的對手沒有被新功能擋掉，而是靠介面設計繞開。不支援 scroll-driven animations 時，淡出與提示都不出現，文字被切掉且沒有任何跡象，要用 <code>ResizeObserver</code> 補。</p>
 <p class="support"><b>支援</b> Scroll-driven animations：Newly（2026-10-27）；Container style queries：Newly（2026-05-19）</p>
 <p class="links"><code>mwg:single-line-overflow:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-atoms/single-line-overflow.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-atoms/single-line-overflow.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="新能力" data-result="部分改善" data-group="視覺順序與DOM順序脫鉤" data-guide="拖放重新排序">
+<details class="line" id="mwg--drag-and-drop" data-kind="新能力" data-result="部分改善" data-group="視覺順序與DOM順序脫鉤" data-guide="拖放重新排序">
 <summary><span class="t">搬真的 DOM 節點，不用 CSS order 假裝重排</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
 <span class="meta">拖放重新排序 · 視覺順序與DOM順序脫鉤</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>可以把正在播放的影片、iframe 小工具、輸入到一半的表單整塊搬到別的位置而狀態不重置。以前一搬就重新載入，所以「可重排的即時儀表板」做起來很痛</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>拖放結束時用 <code>container.moveBefore(item, ref)</code> 一次搬動既有節點，讓視覺、鍵盤、閱讀順序一致</dd><dt>被什麼擋</dt><dd>用 CSS <code>order</code> 或 <code>flex-direction: *-reverse</code> 改變畫面順序，DOM 順序沒變，Tab 鍵與螢幕閱讀器仍照舊順序走（引用："Reorder the real children in the DOM (not via CSS <code>order</code> or <code>flex-direction: *-reverse</code>) so visual, keyboard, and reading order stay aligned."）</dd><dt>戰報</dt><dd>部分改善——真的搬節點解決了順序脫鉤；但保留內部狀態要靠 <code>moveBefore()</code>，Safari 不支援，fallback <code>before()</code> 會讓項目內焦點等狀態流失（官方宣稱）</dd></dl><p class="story">拖放清單最省事的實作是改 <code>order</code>，畫面看起來對了，鍵盤使用者卻在舊順序裡跳。指南要求放開時才搬一次真節點，並用 <code>moveBefore()</code> 保住焦點與 iframe 狀態。複雜版面裡視覺與 DOM 順序真的無法對齊時，改用 <code>reading-flow</code>，但它只有 Chrome/Edge 支援。</p>
 <p class="support"><b>支援</b> moveBefore()：Limited（Chrome 133、Edge 133、Firefox 144；Safari 不支援）；reading-flow：Limited（Chrome/Edge 137；Firefox、Safari 不支援）</p>
 <p class="links"><code>mwg:drag-and-drop</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/drag-and-drop.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/drag-and-drop.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="互動中畫面抖動" data-guide="拖放重新排序">
+<details class="line" id="mwg--drag-and-drop--2" data-kind="糾錯" data-result="勝" data-group="互動中畫面抖動" data-guide="拖放重新排序">
 <summary><span class="t">拖曳途中只畫落點標記，放開才搬</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">拖放重新排序 · 互動中畫面抖動</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>拖曳中保持原項目在原位、用 <code>::before</code>/<code>::after</code> 畫落點標記，<code>pointerup</code> 時才移動</dd><dt>被什麼擋</dt><dd>拖曳時即時重排，兄弟項目跟著位移，畫面抖動（引用："Don't reorder while the pointer moves: shifting siblings feel jittery."）</dd><dt>戰報</dt><dd>勝——落點標記取代即時位移，抖動不再出現；用到的 pointer capture、fixed 定位都是成熟功能（官方宣稱）</dd></dl><p class="story">很多拖放實作在 <code>pointermove</code> 時就重排，每經過一個項目整列就跳一下。指南改成拖曳中只顯示一條落點線，放開時搬一次，並對每次移動補動畫讓項目「走過去」而不是跳過去。</p>
 <p class="support"><b>支援</b> Pointer events：Widely</p>
 <p class="links"><code>mwg:drag-and-drop:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/drag-and-drop.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/drag-and-drop.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="新能力" data-result="部分改善" data-group="重建DOM丟狀態" data-guide="使用者觸發的動態排序">
+<details class="line" id="mwg--dynamic-sort" data-kind="新能力" data-result="部分改善" data-group="重建DOM丟狀態" data-guide="使用者觸發的動態排序">
 <summary><span class="t">搬既有節點排序，不用 innerHTML 重建</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
 <span class="meta">使用者觸發的動態排序 · 重建DOM丟狀態</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>排序或篩選後清單用 view transition 動畫「走」到新位置，項目內的捲動、焦點、播放狀態都還在。適合項目本身很重的清單（內嵌預覽、影片卡片）</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>使用者改變排序時，用 <code>moveBefore()</code> 把既有節點搬到新順序，並可包進 view transition 做動畫</dd><dt>被什麼擋</dt><dd>用 <code>innerHTML</code> 或整批重新 render 產生新節點，焦點、項目內捲動位置、圖片狀態全部丟失，view transition 也對不上（引用："Recreating nodes with <code>innerHTML</code> or a re-render that replaces them discards focus, scroll position inside items, and image state, and it breaks view transitions, which match old and new elements by identity."）</dd><dt>戰報</dt><dd>部分改善——搬節點本身就擋掉焦點與捲動流失；<code>moveBefore()</code> 在 Safari 不支援，fallback <code>append()</code> 順序相同但 iframe/動畫/內部焦點可能流失；view transitions 為 Newly（官方宣稱）</dd></dl><p class="story">排序後整個清單重畫是最常見的寫法，代價是使用者剛點的按鈕失焦、卡片內捲到一半的內容回到頂端。指南把排序改成「搬家」而不是「重蓋」，並讓動畫成為可有可無的加強。</p>
 <p class="support"><b>支援</b> moveBefore()：Limited（Safari 不支援）；View transitions：Newly（2025-10-14）</p>
 <p class="links"><code>mwg:dynamic-sort</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/dynamic-sort.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/dynamic-sort.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="播報過量" data-guide="使用者觸發的動態排序">
+<details class="line" id="mwg--dynamic-sort--2" data-kind="糾錯" data-result="勝" data-group="播報過量" data-guide="使用者觸發的動態排序">
 <summary><span class="t">排序結果只播報一次</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">使用者觸發的動態排序 · 播報過量</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用一個 <code>role="status"</code> 區域在排序後播報一次結果，焦點留在觸發排序的控制項</dd><dt>被什麼擋</dt><dd>把 <code>aria-live</code> 放在清單上，每個被搬動的項目都被唸一次（引用："DO NOT put <code>aria-live</code> on the list, which would announce every moved item."）</dd><dt>戰報</dt><dd>勝——使用者做了一次動作，只聽到一次播報（官方宣稱）</dd></dl><p class="story">重排會搬動很多節點，但使用者只做了一個動作。清單掛 <code>aria-live</code> 時，螢幕閱讀器會把每次節點移動都當成更新來唸。改成單一狀態區播報一次即可。</p>
 <p class="support"><b>支援</b> ARIA live regions：Widely</p>
 <p class="links"><code>mwg:dynamic-sort:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/dynamic-sort.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/dynamic-sort.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="重建DOM丟狀態" data-guide="可排序表格">
+<details class="line" id="mwg--sortable-table" data-kind="糾錯" data-result="勝" data-group="重建DOM丟狀態" data-guide="可排序表格">
 <summary><span class="t">排序時搬 &lt;tr&gt;，不重建 tbody</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">可排序表格 · 重建DOM丟狀態</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>點擊欄位標題的 <code>&lt;button&gt;</code> 後，在 <code>&lt;tbody&gt;</code> 內搬動既有 <code>&lt;tr&gt;</code>，用 <code>aria-sort</code> 標出目前排序欄</dd><dt>被什麼擋</dt><dd>排序時用 <code>innerHTML</code> 或重新 render 重建 <code>&lt;tbody&gt;</code>，焦點與列內狀態丟失、view transition 失效（引用："DO NOT re-render the <code>&lt;tbody&gt;</code> or <code>&lt;table&gt;</code> on sort; it discards focus and state and breaks view transitions."）</dd><dt>戰報</dt><dd>勝——搬動既有列用的是成熟的 DOM 操作，焦點留在標題按鈕上；動畫為選用（官方宣稱）</dd></dl><p class="story">這是 dynamic-sort 的表格版。指南另外要求按鈕放在 <code>&lt;th&gt;</code> 裡而不是讓 <code>&lt;th&gt;</code> 可點、<code>aria-sort</code> 只放在一欄、按鈕文字保持欄名而不改成「升冪排序」。Invoker commands 被推薦用來取代每顆按鈕各綁 click，但這一點沒說舊寫法具體出了什麼問題。</p>
 <p class="support"><b>支援</b> Invoker commands：Newly（2025-12-12）</p>
 <p class="links"><code>mwg:sortable-table</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/sortable-table.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/sortable-table.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="比對錯型別" data-guide="可排序表格">
+<details class="line" id="mwg--sortable-table--2" data-kind="糾錯" data-result="勝" data-group="比對錯型別" data-guide="可排序表格">
 <summary><span class="t">依欄位型別比對，不比格式化後的字串</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">可排序表格 · 比對錯型別</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 <code>data-type</code> 宣告每欄型別，數字與日期依原始值比較</dd><dt>被什麼擋</dt><dd>直接比對畫面上格式化過的字串，數字與日期排出錯誤順序（引用："DO NOT sort formatted strings when the underlying values are numbers or dates."）</dd><dt>戰報</dt><dd>勝——依型別比較後順序正確；不涉及新功能（官方宣稱）</dd></dl><p class="story">「1,200」排在「950」前面、「2026/1/10」排在「2025/12/3」前面，都是比字串的結果。指南要求每欄宣告型別，不要從內容猜。</p>
 <p class="support"><b>支援</b> —</p>
 <p class="links"><code>mwg:sortable-table:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/sortable-table.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/sortable-table.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="原生元素角色實作不一致" data-guide="手風琴（Accordion）">
+<details class="line" id="mwg--accordion" data-kind="糾錯" data-result="勝" data-group="原生元素角色實作不一致" data-guide="手風琴（Accordion）">
 <summary><span class="t">需要個別標題時不要把 heading 塞進 summary</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">手風琴（Accordion） · 原生元素角色實作不一致</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用相鄰的 <code>&lt;details&gt;</code> 組手風琴；每一項需要自己的標題時，改用自訂 accordion</dd><dt>被什麼擋</dt><dd>在 <code>&lt;summary&gt;</code> 裡放 heading，JAWS 與 TalkBack 把 summary 當按鈕並丟掉裡面的標題，使用者無法用標題在項目間跳（引用："JAWS and TalkBack expose <code>summary</code> as a button and drop any heading inside it, so their users cannot move between items by heading."）</dd><dt>戰報</dt><dd>勝——改用自訂 accordion 後標題保留在無障礙樹中（官方宣稱）</dd></dl><p class="story"><code>&lt;details&gt;</code> 很適合當手風琴，但它的 summary 角色會吃掉內部結構。指南明確點名兩個螢幕閱讀器，這是可以實測驗證的對手。navbar 指南對 summary 角色實作不一致也有同樣警告。</p>
 <p class="support"><b>支援</b> details：Widely</p>
 <p class="links"><code>mwg:accordion</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/accordion.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/accordion.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="新功能的副作用" data-guide="手風琴（Accordion）">
+<details class="line" id="mwg--accordion--2" data-kind="糾錯" data-result="勝" data-group="新功能的副作用" data-guide="手風琴（Accordion）">
 <summary><span class="t">不用互斥 &lt;details name&gt;，避免內容跳出視野</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Newly</span></span>
 <span class="meta">手風琴（Accordion） · 新功能的副作用</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>預設讓多個項目可同時展開，不使用 <code>&lt;details name&gt;</code> 的互斥行為</dd><dt>被什麼擋</dt><dd>互斥手風琴開一項就關另一項，內容位移出使用者的視野，對使用螢幕放大鏡的人影響很大（引用："They also can cause content to shift out of the user’s view which can cause significant problems for those using screen magnifiers."）</dd><dt>戰報</dt><dd>勝——不採用互斥就沒有這個位移；指南對「新功能本身就是對手」的情況給出了明確立場（官方宣稱）</dd></dl><p class="story"><code>&lt;details name&gt;</code> 是 2024 年才 Baseline 的新能力，但指南建議避免使用。這條線的特別之處是：對手不是舊做法，而是新功能帶來的副作用。真的需要互斥時，原文要求只在不得已時用。</p>
 <p class="support"><b>支援</b> Mutually exclusive &lt;details&gt;：Newly（2024-09-03）</p>
 <p class="links"><code>mwg:accordion:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/accordion.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/accordion.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="新能力" data-result="部分改善" data-group="隱藏或停用把人擋在外面" data-guide="手風琴（Accordion）">
+<details class="line" id="mwg--accordion--3" data-kind="新能力" data-result="部分改善" data-group="隱藏或停用把人擋在外面" data-guide="手風琴（Accordion）">
 <summary><span class="t">用 ::details-content 收合，保留頁內搜尋與動畫</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
 <span class="meta">手風琴（Accordion） · 隱藏或停用把人擋在外面</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>可以把很長的頁面全部摺起來，Ctrl+F 照樣找得到並自動展開，還能做展開動畫。長文件、FAQ、週記這類「想摺疊又怕找不到」的頁面不再兩難</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>收合內容放在 <code>::details-content</code>，以 <code>content-visibility: hidden</code> 隱藏而非 <code>display: none</code></dd><dt>被什麼擋</dt><dd>用 <code>display: none</code> 隱藏收合內容，頁內搜尋找不到、高度也無法動畫（引用："While closed it is hidden with <code>content-visibility: hidden</code>, not <code>display: none</code>, which is what keeps it findable and lets its size animate."）</dd><dt>戰報</dt><dd>部分改善——支援的瀏覽器裡內容可被搜尋並能滑動展開；<code>::details-content</code> 才 Newly，舊瀏覽器沒有動畫（官方宣稱）</dd></dl><p class="story">收合區塊的內容一旦 <code>display: none</code>，Ctrl+F 就找不到。新偽元素讓瀏覽器在搜尋命中時自動展開，並能對高度做動畫。反過來，不想被搜尋到時才刻意用 <code>display: none</code>。</p>
 <p class="support"><b>支援</b> ::details-content：Newly（2025-09-16）；transition-behavior：Newly（2024-08-06）</p>
 <p class="links"><code>mwg:accordion:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/accordion.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/accordion.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="新能力" data-result="部分改善" data-group="彈出層脫離觸發點" data-guide="應用程式選單列">
+<details class="line" id="mwg--app-menus" data-kind="新能力" data-result="部分改善" data-group="彈出層脫離觸發點" data-guide="應用程式選單列">
 <summary><span class="t">用錨點定位把選單黏在觸發鈕上</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
 <span class="meta">應用程式選單列 · 彈出層脫離觸發點</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>File／Edit／View 這種桌面應用的選單列可以用 popover 加錨點定位幾乎宣告式地做出來，選單黏在觸發鈕上。網頁工具看起來、用起來都能像桌面程式</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>選單列（File/Edit/View）的每個選單用 popover 搭配 CSS anchor positioning 定位在觸發鈕旁</dd><dt>被什麼擋</dt><dd>沒有 anchor positioning 時 popover 退回視窗置中，選單脫離觸發鈕，置中的子選單還會蓋住父選單（引用："Never ship that for a menu: it detaches the menu from its trigger, and a centered submenu covers its parent."）</dd><dt>戰報</dt><dd>部分改善——選單黏回觸發鈕；錨點定位的核心屬性（<code>anchor-name</code>、<code>position-area</code>、<code>anchor()</code>）已在 Chrome 125、Firefox 147、Safari 26 支援（Baseline Newly，2026-01-13），更舊的瀏覽器仍要靠 <code>@supports</code> 守門（官方宣稱；支援狀態經 2026-11-12 驗證修正）</dd></dl><p class="story">選單列是一個 widget：一個 Tab 停點、左右鍵切換選單、聚焦即預覽。每個選單要黏在觸發鈕下方，原生 popover 的預設位置卻是視窗中央。指南的支援段寫 anchor positioning「僅 Safari 27 支援」，但這是整個功能群組的狀態，不是本指南用到的屬性的狀態，見細節。</p>
 <p class="support"><b>支援</b> Anchor positioning 核心屬性：Newly（2026-01-13；<code>position-anchor</code> 2026-09-14）。指南原寫 "Supported by: Safari 27. Unsupported in: Chrome, Edge, and Firefox."，那是 web-features 整個 <code>anchor-positioning</code> 群組（325 個子項）的最低共同支援；Chrome 與 Firefox 只缺 <code>position-visibility: anchor-valid / anchor-visible</code> 兩個值（Chrome 157 beta 才加，Firefox 未支援），本指南沒用到。（2026-11-12 以 web-features 3.45.0 的 <code>by_compat_key</code> 逐項驗證）Popover：Newly（2025-01-27）；focusgroup：Limited（Chrome/Edge 150）</p>
 <p class="links"><code>mwg:app-menus</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/app-menus.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/app-menus.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="外觀暗示錯的結構" data-guide="麵包屑導覽">
+<details class="line" id="mwg--breadcrumbs" data-kind="糾錯" data-result="勝" data-group="外觀暗示錯的結構" data-guide="麵包屑導覽">
 <summary><span class="t">保留分隔符，讓麵包屑看起來是層級而不是同層</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">麵包屑導覽 · 外觀暗示錯的結構</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 <code>&lt;nav&gt;</code> + <code>&lt;ol&gt;</code> 建麵包屑，分隔符由 CSS 產生且對輔助技術隱藏</dd><dt>被什麼擋</dt><dd>做成膠囊或分段條卻拿掉分隔符，看起來像分頁或篩選器（同層項目），不像層級（引用："Pills, tags and a segmented bar without one look like tabs or filters (items on the same level), not a hierarchy."）</dd><dt>戰報</dt><dd>勝——分隔符是 CSS 產生內容，各瀏覽器都能用（官方宣稱）</dd></dl><p class="story">設計上常想讓麵包屑更像按鈕列，結果外觀暗示了錯誤的結構。指南把分隔符當必要元素，並用 <code>ol</code> 而不是 <code>ul</code> 表達順序。</p>
 <p class="support"><b>支援</b> —</p>
 <p class="links"><code>mwg:breadcrumbs</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/breadcrumbs.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/breadcrumbs.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="新能力" data-result="僵持" data-group="焦點或狀態指示消失" data-guide="麵包屑導覽">
+<details class="line" id="mwg--breadcrumbs--2" data-kind="新能力" data-result="僵持" data-group="焦點或狀態指示消失" data-guide="麵包屑導覽">
 <summary><span class="t">用 border-shape 讓斜角段落的邊框與焦點框跟著形狀</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
 <span class="meta">麵包屑導覽 · 焦點或狀態指示消失</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>斜角、箭頭、缺角這類形狀可以連邊框和焦點框一起跟著形狀走，不必再用 clip-path 切掉可及性。目前僅 Chromium</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 <code>corner-shape</code>／<code>border-shape</code> 畫斜角或箭頭形分段，邊框與焦點外框沿著形狀</dd><dt>被什麼擋</dt><dd>用 <code>clip-path</code> 切形狀會切掉邊框與焦點外框；強制色彩模式又移除背景，被切的段落失去輪廓（引用："<code>clip-path</code> clips borders and outlines, so under the fallback use a color/background change plus negative <code>outline-offset</code> for focus instead of an outside outline."）</dd><dt>戰報</dt><dd>僵持——<code>corner-shape</code>、<code>border-shape</code> 只有 Chrome/Edge 支援；其他瀏覽器退回矩形段落加分隔符，且原文說圓角不能當斜角的替代（官方宣稱）</dd></dl><p class="story">箭頭形麵包屑過去多用 <code>clip-path</code>，鍵盤聚焦時外框被切掉，高對比模式下整段消失。新屬性讓邊框本身就是那個形狀，但 Firefox 與 Safari 都還不支援。</p>
 <p class="support"><b>支援</b> corner-shape：Limited（Chrome/Edge 139）；border-shape：Limited（Chrome/Edge 147）</p>
 <p class="links"><code>mwg:breadcrumbs:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/breadcrumbs.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/breadcrumbs.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="新能力" data-result="部分改善" data-group="重複內容干擾輔助技術" data-guide="輪播（Carousel）">
+<details class="line" id="mwg--carousel" data-kind="新能力" data-result="部分改善" data-group="重複內容干擾輔助技術" data-guide="輪播（Carousel）">
 <summary><span class="t">循環輪播不複製投影片，改用 order 暫停一張</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
 <span class="meta">輪播（Carousel） · 重複內容干擾輔助技術</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>無限循環的輪播不用複製投影片：用 CSS order 暫停一張、捲動停下後再補償位移。內容只有一份，框架和讀屏都不會打架</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>循環時用 <code>--current</code> 與 CSS <code>order</code> 把首或尾一張「停」到旁邊並設為 <code>inert</code>，不複製也不搬動投影片</dd><dt>被什麼擋</dt><dd>複製投影片或在 DOM 裡搬動來做無限循環，和框架衝突，輔助技術也會讀到重複內容（引用："Do not clone slides or move them in the DOM, which conflicts with frameworks and duplicates content for assistive technology."）</dd><dt>戰報</dt><dd>部分改善——不複製就沒有重複內容；但要在捲動停止時補償位移並暫時關掉 snap，<code>scrollend</code> 才剛 Newly（官方宣稱）</dd></dl><p class="story">無限輪播最常見的做法是頭尾各複製一份，螢幕閱讀器因此讀到兩次同樣的投影片。指南改成只把一張投影片在視覺上停到另一端並設 inert，Tab 順序與無障礙樹都和畫面一致。另外，指南要求「暫時」不要用 <code>::scroll-button()</code>／<code>::scroll-marker</code>，但沒有說原因。</p>
 <p class="support"><b>支援</b> Scroll snap：Widely（2020-01-15）；scrollend：Newly（2025-12-12）；Scroll-driven animations：Newly（2026-10-27）</p>
 <p class="links"><code>mwg:carousel</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/carousel.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/carousel.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="隱藏或停用把人擋在外面" data-guide="複製按鈕">
+<details class="line" id="mwg--copy-button" data-kind="糾錯" data-result="勝" data-group="隱藏或停用把人擋在外面" data-guide="複製按鈕">
 <summary><span class="t">回饋期間不要停用按鈕</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">複製按鈕 · 隱藏或停用把人擋在外面</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>按下複製後顯示回饋，重複點擊時重設計時器與動畫，而不是把按鈕設為 disabled</dd><dt>被什麼擋</dt><dd>顯示回饋期間停用按鈕，鍵盤焦點掉出去，還宣告了誤導的「不可用」狀態（引用："DO NOT disable the button while showing feedback: copying is idempotent, and disabling drops keyboard focus, announces a misleading unavailable state"）</dd><dt>戰報</dt><dd>勝——按鈕保持可用，焦點留在原處（官方宣稱）</dd></dl><p class="story">怕使用者連點而先 disable 按鈕，是很直覺的防呆，但複製本身重複做也沒有副作用。停用反而讓鍵盤使用者下一次 Tab 從頁首重新開始。</p>
 <p class="support"><b>支援</b> Clipboard.writeText：Widely（2020-03-24）</p>
 <p class="links"><code>mwg:copy-button</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/copy-button.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/copy-button.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="新能力" data-result="缺" data-group="每顆按鈕手接JS" data-guide="複製按鈕">
+<details class="line" id="mwg--copy-button--2" data-kind="新能力" data-result="缺" data-group="每顆按鈕手接JS" data-guide="複製按鈕">
 <summary><span class="t">用 Invoker Commands 宣告複製目標</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-缺">缺</span><span class="b lv">Newly</span></span>
 <span class="meta">複製按鈕 · 每顆按鈕手接JS</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>按鈕要對另一個元素做什麼可以直接寫在 HTML（<code>command</code>/<code>commandfor</code>），不寫 JS 接線；自訂 <code>--指令</code> 讓一顆按鈕觸發任意行為</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 <code>command</code> + <code>commandfor</code> 宣告按鈕要複製哪個元素，取代每顆按鈕各自接 JavaScript</dd><dt>被什麼擋</dt><dd>（缺）指南只說要取代 "per-button JavaScript wiring"，沒有指出舊寫法具體在哪個時刻出問題（引用："Declare the target with Invoker Commands (<code>command</code> + <code>commandfor</code>) instead of per-button JavaScript wiring"）</dd><dt>戰報</dt><dd>缺——指南沒說換成 invoker commands 後改善了什麼；不支援時的 fallback 是「加一個 click listener 呼叫同一個函式」，也就是舊寫法（官方宣稱）</dd></dl><p class="story">同一個推薦也出現在 sortable-table 與 accordion：用宣告式屬性取代 click listener。三份指南都沒說手接 listener 會壞在哪裡，只描述新寫法。這是一條槽 3 與戰報都缺的線，適合當上游回饋。</p>
 <p class="support"><b>支援</b> Invoker commands：Newly（2025-12-12）</p>
 <p class="links"><code>mwg:copy-button:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/copy-button.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/copy-button.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="隱藏或停用把人擋在外面" data-guide="複製按鈕">
+<details class="line" id="mwg--copy-button--3" data-kind="糾錯" data-result="勝" data-group="隱藏或停用把人擋在外面" data-guide="複製按鈕">
 <summary><span class="t">重複的複製鈕用 opacity 隱藏</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">複製按鈕 · 隱藏或停用把人擋在外面</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>頁面上大量重複的複製按鈕平時隱藏，hover 或聚焦時顯示，只用 <code>opacity</code> 藏</dd><dt>被什麼擋</dt><dd>用 <code>display: none</code> 或 <code>visibility: hidden</code> 藏按鈕，按鈕從 Tab 順序中消失，鍵盤使用者永遠到不了（引用："<code>display: none</code> and <code>visibility: hidden</code> remove the button from the tab order, so keyboard users could never reach it."）</dd><dt>戰報</dt><dd>勝——<code>opacity</code> 隱藏不影響可聚焦性；無 hover 的裝置一律顯示（官方宣稱）</dd></dl><p class="story">每個程式碼區塊都放一顆複製鈕會很吵，所以常見做法是 hover 才顯示。問題在於用哪種方式隱藏：大多數隱藏方式同時把按鈕移出 Tab 順序。指南也禁止用 <code>aria-hidden</code> 或 <code>inert</code> 來「藏」。</p>
 <p class="support"><b>支援</b> —</p>
 <p class="links"><code>mwg:copy-button:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/copy-button.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/copy-button.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="新能力" data-result="部分改善" data-group="版面依賴錯的量測" data-guide="響應式網站導覽列">
+<details class="line" id="mwg--navbar" data-kind="新能力" data-result="部分改善" data-group="版面依賴錯的量測" data-guide="響應式網站導覽列">
 <summary><span class="t">不寫死斷點，量測放不放得下才收合</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
 <span class="meta">響應式網站導覽列 · 版面依賴錯的量測</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>導覽列放不下時自動收進原生 popover，鍵盤、Esc、點外面關閉都是瀏覽器內建；連結數或語言變了也不用重調斷點</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用同一棵 <code>&lt;nav&gt;</code> 樹；script 比較 <code>scrollWidth</code> 與 <code>clientWidth</code>，放不下時才收進原生 popover</dd><dt>被什麼擋</dt><dd>寫死的斷點：加一個連結、換一種語言、放大文字，導覽列就在錯的寬度擠爆或過早收合（引用："There is no hard-coded breakpoint. Script collapses the navigation only when the inline row (brand, actions and every link) does not fit, so adding a link, a translation or larger text moves the point automatically."）</dd><dt>戰報</dt><dd>部分改善——收合點跟著實際內容移動；但判斷仍要 JS 量測，popover 為 Newly，舊瀏覽器要 polyfill（官方宣稱）</dd></dl><p class="story">傳統導覽列用 media query 在固定寬度切換漢堡選單，翻譯成較長的語言後連結在斷點前就擠出畫面。指南改成量測實際能否放下，沒有 script 時預設收合版，確保永遠可用。</p>
 <p class="support"><b>支援</b> Popover：Newly（2025-01-27）；@starting-style：Newly（2024-08-06）</p>
 <p class="links"><code>mwg:navbar</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/navbar.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/navbar.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="原生元素角色實作不一致" data-guide="響應式網站導覽列">
+<details class="line" id="mwg--navbar--2" data-kind="糾錯" data-result="勝" data-group="原生元素角色實作不一致" data-guide="響應式網站導覽列">
 <summary><span class="t">子選單用 button + aria-expanded，不用 details/summary</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">響應式網站導覽列 · 原生元素角色實作不一致</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>巢狀導覽的觸發用 <code>&lt;button aria-expanded aria-controls&gt;</code>，緊接子選單清單</dd><dt>被什麼擋</dt><dd>用 <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> 做子選單，<code>summary</code> 該對應 button 角色卻沒有被一致實作（引用："DO NOT use <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code>: <code>&lt;summary&gt;</code> should map to a <code>button</code> role, but has not been consistently implemented"）</dd><dt>戰報</dt><dd>勝——button 的角色在各輔助技術中一致（官方宣稱）</dd></dl><p class="story">和 accordion 指南是同一個對手：summary 的角色在不同螢幕閱讀器表現不一。<code>&lt;details&gt;</code> 不寫 JS 就能開合，很誘人，但在導覽情境裡角色不穩定的代價更高。</p>
 <p class="support"><b>支援</b> —</p>
 <p class="links"><code>mwg:navbar:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/navbar.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/navbar.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="新能力" data-result="僵持" data-group="手寫焦點管理" data-guide="分頁介面（Tabs）">
+<details class="line" id="mwg--tabs" data-kind="新能力" data-result="僵持" data-group="手寫焦點管理" data-guide="分頁介面（Tabs）">
 <summary><span class="t">用 focusgroup 取代手寫 roving tabindex</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
 <span class="meta">分頁介面（Tabs） · 手寫焦點管理</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>一組元素「只有一個 Tab 停點、方向鍵在裡面移動」可以用一個屬性宣告，不必手寫 roving tabindex。鍵盤優先的介面（格狀選單、看板）門檻大降；目前僅 Chromium</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在 tablist 上用 <code>focusgroup</code>，自動得到正確角色與方向鍵移動</dd><dt>被什麼擋</dt><dd>（缺）只說要取代手動實作 roving tabindex 或 activedescendant，沒說手寫版在哪個情境出錯（引用："Instead of manually implementing a roving tabindex or ARIA activedescendant pattern to meet the focus management requirement of the ARIA <code>tablist</code> role, we can use <code>focusgroup</code>"）</dd><dt>戰報</dt><dd>僵持——<code>focusgroup</code> 只有 Chrome/Edge 150 支援，Firefox、Safari 仍得手寫（官方宣稱）</dd></dl><p class="story">分頁的鍵盤模型（只有一個 Tab 停點，方向鍵切換）一向要自己寫。新屬性讓瀏覽器代勞，但對手只被描述成「要手動實作」，屬於工作量而不是可觀察的失敗。</p>
 <p class="support"><b>支援</b> focusgroup：Limited（Chrome/Edge 150；Firefox、Safari 不支援）</p>
 <p class="links"><code>mwg:tabs</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/tabs.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/tabs.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="焦點或狀態指示消失" data-guide="分頁介面（Tabs）">
+<details class="line" id="mwg--tabs--2" data-kind="糾錯" data-result="勝" data-group="焦點或狀態指示消失" data-guide="分頁介面（Tabs）">
 <summary><span class="t">選中底線用偽元素邊框，強制色彩下不消失</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">分頁介面（Tabs） · 焦點或狀態指示消失</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用偽元素上的 border 畫選中分頁的底線，並以 <code>aria-selected</code> 為樣式依據</dd><dt>被什麼擋</dt><dd>用 <code>box-shadow</code> 或背景畫底線，強制色彩模式把兩者都移除，選中狀態完全沒有指示（引用："DO NOT use <code>box-shadow</code> or a background: forced colors mode removes both, leaving no indicator."）</dd><dt>戰報</dt><dd>勝——border 在強制色彩模式下保留，選中狀態可見（官方宣稱）</dd></dl><p class="story">高對比模式使用者看到的分頁是一排一模一樣的按鈕。指南也要求不能只用顏色區分選中（WCAG 1.4.1），且樣式綁 <code>aria-selected</code>，讓視覺與無障礙狀態不會不一致。</p>
 <p class="support"><b>支援</b> —</p>
 <p class="links"><code>mwg:tabs:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/tabs.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/tabs.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="新能力" data-result="部分改善" data-group="版面擠壓破壞可讀性" data-guide="分頁介面（Tabs）">
+<details class="line" id="mwg--tabs--3" data-kind="新能力" data-result="部分改善" data-group="版面擠壓破壞可讀性" data-guide="分頁介面（Tabs）">
 <summary><span class="t">分頁不換行，放不下時捲動或收進選單</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
 <span class="meta">分頁介面（Tabs） · 版面擠壓破壞可讀性</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>捲動容器的邊緣淡出可以跟捲動位置連動、到底就消失，純 CSS。很多分頁、很多標籤的列可以不換行也不讓人迷路</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>分頁保持單列，放不下時用水平捲動加淡出提示、或收進「More」選單</dd><dt>被什麼擋</dt><dd>分頁換成多列，Tab 順序與選中的分頁都難以追蹤（引用："DO NOT wrap them onto multiple rows: wrapped rows make the tab order and the selected tab hard to follow."）</dd><dt>戰報</dt><dd>部分改善——單列加捲動可用；捲動淡出靠 scroll-driven animations（Newly），<code>hidden=until-found</code> 為 Limited（官方宣稱）</dd></dl><p class="story">分頁太多時直覺是讓它換行，但換行後選中的分頁可能跑到第二列，視覺上的「目前位置」消失。指南給三種策略並交代各自的 fallback。</p>
 <p class="support"><b>支援</b> Scroll-driven animations：Newly（2026-10-27）；hidden="until-found"：Limited；interpolate-size：Limited</p>
 <p class="links"><code>mwg:tabs:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/tabs.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/tabs.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="隱藏或停用把人擋在外面" data-guide="工具列">
+<details class="line" id="mwg--toolbar" data-kind="糾錯" data-result="勝" data-group="隱藏或停用把人擋在外面" data-guide="工具列">
 <summary><span class="t">用 aria-disabled 停用，讓控制項仍可聚焦</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">工具列 · 隱藏或停用把人擋在外面</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>工具列中暫時不能用的按鈕設 <code>aria-disabled="true"</code> 並忽略點擊</dd><dt>被什麼擋</dt><dd>用 <code>disabled</code> 停用後按鈕無法聚焦，方向鍵移動時直接跳過，使用者不知道它存在（引用："Disable with <code>aria-disabled="true"</code> rather than <code>disabled</code> so the control stays focusable and reachable by arrow keys."）</dd><dt>戰報</dt><dd>勝——按鈕保持可聚焦、可被讀出狀態（官方宣稱）</dd></dl><p class="story">和 copy-button 是同一組對手：停用或隱藏的方式把鍵盤使用者擋在外面。在工具列這種一個 Tab 停點、方向鍵逐一移動的元件裡，被跳過的按鈕等於不存在。</p>
 <p class="support"><b>支援</b> —</p>
 <p class="links"><code>mwg:toolbar</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/toolbar.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/toolbar.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="新能力" data-result="僵持" data-group="手寫焦點管理" data-guide="工具列">
+<details class="line" id="mwg--toolbar--2" data-kind="新能力" data-result="僵持" data-group="手寫焦點管理" data-guide="工具列">
 <summary><span class="t">用 focusgroup 讓工具列只有一個 Tab 停點</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
 <span class="meta">工具列 · 手寫焦點管理</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>同 tabs 的 focusgroup：工具列整組一個 Tab 停點、方向鍵移動，由瀏覽器處理。編輯器類工具的鍵盤操作幾乎免費</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在 <code>role="toolbar"</code> 容器上加 <code>focusgroup="toolbar wrap"</code>，由瀏覽器處理方向鍵與 roving tab stop</dd><dt>被什麼擋</dt><dd>（缺）指南規定「同時只能有一個項目在 Tab 順序中」，但沒有描述每個按鈕都是 Tab 停點時具體造成什麼（引用："MANDATORY: Only one item is in the tab order at a time."）</dd><dt>戰報</dt><dd>僵持——<code>focusgroup</code> 僅 Chrome/Edge 150 支援（官方宣稱）</dd></dl><p class="story">與 tabs 的 focusgroup 線同形：新屬性取代手寫焦點管理，但對手只寫成規則。</p>
 <p class="support"><b>支援</b> focusgroup：Limited（Chrome/Edge 150）；Anchor positioning 核心屬性：Newly（指南寫的 Limited 是群組狀態，見 app-menus）</p>
 <p class="links"><code>mwg:toolbar:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/toolbar.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/toolbar.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="版面依賴錯的量測" data-guide="依裝置形態調整">
+<details class="line" id="mwg--form-factor-adaptation" data-kind="糾錯" data-result="勝" data-group="版面依賴錯的量測" data-guide="依裝置形態調整">
 <summary><span class="t">元件版面用 container query，不用視窗寬度</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">依裝置形態調整 · 版面依賴錯的量測</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>元件的版面改用 container query，media query 只用來查輸入裝置與使用者設定</dd><dt>被什麼擋</dt><dd>用視窗寬度的 media query 排元件，同一個元件放進側欄或窄欄時無法跟著調整（引用："Use container queries instead of viewport-width media queries for component layout, so a component adapts wherever it is placed."）</dd><dt>戰報</dt><dd>勝——container queries 為 Widely，元件依所在容器調整（官方宣稱）</dd></dl><p class="story">同一張卡片放在主欄與側欄，視窗寬度相同、可用寬度卻差很多。指南另提醒在 <code>inline-size</code> 容器上查高度是無效的（"it measures only width"）。</p>
 <p class="support"><b>支援</b> Container queries (size)：Widely（2023-02-14）</p>
 <p class="links"><code>mwg:form-factor-adaptation</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/user-experience/form-factor-adaptation.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/user-experience/form-factor-adaptation.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="截字傷可及性" data-guide="依裝置形態調整">
+<details class="line" id="mwg--form-factor-adaptation--2" data-kind="糾錯" data-result="勝" data-group="截字傷可及性" data-guide="依裝置形態調整">
 <summary><span class="t">320px 寬度下文字與控制項都不能被切掉</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">依裝置形態調整 · 截字傷可及性</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>含文字的元素用 <code>min-block-size</code> 而不是固定高度，標題不用 ellipsis 截斷，父層不用 <code>overflow: hidden</code> 切控制項</dd><dt>被什麼擋</dt><dd>固定高度、標題截斷與父層裁切，在窄螢幕或放大文字時讓文字或按鈕被切掉（引用："DO NOT truncate headings with <code>text-overflow: ellipsis</code>, and do not clip controls with <code>overflow: hidden</code> on their parents."）</dd><dt>戰報</dt><dd>勝——用的都是成熟屬性，320 CSS px 下內容完整（官方宣稱）</dd></dl><p class="story">WCAG 1.4.10 要求 320px 寬時內容不被裁切。這條和 single-line-overflow 的分工是：標籤可以視覺截斷，標題不行。</p>
 <p class="support"><b>支援</b> text-wrap: balance：Newly（2024-05-13）</p>
 <p class="links"><code>mwg:form-factor-adaptation:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/user-experience/form-factor-adaptation.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/user-experience/form-factor-adaptation.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="糾錯" data-result="勝" data-group="焦點或狀態指示消失" data-guide="自然的互動回饋">
+<details class="line" id="mwg--natural-interactions" data-kind="糾錯" data-result="勝" data-group="焦點或狀態指示消失" data-guide="自然的互動回饋">
 <summary><span class="t">拿掉焦點框時一定要給同樣明顯的替代</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
 <span class="meta">自然的互動回饋 · 焦點或狀態指示消失</span></summary>
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 <code>:focus-visible</code> 顯示鍵盤焦點框，只在滑鼠點擊時不顯示</dd><dt>被什麼擋</dt><dd><code>outline: none</code> 直接拿掉焦點框，鍵盤使用者看不到自己在哪（引用："DO NOT remove focus outlines (<code>outline: none</code> or <code>outline: 0</code>) without providing an equally visible replacement with at least a 3:1 contrast ratio against the page (WCAG 1.4.11)."）</dd><dt>戰報</dt><dd>勝——<code>:focus-visible</code> 為 Widely，滑鼠點擊不出框、鍵盤操作有框（官方宣稱）</dd></dl><p class="story">拿掉焦點框通常是為了點擊後不要出現難看的框。<code>:focus-visible</code> 把兩種需求分開，不必為了美觀犧牲鍵盤使用者。</p>
 <p class="support"><b>支援</b> —</p>
 <p class="links"><code>mwg:natural-interactions</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/user-experience/natural-interactions.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/user-experience/natural-interactions.md">線檔</a> · v1.0.0</p></div></details>
-<details class="line" data-kind="新能力" data-result="部分改善" data-group="只能 hover 才看得到" data-guide="自然的互動回饋">
+<details class="line" id="mwg--natural-interactions--2" data-kind="新能力" data-result="部分改善" data-group="只能 hover 才看得到" data-guide="自然的互動回饋">
 <summary><span class="t">選單可以 hover 開，但不能只靠 hover</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
 <span class="meta">自然的互動回饋 · 只能 hover 才看得到</span></summary>
@@ -324,4 +324,6 @@ const all=document.getElementById('all');
 all.addEventListener('click',()=>{const open=all.textContent===all.dataset.e;cards.forEach(c=>{if(!c.hidden)c.open=open});all.textContent=open?all.dataset.c:all.dataset.e;});
 let t;q.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(render,120)});
 render();
+function goHash(){const id=decodeURIComponent(location.hash.slice(1));const c=id&&document.getElementById(id);if(c&&c.matches('details.line')){c.hidden=false;c.open=true;c.scrollIntoView({block:'start'});c.querySelector('summary').focus({preventScroll:true});}}
+addEventListener('hashchange',goHash);goHash();
 </script></body></html>

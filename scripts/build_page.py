@@ -37,7 +37,7 @@ EN = json.load(open(ROOT / "i18n" / "en.json", encoding="utf-8"))
 
 UI = {
  "zh": dict(lang="zh-Hant", title="Web 張力線", desc="把 modern-web-guidance 的新指南拆成問題線：哪個新做法擋掉了哪個老問題",
-   switch='<b>繁體中文</b> · <a href="en/">English</a>',
+   switch='<b>繁體中文</b> · <a href="en/">English</a> · <a href="weekly/">週記</a>',
    lead=lambda n,k,rel: f'把 <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a> 的新指南拆成問題線：誰在做、做了什麼、被什麼擋、做完之後擋住的東西退了沒。找靈感時看<b>新能力</b>那幾條的「解鎖」。共 {n} 條線（新能力 {k} 條），處理到上游 {rel}。<a href="https://github.com/ianTPE/web-tension-lines">repo</a>',
    ph="搜尋：功能名、對手、指南…（Ctrl+F 也找得到摺起來的內容）", aria="搜尋問題線",
    l_kind="類型", l_result="戰報", l_group="分組", all="全部", by_group="對手組", by_guide="指南",
@@ -46,7 +46,7 @@ UI = {
    slots=("誰在做","動作＋對象","被什麼擋","戰報"),
    foot='上游指南為 CC-BY 4.0（GoogleChrome/modern-web-guidance）。「解鎖」是發想，不是指南原文。這頁由 <code>scripts/build_page.py</code> 從 <code>lines/</code> 產生。'),
  "en": dict(lang="en", title="Web Tension Lines", desc="New modern-web-guidance guides broken into problem lines: which new technique defeats which old problem",
-   switch='<a href="../">繁體中文</a> · <b>English</b>',
+   switch='<a href="../">繁體中文</a> · <b>English</b> · <a href="../weekly/">Weekly notes (Chinese)</a>',
    lead=lambda n,k,rel: f'New guides from <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a>, broken into problem lines: who acts, what they do, what blocks it, and whether that blocker receded afterwards. For ideas, read the <b>Unlock</b> box on the <b>New capability</b> lines. {n} lines ({k} new capabilities), up to upstream {rel}. <a href="https://github.com/ianTPE/web-tension-lines">repo</a>',
    ph="Search: feature, blocker, guide… (Ctrl+F also finds collapsed content)", aria="Search problem lines",
    l_kind="Type", l_result="Outcome", l_group="Group by", all="All", by_group="Opponent", by_guide="Guide",
@@ -78,7 +78,7 @@ def card(it, lang, u):
     rows = "".join(f"<dt>{k}</dt><dd>{inline(x)}</dd>" for k, x in zip(u["slots"], v["slots"]) if x)
     unlock = f'<div class="unlock"><span class="tag">{u["unlock"]}</span>{inline(v["unlock"])}</div>' if v["unlock"] else ""
     todo = '<span class="b lv">untranslated</span>' if v["todo"] else ""
-    return f'''<details class="line" data-kind="{it["kind"]}" data-result="{it["result"]}" data-group="{html.escape(v["group"])}" data-guide="{html.escape(v["gtitle"])}">
+    return f'''<details class="line" id="{it["id"].replace(":", "--")}" data-kind="{it["kind"]}" data-result="{it["result"]}" data-group="{html.escape(v["group"])}" data-guide="{html.escape(v["gtitle"])}">
 <summary><span class="t">{inline(v["title"])}</span>
 <span class="badges"><span class="b k-{it["kind"]}">{v["kind"]}</span><span class="b r-{it["result"]}">{v["result"]}</span><span class="b lv">{v["level"]}</span>{todo}</span>
 <span class="meta">{html.escape(v["gtitle"])} · {html.escape(v["group"])}</span></summary>
@@ -126,7 +126,7 @@ input[type=search]:focus-visible{{outline:2px solid var(--accent);outline-offset
 .chip:focus-visible,.act:focus-visible,summary:focus-visible{{outline:2px solid var(--accent);outline-offset:2px}}
 .count{{color:var(--mute);font-size:.85rem;margin-inline-start:auto}}
 h2{{font-size:1rem;color:var(--mute);margin:1.75rem 0 .5rem;font-weight:600}}
-.line{{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:.5rem 0}}
+.line{{scroll-margin-top:12rem;background:var(--card);border:1px solid var(--line);border-radius:10px;margin:.5rem 0}}
 .line summary{{cursor:pointer;padding:.75rem 1rem;list-style:none;display:grid;gap:.25rem}}
 .line summary::-webkit-details-marker{{display:none}}
 .t{{font-weight:600}}
@@ -214,6 +214,8 @@ const all=document.getElementById('all');
 all.addEventListener('click',()=>{{const open=all.textContent===all.dataset.e;cards.forEach(c=>{{if(!c.hidden)c.open=open}});all.textContent=open?all.dataset.c:all.dataset.e;}});
 let t;q.addEventListener('input',()=>{{clearTimeout(t);t=setTimeout(render,120)}});
 render();
+function goHash(){{const id=decodeURIComponent(location.hash.slice(1));const c=id&&document.getElementById(id);if(c&&c.matches('details.line')){{c.hidden=false;c.open=true;c.scrollIntoView({{block:'start'}});c.querySelector('summary').focus({{preventScroll:true}});}}}}
+addEventListener('hashchange',goHash);goHash();
 </script></body></html>
 '''
 for lang, out in (("zh", ROOT / "docs" / "index.html"), ("en", ROOT / "docs" / "en" / "index.html")):

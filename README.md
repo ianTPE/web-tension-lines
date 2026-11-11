@@ -2,7 +2,7 @@
 
 **繁體中文** · [English](README.en.md)
 
-**線上瀏覽：https://iantpe.github.io/web-tension-lines/**（可搜尋、可篩選、可展開；[英文版](https://iantpe.github.io/web-tension-lines/en/)）
+**線上瀏覽：https://iantpe.github.io/web-tension-lines/**（可搜尋、可篩選、可展開；[英文版](https://iantpe.github.io/web-tension-lines/en/)、[週記](https://iantpe.github.io/web-tension-lines/weekly/)）
 
 每週檢查 [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance) 的新指南，用張力句四槽（誰在做／動作＋對象／被什麼擋／戰報）拆成問題線。拆出來的不是功能清單，而是「哪個新做法擋掉了哪個老問題」，再從「擋掉之後什麼變得做得到」去想新應用。
 
@@ -31,6 +31,7 @@
 | `ledger.csv` | 累積表，一條線一列；按「對手組」篩選可以看到哪些老問題被反覆對付 |
 | `weekly/<日期>.md` | 每期週記：這週的對手、僵持中的線、**本週靈感**（用新能力組出的應用點子與小 demo） |
 | `docs/index.html`、`docs/en/index.html` | 一頁看完所有線（中文版、英文版）：可搜尋（Ctrl+F 也找得到摺起來的內容）、按類型和戰報篩選、按對手組或指南分組。由 `scripts/build_page.py` 產生，每週自動重建 |
+| `docs/weekly/` | 週記的網頁版：目錄頁加每篇一頁，週記裡的 `mwg:…` 可以點，會跳到主頁並展開那條線。由 `scripts/build_weekly.py` 產生 |
 | `i18n/en.json` | 英文版網頁用的譯文。線檔維持中文，每週任務會替新線補上譯文；缺譯時英文頁退回顯示中文 |
 | `wants.md` | 你自己「想做但卡住的事」。有寫東西時，週記會多一節「對到你的清單」，列出剛好擋掉這些問題的新功能 |
 | `PROMPT.md` | 每週自動任務的完整指示 |

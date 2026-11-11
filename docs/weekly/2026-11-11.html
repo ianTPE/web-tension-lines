@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026-11-11 週記：modern-web-guidance v1.0.0</title>
+<meta name="description" content="modern-web-guidance 問題線的每週週記：這週的對手、僵持中的線、本週靈感">
+<style>
+:root{--bg:#fbfaf7;--fg:#1f1d1a;--mute:#6b665e;--line:#e4e0d8;--card:#fff;--accent:#2f5d50;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161513;--fg:#ece8e1;--mute:#a19b91;--line:#34312c;--card:#1e1c19;--accent:#8cc3b0;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161513;--fg:#ece8e1;--mute:#a19b91;--line:#34312c;--card:#1e1c19;--accent:#8cc3b0;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 system-ui,"Noto Sans TC","PingFang TC",sans-serif}
+main{max-width:46rem;margin:0 auto;padding:2rem 16px 4rem}
+nav{font-size:.9rem;color:var(--mute);margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:.25rem 1rem}
+a{color:var(--accent)} a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1{font-size:1.6rem;line-height:1.35;text-wrap:balance;margin:0 0 1rem}
+h2{font-size:1.2rem;margin:2.25rem 0 .75rem;padding-top:1rem;border-top:1px solid var(--line)}
+h3{font-size:1rem;margin:1.5rem 0 .5rem}
+p,li{text-wrap:pretty;overflow-wrap:anywhere}
+li{margin:.35rem 0} ol>li{margin:1rem 0}
+ol>li>strong:first-child{font-size:1.05rem}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.88em;background:color-mix(in srgb,var(--line) 60%,transparent);padding:.05em .3em;border-radius:3px}
+a.lid{text-decoration:none} a.lid:hover code{outline:1px solid var(--accent)}
+.list{list-style:none;padding:0}
+.list li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.85rem 1rem;margin:.6rem 0}
+.list a{font-weight:600;text-decoration:none} .list a:hover{text-decoration:underline}
+.list .sub{display:block;color:var(--mute);font-size:.88rem;margin-top:.2rem}
+.pager{display:flex;justify-content:space-between;gap:1rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.9rem}
+footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
+</style></head><body><main>
+<nav><a href="../">← 所有問題線</a><a href="./">週記目錄</a><a href="https://github.com/ianTPE/web-tension-lines/tree/main/weekly">原始檔</a></nav>
+<h1>2026-11-11 週記：modern-web-guidance v1.0.0</h1>
+<ul><li>上游範圍：3412685..4dd9683（v0.0.197 → v1.0.0），新增 15、修改 106、刪除 0</li><li>本週拆出：30 條線（15 份新增指南）</li><li>第一期只拆新增指南；修改的 106 份是已有指南的改寫，沒有先前的線可比，不回溯拆（見「未拆」）</li></ul>
+<h2>這週的對手</h2>
+<ul><li><strong>隱藏或停用把人擋在外面</strong>（4）：accordion:3、copy-button、copy-button:3、toolbar。共同形狀：為了畫面乾淨而用 <code>display: none</code>／<code>disabled</code> 藏東西，結果把鍵盤使用者或頁內搜尋擋在外面。解法幾乎都不是新功能，而是換一種藏法（<code>opacity</code>、<code>aria-disabled</code>、<code>content-visibility</code>）。</li><li><strong>焦點或狀態指示消失</strong>（3）：breadcrumbs:2、tabs:2、natural-interactions。<code>box-shadow</code>、背景、<code>clip-path</code>、<code>outline: none</code> 在強制色彩或鍵盤情境下讓「我在哪／選了哪個」消失。</li><li><strong>重建DOM丟狀態</strong>（2）＋<strong>視覺順序與DOM順序脫鉤</strong>（1）：dynamic-sort、sortable-table、drag-and-drop。同一個主題的三個切面：排序／拖放時要搬真節點，不要重蓋，也不要用 CSS 假裝。關鍵功能 <code>moveBefore()</code> 在 Safari 仍不支援。</li><li><strong>只能 hover 才看得到</strong>（2）：single-line-overflow:2、natural-interactions:2。</li><li><strong>截字傷可及性</strong>（2）：single-line-overflow、form-factor-adaptation:2。</li><li><strong>原生元素角色實作不一致</strong>（2）：accordion、navbar:2。兩份指南都點名 <code>&lt;summary&gt;</code> 的 button 角色在螢幕閱讀器表現不一致——可以自己實測的對手。</li><li><strong>版面依賴錯的量測</strong>（2）：navbar（寫死斷點）、form-factor-adaptation（視窗寬度 vs 容器寬度）。</li><li><strong>手寫焦點管理</strong>（2）：tabs、toolbar:2。兩條的槽 3 都判缺，見下。</li><li>只出現一次：安裝入口受限、互動中畫面抖動、播報過量、比對錯型別、新功能的副作用、彈出層脫離觸發點、外觀暗示錯的結構、重複內容干擾輔助技術、每顆按鈕手接JS、版面擠壓破壞可讀性。</li></ul>
+<p>值得注意的一條：<strong>accordion:2 的對手是新功能本身</strong>。<code>&lt;details name&gt;</code>（互斥手風琴，2024 Baseline）被指南建議避用，因為內容會跳出螢幕放大鏡使用者的視野。</p>
+<p>戰報分布：勝 16、部分改善 9、僵持 4、缺 1（app-menus 於 2026-11-12 驗證後由僵持改為部分改善）。勝的 16 條大多<strong>不靠新功能</strong>，而是糾正常見錯誤；這期 v1.0.0 的重心是「把元件做對」，不是推新 API。</p>
+<h2>僵持中的線</h2>
+<ul><li>install-web-app：<code>&lt;install&gt;</code>、<code>navigator.install()</code> 沒有任何主要瀏覽器支援。</li><li>breadcrumbs:2：<code>corner-shape</code>／<code>border-shape</code> 僅 Chrome/Edge。</li><li>tabs、toolbar:2：<code>focusgroup</code> 僅 Chrome/Edge 150。</li></ul>
+<h2>本週靈感</h2>
+<p>這期 30 條線裡有 14 條是<strong>新能力</strong>，其餘 16 條是糾錯。以下是用新能力組出來的點子，屬於發想，不是指南內容。</p>
+<ol><li><strong>可重排、但不會重新載入的即時儀表板</strong><br>拖曳重排或依條件排序時，正在播放的影片、即時圖表 iframe、輸入到一半的表單都留在原狀態，只用動畫「走」到新位置。<br>用到：<a class="lid" href="../#mwg--drag-and-drop"><code>mwg:drag-and-drop</code></a>、<a class="lid" href="../#mwg--dynamic-sort"><code>mwg:dynamic-sort</code></a>（<code>moveBefore()</code> + view transitions）。<br>限制：Safari 不支援 <code>moveBefore()</code>，會退回一般搬動，iframe 會重新載入。<br>小 demo：三個 YouTube 嵌入 + 一個計時器卡片，可以拖曳重排，邊播邊搬。</li><li><strong>長得像桌面程式的網頁工具</strong><br>選單列（File／Edit／View）加上工具列，整組只有一個 Tab 停點，方向鍵移動，選單黏在按鈕上。幾乎不用自己寫焦點管理。<br>用到：<a class="lid" href="../#mwg--app-menus"><code>mwg:app-menus</code></a>、<a class="lid" href="../#mwg--toolbar--2"><code>mwg:toolbar:2</code></a>、<a class="lid" href="../#mwg--tabs"><code>mwg:tabs</code></a>（popover、錨點定位、<code>focusgroup</code>）。<br>限制：<code>focusgroup</code> 只有 Chrome/Edge 150，適合先做給自己用的內部工具。<br>小 demo：純 HTML 的 Markdown 編輯器外殼，只用鍵盤就能操作完整的選單。</li><li><strong>全部摺起來，但 Ctrl+F 找得到的長文件</strong><br>週記、FAQ、規格這類長頁面預設全摺疊，搜尋命中時自動展開，展開有動畫。<br>用到：<a class="lid" href="../#mwg--accordion--3"><code>mwg:accordion:3</code></a>（<code>::details-content</code>），可搭配 <code>hidden=until-found</code> 做分頁版。<br>限制：<code>::details-content</code> 為 Newly，舊瀏覽器沒有動畫但功能照常。<br>小 demo：把這個 repo 的 <code>lines/</code> 輸出成一頁，每條線是一個 <code>&lt;details&gt;</code>，搜尋對手名稱就會展開。</li><li><strong>大量長標籤也不亂的清單</strong><br>檔名列表、分頁列、標籤雲：放不下就截斷，hover 或 focus 時用純 CSS 捲出全文，邊緣淡出跟著捲動消失。<br>用到：<a class="lid" href="../#mwg--single-line-overflow--2"><code>mwg:single-line-overflow:2</code></a>、<a class="lid" href="../#mwg--tabs--3"><code>mwg:tabs:3</code></a>（scroll-driven animations）。<br>限制：scroll-driven animations 2026-10-27 才 Baseline。</li><li><strong>一頁裝下自己所有小工具的安裝目錄</strong>（等支援）<br>一個入口頁替每個小工具 PWA 各放一顆安裝按鈕。<br>用到：<a class="lid" href="../#mwg--install-web-app"><code>mwg:install-web-app</code></a>（<code>navigator.install()</code>）。<br>限制：目前沒有瀏覽器支援，先記著，等有瀏覽器開始支援時再回來看。</li></ol>
+<h2>糾錯備忘</h2>
+<p>不產生新應用，但做任何東西時都用得上的幾組：隱藏或停用把人擋在外面（4 條）、焦點或狀態指示消失（3 條）、截字傷可及性（2 條）。</p>
+<h2>未拆</h2>
+<ul><li>修改的 106 份指南（v0.0.197 → v1.0.0）：第一期不回溯。之後每週只在它們有實質變動時處理。</li><li>待拆：無。</li></ul><div class="pager"><span></span><span></span></div>
+<footer>上游指南為 CC-BY 4.0（GoogleChrome/modern-web-guidance）。「本週靈感」是發想，不是指南原文。這頁由 <code>scripts/build_weekly.py</code> 從 <code>weekly/</code> 產生。</footer>
+</main></body></html>
