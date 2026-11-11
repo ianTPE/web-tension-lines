@@ -51,7 +51,8 @@ if [ "$NOW" != "$TO" ]; then
   echo "WARN: run finished but state.json not advanced (still $NOW)"; exit 1
 fi
 
-git add -A lines ledger.csv weekly state.json
+python3 scripts/build_page.py
+git add -A lines ledger.csv weekly state.json docs
 if ! git diff --cached --quiet; then
   git commit -q -m "weekly: modern-web-guidance $MWG_RELEASE ($MWG_FROM..$MWG_TO)"
   git push -q origin main || echo "WARN: push failed"

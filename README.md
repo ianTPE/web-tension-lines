@@ -26,6 +26,7 @@
 | `lines/<分類>/<guide-id>.md` | 一份指南一個檔，裡面一到三條問題線。每條線包在 `%% line-start id="…" %%` 和 `%% line-end %%` 之間（Obsidian 的註解語法，畫面上看不到），格式照 [CtxFST 規格](https://github.com/ctxfst/skill-line-coach/blob/main/references/ctxfst-spec.md)，可直接用 skill-line-coach 的 `shape_layer.py` 逐條建索引；標記外的「細節」是給人看的補充 |
 | `ledger.csv` | 累積表，一條線一列；按「對手組」篩選可以看到哪些老問題被反覆對付 |
 | `weekly/<日期>.md` | 每期週記：這週的對手、僵持中的線、**本週靈感**（用新能力組出的應用點子與小 demo） |
+| `docs/index.html` | 一頁看完所有線：可搜尋（Ctrl+F 也找得到摺起來的內容）、按類型和戰報篩選、按對手組或指南分組。由 `scripts/build_page.py` 產生，每週自動重建 |
 | `wants.md` | 你自己「想做但卡住的事」。有寫東西時，週記會多一節「對到你的清單」，列出剛好擋掉這些問題的新功能 |
 | `PROMPT.md` | 每週自動任務的完整指示 |
 | `scripts/weekly.sh` | 抓上游、算差異、叫 `claude -p` 跑 PROMPT.md |

@@ -1,2 +1,3 @@
 .cache/
 logs/
+.obsidian/workspace*.json
