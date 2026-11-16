@@ -1,5 +1,5 @@
 {
- "total": 120,
+ "total": 160,
  "updated": "2026-11-16",
  "groups": [
   {
@@ -210,6 +210,69 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:defer-rendering-heavy-content:3",
+     "feature": "content-visibility: auto 只用在首屏以下",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:efficient-background-processing:2",
+     "feature": "直接掛監聽, { capture: true }",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:faster-spa-view-transitions:2",
+     "feature": "LRU 淘汰策略",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:flicker-free-client-side-ab-testing:2",
+     "feature": "小 stub, 分析腳本不加 blocking",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:full-session-analytics:2",
+     "feature": "縮小 payload, try/catch",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:improve-next-page-load-performance:2",
+     "feature": "document rule 的 not 排除",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:interaction-paint-timing:2",
+     "feature": "interactionId 配對, entry.duration",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:interaction-paint-timing:3",
+     "feature": "PerformanceObserver 持續接收",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:lazy-load-video-and-audio:2",
+     "feature": "video 寫 width/height, audio 加 controls",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -250,6 +313,13 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:defer-rendering-heavy-content:5",
+     "feature": "hidden=until-found, 鍵盤實測",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
     }
    ]
   },
@@ -782,6 +852,13 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:defer-rendering-heavy-content:2",
+     "feature": "contain-intrinsic-size",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
     }
    ]
   },
@@ -1054,6 +1131,254 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    }
+   ]
+  },
+  {
+   "name": "主執行緒被重活卡住",
+   "lines": [
+    {
+     "id": "mwg:break-up-long-tasks",
+     "feature": "scheduler.yield()",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:defer-work-until-scroll-ends:2",
+     "feature": "scroll 只做輕量回饋, scrollend",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:interactions-in-complex-layouts",
+     "feature": "content-visibility: auto, contain: layout style paint",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "效能量測失真或有盲點",
+   "lines": [
+    {
+     "id": "mwg:calculate-total-foreground-time",
+     "feature": "visibility-state 效能條目",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:detect-initial-visibility-state",
+     "feature": "visibility-state 效能條目",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:identify-heavy-scripts",
+     "feature": "Long Animation Frames（PerformanceScriptTiming）",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:identify-inp-causes",
+     "feature": "Event Timing（INP 三段拆分）",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:identify-inp-causes:2",
+     "feature": "LoAF styleDuration/layoutDuration, forcedStyleDuration/forcedLayoutDuration",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:interaction-paint-timing",
+     "feature": "interaction-contentful-paint, soft-navigation",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "載入超過需要的資源",
+   "lines": [
+    {
+     "id": "mwg:conditional-async-dependencies",
+     "feature": "top-level await, 動態 import()",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:deliver-optimized-decorative-images",
+     "feature": "image-set()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:lazy-load-video-and-audio",
+     "feature": "<video>/<audio> loading=\"lazy\"",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "生命週期假設錯",
+   "lines": [
+    {
+     "id": "mwg:conditional-async-dependencies:2",
+     "feature": "單一入口, 串接 await import()",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:lazy-load-video-and-audio:3",
+     "feature": "不依賴 window load 事件",
+     "result": "缺",
+     "kind": "糾錯",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "工作花在看不到的地方",
+   "lines": [
+    {
+     "id": "mwg:defer-rendering-heavy-content",
+     "feature": "content-visibility: auto",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:defer-rendering-heavy-content:4",
+     "feature": "content-visibility: hidden, @supports",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:efficient-background-processing",
+     "feature": "contentvisibilityautostatechange, content-visibility: auto",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:faster-spa-view-transitions",
+     "feature": "content-visibility: hidden",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "完成時機靠猜",
+   "lines": [
+    {
+     "id": "mwg:defer-work-until-scroll-ends",
+     "feature": "scrollend",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "載入優先序錯置",
+   "lines": [
+    {
+     "id": "mwg:deliver-optimized-decorative-images:2",
+     "feature": "<img>/<picture>, <link rel=preload media>",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:deprioritize-background-fetches",
+     "feature": "fetch() priority: 'low'",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:improve-next-page-load-performance",
+     "feature": "Speculation Rules（prefetch/prerender）",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:lazy-load-video-and-audio:4",
+     "feature": "首屏影片省略 loading",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:optimize-image-priority",
+     "feature": "fetchpriority=\"high\"/\"low\"",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:optimize-image-priority:2",
+     "feature": "fetchpriority 限量並避開 lazy 圖",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:optimize-preload-priority",
+     "feature": "<link rel=preload fetchpriority=\"high\">",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:optimize-preload-priority:2",
+     "feature": "預載限量, 正確的 as/type",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "內容要等JS才成形",
+   "lines": [
+    {
+     "id": "mwg:flicker-free-client-side-ab-testing",
+     "feature": "blocking=\"render\"",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "背景送出不可靠或過量",
+   "lines": [
+    {
+     "id": "mwg:full-session-analytics",
+     "feature": "fetchLater(), AbortController",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
     }
    ]
   }

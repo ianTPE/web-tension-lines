@@ -60,7 +60,16 @@
     "尺寸不跟內容走": "Size doesn't follow content",
     "表單意外送出": "Forms submit unintentionally",
     "敏感資料外露": "Sensitive data leaks",
-    "用錯原生控制項": "Wrong native control for the job"
+    "用錯原生控制項": "Wrong native control for the job",
+    "主執行緒被重活卡住": "Heavy work blocks the main thread",
+    "效能量測失真或有盲點": "Performance measurement is skewed or blind",
+    "工作花在看不到的地方": "Work spent on what nobody can see",
+    "載入超過需要的資源": "Loading more than is needed",
+    "完成時機靠猜": "Guessing when something has finished",
+    "載入優先序錯置": "Loading priority is misplaced",
+    "背景送出不可靠或過量": "Background sends are unreliable or excessive",
+    "生命週期假設錯": "Wrong lifecycle assumptions",
+    "內容要等JS才成形": "Content takes shape only after JS runs"
   },
   "guides": {
     "install-web-app": "Installing web apps",
@@ -121,7 +130,27 @@
     "form-fields-automatically-fit-contents": "Form fields that automatically fit their contents",
     "forms": "Forms",
     "ime-safe-enter-submit": "IME-safe Enter to submit",
-    "required-field-feedback": "Required field feedback"
+    "required-field-feedback": "Required field feedback",
+    "break-up-long-tasks": "Break up long tasks",
+    "calculate-total-foreground-time": "Calculate total foreground time",
+    "conditional-async-dependencies": "Conditional async dependencies",
+    "defer-rendering-heavy-content": "Defer rendering heavy content",
+    "defer-work-until-scroll-ends": "Defer work until scroll ends",
+    "deliver-optimized-decorative-images": "Deliver optimized decorative images",
+    "deprioritize-background-fetches": "Deprioritize background fetches",
+    "detect-initial-visibility-state": "Detect initial visibility state",
+    "efficient-background-processing": "Efficient background processing",
+    "faster-spa-view-transitions": "Faster SPA view transitions via state caching",
+    "flicker-free-client-side-ab-testing": "Flicker-free client-side A/B testing",
+    "full-session-analytics": "Reliably measure full-session analytics and telemetry",
+    "identify-heavy-scripts": "Identify heavy-running JavaScript",
+    "identify-inp-causes": "Identify causes of poor INP",
+    "improve-next-page-load-performance": "Improve next page load performance",
+    "interaction-paint-timing": "Measure interaction and soft-navigation paint timing",
+    "interactions-in-complex-layouts": "Optimizing interactions in complex layouts",
+    "lazy-load-video-and-audio": "Lazy load video and audio",
+    "optimize-image-priority": "Optimize image priority",
+    "optimize-preload-priority": "Optimize preload priority"
   },
   "lines": {
     "mwg:install-web-app": {
@@ -1203,6 +1232,366 @@
       "story": "The error element sits in the page, hidden with CSS, with the description already wired up, so the first focus reads 'This field is required.' Attaching it only when invalid means users hear the current state.",
       "unlock": "",
       "support": ":user-valid/:user-invalid: Widely (2023-11-02)"
+    },
+    "mwg:break-up-long-tasks": {
+      "title": "Slice long loops with scheduler.yield() so clicks don't wait for the loop to finish",
+      "action": "Give an async long loop a 50ms time budget; once it is exceeded, `await scheduler.yield()` to hand the main thread back to the browser, then reset the budget and continue",
+      "blocker": "Heavy computation or long loops hold the main thread, event handlers are delayed and INP suffers (quote: \"Heavy computations or long loops can block the main thread, delaying event handlers and causing poor Interaction to Next Paint (INP) responsiveness.\")",
+      "outcome": "Supporting browsers handle user input and rendering between slices; Safari lacks support, so a `setTimeout(resolve, 0)` fallback is mandatory to yield the main thread (official claim)",
+      "story": "Process a whole large array in one go and every click waits until the loop ends. Yielding every 50ms lets input and painting cut in. The guide doesn't say how the `setTimeout` fallback falls short of `scheduler.yield()`, only that it must exist.",
+      "unlock": "Parse a large CSV, build a full-text index or batch-process photos in the browser while the UI still scrolls and a Cancel button still works, without moving to a Worker or freezing the page. Safari falls back to setTimeout.",
+      "support": "Scheduler API: Limited (Chrome 129, Edge 129, Firefox 142; not Safari)"
+    },
+    "mwg:calculate-total-foreground-time": {
+      "title": "Use visibility-state performance entries to count real viewing time, excluding background tabs",
+      "action": "Read the whole visibility history with `performance.getEntriesByType('visibility-state')` and sum each `visible` span up to the next state change",
+      "blocker": "Traditional time-on-page also counts time the page spent in the background (quote: \"Traditional metrics like time-on-page often incorrectly include time spent with the page in the background.\")",
+      "outcome": "Chrome/Edge can compute foreground time from the performance timeline at any moment; Firefox and Safari return an empty array and the fallback is `performance.now()`, an upper bound that still includes background time (official claim)",
+      "story": "A user opens a tab and switches away, and time-on-page keeps ticking, inflating engagement. Visibility entries record every switch on the timeline, so there is no need to accumulate `visibilitychange` events by hand. Only Chromium has them; other browsers still get the old number with background time included.",
+      "unlock": "A blog or online course can count the minutes each article was actually looked at and use that to pick articles worth rewriting, without inflation from tabs left open. Chromium only for now.",
+      "support": "Page visibility state performance entries: Limited (Chrome 115, Edge 115; not Firefox or Safari)"
+    },
+    "mwg:conditional-async-dependencies": {
+      "title": "Use top-level await to load a polyfill only when the feature is missing, and make downstream modules wait for it",
+      "action": "Feature-detect in a dedicated module (for example `'popover' in HTMLElement.prototype`) and `await import()` the polyfill when it's missing; the entry module statically imports that module before using the feature",
+      "blocker": "Missing: the guide only says this encapsulates conditional loading in one module and keeps downstream code from running until the dependency is ready; it doesn't say where the old approach goes wrong (quote: \"effectively preventing downstream consumer modules from executing until the dependency is fully loaded and ready.\")",
+      "outcome": "Top-level await has been Baseline only since 2026-09-14 (Safari 27 fixed its module loader); on Safari 15–26.6 it is safe as long as you follow the single-entry pattern (official claim)",
+      "story": "Polyfills or heavy secondary libraries are only needed by browsers that lack the feature. Wrapped in a top-level-await module, supporting browsers skip the download and others are guaranteed to have it loaded before use. The guide doesn't describe what breaks without this pattern.",
+      "unlock": "Small tools using newer features like popover or anchor positioning can load a polyfill only for older browsers, with zero extra download in newer ones and no 'wait for the polyfill' callbacks scattered through the main code.",
+      "support": "Top-level await: Newly (2026-09-14; Chrome 89, Edge 89, Firefox 89, Safari 27)"
+    },
+    "mwg:conditional-async-dependencies:2": {
+      "title": "Top-level await only suspends the importing parent, not sibling imports",
+      "action": "Import the top-level-await module from a single entry point; when the entry delegates to other app modules, chain `await import('./polyfill.js'); await import('./app.js');` instead of two sibling static imports, and don't let several sibling modules import it at once",
+      "blocker": "Sibling static imports let `app.js` run before the polyfill has loaded; Safari 15–26.6 fails outright when several modules import a top-level-await module at the same time (quote: \"top-level `await` only suspends the parent module that imports it—not sibling static imports—so `./app.js` will evaluate concurrently in all browsers before the polyfill finishes loading.\")",
+      "outcome": "With a single entry or chained dynamic imports, `app.js` is always fetched and run after the polyfill, and the old Safari bug isn't triggered (official claim)",
+      "story": "The intuitive version is two imports in the entry file, which looks ordered, but sibling modules still evaluate concurrently and `showPopover()` gets called before the polyfill arrives. Chaining dynamic imports is what actually guarantees the order.",
+      "unlock": "",
+      "support": "Top-level await: Newly (same as above); the Safari 15–26.6 concurrent-import bug is fixed in Safari 27"
+    },
+    "mwg:defer-rendering-heavy-content": {
+      "title": "Use content-visibility: auto so heavy below-the-fold blocks are laid out and painted only when scrolled near",
+      "action": "Add `content-visibility: auto` to large blocks with deep DOM that are confirmed below the initial fold (infinite-feed cards, comment threads, heavy footer sections)",
+      "blocker": "Content-heavy pages (infinite scroll, complex dashboards, long articles) render slowly at first and respond sluggishly (quote: \"Web pages with extensive content—such as infinite scrolls, complex dashboards, or dense articles can suffer from slow initial rendering and sluggish interactions.\")",
+      "outcome": "The browser defers layout and paint for off-screen blocks until they are scrolled near; unsupported browsers ignore the property and render normally, just without the performance gain (official claim)",
+      "story": "Hundreds of cards get laid out and painted on load, so the first screen is slow and clicks lag. With `content-visibility: auto`, off-screen blocks are skipped first and computed only when the user scrolls close.",
+      "unlock": "Put an entire manual, a whole year of weekly notes or thousands of comments on one page and still have it open instantly, without pagination or virtual scrolling for performance's sake.",
+      "support": "content-visibility: Newly (2025-09-15; Chrome 108, Edge 108, Firefox 130, Safari 26)"
+    },
+    "mwg:defer-rendering-heavy-content:2": {
+      "title": "Always pair content-visibility: auto with contain-intrinsic-size",
+      "action": "Give every `content-visibility: auto` block an estimated size such as `contain-intrinsic-size: auto none auto 150px`; `auto` lets the browser remember the real rendered size",
+      "blocker": "Without an estimate, off-screen blocks collapse to 0px height, so layout shifts badly and the scrollbar jumps while scrolling (quote: \"Failure to do so forces the browser to collapse the element to a 0px height when off-screen, causing severe layout shifting and scrollbar jumping as the user scrolls.\")",
+      "outcome": "With a placeholder size, scrolling no longer jumps, and blocks that have rendered keep their remembered size after leaving the screen (official claim)",
+      "story": "Add only `content-visibility: auto` and every block flips between 0 and its real height as it enters and leaves the screen, so the scrollbar length keeps changing. The estimate keeps them occupying space while skipped.",
+      "unlock": "",
+      "support": "content-visibility: Newly (same as above)"
+    },
+    "mwg:defer-rendering-heavy-content:3": {
+      "title": "Don't put content-visibility: auto on above-the-fold elements",
+      "action": "Apply `content-visibility: auto` only to blocks outside the initial viewport, never to elements within it",
+      "blocker": "On above-the-fold elements the browser must evaluate visibility boundaries before rendering, which delays critical page load (quote: \"Doing so forces the browser to evaluate visibility boundaries before rendering, which paradoxically delays critical page load performance.\")",
+      "outcome": "Applied only below the fold, the first screen renders immediately as usual (official claim)",
+      "story": "Adding the same class to every section for convenience means the first screen also goes through a visibility check, so the part that most needs to be fast gets slower.",
+      "unlock": "",
+      "support": "content-visibility: Newly (same as above)"
+    },
+    "mwg:defer-rendering-heavy-content:4": {
+      "title": "Use content-visibility: hidden to hide content while keeping its rendering state, so toggling is instant",
+      "action": "Set `content-visibility: hidden` on initially hidden heavy blocks (extra rows of a large data table, switchable views) and change it to `visible` or `auto` to reveal; wrap it in `@supports (content-visibility: hidden)` with `display: none` as the default",
+      "blocker": "Missing: the guide only says it is better than `display: none`, without saying what concretely goes wrong with `display: none` when toggling (quote: \"superior to `display: none`\")",
+      "outcome": "Hidden content skips layout but keeps its state, so toggling is near-instant without structural shifts; unsupported browsers show `hidden` elements in full, so fall back to `display: none` via `@supports` (official claim)",
+      "story": "Switching back and forth between views recomputes each one every time it reappears. With `content-visibility: hidden`, nothing is laid out or painted while hidden, and the rendered result is kept and reused on reveal.",
+      "unlock": "A data table's 'show all rows' or a settings page's tabs can be built up front and kept hidden at no cost, appearing instantly on click. For a concrete statement of the blocker see mwg:faster-spa-view-transitions.",
+      "support": "content-visibility: Newly (same as above)"
+    },
+    "mwg:defer-rendering-heavy-content:5": {
+      "title": "content-visibility can take content out of the accessibility tree and find-in-page",
+      "action": "Use `hidden=\"until-found\"` instead of `content-visibility: hidden` for content that must stay searchable while hidden; when using `content-visibility: auto`, walk through the page with the keyboard alone to confirm off-screen nodes are still reachable in order",
+      "blocker": "`content-visibility: hidden` removes the element and its children from the accessibility tree and find-in-page; with `auto`, off-screen nodes may also be missing from the accessibility tree or sequential navigation in some assistive-tech setups until focus moves inside (quote: \"In certain assistive technology configurations, off-screen nodes utilizing `content-visibility: auto` may be excluded from the accessibility tree or sequential navigation routes until focus is forcibly moved inside them.\")",
+      "outcome": "For `hidden`, switching to `hidden=\"until-found\"` keeps find-in-page working; for `auto`, the guide only requires keyboard testing and offers no fix (official claim)",
+      "story": "Swap collapsed content to `content-visibility: hidden` for performance and Ctrl+F can no longer find the text inside. Off-screen `auto` blocks may also be unreachable in order for some screen reader users.",
+      "unlock": "",
+      "support": "content-visibility: Newly (same as above); hidden=\"until-found\" support is not listed in this guide (see search-hidden-content)"
+    },
+    "mwg:defer-work-until-scroll-ends": {
+      "title": "Use scrollend instead of debouncing to guess when scrolling is over",
+      "action": "Listen for `scrollend` on the scroll container or document and put content fetching, layout recalculation and analytics beacons in that callback",
+      "blocker": "Debouncing `scroll` with `setTimeout` to guess the end is unreliable and can fire while the user is still scrolling (quote: \"However, these debounced functions are notoriously unreliable. They may trigger while the user’s is still scrolling.\")",
+      "outcome": "The browser fires `scrollend` only once scrolling has truly rested, transitions are done and touch is released, including visual-viewport zoom and scroll; unsupported browsers fall back to a debounce that dispatches its own `scrollend` (official claim)",
+      "story": "A finger still slowly dragging, or momentum scrolling not yet stopped, and the 100ms debounce has already fired, starting fetches and layout mid-scroll. `scrollend` lets the browser decide the real end point, with no wait time to guess.",
+      "unlock": "Work like 'remember reading position by chapter' or 'load the high-res version of the image you stopped on' can run once when the user really stops, instead of several times during momentum scrolling.",
+      "support": "scrollend: Newly (2025-12-12; Chrome 114, Edge 114, Firefox 109, Safari 26.2)"
+    },
+    "mwg:defer-work-until-scroll-ends:2": {
+      "title": "Keep heavy work out of scroll callbacks",
+      "action": "Limit `scroll` callbacks to lightweight live feedback and move layout-dependent updates and data fetching to `scrollend`",
+      "blocker": "Layout recalculation, analytics beacons and DOM updates during scrolling saturate the main thread, causing dropped frames and layout thrashing (quote: \"Executing heavy tasks—such as layout recalculations, analytics data beacons tracking, or dynamic DOM updates—during scrolling can saturate the main thread, resulting in dropped frames and layout thrashing.\")",
+      "outcome": "Only light work remains during scrolling and heavy work runs once on `scrollend`; without `scrollend` support it is emulated with a debounce (official claim)",
+      "story": "Measuring layout and sending a beacon on every `scroll` event makes scrolling stutter. Moving that work to after scrolling ends keeps the scroll itself smooth.",
+      "unlock": "",
+      "support": "scrollend: Newly (same as above)"
+    },
+    "mwg:deliver-optimized-decorative-images": {
+      "title": "Use image-set() so CSS background images also pick the smallest file by format and resolution",
+      "action": "In `background-image`, `mask-image` or `content`, use `image-set()` to list AVIF/WebP/JPEG at `1x` and `2x`, ordered from most to least optimized format",
+      "blocker": "Missing: the guide only says this improves perceived performance and the browser picks the smallest suitable image; it doesn't say where a single `url()` goes wrong (quote: \"Delivering optimized decorative images via CSS improves perceived performance without sacrificing visual quality.\")",
+      "outcome": "The browser picks the smallest image matching supported formats and device pixel density; for older browsers add a plain `background-image` before it as fallback (official claim)",
+      "story": "Decorative CSS images used to allow only one URL, serving neither high-DPI screens nor new formats. `image-set()` gives CSS images a `srcset`-like choice. The guide doesn't describe the concrete cost of a single URL.",
+      "unlock": "",
+      "support": "image-set(): Widely (2023-09-18; Chrome 113, Edge 113, Firefox 89, Safari 17)"
+    },
+    "mwg:deliver-optimized-decorative-images:2": {
+      "title": "Don't leave a likely LCP image only inside CSS image-set()",
+      "action": "Use an HTML `<img>` or `<picture>` for LCP candidates such as hero banners, or additionally preload them with `<link rel=preload>` and a `media` attribute",
+      "blocker": "Images referenced via CSS `image-set()` are invisible to the preload scanner, delaying their load and hurting LCP (quote: \"images referenced in CSS via image-set() are not discoverable by the browser's preload scanner. This can significantly delay image loading and harm LCP.\")",
+      "outcome": "In HTML or preloaded, the preload scanner discovers the image while parsing HTML and starts downloading it (official claim)",
+      "story": "With the hero image as a CSS background, the browser only learns it needs it after the stylesheet downloads and applies, pushing LCP back. Moving it into HTML or a preload starts the download at the earliest point.",
+      "unlock": "",
+      "support": "image-set(): Widely (same as above); no support data listed for `<img>`, `<picture>` or `<link rel=preload>`"
+    },
+    "mwg:deprioritize-background-fetches": {
+      "title": "Use fetch() priority: 'low' so analytics and prefetches give way to data the user is waiting for",
+      "action": "Add `priority: 'low'` to the `fetch()` options for analytics, logging, background sync and prefetches of data that might be needed later; leave it off for requests critical to the experience",
+      "blocker": "Simultaneous requests compete for the same bandwidth, slowing the user-initiated critical ones (quote: \"When a page performs multiple simultaneous network requests, they often compete for the same bandwidth.\")",
+      "outcome": "Low-priority requests no longer slow critical ones; unsupported browsers ignore the option and use default priority, no fallback needed (official claim)",
+      "story": "The user clicks, and the data the screen needs shares the line with analytics events and background sync sent at the same time. Lowering background requests lets the browser give bandwidth to the one the user is waiting on.",
+      "unlock": "Prefetch the next chapter, next page or thumbnails freely in the background without fear of slowing the user's current search or submit; 'guess the next step' interfaces like readers and photo albums get cheaper.",
+      "support": "Fetch priority: Newly (2024-10-29; Chrome 103, Edge 103, Firefox 132, Safari 17.2)"
+    },
+    "mwg:detect-initial-visibility-state": {
+      "title": "Use visibility-state performance entries to tell whether the page loaded in a background tab",
+      "action": "Read `performance.getEntriesByType('visibility-state')`; if the first entry is `hidden` the page loaded in the background, and the first `hidden` entry's `startTime` is when it went to the background; filter such pages out of performance analytics",
+      "blocker": "Reading `document.visibilityState` when the script runs is racy: a page opened in the background and foregrounded before the script finished reads `visible` and is misjudged as a foreground load (quote: \"When your script finally runs, `document.visibilityState` will synchronously read as `'visible'`, and you will incorrectly assume the page was loaded in the foreground, completely missing its initial hidden state.\")",
+      "outcome": "Chrome/Edge's timeline keeps the full visibility history no matter when the script runs; Firefox and Safari can only fall back to `document.visibilityState`, which the guide calls \"highly inaccurate\" for detecting initial background state (official claim)",
+      "story": "Pages opened in background tabs render late and stretch metrics like FCP, skewing the stats. Async analytics scripts often run after the user has switched back, so checking only the current state misses it. Only Chromium gets the right answer.",
+      "unlock": "A self-hosted RUM can tag background-opened visits automatically and report them separately, so median load times aren't inflated by people who middle-click links into new tabs. Chromium only for now.",
+      "support": "Page visibility state performance entries: Limited (Chrome 115, Edge 115; not Firefox or Safari)"
+    },
+    "mwg:efficient-background-processing": {
+      "title": "Use contentvisibilityautostatechange to pause animations and polling while a component isn't rendered",
+      "action": "Give heavy components `content-visibility: auto` and `contain-intrinsic-size`, and listen for `contentvisibilityautostatechange`: when `event.skipped` is true stop canvas animation, WebGL rendering and high-frequency WebSocket polling, otherwise resume",
+      "blocker": "Missing: the guide only says to pause heavy work when the component isn't rendered to save system resources and battery, without saying what concretely happens if it keeps running (quote: \"Pause heavy background tasks when a component is not being rendered by the browser to conserve system resources and battery life.\")",
+      "outcome": "The event follows the browser's rendering lifecycle and resumes when the element enters the pre-render margin, so content is ready when it appears; in unsupported browsers the event never fires and work keeps running, roughly emulated with `IntersectionObserver` (official claim)",
+      "story": "Simulations, charts and live data panels scrolled off-screen keep computing every frame. Tied to this event, they stop when the browser decides not to render them and restart when it prepares to. Unlike `IntersectionObserver`, it maps to render timing rather than geometric visibility.",
+      "unlock": "Put many live canvases on one page (several stock charts, physics simulations, WebGL previews) with only the ones near the viewport running and the rest paused automatically, so the laptop fan stays quiet.",
+      "support": "content-visibility: Newly (2025-09-15; Chrome 108, Edge 108, Firefox 130, Safari 26); the guide lists `contentvisibilityautostatechange` under the same status"
+    },
+    "mwg:efficient-background-processing:2": {
+      "title": "contentvisibilityautostatechange doesn't bubble in some implementations; delegate with capture",
+      "action": "Attach the listener directly to the element with `content-visibility: auto`, or add `{ capture: true }` when delegating from a parent",
+      "blocker": "The event doesn't bubble in some browser implementations, so ordinary listeners on a parent never receive it (quote: \"The `contentvisibilityautostatechange` event does not bubble in some browser implementations.\")",
+      "outcome": "Listening directly or in the capture phase receives the event in every implementation (official claim)",
+      "story": "Delegating on `document` out of habit means that in some browsers the event never travels up, the pause logic never runs, and nothing reports an error.",
+      "unlock": "",
+      "support": "content-visibility: Newly (same as above)"
+    },
+    "mwg:faster-spa-view-transitions": {
+      "title": "Cache inactive SPA views with content-visibility: hidden so switching back needs no recomputation",
+      "action": "Add `content-visibility: hidden` (optionally with `position: absolute` to take no space) to inactive SPA views and remove it on switch; fall back to `display: none` via `@supports not (content-visibility: hidden)`",
+      "blocker": "Destroying the old view or hiding it with `display: none` both force the browser to rebuild or recompute full layout and paint when the user returns (quote: \"Both approaches require the browser to recreate or recalculate the full layout and paint when the user returns to that view.\")",
+      "outcome": "Hidden views skip layout and paint but keep their rendering state, so switching back is near-instant; unsupported browsers render all views at once unless they fall back to `display: none` (official claim)",
+      "story": "Switching back and forth between tabs lays out each one from scratch every time. Hiding while keeping the cache spends almost no CPU on unseen views and reuses them on return. The cost is memory; see the next line.",
+      "unlock": "Tools with three to five tabs (edit / preview / settings, or several dashboard pages) can switch with zero wait while keeping scroll position and expanded state, without a framework keep-alive mechanism.",
+      "support": "content-visibility: Newly (2025-09-15; Chrome 108, Edge 108, Firefox 130, Safari 26)"
+    },
+    "mwg:faster-spa-view-transitions:2": {
+      "title": "Caching every view exhausts memory; dynamic routes need an eviction strategy",
+      "action": "Cache every view only when there are few, predictable views; apps generating many reports or routes implement an eviction strategy such as LRU and destroy old views at a memory threshold",
+      "blocker": "Unconditionally caching every view eventually bloats memory badly and may crash the browser on low-end devices (quote: \"Doing so will eventually cause severe memory bloat and may crash the browser on low-end devices.\")",
+      "outcome": "With eviction, frequently used views stay cached and memory use is bounded (official claim)",
+      "story": "`content-visibility: hidden` keeps all DOM, listeners and state, so each report opened adds another copy. With unbounded routes, a long session eventually blows up the tab.",
+      "unlock": "",
+      "support": "content-visibility: Newly (same as above)"
+    },
+    "mwg:flicker-free-client-side-ab-testing": {
+      "title": "Use blocking=\"render\" so experiment scripts finish before first paint, replacing page-hiding anti-flicker snippets",
+      "action": "Put the experiment script in `<head>` with `async` (external) or `type=\"module\"` (inline) plus `blocking=\"render\"`; add `blocking=\"render\"` to dynamically inserted variant stylesheets too; switch variants via a data attribute on `<html>`",
+      "blocker": "The script changes the DOM after the page starts building, so users see the original then a flash to the variant; traditional anti-flicker snippets hide the whole page with `opacity: 0` until the script runs or about 4 seconds pass, sacrificing progressive rendering and allowing clicks on invisible content (quote: \"This approach sacrifices progressive rendering, allows accidental clicks on invisible content, and introduces unnecessary paint cycles.\")",
+      "outcome": "Supporting browsers don't paint until the variant is applied: no opacity, no timeout, no flicker, and HTML parsing isn't blocked; Firefox ignores the attribute, so feature-detect and fall back to the anti-flicker snippet there (official claim)",
+      "story": "A/B tools have long had to pick a harm: don't block and it flickers, block and the page is blank for seconds and can be misclicked. `blocking=\"render\"` gives scripts the same render-blocking behavior as stylesheets, delaying paint but not parsing. Firefox still needs the old snippet.",
+      "unlock": "Theme, font-size and locale preferences stored in localStorage can be applied by a tiny render-blocking module before first paint, with no flash of default styles. Not supported in Firefox.",
+      "support": "blocking=\"render\": Limited (Chrome 105, Edge 105, Safari 18.2; not Firefox)"
+    },
+    "mwg:flicker-free-client-side-ab-testing:2": {
+      "title": "If a render-blocking script is slow or its CDN goes down, the page never paints",
+      "action": "Keep only a small stub that applies the variant render-blocking (for example under 100ms execution), load tracking and analytics separately with `async`/`defer`; don't put `blocking=\"render\"` on non-visual scripts; consider server-side splitting for performance-critical pages",
+      "blocker": "Rendering waits until the script executes, so a large or slow script directly delays first paint; a third-party CDN outage could block rendering entirely, with no developer-controlled timeout (quote: \"If the experiment SDK is hosted on a third-party CDN, a CDN outage could block rendering entirely.\")",
+      "outcome": "Shrinking what blocks to a minimal stub keeps first-paint delay under control; the CDN outage risk remains, and the guide only asks you to check the provider's uptime and monitor LCP/FCP (official claim)",
+      "story": "Put `blocking=\"render\"` on the whole experiment SDK and the flicker is gone, but every visit waits for it to download first; when the SDK host has an outage, the whole site is blank until the browser's own timeout.",
+      "unlock": "",
+      "support": "blocking=\"render\": Limited (same as above)"
+    },
+    "mwg:full-session-analytics": {
+      "title": "Replace tracking pixels in unload with fetchLater(), letting the browser send whole-visit data when the user leaves",
+      "action": "Call `fetchLater()` as soon as data exists; when state changes, cancel the previous one with `AbortController` and reschedule with the full latest snapshot; the browser sends the last scheduled payload when the user leaves or closes the tab; where unsupported, use the guide's polyfill (built on `fetch` keepalive or `sendBeacon()`)",
+      "blocker": "The old trick of creating an `<img>` pixel in an `unload` listener is very unreliable (especially on mobile) and makes pages ineligible for bfcache (quote: \"Older technique like creating an `<img>` pixel in an `unload` event listener are notoriously unreliably (especially on mobile) and can negatively impact performance (by making pages ineligible for bfcache).\")",
+      "outcome": "Supporting browsers reliably send the latest snapshot when the user leaves; Firefox and Safari use the polyfill, which differs only in detecting departure through `visibilitychange` (official claim)",
+      "story": "Session length, whole-visit CWV and error logs are only known at the very end, and the old way forced a send on unload, which often never went out on phones and also hurt back/forward caching. `fetchLater()` lets the page keep updating 'what to send when leaving' and leaves the timing to the browser.",
+      "unlock": "A long-read page can keep updating 'read up to paragraph N, stayed this long', and the final state still arrives when the tab closes, without losing bfcache. Native in Chromium, polyfilled elsewhere.",
+      "support": "fetchLater: Limited (Chrome 135, Edge 135; not Firefox or Safari)"
+    },
+    "mwg:full-session-analytics:2": {
+      "title": "fetchLater() has a roughly 64KB per-origin quota; keep payloads small and wrap calls in try/catch",
+      "action": "Keep the payload minimal and wrap `fetchLater()` calls in `try/catch` to handle quota errors; don't use a `ReadableStream` as the body",
+      "blocker": "`fetchLater()` throws when the quota is exceeded, and a `ReadableStream` body also errors (quote: \"DO NOT use a `ReadableStream` object for the request body, as that will error.\")",
+      "outcome": "With a smaller payload and the error caught, quota problems are handled by your code instead of becoming uncaught exceptions (official claim)",
+      "story": "A beacon rescheduled every 10 seconds carries the whole data set, which keeps growing until one call exceeds the quota and throws at the `fetchLater()` call. The guide asks you to shrink the payload up front and catch the error yourself.",
+      "unlock": "",
+      "support": "fetchLater: Limited (same as above)"
+    },
+    "mwg:identify-heavy-scripts": {
+      "title": "Use Long Animation Frames to find the scripts costing the most time on real users' devices",
+      "action": "Observe `long-animation-frame` with `PerformanceObserver` (`buffered: true`), accumulate each entry's `scripts`, group by `sourceURL`, sum `duration` and rank the heaviest scripts (including third-party chat, video and analytics), then send them to an analytics service",
+      "blocker": "Lab data reproduces only a small subset of real usage and differs a lot from field data, making root causes of poor performance, especially slow interactions, hard to find; the JS Self-Profiling API has higher runtime overhead (quote: \"field data is often very different to lab data, which only replicates a small subset of real user scenarios.\")",
+      "outcome": "A lightweight API can name the scripts slowing frames in field data, whether one long run or many accumulated runs; only Chrome/Edge support it, but other browsers ignore it, and the guide says the issues found mostly apply to other browsers too (official claim)",
+      "story": "The page stutters for users but runs smoothly on the dev machine, and profiling catches nothing. LoAF makes every frame over 50ms report which scripts ran and for how long, so you can tell in production which third party is dragging.",
+      "unlock": "Build a 'third-party script bill' panel: how much main-thread time each external script consumes on real users' devices, to decide whether to replace a chat widget or ad SDK. Data comes from Chromium users only.",
+      "support": "Long animation frames performance entries: Limited (Chrome 123, Edge 123; not Firefox or Safari)"
+    },
+    "mwg:identify-inp-causes": {
+      "title": "Use Event Timing to split INP into three parts and find which part is slow first",
+      "action": "Use `onINP()` from `web-vitals/attribution` to get the slowest interaction's `inputDelay`, `processingDuration`, `presentationDelay` and target, and send them back to analytics",
+      "blocker": "Interaction slowness depends on user actions, device and network, and lab data reproduces only a small subset of real cases, making it hard to diagnose; without splitting, it's easy to jump straight to the interaction handler (quote: \"Lab data only replicates a small subset of real user scenarios so measuring the causes of slow INP in the field is essential.\")",
+      "outcome": "Split into three parts, you can tell whether the problem is other code already running, this interaction's handler, or the rendering that follows; browsers without Event Timing can't measure INP (official claim)",
+      "story": "INP is bad, so the first instinct is to optimize the button's click handler, when the real culprit is another script already running before the click, or the repaint afterward. The three-way split points the direction before digging in.",
+      "unlock": "All four major browsers can report which button was slow and in which phase, so you can build a list of slow interactions ranked by target that points straight to the component to fix.",
+      "support": "Event timing performance entries: Newly (2025-12-12; Chrome 76, Edge 79, Firefox 89, Safari 26.2)"
+    },
+    "mwg:identify-inp-causes:2": {
+      "title": "Use LoAF to separate style recalculation from layout time instead of heavy JS Self-Profiling",
+      "action": "Read `forcedStyleDuration`/`forcedLayoutDuration` (forced synchronous work inside scripts) and `styleDuration`/`layoutDuration` (frame rendering phase) from LoAF and report them separately; where the split fields are missing, fall back to the combined `forcedStyleAndLayoutDuration` and `totalStyleAndLayoutDuration`",
+      "blocker": "A full trace with the JS Self-Profiling API is heavyweight and can itself cause performance problems (quote: \"A full performance trace using the JS Self-Profiling API is a heavyweight solution that is liable to cause performance problems.\")",
+      "outcome": "A lightweight API distinguishes expensive selectors or broad invalidation (style) from geometry work or read/write layout thrashing (layout), which have different fixes; Chrome/Edge only, usable without a fallback (official claim)",
+      "story": "Knowing that 'processing took long' isn't enough: style and layout are different diseases. Telling them apart used to require a full profile, but running a profiler in production slows the page itself. LoAF reports the two separately.",
+      "unlock": "Production slow-interaction reports can be labeled 'style recalculation' or 'forced layout' with the responsible script and function position attached, so whoever fixes it doesn't have to reproduce it locally first. Data from Chromium only.",
+      "support": "Long animation frames performance entries: Limited (Chrome 123, Edge 123; not Firefox or Safari)"
+    },
+    "mwg:improve-next-page-load-performance": {
+      "title": "Use Speculation Rules to prefetch or prerender the next page before the user clicks",
+      "action": "Write `prefetch`/`prerender` rules in `<script type=\"speculationrules\">`, preferring `where` document rules that pick links with `href_matches`/`selector_matches`, with `eagerness` (`immediate`/`eager`/`moderate`/`conservative`), optionally adding a `tag` the server can read from `Sec-Speculation-Tags`",
+      "blocker": "Missing: the guide only says starting to load the next page before the user visits is one of the most effective ways to improve load performance, without saying what concretely goes wrong otherwise (quote: \"One of the most effective ways to improve page load performance for users navigating a site is to initiate loading the next page they're about to visit *before* they visit it.\")",
+      "outcome": "Only Chrome/Edge support it; Firefox and Safari ignore the rules and navigate as before (official claim)",
+      "story": "Rules let the browser fetch or render the next page ahead of time, when the user hovers a link or even right on arrival, and you can prefetch eagerly then prerender on stronger signals with moderate eagerness. It's pure progressive enhancement: unsupported browsers gain nothing.",
+      "unlock": "The 'next step' of an online course, documentation or multi-step form can be prerendered so the page is already there on click, giving a static site instant navigation without becoming an SPA. Chromium only for now.",
+      "support": "Speculation rules: Limited (Chrome 109, Edge 109; not Firefox or Safari)"
+    },
+    "mwg:improve-next-page-load-performance:2": {
+      "title": "Don't speculate state-changing URLs, and beware stale content on dynamic pages",
+      "action": "In document rules, use `not` to exclude URLs like `/logout` and `add-to-cart`, admin paths, and links marked `.do-not-prerender` or `rel~=nofollow`; use prerender and high eagerness cautiously on frequently changing dynamic pages",
+      "blocker": "Speculation can hit URLs that trigger state changes, and prefetched content on dynamic pages may be stale (quote: \"DO NOT speculate URLs that likely trigger state changes, like `/logout` or `/add-to-cart`, and explicitly exclude them from your speculation rules if they are likely to be included in document rules.\")",
+      "outcome": "With explicit exclusions, a site-wide document rule no longer touches state-changing URLs; for stale content the guide only asks for careful judgment (official claim)",
+      "story": "A single `href_matches: \"/*\"` rule pulls in every same-origin link on the page, logout and add-to-cart included, so those URLs may be requested even though the user never clicked. An exclusion list is a required companion to a broad rule.",
+      "unlock": "",
+      "support": "Speculation rules: Limited (same as above)"
+    },
+    "mwg:interaction-paint-timing": {
+      "title": "Use interaction-contentful-paint and soft-navigation to measure content that appears asynchronously after an interaction",
+      "action": "Observe `interaction-contentful-paint` and `soft-navigation` with `PerformanceObserver` (`buffered: true`) to attribute content painted after `fetch` and SPA route LCPs back to the interaction that caused them; or use `web-vitals` v6 with `{ reportSoftNavs: true }`",
+      "blocker": "LCP stops after the first interaction; INP only measures to the next frame, missing content rendered after `fetch()` and SPA route changes; watching URLs alone over-reports changes that aren't route changes (quote: \"Just monitoring URL updates can over report URL changes that are not linked to route changes (for example, anchor link changes, multiple \"redirects\" for a single route change).\")",
+      "outcome": "From Chrome/Edge 151, asynchronous paints and SPA navigations can be attributed back to interactions; Firefox and Safari can only skip these observers and keep the hard-navigation measurements, so the gap remains (official claim)",
+      "story": "The user presses Search, the button changes color immediately (INP looks great), and results appear three seconds later. SPA page changes have no LCP at all. The new entries trace causality across `fetch`, `await` and `setTimeout`, measuring from the press to the content actually appearing. Chromium only for now.",
+      "unlock": "An SPA can rank LCP per route, or measure the real wait from 'press Search' to results appearing, to find the slowest navigations and API responses. Chromium only for now.",
+      "support": "Interaction contentful paint performance entries: Limited (Chrome 151, Edge 151; not Firefox or Safari); Soft navigation performance entries: same"
+    },
+    "mwg:interaction-paint-timing:2": {
+      "title": "Match soft-navigation paints by interactionId and report duration",
+      "action": "On each `soft-navigation` entry, seed LCP with `getLargestInteractionContentfulPaint()`; match later `interaction-contentful-paint` entries by `interactionId`, not `navigationId`; report `entry.duration`, not `presentationTime` directly",
+      "blocker": "In apps that render before calling `history.pushState()`, early paint entries carry the previous `navigationId`, so matching by it misses them; all timestamps are measured from the original hard-navigation origin, not the soft navigation start (quote: \"If the application painted content *before* updating the URL (for example, rendering a view and then calling `history.pushState()`), those early `interaction-contentful-paint` entries were emitted before the `soft-navigation` entry and still carry the *previous* `navigationId`.\")",
+      "outcome": "Matching by `interactionId` includes paints before the URL update and excludes later, unrelated interactions on the new route (official claim)",
+      "story": "The intuition is 'same navigationId, same page', but frameworks often paint first and update the URL later, so the most important paint ends up filed under the previous page. Reporting `presentationTime` directly gives a number measured from when the whole app opened.",
+      "unlock": "",
+      "support": "Same as above (Limited, Chrome/Edge 151 only)"
+    },
+    "mwg:interaction-paint-timing:3": {
+      "title": "Long-lived SPAs can't rely on getEntriesByType('soft-navigation')",
+      "action": "Receive `soft-navigation` entries continuously with `PerformanceObserver` instead of querying `performance.getEntriesByType('soft-navigation')` afterward",
+      "blocker": "The browser buffer keeps only the first 50 soft navigation entries (quote: \"DO NOT rely on `performance.getEntriesByType('soft-navigation')` to monitor long-lived single-page applications, as the browser's buffer is limited to the first 50 soft navigation entries.\")",
+      "outcome": "With an observer receiving entries live, navigations after the 50th are still measured (official claim)",
+      "story": "Admin panels and mail clients stay open all day and quickly pass 50 navigations. Querying the timeline afterward silently drops everything after that, with no error.",
+      "unlock": "",
+      "support": "Same as above (Limited, Chrome/Edge 151 only)"
+    },
+    "mwg:interactions-in-complex-layouts": {
+      "title": "Use content-visibility: auto containment to keep one column's changes inside that column",
+      "action": "Add `content-visibility: auto` and `contain-intrinsic-size` to self-contained layout units like Kanban columns or data-grid regions; where unsupported, fall back to `contain: layout style paint` via `@supports not`",
+      "blocker": "In complex layouts, changing one item (dragging a card, editing a cell) triggers chained style and layout calculations that reflow the whole page, causing dropped frames and high INP (quote: \"performing a minor change to a single item—such as dragging a card or editing a cell—can trigger a chain reaction of style and layout calculations that forces the browser to reflow the entire page.\")",
+      "outcome": "For visible columns the browser doesn't skip rendering; the benefit comes entirely from the layout, style and paint containment the property applies, so reflow stays within that column; unsupported browsers get a similar effect with manual `contain` (official claim)",
+      "story": "Dragging a card from one column to another reflows the whole board and the drag stutters. With each column as a containment boundary, the browser knows changes inside can't affect the outside and reflows only that column.",
+      "unlock": "",
+      "support": "content-visibility: Newly (2025-09-15; Chrome 108, Edge 108, Firefox 130, Safari 26)"
+    },
+    "mwg:lazy-load-video-and-audio": {
+      "title": "Use loading=\"lazy\" on <video>/<audio> to defer poster and metadata requests until near the viewport",
+      "action": "Add `loading=\"lazy\"` to below-the-fold `<video>` and `<audio>`, paired with `preload=\"none\"` (user presses play) or `preload=\"metadata\"` (duration and first frame fill in once in view); `autoplay` also waits until near the viewport to download and play",
+      "blocker": "Even with `preload=\"metadata\"` or `preload=\"none\"`, the browser fetches the `poster` immediately, and `preload=\"metadata\"` still issues range requests for every player on the page (quote: \"Even when `preload=\"metadata\"` or `preload=\"none\"` is set on a `<video>`, the browser eagerly fetches its `poster` image immediately, and `preload=\"metadata\"` still initiates range requests for media headers across every player on the page.\")",
+      "outcome": "Supporting browsers defer poster, preload and autoplay until near the viewport; elsewhere the attribute is ignored, and with `preload=\"none\"`/`metadata` the full file still isn't downloaded upfront, but posters and metadata are fetched immediately; fully deferring them needs your own `IntersectionObserver` (official claim)",
+      "story": "A tutorial page with twenty videos, all `preload=\"none\"`, still fetches twenty posters on load. `loading=\"lazy\"` lets media elements wait until scrolled near, like images. Chromium only for now.",
+      "unlock": "Course catalogs, full podcast episode lists and product demo walls packed with media can lazy-load with plain HTML, no hand-written IntersectionObserver swapping `data-src`, and the first screen isn't held back by dozens of posters. Chromium only for now.",
+      "support": "Lazy-loading media: Limited (Chrome 150, Edge 150; not Firefox or Safari)"
+    },
+    "mwg:lazy-load-video-and-audio:2": {
+      "title": "Lazy video needs width and height, lazy audio needs controls, or they never load",
+      "action": "Always give `<video loading=\"lazy\">` integer `width` and `height`; always add `controls` to `<audio loading=\"lazy\">`",
+      "blocker": "Audio without `controls` has no visible box, can't intersect the viewport and never loads or autoplays; video without dimensions defaults to 300×150 and may never intersect and load, or cause layout shift when it loads (quote: \"an `<audio loading=\"lazy\">` element without `controls` cannot visibly intersect the viewport and will never load or autoplay.\")",
+      "outcome": "With dimensions and controls, the element has a real layout box to trigger loading and doesn't push the layout around when it loads (official claim)",
+      "story": "Background music as an audio element without controls plus lazy, or a video sized only through CSS, and the lazy-load check never succeeds, so the media quietly never shows up.",
+      "unlock": "",
+      "support": "Lazy-loading media: Limited (same as above)"
+    },
+    "mwg:lazy-load-video-and-audio:3": {
+      "title": "The window load event doesn't wait for lazy media",
+      "action": "Don't use the `window` `load` event to detect when lazy `<video>`/`<audio>` has loaded",
+      "blocker": "The `load` event considers only eager media; lazy media doesn't count even when it starts inside the viewport (quote: \"The `load` event fires based only on eager-loaded media, even if a `loading=\"lazy\"` media element is initially inside the visual viewport.\")",
+      "outcome": "The guide only says not to rely on `load` and doesn't say what to use instead",
+      "story": "Code that waited for `load` before initializing a player or measuring layout gets the timing wrong once lazy is added, because the media may not have started fetching when `load` fires.",
+      "unlock": "",
+      "support": "Lazy-loading media: Limited (same as above)"
+    },
+    "mwg:lazy-load-video-and-audio:4": {
+      "title": "Don't put loading=\"lazy\" on above-the-fold or LCP video",
+      "action": "Omit the `loading` attribute on the hero video (it defaults to eager) and add `loading=\"lazy\"` only to media below the fold",
+      "blocker": "Adding `loading=\"lazy\"` to above-the-fold or LCP video delays fetching both the poster and video data (quote: \"DO NOT apply `loading=\"lazy\"` to above-the-fold or Largest Contentful Paint (LCP) `<video>` elements, as it delays fetching both the `poster` image and video data.\")",
+      "outcome": "The above-the-fold video loads eagerly as usual, with poster and initial media downloading immediately (official claim)",
+      "story": "Adding lazy to every `<video>` at once means even the hero video, the first thing seen, waits for the browser's distance check before fetching its poster, slowing LCP.",
+      "unlock": "",
+      "support": "Lazy-loading media: Limited (same as above)"
+    },
+    "mwg:optimize-image-priority": {
+      "title": "Use fetchpriority to tell the browser which image is the LCP and which hidden ones can wait",
+      "action": "Add `fetchpriority=\"high\"` to the LCP candidate (usually the top hero image); add `fetchpriority=\"low\"` to images technically above the fold but not initially visible (hidden carousel slides, mega-menu images)",
+      "blocker": "Browsers assign image priorities by heuristics, and the defaults may not match the page's LCP (quote: \"Browsers use heuristics to assign loading priorities to images, but these defaults may not always align with your page's Largest Contentful Paint (LCP).\")",
+      "outcome": "With explicit hints, critical images load faster and non-essential ones stop competing for bandwidth; unsupported browsers ignore the attribute and keep default heuristics (official claim)",
+      "story": "To the browser, the hero image, the five other carousel slides and the promo image in a menu look about equally important and queue together. Marking the one that matters and the ones merely hidden gives bandwidth to the image actually seen first.",
+      "unlock": "A homepage whose first screen holds a carousel, menu images and avatars can order downloads 'main image first, the rest later' with HTML attributes alone, without cutting the carousel to one image for LCP's sake.",
+      "support": "Fetch priority: Newly (2024-10-29; Chrome 103, Edge 103, Firefox 132, Safari 17.2)"
+    },
+    "mwg:optimize-image-priority:2": {
+      "title": "fetchpriority on the wrong images: too many highs, low on lazy below-the-fold images",
+      "action": "Give `fetchpriority=\"high\"` to at most 1–2 critical images and never combine it with `loading=\"lazy\"`; ordinary below-the-fold images get only `loading=\"lazy\"`, not `fetchpriority=\"low\"`; never lazy-load the LCP image",
+      "blocker": "Too many `high` images contend for the network and dilute the boost; lazy below-the-fold images also marked `low` don't load at normal priority when scrolled to (quote: \"Only use `fetchpriority=\"high\"` on at most 1-2 critical images to avoid network contention and diluting the priority boost.\")",
+      "outcome": "Allocated by these rules, the boost concentrates on the real LCP image and scrolled-to images load at normal priority (official claim)",
+      "story": "The instinct with a new attribute is to mark every important image high and everything else low; the highs cancel each other out and images below the fold crawl in when scrolled to. Priority is relative and only means something when few images are boosted.",
+      "unlock": "",
+      "support": "Fetch priority: Newly (same as above)"
+    },
+    "mwg:optimize-preload-priority": {
+      "title": "Use <link rel=preload fetchpriority=\"high\"> so preloaded key images stop queuing at low priority",
+      "action": "Use `<link rel=\"preload\" as=\"image\" fetchpriority=\"high\">` for images the browser can't discover early but the page needs (video posters, hero images in CSS backgrounds); use `fetchpriority=\"low\"` for preloads of secondary fonts or background video",
+      "blocker": "Preloads inherit the resource type's default priority, which for images is low (quote: \"However, preloads inherit the default priority for the resource type and for images in particular this is low.\")",
+      "outcome": "Key image preloads rank ahead of other preloads, start earlier and get more bandwidth; unsupported browsers still preload at the type's default priority (official claim)",
+      "story": "You finally use preload to tell the browser about the hero background early, and it gets queued at low priority, losing to everything else. Adding `fetchpriority=\"high\"` makes early discovery mean early download.",
+      "unlock": "Landing pages whose first screen is a video or a CSS background image can get the poster or background into the first slot just like an `<img>` hero, without changing the design for LCP's sake.",
+      "support": "Fetch priority: Newly (2024-10-29; Chrome 103, Edge 103, Firefox 132, Safari 17.2)"
+    },
+    "mwg:optimize-preload-priority:2": {
+      "title": "Too many preloads compete for bandwidth, and a wrong `as` wastes the preload",
+      "action": "Preload at most about 2 images and 2–3 essential fonts per page, give `fetchpriority=\"high\"` to at most 1–2; write `as` and `type` correctly; prefer a static HTML `<img>` over preloading key images",
+      "blocker": "Too many preloads compete for bandwidth, and with an incorrect `as` the preload isn't used (quote: \"DO: Limit the total number of preloads on a page to at most 2 images and 2-3 essential fonts to prevent bandwidth contention.\")",
+      "outcome": "Limited in number and correctly typed, preloads go only to truly critical resources and are actually used by the page (official claim)",
+      "story": "Preloading everything is the same as preloading nothing: it all fights for bandwidth. With a wrong `as`, what the preload fetched can't be used by the page, so it was fetched for nothing.",
+      "unlock": "",
+      "support": "Fetch priority: Newly (same as above)"
     }
   }
 }
