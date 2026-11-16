@@ -12,7 +12,7 @@ license: CC-BY-4.0（上游指南）
 ## 讓 aria-invalid 跟著 :user-invalid 同步，不在還沒填之前就喊錯
 - 誰在做：開發者（或寫程式的代理）
 - 動作＋對象：視覺用 `:user-invalid`，再用一小段 JS 在 `blur`／`change`／`input`／`invalid` 時檢查它，同步設定 `aria-invalid`；在那之前一律設成 `aria-invalid="false"`
-- 被什麼擋：只靠 `:invalid`，使用者一 Tab 進空的必填欄位，讀屏就唸「Invalid entry」，錯誤在還沒互動前就播出來（引用："screen readers might announce \"Invalid entry\" the moment a user tabs into a required field that is currently empty."）
+- 被什麼擋：只靠 `:invalid`，使用者一 Tab 進空的必填欄位，讀屏就唸「Invalid entry」，錯誤在還沒互動前就播出來（引用："screen readers might announce "Invalid entry" the moment a user tabs into a required field that is currently empty."）
 - 戰報：勝——`:user-invalid` 已 Widely，程式狀態與視覺狀態在同一時刻出現（官方宣稱）
 
 經過：`:user-invalid` 只管畫面，不會自動改 ARIA。指南還點出 Firefox 與 Safari 從頁面載入就把空的必填欄位暴露成 invalid，所以 `aria-invalid` 不能留空，要明確設成 `false`。這段橋接 JS 仍得自己寫，因為沒有「UserInvalidChanged」事件。

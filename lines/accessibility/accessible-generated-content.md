@@ -30,7 +30,7 @@ license: CC-BY-4.0（上游指南）
 ## DOM 裡已經有的字，不要再寫進 content 的替代文字
 - 誰在做：開發者（或寫程式的代理）
 - 動作＋對象：替代文字參數只在文字和主要值不同、且 DOM 裡還沒有時使用
-- 被什麼擋：按鈕文字是「Save」，又在 `::before` 的圖示寫 `/ "Save"`，讀屏唸成「Save save」（引用："A screen reader would read it out as \"Save save\"."）
+- 被什麼擋：按鈕文字是「Save」，又在 `::before` 的圖示寫 `/ "Save"`，讀屏唸成「Save save」（引用："A screen reader would read it out as "Save save"."）
 - 戰報：勝——圖示不重複加名稱就不會重複播報（官方宣稱）
 
 經過：新語法容易被當成「每個圖示都該補 alt」，結果和按鈕本身的文字疊在一起。指南也說圖片本來就預設為裝飾，不要再寫空字串；emoji 的替代文字只在和官方名稱不同時才寫。
