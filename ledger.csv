@@ -314,3 +314,62 @@
 2026-11-17,v1.0.0,animate-to-from-top-layer,mwg:animate-to-from-top-layer,"overlay, allow-discrete, @starting-style, ::backdrop",尺寸動畫只能跳變,頂層元素在 display: none 與可見之間切換難以動畫；沒過渡 overlay 時離場提早離開頂層被裁掉,部分改善,Limited,宣稱,有,新能力,確認框、側邊抽屜、浮動選單可以保留原生 dialog/popover 的焦點管理與 Esc 關閉，同時有淡入縮放與背景漸暗。離場動畫目前僅 Chromium 原生,有效
 2026-11-17,v1.0.0,animate-to-from-top-layer,mwg:animate-to-from-top-layer:2,"探針實測, CSS.supports(overlay)",功能偵測不可靠,Firefox 129+ 的 CSS.supports() 對 allow-discrete 回傳 true，實際不過渡 display，對話框離場立刻消失,部分改善,Limited,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,animate-to-from-top-layer,mwg:animate-to-from-top-layer:3,獨立的 transition-behavior 宣告,新功能的副作用,把 allow-discrete 寫進 transition 簡寫，舊瀏覽器忽略整條 transition,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,carousel-snap-highlights,mwg:carousel-snap-highlights,"container-type: scroll-state, scroll-state(snapped)",捲動連動效果靠JS監聽,指南只說不必依賴 IntersectionObserver 或 scroll 監聽器，沒說那些做法在哪個時刻出問題,僵持,Limited,宣稱,缺,新能力,相簿、商品輪播、時間軸可以純 CSS 讓停下來的那張放大上色，不必 JS 監看中間那條縫。目前僅 Chromium,有效
+2026-11-17,v1.0.0,carousel-snap-highlights,mwg:carousel-snap-highlights:2,吸附高亮只當視覺效果,新功能的副作用,吸附狀態不在無障礙樹裡；焦點移入會帶動捲動換掉吸附項目，吸附的不一定是聚焦的那個,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,carousel-snap-highlights,mwg:carousel-snap-highlights:3,非吸附項目維持對比,隱藏或停用把人擋在外面,沒被標亮的項目做成灰階加低不透明度，內容難以辨識，也看不出還有內容可看,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,consistent-cross-document-transitions,mwg:consistent-cross-document-transitions,"blocking=""render"", <link rel=""expect"">",生命週期假設錯,新頁還沒就緒就開始轉場：元素變形到錯的位置、動畫中重排、結束後才換字型；形變目標未解析時退化成淡出淡入,部分改善,Limited,宣稱,有,新能力,多頁網站的列表到文章、商品卡到詳細頁，標題與主圖可以穩定地飛過去，不必改成 SPA。Firefox 退回一般換頁,有效
+2026-11-17,v1.0.0,consistent-cross-document-transitions,mwg:consistent-cross-document-transitions:2,"<link rel=preload as=image>, width/height",新功能的副作用,rel=expect 只等元素被解析、不等圖片，沒快取的圖在新頁快照裡是空矩形,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,consistent-cross-document-transitions,mwg:consistent-cross-document-transitions:3,blocking=render 只用於首屏關鍵資源,優化用過頭反傷,擋太多會延後轉場；擋繪製超過約 4 秒整個轉場被跳過，第三方延遲也算進逾時,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,consistent-cross-document-transitions,mwg:consistent-cross-document-transitions:4,唯一的 view-transition-name,新功能的副作用,同一頁有重複的 view-transition-name，整個轉場被跳過,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,consistent-cross-document-transitions,mwg:consistent-cross-document-transitions:5,"pagereveal, viewTransition.finished 後清名稱",生命週期假設錯,沒清掉的暫時名稱干擾之後的導覽、讓頁面進不了 bfcache；監聽器註冊太晚時事件已觸發,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,cross-document-transitions,mwg:cross-document-transitions,"@view-transition, ::view-transition-old/new(root)",尺寸動畫只能跳變,指南只說能做出平順像 app 的換頁轉場，沒說一般換頁在哪個時刻出問題,部分改善,Limited,宣稱,缺,新能力,純靜態產生的網站（文件站、作品集、週記站）加兩行 CSS 就有換頁轉場，不必改成 SPA。Firefox 退回一般換頁,有效
+2026-11-17,v1.0.0,cross-document-transitions,mwg:cross-document-transitions:2,"@view-transition types, pagereveal, :active-view-transition-type()",尺寸動畫只能跳變,所有換頁同一個效果時，回首頁也和前往下一頁一樣從右邊進來，方向說不通,部分改善,Limited,宣稱,有,新能力,分步驟教學、相簿上一張／下一張、系列文章在多頁網站裡也能各自往正確方向滑。Firefox 退回一般換頁,有效
+2026-11-17,v1.0.0,custom-button-actions,mwg:custom-button-actions,"command=""--自訂"", commandfor",每顆按鈕手接JS,指南只說能減少手動事件監聽、讓介面與實作脫鉤，沒說手接監聽在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,播放器、畫布編輯器、看板卡片的動作鈕可以在 HTML 寫 --play、--zoom-in、--archive，伺服器渲染的頁面直接帶出可用的按鈕,有效
+2026-11-17,v1.0.0,custom-button-actions,mwg:custom-button-actions:2,"監聽掛在目標, { capture: true }",新功能的副作用,command 事件不冒泡，照事件委派掛在祖先的監聽器收不到,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,declarative-dialog-popover-control,mwg:declarative-dialog-popover-control,"command=show-modal/close/toggle-popover, commandfor",每顆按鈕手接JS,指南只說可移除脆弱的樣板程式、HTML 解析完就能互動，沒說手寫監聽器在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,純 HTML 的靜態頁（說明文件、表單確認、圖片燈箱）也能有原生焦點管理的模態對話框，腳本壞了照樣能開,有效
+2026-11-17,v1.0.0,declarative-dialog-popover-control,mwg:declarative-dialog-popover-control:2,popovertarget 與 commandfor 擇一,新功能的副作用,同一顆按鈕同時寫 popovertarget 與 commandfor，popover 被切換兩次、功能壞掉,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,declarative-dialog-popover-control,mwg:declarative-dialog-popover-control:3,關閉後焦點送回觸發鈕,隱藏或停用把人擋在外面,用 popover 裡的按鈕關閉時按鈕跟著被隱藏，焦點遺失,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,declarative-dialog-popover-control,mwg:declarative-dialog-popover-control:4,"setAttribute(popover), :is(:popover-open, .\:popover-open)",新功能的副作用,polyfill 載好前用 IDL 屬性設值，元素不被接手；單寫 :popover-open 時舊瀏覽器丟掉整條規則,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,directional-navigation-transitions,mwg:directional-navigation-transitions,"startViewTransition({ types }), :active-view-transition-type()",尺寸動畫只能跳變,SPA 換畫面時內容直接被替換，沒有任何轉場,部分改善,Newly,宣稱,有,新能力,分步驟表單、上下切換的投影片、左右瀏覽的商品頁可以用一個 types 參數決定滑動方向，不必動畫函式庫,有效
+2026-11-17,v1.0.0,directional-navigation-transitions,mwg:directional-navigation-transitions:2,偵測 startViewTransition 後再呼叫,新功能的副作用,不支援的瀏覽器裡 startViewTransition 是 undefined，沒偵測就呼叫，畫面不會更新,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,drag,mwg:drag,"pointerdown 偏移, setPointerCapture(), 夾限函式",互動中畫面抖動,沒記抓取偏移時從角落以外抓起元素會跳一下；沒夾限時元素被拖到看不到,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,drag,mwg:drag:2,"touch-action/user-select 只套把手, -webkit-user-select",自製控制項丟掉原生行為,拖曳樣式套在整個元素上，裡面的文字不能選、觸控手勢失去平常行為；Safari 不認無前綴 user-select,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dynamic-sibling-animations,mwg:dynamic-sibling-animations,sibling-index() 乘上延遲,用JS補樣式狀態,指南只描述錯開動畫的效果，沒說逐個 nth-child 或 JS 設延遲在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,搜尋結果、通知列表、儀表板卡片可以純 CSS 一張接一張浮現，資料筆數變了也自動對齊,有效
+2026-11-17,v1.0.0,group-element-transitions,mwg:group-element-transitions,"view-transition-class, ::view-transition-group(.class), :only-child",樣式邏輯到處重複,指南只說沒有 class 時要為每個名稱各寫一次轉場，沒說重複在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,待辦清單、購物車、看板欄的新項目滑入、刪掉的滑出、其他自動補位，只寫一組 CSS、不必 FLIP 函式庫,有效
+2026-11-17,v1.0.0,group-element-transitions,mwg:group-element-transitions:2,"::view-transition { pointer-events: none }, :root view-transition-name: none",新功能的副作用,轉場期間畫面是快照、元素無法互動；root 轉場讓整頁都點不到,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,highlight-text-ranges,mwg:highlight-text-ranges,"Range, Highlight, CSS.highlights, ::highlight()",重建DOM丟狀態,把符合的文字包進 <mark> 會改動 DOM，可能弄掉事件監聽器、弄壞文件結構,部分改善,Newly,宣稱,有,新能力,筆記 app 的站內搜尋、程式碼區塊的即時語法上色、多人協作的他人選取範圍可以疊在框架渲染的內容上而不拆 DOM,有效
+2026-11-17,v1.0.0,highlight-text-ranges,mwg:highlight-text-ranges:2,有意義的標示用 <mark>,新功能的副作用,自訂高亮純粹是外觀、不在無障礙樹裡，讀屏使用者感受不到標示的意義,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,highlight-text-ranges,mwg:highlight-text-ranges:3,CSS.highlights.clear(),新功能的副作用,註冊新高亮前沒清掉，過期的範圍留在頁面上,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,highlight-text-ranges,mwg:highlight-text-ranges:4,::highlight() 允許的屬性,新功能的副作用,background-image、font-size、padding 等屬性寫在 ::highlight() 裡會被忽略,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,interactive-content-reveal,mwg:interactive-content-reveal,"@property, mask-image radial-gradient",尺寸動畫只能跳變,不支援 @property 時無法在 radial-gradient 裡內插，聚光燈只能在開與關之間跳,部分改善,Newly,宣稱,有,新能力,作品集的手電筒看底稿、前後對照圖的圓形放大鏡、產品圖的 X 光效果，只用一小段座標 JS 就能平滑開合,有效
+2026-11-17,v1.0.0,interactive-content-reveal,mwg:interactive-content-reveal:2,"pointer-events: none, 內容預設完整可見",隱藏或停用把人擋在外面,用聚光燈遮住或把關必要內容，只用鍵盤或輔助技術的人拿不到；遮罩層擋住下方控制項的點擊,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,interest-triggered-action-previews,mwg:interest-triggered-action-previews,"interestfor, interest/loseinterest 事件",只能 hover 才看得到,指南只說讓使用者在確定前預覽動作會有幫助，沒說舊做法在哪個時刻出問題,部分改善,Limited,宣稱,缺,新能力,主題挑選器、字體選單、濾鏡按鈕可以滑過就試穿、離開就還原，鍵盤聚焦也一樣。原生僅 Chromium，其他靠 polyfill,有效
+2026-11-17,v1.0.0,interest-triggered-action-previews,mwg:interest-triggered-action-previews:2,預覽不用 live region,播報過量,移動指標或 Tab 經過就觸發興趣，套用／撤銷的播報變成噪音，蓋掉使用者在意的內容,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,interest-triggered-tooltips,mwg:interest-triggered-tooltips,"popover=""hint"", interestfor, 隱式錨點",新功能的副作用,用 auto popover 做提示時，懸停經過提示會把已開的選單關掉,部分改善,Limited,宣稱,有,新能力,圖示按鈕說明、術語解釋、連結預覽卡幾乎全宣告式做出，選單開著也能看提示。原生僅 Chromium，其他靠 polyfill,有效
+2026-11-17,v1.0.0,interest-triggered-tooltips,mwg:interest-triggered-tooltips:2,"role=tooltip + aria-describedby, 不加 aria-expanded",語意結構失真,會導覽或執行動作的觸發元素被唸成已收合，讓人以為按 Enter 會展開,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,interest-triggered-tooltips,mwg:interest-triggered-tooltips:3,提示與名稱相同時不加描述,播報過量,提示文字和按鈕名稱相同還接成描述，讀屏唸兩次,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,interest-triggered-tooltips,mwg:interest-triggered-tooltips:4,描述型提示只放可錯過的內容,播報時機或可靠度出錯,不是每個讀屏都唸描述，NVDA 瀏覽模式刻意跳過，放在提示裡的必要資訊聽不到,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,interest-triggered-tooltips,mwg:interest-triggered-tooltips:5,document 上捕獲 toggle 事件,新功能的副作用,toggle 不冒泡，掛在 document 的一般監聽器永遠不觸發；從興趣事件同步會在 Esc 關閉後狀態錯亂,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,interest-triggered-tooltips,mwg:interest-triggered-tooltips:6,beforetoggle 裡改成 popover=auto,新功能的副作用,不支援 hint 時被當成 manual，鍵盤開的提示可能一直開著，點擊開的 toggletip 永遠不會關,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,interest-triggered-tooltips,mwg:interest-triggered-tooltips:7,"inset/margin 重設包進 @supports, 明確 anchor-name",彈出層脫離觸發點,無條件設 inset: auto，不支援錨點定位時提示卡在左上角或蓋住觸發元素；polyfill 不支援隱式錨點,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,light-dismiss-a-dialog,mwg:light-dismiss-a-dialog,"<dialog closedby=""any"">, showModal()",自製控制項丟掉原生行為,手寫點外面關閉時，點在 dialog 自己的背景或 padding 上事件目標同樣是 dialog，只看目標會誤關,部分改善,Limited,宣稱,有,新能力,圖片燈箱、快速預覽、設定面板只寫一個屬性就有點背景關閉、Esc 關閉的原生手感。Safari 仍需退路腳本,有效
+2026-11-17,v1.0.0,light-dismiss-a-dialog,mwg:light-dismiss-a-dialog:2,元件自行攔截 Esc,新功能的副作用,模態對話框裡的選單或 combobox 用 Esc 收起時，整個對話框被意外關掉,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,light-dismiss-a-dialog,mwg:light-dismiss-a-dialog:3,closedby 搭配 showModal(),新功能的副作用,用 show() 開的非模態對話框沒有背景，closedby 不會觸發點外面關閉,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,motion,mwg:motion,焦點框畫在未裁切的父層,焦點或狀態指示消失,clip-path 與 mask-image 也會裁掉元素自己的焦點外框,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,motion,mwg:motion:2,animation-timeline: scroll(),捲動連動效果靠JS監聽,總覽指南只說用它取代 JS 監聽器，沒說監聽器在哪個時刻出問題,缺,不適用,宣稱,缺,新能力,同 mwg:scroll-progress-indicator：進度條、視差、捲動揭露可以純 CSS 綁在捲動位置上,有效
+2026-11-17,v1.0.0,motion,mwg:motion:3,View Transitions,尺寸動畫只能跳變,總覽指南只說可在複雜版面狀態間無縫過渡，沒說不這麼做時出了什麼事,缺,不適用,宣稱,缺,新能力,同 mwg:group-element-transitions：清單、格狀版面重排時每個項目平滑走到新位置,有效
+2026-11-17,v1.0.0,motion,mwg:motion:4,獨立的 transition-behavior 宣告,新功能的副作用,allow-discrete 寫進簡寫或寫在簡寫前，會被重設或在舊瀏覽器失效,部分改善,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,motion,mwg:motion:5,暫停鈕不加 aria-pressed,語意結構失真,標籤在 Pause／Play 間切換又加 aria-pressed，讀屏唸出已按下的 Play 按鈕,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,motion,mwg:motion:6,預設靜態、停在最終狀態,隱藏或停用把人擋在外面,動畫被關掉後元素停在起始值，內容留在 opacity: 0，焦點與選取指示不出現,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,motion,mwg:motion:7,event.animation,確認到錯的身分,用 getAnimations() 依名稱過濾，WAAPI 動畫對不到、同名分不出、也分不出元素或偽元素,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,motion,mwg:motion:8,getAnimations() 為空時直接繼續,生命週期假設錯,減少動態時動畫沒跑，animationend／transitionend 永遠不觸發，等著它的移除或隱藏不發生,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,move-dom-element-without-losing-state,mwg:move-dom-element-without-losing-state,moveBefore(),重建DOM丟狀態,傳統搬法先移除再插入：iframe 重新載入、CSS 動畫重頭開始、輸入欄位失去焦點,部分改善,Limited,宣稱,有,新能力,影片可以從文章內浮到角落小窗再放回來不中斷，嵌入的地圖或聊天 iframe 能在側欄與主區之間換位置。Safari 仍會重置,有效
+2026-11-17,v1.0.0,move-dom-element-without-losing-state,mwg:move-dom-element-without-losing-state:2,connectedMoveCallback(),生命週期假設錯,用 moveBefore() 搬自訂元素時 connectedCallback／disconnectedCallback 不觸發，裡面的邏輯不會跑,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,parallax-scroll-effects,mwg:parallax-scroll-effects,"view-timeline, sibling-index(), animation-range",捲動連動效果靠JS監聽,指南只說原生實作比 scroll 監聽或 IntersectionObserver 退路更有效率，沒說退路在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,活動頁、產品故事頁、互動繪本可以任意加層，層數變了速度自動重新分配，純 CSS,有效
+2026-11-17,v1.0.0,parallax-scroll-effects,mwg:parallax-scroll-effects:2,@supports 加 (animation-range: entry),功能偵測不可靠,只偵測 animation-timeline 會讓只有部分支援的瀏覽器通過,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,parallax-scroll-effects,mwg:parallax-scroll-effects:3,animation-timeline 寫在簡寫之後,層疊覆蓋不符意圖,animation 簡寫寫在後面會把時間軸重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,parallax-scroll-effects,mwg:parallax-scroll-effects:4,退路腳本檢查 matchMedia(reduce),忽略使用者設定,CSS 的 prefers-reduced-motion 管不到腳本設的行內樣式，JS 退路照樣讓各層移動,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,persistent-top-layer-ui,mwg:persistent-top-layer-ui,moveBefore(),重建DOM丟狀態,傳統搬法先移除再插入，開著的模態、popover 與全螢幕元素突然關閉,部分改善,Limited,宣稱,有,新能力,全螢幕播放中的影片、開著的對話框可以在版面重組（側欄收合、分頁拆窗）時搬到新容器而不關閉。Safari 仍會關閉,有效
+2026-11-17,v1.0.0,physics-based-easing,mwg:physics-based-easing,linear() 多停點緩動,動畫曲線只有簡單形狀,ease-in、cubic-bezier() 只能畫簡單曲線，做不出彈跳或彈簧,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,physics-based-easing,mwg:physics-based-easing:2,彈跳曲線不套 opacity,互動中畫面抖動,彈跳值超出 0–1 時 opacity 出現刺眼閃爍,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,platform-controls-dismiss-dialog,mwg:platform-controls-dismiss-dialog,"showModal(), closedby",平台慣用操作沒有作用,模態 dialog 以前只能用 Esc 關閉，行動裝置的返回鍵或返回手勢關不掉，自己實作也沒有好方法,部分改善,Limited,宣稱,有,新能力,行動版的篩選面板、圖片檢視、確認框可以像原生 app 一樣按返回就關、不離開頁面。Safari 尚未支援,有效

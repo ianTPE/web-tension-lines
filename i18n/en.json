@@ -84,7 +84,9 @@
     "捲動連動效果靠JS監聽": "Scroll-linked effects rely on JS listeners",
     "主題配色對不上": "Theme colors don't match their context",
     "圖示樣式管不到": "Icon styling can't reach the icon",
-    "原生捲動手勢不合用途": "Native scroll gestures don't fit the use"
+    "原生捲動手勢不合用途": "Native scroll gestures don't fit the use",
+    "動畫曲線只有簡單形狀": "Easing curves limited to simple shapes",
+    "平台慣用操作沒有作用": "Familiar platform controls have no effect"
   },
   "guides": {
     "install-web-app": "Installing web apps",
@@ -205,7 +207,27 @@
     "2d-panning": "Two-dimensional panning",
     "anchor-positioning-tab-underline": "Anchor positioning tab underline",
     "animate-element-entry-exit": "Animate element entry and exit",
-    "animate-to-from-top-layer": "Animate elements to and from the top layer"
+    "animate-to-from-top-layer": "Animate elements to and from the top layer",
+    "carousel-snap-highlights": "Carousel snap highlights",
+    "consistent-cross-document-transitions": "Consistent cross-document transitions",
+    "cross-document-transitions": "Cross-document transitions",
+    "custom-button-actions": "Custom button actions",
+    "declarative-dialog-popover-control": "Declarative dialog and popover control",
+    "directional-navigation-transitions": "Directional navigation transitions",
+    "drag": "Build a draggable element",
+    "dynamic-sibling-animations": "Creating a stagger animation",
+    "group-element-transitions": "Smoothly rearrange cards, lists, and groups of elements on add, remove, or reorder",
+    "highlight-text-ranges": "Highlight text ranges",
+    "interactive-content-reveal": "Interactive content reveal",
+    "interest-triggered-action-previews": "Interest-triggered action previews",
+    "interest-triggered-tooltips": "Show a tooltip when hovering",
+    "light-dismiss-a-dialog": "Light-dismiss a dialog",
+    "motion": "Motion",
+    "move-dom-element-without-losing-state": "Move a DOM element without losing state",
+    "parallax-scroll-effects": "Build a parallax effect on scroll",
+    "persistent-top-layer-ui": "Persistent top-layer UI",
+    "physics-based-easing": "Physics-based easing",
+    "platform-controls-dismiss-dialog": "Platform controls dismiss dialog"
   },
   "lines": {
     "mwg:install-web-app": {
@@ -3042,6 +3064,537 @@
       "story": "Just like regular element entry and exit, one new keyword can make older browsers drop the whole transition.",
       "unlock": "",
       "support": "transition-behavior: Newly"
+    },
+    "mwg:carousel-snap-highlights": {
+      "title": "Highlight the snapped carousel item with a `scroll-state(snapped)` query",
+      "action": "Give the scroller `scroll-snap-type: x mandatory`, make each item `container-type: scroll-state`, and style the card inside with `@container scroll-state(snapped: x)`, wrapped in `prefers-reduced-motion: no-preference`",
+      "blocker": "The guide only says this avoids relying on IntersectionObserver or scroll listeners, without saying when those approaches go wrong (quote: \"without relying on JavaScript intersection observers or scroll event listeners\")",
+      "outcome": "Supporting browsers can mark the snapped item in pure CSS; scroll-state queries are Chrome/Edge 144 only, others get the plain version without the highlight, and an IntersectionObserver fallback is still needed when the highlight matters (official claim)",
+      "story": "Knowing which slide the carousel stopped on used to mean watching a thin strip in the middle with an observer. Snapping is now a queryable state and CSS takes over, but Firefox and Safari can't see it yet.",
+      "unlock": "Knowing which item is centered used to need JS → galleries, product carousels, and timelines can enlarge and color the item that comes to rest in pure CSS. Chromium only for now",
+      "support": "Container scroll-state queries: Limited availability, Supported by: Chrome 144, Edge 144; Unsupported in: Firefox, Safari"
+    },
+    "mwg:carousel-snap-highlights:2": {
+      "title": "Don't use the snap highlight as a selection",
+      "action": "Treat the snap highlight as purely visual; don't let people choose by snapping, don't make the highlight look active or focused, and keep the focus ring distinct from it",
+      "blocker": "The snapped state isn't in the accessibility tree; with interactive content inside, moving focus scrolls the container and changes which item is snapped, so the snapped item may not be the focused one (quote: \"the snapped item is not exposed to the accessibility tree\", \"This will likely be a source of confusion for users\")",
+      "outcome": "Not using snapping as selection and drawing a separate focus ring keeps screen reader users from missing a choice and keyboard users from confusing which item has focus (official claim)",
+      "story": "\"Whatever you scroll to is selected\" feels intuitive, but only sighted users know what was chosen, and moving keyboard focus makes the snap jump to another item.",
+      "unlock": "",
+      "support": "Container scroll-state queries: Limited"
+    },
+    "mwg:carousel-snap-highlights:3": {
+      "title": "Keep non-highlighted items at sufficient contrast",
+      "action": "Keep items that aren't snapped at sufficient contrast instead of making them greyscale and faded until they snap",
+      "blocker": "Non-highlighted content becomes hard to perceive and people can't tell there is more content to navigate to (quote: \"don't make the non-highlighted items in a gallery greyscale with a low opacity\", \"to allow people to understand that there is more content that they can navigate to\")",
+      "outcome": "Every item stays legible and people can see there is more to browse (official claim)",
+      "story": "Dimming everything else to spotlight the middle item is the usual move, and it makes the neighbouring content look like it isn't there.",
+      "unlock": "",
+      "support": "Contrast requirement: no support data in the guide, recorded as N/A"
+    },
+    "mwg:consistent-cross-document-transitions": {
+      "title": "Wait for the new page with `blocking=\"render\"` and `<link rel=\"expect\">` before transitioning",
+      "action": "Opt both pages in with `@view-transition { navigation: auto; }`; mark layout-critical scripts in the new page's `<head>` with `blocking=\"render\"`, and block painting until above-the-fold elements are parsed with `<link rel=\"expect\" href=\"#main-content\" blocking=\"render\">`, optionally per viewport via `media`",
+      "blocker": "If the transition starts before the new page's critical resources are ready, it animates to an incomplete or unstyled state; if a morph target hasn't been parsed, the morph degrades to separate fade-out/fade-in (quote: \"elements morphing to wrong positions, content reflowing mid-animation, or fallback fonts flashing to web fonts after the transition completes\")",
+      "outcome": "The browser waits for a stable visual state before animating while parsing continues in the background; Firefox doesn't support cross-document transitions and falls back to a normal navigation; render blocking delays when assistive technology gets the content (official claim)",
+      "story": "A cross-document transition snapshots the old page, navigates, and animates to the new one; the problem is the new-page snapshot being taken too early. Declaring the above-the-fold scripts and elements as render-blocking means it captures the finished page.",
+      "unlock": "Shared-element transitions on multi-page sites often landed on a half-rendered page → list-to-article and card-to-detail titles and hero images can reliably fly across without turning the site into an SPA. Firefox falls back to normal navigation",
+      "support": "Cross-document view transitions: Limited availability, Supported by: Chrome 126, Edge 126, Safari 18.2; Unsupported in: Firefox. The guide notes every browser that supports them also supports `blocking=\"render\"` and `<link rel=\"expect\">`"
+    },
+    "mwg:consistent-cross-document-transitions:2": {
+      "title": "`rel=\"expect\"` doesn't wait for images: preload and size transition images",
+      "action": "Preload morphing images with `<link rel=\"preload\" as=\"image\">` (or prerender the destination) and give them `width`/`height` or `aspect-ratio` plus a placeholder background",
+      "blocker": "`<link rel=\"expect\">` only waits for the element to be parsed, not for image data, so an uncached `<img>` shows up as an empty box in the new-page snapshot (quote: \"an uncached `<img>` may be captured as an empty rectangle in the new-page snapshot\")",
+      "outcome": "Avoids blank snapshots and layout shifts during the morph (official claim)",
+      "story": "The element being there doesn't mean the image has arrived. Even after blocking on the element, the hero can still fly across as a blank box.",
+      "unlock": "",
+      "support": "Cross-document view transitions: Limited"
+    },
+    "mwg:consistent-cross-document-transitions:3": {
+      "title": "Block only on above-the-fold critical resources; never mark third-party loaders `blocking=\"render\"`",
+      "action": "Use `blocking=\"render\"` and `rel=\"expect\"` only for resources and elements that affect the first viewport; leave analytics, ads, and tag managers out; keep render-blocking scripts small and fast",
+      "blocker": "Blocking too much delays the transition; if render blocking exceeds about 4 seconds the browser skips the transition entirely and `viewTransition.ready` rejects with `InvalidStateError`, and third-party latency counts toward that timeout (quote: \"Their network latency counts toward the transition timeout\")",
+      "outcome": "The transition starts within the timeout instead of being dragged down (official claim)",
+      "story": "To make the transition steadier you block on more and more; block on one slow third-party script and the transition simply doesn't happen.",
+      "unlock": "",
+      "support": "Cross-document view transitions: Limited"
+    },
+    "mwg:consistent-cross-document-transitions:4": {
+      "title": "No duplicate `view-transition-name` on a page",
+      "action": "Give each `view-transition-name` to only one element per page",
+      "blocker": "Duplicate names make the whole transition be skipped (quote: \"Duplicate names cause the entire transition to be skipped.\")",
+      "outcome": "With unique names the transition runs (official claim)",
+      "story": "Giving every card in a list the same name is easy to do, and the result isn't one card without animation but the whole navigation without one.",
+      "unlock": "",
+      "support": "Cross-document view transitions: Limited"
+    },
+    "mwg:consistent-cross-document-transitions:5": {
+      "title": "Remove names assigned in `pagereveal` once the transition finishes",
+      "action": "Assign `view-transition-name` in `pagereveal` based on where the user came from, clear it after `viewTransition.finished`, and register the listener early from a `blocking=\"render\"` script",
+      "blocker": "Temporary names left in place interfere with later navigations and keep the page out of the bfcache; a listener registered too late (for example in a deferred script) misses the event (quote: \"Stale names interfere with subsequent navigations and prevent the page from entering the bfcache.\")",
+      "outcome": "Later navigations aren't disturbed and the page can still enter the bfcache (official claim)",
+      "story": "A heading gets a temporary name so the morph only happens when coming from the list; forget to take it back and both the return transition and the back/forward cache suffer.",
+      "unlock": "",
+      "support": "Cross-document view transitions: Limited"
+    },
+    "mwg:cross-document-transitions": {
+      "title": "Give multi-page sites page transitions with `@view-transition`",
+      "action": "In a stylesheet shared by both pages, write `@view-transition { navigation: auto; }` inside `prefers-reduced-motion: no-preference`, then customize slide-out/slide-in with `::view-transition-old(root)` / `::view-transition-new(root)`",
+      "blocker": "The guide only says it creates smooth, app-like transitions between pages, without saying when a normal navigation goes wrong (quote: \"create smooth, app-like transitions between different pages of a Multi-Page Application (MPA)\")",
+      "outcome": "Same-origin navigations cross-fade by default and can be customized into slides or reveals; Firefox doesn't support cross-document transitions and does an ordinary instant navigation, with no effect on the site's function (official claim)",
+      "story": "Page changes on multi-page sites have always been a full-page flash. Now one declaration on each page gives a transition, and unsupported browsers navigate as usual with no fallback to write.",
+      "unlock": "Animated page changes used to require an SPA → statically generated sites (docs, portfolios, journals) get transitions from two lines of CSS. Firefox falls back to normal navigation",
+      "support": "View transitions: Newly (2025-10-14); Cross-document view transitions: Limited availability, Supported by: Chrome 126, Edge 126, Safari 18.2; Unsupported in: Firefox"
+    },
+    "mwg:cross-document-transitions:2": {
+      "title": "Use transition types so \"back\" and \"forward\" move in opposite directions",
+      "action": "When a page always uses one direction, write `types: previous` in `@view-transition`; when it depends on the origin, compute a type from `navigation.activation` in `pagereveal` and call `e.viewTransition.types.add()`, then style each with `:active-view-transition-type()`",
+      "blocker": "With one effect for every navigation, going back to the home page slides in from the right just like going forward, which makes no spatial sense (quote: \"When navigating back to the home page, it wouldn't make sense to have the same effect.\")",
+      "outcome": "Forward and back each get a directional transition; without the Navigation API you need another way to pick the type or a default; Firefox doesn't support cross-document transitions (official claim)",
+      "story": "As soon as a slide transition works you notice going back also \"slides forward\". Types let the same set of pages choose an animation by how they relate.",
+      "unlock": "Transitions on multi-page sites couldn't tell direction → step-by-step tutorials, previous/next in galleries, and article series can each slide the right way. Firefox falls back to normal navigation",
+      "support": "Cross-document view transitions: Limited; Navigation API: Newly (2026-01-13)"
+    },
+    "mwg:custom-button-actions": {
+      "title": "Declare what a button does to which element with `command=\"--custom\"`",
+      "action": "Give buttons `commandfor=\"target-id\"` and a custom command starting with `--` such as `command=\"--spin\"`; listen for `command` on the target, look up `event.command` in a registry, and use `event.source` to update the button's `aria-pressed` / `aria-expanded`",
+      "blocker": "The guide only says it reduces manual event listeners and decouples UI from implementation, without saying when hand-wired listeners go wrong (quote: \"This approach reduces the need for manual event listeners and decouples the UI from implementation details.\")",
+      "outcome": "The button-to-target relationship lives in HTML and one listener handles every command; Invoker commands are Newly, older browsers get the same event from a polyfill, but the polyfill doesn't manage ARIA states (official claim)",
+      "story": "Each button used to get its own `addEventListener` and find its target, so renaming an id meant editing JS. Now buttons just declare \"to whom, what\", and behaviour lives in one command table on the target.",
+      "unlock": "A set of controls used to need JS wired to each button → player, canvas editor, and kanban card actions can be written in HTML as `--play`, `--zoom-in`, `--archive`, and server-rendered pages ship working buttons",
+      "support": "Invoker commands: Newly (2025-12-12), Supported by: Chrome 135, Edge 135, Firefox 144, Safari 26.2"
+    },
+    "mwg:custom-button-actions:2": {
+      "title": "`command` doesn't bubble: attach the listener to the target",
+      "action": "Attach the `command` listener directly to the target; when targets vary, listen on an ancestor with `{ capture: true }`; when the target may be in a shadow root, use `event.composedPath()[0]`",
+      "blocker": "The `command` event doesn't bubble, so a delegated listener on an ancestor never receives it (quote: \"The `command` event does not bubble.\")",
+      "outcome": "Listening on the target or in the capture phase receives the command (official claim)",
+      "story": "Anyone used to delegating events on `document` writes their first `command` handler and finds nothing happens.",
+      "unlock": "",
+      "support": "Invoker commands: Newly"
+    },
+    "mwg:declarative-dialog-popover-control": {
+      "title": "Open and close dialogs from HTML with `command=\"show-modal\"` and `toggle-popover`",
+      "action": "`<button commandfor=\"id\" command=\"show-modal\">` opens a modal `<dialog>` and `command=\"close\"` closes it; popovers use `toggle-popover`, or separate `show-popover` / `hide-popover`",
+      "blocker": "The guide only says it removes brittle boilerplate and makes interactions work as soon as HTML is parsed, without saying when hand-written listeners go wrong (quote: \"removes brittle boilerplate code, ensures interactions are functional immediately upon HTML parsing\")",
+      "outcome": "The browser handles open/close state, focus management, and `aria-expanded`; Invoker commands are Newly, older browsers need a conditionally loaded polyfill that doesn't handle `aria-expanded` like native (official claim)",
+      "story": "Opening a confirm dialog used to take at least a snippet of `showModal()` JS. Now the button points straight at the dialog and it opens and closes before any script runs.",
+      "unlock": "Modal dialogs always needed JS to open → plain HTML pages (docs, form confirmations, image lightboxes) get dialogs with native focus handling that still open if scripts break",
+      "support": "Invoker commands: Newly (2025-12-12); Popover: Newly (2025-01-27)"
+    },
+    "mwg:declarative-dialog-popover-control:2": {
+      "title": "Don't put both `popovertarget` and `commandfor` on one button",
+      "action": "Use either `popovertarget` or `commandfor` to control a given popover, not both",
+      "blocker": "Using both toggles the popover twice and breaks it (quote: \"This will double-toggle it, breaking functionality.\")",
+      "outcome": "With only one, the popover opens and closes normally (official claim)",
+      "story": "Both declarative toggles do the same job; stack them and it opens and immediately closes.",
+      "unlock": "",
+      "support": "Invoker commands: Newly; Popover: Newly"
+    },
+    "mwg:declarative-dialog-popover-control:3": {
+      "title": "When closing a popover from inside it, return focus to the trigger",
+      "action": "When a `hide-popover` button inside the popover closes it, add script that moves focus back to the button that opened it",
+      "blocker": "The close button is hidden along with the popover and focus is lost (quote: \"will result in a loss of focus as the button will be hidden and won't retain focus\")",
+      "outcome": "People can continue from where they were (official claim)",
+      "story": "The moment you press \"Close\", that button disappears too, and keyboard users are dropped back at the top of the page.",
+      "unlock": "",
+      "support": "Invoker commands: Newly; Popover: Newly"
+    },
+    "mwg:declarative-dialog-popover-control:4": {
+      "title": "With the popover polyfill, don't set the `popover` property and wrap `:popover-open` in `:is()`",
+      "action": "Before the polyfill loads, use `setAttribute()` / `removeAttribute()` for popover; write styles as `[popover]:is(:popover-open, .\\:popover-open)`; load the polyfill only when `HTMLElement.prototype` lacks `popover`",
+      "blocker": "Setting the IDL property before the polyfill loads means the element is never picked up and the polyfill's accessor is shadowed forever; a bare `:popover-open` makes browsers that don't know it drop the whole rule (quote: \"otherwise browsers that lack `:popover-open` discard the entire rule\")",
+      "outcome": "Older browsers get working popovers and open-state styles through the polyfill (official claim)",
+      "story": "The polyfill can't create a real pseudo-class or intercept a property set too early; write it the native way and in older browsers the popover won't open or won't be styled.",
+      "unlock": "",
+      "support": "Popover: Newly"
+    },
+    "mwg:directional-navigation-transitions": {
+      "title": "Give SPA navigation forward/back direction with typed view transitions",
+      "action": "Pass `forward` / `backward` to `document.startViewTransition({ update, types: [direction] })`, and in CSS apply matching `transform` slides with `html:active-view-transition-type(forward)::view-transition-old(root)`, using non-linear easing on `::view-transition-group(root)`",
+      "blocker": "SPA view changes just replace the content with no transition (quote: \"By default, the content is simply replaced, without any transitions.\")",
+      "outcome": "New content slides in from the direction the user is moving, reinforcing the spatial relationship between views; view transitions and active view transition are both Newly (official claim)",
+      "story": "An SPA \"next page\" just swaps the content, and users can't feel where they're going. Passing direction as a transition type lets one set of CSS tell forward from back.",
+      "unlock": "Direction used to need an animation library plus state management → multi-step forms, slideshows (up/down), and product browsing (left/right) can pick the slide direction with one `types` argument",
+      "support": "View transitions: Newly (2025-10-14); Active view transition: Newly (2026-01-13)"
+    },
+    "mwg:directional-navigation-transitions:2": {
+      "title": "Still update the DOM when `startViewTransition` is missing",
+      "action": "Have the navigate function check `document.startViewTransition` and call `updateDOM()` directly when it doesn't exist",
+      "blocker": "In unsupported browsers `document.startViewTransition` is `undefined`; calling it without detection means the view never updates (quote: \"In unsupported browsers, `document.startViewTransition` will be `undefined`.\")",
+      "outcome": "Unsupported browsers still swap content immediately, just without animation (official claim)",
+      "story": "The transition is a bonus; the navigation isn't. Wrap the transition in detection so only the animation can fail.",
+      "unlock": "",
+      "support": "View transitions: Newly"
+    },
+    "mwg:drag": {
+      "title": "Remember the grab offset and clamp to the viewport so dragged elements don't jump or get lost",
+      "action": "Use `position: fixed` for the floating panel; start only on the primary button, record the pointer offset on `pointerdown`, use `setPointerCapture()` so the drag continues after the pointer leaves the handle; route pointer and arrow-key moves through one clamping helper and re-clamp when the viewport or element resizes",
+      "blocker": "Without the offset the element jumps when grabbed away from its corner; without clamping it can be dragged out of view and can't be retrieved (quote: \"so the element does not jump when grabbed away from its corner\", \"so the element stays reachable\")",
+      "outcome": "The element follows the pointer and always stays within the viewport, including keyboard moves (official claim)",
+      "story": "The first flaw in a drag is usually \"it jumps when grabbed\", the second \"once it's off-screen you can't get it back\". Offset and clamping live in one helper that the keyboard path shares.",
+      "unlock": "",
+      "support": "Pointer events / pointer capture: no support data in the guide, recorded as N/A"
+    },
+    "mwg:drag:2": {
+      "title": "Apply drag styles to the handle, not the whole element",
+      "action": "Put `cursor: grab`, `touch-action: none`, `-webkit-user-select: none`, and `user-select: none` only on a dedicated drag handle, a focusable `<button>` whose name mentions the arrow keys",
+      "blocker": "On the whole draggable element, text inside can't be selected and touch gestures lose their usual behavior; Safari doesn't support unprefixed `user-select` (quote: \"so text outside it remains selectable and touch gestures retain their usual behavior\")",
+      "outcome": "Panel content stays selectable and scrollable; `user-select` is Limited, and the `-webkit-` prefix keeps Safari from selecting text during drags (official claim)",
+      "story": "Make the whole panel unselectable and non-scrollable for the sake of dragging, and the notes and links inside stop working.",
+      "unlock": "",
+      "support": "user-select: Limited availability, Supported by: Chrome 54, Edge 79, Firefox 69; Unsupported in: Safari"
+    },
+    "mwg:dynamic-sibling-animations": {
+      "title": "Stagger list items into view with `sibling-index()`",
+      "action": "`animation-delay: calc(sibling-index() * var(--stagger-time))` delays each item by its position; disable under reduced motion; for older browsers, first declare a version using a JS-set `--sibling-index`",
+      "blocker": "The guide only describes the stagger effect, without saying when the old approaches (per-item `:nth-child` or JS delays) go wrong (quote: \"multiple ordered elements animate sequentially with a slight delay between each, rather than all animating at once\")",
+      "outcome": "Delays are computed from position in pure CSS; `sibling-index()` is Newly, older browsers need a JS custom-property fallback (official claim)",
+      "story": "Stagger delays used to come from JS or a long list of nth-child rules. Now CSS knows \"which one am I\", and adding or removing items needs no recalculation.",
+      "unlock": "Staggered entrances needed JS to set each delay → search results, notification lists, and dashboard cards can appear one after another in pure CSS and stay in step when the count changes",
+      "support": "sibling-count() and sibling-index(): Newly (2026-08-18), Supported by: Chrome 138, Edge 138, Firefox 154, Safari 26.2"
+    },
+    "mwg:group-element-transitions": {
+      "title": "Define a whole group's transition once with `view-transition-class`",
+      "action": "Give each item a unique `view-transition-name` plus a shared `view-transition-class: list-item`; set duration and easing on `::view-transition-group(.list-item)`, and entry/exit on `::view-transition-new(.list-item):only-child` / `::view-transition-old(.list-item):only-child`; wrap DOM updates in `document.startViewTransition()`",
+      "blocker": "The guide only says that without a class you repeat the transition logic for every name, without saying when the repetition causes an observable problem (quote: \"define that logic once in CSS rather than repeating it for every unique `view-transition-name`\")",
+      "outcome": "A group shares one set of transition styles and adds, removes, and reorders all animate; both features are Newly, and without support the DOM updates without animation (official claim)",
+      "story": "A list with dozens of items needs a name per item to be tracked, but the animation should be written once. The class separates \"which is which\" from \"how it moves\".",
+      "unlock": "Animating list adds, removes, and reorders needed a FLIP library → to-do lists, shopping carts, and kanban columns can slide new items in, slide removed ones out, and close the gaps with one set of CSS",
+      "support": "View transitions: Newly (2025-10-14); view-transition-class: Newly (2025-10-14)"
+    },
+    "mwg:group-element-transitions:2": {
+      "title": "Keep non-transitioning elements interactive during a transition",
+      "action": "Set `::view-transition { pointer-events: none; }` and, when only specific elements transition, `:root { view-transition-name: none; }` to disable the default root transition",
+      "blocker": "During a transition the screen is an overlay of snapshots and elements can't be interacted with; the root transition animates between two identical full-page snapshots, so the whole page is unclickable (quote: \"during the transition, elements are not interactive\")",
+      "outcome": "Controls not part of the transition stay clickable during the animation (official claim)",
+      "story": "Only one list item is moving, yet every button on the page ignores clicks for that half second.",
+      "unlock": "",
+      "support": "View transitions: Newly"
+    },
+    "mwg:highlight-text-ranges": {
+      "title": "Highlight text with the CSS Custom Highlight API without touching the DOM",
+      "action": "Collect text nodes with a `TreeWalker`, create `Range`s, wrap them in `new Highlight(...ranges)`, register with `CSS.highlights.set(\"search-results\", h)`, and style with `::highlight(search-results)`; use `priority` for overlaps",
+      "blocker": "The fallback of wrapping matches in `<mark>` modifies the DOM, so you must take care to keep event listeners and not break the document structure (quote: \"This modifies the DOM, so take care to preserve event listeners and avoid breaking the document structure.\")",
+      "outcome": "Arbitrary text ranges can be styled with the DOM unchanged; custom highlights are Newly, with `<mark>` wrapping as the fallback (official claim)",
+      "story": "In-page search, syntax coloring, and collaborative cursors used to split text into wrapper elements, and each split risked losing someone else's listeners and structure. Now ranges are just a registration and the browser paints the style.",
+      "unlock": "Marking text used to mean splitting the DOM → a notes app's in-page search, live syntax coloring in code blocks, and other people's selections in collaborative editing can sit on top of framework-rendered content without conflict",
+      "support": "Custom highlights: Newly (2026-03-24), Supported by: Chrome 105, Edge 105, Firefox 149, Safari 17.2"
+    },
+    "mwg:highlight-text-ranges:2": {
+      "title": "Use `<mark>` for meaningful highlights, not custom highlights",
+      "action": "Reserve custom highlights for transient visuals like search results or syntax coloring; use `<mark>` when the highlight itself carries meaning; pair error highlights with a wavy underline, label, or icon",
+      "blocker": "Custom highlights are purely presentational and not in the accessibility tree, so screen reader users miss whatever the highlight conveys (quote: \"Custom highlights are purely presentational and are not exposed to the accessibility tree.\")",
+      "outcome": "Meaningful highlights reach assistive technology through `<mark>` (official claim)",
+      "story": "The same yellow background is just a hint in search results but may be the key point in a tutorial; leave the latter to a highlight and screen reader users miss it.",
+      "unlock": "",
+      "support": "Custom highlights: Newly"
+    },
+    "mwg:highlight-text-ranges:3": {
+      "title": "Clear old highlights before registering new ones",
+      "action": "Call `CSS.highlights.clear()` before each `set()`; cache the text-node list and rebuild it only when the DOM content changes",
+      "blocker": "Without clearing, stale ranges stay on the page (quote: \"to avoid stale ranges persisting on the page\")",
+      "outcome": "Only the current results are shown (official claim)",
+      "story": "The search term changed but the previous term is still lit up; the registry doesn't expire on its own.",
+      "unlock": "",
+      "support": "Custom highlights: Newly"
+    },
+    "mwg:highlight-text-ranges:4": {
+      "title": "`::highlight()` only accepts a few properties",
+      "action": "In `::highlight()` use only `color`, `background-color`, `text-decoration`, `text-shadow`, `-webkit-text-stroke-*`, and `-webkit-text-fill-color`",
+      "blocker": "Properties such as `background-image`, `font-size`, or `padding` are ignored (quote: \"Properties like `background-image`, `font-size`, or `padding` are ignored.\")",
+      "outcome": "Designing within the allowed properties makes the styles apply (official claim)",
+      "story": "A highlight isn't an element and has no box; designs that bold, outline, or resize the text can't be done here.",
+      "unlock": "",
+      "support": "Custom highlights: Newly"
+    },
+    "mwg:interactive-content-reveal": {
+      "title": "Register gradient stops with `@property` so a pointer-following spotlight opens and closes smoothly",
+      "action": "Register `--inner-size` and `--outer-size` as `<length-percentage>` with `@property`, reference them in `mask-image: radial-gradient(circle at var(--mouse-x) var(--mouse-y), …)`, transition only the sizes, and update only the position variables on `pointermove`",
+      "blocker": "Browsers without `@property` can't interpolate values inside `radial-gradient`, so the spotlight snaps between on and off (quote: \"the movement will jump between on and off states because they cannot interpolate values inside a `radial-gradient`\")",
+      "outcome": "The spotlight follows the pointer and grows and shrinks smoothly, with JS only updating coordinates; registered custom properties are Newly, and without them the spotlight still appears but jumps (official claim)",
+      "story": "Numbers inside a gradient can't animate by default, so the spotlight could only pop in. Registering the stops as typed properties tells the browser how to transition between sizes.",
+      "unlock": "Sizes inside gradients couldn't transition → a portfolio \"flashlight over the sketch\", a circular magnifier on before/after images, or an X-ray effect on product shots can open and close smoothly with just a little coordinate JS",
+      "support": "Registered custom properties: Newly (2024-07-09); Masks: Widely"
+    },
+    "mwg:interactive-content-reveal:2": {
+      "title": "The spotlight is decoration only; it must not hide or gate content",
+      "action": "Set `pointer-events: none` on the mask layer; keep the underlying content fully visible and keyboard-reachable by default, with the spotlight as an extra for pointer users",
+      "blocker": "Using the effect to obscure or gate essential content leaves keyboard-only and assistive technology users without it, and the mask layer blocks clicks on controls beneath (quote: \"Never use this effect to obscure or gate essential content from keyboard-only or assistive technology users.\")",
+      "outcome": "All content is visible and operable without a pointer, and clicks pass through to the layer below (official claim)",
+      "story": "\"Move over it to see\" is fun, but only for mouse users; the content itself must be open to everyone first.",
+      "unlock": "",
+      "support": "Accessibility requirement: no support data in the guide, recorded as N/A"
+    },
+    "mwg:interest-triggered-action-previews": {
+      "title": "Preview an action's effect before it's pressed with `interestfor`",
+      "action": "Put `interestfor=\"target-id\"` on a button or link, listen for `interest` / `loseinterest` on the target and apply or undo the preview based on `event.source`; style with `:interest-source` / `:interest-target`, tune delays with `interest-delay-start` / `-end`",
+      "blocker": "The guide only says previewing actions before committing can help, without saying when older approaches go wrong (quote: \"It can be beneficial to provide users a preview of their actions before they commit to them.\")",
+      "outcome": "One target can have several interest sources, and the preview appears on hover or focus and reverts on leave; interest invokers are Limited, other browsers need the conditionally loaded `interestfor` polyfill, with classes instead of pseudo-classes and CSS variables for delays (official claim)",
+      "story": "Seeing the effect by hovering \"Bold\" or \"Italic\" used to mean wiring hover, focus, leave, and delays by hand. Now \"interest\" is a declared relationship, and the browser manages events and delays.",
+      "unlock": "Previews needed hand-written hover/focus/delay handling → theme pickers, font menus, and filter buttons can \"try it on while hovering, revert on leave\", including on keyboard focus. Native in Chromium only, others via polyfill",
+      "support": "Interest invokers: Limited availability, Supported by: Chrome 149, Edge 149; Unsupported in: Firefox, Safari"
+    },
+    "mwg:interest-triggered-action-previews:2": {
+      "title": "Don't announce interest-triggered previews in a live region",
+      "action": "Let the preview be the affordance; don't announce apply/unapply through a live region",
+      "blocker": "Interest fires just from moving the pointer or tabbing past nearby buttons, so apply/unapply announcements become noise that drowns out content users care about (quote: \"apply/unapply announcements quickly become noise that can drown out content the user actually cares about\")",
+      "outcome": "Screen readers aren't flooded with preview noise (official claim)",
+      "story": "Sweep the mouse across a row of buttons and the screen reader says \"previewing\" five times; people who can't see the preview gain nothing from hearing it.",
+      "unlock": "",
+      "support": "Interest invokers: Limited"
+    },
+    "mwg:interest-triggered-tooltips": {
+      "title": "Build tooltips that don't close menus with `popover=\"hint\"` and `interestfor`",
+      "action": "Use `<div popover=\"hint\" id>` for the tooltip and `interestfor` on the triggering `<button>` / `<a>`; the trigger becomes an implicit anchor, positioned with `position-area: block-start` and `position-try-fallbacks: flip-block`; toggletips also get `popovertarget` with `popovertargetaction=\"show\"`",
+      "blocker": "With an `auto` popover as a tooltip, hovering across it closes an open menu (quote: \"hovering across a toggletip must not close an open menu, which an `auto` popover would\")",
+      "outcome": "Hints only close other hints and leave `auto`/`manual` popovers alone, with built-in light dismiss and Esc, and are wired to the accessible description or name based on their content; interest invokers and `popover=\"hint\"` are both Limited, other browsers need polyfills (official claim; anchor positioning support adjusted per the verified deviation)",
+      "story": "Tooltips and menus are both popovers, so opening one used to close the other. `hint` is a third type for glance-and-go content, opened by hover, focus, or long-press without disturbing what's already open.",
+      "unlock": "Tooltips used to need hand-wired hover/focus/Esc and fought with menus → icon-button help, term definitions, and link preview cards can be almost fully declarative and readable while a menu is open. Native in Chromium only, others via polyfill",
+      "support": "Interest invokers: Limited (Chrome 149, Edge 149); popover=\"hint\": Limited (Chrome 151, Edge 151, Firefox 153; Unsupported in: Safari); Anchor positioning core properties: Newly. The guide says \"Supported by: Safari 27 (Sep 2026). Unsupported in: Chrome, Edge, and Firefox.\", which is the misleading group status, see `lines/ui-components/app-menus.md`; this line doesn't use `position-visibility`"
+    },
+    "mwg:interest-triggered-tooltips:2": {
+      "title": "Don't add `aria-expanded` to triggers that do something else",
+      "action": "When the trigger navigates or performs an action (a link, a button with its own action), give the hint `role=\"tooltip\"` and the trigger `aria-describedby`, not `aria-expanded`; only toggletips that open the hint on press use `aria-expanded`, synced from the popover's `toggle` event",
+      "blocker": "A trigger announced as \"collapsed\" suggests Enter will expand it, but Enter navigates or acts (quote: \"A trigger announced as \"collapsed\" suggests `Enter` would expand it, but `Enter` navigates or acts.\")",
+      "outcome": "What the screen reader announces matches what pressing does (official claim)",
+      "story": "Browsers and screen readers don't yet expose `interestfor` semantics consistently, so you add ARIA yourself; add one wrong `aria-expanded` and a link is announced as something expandable.",
+      "unlock": "",
+      "support": "Interest invokers: Limited"
+    },
+    "mwg:interest-triggered-tooltips:3": {
+      "title": "Add nothing when the hint matches the accessible name",
+      "action": "Normalize whitespace and compare the hint text with the trigger's accessible name; if equal, add no description; only when the trigger has no name, point `aria-labelledby` at the hint",
+      "blocker": "For example an icon button with `aria-label=\"Bold\"` and a \"Bold\" tooltip: a description identical to the name is read twice (quote: \"A description identical to the name would be read twice.\")",
+      "outcome": "Each name is read once (official claim)",
+      "story": "The most common tooltip text is the button's own name; wire it up as a description too and the screen reader says \"Bold, Bold\".",
+      "unlock": "",
+      "support": "Interest invokers: Limited"
+    },
+    "mwg:interest-triggered-tooltips:4": {
+      "title": "Hints exposed as descriptions may only hold content that's fine to miss",
+      "action": "Put only skippable content such as link previews or action descriptions in description hints; information users need goes in a toggletip or inline",
+      "blocker": "Not every screen reader reads descriptions while browsing; NVDA skips them in browse mode by design (quote: \"Not every screen reader reads descriptions when moving through the page (NVDA skips them in browse mode by design)\")",
+      "outcome": "Essential information isn't lost when a screen reader skips descriptions (official claim)",
+      "story": "Put \"why this field is required\" in a hover hint and sighted users occasionally see it, while NVDA users never hear it.",
+      "unlock": "",
+      "support": "Interest invokers: Limited"
+    },
+    "mwg:interest-triggered-tooltips:5": {
+      "title": "`toggle` doesn't bubble: sync `aria-expanded` with a capturing listener",
+      "action": "Handle popover `toggle` events with a single capturing listener on `document` and update every trigger pointing at that hint; treat the popover as the source of truth instead of syncing from `interest` / `loseinterest`",
+      "blocker": "`toggle` doesn't bubble, so a normal listener on `document` never fires; the popover can also be closed by Esc, light dismiss, or another invoker (quote: \"A bubbling listener on `document` never fires; use the capture phase (or a listener per popover).\")",
+      "outcome": "However the hint closes, `aria-expanded` follows the popover's real state (official claim)",
+      "story": "Syncing from interest events seems enough, until Esc closes the hint and the trigger still announces \"expanded\".",
+      "unlock": "",
+      "support": "Popover: Newly; Interest invokers: Limited"
+    },
+    "mwg:interest-triggered-tooltips:6": {
+      "title": "Without `hint` support, switch toggletips to `auto` in `beforetoggle`",
+      "action": "Detect support by setting `popover = \"hint\"` on a probe element and reading it back; if unsupported, in a capturing `beforetoggle` listener switch the opening toggletip to `popover = \"auto\"`",
+      "blocker": "Browsers without `hint` treat it as `manual`: a tooltip opened by keyboard focus can stay open when another is opened by hover, and a click-opened toggletip has no interest to lose and never closes (quote: \"so a `manual` fallback would never close\")",
+      "outcome": "In Safari toggletips can still be closed by light dismiss or Esc (official claim)",
+      "story": "An invalid attribute value silently becomes `manual`: it opens but won't close. The type has to change in `beforetoggle`; changing it while open closes it.",
+      "unlock": "",
+      "support": "popover=\"hint\": Limited (Unsupported in: Safari)"
+    },
+    "mwg:interest-triggered-tooltips:7": {
+      "title": "Without the anchor positioning polyfill, gate `inset: auto` inside `@supports`",
+      "action": "Without the polyfill, put `inset: auto`, `margin: 0`, and `position-area` inside `@supports (position-area: block-end)`, or give a `@supports not` fixed bottom bar; with the polyfill, set explicit `anchor-name` / `position-anchor` on each trigger and hint pair because the polyfill doesn't support implicit anchors",
+      "blocker": "Setting `inset: auto` unconditionally overrides the popover's default centering while `position-area` is ignored, leaving the tooltip in the top-left corner or over its trigger (quote: \"leaving the popover stranded at `(0, 0)` or overlapping its trigger\")",
+      "outcome": "Unsupported browsers at least keep the default centering or a bottom bar instead of a stuck corner (official claim; anchor positioning support adjusted per the verified deviation)",
+      "story": "The inset reset meant to pin the tooltip to its button leaves only the \"reset\" half in browsers that don't understand anchors.",
+      "unlock": "",
+      "support": "Anchor positioning core properties: Newly (misleading group status, see `lines/ui-components/app-menus.md`; this line doesn't use `position-visibility`)"
+    },
+    "mwg:light-dismiss-a-dialog": {
+      "title": "Use closedby=\"any\" to dismiss a modal dialog from its backdrop",
+      "action": "Open <dialog closedby=\"any\"> with showModal(). Where unsupported, fall back to a script that checks coordinates only when the event target is the dialog itself.",
+      "blocker": "With hand-written light dismissal, clicking the dialog background or padding also targets the dialog, so a target-only check closes it by mistake. (quote: \"This distinguishes between a click on the backdrop vs a click on the dialog's background/padding.\")",
+      "outcome": "One attribute provides backdrop, Escape, and programmatic dismissal; closedby is Limited, so Safari still needs the coordinate-checking fallback.",
+      "story": "Backdrop and dialog padding look alike to a click handler. Native light dismissal removes that ambiguity.",
+      "unlock": "Image lightboxes, quick previews, and settings panels can gain native-feeling dismissal with one attribute instead of coordinate calculations. Safari still needs the fallback.",
+      "support": "<dialog closedby>: Limited; Chrome/Edge 134 and Firefox 141, unsupported in Safari."
+    },
+    "mwg:light-dismiss-a-dialog:2": {
+      "title": "Let nested components handle Escape before the dialog",
+      "action": "Menus and comboboxes inside a modal dialog should handle Escape while focused.",
+      "blocker": "A component tries to close its list with Escape but inadvertently closes the whole dialog. (quote: \"this may lead to the dialog being inadvertently closed\")",
+      "outcome": "The focused component receives Escape first and the dialog stays open.",
+      "story": "Pressing Escape to cancel a selection should not make a half-completed form disappear.",
+      "unlock": "",
+      "support": "Modal dialog Escape behavior: no support data in the guide; N/A."
+    },
+    "mwg:light-dismiss-a-dialog:3": {
+      "title": "closedby only works for dialogs opened with showModal()",
+      "action": "Use showModal() whenever backdrop dismissal is required; do not rely on closedby for non-modal dialogs opened with show().",
+      "blocker": "A non-modal dialog has no backdrop and does not trigger light dismissal. (quote: \"as they do not have a backdrop and won't trigger light-dismiss\")",
+      "outcome": "Modal opening supplies the backdrop, focus containment, and Escape behavior.",
+      "story": "The attribute can be present but appear broken because the dialog has no outside backdrop layer.",
+      "unlock": "",
+      "support": "<dialog closedby>: Limited."
+    },
+    "mwg:motion": {
+      "title": "Draw focus on the parent when clipping or masking a focusable element",
+      "action": "When clip-path or mask-image reveals a focusable element, put its focus indicator on an unclipped parent.",
+      "blocker": "Clipping and masking also clip the element's own focus outline. (quote: \"Both also clip the element's own focus outline\")",
+      "outcome": "The effect no longer removes the focus indicator.",
+      "story": "A fade at the edges can otherwise fade away the keyboard user's only position cue.",
+      "unlock": "",
+      "support": "clip-path and mask-image: no support data in the guide; N/A."
+    },
+    "mwg:motion:2": {
+      "title": "Use scroll-driven animations for non-essential scroll effects",
+      "action": "Implement decorative scroll-linked effects with animation-timeline: scroll().",
+      "blocker": "The guide recommends replacing JS listeners but does not identify an observable failure. (quote: \"Use **Scroll-Driven Animations** (`animation-timeline: scroll()`) for non-essential scroll-bound effects instead of JS listeners.\")",
+      "outcome": "The guide does not state what improves after switching.",
+      "story": "This overview points to the detailed scroll progress and parallax guides.",
+      "unlock": "Progress bars, parallax, and scroll reveals can be tied directly to scroll position in CSS.",
+      "support": "No support data in this guide; N/A."
+    },
+    "mwg:motion:3": {
+      "title": "Use View Transitions between complex layout states",
+      "action": "Animate substantial layout-state changes with View Transitions.",
+      "blocker": "The guide only says transitions can be seamless, without an observable failure in the old approach. (quote: \"Use **View Transitions** to animate between complex layout states seamlessly.\")",
+      "outcome": "No concrete improvement is stated.",
+      "story": "This overview points to the grouped-element and directional-navigation transition guides.",
+      "unlock": "List and grid reordering can move each item smoothly to its new position.",
+      "support": "No support data in this guide; N/A."
+    },
+    "mwg:motion:4": {
+      "title": "Declare transition-behavior separately after transition",
+      "action": "List opacity, display, and overlay in transition, then declare transition-behavior: allow-discrete on a later line.",
+      "blocker": "Putting it in or before the shorthand resets it or breaks it in older browsers. (quote: \"Separate after transition so the shorthand doesn't reset it or fail in older browsers\")",
+      "outcome": "Discrete entry and exit properties can transition while older browsers retain the other transitions.",
+      "story": "The same shorthand-reset trap appears in the element entry and exit guide.",
+      "unlock": "",
+      "support": "No support data in this guide; N/A."
+    },
+    "mwg:motion:5": {
+      "title": "Do not add aria-pressed when the pause button label already changes",
+      "action": "Provide a keyboard-operable pause button for motion lasting over five seconds; when its label switches between Pause and Play, omit aria-pressed.",
+      "blocker": "Combining a changing label with aria-pressed makes screen readers announce a pressed Play button. (quote: \"or screen readers announce a pressed \"Play\" button\")",
+      "outcome": "The button name describes the state without contradiction.",
+      "story": "A pressed Play button leaves listeners unable to tell whether playback is active.",
+      "unlock": "",
+      "support": "ARIA usage: no support data in the guide; N/A."
+    },
+    "mwg:motion:6": {
+      "title": "Leave content in its final state when animation is disabled",
+      "action": "Default to static content and add animation only under no-preference, ensuring elements end in their final state.",
+      "blocker": "Disabled animation can leave content at its initial hidden state, such as opacity: 0, including focus and selection indicators. (quote: \"so content isn't left hidden (for example, at `opacity: 0`)\")",
+      "outcome": "Content and indicators remain visible regardless of motion preference.",
+      "story": "If a fade-in starts transparent, disabling the animation must not leave it transparent forever.",
+      "unlock": "",
+      "support": "prefers-reduced-motion: no support data in the guide; N/A."
+    },
+    "mwg:motion:7": {
+      "title": "Get the Animation object from event.animation",
+      "action": "Use event.animation in animation and transition events; feature-detect with animation in AnimationEvent.prototype.",
+      "blocker": "Filtering event.target.getAnimations() by name misses unnamed WAAPI animations, conflates same-name animations, and cannot distinguish pseudo-elements. (quote: \"`event.target` always points to the originating DOM element, so it does not distinguish between animations running on the element itself versus one of its pseudo-elements\")",
+      "outcome": "The exact animation that emitted the event is available, with pseudo-element identity in effect.pseudoElement.",
+      "story": "Name lookup fails when an element and its ::before both run a fade-in.",
+      "unlock": "",
+      "support": "event.animation: feature detection is given but no support data; N/A."
+    },
+    "mwg:motion:8": {
+      "title": "Do not wait only for animationend when reduced motion disables animation",
+      "action": "When cleanup depends on animation completion, continue immediately if getAnimations() returns an empty list or retain a short opacity transition.",
+      "blocker": "With animation disabled, none, or zero duration, animationend and transitionend never fire, so dependent removal or hiding never happens. (quote: \"`animationend` and `transitionend` never fire\")",
+      "outcome": "Removal and hiding work regardless of motion preference.",
+      "story": "A notification cannot close if its close logic waits for an event that reduced motion prevents.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A."
+    },
+    "mwg:move-dom-element-without-losing-state": {
+      "title": "Move elements with moveBefore() without reloading iframes or losing focus",
+      "action": "Replace appendChild() or insertBefore() with newParent.moveBefore(element, null), feature-detect it, and fall back to insertBefore().",
+      "blocker": "Traditional moves remove and reinsert nodes, reloading iframes, restarting CSS animations, and blurring inputs. (quote: \"causing `<iframe>` elements to reload, CSS animations to restart, and input fields to lose focus\")",
+      "outcome": "Atomic movement preserves state; moveBefore() is Limited, so Safari still resets state with the fallback.",
+      "story": "Moving a playing video or partly completed form no longer needs to recreate it.",
+      "unlock": "A video can move into a corner player and back without interruption, and embedded maps or chats can switch containers. Safari still resets them.",
+      "support": "moveBefore(): Limited; Chrome/Edge 133 and Firefox 144, unsupported in Safari."
+    },
+    "mwg:move-dom-element-without-losing-state:2": {
+      "title": "Implement connectedMoveCallback() for moved custom elements",
+      "action": "Put location-dependent custom-element updates in connectedMoveCallback().",
+      "blocker": "moveBefore() fires neither connectedCallback nor disconnectedCallback, so logic in those callbacks does not run. (quote: \"their `connectedCallback` and `disconnectedCallback` lifecycle methods will **not** be fired\")",
+      "outcome": "A dedicated callback updates state associated with the new location.",
+      "story": "Atomic movement removes the DOM-connection signal that some components use to initialize against their parent.",
+      "unlock": "",
+      "support": "moveBefore(): Limited."
+    },
+    "mwg:parallax-scroll-effects": {
+      "title": "Build layered parallax with view-timeline and sibling-index()",
+      "action": "Give the wrapper a view-timeline, bind each layer to it, and use sibling-index() to offset translation or animation ranges.",
+      "blocker": "The guide says native CSS is more performant than scroll listeners or IntersectionObserver but gives no observable failure. (quote: \"In browsers with built-in support for scroll-driven animations, ALWAYS use the native CSS implementation as those are more performant.\")",
+      "outcome": "Layers move at different speeds without hand-written values for each layer; both features are Newly and old browsers omit the decorative effect.",
+      "story": "Each layer shares a view timeline while its sibling index determines its speed.",
+      "unlock": "Campaign pages, product stories, and interactive picture books can add parallax layers whose speeds redistribute automatically in pure CSS.",
+      "support": "Scroll-driven animations: Newly (2026-10-27); sibling-index(): Newly via the sibling animations guide."
+    },
+    "mwg:parallax-scroll-effects:2": {
+      "title": "Include animation-range when detecting scroll-driven animations",
+      "action": "Feature-detect with @supports ((animation-timeline: view()) and (animation-range: entry)).",
+      "blocker": "Checking animation-timeline alone admits browsers with only partial support. (quote: \"The `(animation-range: entry)` check **MUST** be included here, to filter out browsers with only partial support.\")",
+      "outcome": "Partially supporting browsers take the fallback instead of producing a broken effect.",
+      "story": "Timeline support without range support is not full support.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly."
+    },
+    "mwg:parallax-scroll-effects:3": {
+      "title": "Declare animation-timeline and animation-range after the animation shorthand",
+      "action": "Write the animation shorthand first, followed by animation-timeline and animation-range.",
+      "blocker": "A later shorthand resets the timeline. (quote: \"declare `animation-timeline` and `animation-range` *after* it to prevent the shorthand from resetting the timeline\")",
+      "outcome": "The timeline declaration survives.",
+      "story": "This is the same shorthand-reset trap as the scroll progress indicator guide.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly."
+    },
+    "mwg:parallax-scroll-effects:4": {
+      "title": "Check reduced-motion preference in the JavaScript parallax fallback",
+      "action": "Use matchMedia to skip the fallback when the user prefers reduced motion.",
+      "blocker": "The CSS media query cannot affect inline styles set by the script, so the fallback still moves layers. (quote: \"The `prefers-reduced-motion` media query in the CSS doesn't affect the inline styles the script sets\")",
+      "outcome": "People preferring reduced motion avoid parallax in old browsers too.",
+      "story": "The CSS version respects the preference while inline JS styles would otherwise bypass it.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly; this fallback targets unsupported browsers."
+    },
+    "mwg:persistent-top-layer-ui": {
+      "title": "Move open dialogs, popovers, and fullscreen elements with moveBefore()",
+      "action": "Move open top-layer elements with moveBefore(); in the fallback, record their state and reopen dialogs or popovers after insertion.",
+      "blocker": "Removal and reinsertion abruptly close open modals, popovers, and fullscreen elements. (quote: \"This removal resets the state, causing open modals, popovers, and fullscreen elements to close abruptly.\")",
+      "outcome": "Atomic movement keeps top-layer UI open; Safari must reopen it and has no equivalent fullscreen reopening path.",
+      "story": "Layout restructuring no longer has to make the visible dialog disappear.",
+      "unlock": "Fullscreen video and open dialogs can survive layout regrouping such as collapsing sidebars or splitting panes. Safari still closes them.",
+      "support": "moveBefore(): Limited; Chrome/Edge 133 and Firefox 144, unsupported in Safari."
+    },
+    "mwg:physics-based-easing": {
+      "title": "Create spring and bounce easing with linear() stops",
+      "action": "Convert a JS easing function or SVG path into linear() stops, store them in a custom property, and supply a duration.",
+      "blocker": "Simple ease-in and cubic-bezier() curves cannot express bounces or springs. (quote: \"making it impossible to create complex physics-based effects like bounces or springs\")",
+      "outcome": "Enough straight-line stops approximate smooth springs and bounces; linear() is Widely available.",
+      "story": "Overshoot-and-return motion can now be described as CSS points instead of a JS animation library.",
+      "unlock": "",
+      "support": "linear() easing: Widely since 2023-12-11."
+    },
+    "mwg:physics-based-easing:2": {
+      "title": "Do not apply overshooting bounce curves to opacity",
+      "action": "Use curves that overshoot 0–1 on transform or scale, not opacity.",
+      "blocker": "Opacity flickers jarringly when values overshoot below 0 or above 1. (quote: \"can cause visually jarring flickering if the value overshoots below 0 or above 1\")",
+      "outcome": "The flickering is avoided.",
+      "story": "The overshoot that makes a spring useful has no meaningful opacity equivalent.",
+      "unlock": "",
+      "support": "linear() easing: Widely."
+    },
+    "mwg:platform-controls-dismiss-dialog": {
+      "title": "Let modal dialogs respond to back buttons and back gestures",
+      "action": "Open dialogs with showModal() or command=\"show-modal\"; the default close-request behavior handles platform dismissal, with closedby=\"any\" for backdrop dismissal.",
+      "blocker": "Early dialogs responded to Escape but not mobile back controls, and there was no good way to implement those close requests manually. (quote: \"it could be dismissed with the <kbd>Esc</kbd> key, but not other platform controls such as a back button/gesture on mobile … There is no good way to implement close requests from mobile back button/gestures\")",
+      "outcome": "Existing modal dialogs respond to back and assistive-technology dismissal gestures without code changes; Safari still only supports Escape.",
+      "story": "Mobile back now closes the dialog instead of navigating away from the whole page.",
+      "unlock": "Mobile filters, image viewers, and confirmations can close like native app surfaces without leaving the page. Safari is still unsupported.",
+      "support": "<dialog closedby>: Limited; Chrome/Edge 134 and Firefox 141, unsupported in Safari."
     }
   }
 }
