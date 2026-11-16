@@ -40,7 +40,7 @@ export MWG_FROM="$FROM" MWG_TO="$TO"
 export MWG_RELEASE="$(git -C "$UP" log -1 --format=%s "$TO" | sed 's/^Release //')"
 echo "diff $FROM..$TO ($MWG_RELEASE): $(wc -l < .cache/diff.txt) files"
 
-claude -p "$(cat PROMPT.md)
+claude -p --model opus "$(cat PROMPT.md)
 
 本次：MWG_FROM=$MWG_FROM MWG_TO=$MWG_TO MWG_RELEASE=$MWG_RELEASE 今天=$(date +%F)" \
   --allowedTools "Read" "Write" "Edit" "Glob" "Grep" "Bash(git -C .cache/upstream:*)" "Bash(ls:*)" "Bash(cat:*)" "Bash(wc:*)" \
