@@ -1,5 +1,5 @@
 {
- "total": 34,
+ "total": 73,
  "updated": "2026-11-16",
  "groups": [
   {
@@ -104,6 +104,41 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:accessibility:3",
+     "feature": "<ul>/<ol>",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessible-generated-content",
+     "feature": "content 替代文字（/ 語法）",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:accessible-generated-content:2",
+     "feature": "content 替代文字（/ 語法）",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:language-model:3",
+     "feature": "aria-busy, aria-live",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:prompt-api:3",
+     "feature": "aria-busy, aria-live",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -135,6 +170,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:accessibility:2",
+     "feature": "heading 包住 button 的 ARIA disclosure",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -273,6 +315,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:fluid-scaling",
+     "feature": "cqi/cqb, clamp()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -347,6 +396,285 @@
      "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "語意結構失真",
+   "lines": [
+    {
+     "id": "mwg:accessibility",
+     "feature": "<h1>",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    }
+   ]
+  },
+  {
+   "name": "播報時機或可靠度出錯",
+   "lines": [
+    {
+     "id": "mwg:accessible-error-announcement",
+     "feature": ":user-invalid, aria-invalid",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:accessible-error-announcement:2",
+     "feature": "aria-describedby 動態掛載",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:accessible-error-announcement:3",
+     "feature": "單一 polite live region",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "忽略使用者設定",
+   "lines": [
+    {
+     "id": "mwg:respect-os-text-scale",
+     "feature": "<meta name=\"text-scale\">, rem",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:respect-os-text-scale:2",
+     "feature": "clamp(), rem + vw",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:respect-os-text-scale:3",
+     "feature": "<meta name=\"text-scale\">",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:fluid-scaling:2",
+     "feature": "clamp() 比例上限",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "得送雲端或載大型函式庫",
+   "lines": [
+    {
+     "id": "mwg:language-detection",
+     "feature": "LanguageDetector",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:language-model",
+     "feature": "LanguageModel（Prompt API）",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:prompt-api",
+     "feature": "LanguageModel（Prompt API）",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:summarizer",
+     "feature": "Summarizer",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:translator",
+     "feature": "Translator",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "不可信內容當HTML解析",
+   "lines": [
+    {
+     "id": "mwg:language-model:2",
+     "feature": "textContent, Sanitizer API",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:prompt-api:2",
+     "feature": "textContent, Sanitizer API",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "尺寸動畫只能跳變",
+   "lines": [
+    {
+     "id": "mwg:animate-to-intrinsic-sizes",
+     "feature": "interpolate-size, calc-size()",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:calculate-with-intrinsic-sizes",
+     "feature": "calc-size()",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "視覺隱藏卻仍可觸及",
+   "lines": [
+    {
+     "id": "mwg:calculate-with-intrinsic-sizes:2",
+     "feature": "visibility: hidden",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "功能偵測不可靠",
+   "lines": [
+    {
+     "id": "mwg:atrule-support-conditionals",
+     "feature": "@supports at-rule()",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:atrule-support-conditionals:2",
+     "feature": "恆真的 @container style() 查詢",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "用JS補樣式狀態",
+   "lines": [
+    {
+     "id": "mwg:child-state-based-styling",
+     "feature": ":has()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:content-based-styling",
+     "feature": ":has()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:dynamic-sibling-styling",
+     "feature": "sibling-index(), sibling-count()",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "版面意外溢出或位移",
+   "lines": [
+    {
+     "id": "mwg:css-layout",
+     "feature": "display: block",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:css-layout:2",
+     "feature": "aspect-ratio",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:css-layout:3",
+     "feature": "flex-wrap: wrap",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:individual-transform-properties:2",
+     "feature": "恆等變換",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "層疊覆蓋不符意圖",
+   "lines": [
+    {
+     "id": "mwg:css",
+     "feature": ":not()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:css:2",
+     "feature": "@scope",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:css:3",
+     "feature": "針對元素類型的 reset",
+     "result": "缺",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:design-token-reactivity",
+     "feature": "container style queries",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:individual-transform-properties",
+     "feature": "translate, rotate, scale",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   }

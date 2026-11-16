@@ -33,3 +33,42 @@
 2026-11-16,v1.0.0,export-html-media-from-canvas,mwg:export-html-media-from-canvas,"drawElementImage(), toBlob(), captureStream()",手工重現瀏覽器渲染,舊做法靠肥大的第三方函式庫逐一解析 DOM 節點和 CSS 屬性、在 canvas 上重建一份仿製品，運算量大、容易出錯，而且常常不支援新的 CSS 排版功能,僵持,Limited,宣稱,有,新能力,儀表板、排好版的文件、互動圖表可以一鍵存成和畫面一模一樣的 PNG，或用 `captureStream()` 把一段 HTML 互動錄成影片，不必載入截圖函式庫。目前僅 Chrome 157 起,有效
 2026-11-16,v1.0.0,interactive-content-in-3d-scenes,mwg:interactive-content-in-3d-scenes,"texElementSubImage2D(), drawElementImageToTexture(), updateElementGeometry()",canvas裡手寫互動,只說不必再寫複雜的 raycasting 或自訂事件處理，沒說手寫版在哪個情境出錯,僵持,Limited,宣稱,缺,新能力,3D 場景裡的螢幕、看板、控制面板可以是真的表單和按鈕：能打字、能選字、能用鍵盤聚焦，不必自己寫 raycasting 轉事件。適合產品展示、3D 編輯器裡的屬性面板。目前僅 Chrome 157 起,有效
 2026-11-16,v1.0.0,apply-webgl-shaders,mwg:apply-webgl-shaders,"texElementSubImage2D(), updateElementGeometry()",canvas裡手寫互動,只說套了 shader 之後仍保有原生的可及性、文字選取與 DOM 事件，沒說以前的做法是什麼、壞在哪,僵持,Limited,宣稱,缺,新能力,按下去會起漣漪的真按鈕、帶玻璃折射或 CRT 掃描線的真輸入框：效果是 GPU shader，但仍然可以打字、選字、被螢幕閱讀器讀到。目前僅 Chrome 157 起,有效
+2026-11-16,v1.0.0,accessibility,mwg:accessibility,<h1>,語意結構失真,一頁放多個 `<h1>`，螢幕閱讀器使用者分不出哪個才是主標題,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,accessibility,mwg:accessibility:2,heading 包住 button 的 ARIA disclosure,原生元素角色實作不一致,部分瀏覽器把 `<summary>` 暴露成按鈕並拿掉子元素所有角色，裡面的標題消失,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,accessibility,mwg:accessibility:3,<ul>/<ol>,播報過量,把段落文字標成清單，讀屏唸出混亂又多餘的清單資訊,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,accessible-error-announcement,mwg:accessible-error-announcement,":user-invalid, aria-invalid",播報時機或可靠度出錯,只靠 `:invalid`，一 Tab 進空的必填欄位讀屏就唸「Invalid entry」,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,accessible-error-announcement,mwg:accessible-error-announcement:2,aria-describedby 動態掛載,播報時機或可靠度出錯,標記裡就把錯誤訊息掛上 `aria-describedby`，隱藏的錯誤在互動前就被唸出,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,accessible-error-announcement,mwg:accessible-error-announcement:3,單一 polite live region,播報時機或可靠度出錯,每則錯誤自己當 live region，「被顯示」而非「內容改變」時讀屏不一定會播,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,accessible-generated-content,mwg:accessible-generated-content,content 替代文字（/ 語法）,播報過量,沒有 `/` 語法時，CSS 插入的裝飾符號會被讀屏照唸,部分改善,Newly,宣稱,有,新能力,用 CSS 插入的箭頭、分隔符、狀態圖示可以直接在樣式表裡宣告「不唸」或「唸成某句話」，不必為每個圖示多包一個 aria-hidden 的 span,有效
+2026-11-16,v1.0.0,accessible-generated-content,mwg:accessible-generated-content:2,content 替代文字（/ 語法）,播報過量,"DOM 已有「Save」又在圖示寫 `/ ""Save""`，讀屏唸成「Save save」",勝,Newly,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,respect-os-text-scale,mwg:respect-os-text-scale,"<meta name=""text-scale"">, rem",忽略使用者設定,使用者設定了系統大字級，行動瀏覽器預設不理會，頁面字級不變,僵持,Limited,宣稱,有,新能力,網頁可以像原生 app 一樣直接吃到手機的系統字級，長輩或低視力使用者不必每個網站各自調整。目前僅 Chrome／Edge 146 起,有效
+2026-11-16,v1.0.0,respect-os-text-scale,mwg:respect-os-text-scale:2,"clamp(), rem + vw",忽略使用者設定,只用 `font-size: 5vw`，字級不會完整回應使用者的文字縮放,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,respect-os-text-scale,mwg:respect-os-text-scale:3,"<meta name=""text-scale"">",忽略使用者設定,在 `html` 寫死 `font-size: 16px`，可能讓瀏覽器無法套用文字縮放,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,language-detection,mwg:language-detection,LanguageDetector,得送雲端或載大型函式庫,只說可減少對大型外部函式庫或昂貴伺服器呼叫的依賴，沒說舊做法在哪個時刻出問題,僵持,Limited,宣稱,缺,新能力,使用者貼進來的文字可以在本機判斷語言，自動替段落補上正確的 lang，讓讀屏用對的發音唸，也不用把內容送去伺服器。目前僅 Chrome／Edge 桌面版,有效
+2026-11-16,v1.0.0,language-model,mwg:language-model,LanguageModel（Prompt API）,得送雲端或載大型函式庫,只列出本機執行的好處（隱私、降低伺服器成本、可離線），沒說舊做法在哪個時刻出問題,僵持,Limited,宣稱,缺,新能力,不經伺服器就能在頁面裡做分類、改寫、看圖回答，例如筆記 app 在本機替日記打標籤，資料不離開裝置，離線也能用。目前僅 Chrome 148 桌面版,有效
+2026-11-16,v1.0.0,language-model,mwg:language-model:2,"textContent, Sanitizer API",不可信內容當HTML解析,模型輸出可能夾帶注入的標記，直接設 `innerHTML` 會變成 XSS,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,language-model,mwg:language-model:3,"aria-busy, aria-live",播報過量,串流輸出時 live region 把每個片段都唸出來,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,prompt-api,mwg:prompt-api,LanguageModel（Prompt API）,得送雲端或載大型函式庫,只列出本機執行的好處（隱私、降低伺服器成本、可離線），沒說舊做法在哪個時刻出問題（與 language-model 指南逐字相同）,僵持,Limited,宣稱,缺,新能力,同 mwg:language-model：不經伺服器就能在頁面裡做分類、改寫、看圖回答，資料不離開裝置。目前僅 Chrome 148 桌面版,有效
+2026-11-16,v1.0.0,prompt-api,mwg:prompt-api:2,"textContent, Sanitizer API",不可信內容當HTML解析,模型輸出可能夾帶注入的標記，直接設 `innerHTML` 會變成 XSS（與 language-model 指南逐字相同）,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,prompt-api,mwg:prompt-api:3,"aria-busy, aria-live",播報過量,串流輸出時 live region 把每個片段都唸出來（與 language-model 指南逐字相同）,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,summarizer,mwg:summarizer,Summarizer,得送雲端或載大型函式庫,改由遠端服務處理時，本機隱私保證完全失效，還會產生伺服器端 API 費用,僵持,Limited,宣稱,有,新能力,私人文件（日記、會議紀錄、郵件）可以在頁面裡直接產生 TL;DR 或重點條列，內容不離開裝置，也沒有 API 帳單。目前僅 Chrome／Edge 138 桌面版,有效
+2026-11-16,v1.0.0,translator,mwg:translator,Translator,得送雲端或載大型函式庫,改由遠端服務處理時，本機隱私保證完全失效，也常產生伺服器端 API 費用,僵持,Limited,宣稱,有,新能力,聊天室、留言區可以逐則就地翻譯，訊息不經第三方翻譯服務，也沒有每字計費。目前僅 Chrome／Edge 桌面版,有效
+2026-11-16,v1.0.0,animate-to-intrinsic-sizes,mwg:animate-to-intrinsic-sizes,"interpolate-size, calc-size()",尺寸動畫只能跳變,不支援的瀏覽器裡，尺寸過渡到 `auto` 等關鍵字時直接瞬間跳到目標值,僵持,Limited,宣稱,有,新能力,任何高度隨內容的區塊（通知、展開說明、可收合側欄）都能用一行 CSS 做平滑展開與收合，不必 JS 量尺寸。目前僅 Chromium,有效
+2026-11-16,v1.0.0,calculate-with-intrinsic-sizes,mwg:calculate-with-intrinsic-sizes,calc-size(),尺寸動畫只能跳變,瀏覽器預設無法在長度和固有尺寸關鍵字之間插值（例如 `0px` 到 `auto`）,僵持,Limited,宣稱,有,新能力,「跟內容一樣寬再多一點、但有上限」的標籤與浮動面板可以純 CSS 寫出，展開時平滑長大，例如滑過時從圖示伸展成圖示加文字的按鈕。目前僅 Chromium,有效
+2026-11-16,v1.0.0,calculate-with-intrinsic-sizes,mwg:calculate-with-intrinsic-sizes:2,visibility: hidden,視覺隱藏卻仍可觸及,只把高度收到 0，讀屏照唸，裡面的連結與控制項仍在 Tab 順序中,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,atrule-support-conditionals,mwg:atrule-support-conditionals,@supports at-rule(),功能偵測不可靠,只說沒有 `at-rule()` 時要繞路偵測或最後用 JS，沒說這些做法在哪個時刻出問題,僵持,Limited,宣稱,缺,新能力,依賴 @property 或自訂函式的動畫與主題可以在樣式表裡自帶「不支援就用平面版」的分支，不必在 JS 偵測再切 class。Safari 尚未支援,有效
+2026-11-16,v1.0.0,atrule-support-conditionals,mwg:atrule-support-conditionals:2,恆真的 @container style() 查詢,功能偵測不可靠,用 `@supports (container-type: style)` 或 `at-rule(@container style(...))` 偵測 style queries，兩者都不會成立,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,child-state-based-styling,mwg:child-state-based-styling,:has(),用JS補樣式狀態,只說不再需要 JS 在父元素切換修飾 class，沒說手寫切換在哪個時刻出錯,勝,Widely,宣稱,缺,糾錯,,有效
+2026-11-16,v1.0.0,content-based-styling,mwg:content-based-styling,:has(),用JS補樣式狀態,只說過去要用 JS 或模板條件注入修飾 class，沒說那樣做在哪個時刻出錯,勝,Widely,宣稱,缺,糾錯,,有效
+2026-11-16,v1.0.0,css-layout,mwg:css-layout,display: block,版面意外溢出或位移,替換元素預設 `display: inline`，在某些版面多出一條縫,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,css-layout,mwg:css-layout:2,aspect-ratio,版面意外溢出或位移,媒體載入前沒有預留空間，載入後造成版面位移,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,css-layout,mwg:css-layout:3,flex-wrap: wrap,版面意外溢出或位移,`nowrap` 又沒有 overflow 處理，窄視窗下項目溢出容器,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,css,mwg:css,:not(),層疊覆蓋不符意圖,先套再覆寫的兩條規則一對調順序，停用的按鈕也出現 hover 背景,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,css,mwg:css:2,@scope,層疊覆蓋不符意圖,`.card :not(.content *)` 遇到巢狀卡片就不如預期,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,css,mwg:css:3,針對元素類型的 reset,層疊覆蓋不符意圖,套在 `*` 的 reset，web component 與較低優先序的 cascade layer 都覆寫不了（除非用 `!important`）,缺,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,design-token-reactivity,mwg:design-token-reactivity,container style queries,層疊覆蓋不符意圖,用 `data-density` 選擇器時特異度相同，巢狀的密度區塊無法正確覆寫，由出現順序決定,部分改善,Newly,宣稱,有,新能力,在任何祖先上設一個 --density 或 --tone，底下所有元件自動切換緊湊／寬鬆或強調樣式，而且可以一層套一層。適合使用者可調密度的資料表或後台介面,有效
+2026-11-16,v1.0.0,dynamic-sibling-styling,mwg:dynamic-sibling-styling,"sibling-index(), sibling-count()",用JS補樣式狀態,只說過去要寫複雜的 `:nth-child` 迴圈或用 JS 注入行內樣式，沒說那樣做在哪個時刻出錯,部分改善,Newly,宣稱,缺,新能力,項目數量不固定的視覺化可以純 CSS 排：環狀選單、扇形展開的手牌、依數量自動分色的標籤雲，增刪項目時位置和顏色自己重算,有效
+2026-11-16,v1.0.0,fluid-scaling,mwg:fluid-scaling,"cqi/cqb, clamp()",版面依賴錯的量測,用視窗單位做流體縮放，元件照螢幕寬度而不是自己的寬度縮放,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,fluid-scaling,mwg:fluid-scaling:2,clamp() 比例上限,忽略使用者設定,用 `clamp()` 夾住流體字級，會影響使用者縮放或調整基準字級的能力,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,individual-transform-properties,mwg:individual-transform-properties,"translate, rotate, scale",層疊覆蓋不符意圖,`transform` 改其中一個變換就得重寫整條變換鏈，單一變換難以獨立動畫,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,individual-transform-properties,mwg:individual-transform-properties:2,恆等變換,版面意外溢出或位移,只在 hover 時套變換，那一刻建立新的堆疊脈絡，造成意外的版面或 z-index 位移,勝,Widely,宣稱,有,糾錯,,有效

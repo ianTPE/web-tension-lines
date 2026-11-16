@@ -39,7 +39,18 @@
     "版面擠壓破壞可讀性": "Cramped layout hurts readability",
     "canvas內容對瀏覽器隱形": "Canvas content is invisible to the browser",
     "手工重現瀏覽器渲染": "Re-implementing browser rendering by hand",
-    "canvas裡手寫互動": "Hand-written interaction inside canvas"
+    "canvas裡手寫互動": "Hand-written interaction inside canvas",
+    "語意結構失真": "Semantic structure misrepresents the page",
+    "播報時機或可靠度出錯": "Announcements mistimed or unreliable",
+    "忽略使用者設定": "User settings get ignored",
+    "得送雲端或載大型函式庫": "Must send to the cloud or load a big library",
+    "不可信內容當HTML解析": "Untrusted content parsed as HTML",
+    "尺寸動畫只能跳變": "Size changes jump instead of animating",
+    "視覺隱藏卻仍可觸及": "Visually hidden but still reachable",
+    "功能偵測不可靠": "Feature detection is unreliable",
+    "用JS補樣式狀態": "JS patches in styling state",
+    "版面意外溢出或位移": "Layout unexpectedly overflows or shifts",
+    "層疊覆蓋不符意圖": "Cascade overrides don't match intent"
   },
   "guides": {
     "install-web-app": "Installing web apps",
@@ -60,7 +71,27 @@
     "expose-canvas-content-to-browser-features": "Exposing canvas content to browser features",
     "export-html-media-from-canvas": "Exporting HTML content from canvas",
     "interactive-content-in-3d-scenes": "Interactive HTML content in 3D scenes",
-    "apply-webgl-shaders": "Applying WebGL shaders to HTML content"
+    "apply-webgl-shaders": "Applying WebGL shaders to HTML content",
+    "accessibility": "Accessibility coding guidelines",
+    "accessible-error-announcement": "Accessible error announcement",
+    "accessible-generated-content": "Accessible CSS generated content",
+    "respect-os-text-scale": "Respecting the OS text scale",
+    "language-detection": "Language detection",
+    "language-model": "Language model (Prompt API)",
+    "prompt-api": "Prompt API",
+    "summarizer": "Summarizer API",
+    "translator": "Translator API",
+    "animate-to-intrinsic-sizes": "Animating to intrinsic sizes",
+    "atrule-support-conditionals": "Applying CSS based on at-rule support",
+    "calculate-with-intrinsic-sizes": "Calculating with intrinsic sizes",
+    "child-state-based-styling": "Styling based on child state",
+    "content-based-styling": "Styling based on content",
+    "css-layout": "CSS layout and responsive design",
+    "css": "CSS: modern architecture",
+    "design-token-reactivity": "Reactive design tokens",
+    "dynamic-sibling-styling": "Styling siblings by count and index",
+    "fluid-scaling": "Fluid scaling",
+    "individual-transform-properties": "Individual transform properties"
   },
   "lines": {
     "mwg:install-web-app": {
@@ -368,6 +399,357 @@
       "story": "Effects like ripple distortion, lighting and color grading only work on textures, and a texture is not an element. The new API turns a real element's painted output into a texture while the element itself stays in the DOM to receive input. The guide never describes the old approach, so the opponent is marked missing. You still have to allocate the texture with `texImage2D()`, reallocate only on size change, and handle `captureElementImage()` throwing before the first paint.",
       "unlock": "A real button that ripples when pressed, or a real input with glass refraction or CRT scanlines: the effect is a GPU shader, yet you can still type, select text and reach it with a screen reader. Chrome 157+ only for now.",
       "support": "HTML-in-Canvas: Limited (Chrome 157+, stable since 2026-11-03; not Firefox or Safari). The guide's fallback section still says \"HTML-in-canvas is not natively supported by any major browser yet.\", which is out of date"
+    },
+    "mwg:accessibility": {
+      "title": "One h1 per page so screen readers can find the main heading",
+      "action": "Use a single `<h1>` for the page's main heading and `<h2>`–`<h6>` for the rest (a dialog's main heading is the exception)",
+      "blocker": "With several `<h1>` elements on a page, screen reader users can't tell which one is the main heading (quote: \"Having more than one `<h1>` element on a page makes it difficult for screen reader users to identify the actual main heading.\")",
+      "outcome": "Keeping one `<h1>` removes the ambiguity; this is a pure markup rule and the guide gives no support data (official claim)",
+      "story": "Screen reader users often jump to the h1 or scan the heading list to orient themselves, and multiple h1s break that entry point. The guide exempts h1s inside `<dialog>` / `role=\"dialog\"`, because a dialog is a separate window.",
+      "unlock": "",
+      "support": "N/A (the guide has no browser support data at all)"
+    },
+    "mwg:accessibility:2": {
+      "title": "When a heading must toggle content, don't put it inside summary",
+      "action": "When a heading also acts as a disclosure trigger, use an ARIA accordion/disclosure where the heading wraps a button, not `<details>`/`<summary>`",
+      "blocker": "Some browsers expose `<summary>` as a button and strip all roles from its children, so the heading inside disappears (quote: \"Some browsers still expose this element as a button, which removes all roles from its children including headings.\")",
+      "outcome": "With the heading wrapping the button, the heading stays in the accessibility tree (official claim)",
+      "story": "Same opponent as in the accordion and navbar guides: the `summary` role is implemented inconsistently. This general guide doesn't name a screen reader, only \"some browsers\".",
+      "unlock": "",
+      "support": "N/A (the guide has no browser support data at all)"
+    },
+    "mwg:accessibility:3": {
+      "title": "Use list markup only for real lists",
+      "action": "Use `<ul>`/`<ol>` only for repeated, contiguous items; don't wrap paragraphs in a list",
+      "blocker": "Marking separate paragraphs as a list makes screen readers announce list information, so users hear confusing and redundant content (quote: \"screen readers will announce list information when they encounter lists, therefore leading to a screen reader hearing potentially confusing and redundant information about the related content.\")",
+      "outcome": "Content that isn't a list is no longer read out as one (official claim)",
+      "story": "List markup makes a screen reader say \"list, N items\" first, so misused lists become noise. The same section notes that checkboxes and radio buttons already announce their count, so wrapping them in a list duplicates it.",
+      "unlock": "",
+      "support": "N/A (the guide has no browser support data at all)"
+    },
+    "mwg:accessible-error-announcement": {
+      "title": "Sync aria-invalid with :user-invalid so errors aren't announced before input",
+      "action": "Show errors with `:user-invalid`, and use a small script on `blur`/`change`/`input`/`invalid` to check it and set `aria-invalid` to match; until then, set `aria-invalid=\"false\"` explicitly",
+      "blocker": "With `:invalid` alone, a screen reader says \"Invalid entry\" as soon as the user tabs into an empty required field, before any interaction (quote: \"screen readers might announce \\\"Invalid entry\\\" the moment a user tabs into a required field that is currently empty.\")",
+      "outcome": "`:user-invalid` is Widely available, and the programmatic state now appears at the same moment as the visual state (official claim)",
+      "story": "`:user-invalid` only affects the visuals; it doesn't touch ARIA. The guide also points out that Firefox and Safari expose an empty required field as invalid from page load, so `aria-invalid` can't be left unset and must be `false`. You still write the bridging script yourself, because there is no \"UserInvalidChanged\" event.",
+      "unlock": "",
+      "support": ":user-valid / :user-invalid: Widely (2023-11-02)"
+    },
+    "mwg:accessible-error-announcement:2": {
+      "title": "Reference the error from aria-describedby only while it's shown",
+      "action": "Point the field at its error message with `data-error`, and let the script add that id to `aria-describedby` only while the field is invalid",
+      "blocker": "Referencing the error from `aria-describedby` in the markup means it is read even while hidden, so users hear the error before interacting (quote: \"text that `aria-describedby` references is announced even when it's hidden, so the error would be read out before the user has interacted.\")",
+      "outcome": "The error message is referenced only while it is visible (official claim)",
+      "story": "The error element is always in the page, just hidden with `display: none`, so leaving the reference in place feels harmless. But `aria-describedby` ignores visibility, so the reference itself has to follow the state.",
+      "unlock": "",
+      "support": ":user-valid / :user-invalid: Widely (2023-11-02); no support data given for aria-describedby"
+    },
+    "mwg:accessible-error-announcement:3": {
+      "title": "Announce errors through one shared polite live region, not a live region per error",
+      "action": "Put one `aria-live=\"polite\"` region on the page and write \"label: error\" into it about 500ms after a field is left or changed; after a failed submit, move focus to the first invalid field",
+      "blocker": "Making each error message its own live region fails because it is shown rather than changed, so screen readers don't announce it reliably (quote: \"a live region that is shown, rather than changed, isn't announced reliably.\")",
+      "outcome": "The shared region announces by changing its content, and the delay keeps it from talking over the next field (official claim)",
+      "story": "A common pattern is putting `aria-live` on each error `<span>` and toggling its display, which announces only some of the time. The guide uses a single announcer that receives text instead. When the field is fixed, the announcer is also cleared so the old error isn't found later while reading the page.",
+      "unlock": "",
+      "support": ":user-valid / :user-invalid: Widely (2023-11-02); no support data given for live regions"
+    },
+    "mwg:accessible-generated-content": {
+      "title": "Silence decorative glyphs with content's alt-text argument",
+      "action": "Add alt text to `content` after a `/`: `content: \" →\" / \"\";` for decoration, `content: url(icon.svg) / \"Save\";` for a meaningful icon",
+      "blocker": "Without the `/` syntax, decorative glyphs inserted with `::after` are read out by screen readers (quote: \"Fallback: render the glyph in browsers without `/` support (screen readers there will still announce it)\")",
+      "outcome": "The alt-text syntax is Newly available (2024-07-09); older browsers need a preceding `content` line without `/` as a fallback, where the glyph is still announced and non-empty alt text is lost (official claim)",
+      "story": "CSS-added arrows and separator dots turn into noise like \"right arrow\" in a screen reader. The new syntax lets CSS itself declare \"don't read this\" or \"read it as this\". The guide stresses this is harm reduction: meaningful text still belongs in the DOM.",
+      "unlock": "Arrows, separators and status icons inserted with CSS can be declared silent, or given a spoken label, right in the stylesheet, without wrapping each icon in an extra `aria-hidden` span. An icon system can live entirely in CSS without adding screen reader noise.",
+      "support": "Alt text for generated content: Newly (2024-07-09; Chrome 77, Edge 79, Firefox 128, Safari 17.4)"
+    },
+    "mwg:accessible-generated-content:2": {
+      "title": "Don't repeat text already in the DOM as content alt text",
+      "action": "Use the alt-text argument only when the text differs from the primary value and isn't already in the DOM",
+      "blocker": "A button labelled \"Save\" with `/ \"Save\"` on its `::before` icon is read as \"Save save\" (quote: \"A screen reader would read it out as \\\"Save save\\\".\")",
+      "outcome": "Not naming the icon again means no duplicate announcement (official claim)",
+      "story": "The new syntax invites the idea that every icon needs alt text, which then stacks on top of the button's own label. The guide also says images are presentational by default, so don't add empty alt text, and emoji alt text is only for when it differs from the official name.",
+      "unlock": "",
+      "support": "Alt text for generated content: Newly (2024-07-09)"
+    },
+    "mwg:respect-os-text-scale": {
+      "title": "Use meta text-scale so the page follows the system font size",
+      "action": "Put `<meta name=\"text-scale\" content=\"scale\">` in `<head>`, size text and spacing in `rem`/`em`, and use unitless line heights",
+      "blocker": "Users set a larger system font size on iOS/Android, but mobile browsers ignore it by default and the page text stays the same (quote: \"By default, mobile browsers ignore these OS-level accessibility settings to prevent legacy, fixed-pixel websites from breaking visually.\")",
+      "outcome": "Only Chrome/Edge 146 support it; Firefox and Safari keep the default size, leaving users with manual zoom or pinch-to-zoom (official claim)",
+      "story": "Browsers ignore the system font size to protect old fixed-px sites. The meta tag is the page declaring \"my layout can take it\", and only then is the system scale applied to `1rem`. After opting in you must not set `font-size` on `:root` yourself, nor multiply by `env(preferred-text-scale)` again, or scaling is blocked or doubled.",
+      "unlock": "Web pages can follow the phone's system font size (Dynamic Type) like native apps, so older or low-vision users don't have to adjust every site. Reading and documentation pages benefit most; Chrome/Edge 146+ only for now.",
+      "support": "<meta name=\"text-scale\">: Limited (Chrome 146, Edge 146; not Firefox or Safari)"
+    },
+    "mwg:respect-os-text-scale:2": {
+      "title": "Fluid font sizes need a rem component, not vw alone",
+      "action": "Write fluid font sizes like `clamp(2rem, 1.25rem + 2vw, 4rem)` so they have both a font-relative and a viewport-relative part",
+      "blocker": "With `font-size: 5vw` alone, text doesn't fully respond to the user's text scaling (quote: \"The font size does not respond fully to user text scaling\")",
+      "outcome": "With a `rem` component, both the system font size and browser zoom affect the text size (official claim)",
+      "story": "Pure vw sizes follow only the viewport width, so when the user enlarges text the headings don't move. The guide adds rules of thumb: keep the maximum no more than 2.5 times the minimum, and test 200% text resize and reflow at 320 CSS px wide.",
+      "unlock": "",
+      "support": "— (the guide gives support data only for meta text-scale, not for `clamp()`/`rem`)"
+    },
+    "mwg:respect-os-text-scale:3": {
+      "title": "With text-scale on, don't hard-code font-size on html",
+      "action": "Leave the root font size to the browser: no `font-size` on `:root`/`html`, whether absolute, relative or calculated",
+      "blocker": "Writing `font-size: 16px` on `html` can stop the browser from applying text scaling (quote: \"This can prevent the browser from applying text scaling\")",
+      "outcome": "Leaving the root size to the browser lets the system scale apply, but that only matters in Chrome/Edge 146+, which support meta text-scale (official claim)",
+      "story": "Many resets and design systems pin 16px on `html` as a baseline, and that one line cancels the opt-in. The guide lists it as a DO NOT, and separately warns against combining it with `env(preferred-text-scale)`, which scales twice.",
+      "unlock": "",
+      "support": "<meta name=\"text-scale\">: Limited (Chrome 146, Edge 146)"
+    },
+    "mwg:language-detection": {
+      "title": "Detect text language in the browser with LanguageDetector",
+      "action": "Check with `LanguageDetector.availability()`, create the detector from a user gesture with `LanguageDetector.create()`, and get a confidence-ranked language list from `detect()`",
+      "blocker": "(missing) The guide only says it reduces the need for heavy external libraries or costly server calls, without saying where the old approach fails (quote: \"it enhances user privacy and reduces the need for heavy external libraries or costly server-side calls.\")",
+      "outcome": "Only Chrome 138 and Edge 148 support it; elsewhere you fall back to a server or cloud API, or disable detection (official claim)",
+      "story": "Uses include detecting the source language before translation and setting the right `lang` on content. The guide stresses detection runs locally and sends nothing to Google or third parties, but never describes a concrete failure of the old way. The model download needs a user gesture, 22 GB of storage and 16 GB of RAM, and accuracy drops sharply on very short phrases.",
+      "unlock": "Pasted text can have its language detected on-device and get the right `lang` automatically on comments or note paragraphs, so screen readers pronounce it correctly, without sending the content to a server. Chrome/Edge desktop only for now, with hardware requirements.",
+      "support": "Language detector: Limited (Chrome 138, Edge 148; not Firefox or Safari)"
+    },
+    "mwg:language-model": {
+      "title": "Run Gemini Nano in the browser with the Prompt API",
+      "action": "Check with `LanguageModel.availability()`, download the model from a user gesture via `LanguageModel.create()`, then handle text, image and audio input with `prompt()`/`promptStreaming()`",
+      "blocker": "(missing) The guide only lists the benefits of running locally (privacy, lower server cost, offline), without saying where the old approach fails (quote: \"This built-in AI approach ensures user privacy, reduces server costs, and enables offline functionality.\")",
+      "outcome": "Only Chrome 148 supports it; Edge, Firefox and Safari fall back to a server/cloud API or a local endpoint such as Transformers.js (official claim)",
+      "story": "The guide covers session management (`clone()`, `initialPrompts`, `destroy()`), multimodal input and JSON Schema structured output. The opponent appears only as the flip side of the benefits, with no observable failure. Hardware requirements are high (22 GB storage, 16 GB RAM), and the download needs a user gesture plus visible progress.",
+      "unlock": "Classify, rewrite or answer questions about images inside the page without a server, for example a notes app tagging each diary entry on-device or turning screenshots into text. Data stays on the device and it works offline. Chrome 148 desktop only for now, with hardware requirements.",
+      "support": "LanguageModel: Limited (Chrome 148; not Edge, Firefox or Safari)"
+    },
+    "mwg:language-model:2": {
+      "title": "Always write model output with textContent, never innerHTML",
+      "action": "Write model responses into `textContent`; when limited HTML is needed, run the Sanitizer API or DOMPurify over the **complete** output",
+      "blocker": "Model output is untrusted and can contain injected markup, so setting `innerHTML` directly becomes XSS (quote: \"Model output is untrusted and can contain injected markup. Always use `textContent` or a sanitizer.\")",
+      "outcome": "Written as plain text, it is never parsed as markup (official claim)",
+      "story": "The usual streaming pattern is `innerHTML +=` for each chunk. The guide says that is slow and injectable, and malicious code can be split across two chunks, so sanitize the combined output, not each chunk.",
+      "unlock": "",
+      "support": "— (no support data given for textContent)"
+    },
+    "mwg:language-model:3": {
+      "title": "Set aria-busy while streaming so screen readers read the full response, not each chunk",
+      "action": "Make the output container a polite live region present from page load, set `aria-busy=\"true\"` while streaming and `false` after; don't move focus during streaming",
+      "blocker": "Without `aria-busy`, the live region reads out every streamed chunk (quote: \"so assistive technologies announce the complete response rather than each chunk\")",
+      "outcome": "Assistive tech waits until streaming ends and announces the complete response (official claim)",
+      "story": "The typewriter effect is feedback for sighted users and broken fragments for screen reader users. When the output language differs from the page, the output element must also get `lang` so it is pronounced correctly.",
+      "unlock": "",
+      "support": "— (no support data given for aria-busy / live regions)"
+    },
+    "mwg:prompt-api": {
+      "title": "Run Gemini Nano in the browser with the Prompt API",
+      "action": "Check with `LanguageModel.availability()`, download the model from a user gesture via `LanguageModel.create()`, then handle text, image and audio input with `prompt()`/`promptStreaming()`",
+      "blocker": "(missing) The guide only lists the benefits of running locally (privacy, lower server cost, offline), without saying where the old approach fails (quote: \"This built-in AI approach ensures user privacy, reduces server costs, and enables offline functionality.\")",
+      "outcome": "Only Chrome 148 supports it; Edge, Firefox and Safari fall back to a server/cloud API or a local endpoint such as Transformers.js (official claim)",
+      "story": "This guide is word-for-word identical to the language-model guide in v1.0.0. It covers session management, multimodal input and structured output; the opponent appears only as the flip side of the benefits. Hardware requirements are high, and the download needs a user gesture plus visible progress.",
+      "unlock": "Same as `mwg:language-model`: classify, rewrite or answer questions about images inside the page without a server; data stays on the device. Chrome 148 desktop only for now.",
+      "support": "LanguageModel: Limited (Chrome 148; not Edge, Firefox or Safari)"
+    },
+    "mwg:prompt-api:2": {
+      "title": "Always write model output with textContent, never innerHTML",
+      "action": "Write model responses into `textContent`; when limited HTML is needed, run the Sanitizer API or DOMPurify over the **complete** output",
+      "blocker": "Model output is untrusted and can contain injected markup, so setting `innerHTML` directly becomes XSS (quote: \"Model output is untrusted and can contain injected markup. Always use `textContent` or a sanitizer.\")",
+      "outcome": "Written as plain text, it is never parsed as markup (official claim)",
+      "story": "The usual streaming pattern is `innerHTML +=` for each chunk. The guide says that is slow and injectable, and malicious code can be split across two chunks, so sanitize the combined output, not each chunk.",
+      "unlock": "",
+      "support": "— (no support data given for textContent)"
+    },
+    "mwg:prompt-api:3": {
+      "title": "Set aria-busy while streaming so screen readers read the full response, not each chunk",
+      "action": "Make the output container a polite live region present from page load, set `aria-busy=\"true\"` while streaming and `false` after; don't move focus during streaming",
+      "blocker": "Without `aria-busy`, the live region reads out every streamed chunk (quote: \"so assistive technologies announce the complete response rather than each chunk\")",
+      "outcome": "Assistive tech waits until streaming ends and announces the complete response (official claim)",
+      "story": "The typewriter effect is feedback for sighted users and broken fragments for screen reader users. When the output language differs from the page, the output element must also get `lang` so it is pronounced correctly.",
+      "unlock": "",
+      "support": "— (no support data given for aria-busy / live regions)"
+    },
+    "mwg:summarizer": {
+      "title": "Summarize on-device with Summarizer instead of sending articles to the cloud",
+      "action": "Call `Summarizer.availability()` and `Summarizer.create()` with the same options (type: key-points/tldr/teaser/headline) and summarize long text with `summarize()` or `summarizeStreaming()`",
+      "blocker": "When a remote service does the work, requests go to the cloud, the on-device privacy guarantee is gone, and server-side API costs are incurred (quote: \"This completely nullifies the on-device privacy guarantees of the native Built-in AI APIs and will incur server-side API usage costs.\")",
+      "outcome": "Only Chrome 138 and Edge 138 support it; elsewhere the fallback is exactly a remote API or a cloud-proxying polyfill, so the opponent stands untouched (official claim)",
+      "story": "The guide says summarization runs entirely on the device and nothing goes to Google. The opponent shows up in the fallback section's warning that polyfills may forward requests to cloud models. So in Firefox and Safari you either pay and hand over the data, or disable the summarize button.",
+      "unlock": "Private documents (diaries, meeting notes, email) can get a TL;DR or key points right in the page without the content leaving the device or running up an API bill, for example a \"this week in three sentences\" block at the top of a long weekly note. Chrome/Edge 138 desktop only for now.",
+      "support": "Summarizer: Limited (Chrome 138, Edge 138; not Firefox or Safari)"
+    },
+    "mwg:translator": {
+      "title": "Translate on-device with Translator instead of sending text to the cloud",
+      "action": "Call `Translator.availability()` and `Translator.create()` with the same `sourceLanguage`/`targetLanguage`, download the language pack from a user gesture, and translate with `translate()` or `translateStreaming()`",
+      "blocker": "When a remote service does the work, the on-device privacy guarantee is gone and server-side API costs often follow (quote: \"Remote processing completely nullifies the on-device privacy guarantees of the native Built-in AI APIs and will often incur server-side API usage costs.\")",
+      "outcome": "Only Chrome 138 and Edge 148 desktop support it, not mobile, Firefox or Safari; the fallback is a cloud translation API or a polyfill, so the opponent remains (official claim)",
+      "story": "The guide targets ephemeral content such as chat messages and user input, text not worth sending to the cloud. After the model downloads, translation needs no network. Language packs download per language pair, and `availability()` reports available, downloadable, downloading or unavailable; unavailable means taking the fallback.",
+      "unlock": "Chat rooms and comment sections can translate each message in place, without a third-party translation service or per-character billing; paired with language detection, users wouldn't even need to pick the source language. Chrome/Edge desktop only for now.",
+      "support": "Translator: Limited (Chrome 138, Edge 148; not Firefox or Safari; desktop only)"
+    },
+    "mwg:animate-to-intrinsic-sizes": {
+      "title": "Let height: auto transition with interpolate-size",
+      "action": "Set `interpolate-size: allow-keywords` on `:root` so `block-size` can transition from a fixed length to keywords like `auto`/`max-content`; use `calc-size()` when you need math on the intrinsic size",
+      "blocker": "In browsers without support, the size jumps straight to the target value with no transition (quote: \"Browsers that do not support them will perform an instant jump to the target size.\")",
+      "outcome": "`interpolate-size` and `calc-size()` are only in Chrome/Edge 129; Firefox and Safari still jump instantly, which the guide calls functional but less polished (official claim)",
+      "story": "A \"show more\" section or a dismissible alert growing from 0 to its content height used to need JS measuring or `max-height` hacks. The new property lets the browser interpolate, but both ends can't be keywords; one must be a length or percentage. The guide also requires setting `hidden` after collapsing to 0 and respecting `prefers-reduced-motion`.",
+      "unlock": "Any block whose height follows its content (notifications, expandable notes, collapsible sidebars) can expand and collapse smoothly with one line of CSS and no JS measuring. Good for dashboard cards with lots of dynamic content; Chromium only for now.",
+      "support": "interpolate-size: Limited (Chrome 129, Edge 129); calc-size(): Limited (Chrome 129, Edge 129); not Firefox or Safari"
+    },
+    "mwg:calculate-with-intrinsic-sizes": {
+      "title": "Add to, clamp and animate content sizes with calc-size()",
+      "action": "Use `calc-size(<basis>, <calculation>)` on `auto`/`min-content`/`fit-content` (e.g. `calc-size(auto, size + 2rem)`, `calc-size(fit-content, min(size + …, …))`), with a plain keyword on the line before as fallback",
+      "blocker": "Browsers can't interpolate between a length and an intrinsic sizing keyword by default, e.g. `0px` to `auto` (quote: \"By default, browsers cannot interpolate between a length (e.g., `0px`) and an intrinsic keyword (e.g., `auto`).\")",
+      "outcome": "`calc-size()` is only in Chrome/Edge 129; other browsers drop the whole declaration and the animation becomes an instant jump (official claim)",
+      "story": "\"Content width plus 2rem\" or \"content height but capped\" used to need JS measuring. `calc-size()` turns intrinsic sizes into values you can compute and interpolate. The guide draws a clear line: for a plain `0` to `auto` animation use `interpolate-size`, use `calc-size()` only for math; it also warns that percentages inside resolve against the container, not `size`.",
+      "unlock": "Labels, buttons and floating panels that are \"as wide as their content plus some breathing room, up to a cap\" can be written in pure CSS and grow smoothly when expanded, for example a button that stretches from an icon to icon plus text on hover. Chromium only for now.",
+      "support": "calc-size(): Limited (Chrome 129, Edge 129); interpolate-size: Limited (Chrome 129, Edge 129)"
+    },
+    "mwg:calculate-with-intrinsic-sizes:2": {
+      "title": "Set visibility: hidden when collapsing to zero height",
+      "action": "Set `visibility: hidden` on the collapsed state and `visible` on the open state, and include `visibility` in the transition so content stays visible until it finishes closing",
+      "blocker": "Collapsing only `block-size` to 0 hides content visually, but screen readers still read it and its links and controls stay in the tab order (quote: \"Collapsing to zero size (`block-size: 0` or `height: 0`) hides content only visually: screen readers still read it, and its links and controls stay in the tab order.\")",
+      "outcome": "`visibility: hidden` removes collapsed content from the accessibility tree and the tab order (official claim)",
+      "story": "The height animation looks great, yet keyboard users tab into an invisible panel. Transitioning `visibility` too keeps both the collapse animation and the correct accessibility state.",
+      "unlock": "",
+      "support": "— (no support data given for visibility)"
+    },
+    "mwg:atrule-support-conditionals": {
+      "title": "Detect at-rules in CSS with @supports at-rule()",
+      "action": "Wrap rules or declarations that only make sense when an at-rule works in `@supports at-rule(@property) { … }` (it can be nested inside a selector)",
+      "blocker": "(missing) The guide only says that without `at-rule()` you detect via properties/selectors, a registered-property trick, and JS as a last resort, without saying where those approaches fail (quote: \"When `at-rule()` is not an option, either due to browser support or because deeper detection is needed, you can use the guidance below.\")",
+      "outcome": "`at-rule()` is only in Chrome/Edge 148 and Firefox 157, not Safari; the guide advises using it only for at-rules that shipped later than it did (official claim)",
+      "story": "Knowing whether `@property` or `@function` works used to require detours, or a JS check for `CSSFunctionRule` followed by adding a class. The new syntax lets CSS branch directly. It detects by **name** only, not preludes or descriptors, and shouldn't wrap the detected at-rule by itself, since unknown rules are ignored anyway.",
+      "unlock": "Animations and themes that depend on `@property` or custom functions can carry their own \"if unsupported, use the flat version\" branch in the stylesheet instead of detecting in JS and toggling a class, so component libraries can keep progressive enhancement entirely in CSS. Not in Safari yet.",
+      "support": "at-rule(): Limited (Chrome 148, Edge 148, Firefox 157; not Safari)"
+    },
+    "mwg:atrule-support-conditionals:2": {
+      "title": "Detect style query support with an always-true query",
+      "action": "Wrap rules that should apply only when style queries work in `@container style(--a: 1) or (not (style(--a: 1))) { … }`",
+      "blocker": "Detecting style queries with `@supports at-rule(@container style(--a: 1))` or `@supports (container-type: style)` never matches (quote: \"IMPORTANT: Do NOT try `@supports (container-type: style)` to detect support for style queries, as this will not work.\")",
+      "outcome": "The always-true query always matches where style queries are supported; container style queries are Newly available (2026-05-19) (official claim)",
+      "story": "Every other container query type can be detected through a `container-type` value, but style queries have none, so the intuitive version fails silently. The guide's always-true query works with any property name, as long as both halves match.",
+      "unlock": "",
+      "support": "Container style queries: Newly (2026-05-19; data from the upstream design-token-reactivity guide, not given in this one)"
+    },
+    "mwg:child-state-based-styling": {
+      "title": "Let containers react to child state with :has() instead of JS-toggled classes",
+      "action": "Use `:has()` on the container with state pseudo-classes (`:checked`, `:invalid`, `:focus`…), e.g. `.theme-card:has(.theme-toggle:checked)` overriding the container's custom properties",
+      "blocker": "(missing) The guide only says JS no longer needs to toggle modifier classes like `.is-active` or `.has-error` on parents, without saying where hand-toggling fails (quote: \"without needing JavaScript to toggle \\\"modifier\\\" classes (like `.is-active` or `.has-error`) on parent elements.\")",
+      "outcome": "`:has()` is Widely available; the container's style follows the child's state directly (official claim)",
+      "story": "CSS selectors used to go only downward, so a parent reacting to a child meant event listeners adding classes. `:has()` makes a form group highlighting errors or a card lifting when a child link is focused pure CSS. The guide advises scoping `:has()` to the nearest component container, not `body`, to avoid wide recalculations.",
+      "unlock": "",
+      "support": ":has(): Widely (2023-12-19)"
+    },
+    "mwg:content-based-styling": {
+      "title": "Switch layouts with :has() based on whether a child exists",
+      "action": "Use `:has(img)` on the component container to switch to a side-by-side layout, and `:not(:has(img))` for the no-image style",
+      "blocker": "(missing) The guide only says JS or template conditionals used to inject modifier classes like `.card--has-image`, without saying where that fails (quote: \"Historically, applying different layouts to a component based on its content required either JavaScript or conditional logic in your HTML templating language to inject modifier classes\")",
+      "outcome": "`:has()` is Widely available; the layout follows the actual DOM content (official claim)",
+      "story": "One card component needs two layouts, with and without an image, which used to mean the HTML-generating side knew the content and added a class. `:has()` lets the stylesheet look at the content itself. For a fallback, the guide prefers a server-side template class, since content is known at render time.",
+      "unlock": "",
+      "support": ":has(): Widely (2023-12-19)"
+    },
+    "mwg:css-layout": {
+      "title": "Remove the replaced-element gap with display: block, not overflow: hidden",
+      "action": "Give `<img>`, `<canvas>`, `<svg>`, `<video>` and `<iframe>` a block outer display (`display: block`/`grid`/`flex`) to remove the gap at its source",
+      "blocker": "These replaced elements are `display: inline` by default, which adds a gap in some layouts (quote: \"certain replaced elements like `<canvas>`, `<img>`, `<svg>`, `<video>`, `<iframe>` use `display: inline` by default, which can add a gap in certain layouts.\")",
+      "outcome": "With block display the gap disappears, with no clipping needed to hide it (official claim)",
+      "story": "When a few stray px appear under an image, the usual \"fix\" is `overflow: hidden` on the parent to clip them, which only hides the layout problem. The guide's principle is not to mask layout issues with `overflow: hidden` and to fix them at the source.",
+      "unlock": "",
+      "support": "— (no support data given for display)"
+    },
+    "mwg:css-layout:2": {
+      "title": "Reserve space for media with aspect-ratio",
+      "action": "Set `aspect-ratio` (e.g. `16 / 9`) on media, with `inline-size: 100%; block-size: auto`",
+      "blocker": "Without reserved space, images and video push the content below down once they load, causing layout shift (quote: \"Use `aspect-ratio` to reserve space for media and prevent layout shift before assets load.\")",
+      "outcome": "The ratio fixes the height up front, so the layout doesn't move when assets load (official claim)",
+      "story": "Text jumping down mid-read happens because an image above just finished loading. Declaring the ratio tells the browser how much height to reserve before the image arrives.",
+      "unlock": "",
+      "support": "— (no support data given for aspect-ratio)"
+    },
+    "mwg:css-layout:3": {
+      "title": "Turn on flex-wrap: wrap for rows that might not fit",
+      "action": "Whenever overflow is possible, set `flex-wrap: wrap` on the flex container; add `min-inline-size: 0` to items with long URLs or code",
+      "blocker": "`nowrap` without `overflow: auto/hidden` makes items spill out of the container on narrow viewports (quote: \"`nowrap` without `overflow: auto/hidden` will spill on narrow viewports.\")",
+      "outcome": "With wrapping, items stay inside the container (official claim)",
+      "story": "A row of buttons that looks fine on desktop runs off the screen on a phone. The guide also suggests layering `flex-wrap: balance` after `wrap` to even out rows and avoid a lone orphan on the last row, but that is a Limited new feature outside this line.",
+      "unlock": "",
+      "support": "— (no support data given for flex-wrap: wrap; flex-wrap: balance in the same section is Limited, Chrome 150, Edge 150)"
+    },
+    "mwg:css": {
+      "title": "Exclude with :not() instead of overriding with a later rule",
+      "action": "Use `:not()` to exclude irrelevant states or targets, e.g. `li:not(:last-child)`, `button:hover:not(:disabled)`",
+      "blocker": "Styling first and overriding with another rule breaks when the two rules swap order, so disabled buttons get a hover background; the override can also clobber a value set elsewhere (quote: \"If we reorder the two rules, we will get a hover background on disabled buttons!\")",
+      "outcome": "A selector that doesn't overmatch works regardless of rule order (official claim)",
+      "story": "\"Add a border to all, then remove it from the last\" is common, but it doesn't express the real intent and depends on rule order. The guide separates two cases: use `:not()` to exclude irrelevant targets; overriding for specialization (buttons are neutral, primary ones blue) is fine.",
+      "unlock": "",
+      "support": "N/A (the guide has no browser support data at all)"
+    },
+    "mwg:css:2": {
+      "title": "Exclude nested subtrees with @scope, not :not() plus descendants",
+      "action": "Use `@scope (.card) to (.content) { … }` to select elements inside the card but not inside `.content`",
+      "blocker": "`.card :not(.content *)` doesn't work as expected with nested cards and excludes the wrong elements (quote: \"For example, `.card :not(.content *)` will not work as expected for nested cards.\")",
+      "outcome": "`@scope` accounts for proximity, so nested cards work (official claim)",
+      "story": "`:not()` only asks whether some ancestor matches, not which one is nearest, so it goes wrong once components nest. The lower bound of `@scope` makes exclusion follow the nearest scope root. The same guide uses `@scope` to fix `.dark .invert` / `.light .invert` always resolving to one theme when nested.",
+      "unlock": "",
+      "support": "N/A (the guide has no browser support data at all; no external @scope data added)"
+    },
+    "mwg:css:3": {
+      "title": "Don't write global resets on *",
+      "action": "Apply resets to specific element types or conditions, not to `*`",
+      "blocker": "Resets on `*` can't be overridden by web components or lower-priority cascade layers without `!important` (quote: \"they cannot be overridden by web components or lower-priority cascade layers (without `!important`).\")",
+      "outcome": "The guide only says to target specific elements, without stating what happens to the opponent afterwards",
+      "story": "`* { box-sizing: border-box; margin: 0 }` is almost a reflex, but it hits every element, including parts of web components that want to decide for themselves. The guide advocates managing priority with `@layer` and `:where()`, which a global reset works against.",
+      "unlock": "",
+      "support": "N/A (the guide has no browser support data at all)"
+    },
+    "mwg:design-token-reactivity": {
+      "title": "Keep higher-order tokens in CSS with container style queries",
+      "action": "Set a custom property such as `--density: compact` on a container, and have descendants apply styles with `@container style(--density: compact)`",
+      "blocker": "With a `data-density` attribute and selectors, the selectors have equal specificity, so nested density regions can't override correctly and source order always decides (quote: \"A major limitation of this fallback approach is that it does not support nesting elements with the `data-density` attribute set, since the selector specificity is the same, order of appearance will be used to determine the styles\")",
+      "outcome": "Container style queries are Newly available (2026-05-19); the guide advises against using them for core features that must work in every browser, which still need the selector version and keep its nesting limit (official claim)",
+      "story": "Higher-order tokens like density or emphasis used to be encoded as class naming conventions or as JS framework props/context. A style query reads an ancestor's computed value, so the token can stay in the stylesheet. The guide doesn't explicitly say style queries solve nesting; that is inferred from it calling nesting the fallback's major limitation.",
+      "unlock": "Set one `--density` or `--tone` on any ancestor and every component below switches between compact/spacious or emphasized styles, nesting level by level. Suits data tables or admin UIs with a user-adjustable density, without passing context through a framework.",
+      "support": "Container style queries: Newly (2026-05-19; Chrome 111, Edge 111, Firefox 151, Safari 18)"
+    },
+    "mwg:dynamic-sibling-styling": {
+      "title": "Let each item compute its own style with sibling-index() and sibling-count()",
+      "action": "Use `sibling-index()` and `sibling-count()` inside `calc()` to compute each sibling's hue, rotation or position on a circle (optionally with `sin()`/`cos()`)",
+      "blocker": "(missing) The guide only says this used to need complex `:nth-child` loops or JS injecting inline styles, without saying where that fails (quote: \"Historically, applying unique styles to each sibling in a list required complex `:nth-child` loops or JavaScript to inject inline styles.\")",
+      "outcome": "Newly available (2026-08-18); older browsers need JS injecting `--sibling-index`/`--sibling-count`, with the native functions overriding inside `@supports` (official claim)",
+      "story": "Color spectra, fans and circular layouts all need \"which one am I, and how many are there\". The new functions bring both numbers into CSS, so the layout recomputes as items are added or removed. The guide requires the fallback's injected index to start at 1 to match the native functions.",
+      "unlock": "Visualizations with a variable number of items can be laid out in pure CSS: radial menus, a fanned-out hand of cards, tag clouds colored by count. Positions and colors recompute when items are added or removed, with no JS loop.",
+      "support": "sibling-count() / sibling-index(): Newly (2026-08-18; Chrome 138, Edge 138, Firefox 154, Safari 26.2)"
+    },
+    "mwg:fluid-scaling": {
+      "title": "Fluid scaling with container query units, not the viewport width",
+      "action": "Set `container-type: inline-size` on the wrapper, size text and padding inside the component with `cqi`/`cqb`, and bound them with `clamp()`",
+      "blocker": "Fluid scaling with viewport units makes the component scale with the screen width rather than its own (quote: \"This fallback ensures that the text still scales, but it will be based on the screen width rather than the component's width.\")",
+      "outcome": "Container queries (size) are Widely available, so components scale with their container wherever they are placed (official claim)",
+      "story": "The same card in the main column and in a sidebar sees the same viewport width but very different available width, so vw text looks too big in the sidebar. Container units need no `@container` rule and resolve against the nearest container. Same opponent as form-factor-adaptation's \"lay out components with container queries\".",
+      "unlock": "",
+      "support": "Container queries (size): Widely (2023-02-14)"
+    },
+    "mwg:fluid-scaling:2": {
+      "title": "Keep the fluid font maximum within 2.5× the minimum, and don't shrink the container on zoom",
+      "action": "Keep the `clamp()` maximum no more than 2.5 times the minimum, and don't let the container get narrower when the browser zooms in",
+      "blocker": "Clamping fluid font sizes affects the user's ability to zoom or adjust their base font size (quote: \"This impacts the user's ability to zoom or adjust their base font size.\")",
+      "outcome": "Within the ratio limit, text can be resized to 200%, meeting WCAG 1.4.4 (official claim)",
+      "story": "When fluid text is clamped and tied to container width, it may not grow when the user zooms. The guide gives two rules, the 2.5× ratio cap and not shrinking the container on zoom, so text can reach 200%. It gives the rules but no way to verify them.",
+      "unlock": "",
+      "support": "Container queries (size): Widely (2023-02-14)"
+    },
+    "mwg:individual-transform-properties": {
+      "title": "Animate translate/rotate/scale separately instead of rewriting the whole transform",
+      "action": "Use the separate `translate`, `rotate` and `scale` properties, so hover or a transition changes only one of them",
+      "blocker": "Changing one transformation in `transform` means re-specifying the whole chain, so a single transformation is hard to animate on its own, and a hover `transform` overrides a running translate animation (quote: \"any changes to a single transformation require re-specifying the entire transformation chain. This makes it tricky to animate or transition a single transformation.\")",
+      "outcome": "Widely available; animations and transitions on different properties don't override each other, e.g. hover changes only `scale` while the `translate` float animation keeps running (official claim)",
+      "story": "A card that floats up and down and also scales on hover makes both fight over one property when written with `transform`. As separate properties they run independently. The cost: the order is fixed (translate → rotate → scale → transform), so a different order still needs `transform`, and the two stack: `scale: 2; transform: scale(3)` gives 6×.",
+      "unlock": "",
+      "support": "Individual transform properties: Widely (2022-08-05)"
+    },
+    "mwg:individual-transform-properties:2": {
+      "title": "Give transformable elements an identity transform so hover doesn't change stacking",
+      "action": "On elements that may be transformed on a state change, set `translate: 0px; rotate: 0deg; scale: 1;` in the base state",
+      "blocker": "Applying a transform only on hover creates a new stacking context at that moment, causing unexpected layout or z-index shifts and affecting anchor positioning (quote: \"This prevents unexpected layout or z-index shifts caused by creating a new stacking context only on hover.\")",
+      "outcome": "The stacking context and containing block exist from the base state, so nothing changes on hover (official claim)",
+      "story": "On mouseover an element suddenly moves above or below another, or a fixed-position child switches reference box. Transforms create a stacking context and containing block, so having them only on hover makes things jump. An identity transform makes them exist from the start.",
+      "unlock": "",
+      "support": "Individual transform properties: Widely (2022-08-05)"
     }
   }
 }
