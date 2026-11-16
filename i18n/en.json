@@ -36,7 +36,10 @@
     "每顆按鈕手接JS": "Wiring JS to every button",
     "版面依賴錯的量測": "Layout depends on the wrong measurement",
     "手寫焦點管理": "Hand-written focus management",
-    "版面擠壓破壞可讀性": "Cramped layout hurts readability"
+    "版面擠壓破壞可讀性": "Cramped layout hurts readability",
+    "canvas內容對瀏覽器隱形": "Canvas content is invisible to the browser",
+    "手工重現瀏覽器渲染": "Re-implementing browser rendering by hand",
+    "canvas裡手寫互動": "Hand-written interaction inside canvas"
   },
   "guides": {
     "install-web-app": "Installing web apps",
@@ -53,7 +56,11 @@
     "tabs": "Tabbed interfaces",
     "toolbar": "Toolbar",
     "form-factor-adaptation": "Adapting to the form factor",
-    "natural-interactions": "Natural interaction feedback"
+    "natural-interactions": "Natural interaction feedback",
+    "expose-canvas-content-to-browser-features": "Exposing canvas content to browser features",
+    "export-html-media-from-canvas": "Exporting HTML content from canvas",
+    "interactive-content-in-3d-scenes": "Interactive HTML content in 3D scenes",
+    "apply-webgl-shaders": "Applying WebGL shaders to HTML content"
   },
   "lines": {
     "mwg:install-web-app": {
@@ -325,6 +332,42 @@
       "story": "Same group as the `title` line in single-line-overflow: interactions that only work with a mouse. A declarative popover lets the browser provide open and close behaviour, so you don't have to add keyboard and touch support yourself.",
       "unlock": "Dropdowns and overlays declared with `popovertarget` get click, keyboard, Esc and click-outside behaviour, and an animation growing from the trigger needs only CSS.",
       "support": "Popover: Newly (2025-01-27)"
+    },
+    "mwg:expose-canvas-content-to-browser-features": {
+      "title": "Draw real DOM into the canvas so its content is no longer invisible to the browser",
+      "action": "Put real HTML children (marked `drawable`) inside `<canvas content=\"drawable\">` and draw them in `onpaint` with `drawElementImage()` (or copy them to a texture in WebGL/WebGPU)",
+      "blocker": "Content drawn on a regular `<canvas>` is invisible to screen readers, indexing, translation tools, find-in-page and print (quote: \"Regular `<canvas>` content is not exposed to browser features such as screen readers, indexing, translation tools, accessibility assistive tools, find-in-page, print, etc.\")",
+      "outcome": "The content stays in the DOM so browser features keep working, but only Chrome 157+ supports it; elsewhere you overlay HTML on the canvas with CSS or use the `three-html-render` polyfill (official claim)",
+      "story": "A canvas has always been an opaque block of pixels: text on it cannot be selected, searched or translated, and assistive tech cannot read it. The new API keeps the canvas's children laid out and in the DOM tree while the canvas only decides how to paint them; in 2D the browser even aligns hit testing automatically. Cross-origin content cannot be drawn, and with Chrome-only support you have to maintain the fallback alongside it to cover other browsers.",
+      "unlock": "Text drawn on a canvas (charts, whiteboards, map labels) can be found with Ctrl+F, translated and read by screen readers without maintaining a hidden DOM copy. Chrome 157+ only for now.",
+      "support": "HTML-in-Canvas: Limited (Chrome 157+, stable since 2026-11-03; not Firefox or Safari). The guide's fallback section still says \"HTML-in-canvas is not natively supported by any major browser yet.\", which is out of date"
+    },
+    "mwg:export-html-media-from-canvas": {
+      "title": "Let the browser paint HTML into the canvas and export it, instead of a library redrawing the DOM",
+      "action": "Put the HTML to export inside `<canvas content=\"drawable\">`, draw it with `drawElementImage()`, then export an image or video with `toDataURL()`, `toBlob()` or `captureStream()`",
+      "blocker": "The old approach relies on bulky third-party libraries that parse DOM nodes and CSS properties one by one to rebuild a facsimile on a canvas: expensive, error-prone and often missing modern CSS layout features (quote: \"This approach is computationally expensive, error-prone, and frequently fails to support modern CSS layout features.\")",
+      "outcome": "The browser's own rendering engine paints it, so the export matches the screen; but only Chrome 157+ supports it, and elsewhere the fallback is exactly `html2canvas`, `dom-to-image` or `snapdom` (`rrweb` for frame-by-frame capture), or a warning that export is unsupported (official claim)",
+      "story": "Saving a piece of the page as an image has meant a library re-implementing the browser's layout and painting in JS, and getting it wrong whenever a new CSS feature shows up. The new API has the real engine paint the HTML subtree into a canvas, after which the existing canvas export methods work. Outside Chrome, the fallback is those same libraries, so the opponent stands untouched.",
+      "unlock": "Dashboards, styled documents and interactive charts can be saved as a PNG identical to the screen, or an HTML interaction can be recorded as video with `captureStream()`, without loading a screenshot library. Chrome 157+ only for now.",
+      "support": "HTML-in-Canvas: Limited (Chrome 157+, stable since 2026-11-03; not Firefox or Safari). The guide's fallback section still says \"HTML-in-canvas is not natively supported by any major browser yet.\", which is out of date"
+    },
+    "mwg:interactive-content-in-3d-scenes": {
+      "title": "Project real DOM into a 3D scene and hand interaction back to the browser",
+      "action": "Copy `drawable` HTML elements into a texture (WebGL `texElementSubImage2D()`, WebGPU `drawElementImageToTexture()`, Three.js `HTMLTexture`), then align each element with the 3D image using `canvas.updateElementGeometry()`",
+      "blocker": "(missing) The guide only says complex raycasting or custom event handling is no longer required, without saying where the hand-written version fails (quote: \"they retain full interactivity—allowing users to click buttons, select text, and trigger focus states natively without requiring complex raycasting or custom event handling\")",
+      "outcome": "Elements stay in the DOM layout tree, so clicks, text selection and focus states are handled by the browser; but only Chrome 157+ supports it, and elsewhere the fallback is overlaying HTML on the canvas with CSS or the `three-html-render` polyfill (official claim)",
+      "story": "A panel in a 3D scene used to be a texture: clicks had to be converted with raycasting and events dispatched by hand. With the new API a real element sits behind the texture, and the developer only converts the MVP matrix into a `canvasTransform` each frame to tell the browser where it was drawn. The opponent is described only as \"complex\": effort, not an observable failure. Matrix syncing is still manual, though Three.js's `InteractionManager` does it for you.",
+      "unlock": "Screens, boards and control panels inside a 3D scene can be real forms and buttons that accept typing, selection and keyboard focus, with no raycasting-to-event code. Good for product showcases or property panels in a 3D editor. Chrome 157+ only for now.",
+      "support": "HTML-in-Canvas: Limited (Chrome 157+, stable since 2026-11-03; not Firefox or Safari). The guide's fallback section still says \"HTML-in-canvas is not natively supported by any major browser yet.\", which is out of date"
+    },
+    "mwg:apply-webgl-shaders": {
+      "title": "Apply shaders directly to interactive HTML",
+      "action": "Upload `drawable` HTML elements as a WebGL texture with `texElementSubImage2D()`, apply fragment/vertex shaders, then align hit testing with the drawn pixels using `canvas.updateElementGeometry()`",
+      "blocker": "(missing) The guide only says native accessibility, text selection and DOM events are retained after applying shaders, without saying what the previous approach was or where it broke (quote: \"This enables applying high-performance fragment and vertex shaders natively to fully interactive UI components, such as buttons, input fields, and rich text, while retaining native accessibility, text selection, and DOM event handling.\")",
+      "outcome": "The guide claims buttons, inputs and rich text stay interactive under a shader; but only Chrome 157+ supports it, and elsewhere the fallback is overlaying HTML on the canvas with CSS (so no shader effect) or the `three-html-render` polyfill (official claim)",
+      "story": "Effects like ripple distortion, lighting and color grading only work on textures, and a texture is not an element. The new API turns a real element's painted output into a texture while the element itself stays in the DOM to receive input. The guide never describes the old approach, so the opponent is marked missing. You still have to allocate the texture with `texImage2D()`, reallocate only on size change, and handle `captureElementImage()` throwing before the first paint.",
+      "unlock": "A real button that ripples when pressed, or a real input with glass refraction or CRT scanlines: the effect is a GPU shader, yet you can still type, select text and reach it with a screen reader. Chrome 157+ only for now.",
+      "support": "HTML-in-Canvas: Limited (Chrome 157+, stable since 2026-11-03; not Firefox or Safari). The guide's fallback section still says \"HTML-in-canvas is not natively supported by any major browser yet.\", which is out of date"
     }
   }
 }

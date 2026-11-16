@@ -1,0 +1,354 @@
+{
+ "total": 34,
+ "updated": "2026-11-16",
+ "groups": [
+  {
+   "name": "安裝入口受限",
+   "lines": [
+    {
+     "id": "mwg:install-web-app",
+     "feature": "<install>, navigator.install()",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "無瀏覽器支援"
+    }
+   ]
+  },
+  {
+   "name": "截字傷可及性",
+   "lines": [
+    {
+     "id": "mwg:single-line-overflow",
+     "feature": "text-overflow, mask-image",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:form-factor-adaptation:2",
+     "feature": "min-block-size, text-wrap",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "只能 hover 才看得到",
+   "lines": [
+    {
+     "id": "mwg:single-line-overflow:2",
+     "feature": "scroll-driven animations, container style queries",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:natural-interactions:2",
+     "feature": "popover, popovertarget",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "視覺順序與DOM順序脫鉤",
+   "lines": [
+    {
+     "id": "mwg:drag-and-drop",
+     "feature": "moveBefore(), reading-flow",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "互動中畫面抖動",
+   "lines": [
+    {
+     "id": "mwg:drag-and-drop:2",
+     "feature": "pointer capture, ::before/::after 標記",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "重建DOM丟狀態",
+   "lines": [
+    {
+     "id": "mwg:dynamic-sort",
+     "feature": "moveBefore(), view transitions",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sortable-table",
+     "feature": "aria-sort, insertBefore",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "播報過量",
+   "lines": [
+    {
+     "id": "mwg:dynamic-sort:2",
+     "feature": "role=status",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "比對錯型別",
+   "lines": [
+    {
+     "id": "mwg:sortable-table:2",
+     "feature": "data-type 宣告",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "原生元素角色實作不一致",
+   "lines": [
+    {
+     "id": "mwg:accordion",
+     "feature": "<details>/<summary>",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:navbar:2",
+     "feature": "<button aria-expanded>",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "新功能的副作用",
+   "lines": [
+    {
+     "id": "mwg:accordion:2",
+     "feature": "<details name>",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "隱藏或停用把人擋在外面",
+   "lines": [
+    {
+     "id": "mwg:accordion:3",
+     "feature": "::details-content, content-visibility",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:copy-button",
+     "feature": "Async Clipboard",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:copy-button:3",
+     "feature": "opacity, (hover: none)",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:toolbar",
+     "feature": "aria-disabled",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "彈出層脫離觸發點",
+   "lines": [
+    {
+     "id": "mwg:app-menus",
+     "feature": "popover, anchor positioning, focusgroup",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "外觀暗示錯的結構",
+   "lines": [
+    {
+     "id": "mwg:breadcrumbs",
+     "feature": "::before 產生的分隔符",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "焦點或狀態指示消失",
+   "lines": [
+    {
+     "id": "mwg:breadcrumbs:2",
+     "feature": "corner-shape, border-shape",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:tabs:2",
+     "feature": "::after border, aria-selected",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:natural-interactions",
+     "feature": ":focus-visible",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "重複內容干擾輔助技術",
+   "lines": [
+    {
+     "id": "mwg:carousel",
+     "feature": "scroll snap, order, inert, scrollend",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "每顆按鈕手接JS",
+   "lines": [
+    {
+     "id": "mwg:copy-button:2",
+     "feature": "Invoker commands",
+     "result": "缺",
+     "kind": "新能力",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "版面依賴錯的量測",
+   "lines": [
+    {
+     "id": "mwg:navbar",
+     "feature": "popover, scrollWidth 量測",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:form-factor-adaptation",
+     "feature": "container queries",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "手寫焦點管理",
+   "lines": [
+    {
+     "id": "mwg:tabs",
+     "feature": "focusgroup",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:toolbar:2",
+     "feature": "focusgroup",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "版面擠壓破壞可讀性",
+   "lines": [
+    {
+     "id": "mwg:tabs:3",
+     "feature": "scroll-driven animations, hidden=until-found",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "canvas內容對瀏覽器隱形",
+   "lines": [
+    {
+     "id": "mwg:expose-canvas-content-to-browser-features",
+     "feature": "<canvas content=\"drawable\">, drawElementImage()",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "手工重現瀏覽器渲染",
+   "lines": [
+    {
+     "id": "mwg:export-html-media-from-canvas",
+     "feature": "drawElementImage(), toBlob(), captureStream()",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "canvas裡手寫互動",
+   "lines": [
+    {
+     "id": "mwg:interactive-content-in-3d-scenes",
+     "feature": "texElementSubImage2D(), drawElementImageToTexture(), updateElementGeometry()",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:apply-webgl-shaders",
+     "feature": "texElementSubImage2D(), updateElementGeometry()",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  }
+ ]
+}

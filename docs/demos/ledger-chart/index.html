@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>對手組戰報圖・HTML-in-Canvas 模組 demo</title>
+<meta name="description" content="用 HTML-in-Canvas 做的圖表模組：標籤是真的 DOM，可以搜尋、選取、用鍵盤操作，並能匯出成 PNG 或影片">
+<style>
+:root{--bg:#fbfaf7;--fg:#1f1d1a;--mute:#6b665e;--line:#e4e0d8;--card:#fff;--accent:#2f5d50;--sel:#eef4f1;
+  --r-win:#2f7d5b;--r-part:#c98a1b;--r-stall:#b4493f;--r-miss:#8d877c;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161513;--fg:#ece8e1;--mute:#a19b91;--line:#34312c;--card:#1e1c19;--accent:#8cc3b0;--sel:#26302c;
+  --r-win:#5fb58c;--r-part:#e0ab4a;--r-stall:#e07a6e;--r-miss:#8d877c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161513;--fg:#ece8e1;--mute:#a19b91;--line:#34312c;--card:#1e1c19;--accent:#8cc3b0;--sel:#26302c;
+  --r-win:#5fb58c;--r-part:#e0ab4a;--r-stall:#e07a6e;--r-miss:#8d877c;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,"Noto Sans TC","PingFang TC",sans-serif}
+main{max-width:46rem;margin:0 auto;padding:2rem 16px 4rem}
+nav{font-size:.9rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:.25rem 1rem}
+a{color:var(--accent)} :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1{font-size:1.5rem;line-height:1.35;text-wrap:balance;margin:0 0 .75rem}
+h2{font-size:1.1rem;margin:2rem 0 .5rem}
+p,li{text-wrap:pretty;overflow-wrap:anywhere}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.88em;background:color-mix(in srgb,var(--line) 60%,transparent);padding:.05em .3em;border-radius:3px}
+.badge{display:inline-block;font-size:.85rem;padding:.1rem .6rem;border-radius:999px;border:1px solid var(--line);background:var(--card)}
+.badge.ok{border-color:var(--r-win);color:var(--r-win)} .badge.no{border-color:var(--r-stall);color:var(--r-stall)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0 .75rem}
+.bar button{font:inherit;font-size:.9rem;padding:.35rem .8rem;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);cursor:pointer}
+.bar button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:600}
+.bar button:disabled{opacity:.55;cursor:default}
+.bar .gap{flex:1 1 0}
+#status{min-height:1.7em;font-size:.9rem;color:var(--mute);margin:0 0 .5rem}
+
+/* 圖表：canvas 的子元素是真 DOM，由 drawElementImage() 畫進去 */
+.stage{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+#chart{display:block;width:100%}
+#chart>*,.overlay>*{width:max-content;max-width:100%;font:14px/20px system-ui,"Noto Sans TC","PingFang TC",sans-serif;color:var(--fg)}
+.cap{font-weight:600;font-size:15px!important}
+.cap small{font-weight:400;color:var(--mute);margin-left:.5em}
+.legend{display:flex!important;flex-wrap:wrap;gap:2px 14px;color:var(--mute)!important;font-size:13px!important}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px}
+.lab{appearance:none;border:0;background:none;padding:2px 6px;margin:0;border-radius:5px;cursor:pointer;text-align:start}
+.lab:hover{background:var(--sel)} .lab[aria-pressed="true"]{font-weight:600}
+.lab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.lab span{color:var(--mute);font-weight:400;margin-left:.6em;font-size:13px}
+/* 不支援時的 fallback：把同一批元素疊在 canvas 上面 */
+.overlay{position:absolute;inset:0;pointer-events:none}
+.overlay>*{position:absolute;left:0;top:0;pointer-events:auto}
+
+#detail{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:.75rem 1rem;margin-top:1rem}
+#detail h2{margin:0 0 .25rem} #detail ul{margin:.25rem 0;padding-left:1.2rem}
+#detail .r{font-size:.85rem;color:var(--mute)}
+footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
+</style></head><body><main>
+<nav><a href="../../">← 所有問題線</a><a href="../../weekly/">週記</a><a href="https://github.com/WICG/html-in-canvas">WICG/html-in-canvas</a></nav>
+
+<h1>對手組戰報圖</h1>
+<p>這張圖表是一個用 <strong>HTML-in-Canvas</strong> 做的模組，資料是這個 repo 的 <code>ledger.csv</code>。長條是 canvas 畫的，但每個標籤都是真的 DOM 按鈕，所以可以搜尋、選取、翻譯、用鍵盤操作，整張圖也能直接匯出。</p>
+<p><span id="support" class="badge">檢查中…</span></p>
+
+<div class="bar" role="group" aria-label="圖表操作">
+  <button type="button" id="sort-count" aria-pressed="true">依線數排序</button>
+  <button type="button" id="sort-stuck" aria-pressed="false">依未解決排序</button>
+  <span class="gap"></span>
+  <button type="button" id="png">下載 PNG</button>
+  <button type="button" id="rec">錄 5 秒影片</button>
+</div>
+<p id="status" role="status"></p>
+
+<div class="stage">
+  <canvas id="chart" content="drawable" role="group" aria-label="各對手組的問題線數量與戰報">
+    <div class="cap" drawable></div>
+    <div class="legend" drawable>
+      <span><i style="background:var(--r-win)"></i>勝</span>
+      <span><i style="background:var(--r-part)"></i>部分改善</span>
+      <span><i style="background:var(--r-stall)"></i>僵持</span>
+      <span><i style="background:var(--r-miss)"></i>缺</span>
+    </div>
+  </canvas>
+</div>
+
+<section id="detail" aria-live="polite"><h2>選一個對手組</h2><p class="r">點圖表裡的標籤，或用 Tab 移到標籤上按 Enter，這裡會列出那一組的線。</p></section>
+
+<h2>試試看</h2>
+<ul>
+  <li>按 Ctrl+F 搜尋「焦點」：命中的字在圖表裡面。一般 canvas 畫的字搜尋不到。</li>
+  <li>用滑鼠拖曳選取標籤文字、複製；或用瀏覽器的翻譯功能翻成英文。</li>
+  <li>按 Tab：焦點會依畫面順序走過每個標籤。排序時 DOM 順序也跟著搬，所以順序不會錯開。</li>
+  <li>「下載 PNG」和「錄 5 秒影片」用的是 canvas 既有的 <code>toBlob()</code> 與 <code>captureStream()</code>，輸出包含標籤文字。</li>
+</ul>
+
+<h2>對應的問題線</h2>
+<ul>
+  <li><a href="../../#mwg--expose-canvas-content-to-browser-features"><code>mwg:expose-canvas-content-to-browser-features</code></a>：canvas 內容對瀏覽器隱形</li>
+  <li><a href="../../#mwg--export-html-media-from-canvas"><code>mwg:export-html-media-from-canvas</code></a>：不用截圖函式庫重畫 DOM</li>
+  <li><a href="../../#mwg--drag-and-drop"><code>mwg:drag-and-drop</code></a>：排序時搬真節點，視覺順序與 DOM 順序一致</li>
+</ul>
+
+<footer>HTML-in-Canvas 目前只有 Chrome 157 起支援。其他瀏覽器會看到 fallback：標籤改用 CSS 疊在 canvas 上，搜尋和鍵盤照常，但匯出的圖片和影片不含標籤文字。資料由 <code>scripts/build_demo.py</code> 從 <code>ledger.csv</code> 產生。</footer>
+</main>
+
+<script type="module">
+const RESULTS = [["勝", "--r-win"], ["部分改善", "--r-part"], ["僵持", "--r-stall"], ["缺", "--r-miss"]];
+const PAD = 16, HEAD = 74, LABEL_H = 24, BAR_H = 12, ROW = 48, ANIM_MS = 450;
+
+const canvas = document.getElementById("chart");
+const ctx = canvas.getContext("2d");
+const stage = canvas.parentElement;
+const statusEl = document.getElementById("status");
+const detail = document.getElementById("detail");
+const cap = canvas.querySelector(".cap");
+const legend = canvas.querySelector(".legend");
+const SUPPORTED = "content" in HTMLCanvasElement.prototype && "drawElementImage" in ctx;
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+const badge = document.getElementById("support");
+badge.textContent = SUPPORTED ? "這個瀏覽器支援 HTML-in-Canvas：標籤是畫進 canvas 的真 DOM" : "這個瀏覽器不支援 HTML-in-Canvas：目前是 fallback，標籤疊在 canvas 上";
+badge.classList.add(SUPPORTED ? "ok" : "no");
+
+const data = await (await fetch("data.json")).json();
+cap.innerHTML = `對手組 × 戰報<small>${data.total} 條線，${data.groups.length} 組，更新到 ${data.updated}</small>`;
+
+const count = (g, r) => g.lines.filter(l => l.result === r).length;
+const rows = data.groups.map(g => {
+  const el = document.createElement("button");
+  el.type = "button"; el.className = "lab"; el.setAttribute("drawable", ""); el.setAttribute("aria-pressed", "false");
+  const parts = RESULTS.map(([r]) => [r, count(g, r)]).filter(([, n]) => n).map(([r, n]) => `${r} ${n}`).join("・");
+  el.append(g.name);
+  el.appendChild(document.createElement("span")).textContent = `${g.lines.length} 條：${parts}`;
+  const row = { g, el, y: 0, from: 0, to: 0 };
+  el.addEventListener("click", () => select(row));
+  return row;
+});
+const maxLines = Math.max(...rows.map(r => r.g.lines.length));
+
+// fallback：canvas 的子元素在不支援的瀏覽器裡不會顯示，所以整批搬到疊在上面的容器
+let host = canvas;
+if (!SUPPORTED) {
+  host = stage.appendChild(document.createElement("div"));
+  host.className = "overlay";
+  host.append(cap, legend);
+}
+
+let selected = null, animStart = 0;
+const sorters = {
+  count: (a, b) => b.g.lines.length - a.g.lines.length,
+  stuck: (a, b) => stuck(b.g) - stuck(a.g) || b.g.lines.length - a.g.lines.length,
+};
+const stuck = g => count(g, "僵持") + count(g, "缺");
+
+function sortBy(key, animate) {
+  rows.sort(sorters[key]);
+  rows.forEach((r, i) => {
+    r.from = r.y; r.to = HEAD + i * ROW;
+    if (!animate) r.y = r.from = r.to;
+    // DOM 順序跟著畫面順序走，Tab 鍵才不會跳來跳去；moveBefore() 搬動時保住焦點
+    if (host.moveBefore && r.el.parentNode === host) host.moveBefore(r.el, null); else host.append(r.el);
+  });
+  animStart = animate && !reduceMotion.matches ? performance.now() : 0;
+  for (const k in sorters) document.getElementById(`sort-${k}`).setAttribute("aria-pressed", String(k === key));
+  canvas.style.height = `${HEAD + rows.length * ROW + PAD - 12}px`;
+  schedule();
+}
+
+function select(row) {
+  selected = row;
+  for (const r of rows) r.el.setAttribute("aria-pressed", String(r === row));
+  const items = row.g.lines.map(l =>
+    `<li><a href="../../#${l.id.replaceAll(":", "--")}"><code>${l.id}</code></a> <span class="r">${l.result}・${l.kind}・${l.level}</span><br>${esc(l.feature)}</li>`).join("");
+  detail.innerHTML = `<h2>${esc(row.g.name)}</h2><ul>${items}</ul>`;
+  schedule();
+}
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+// 把元素放到 (x, y)（CSS 像素）。支援時畫進 canvas，瀏覽器會自動把點擊位置對齊；fallback 時用 CSS 位移
+function place(el, x, y, s) {
+  if (SUPPORTED) ctx.drawElementImage(el, Math.round(x * s), Math.round(y * s));
+  else el.style.transform = `translate(${x}px,${y}px)`;
+}
+
+function draw() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (!w || !canvas.width) return;
+  const s = canvas.width / w;
+  const css = getComputedStyle(canvas);
+  const v = name => css.getPropertyValue(name).trim();
+
+  let t = 1;
+  if (animStart) {
+    t = Math.min(1, (performance.now() - animStart) / ANIM_MS);
+    if (t === 1) animStart = 0;
+  }
+  const ease = 1 - (1 - t) ** 3;
+  for (const r of rows) r.y = r.from + (r.to - r.from) * ease;
+
+  ctx.reset();
+  ctx.scale(s, s);
+  ctx.fillStyle = v("--card");
+  ctx.fillRect(0, 0, w, h);
+
+  const unit = (w - PAD * 2) / maxLines;
+  for (const r of rows) {
+    if (r === selected) {
+      ctx.fillStyle = v("--sel");
+      ctx.beginPath(); ctx.roundRect(PAD - 8, r.y - 4, w - PAD * 2 + 16, ROW - 4, 8); ctx.fill();
+    }
+    let x = PAD;
+    for (const [res, color] of RESULTS) {
+      for (let i = count(r.g, res); i > 0; i--) {
+        ctx.fillStyle = v(color);
+        ctx.beginPath(); ctx.roundRect(x, r.y + LABEL_H + 2, unit - 3, BAR_H, 3); ctx.fill();
+        x += unit;
+      }
+    }
+  }
+
+  ctx.resetTransform();
+  try {
+    place(cap, PAD, PAD, s);
+    place(legend, PAD, PAD + 26, s);
+    for (const r of rows) place(r.el, PAD - 6, r.y, s);
+  } catch {
+    canvas.requestPaint();  // 元素還沒有繪製紀錄，下一次 paint 再畫
+    return;
+  }
+  canvas.dataset.painted = "1";
+  if (animStart || recording) schedule();
+}
+
+// 支援時在 paint 事件裡畫（子元素的外觀一變，瀏覽器就會發 paint）；fallback 用 requestAnimationFrame
+let queued = false;
+function schedule() {
+  if (SUPPORTED) return canvas.requestPaint();
+  if (queued) return;
+  queued = true;
+  requestAnimationFrame(() => { queued = false; draw(); });
+}
+if (SUPPORTED) canvas.onpaint = draw;
+
+// canvas 的格線對齊裝置像素，避免模糊
+const hasDpBox = "devicePixelContentBoxSize" in ResizeObserverEntry.prototype;
+new ResizeObserver(([e]) => {
+  const dp = e.devicePixelContentBoxSize?.[0];
+  canvas.width = dp ? dp.inlineSize : Math.round(e.contentRect.width * devicePixelRatio);
+  canvas.height = dp ? dp.blockSize : Math.round(e.contentRect.height * devicePixelRatio);
+  schedule();
+}).observe(canvas, hasDpBox ? { box: "device-pixel-content-box" } : {});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", schedule);
+
+document.getElementById("sort-count").addEventListener("click", () => sortBy("count", true));
+document.getElementById("sort-stuck").addEventListener("click", () => sortBy("stuck", true));
+sortBy("count", false);
+
+// 匯出：canvas 既有的方法，HTML-in-Canvas 畫進去的標籤會一起輸出
+const noLabels = SUPPORTED ? "" : "（fallback：標籤是疊在上面的 HTML，不在輸出裡）";
+function save(blob, name) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+document.getElementById("png").addEventListener("click", () => {
+  canvas.toBlob(blob => {
+    if (!blob) { statusEl.textContent = "匯出失敗。"; return; }
+    save(blob, "ledger-chart.png");
+    statusEl.textContent = `已下載 PNG，${canvas.width}×${canvas.height} 像素${noLabels}`;
+  }, "image/png");
+});
+
+let recording = false;
+const recBtn = document.getElementById("rec");
+recBtn.addEventListener("click", () => {
+  const type = ["video/webm;codecs=vp9", "video/webm"].find(t => window.MediaRecorder?.isTypeSupported(t));
+  if (!type) { statusEl.textContent = "這個瀏覽器不能錄 WebM。"; return; }
+  const stream = canvas.captureStream(30);
+  const rec = new MediaRecorder(stream, { mimeType: type });
+  const chunks = [];
+  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
+  rec.onstop = () => {
+    recording = false; recBtn.disabled = false;
+    stream.getTracks().forEach(t => t.stop());
+    save(new Blob(chunks, { type: "video/webm" }), "ledger-chart.webm");
+    statusEl.textContent = `已下載 5 秒影片${noLabels}`;
+  };
+  recording = true; recBtn.disabled = true;
+  statusEl.textContent = "錄影中，5 秒內可以切換排序、點標籤…";
+  rec.start(); schedule();
+  setTimeout(() => rec.stop(), 5000);
+});
+</script>
+</body></html>
