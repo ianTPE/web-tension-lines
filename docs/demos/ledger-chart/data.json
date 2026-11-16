@@ -1,5 +1,5 @@
 {
- "total": 160,
+ "total": 235,
  "updated": "2026-11-16",
  "groups": [
   {
@@ -92,6 +92,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:out-of-order-html-streaming:5",
+     "feature": "替換佔位時保住焦點",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -136,6 +143,13 @@
     {
      "id": "mwg:prompt-api:3",
      "feature": "aria-busy, aria-live",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:out-of-order-html-streaming:3",
+     "feature": "live region 只包進度文字",
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
@@ -273,6 +287,90 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:client-side-encryption:3",
+     "feature": "raw-public/raw-seed/raw-secret 格式",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:digital-signatures:3",
+     "feature": "raw-public/raw-seed 格式",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:local-network-access:4",
+     "feature": "WebSocket 靠網址辨認",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:passkey-authentication:2",
+     "feature": "AbortController 中止條件式 get()",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:passkey-management:2",
+     "feature": "伺服器提供的 rpId",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:passkey-management:3",
+     "feature": "Base64URL 驗證, console.warn",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:passkey-registration:2",
+     "feature": "requireUserVerification: false",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:passkeys",
+     "feature": "伺服器決定的 RP ID",
+     "result": "缺",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:quick-sign-ins:2",
+     "feature": "登入頁改用條件式 UI",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sanitize-untrusted-html:3",
+     "feature": "replaceWithChildrenElements, DOMPurify 設定對齊",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sanitize-untrusted-html:4",
+     "feature": "RETURN_TRUSTED_TYPE",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:secure-external-subresources:4",
+     "feature": "分開的 @font-face src 宣告",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -320,6 +418,13 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:quick-sign-ins:5",
+     "feature": "焦點還給原動作, role=status",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -595,6 +700,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:out-of-order-html-streaming:4",
+     "feature": "aria-busy, 通知放在面板外",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -694,6 +806,20 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:sanitize-untrusted-html",
+     "feature": "setHTML(), Sanitizer, Document.parseHTML()",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sanitize-untrusted-html:2",
+     "feature": "replaceChildren() 搬節點",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -751,6 +877,34 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:client-side-encryption:4",
+     "feature": "SubtleCrypto.supports()",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:digital-signatures:4",
+     "feature": "SubtleCrypto.supports()",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:local-network-access:3",
+     "feature": "只查細分權限名",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:quick-sign-ins:3",
+     "feature": "capabilities.immediateGet",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -859,6 +1013,20 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:out-of-order-html-streaming:6",
+     "feature": "佔位尺寸, aspect-ratio",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:performance:7",
+     "feature": "width/height 屬性",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1119,6 +1287,69 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:privacy",
+     "feature": "資料最小化（年齡區間、訪客結帳、差分隱私）",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:privacy:2",
+     "feature": "HttpOnly cookie",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:privacy:3",
+     "feature": "Clear-Site-Data",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:privacy:4",
+     "feature": "Referrer-Policy",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:privacy:5",
+     "feature": "速率限制",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:client-side-encryption",
+     "feature": "encapsulateKey(), MLKEM768-X25519, ChaCha20-Poly1305",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:restrict-outbound-connections",
+     "feature": "Connection-Allowlist",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:restrict-outbound-connections:3",
+     "feature": "CSP form-action, worker-src self",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:secure-external-subresources:5",
+     "feature": "referrerpolicy=no-referrer, Referrer-Policy",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -1157,6 +1388,27 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:performance:4",
+     "feature": "scheduler.yield()",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:performance:5",
+     "feature": "contain: layout style paint, content-visibility: auto",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:schedule-tasks-by-priority",
+     "feature": "scheduler.postTask()",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
     }
    ]
   },
@@ -1230,6 +1482,27 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:performance:8",
+     "feature": "srcset + sizes, <picture>",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:performance:9",
+     "feature": "動態 import()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:resolution-optimized-pseudo-elements",
+     "feature": "image-set(), ::before/::after",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -1355,6 +1628,48 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:optimize-script-priority",
+     "feature": "<script fetchpriority>",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:optimize-script-priority:2",
+     "feature": "fetchpriority 限量",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:out-of-order-html-streaming",
+     "feature": "<template for>, <?start>/<?marker>",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:performance",
+     "feature": "async/defer, 內嵌關鍵 CSS, <link media>",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:performance:2",
+     "feature": "LCP 圖寫在 HTML, fetchpriority=high",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:performance:3",
+     "feature": "fetchpriority 與預載限量",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1367,6 +1682,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:out-of-order-html-streaming:2",
+     "feature": "streamHTML(), setHTMLUnsafe()",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "無瀏覽器支援"
     }
    ]
   },
@@ -1378,6 +1700,259 @@
      "feature": "fetchLater(), AbortController",
      "result": "部分改善",
      "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "優化用過頭反傷",
+   "lines": [
+    {
+     "id": "mwg:performance:6",
+     "feature": "will-change 只在需要時加",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    }
+   ]
+  },
+  {
+   "name": "快取策略錯置",
+   "lines": [
+    {
+     "id": "mwg:performance:10",
+     "feature": "Service Worker 快取策略, 版本化",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:performance:11",
+     "feature": "Cache-Control: no-cache",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    }
+   ]
+  },
+  {
+   "name": "使用者被暗中追蹤",
+   "lines": [
+    {
+     "id": "mwg:privacy:6",
+     "feature": "façade 模式, 靜態分享連結",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:privacy:7",
+     "feature": "FedCM, CHIPS（Partitioned）",
+     "result": "勝",
+     "kind": "新能力",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:privacy:8",
+     "feature": "功能偵測, UA Client Hints",
+     "result": "缺",
+     "kind": "新能力",
+     "level": "不適用"
+    }
+   ]
+  },
+  {
+   "name": "權限請求不看時機",
+   "lines": [
+    {
+     "id": "mwg:privacy:9",
+     "feature": "<permission> 元素（PEPC）",
+     "result": "缺",
+     "kind": "新能力",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:local-network-access:2",
+     "feature": "permissions.query(), 使用者手勢觸發",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "遷移時遺失使用者狀態",
+   "lines": [
+    {
+     "id": "mwg:migrate-web-app-origin",
+     "feature": "manifest migrate_from/migrate_to, web-app-origin-association",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "內容遭竄改未察覺",
+   "lines": [
+    {
+     "id": "mwg:client-side-encryption:2",
+     "feature": "AEAD additionalData",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:digital-signatures",
+     "feature": "ML-DSA sign()/verify(), Ed25519",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:digital-signatures:2",
+     "feature": "ContextParams context",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:passkey-authentication:4",
+     "feature": "驗證等級存在伺服器工作階段",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:secure-external-subresources",
+     "feature": "integrity（SRI）, 版本固定網址",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:secure-external-subresources:3",
+     "feature": "CSS url() integrity()/cross-origin()/referrer-policy()",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "合法連線被安全規則擋下",
+   "lines": [
+    {
+     "id": "mwg:local-network-access",
+     "feature": "targetAddressSpace, local-network/loopback-network 權限",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:local-network-access:5",
+     "feature": "iframe allow, Permissions-Policy",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:restrict-outbound-connections:2",
+     "feature": "RFC 9651 Inner List, redirects=allow",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:secure-external-subresources:2",
+     "feature": "crossorigin=anonymous",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "登入打斷使用者",
+   "lines": [
+    {
+     "id": "mwg:passkey-authentication",
+     "feature": "mediation: conditional, getClientCapabilities()",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:passkey-conditional-create",
+     "feature": "create() 的 mediation: conditional",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:quick-sign-ins",
+     "feature": "uiMode: immediate, password: true",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "憑證狀態錯亂",
+   "lines": [
+    {
+     "id": "mwg:passkey-authentication:3",
+     "feature": "signalUnknownCredential()",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:passkey-conditional-create:2",
+     "feature": "signalUnknownCredential()",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:passkey-management",
+     "feature": "signalAllAcceptedCredentials(), signalCurrentUserDetails()",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:passkey-registration",
+     "feature": "excludeCredentials",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "確認到錯的身分",
+   "lines": [
+    {
+     "id": "mwg:passkey-reauthentication",
+     "feature": "allowCredentials, 伺服器核對擁有者",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:passkeys:2",
+     "feature": "AAGUID 只做 UX 提示",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:quick-sign-ins:4",
+     "feature": "重新驗證用 allowCredentials",
+     "result": "部分改善",
+     "kind": "糾錯",
      "level": "Limited"
     }
    ]

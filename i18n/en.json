@@ -69,7 +69,17 @@
     "載入優先序錯置": "Loading priority is misplaced",
     "背景送出不可靠或過量": "Background sends are unreliable or excessive",
     "生命週期假設錯": "Wrong lifecycle assumptions",
-    "內容要等JS才成形": "Content takes shape only after JS runs"
+    "內容要等JS才成形": "Content takes shape only after JS runs",
+    "優化用過頭反傷": "Over-applied optimizations backfire",
+    "快取策略錯置": "Caching strategy misapplied",
+    "使用者被暗中追蹤": "Users tracked covertly",
+    "權限請求不看時機": "Permission requests fired out of context",
+    "遷移時遺失使用者狀態": "Migration loses user state",
+    "內容遭竄改未察覺": "Tampering goes undetected",
+    "合法連線被安全規則擋下": "Legitimate connections blocked by security rules",
+    "登入打斷使用者": "Sign-in interrupts the user",
+    "憑證狀態錯亂": "Credential state gets out of sync",
+    "確認到錯的身分": "Verifying the wrong identity"
   },
   "guides": {
     "install-web-app": "Installing web apps",
@@ -150,7 +160,27 @@
     "interactions-in-complex-layouts": "Optimizing interactions in complex layouts",
     "lazy-load-video-and-audio": "Lazy load video and audio",
     "optimize-image-priority": "Optimize image priority",
-    "optimize-preload-priority": "Optimize preload priority"
+    "optimize-preload-priority": "Optimize preload priority",
+    "optimize-script-priority": "Optimize script priority",
+    "out-of-order-html-streaming": "Out-of-order HTML streaming",
+    "performance": "Performance",
+    "resolution-optimized-pseudo-elements": "Resolution-optimized pseudo-elements",
+    "schedule-tasks-by-priority": "Schedule tasks by priority",
+    "privacy": "Web privacy guidelines for developers",
+    "migrate-web-app-origin": "Migrating the origin of an installed web app",
+    "client-side-encryption": "Encrypt data client-side with WebCrypto",
+    "digital-signatures": "Sign and verify data with WebCrypto",
+    "local-network-access": "Local Network Access",
+    "passkey-authentication": "Passkey authentication",
+    "passkey-conditional-create": "Passkey conditional create (post-login promotion)",
+    "passkey-management": "Passkey management",
+    "passkey-reauthentication": "Passkey reauthentication",
+    "passkey-registration": "Passkey registration",
+    "passkeys": "Passkeys orientation",
+    "quick-sign-ins": "Quick sign-ins with immediate UI mode",
+    "restrict-outbound-connections": "Restrict outbound connections with Connection Allowlists",
+    "sanitize-untrusted-html": "Sanitizing untrusted HTML",
+    "secure-external-subresources": "Secure external subresources with SRI, CORS, and Referrer Policy"
   },
   "lines": {
     "mwg:install-web-app": {
@@ -1592,6 +1622,681 @@
       "story": "Preloading everything is the same as preloading nothing: it all fights for bandwidth. With a wrong `as`, what the preload fetched can't be used by the page, so it was fetched for nothing.",
       "unlock": "",
       "support": "Fetch priority: Newly (same as above)"
+    },
+    "mwg:optimize-script-priority": {
+      "title": "Use `<script fetchpriority>` so critical scripts download first and non-essential ones step aside",
+      "action": "Add `fetchpriority=\"high\"` to critical `async`/`defer` scripts that matter for INP; add `fetchpriority=\"low\"` to analytics, ads, below-the-fold widgets, and parser-blocking scripts at the end of the body",
+      "blocker": "Browsers assign script priority by position and `async`/`defer`, so late-body scripts compete for bandwidth with more critical resources (quote: \"Use `fetchpriority=\"low\"` on parser-blocking scripts at the end of the body to prevent them from contending for bandwidth with more critical resources.\")",
+      "outcome": "Critical scripts are queued first and non-essential scripts stop competing with key images and CSS; unsupported browsers ignore the attribute and use their own scheduling (official claim)",
+      "story": "Analytics and the main app script are both `async`, so the browser can't tell which matters and fetches them together. Marking high/low lets the developer decide the order; it's progressive enhancement, so older browsers just keep their default.",
+      "unlock": "A page loaded with chat widgets, analytics, and A/B-testing scripts can get its interactive app script in first using only HTML attributes, without rewriting third-party scripts into deferred manual injection.",
+      "support": "Fetch priority: Newly (2024-10-29; Chrome 103, Edge 103, Firefox 132, Safari 17.2)"
+    },
+    "mwg:optimize-script-priority:2": {
+      "title": "Give `fetchpriority=\"high\"` to too many scripts and they all compete again",
+      "action": "Use `fetchpriority=\"high\"` on at most 1–2 critical scripts; don't mark every `<script>`, only change the default when it's known to be sub-optimal",
+      "blocker": "Marking too many scripts high causes network contention and dilutes the boost (quote: \"Only use `fetchpriority=\"high\"` on at most 1-2 critical scripts to avoid network contention and diluting the priority boost.\")",
+      "outcome": "Used sparingly, the elevated scripts really do go first (official claim)",
+      "story": "Marking every script high is the same as marking none; only with a limit does priority mean anything.",
+      "unlock": "",
+      "support": "Fetch priority: Newly (same as above)"
+    },
+    "mwg:out-of-order-html-streaming": {
+      "title": "Use `<?start>`/`<?marker>` and `<template for>` to send the shell first and patch late content in the same stream",
+      "action": "Place processing instructions `<?marker name>` or `<?start name>…<?end>` (wrapping a loading fallback) early in the document; later in the same response stream send `<template for=\"name\">` and the browser swaps it in. Stream critical above-the-fold UI first and use placeholders for expensive blocks like comments, ads, and related content",
+      "blocker": "The guide only calls this an alternative to traditional top-to-bottom linear HTML processing, without saying when linear processing goes wrong (quote: \"an alternative to the traditional \"top-to-bottom\" linear processing of HTML\")",
+      "outcome": "The page shell ships immediately and database-heavy blocks are patched in when ready; Firefox and Safari need `template-for-polyfill` (official claim)",
+      "story": "A slow block in the middle of the document used to hold up everything after it. With placeholders filled in later in the stream, order is no longer tied to document order; native support is Chromium-only for now.",
+      "unlock": "Purely server-rendered pages (no front-end framework) can do \"shell first, slow parts later\": the article shows immediately while comments and related posts stream in once computed. Native support is Chromium-only.",
+      "support": "`<template for>`: Limited (Chrome 150, Edge 150; not Firefox or Safari). HTML processing instructions: same (unsupported browsers parse `<?marker>` etc. as comments, which the polyfill still recognizes)"
+    },
+    "mwg:out-of-order-html-streaming:2": {
+      "title": "Use `streamHTML()` to pipe a fetch response straight into the DOM instead of waiting for a full JSON payload",
+      "action": "Use the new HTML setter family (`setHTML()`, `streamHTML()`, `streamAppendHTML()`, 24 methods with Safe/Unsafe variants) and `pipeTo(el.streamHTML())` a `fetch` response so the browser renders as chunks arrive",
+      "blocker": "The guide only says this replaces waiting for a full JSON payload and building the DOM by hand, without saying when that goes wrong (quote: \"Stream large UI transitions in SPAs using `streamHTML()` instead of waiting for a full JSON payload and manual DOM construction.\")",
+      "outcome": "The guide says HTML setters and streaming setters are not natively supported by any major browser yet; only `html-setters-polyfill` emulates the API (official claim)",
+      "story": "SPA navigations wait for the whole JSON and then assemble the DOM by hand. Streaming setters would let HTML render as it arrives, but today it's only an API shape propped up by a polyfill.",
+      "unlock": "Island-style pages whose server returns HTML fragments could stream new content into the main region piece by piece after a link click, with no JSON API or client templates. No native browser support yet.",
+      "support": "HTML setter methods / HTML streaming setters: \"not natively supported by any major browser yet.\""
+    },
+    "mwg:out-of-order-html-streaming:3": {
+      "title": "Put the live region around the progress text only, not the streamed content, and don't use `role=\"alert\"`",
+      "action": "Apply live-region markup only to the container for progress text like \"Loading…\"; don't wrap the whole content in a live region; don't use `role=\"alert\"` for progress",
+      "blocker": "Wrapping the whole content in a live region makes screen readers read out everything patched in when streaming completes; `role=\"alert\"` makes NVDA say \"Alert\" first (quote: \"Do not wrap the entire content in a live region, as this will cause screen readers to announce the full \"patched\" content when streaming is complete, which can overwhelm screen reader users.\")",
+      "outcome": "Screen-reader users hear only a short progress notice instead of being flooded with the whole page (official claim)",
+      "story": "Trying to tell screen-reader users the content has arrived ends up reading the entire block at once. Shrinking the live region to the progress text gives just enough notice.",
+      "unlock": "",
+      "support": "aria-live: no support data in the guide; recorded as Widely following an existing line (mwg:language-model:3)"
+    },
+    "mwg:out-of-order-html-streaming:4": {
+      "title": "Don't put the progress notice inside an `aria-busy=\"true\"` panel",
+      "action": "Set `aria-busy=\"true\"` on the containers being updated and back to `false` when done; keep the live-region notification outside those panels",
+      "blocker": "With the notification inside an `aria-busy=\"true\"` panel, screen readers wait until all content has loaded before announcing it (quote: \"Do not nest the live region-based notification inside panels with `aria-busy=\"true\"`, as this will prevent screen readers announcing the live region until after all of the content has been loaded.\")",
+      "outcome": "The progress notice is announced while loading is still under way (official claim)",
+      "story": "A dashboard streams in several panels slowly, but the progress notice is wrapped inside a busy panel, so by the time it can be read it no longer means anything.",
+      "unlock": "",
+      "support": "aria-busy / aria-live: no support data in the guide; recorded as Widely following existing lines"
+    },
+    "mwg:out-of-order-html-streaming:5": {
+      "title": "Don't let focus vanish when a placeholder is replaced",
+      "action": "Preserve focus when replacing a placeholder that contains the active element; keep focus where it is during and after loading rather than moving it to new content (SPA navigation is the exception: move focus to the start of the new content when streaming completes)",
+      "blocker": "If a placeholder contains the focused element, focus is lost when it's replaced (quote: \"make sure that focus is not lost if a placeholder containing the active element is replaced.\")",
+      "outcome": "The user's keyboard position isn't thrown away when content is patched in (official claim)",
+      "story": "A keyboard user is sitting on a link inside a placeholder; the streamed content arrives, the whole block is swapped, and focus falls back to the top of the page. Preserve focus on replacement, or keep it somewhere that won't be swapped.",
+      "unlock": "",
+      "support": "Uses plain DOM focus handling with no new feature; no support data in the guide, recorded as Widely (same treatment as :3 and :4)"
+    },
+    "mwg:out-of-order-html-streaming:6": {
+      "title": "Reserve placeholder size up front so patched content doesn't shove the layout",
+      "action": "Give placeholders stable dimensions; when the final size is unknown, use skeleton screens or CSS `aspect-ratio` to reserve space",
+      "blocker": "Placeholders without dimensions make the layout jump when content is patched in (quote: \"Always provide stable dimensions for placeholders. If the final content size is unknown, use skeleton screens or CSS `aspect-ratio` to reserve space and prevent jarring shifts.\")",
+      "outcome": "With space reserved, patching no longer pushes surrounding content around (official claim)",
+      "story": "Out-of-order streaming makes content arrive late, and late content without a reserved spot pushes the whole page down while the user is reading.",
+      "unlock": "",
+      "support": "aspect-ratio: no support data in the guide; recorded as Widely following an existing line (mwg:css-layout:2)"
+    },
+    "mwg:performance": {
+      "title": "Use `async`/`defer` and inline critical CSS to stop render-blocking `@import` and big scripts in the head",
+      "action": "Inline above-the-fold CSS in `<head>` and defer the rest; give every non-critical script `async` or `defer` (`type=\"module\"` defers by default); split stylesheets with `<link media>`; load third-party scripts with `defer` near the end of the page",
+      "blocker": "`@import` in CSS creates sequential request chains that delay the CSSOM; large non-critical scripts in the head stop DOM construction until they're downloaded, parsed, and executed (quote: \"This halts DOM construction until the script is downloaded, parsed, and executed.\")",
+      "outcome": "Scripts no longer block DOM parsing and stylesheets no longer wait on each other in a chain (official claim)",
+      "story": "One big script in the head and one `@import` in a stylesheet keep the page on a white screen. Inline what's critical, defer the rest, and the first paint doesn't wait for unimportant things.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:performance:2": {
+      "title": "Put the LCP image in the raw HTML, don't lazy-load it, and don't make JS or CSS its only source",
+      "action": "Make the LCP image appear in the raw HTML as an `<img>` (or `<link rel=\"preload\" as=\"image\">`) with `fetchpriority=\"high\"`; never add `loading=\"lazy\"` to above-the-fold images; don't use JS loaders to render the hero",
+      "blocker": "`loading=\"lazy\"` on the LCP image deliberately delays the fetch until layout is done; rendering the hero with JS creates an HTML→JS→execution→image request chain (quote: \"This purposefully delays the fetch until layout calculation is complete, severely degrading LCP.\")",
+      "outcome": "The preload scanner finds the LCP image as soon as it sees the HTML and starts downloading early (official claim)",
+      "story": "When the biggest image is hidden in JS or marked lazy, the browser has to wait for layout or for scripts to run before it knows to fetch it. Written directly in the HTML, the scanner finds it immediately.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:performance:3": {
+      "title": "Priority is zero-sum: give too many resources high priority or preloads and they cancel out",
+      "action": "Reserve `fetchpriority=\"high\"` for LCP images; fonts are already high priority so don't add it there; don't preload every font",
+      "blocker": "Elevating too many resources causes network contention and negates the boost; preloading all fonts starves other critical assets (quote: \"Prioritization is a zero-sum mechanism. Elevating too many resources creates network contention and negates the benefit.\")",
+      "outcome": "Boosting only truly critical resources keeps the boost effective (official claim)",
+      "story": "Everyone wants to be first, so everyone gets stuck together. High priority is a scarce resource; only one or two things can have it.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:performance:4": {
+      "title": "Yield with `scheduler.yield()` so the continuation goes to the front of the queue, not the back",
+      "action": "Split JS work over 50ms and yield with `scheduler.yield()` (falling back to `setTimeout` wrapped in a Promise); move work over 250ms to a Web Worker",
+      "blocker": "Yielding only with `setTimeout(..., 0)` puts the continuation at the back of the task queue, so it can wait a long time behind other tasks (quote: \"Standard `setTimeout` places continuations at the *back* of the task queue, potentially causing long delays if other tasks are pending.\")",
+      "outcome": "`scheduler.yield()` puts the continuation at the front of the queue so work resumes quickly after yielding; unsupported browsers fall back to `setTimeout` and may still end up at the back (official claim)",
+      "story": "You yield so user input can cut in, but with `setTimeout` your own second half also has to queue behind everyone else. `scheduler.yield()` yields without losing your place.",
+      "unlock": "Same as mwg:break-up-long-tasks: heavy in-browser work (parsing big files, building indexes) keeps the UI scrollable and cancellable, and long jobs don't get pushed far back just because they yielded.",
+      "support": "No browser support data in the guide; recorded as N/A (for this feature's support data see mwg:break-up-long-tasks)"
+    },
+    "mwg:performance:5": {
+      "title": "Use `contain` and `content-visibility: auto` to keep layout recalculation inside the component",
+      "action": "Use `contain: layout style paint` on isolated UI components (modals, widgets); on large, complex pages use `content-visibility: auto` on off-screen sections paired with `contain-intrinsic-size` (with `auto` and a value derived from the content)",
+      "blocker": "Internal changes in a component trigger page-wide reflows (quote: \"use `contain: layout style paint` to prevent internal changes from triggering page-wide reflows.\")",
+      "outcome": "Changes inside a component only recalculate that component, and off-screen sections skip layout and paint (official claim)",
+      "story": "Change one number in a widget and the whole page reflows. Declaring containment stops recalculation at the component boundary.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:performance:6": {
+      "title": "Add `will-change` only where it's needed, not across the page",
+      "action": "Apply `will-change: transform` to a single element only when it's about to animate (e.g. on `:hover`); also don't use `content-visibility: auto` on small, simple pages",
+      "blocker": "Indiscriminately applying `will-change` to many elements eats video memory and causes GPU crashes or sluggish rendering (quote: \"Indiscriminately applying `will-change: transform` to multiple elements consumes excessive VRAM, causing GPU crashes or sluggish rendering.\")",
+      "outcome": "Hinting only the right element at the right moment no longer exhausts video memory (official claim)",
+      "story": "`will-change` is a hint to the browser; sprinkled over the whole page it becomes a demand to give every element its own layer. Overdone, a performance trick ends up dragging performance down.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:performance:7": {
+      "title": "Give images and videos `width`/`height` so space is reserved before they load",
+      "action": "Set explicit `width` and `height` on `<img>` and `<video>` (as HTML attributes or CSS) so the browser can compute the aspect ratio immediately",
+      "blocker": "Lazy-loaded images without dimensions cause layout shifts when they load (quote: \"Failing to specify width/height on lazy loaded images causes layout shifts.\")",
+      "outcome": "Known dimensions mean space is reserved up front, eliminating CLS (official claim)",
+      "story": "Before the image arrives its height is 0; when it lands it expands and pushes the text below. Write the dimensions and the space is held from the start.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:performance:8": {
+      "title": "If you use `srcset`, write `sizes`, or phones download the desktop image",
+      "action": "Use `srcset` with `sizes` for responsive images; use `<picture>` to offer AVIF, then WebP, then JPEG",
+      "blocker": "With `srcset` but no `sizes`, the browser assumes the image fills the viewport and downloads the largest one (quote: \"Without `sizes`, the browser assumes `100vw` and downloads the largest available image.\")",
+      "outcome": "The browser picks a resolution matching the actual display width (official claim)",
+      "story": "You prepared several sizes, but one missing attribute means the browser still picks the biggest. Add `sizes` and phones actually get the small one.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:performance:9": {
+      "title": "Split code with dynamic `import()` instead of one giant `app.js`",
+      "action": "Split routes and heavy UI libraries with dynamic `import()`; configure the bundler to chunk third-party vendors separately from app logic",
+      "blocker": "A single enormous `app.js` increases parse time and memory use for the initial view (quote: \"DON'T ship a single, enormous `app.js` bundle: It increases parse time and memory consumption for initial views.\")",
+      "outcome": "The initial view downloads and parses only the code it needs right now (official claim)",
+      "story": "With the whole app in one bundle, low-end devices choke just parsing it. Load on demand and the first screen only pays for the first screen.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:performance:10": {
+      "title": "Service Worker caching needs per-type strategies, versioning, and limits",
+      "action": "Use CacheFirst for hashed static assets, StaleWhileRevalidate for APIs that can be slightly stale, NetworkFirst for HTML; set expiry and size limits; don't heavily cache opaque responses with CacheFirst; always bump hashes/versions when assets change",
+      "blocker": "Not updating asset hashes or versions traps users in endless cache loops; blindly caching opaque responses eats quota and fails silently (quote: \"Failing to update asset hashes/versions will trap users in infinite cache loops.\")",
+      "outcome": "Users get the latest shell, static assets still load instantly, and storage isn't exhausted (official claim)",
+      "story": "A Service Worker lets pages open without the network, but with the cache set up wrong users never see the new version. Choose a strategy per resource type and add versions and limits, and the cache becomes a help.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:performance:11": {
+      "title": "Don't use `Cache-Control: no-store` on non-sensitive pages, or you lose the bfcache",
+      "action": "Reserve `no-store` for truly private data; for pages that just need fresh content use `no-cache` or `max-age=0`",
+      "blocker": "`no-store` keeps the browser from storing the page in the back/forward cache, making perceived performance noticeably slower (quote: \"This directive prevents the browser from storing the page in the **Back-Forward Cache (bfcache)**, leading to significantly slower perceived performance.\")",
+      "outcome": "The page stays bfcache-eligible and comes back instantly on Back (official claim)",
+      "story": "Writing `no-store` to \"always get the latest\" means every Back press reloads the page. With `no-cache` the content is just as fresh and Back is just as fast.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:resolution-optimized-pseudo-elements": {
+      "title": "Use `image-set()` in `::before`/`::after` so the browser picks the format and resolution",
+      "action": "Put decorative icons in a pseudo-element's `content` or `background-image` using `image-set()` with AVIF/WebP/PNG at 1x/2x, ordered from most to least optimized; write a plain `url()` line first as a fallback for older browsers",
+      "blocker": "The guide only says this avoids extra DOM nodes for decorative icons and lets the browser pick the best image for the device, without saying when a single `url()` or extra nodes go wrong (quote: \"allows you to add decorative icons or structural graphics without cluttering your HTML with extra DOM nodes.\")",
+      "outcome": "The browser automatically picks the best format and resolution for the device; `image-set()` is Widely available (official claim)",
+      "story": "Small icons on icon buttons need to cover high-DPI screens and new formats; before, you'd add an `<img>` or ship a single file. In a pseudo-element's `image-set()`, the HTML stays the same and the browser picks.",
+      "unlock": "",
+      "support": "image-set(): Widely (2023-09-18; Chrome 113, Edge 113, Firefox 89, Safari 17)"
+    },
+    "mwg:schedule-tasks-by-priority": {
+      "title": "Use `scheduler.postTask()` to sort work into user-blocking / user-visible / background",
+      "action": "Use `priority: 'user-blocking'` for input handling and critical rendering, the default `user-visible` for visible but non-blocking content, and `background` for analytics and prefetching; conditionally load `scheduler-polyfill` where unsupported",
+      "blocker": "The guide only says current-view work matters more than analytics or prefetching and that the browser should stay responsive to input, without saying when unprioritized work goes wrong (quote: \"Completing tasks for the current view is more important than sending analytics or prefetching assets.\")",
+      "outcome": "Work is scheduled by priority and the browser stays responsive to input; Safari doesn't support it and needs the polyfill to keep prioritization (official claim)",
+      "story": "Analytics, prefetching, and UI updates used to sit in one queue, first come first served. With three tiers, background work runs only when things are idle; Safari needs the polyfill.",
+      "unlock": "A notes or document editor can put typing response first, preview re-render in the middle, and search indexing and sync in the background, so typing doesn't stutter on a single main thread. Safari needs the polyfill.",
+      "support": "Scheduler API: Limited (Chrome 129, Edge 129, Firefox 142; not Safari)"
+    },
+    "mwg:migrate-web-app-origin": {
+      "title": "Move origins with manifest `migrate_from`/`migrate_to` instead of making users uninstall and reinstall",
+      "action": "Declare `migrate_from` in the new site's manifest (optionally `behavior: \"force\"`), authorize `allow_migration` at the old site's `/.well-known/web-app-origin-association`, and optionally add `migrate_to` to the old manifest; both origins must be same-site (same eTLD+1)",
+      "blocker": "Changing origin means users must manually uninstall the old app and install the new one, losing OS integration such as taskbar shortcuts and notification permissions (quote: \"This process usually causes the loss of OS-level integration, such as taskbar shortcuts and notification permissions.\")",
+      "outcome": "Supporting browsers hand over the installation (shortcuts, home-screen icons) automatically, but data and permissions don't move; Firefox and Safari don't support it, so the old site can only show a banner asking users to reinstall (official claim)",
+      "story": "The product changes domain and installed users have to remove and reinstall it themselves, losing shortcuts and icons. Once both sides confirm each other, the browser swaps the shell; localStorage, IndexedDB, and permissions remain tied to the old origin and must be migrated separately.",
+      "unlock": "A personal tools site can split `tools.example.com/foo` into its own subdomain or merge several small PWAs, and installed users follow with one \"Update\" click, no announcement explaining how to reinstall. Chromium-only for now, and data still has to be moved by hand.",
+      "support": "Web app origin migration: Limited (Chrome 149, Edge 149; not Firefox or Safari)"
+    },
+    "mwg:privacy": {
+      "title": "Collect data at the lowest granularity: ask for an age bracket, not a birthday",
+      "action": "Collect only the granularity the task needs (an age-bracket `<select>` instead of date of birth); offer guest checkout; delete data once its purpose is fulfilled; add noise to aggregate statistics (differential privacy); don't collect \"just in case\"",
+      "blocker": "Data you collected but don't need is lost along with everything else in a breach (quote: \"If you don't have the data, you can't lose it.\")",
+      "outcome": "The less data stored, the lower the breach risk and the higher user trust (official claim)",
+      "story": "One extra field costs nothing today but becomes one more thing to answer for when something goes wrong. Collect only the level of detail the task needs, and what you never collected can't leak.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:privacy:2": {
+      "title": "Keep session identifiers in `HttpOnly` cookies, not `localStorage`",
+      "action": "Add `HttpOnly` (with `Secure` and `SameSite=Lax`) to cookies holding session IDs; don't store sensitive tokens or PII in `localStorage`",
+      "blocker": "Tokens and PII in `localStorage` can be read by any script embedded in the page (quote: \"DON'T store sensitive tokens or PII in `localStorage`, as it is accessible by any embedded script.\")",
+      "outcome": "`HttpOnly` cookies can't be accessed by other scripts (official claim)",
+      "story": "Tokens in `localStorage` are convenient, and just as convenient for every third-party script on the page. With `HttpOnly`, scripts can't touch them.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:privacy:3": {
+      "title": "Send `Clear-Site-Data` on logout so no data lingers in the browser",
+      "action": "Respond with `Clear-Site-Data: \"*\"` when a user logs out; when clearing the cache, trigger it via a subresource rather than the main navigation page",
+      "blocker": "After logout, data still lingers in the browser (quote: \"DO use the `Clear-Site-Data` header when a user logs out to ensure no lingering data remains in the browser.\")",
+      "outcome": "No residual data remains in the browser after logout (official claim)",
+      "story": "You logged out on a shared computer, but the cookies, storage, and cache are still there. One response header has the browser wipe them all.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:privacy:4": {
+      "title": "Set a strict `Referrer-Policy` so URL parameters don't leak to third parties",
+      "action": "Respond with `Referrer-Policy: strict-origin-when-cross-origin`",
+      "blocker": "Sensitive parameters in URLs leak to third parties through the Referer header (quote: \"DO set a strict `Referrer-Policy` to prevent leaking sensitive URL parameters to third parties.\")",
+      "outcome": "Cross-origin requests carry only the origin, not the path or query (official claim)",
+      "story": "The URL contains search terms and order numbers, and every third-party request carries them out. With a restricted Referer, third parties only learn which site you came from.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:privacy:5": {
+      "title": "Rate-limit sensitive endpoints to stop bulk scraping",
+      "action": "Implement rate limiting on sensitive endpoints such as user search and profile views",
+      "blocker": "Sensitive endpoints get used to scrape user data in bulk (quote: \"DO implement rate limiting on sensitive endpoints (e.g., user search or profile views) to prevent bulk data scraping.\")",
+      "outcome": "Bulk scraping is blocked (official claim)",
+      "story": "Each profile page is public on its own, but together they make a directory. Rate limiting keeps scraping from scaling.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:privacy:6": {
+      "title": "Use façades for heavy embeds and static links for sharing, so third parties can't track first",
+      "action": "Show a static thumbnail for YouTube/TikTok embeds and load the iframe only after a click (using `youtube-nocookie.com` where available); replace social-sharing SDKs with plain HTML links; don't load third-party scripts on checkout or health pages; audit network requests regularly with DevTools or HAR files",
+      "blocker": "Third-party scripts and resources are a common source of privacy leaks (quote: \"Third-party scripts and resources are a common source of privacy leaks.\")",
+      "outcome": "No third-party iframe loads until the user clicks; static share links don't track users (official claim)",
+      "story": "With one video embed and a row of share buttons, visitors are logged by third parties before they click anything. Show a static stand-in first and load only once the user shows intent.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:privacy:7": {
+      "title": "Mediate \"Sign in with…\" through FedCM, and partition cookies with CHIPS",
+      "action": "Switch third-party sign-in to the Federated Credential Management API (`navigator.credentials.get({ identity })`); add `Partitioned` (CHIPS) to cookies for 1:1 embeds instead of relying on unpartitioned `SameSite=None` cookies",
+      "blocker": "Identity providers can track which sites a user visits before the user consents (quote: \"use the **Federated Credential Management API (FedCM)** to mediate \"Sign-In\" flows natively, preventing IdP tracking of Relying Parties prior to user consent.\")",
+      "outcome": "The browser mediates sign-in natively, so the identity provider can't see the relying party before consent (official claim)",
+      "story": "Every site with a \"Sign in with X\" button tells X which sites the user visits, even if they never press it. With the browser in the middle, nothing is revealed before consent.",
+      "unlock": "Small sites can offer \"Sign in with…\" without letting the identity provider learn who visited before the user clicks; embedded widgets can keep preferences in partitioned cookies without becoming cross-site trackers.",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:privacy:8": {
+      "title": "Replace fingerprinting and UA sniffing with feature detection and UA Client Hints",
+      "action": "Detect capabilities with feature detection (`'IntersectionObserver' in window`); when device targeting is truly needed, request only the necessary fields with `navigator.userAgentData.getHighEntropyValues()`; don't fingerprint via canvas, font lists, or media-device enumeration, and don't rely on the full `navigator.userAgent`",
+      "blocker": "Fingerprinting relies on unchanging characteristics and happens invisibly, so users can neither opt out nor clear the identifier (quote: \"Fingerprinting takes away user control because it relies on unchanging characteristics and happens invisibly, preventing users from opting out or clearing their identifier.\")",
+      "outcome": "The guide only asks for feature detection and UA-CH, without saying how much UA-CH reduces fingerprinting (official claim)",
+      "story": "Parsing the UA string or reading a canvas to judge browser capabilities quietly creates an identifier users can't delete. Ask \"is this feature here?\" instead, and request explicit device fields only when needed.",
+      "unlock": "Pages that offer per-platform downloads or installers by CPU architecture can ask for just the platform version and architecture, without parsing the whole UA string or fingerprinting.",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:privacy:9": {
+      "title": "Use the `<permission>` element so permission requests are user-initiated",
+      "action": "Where supported, request permissions declaratively with the Page Embedded Permission Control (`<permission type=\"geolocation\">`) with a regular button inside as fallback; explain the reason and context before requesting powerful permissions like camera or location",
+      "blocker": "The guide only asks for a clear reason and context before requesting permissions, without saying when an abrupt permission prompt goes wrong (quote: \"DO provide a clear reason and context *before* requesting powerful browser permissions (e.g., camera, location).\")",
+      "outcome": "The guide only says `<permission>` makes requests declarative, user-initiated, and acts as a data mediator, without saying how much it improves any problem (official claim)",
+      "story": "Permission dialogs often pop up before users know why. `<permission>` turns the request into an on-page control the user presses themselves; unsupported browsers just see a regular button.",
+      "unlock": "A map or store-finder page can make \"Use my location\" a native in-page control, so the permission request always comes from a user click and never pops up on load.",
+      "support": "No browser support data in the guide (only \"if supported\"); recorded as N/A"
+    },
+    "mwg:client-side-encryption": {
+      "title": "Use `encapsulateKey()` (MLKEM768-X25519) plus AEAD for post-quantum envelope encryption in the browser",
+      "action": "The recipient generates a non-extractable key pair with `crypto.subtle.generateKey('MLKEM768-X25519', false, …)`, stores it in IndexedDB, and exports the public key as `'raw-public'`; for each message the sender calls `encapsulateKey()` to get a one-time shared key and ciphertext capsule, encrypts with `ChaCha20-Poly1305` or `AES-GCM`, and sends `{ capsule, iv, ciphertext }`",
+      "blocker": "The guide only says the hybrid KEM keeps the shared secret secure as long as either algorithm holds, without saying when classical-only key exchange goes wrong (quote: \"it combines post-quantum ML-KEM (standardized in NIST FIPS 203) with classical `'X25519'` so the shared secret remains secure as long as either algorithm holds.\")",
+      "outcome": "Supporting browsers can do post-quantum envelope encryption locally; without `SubtleCrypto.supports()`/`encapsulateKey()` it falls back to classical X25519 + HKDF + AES-GCM (official claim)",
+      "story": "End-to-end encryption in the browser no longer needs a crypto library, and the private key never leaves its `CryptoKey`. Browsers without the new algorithms fall back to classical key exchange behind the same interface.",
+      "unlock": "A diary or notes app can encrypt each entry in the browser before upload so the server only stores ciphertext, with a non-extractable `CryptoKey` and no bundled crypto library. Falls back to classical exchange where the new algorithms aren't supported.",
+      "support": "Web Cryptography: Widely (2017-09-19); X25519 deriveBits: Newly (2025-02-06). The guide gives no support data for ML-KEM/`encapsulateKey()`; recorded as Newly, the lowest listed"
+    },
+    "mwg:client-side-encryption:2": {
+      "title": "Bind unencrypted metadata into the AEAD tag with `additionalData`",
+      "action": "Pass unencrypted metadata such as record ID, recipient ID, or protocol version as `additionalData` when encrypting; use a fresh random 12-byte IV every time and never reuse an `(iv, key)` pair",
+      "blocker": "Without binding, tampering with the metadata next to the ciphertext goes unnoticed (quote: \"Bind unencrypted metadata (such as a record ID, recipient ID, or protocol version) to the authentication tag via `additionalData` so tampering with either the ciphertext or the metadata causes `decrypt()` to reject with `OperationError`.\")",
+      "outcome": "If either the ciphertext or the metadata is changed, `decrypt()` rejects with `OperationError` (official claim)",
+      "story": "The ciphertext itself is authenticated, but \"who it's for, which record\" sits beside it, so an attacker can move ciphertext under another record. Bind the metadata into the tag and moved ciphertext won't decrypt.",
+      "unlock": "",
+      "support": "Web Cryptography (AES-GCM): Widely (2017-09-19)"
+    },
+    "mwg:client-side-encryption:3": {
+      "title": "New algorithms reject `'raw'`: write `'raw-public'` / `'raw-seed'` / `'raw-secret'` explicitly",
+      "action": "Always specify an explicit format in `importKey()`/`exportKey()` for `MLKEM768-X25519`, `ML-KEM-*`, and `ChaCha20-Poly1305`; import KEM private keys with only `['decapsulateKey']`; use only the three algorithm names the guide lists",
+      "blocker": "Sticking with the legacy `'raw'` format makes the new algorithms throw `NotSupportedError` (quote: \"Modern WebCrypto algorithms (…) **reject the legacy `'raw'` format** in `importKey()` and `exportKey()` with a `NotSupportedError`.\")",
+      "outcome": "With explicit formats, import and export work; the classical fallback path still uses `'raw'` (official claim)",
+      "story": "Writing `'raw'` out of habit makes the whole flow fail at step one on the new algorithms. The old and new paths use different format names and must be written separately.",
+      "unlock": "",
+      "support": "Same as mwg:client-side-encryption; recorded as Newly"
+    },
+    "mwg:client-side-encryption:4": {
+      "title": "Call `SubtleCrypto.supports()` on the constructor, not on `crypto.subtle`",
+      "action": "Detect with `globalThis.SubtleCrypto?.supports?.('encapsulateKey', 'MLKEM768-X25519', 'ChaCha20-Poly1305')`; include an `iv` when probing `'encrypt'`/`'decrypt'`",
+      "blocker": "Looking for `supports` on `crypto.subtle` gets `undefined` (quote: \"`globalThis.SubtleCrypto?.supports?.(…)` is a synchronous static method returning a boolean (`crypto.subtle.supports` is `undefined`).\")",
+      "outcome": "Detecting on the right object is what lets you choose between the post-quantum and classical paths (official claim)",
+      "story": "With detection on the wrong object, the answer is always \"unsupported\", and even supporting browsers get sent down the classical path.",
+      "unlock": "",
+      "support": "Same as mwg:client-side-encryption; recorded as Newly"
+    },
+    "mwg:digital-signatures": {
+      "title": "Sign and verify in the browser with ML-DSA, no shared secret key needed",
+      "action": "Generate a key pair with `crypto.subtle.generateKey('ML-DSA-65', false, ['sign', 'verify'])`, export the public key as `'raw-public'` for verifiers, and `sign()`/`verify()` messages, tokens, or release manifests; fall back to `'Ed25519'` (or `'ECDSA'` P-256) where unsupported",
+      "blocker": "The guide only says digital signatures guarantee integrity and signer authenticity without shared secret keys, without saying when other approaches go wrong (quote: \"Digital signatures guarantee data integrity and signer authenticity without requiring shared secret keys.\")",
+      "outcome": "Supporting browsers sign with post-quantum ML-DSA; others fall back to classical Ed25519 (official claim)",
+      "story": "Confirming in the browser that a manifest hasn't been altered and really came from someone used to mean shipping a crypto library or deferring to the server. Now `crypto.subtle` does it directly, with a post-quantum option.",
+      "unlock": "A static site can ship a signed release manifest that visitors' browsers verify after downloading files, without trusting the CDN in between; exported notes can carry a signature proving they weren't altered.",
+      "support": "Web Cryptography: Widely (2017-09-19); Ed25519 sign: Newly (2025-05-29). The guide gives no support data for ML-DSA; recorded as Newly, the lowest listed"
+    },
+    "mwg:digital-signatures:2": {
+      "title": "Use `context` for domain separation so a signature for one purpose can't be replayed elsewhere",
+      "action": "Pass `{ name: 'ML-DSA-65', context }` (0–255 bytes, identical on both sides) to `sign()`/`verify()`; when falling back to Ed25519/ECDSA, prepend a length-prefixed context header to the data yourself",
+      "blocker": "When one key pair is shared, a signature made for one purpose can be replayed in another part of the app; classical algorithms also silently ignore a `context` property (quote: \"To prevent a signature created for one purpose from being replayed in another part of your application or protocol that shares the same key pair, bind the signature to a domain-separation `context`.\")",
+      "outcome": "ML-DSA binds context natively, so verification fails under a different context; the classical path needs the manual prefix for the same effect (official claim)",
+      "story": "If the same key signs both login challenges and release manifests, an attacker might pass one off as the other. Binding a purpose label keeps each signature valid only for its purpose; the classical fallback silently drops the label, so add it by hand.",
+      "unlock": "One browser-side identity key can sign login challenges, comments, and file manifests without any of those signatures being reusable for another purpose, instead of managing a key per purpose.",
+      "support": "Same as mwg:digital-signatures; recorded as Newly"
+    },
+    "mwg:digital-signatures:3": {
+      "title": "ML-DSA rejects `'raw'`: use `'raw-public'` for public keys and `'raw-seed'` for private keys",
+      "action": "Specify `'raw-public'`, `'raw-seed'`, `'spki'`, `'pkcs8'`, or `'jwk'` when importing/exporting ML-DSA keys; import public keys with only `['verify']` and private keys with only `['sign']`; don't use pre-standardization names like `'Dilithium'`",
+      "blocker": "Sticking with the legacy `'raw'` format makes ML-DSA throw `NotSupportedError` (quote: \"`'ML-DSA-44'`, `'ML-DSA-65'`, and `'ML-DSA-87'` **reject the legacy `'raw'` format** in `importKey()` and `exportKey()` with a `NotSupportedError`.\")",
+      "outcome": "With explicit formats, import and export work; the Ed25519 fallback path still uses `'raw'` (official claim)",
+      "story": "Same pitfall as mwg:client-side-encryption:3: the new algorithms renamed the formats, and writing it the old way fails at the first step.",
+      "unlock": "",
+      "support": "Same as mwg:digital-signatures; recorded as Newly"
+    },
+    "mwg:digital-signatures:4": {
+      "title": "Call `SubtleCrypto.supports()` on the constructor, not on `crypto.subtle`",
+      "action": "Detect with `globalThis.SubtleCrypto?.supports?.('sign', 'ML-DSA-65')` to choose between ML-DSA and Ed25519",
+      "blocker": "Looking for `supports` on `crypto.subtle` gets `undefined` (quote: \"`globalThis.SubtleCrypto?.supports?.('sign', 'ML-DSA-65')` is a synchronous static method returning a boolean (`crypto.subtle.supports` is `undefined`).\")",
+      "outcome": "Detecting on the right object is what makes the branching correct (official claim)",
+      "story": "Same as mwg:client-side-encryption:4: detection on the wrong object always takes the fallback.",
+      "unlock": "",
+      "support": "Same as mwg:digital-signatures; recorded as Newly"
+    },
+    "mwg:local-network-access": {
+      "title": "Use `targetAddressSpace` so an https page can reach http devices on the LAN",
+      "action": "Add `targetAddressSpace: 'local'` or `'loopback'` to `fetch()`/`Request` calls to LAN devices (printers, IoT hubs, routers) or local companion apps; connect after the user grants the `local-network`/`loopback-network` permission",
+      "blocker": "Mixed Content checks run before DNS resolution, so an https page's request to an http LAN endpoint is blocked as mixed content (quote: \"Mixed Content checks run *before* DNS resolution. Declaring `targetAddressSpace: 'local'` (…) informs the browser ahead of DNS resolution that an `http://` URL (…) targets a local/loopback endpoint and should be exempted from Mixed Content blocking once the user grants the permission.\")",
+      "outcome": "Supporting browsers allow it after permission and verify after resolution that the IP really is in the declared address space (aborting otherwise); Firefox and Safari don't support it (official claim)",
+      "story": "Home devices only speak http, while web pages are always https, so the two can't connect. Declare \"I'm connecting to the LAN\" up front and the browser lets it through after asking the user, also checking the hostname didn't resolve to the public internet.",
+      "unlock": "Setup pages for smart appliances, 3D printers, or NAS boxes can be public https web pages that reach the device in the user's home, with no desktop app and no typing an IP into an http page. Chromium-only for now.",
+      "support": "Local network access: Limited (Chrome 145, Edge 145; not Firefox or Safari)"
+    },
+    "mwg:local-network-access:2": {
+      "title": "Send LAN requests only after a user click, not on load or from a Service Worker",
+      "action": "Check state with `navigator.permissions.query({ name: 'local-network' })` first: connect if `granted`; if `prompt`, explain why and trigger from a button click; if `denied`, show how to re-enable it in site settings; always serve the page over https",
+      "blocker": "Sending the first permission-gated request from a Service Worker or Shared Worker fails immediately because there's no attached Document; insecure http top-level pages are denied outright (quote: \"never initiate the first permission-triggering request from a **Service Worker** or **Shared Worker** (which lack an attached `Document` and will immediately fail if permission is not already `'granted'`).\")",
+      "outcome": "Requests come from a user gesture, so the permission prompt can appear and make sense; unsupported browsers have no such permission (official claim)",
+      "story": "Connecting to the LAN on load shows a permission prompt before users know why; doing it in a worker is worse, failing with no prompt at all. Check the state first, let the user press a button, then send the request.",
+      "unlock": "",
+      "support": "Same as mwg:local-network-access; recorded as Limited"
+    },
+    "mwg:local-network-access:3": {
+      "title": "Don't query the legacy `'local-network-access'` permission name: older Chrome crashes the whole tab",
+      "action": "Query only the granular `'local-network'`/`'loopback-network'` names, wrapped in `try/catch`, treating an unrecognized name as `'prompt'`",
+      "blocker": "Querying the legacy combined name crashes the renderer process in older Chrome, and `try/catch` can't prevent it (quote: \"In older Chrome versions this query crashes the renderer process, and `try / catch` cannot prevent it.\")",
+      "outcome": "Querying only the granular names, browsers that don't recognize them throw a `TypeError` that gets caught, and the request still runs on a user click (official claim)",
+      "story": "Querying one extra old name \"for compatibility\" ends up crashing the tab in older Chrome. Use only the new names and the exception is caught normally.",
+      "unlock": "",
+      "support": "Same as mwg:local-network-access; recorded as Limited"
+    },
+    "mwg:local-network-access:4": {
+      "title": "`WebSocket` doesn't take `{ targetAddressSpace }`; it's recognized from the URL itself",
+      "action": "Pass only subprotocols as the second argument to `new WebSocket(url, protocols)`; use private/loopback IP literals, `localhost`, or `.local` hostnames so the browser recognizes them from the URL; use `wss://` for local endpoints with custom DNS names; don't pass `targetAddressSpace` to `WebTransport` either",
+      "blocker": "Passing a `{ targetAddressSpace }` object as `WebSocket`'s second argument throws a `SyntaxError` (quote: \"do **not** pass a `{ targetAddressSpace }` options object, which throws a `SyntaxError`.\")",
+      "outcome": "With a recognizable URL, `ws://` connections are exempted from mixed-content blocking after permission (official claim)",
+      "story": "`fetch` needs the address space declared, but carrying that over to `WebSocket` throws immediately. WebSocket decides from what the URL looks like, not from options.",
+      "unlock": "",
+      "support": "Same as mwg:local-network-access; recorded as Limited"
+    },
+    "mwg:local-network-access:5": {
+      "title": "Cross-origin iframes need `allow` and `Permissions-Policy` delegation to reach the LAN",
+      "action": "Use `<iframe allow=\"local-network; loopback-network\">` and send `Permissions-Policy: local-network=(self \"https://partner…\")` on the **embedding** document's response",
+      "blocker": "Both permissions default to a `'self'` allowlist, so embedded cross-origin iframes can't make local or loopback requests (quote: \"`local-network` and `loopback-network` have a default allowlist of `'self'`, blocking cross-origin `<iframe>` embeds from making local or loopback requests.\")",
+      "outcome": "With explicit delegation, hardware-setup widgets and SSO iframes that talk to a local agent can connect (official claim)",
+      "story": "A partner's device-setup page is embedded in an iframe and can't reach the user's device. Only when the outer page explicitly delegates does the iframe get the permission.",
+      "unlock": "",
+      "support": "Same as mwg:local-network-access; recorded as Limited"
+    },
+    "mwg:passkey-authentication": {
+      "title": "Use conditional mediation (`mediation: \"conditional\"`) to put passkeys in form autofill",
+      "action": "The server returns discoverable-credential options with `allowCredentials: []`; mark fields `autocomplete=\"username webauthn\"`; on load confirm `conditionalGet` via `PublicKeyCredential.getClientCapabilities()`, then call `navigator.credentials.get()` with `mediation: \"conditional\"` and an `AbortController`; also provide a \"Sign in with passkey\" button",
+      "blocker": "The guide only says discoverable credentials spare users from entering a username first and let the provider list accounts, without saying when a username-first flow goes wrong (quote: \"This requests discoverable credentials, meaning the user does not need to enter their username first; the passkey provider will present available accounts.\")",
+      "outcome": "Supporting browsers offer passkeys as soon as the user focuses the field; without `conditionalGet` the step is skipped, and `getClientCapabilities()` and JSON parsing can be filled in with `webauthn-polyfills` (official claim)",
+      "story": "Open the sign-in page and the username field's autofill menu already has the passkey; one tap signs you in, no typing a username first. Unsupported environments keep using the password form.",
+      "unlock": "A personal site or small tool can offer a single username field where users sign in with one tap using the passkey on their phone or computer, without designing a password-reset flow.",
+      "support": "getClientCapabilities(): Newly (2025-02-06; Chrome 133, Edge 133, Firefox 135, Safari 17.4); parseRequestOptionsFromJSON(): Newly (2025-03-31)"
+    },
+    "mwg:passkey-authentication:2": {
+      "title": "Abort the background conditional request before a button sign-in, so two prompts don't collide",
+      "action": "When \"Sign in with passkey\" is pressed, `abort()` the pending conditional `get()` and create a fresh `AbortController`; re-arm conditional autofill after a cancelled button flow; treat `NotAllowedError` and `AbortError` as expected",
+      "blocker": "Firing an explicit passkey prompt while the background conditional request is still pending makes the two collide (quote: \"Abort any pending Conditional Get call to prevent passkey prompt collisions\")",
+      "outcome": "Only one passkey request is in flight at a time (official claim)",
+      "story": "The autofill request is waiting in the background, the user presses the button, and two WebAuthn requests fight. Cancel the background one first, and re-arm it afterwards.",
+      "unlock": "",
+      "support": "Same as above; recorded as Newly"
+    },
+    "mwg:passkey-authentication:3": {
+      "title": "When the server doesn't know a credential, tell the password manager with `signalUnknownCredential()`",
+      "action": "Return an explicit HTTP 404 when the credential ID isn't found; on the client, only on a 404 while unauthenticated, call `PublicKeyCredential.signalUnknownCredential({ rpId: publicKey.rpId, credentialId: encoded.id })` after feature detection",
+      "blocker": "The guide only says the Signal API keeps password managers in sync with the server's credential state, without saying when being out of sync goes wrong (quote: \"The WebAuthn Signal API (`webauthn-signals`) is a progressive optimization used to keep password managers in sync with the server credential state.\")",
+      "outcome": "Supporting browsers tell the provider about passkeys the server no longer recognizes; Firefox doesn't support it and the sync is safely skipped (official claim)",
+      "story": "A passkey the server already deleted is still sitting in the user's password manager. Return 404 at sign-in and the browser can notify the provider to deal with it.",
+      "unlock": "Sites can actively clean up stale passkeys in users' password managers, so after an account deletion or credential revocation users no longer see an option that's guaranteed to fail. Not supported in Firefox.",
+      "support": "Web authentication signal methods: Limited (Chrome 132, Edge 132, Safari 26; not Firefox)"
+    },
+    "mwg:passkey-authentication:4": {
+      "title": "Keep the user-verification level in the server session, not sent back from the client",
+      "action": "Store the `userVerification` level in the server session when generating options; the verification endpoint decides `requireUserVerification` from the session value",
+      "blocker": "Passing the verification level back from the client (e.g. in a query string) effectively lets the client decide whether biometrics or a PIN are checked (quote: \"The requested `userVerification` constraint level MUST be persisted inside the server session record at the options endpoint, rather than passed back from the client via query strings. This allows the verification endpoint to enforce strict matching constraints safely without risk of client manipulation.\")",
+      "outcome": "The server controls the verification requirement, free from client tampering (official claim)",
+      "story": "If the \"PIN required\" setting comes back from the browser, changing a parameter skips it. Stored on the server, verification compares against its own record.",
+      "unlock": "",
+      "support": "Same as above; recorded as Newly"
+    },
+    "mwg:passkey-conditional-create": {
+      "title": "After a successful password sign-in, quietly create a passkey with `mediation: 'conditional'`",
+      "action": "Only after a full sign-in that involved a password and passed all factors: `abort()` the autofill conditional `get()`, confirm `capabilities.conditionalCreate`, then call `navigator.credentials.create()` with `mediation: 'conditional'` (with existing credentials in `excludeCredentials`); silently swallow `InvalidStateError`, `NotAllowedError`, and `AbortError`; relax the server's user-presence (UP) check only for these requests",
+      "blocker": "The regular creation flow interrupts the user with an obtrusive modal dialog (quote: \"This signals the browser to handle the passkey creation flow silently in the background or contextually without throwing obtrusive modal dialogs.\")",
+      "outcome": "Supporting platforms create the passkey in the background or in context without a modal; when `conditionalCreate` isn't available it's simply skipped (official claim)",
+      "story": "A user who just signed in with a password, shown a big \"Create a passkey?\" dialog, mostly closes it. With conditional creation the browser saves one for them without interrupting, and next time they can sign in with a passkey.",
+      "unlock": "Existing password-based sites don't need an \"upgrade to passkeys\" onboarding page: users sign in as usual and next time there's a passkey option waiting.",
+      "support": "getClientCapabilities(): Newly (2025-02-06); parseCreationOptionsFromJSON(): Newly (2025-03-31). The guide gives no support data for conditional create itself; recorded as Newly"
+    },
+    "mwg:passkey-conditional-create:2": {
+      "title": "When server verification fails, clear the orphaned credential with `signalUnknownCredential()`",
+      "action": "If `create()` succeeds but the server verification response isn't OK or the network fails, call `PublicKeyCredential.signalUnknownCredential({ rpId: publicKey.rp.id, credentialId: encodedResponse.id })`; server options must include `rp.id`",
+      "blocker": "Credentials the server didn't accept linger in the passkey provider as orphans (quote: \"invoke `PublicKeyCredential.signalUnknownCredential(…)` to prevent orphaned credentials from lingering in the passkey provider.\")",
+      "outcome": "Supporting browsers tell the provider to remove the orphan; Firefox doesn't support it and the sync is skipped (official claim)",
+      "story": "The browser has already created the passkey but the server failed verification and didn't store it, so the user will later see an option that can never sign in. Notify the provider the moment verification fails.",
+      "unlock": "Same as mwg:passkey-authentication:3: a failed registration doesn't leave a broken passkey in the user's password manager. Not supported in Firefox.",
+      "support": "Web authentication signal methods: Limited (Chrome 132, Edge 132, Safari 26; not Firefox)"
+    },
+    "mwg:passkey-management": {
+      "title": "Use `signalAllAcceptedCredentials()` and `signalCurrentUserDetails()` to keep password managers in step with the server",
+      "action": "Call `signalAllAcceptedCredentials({ rpId, userId, allAcceptedCredentialIds })` when the management page loads and after deleting a credential; call `signalCurrentUserDetails()` after the user changes their username or display name; renaming a passkey's nickname only updates the server; show each row's AAGUID-derived provider name and icon plus created and last-used dates",
+      "blocker": "The guide only says the Signal API keeps synced vaults and the backend database consistent, without saying when being out of sync goes wrong (quote: \"The Signal API lets the application communicate credential states to password managers, keeping the user's synced vaults and your backend database in lockstep.\")",
+      "outcome": "Supporting browsers sync server-side deletions and profile updates to the password manager; Firefox doesn't support it and it can't be polyfilled, while server-side management keeps working (official claim)",
+      "story": "The user deletes a passkey and renames their account on the site's settings page, but their phone's password manager still shows the old ones. Signal on load, on delete, and on rename, and the two sides match.",
+      "unlock": "An account settings page can make \"delete it here and it disappears from the password manager on your phone; rename it here and the sign-in menu shows the new name\" work without asking users to clean up their password manager. Not supported in Firefox.",
+      "support": "Web authentication signal methods: Limited (Chrome 132, Edge 132, Safari 26; not Firefox)"
+    },
+    "mwg:passkey-management:2": {
+      "title": "Use the server-provided `rpId` for the Signal API, not `window.location.hostname`",
+      "action": "Have the list and account-update endpoints return the server's configured `rpId`, and use it directly when calling the Signal API",
+      "blocker": "When credentials are registered to a parent domain or shared via Related Origin Requests, `window.location.hostname` doesn't match, so sync silently targets the wrong RP ID or throws a `SecurityError` (quote: \"`window.location.hostname` will not match the credential's RP ID, causing password manager synchronization to silently target the wrong RP ID or throw a `SecurityError`.\")",
+      "outcome": "With the server's RP ID, sync reaches the right set of credentials (official claim)",
+      "story": "The settings page is at `accounts.example.com` but the passkeys are registered to `example.com`. Use the current hostname as the RP ID and the signal goes nowhere.",
+      "unlock": "",
+      "support": "Same as mwg:passkey-management; recorded as Limited"
+    },
+    "mwg:passkey-management:3": {
+      "title": "IDs passed to the Signal API must be valid Base64URL, and failures should only `console.warn`",
+      "action": "Store every `userId` and credential ID (including prototype seed data and mock backends) as unpadded Base64URL; validate before calling and skip invalid ones; wrap Signal API calls in `try/catch` and log failures with `console.warn`, not `console.error`",
+      "blocker": "Passing human-readable mock IDs like `'passkey-1'` throws a `TypeError` on page load; logging passive sync failures with `console.error` fails Lighthouse's `errors-in-console` check (quote: \"Passing arbitrary human-readable placeholder or mock IDs (…) throws `TypeError: Invalid base64url string for allAcceptedCredentialIds` on page load.\")",
+      "outcome": "Malformed IDs are skipped safely and sync failures don't break the page (official claim)",
+      "story": "Readable mock data used during development goes unnoticed until launch, when the Signal API blows up the page on load. Validate first and downgrade failures to warnings, so background sync really stays in the background.",
+      "unlock": "",
+      "support": "Same as mwg:passkey-management; recorded as Limited"
+    },
+    "mwg:passkey-reauthentication": {
+      "title": "Restrict `allowCredentials` to the current user's credentials on reauthentication, and have the server check the owner",
+      "action": "Before sensitive actions (password change, transfers), the server fills `allowCredentials` with all of the signed-in user's credential IDs (with `transports`); the verification endpoint confirms the returned credential belongs to the current user (`storedCredential.passkeyUserId === req.user.id`) and rejects it otherwise",
+      "blocker": "Leaving `allowCredentials` empty or omitting it falls back to discoverable credentials and breaks session safety; a different user's valid passkey may come back (quote: \"Leaving this empty or omitting it regresses to discoverable credentials, violating session safety.\")",
+      "outcome": "The passkey prompt lists only the current user's credentials, and someone else's passkey is rejected by the server (official claim)",
+      "story": "A signed-in user goes to make a transfer, and the passkey menu lists every account on the device; picking the wrong one might even pass. Restrict the list and check the owner on the server, so it really is the same person.",
+      "unlock": "",
+      "support": "getClientCapabilities(): Newly (2025-02-06); parseRequestOptionsFromJSON(): Newly (2025-03-31). Recorded as Newly"
+    },
+    "mwg:passkey-registration": {
+      "title": "Use `excludeCredentials` to block duplicate passkeys on the same provider",
+      "action": "Put the user's existing credential IDs (with `transports`) in `excludeCredentials` when generating creation options; treat `InvalidStateError` on the client as \"a passkey already exists\" and tell the user",
+      "blocker": "Without an exclusion list, duplicate credentials get registered on the same passkey provider account (quote: \"This prevents the authenticator from registering duplicate credentials on the same passkey provider account.\")",
+      "outcome": "If a passkey already exists, creation ends with `InvalidStateError` instead of registering a duplicate (official claim)",
+      "story": "The user presses \"Create passkey\" once more on the settings page and the provider gains an identical entry. List existing ones for exclusion and the browser simply says one already exists.",
+      "unlock": "",
+      "support": "parseCreationOptionsFromJSON(): Newly (2025-03-31). Recorded as Newly"
+    },
+    "mwg:passkey-registration:2": {
+      "title": "With `userVerification: \"preferred\"`, configure server verification with `requireUserVerification: false`",
+      "action": "When creation options use `\"preferred\"`, set `requireUserVerification: false` in the server-side verification library, while still requiring the user-present (UP) flag to be `true`",
+      "blocker": "If the options \"prefer\" verification but the server \"requires\" it, authenticators without a screen lock fail verification spuriously (quote: \"Otherwise, authenticators that register without user verification (e.g., screen locks disabled) will trigger spurious server verification failures.\")",
+      "outcome": "Front-end and back-end verification requirements match, and spurious verification failures stop (official claim)",
+      "story": "The browser finishes registration as \"preferred\" while the server verifies as \"required\"; the two aren't talking about the same thing, and users see baffling failures.",
+      "unlock": "",
+      "support": "Same as above; recorded as Newly"
+    },
+    "mwg:passkeys": {
+      "title": "The server decides the RP ID and passes it to the client; the client doesn't infer it from the URL",
+      "action": "The RP ID in server options must equal the current origin's domain, be a valid registrable parent of it, or be authorized via `/.well-known/webauthn`; the client (including Signal API calls) always reads `publicKey.rp.id`/`publicKey.rpId` or the backend response",
+      "blocker": "A mismatched RP ID throws `SecurityError` on the client; a value inferred from `window.location.hostname` won't match a parent-domain or related-origin configuration (quote: \"Mismatches result in `SecurityError` exceptions on the client side.\")",
+      "outcome": "The guide has no support data and doesn't say how far the errors go away when followed (official claim)",
+      "story": "Passkeys are bound to an RP ID. With the sign-in page on a subdomain and credentials bound to the parent domain, a client guessing from the URL will guess wrong.",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:passkeys:2": {
+      "title": "Use the AAGUID only to show the provider name and icon, never for security decisions",
+      "action": "Use the AAGUID only for UX hints (showing which passkey provider in a management list), never for cryptographic security or access-control decisions",
+      "blocker": "Platform passkeys' AAGUIDs aren't cryptographically attested and can be altered or simulated by user agents (quote: \"Platform passkeys do not currently provide cryptographic attestation for their AAGUIDs, meaning it can be altered or simulated by user agents.\")",
+      "outcome": "Not treating a forgeable value as a security basis removes the risk of being impersonated through it (official claim)",
+      "story": "Seeing an AAGUID for a particular hardware key, you might want to allow only that vendor; but the value can be faked. It's only fit for telling users \"this one is from iCloud Keychain\".",
+      "unlock": "",
+      "support": "No browser support data in the guide; recorded as N/A"
+    },
+    "mwg:quick-sign-ins": {
+      "title": "Use `uiMode: 'immediate'` to sign in in place instead of sending users to a sign-in page",
+      "action": "In click handlers for a \"Sign in\" link, \"Proceed to checkout\", favorite/like, or an article paywall, call `navigator.credentials.get({ password: true, publicKey, uiMode: 'immediate' })` (no `signal`, no `allowCredentials`); branch on `cred.type` to passkey or password verification; on `NotAllowedError`, fall back to the regular sign-in flow with a path back to the original action",
+      "blocker": "Sending users to a dedicated sign-in page when they click \"Sign in\", start checkout, favorite something, or hit a paywall loses their context and increases drop-off (quote: \"Navigating an unauthenticated user to a dedicated sign-in page when they click a \"Sign in\" link, start checkout, save an item to favorites, or reach an article paywall causes context loss and increases user drop-off.\")",
+      "outcome": "When the device has local passkeys or saved passwords, a unified account chooser lets users sign in in place with one tap; otherwise it fails fast and returns to the original flow. It must be detected with `capabilities.immediateGet`, password credentials are Chromium-only, and other browsers still go to the sign-in page (official claim)",
+      "story": "A reader taps favorite, gets taken to a sign-in page, and by the time they're back has forgotten what they meant to save. Immediate mode signs people with credentials in place and finishes the action, while those without bounce straight back to the usual flow instead of getting stuck on a QR-code dialog.",
+      "unlock": "Content sites' favorite, comment, and continue-reading buttons can complete sign-in plus the action in place, so returning readers never leave the article; people without credentials still see the usual sign-in form. Actual support is determined by runtime detection.",
+      "support": "Password credentials: Limited (Chrome 60, Edge 79; not Firefox or Safari). For immediate mode itself the guide gives only a runtime check (`capabilities.immediateGet`), no support data; getClientCapabilities(): Newly"
+    },
+    "mwg:quick-sign-ins:2": {
+      "title": "Don't use immediate mode on the dedicated sign-in page, or the button does nothing",
+      "action": "On the final sign-in page, use Conditional UI (`mediation: 'conditional'` with `autocomplete=\"username webauthn\"`) plus a regular modal `get()` button; reserve immediate mode for the moment right before leaving the current page",
+      "blocker": "People who reach the dedicated sign-in page usually have no local credentials or want to scan a QR code or use a hardware key, but immediate mode suppresses those options and throws `NotAllowedError` immediately without local credentials (quote: \"using it on a dedicated sign-in page traps the user in a dead end where clicking the button does nothing.\")",
+      "outcome": "The sign-in page keeps cross-device and security-key options, so users don't get stuck (official claim)",
+      "story": "Put the smoothest button on the sign-in page and it meets exactly the people who most need a QR code, and nothing happens when they press it. Immediate mode is for intercepting, not for the destination.",
+      "unlock": "",
+      "support": "Same as mwg:quick-sign-ins; recorded as Limited"
+    },
+    "mwg:quick-sign-ins:3": {
+      "title": "Always check `capabilities.immediateGet` first; don't guess from the browser version",
+      "action": "Before calling immediate mode, confirm `immediateGet` via `PublicKeyCredential.getClientCapabilities()`; when unsupported, treat it as `NotAllowedError` and go to the existing sign-in flow",
+      "blocker": "Browsers that don't recognize `uiMode: 'immediate'` ignore the key and open a blocking passkey and QR-code dialog instead (quote: \"browsers that do not recognize `uiMode: 'immediate'` ignore the unknown dictionary key and open a blocking modal passkey and QR code dialog.\")",
+      "outcome": "With detection, unsupported browsers see the existing sign-in flow rather than a sudden blocking dialog (official claim)",
+      "story": "The plan was \"sign in in place if possible, otherwise never mind\"; in unsupported browsers it became \"everyone gets interrupted by a QR-code dialog\". Ask about the capability first, then decide whether to call.",
+      "unlock": "",
+      "support": "Same as mwg:quick-sign-ins; recorded as Limited"
+    },
+    "mwg:quick-sign-ins:4": {
+      "title": "Don't use immediate mode for reauthentication, or a different account may be chosen",
+      "action": "For reauthentication before changing a password, address, or payment method, or adding a passkey, follow `passkey-reauthentication` with a non-empty `allowCredentials`",
+      "blocker": "Immediate mode rejects a non-empty `allowCredentials`, and omitting it lets users unknowingly pick an account other than the one signed in (quote: \"omitting `allowCredentials` would let the user inadvertently select a different account than the one currently signed in.\")",
+      "outcome": "Reauthentication stays limited to the current user's credentials (official claim)",
+      "story": "For privacy, immediate mode forbids naming credentials, which is exactly the opposite of what reauthentication needs: it must be this person.",
+      "unlock": "",
+      "support": "Same as mwg:quick-sign-ins; recorded as Limited"
+    },
+    "mwg:quick-sign-ins:5": {
+      "title": "When the sign-in trigger hides after in-place sign-in, return focus to the original action button",
+      "action": "When in-place sign-in (or fallback form submission) hides the sign-in trigger, move focus back to the originating action control (or a surviving signed-in control in the header) and announce the signed-in state in `role=\"status\"`; when revealing an inline fallback form, move focus to its first field",
+      "blocker": "When the sign-in trigger or inline form is hidden, keyboard focus drops to `document.body` (quote: \"restore focus to the originating action control (…) so keyboard focus does not drop to `document.body`\")",
+      "outcome": "Keyboard users stay on the original action and hear the signed-in state (official claim)",
+      "story": "Tap favorite, sign in in place, the \"Sign in\" button disappears and focus goes with it, so keyboard users have to Tab from the header again. Put focus back on the favorite button and the action stays continuous.",
+      "unlock": "",
+      "support": "Same as mwg:quick-sign-ins; recorded as Limited"
+    },
+    "mwg:restrict-outbound-connections": {
+      "title": "Use `Connection-Allowlist` to govern all outbound connections with one list, including channels CSP misses",
+      "action": "Send `Connection-Allowlist: (response-origin \"https://api.example.com\" …); report-to=…` on document and worker-script responses with `Reporting-Endpoints` and `Vary: Sec-Fetch-Dest`; give Dedicated/Shared Workers the same list and the Service Worker a superset of all controlled documents; optionally send `-Report-Only` alongside to trial a stricter list",
+      "blocker": "CSP needs separate per-resource directives and doesn't cover speculative or non-Fetch channels like `dns-prefetch`, `preconnect`, or WebRTC, and compromised page scripts can still exfiltrate via `worker.postMessage()` (quote: \"does not govern speculative or non-Fetch network channels such as `<link rel=\"dns-prefetch\">`, `<link rel=\"preconnect\">`, or WebRTC\")",
+      "outcome": "Supporting browsers apply a single list to every outbound connection at the network layer, blocking redirects and WebRTC by default; it can't be polyfilled, so Firefox and Safari fall back to CSP and the channels CSP misses stay open (official claim)",
+      "story": "With CSP in place, data can still slip out through DNS prefetch, preconnect, or WebRTC. Listing \"only these destinations\" at the network layer covers every channel at once; for now only Chromium enforces it.",
+      "unlock": "Tools whose data should never leave the page, like a password generator, local notes, or a wallet, can declare in a response header that they only talk to themselves (or cut everything with `()` after load), so users or auditors can confirm they don't phone home. Chromium-only for now.",
+      "support": "Connection allowlists: Limited (Chrome 152, Edge 152; not Firefox or Safari)"
+    },
+    "mwg:restrict-outbound-connections:2": {
+      "title": "Get the list syntax or defaults wrong and legitimate connections get blocked too",
+      "action": "Write the header as an RFC 9651 Inner List `(...)` with space-separated items and unquoted `response-origin` and parameters; drop the trailing slash on origin-only patterns or use `/*`; rewrite `ws(s)://` as `http(s)://`; include external navigation targets (OAuth, payments); add `; redirects=allow` or `; webrtc=allow` when needed; wrap client `fetch` in `try/catch` to show a blocked state",
+      "blocker": "If a non-empty header fails to parse, the browser fails closed with an empty list and blocks all outbound connections; the trailing slash `new URL()` adds limits a pattern to the root path; by default even same-origin 3xx redirects are blocked (quote: \"the browser fails closed with an empty allowlist and blocks **all** outbound network connections.\")",
+      "outcome": "With correct syntax and patterns and the defaults opened deliberately, legitimate APIs, CDNs, navigations, and redirects work normally (official claim)",
+      "story": "One missing pair of parentheses or one extra slash and every request on the page fails, or only the root path gets through. This header responds to mistakes by shutting everything, so generate it to spec and watch it in Report-Only first.",
+      "unlock": "",
+      "support": "Same as mwg:restrict-outbound-connections; recorded as Limited"
+    },
+    "mwg:restrict-outbound-connections:3": {
+      "title": "When falling back to CSP, write `form-action` and `worker-src 'self'` explicitly",
+      "action": "In browsers without `Connection-Allowlist`, pair with CSP: write `form-action` and `worker-src 'self'` (without `blob:`) explicitly, and list `wss://` origins in `connect-src`",
+      "blocker": "`default-src` doesn't apply to `<form action>`; without restricting `worker-src`, a restricted page can spawn `blob:` SharedWorkers to bypass document-level restrictions (quote: \"Include `worker-src 'self'` (excluding `blob:`) so restricted pages cannot spawn `blob:` SharedWorkers to bypass document-level restrictions.\")",
+      "outcome": "With these two added, form submissions and workers are no longer holes in CSP (official claim)",
+      "story": "You assume `default-src 'self'` covers everything, yet forms can still post anywhere and workers can start their own operation. These two directives have to be written out.",
+      "unlock": "",
+      "support": "CSP: the guide only gives support data for Connection-Allowlist, not CSP; recorded as N/A"
+    },
+    "mwg:sanitize-untrusted-html": {
+      "title": "Use native `setHTML()` to parse, sanitize, and insert in one step",
+      "action": "Insert user-generated HTML with `element.setHTML(html)` (the default sanitizer removes scripts, event handlers, and anything outside its allowlist); pass `new Sanitizer({ elements, attributes, replaceWithChildrenElements })` to restrict further; use `Document.parseHTML()` to parse without inserting; dynamically load DOMPurify only where unsupported",
+      "blocker": "`<script>` tags and `on*` attributes in user-generated HTML execute once they reach the DOM (quote: \"The native **Sanitizer API** provides a built-in, browser-optimized way to strip dangerous content (like `<script>` tags or `on*` attributes) before it reaches the DOM.\")",
+      "outcome": "Supporting browsers sanitize built-in and for the insertion context; Safari doesn't support it and needs DOMPurify configured to match native behavior (official claim)",
+      "story": "Showing comments or a Markdown preview used to require shipping a sanitizer library. Now the browser sanitizes on its own and can't be configured to let XSS through; Safari still needs the library on standby.",
+      "unlock": "Comment sections, Markdown note previews, and email viewers can `setHTML()` user HTML directly without downloading a sanitizer in supporting browsers, or use `parseHTML()` to build a clean preview before deciding to insert. Safari still needs DOMPurify.",
+      "support": "Sanitizer API: Limited (Chrome 146, Edge 146, Firefox 148; not Safari)"
+    },
+    "mwg:sanitize-untrusted-html:2": {
+      "title": "Move sanitized nodes directly; don't serialize to a string and feed it back into `innerHTML`",
+      "action": "Move the result of `Document.parseHTML()` into the page with `replaceChildren(...doc.body.childNodes)`",
+      "blocker": "Serializing sanitized nodes to a string and re-parsing with `innerHTML` can reintroduce mutation XSS (quote: \"Move the resulting nodes into the page rather than serializing them to a string and re-parsing it with `innerHTML`, which can reintroduce mutation XSS (mXSS).\")",
+      "outcome": "Nodes are moved directly, so the sanitized result is never re-parsed and has no chance to mutate (official claim)",
+      "story": "Turn clean content back into a string and parse it again, and the browser may parse it into a different structure; that's the gap attacks slip through.",
+      "unlock": "",
+      "support": "Same as mwg:sanitize-untrusted-html; recorded as Limited"
+    },
+    "mwg:sanitize-untrusted-html:3": {
+      "title": "Custom sanitizers delete content along with the element, and the DOMPurify fallback defaults differ",
+      "action": "List wrapper elements whose text you want to keep in `replaceWithChildrenElements`; configure the DOMPurify fallback with `ALLOW_ARIA_ATTR: false`, `ALLOW_DATA_ATTR: false`, `KEEP_CONTENT: false` and allow `#text`; avoid `replaceWithChildrenElements` in configurations that need a matching fallback",
+      "blocker": "Elements not in `elements` are removed together with their content; DOMPurify by default keeps `aria-*`, `data-*`, and the text of removed elements, so the two paths produce different output (quote: \"Elements that are not in `elements` are removed **together with their content**.\")",
+      "outcome": "Once configured, native and fallback produce the same result, and text you meant to keep doesn't vanish (official claim)",
+      "story": "Allow only a few inline tags and a whole paragraph wrapped in `<div>` disappears; switch to the DOMPurify fallback in Safari and a pile of attributes shows up. The two have to be aligned on purpose.",
+      "unlock": "",
+      "support": "Same as mwg:sanitize-untrusted-html; recorded as Limited"
+    },
+    "mwg:sanitize-untrusted-html:4": {
+      "title": "With Trusted Types enforced, the DOMPurify fallback must return TrustedHTML",
+      "action": "Pass `RETURN_TRUSTED_TYPE: true` to `DOMPurify.sanitize()` in the fallback and allow the `dompurify` policy name in the `trusted-types` CSP directive",
+      "blocker": "With Trusted Types enforced, assigning a string to `innerHTML` throws (quote: \"If the page enforces Trusted Types (`require-trusted-types-for 'script'`), assigning a string to `innerHTML` throws.\")",
+      "outcome": "`setHTML()` needs no Trusted Types policy, and the fallback inserts fine once it returns TrustedHTML (official claim)",
+      "story": "The native path sails through Trusted Types, while the fallback gets blocked by the page's own security policy for assigning a string.",
+      "unlock": "",
+      "support": "Same as mwg:sanitize-untrusted-html; recorded as Limited"
+    },
+    "mwg:secure-external-subresources": {
+      "title": "Add `integrity` to external scripts and stylesheets and pin them to immutable versioned URLs",
+      "action": "At build or release time compute `sha384-` digests from known-good local files and put them in `integrity` on `<script>`, `<link rel=\"stylesheet|preload|modulepreload\">`, and `fetch()`; use versioned or content-addressed URLs; list multiple digests when one URL may serve several valid payloads; for third-party scripts that update in place, skip `integrity` and use CSP or iframe sandboxing instead",
+      "blocker": "Referencing mutable URLs like `latest/` exposes the site to silent supply-chain changes; computing the hash at runtime from the remote file trusts whatever the remote returns (quote: \"rather than mutable floating URLs (`latest/app.min.js`), which expose your site to silent supply-chain changes and break SRI as soon as the remote file updates.\")",
+      "outcome": "If the bytes don't match the declared digest, the browser won't execute or apply them (official claim)",
+      "story": "The file on the CDN gets swapped, and the site loads and runs it anyway. Pin the version and write the hash, and any change in content is blocked.",
+      "unlock": "",
+      "support": "The guide says subresource-integrity and referrer-policy on `<link rel=\"stylesheet\">` are \"widely available across all browsers\"; recorded as Widely"
+    },
+    "mwg:secure-external-subresources:2": {
+      "title": "If there's `integrity`, there must be `crossorigin`, or the resource is simply blocked",
+      "action": "When setting `integrity` on a cross-origin resource, also set `crossorigin=\"anonymous\"` (or `use-credentials`) and make sure the server sends CORS headers",
+      "blocker": "Without `crossorigin`, the browser fetches in `no-cors` mode, gets an opaque response whose hash can't be verified, and blocks the resource (quote: \"Omitting `crossorigin` causes the browser to fetch the resource in `no-cors` mode (producing an opaque response that cannot be hash-verified) and block the resource.\")",
+      "outcome": "A CORS response can be hash-verified and loads normally (official claim)",
+      "story": "You add an integrity check and the file doesn't load at all, because the browser can't see the content to compare.",
+      "unlock": "",
+      "support": "Same as mwg:secure-external-subresources; recorded as Widely"
+    },
+    "mwg:secure-external-subresources:3": {
+      "title": "Use CSS `url()` `integrity()` / `cross-origin()` / `referrer-policy()` to verify resources loaded from stylesheets",
+      "action": "Inside `url(\"…\")` for `@import`, `@font-face src`, `background-image`, `mask-image`, etc., add `cross-origin(anonymous) referrer-policy(no-referrer) integrity(\"sha384-…\")`; quote the URL and use each modifier only once",
+      "blocker": "`background-image`, `content`, `border-image-source`, and `@import` fetch in `no-cors` mode by default, and the opaque response can't be hash-verified (quote: \"`background-image`, `content`, `border-image-source`, and `@import` default to `no-cors` mode (producing an opaque response that cannot be hash-verified)\")",
+      "outcome": "Supporting browsers can verify fonts, images, and imported stylesheets from CSS; `integrity()` is Chromium-only and Firefox supports none of the three modifiers, so elsewhere you can only swap `@import` for `<link>`, and fonts and images in CSS remain unverified (official claim)",
+      "story": "Every script in the HTML has SRI, but fonts and `@import`s pulled from a CDN inside stylesheets couldn't be verified. Now you can put the hash inside `url()`, though for now only Chromium checks it.",
+      "unlock": "A design system published from a CDN can pin hashes on its fonts, icon sprites, and theme-token files right in the CSS, without splitting `@import`s into many `<link>`s for SRI. Only Chromium verifies for now.",
+      "support": "cross-origin() for url(): Limited (Chrome 150, Edge 150, Safari 26.2; not Firefox); referrer-policy() for url(): same; integrity() for url(): Limited (Chrome 150, Edge 150; not Firefox or Safari)"
+    },
+    "mwg:secure-external-subresources:4": {
+      "title": "Don't put an unverified fallback in the same `@font-face` `src` list",
+      "action": "Do progressive enhancement with **separate** `src:` declarations: first a plain `url()`, then a version with only `cross-origin()`/`referrer-policy()`, and finally the version with `integrity()`",
+      "blocker": "With verified and unverified URLs in one comma-separated `src`, a tampered font from the CDN fails the check, is treated as a load failure, and the browser falls back to the second, unverified URL (quote: \"in a single `src` descriptor bypasses Subresource Integrity at runtime\")",
+      "outcome": "Supporting browsers overwrite the unverified declarations at parse time and block tampered fonts at runtime (official claim)",
+      "story": "An extra fallback for compatibility turns into a back door: once verification fails, the browser obligingly loads the same file unverified.",
+      "unlock": "",
+      "support": "Same as mwg:secure-external-subresources:3; recorded as Limited"
+    },
+    "mwg:secure-external-subresources:5": {
+      "title": "Set `referrerpolicy=\"no-referrer\"` on external resources, with a document-level baseline policy",
+      "action": "Send `Referrer-Policy: strict-origin-when-cross-origin` (or `<meta name=\"referrer\">`) as the document baseline; add `referrerpolicy=\"no-referrer\"` to third-party CDN `<script>`/`<link>` elements and pass `referrerPolicy` to `fetch()`",
+      "blocker": "Requests to third-party hosts leak origin or path information in the `Referer` header (quote: \"Overrides the document referrer policy to prevent leaking any origin or path information in the `Referer` request header to the third-party host.\")",
+      "outcome": "Third-party hosts receive no origin or path; resources that omit it still have path and query stripped by the document-level policy (official claim)",
+      "story": "Every file loaded from a CDN also tells the CDN which page the user is reading. Turn it off per resource, and let the document-level policy catch the rest.",
+      "unlock": "",
+      "support": "Same as mwg:secure-external-subresources; recorded as Widely"
     }
   }
 }
