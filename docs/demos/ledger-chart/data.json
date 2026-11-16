@@ -1,5 +1,5 @@
 {
- "total": 73,
+ "total": 120,
  "updated": "2026-11-16",
  "groups": [
   {
@@ -189,6 +189,27 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:animated-select-picker:2",
+     "feature": "transition-behavior: allow-discrete",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:custom-select-picker-layouts:2",
+     "feature": "select:open::picker(select)",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:custom-select-picker-layouts:3",
+     "feature": "<button><selectedcontent>",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -222,6 +243,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:animated-select-picker:3",
+     "feature": "::picker(select) 保持可捲動",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -272,6 +300,27 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-highlight-inputs",
+     "feature": ":autofill",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:autofill-highlight-inputs:2",
+     "feature": ":autofill:focus-visible, outline",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:brand-consistent-forms:2",
+     "feature": "accent-color, color-scheme",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -319,6 +368,13 @@
     {
      "id": "mwg:fluid-scaling",
      "feature": "cqi/cqb, clamp()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:size-aware-styling",
+     "feature": "container queries",
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
@@ -434,6 +490,41 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:style-parent-with-has:2",
+     "feature": "aria-invalid 同步, :user-invalid",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:style-parent-with-has:3",
+     "feature": "aria-describedby 動態掛載",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:required-field-feedback",
+     "feature": ":user-invalid, required",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:required-field-feedback:2",
+     "feature": "aria-invalid 依 :user-invalid 同步",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:required-field-feedback:3",
+     "feature": "aria-describedby 動態掛載",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -467,6 +558,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:responsive-design:3",
+     "feature": "clamp(), rem + vw",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -545,6 +643,13 @@
      "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:animated-select-picker",
+     "feature": "appearance: base-select, @starting-style, allow-discrete",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
     }
    ]
   },
@@ -602,6 +707,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:style-parent-with-has",
+     "feature": ":has(), :user-invalid",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -635,6 +747,41 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:responsive-design",
+     "feature": "dvh, dvw",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:responsive-design:2",
+     "feature": "aspect-ratio",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-highlight-inputs:3",
+     "feature": ":autofill, inset box-shadow",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:form-fields-automatically-fit-contents:2",
+     "feature": "min-inline-size, max-inline-size",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:form-fields-automatically-fit-contents:3",
+     "feature": "textarea 固定寬度",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
     }
    ]
   },
@@ -675,6 +822,238 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "裁切切掉不該切的",
+   "lines": [
+    {
+     "id": "mwg:overflow-clipping-control",
+     "feature": "overflow: clip, overflow-clip-margin",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:overflow-clipping-control:2",
+     "feature": "overflow-clip-margin: content-box",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "樣式邏輯到處重複",
+   "lines": [
+    {
+     "id": "mwg:reduce-style-repetition",
+     "feature": "@function",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:selector-atrule-combinations",
+     "feature": "container style queries, 自訂屬性旗標",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "樣式規則綁死結構",
+   "lines": [
+    {
+     "id": "mwg:usage-aware-component-variations",
+     "feature": "container style queries",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "自動填入失效",
+   "lines": [
+    {
+     "id": "mwg:autofill-address-form",
+     "feature": "autocomplete, address-line1/2",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-payment-form",
+     "feature": "autocomplete cc-*, shipping/billing 前綴",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form",
+     "feature": "autocomplete=\"username\"/\"current-password\", 固定 name/id",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form",
+     "feature": "autocomplete=\"username\"/\"new-password\", 固定 name/id",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "表單假設錯的資料格式",
+   "lines": [
+    {
+     "id": "mwg:autofill-address-form:2",
+     "feature": "單一姓名欄位, autocomplete=\"name\"",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-address-form:3",
+     "feature": "Unicode 正規表示式（\\p{L}）",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-payment-form:2",
+     "feature": "單一姓名欄位, autocomplete=\"name\"",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-payment-form:3",
+     "feature": "Unicode 正規表示式（\\p{L}）",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:2",
+     "feature": "spellcheck=\"false\", autocorrect, autocapitalize",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:3",
+     "feature": "單一姓名欄位, autocomplete=\"name\"",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:2",
+     "feature": "spellcheck=\"false\", autocorrect, autocapitalize",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:3",
+     "feature": "單一姓名欄位, autocomplete=\"name\"",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "自製控制項丟掉原生行為",
+   "lines": [
+    {
+     "id": "mwg:brand-consistent-forms",
+     "feature": "accent-color",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:branded-select-styling",
+     "feature": "appearance: base-select, ::picker(select), <selectedcontent>",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:custom-select-picker-layouts",
+     "feature": "appearance: base-select, display: grid",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "尺寸不跟內容走",
+   "lines": [
+    {
+     "id": "mwg:form-fields-automatically-fit-contents",
+     "feature": "field-sizing: content",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "表單意外送出",
+   "lines": [
+    {
+     "id": "mwg:forms",
+     "feature": "type=\"button\"",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:ime-safe-enter-submit",
+     "feature": "KeyboardEvent.isComposing, keyCode 229",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:ime-safe-enter-submit:2",
+     "feature": "preventDefault()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    }
+   ]
+  },
+  {
+   "name": "敏感資料外露",
+   "lines": [
+    {
+     "id": "mwg:forms:2",
+     "feature": "method=\"POST\"",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    }
+   ]
+  },
+  {
+   "name": "用錯原生控制項",
+   "lines": [
+    {
+     "id": "mwg:forms:3",
+     "feature": "<input type=\"checkbox\">",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   }

@@ -72,3 +72,50 @@
 2026-11-16,v1.0.0,fluid-scaling,mwg:fluid-scaling:2,clamp() 比例上限,忽略使用者設定,用 `clamp()` 夾住流體字級，會影響使用者縮放或調整基準字級的能力,勝,Widely,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,individual-transform-properties,mwg:individual-transform-properties,"translate, rotate, scale",層疊覆蓋不符意圖,`transform` 改其中一個變換就得重寫整條變換鏈，單一變換難以獨立動畫,勝,Widely,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,individual-transform-properties,mwg:individual-transform-properties:2,恆等變換,版面意外溢出或位移,只在 hover 時套變換，那一刻建立新的堆疊脈絡，造成意外的版面或 z-index 位移,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,overflow-clipping-control,mwg:overflow-clipping-control,"overflow: clip, overflow-clip-margin",裁切切掉不該切的,`overflow: hidden` 在 padding box 切齊，子元素的陰影在容器邊界被切斷；舊解法要多包 wrapper 加負邊距,僵持,Limited,宣稱,有,新能力,卡片可以裁掉溢出的內文，同時讓按鈕光暈、浮起陰影、角落徽章畫出邊界一段距離，不必多包 wrapper。目前僅 Firefox 148,有效
+2026-11-16,v1.0.0,overflow-clipping-control,mwg:overflow-clipping-control:2,overflow-clip-margin: content-box,裁切切掉不該切的,只說能省去手算 padding 的 calc()、解決 awkward nesting curves，沒說舊做法的內角在什麼情況出錯,僵持,Limited,宣稱,缺,新能力,圓角卡片裡的內嵌媒體只寫外框圓角，內層自動貼合同心弧度，換 padding 也不用重算。目前僅 Firefox 148,有效
+2026-11-16,v1.0.0,reduce-style-repetition,mwg:reduce-style-repetition,@function,樣式邏輯到處重複,只說大型樣式表容易累積重複邏輯，沒說重複在哪個時刻造成可觀察的問題,僵持,Limited,宣稱,缺,新能力,"設計系統可以在瀏覽器端提供 `--fancy-gradient(色1, 色2)`、`--grid-template(欄數)` 這種帶參數的 CSS 函式，還能依 media 條件回傳不同值。目前僅 Chromium",有效
+2026-11-16,v1.0.0,responsive-design,mwg:responsive-design,"dvh, dvw",版面意外溢出或位移,行動瀏覽器網址列出現或收起時，用 `vh`／`vw` 的版面壞掉,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,responsive-design,mwg:responsive-design:2,aspect-ratio,版面意外溢出或位移,媒體載入前沒有預留空間，載入後造成累積版面位移,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,responsive-design,mwg:responsive-design:3,"clamp(), rem + vw",忽略使用者設定,只用 `vw` 的字級在極端螢幕上太小或太大，且不隨使用者縮放變大,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,selector-atrule-combinations,mwg:selector-atrule-combinations,"container style queries, 自訂屬性旗標",樣式邏輯到處重複,只說直覺寫法會產生重複程式碼（同一組深色規則在 media query 與 `:root.dark` 各寫一次），沒說重複在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,主題、密度、「寬螢幕且選了精簡模式」這類跨類型組合條件先算成一個旗標，所有元件只認旗標，新增觸發來源不用改元件樣式,有效
+2026-11-16,v1.0.0,size-aware-styling,mwg:size-aware-styling,container queries,版面依賴錯的量測,用視窗寬度的 media query 得事先知道元件會放在哪，替每種版面各寫一組,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,style-parent-with-has,mwg:style-parent-with-has,":has(), :user-invalid",用JS補樣式狀態,只說過去要靠 JS 在父元素上切換 class，沒說手寫切換在哪個時刻出錯,勝,Widely,宣稱,缺,糾錯,,有效
+2026-11-16,v1.0.0,style-parent-with-has,mwg:style-parent-with-has:2,"aria-invalid 同步, :user-invalid",播報時機或可靠度出錯,不設 aria-invalid 時，Firefox／Safari 從載入就把空的必填欄位報成無效，Chromium 互動後反而不報,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,style-parent-with-has,mwg:style-parent-with-has:3,aria-describedby 動態掛載,播報時機或可靠度出錯,被 `aria-describedby` 引用的錯誤訊息即使隱藏也會被唸出,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,usage-aware-component-variations,mwg:usage-aware-component-variations,container style queries,樣式規則綁死結構,後代選擇器必須同時寫出兩端，任一端改變都得改選擇器，也穿不過 shadow DOM,部分改善,Newly,宣稱,有,新能力,元件庫可以發布「在促銷情境下自動換實心按鈕、亮出徽章」的元件，頁面只要在祖先設 `--surface: featured`，連 shadow DOM 裡的元件都跟著變,有效
+2026-11-16,v1.0.0,animated-select-picker,mwg:animated-select-picker,"appearance: base-select, @starting-style, allow-discrete",尺寸動畫只能跳變,原生下拉選單的介面畫在頁面可控範圍之外，以前無法做動畫,部分改善,Limited,宣稱,有,新能力,主題切換、語言選單這類小下拉可以保留原生 `<select>` 的表單行為，同時有設計系統一致的展開動畫與旋轉箭頭。Firefox 退回系統選單,有效
+2026-11-16,v1.0.0,animated-select-picker,mwg:animated-select-picker:2,transition-behavior: allow-discrete,新功能的副作用,把 `allow-discrete` 寫進 `transition` 簡寫，舊瀏覽器會忽略整條 transition,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,animated-select-picker,mwg:animated-select-picker:3,::picker(select) 保持可捲動,隱藏或停用把人擋在外面,在 picker 上設 `overflow: hidden`，放大檢視或視窗很矮時放不下的選項到不了,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,autofill-address-form,mwg:autofill-address-form,"autocomplete, address-line1/2",自動填入失效,沒有 token 的欄位不會被自動填入；把街道地址拆到沒有 token 的多個欄位，自動填入就失效,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,autofill-address-form,mwg:autofill-address-form:2,"單一姓名欄位, autocomplete=""name""",表單假設錯的資料格式,只列出單一欄位的好處（較簡單、可貼上、自動填入較簡單），沒直接說拆欄在哪個時刻出錯,勝,Widely,宣稱,缺,糾錯,,有效
+2026-11-16,v1.0.0,autofill-address-form,mwg:autofill-address-form:3,Unicode 正規表示式（\p{L}）,表單假設錯的資料格式,只比對拉丁字母的正規表示式，把名字或地址含非拉丁字元的使用者擋在外面,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,autofill-highlight-inputs,mwg:autofill-highlight-inputs,:autofill,焦點或狀態指示消失,瀏覽器預設的自動填入標示只有顏色,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,autofill-highlight-inputs,mwg:autofill-highlight-inputs:2,":autofill:focus-visible, outline",焦點或狀態指示消失,自動填入與聚焦都用外框、只差顏色時，看不出哪一欄正在聚焦,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,autofill-highlight-inputs,mwg:autofill-highlight-inputs:3,":autofill, inset box-shadow",版面意外溢出或位移,自動填入樣式改了 `border-width` 或 `padding`，狀態隨操作切換時內容位移,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,autofill-payment-form,mwg:autofill-payment-form,"autocomplete cc-*, shipping/billing 前綴",自動填入失效,沒有 autocomplete 時，使用者可能把卡片資料抄在紙上或用不安全的方式存起來,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,autofill-payment-form,mwg:autofill-payment-form:2,"單一姓名欄位, autocomplete=""name""",表單假設錯的資料格式,只列出單一欄位的好處，沒直接說拆欄在哪個時刻出錯（與 autofill-address-form 指南逐字相同）,勝,Widely,宣稱,缺,糾錯,,有效
+2026-11-16,v1.0.0,autofill-payment-form,mwg:autofill-payment-form:3,Unicode 正規表示式（\p{L}）,表單假設錯的資料格式,只比對拉丁字母的正規表示式，把非拉丁字元的名字擋在外面（與 autofill-address-form 指南逐字相同）,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,autofill-sign-in-form,mwg:autofill-sign-in-form,"autocomplete=""username""/""current-password"", 固定 name/id",自動填入失效,沒有 autocomplete 時，使用者比較可能把登入資料抄在紙上或不安全地存在裝置上,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,autofill-sign-in-form,mwg:autofill-sign-in-form:2,"spellcheck=""false"", autocorrect, autocapitalize",表單假設錯的資料格式,瀏覽器把帳號當文章「改正」，改成與帳戶對不上的字串,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,autofill-sign-in-form,mwg:autofill-sign-in-form:3,"單一姓名欄位, autocomplete=""name""",表單假設錯的資料格式,只列出單一欄位的好處，沒直接說拆欄在哪個時刻出錯（與 autofill-address-form 指南逐字相同）,勝,Widely,宣稱,缺,糾錯,,有效
+2026-11-16,v1.0.0,autofill-sign-up-form,mwg:autofill-sign-up-form,"autocomplete=""username""/""new-password"", 固定 name/id",自動填入失效,沒有 autocomplete 時，使用者比較可能把註冊資料抄在紙上或不安全地存在裝置上,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,autofill-sign-up-form,mwg:autofill-sign-up-form:2,"spellcheck=""false"", autocorrect, autocapitalize",表單假設錯的資料格式,瀏覽器把帳號當文章「改正」，改成與帳戶對不上的字串（與 autofill-sign-in-form 指南逐字相同）,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,autofill-sign-up-form,mwg:autofill-sign-up-form:3,"單一姓名欄位, autocomplete=""name""",表單假設錯的資料格式,只列出單一欄位的好處，沒直接說拆欄在哪個時刻出錯（與 autofill-address-form 指南逐字相同）,勝,Widely,宣稱,缺,糾錯,,有效
+2026-11-16,v1.0.0,brand-consistent-forms,mwg:brand-consistent-forms,accent-color,自製控制項丟掉原生行為,從零自製控制項費時，容易出現可及性問題或漏掉狀態（例如 indeterminate）,僵持,Limited,宣稱,有,新能力,問卷、設定頁直接用原生勾選框、單選鈕、滑桿、進度條，一行 CSS 換成品牌色，indeterminate、鍵盤、焦點都由瀏覽器處理。指南標 Limited 但列出四大瀏覽器，待確認,有效
+2026-11-16,v1.0.0,brand-consistent-forms,mwg:brand-consistent-forms:2,"accent-color, color-scheme",焦點或狀態指示消失,Safari 與 Android Chrome 可能沒把勾號反色，對比不足時控制項看不見或難辨識,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,branded-select-styling,mwg:branded-select-styling,"appearance: base-select, ::picker(select), <selectedcontent>",自製控制項丟掉原生行為,用 JavaScript 從零重做下拉選單，常弄壞可及性、鍵盤操作與原生表單整合,部分改善,Limited,宣稱,有,新能力,表單裡的每個下拉都能用純 CSS 做成設計系統的樣子，鍵盤、讀屏、表單送出不用另外處理。Firefox 退回系統選單,有效
+2026-11-16,v1.0.0,custom-select-picker-layouts,mwg:custom-select-picker-layouts,"appearance: base-select, display: grid",自製控制項丟掉原生行為,只說可擺脫傳統直向清單、不必寫自訂 JS，沒說直向清單或自訂 JS 在哪個時刻出錯,部分改善,Limited,宣稱,缺,新能力,顏色、尺寸、貼圖、方案比較這類選擇做成格狀卡片的原生 `<select>`，直接參與表單送出。Firefox 退回純文字；左右鍵導覽要自己補,有效
+2026-11-16,v1.0.0,custom-select-picker-layouts,mwg:custom-select-picker-layouts:2,select:open::picker(select),新功能的副作用,直接對 `select::picker(select)` 設 display，選單關著時 picker 也顯示出來,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,custom-select-picker-layouts,mwg:custom-select-picker-layouts:3,<button><selectedcontent>,新功能的副作用,`<selectedcontent>` 沒包在 `<button>` 裡，只會變成 picker 裡的一般內容,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,form-fields-automatically-fit-contents,mwg:form-fields-automatically-fit-contents,field-sizing: content,尺寸不跟內容走,表單控制項固定尺寸，不隨輸入內容變化，超出的內容只能在欄位裡捲動；舊瀏覽器要自動長高得用 JS 鏡像技巧,部分改善,Newly,宣稱,有,新能力,聊天輸入列、行內改名欄位、標籤輸入框可以純 CSS 貼合文字長度，看起來像一般文字、點了就能改,有效
+2026-11-16,v1.0.0,form-fields-automatically-fit-contents,mwg:form-fields-automatically-fit-contents:2,"min-inline-size, max-inline-size",版面意外溢出或位移,自動寬度的空欄位縮成 0 點不到，或無限延伸撐破版面,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,form-fields-automatically-fit-contents,mwg:form-fields-automatically-fit-contents:3,textarea 固定寬度,版面意外溢出或位移,有長 placeholder 的 textarea 在打下第一個字時突然縮窄,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,forms,mwg:forms,"type=""button""",表單意外送出,`<form>` 裡沒寫 type 的輔助按鈕預設是 submit，一按就送出表單,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,forms,mwg:forms:2,"method=""POST""",敏感資料外露,用 GET 送敏感資料，資料出現在瀏覽紀錄與日誌裡,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,forms,mwg:forms:3,"<input type=""checkbox"">",用錯原生控制項,單一的 radio 一旦選了就取消不掉,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,ime-safe-enter-submit,mwg:ime-safe-enter-submit,"KeyboardEvent.isComposing, keyCode 229",表單意外送出,用輸入法選字時按 Enter，自訂的 keydown 處理就把還沒選完字的訊息送出,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,ime-safe-enter-submit,mwg:ime-safe-enter-submit:2,preventDefault(),表單意外送出,自訂 Enter 送出沒擋預設動作，`<form>` 裡的 `<input>` 被瀏覽器隱式送出第二次,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,required-field-feedback,mwg:required-field-feedback,":user-invalid, required",播報時機或可靠度出錯,頁面一載入就把必填欄位標成錯誤狀態，讓使用者困惑,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,required-field-feedback,mwg:required-field-feedback:2,aria-invalid 依 :user-invalid 同步,播報時機或可靠度出錯,用 `checkValidity()` 同步時，Tab 經過沒碰的欄位就已被報成無效,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,required-field-feedback,mwg:required-field-feedback:3,aria-describedby 動態掛載,播報時機或可靠度出錯,標記裡就引用錯誤訊息，隱藏的訊息從載入起就被讀出,勝,Widely,宣稱,有,糾錯,,有效

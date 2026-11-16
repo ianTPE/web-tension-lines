@@ -50,7 +50,17 @@
     "功能偵測不可靠": "Feature detection is unreliable",
     "用JS補樣式狀態": "JS patches in styling state",
     "版面意外溢出或位移": "Layout unexpectedly overflows or shifts",
-    "層疊覆蓋不符意圖": "Cascade overrides don't match intent"
+    "層疊覆蓋不符意圖": "Cascade overrides don't match intent",
+    "裁切切掉不該切的": "Clipping cuts off what it shouldn't",
+    "樣式邏輯到處重複": "Style logic duplicated everywhere",
+    "樣式規則綁死結構": "Style rules hard-wired to structure",
+    "自製控制項丟掉原生行為": "Hand-built controls lose native behavior",
+    "自動填入失效": "Autofill fails",
+    "表單假設錯的資料格式": "Forms assume the wrong data shape",
+    "尺寸不跟內容走": "Size doesn't follow content",
+    "表單意外送出": "Forms submit unintentionally",
+    "敏感資料外露": "Sensitive data leaks",
+    "用錯原生控制項": "Wrong native control for the job"
   },
   "guides": {
     "install-web-app": "Installing web apps",
@@ -91,7 +101,27 @@
     "design-token-reactivity": "Reactive design tokens",
     "dynamic-sibling-styling": "Styling siblings by count and index",
     "fluid-scaling": "Fluid scaling",
-    "individual-transform-properties": "Individual transform properties"
+    "individual-transform-properties": "Individual transform properties",
+    "overflow-clipping-control": "Controlling where overflow is clipped",
+    "reduce-style-repetition": "Reducing style repetition with CSS functions",
+    "responsive-design": "Responsive design",
+    "selector-atrule-combinations": "Combining selectors and at-rule conditions",
+    "size-aware-styling": "Size-aware styling",
+    "style-parent-with-has": "Styling a form group when a field is invalid with :has()",
+    "usage-aware-component-variations": "Semantic component adaptation",
+    "animated-select-picker": "Animated select picker",
+    "autofill-address-form": "Building an address form that follows best practice",
+    "autofill-highlight-inputs": "Styling autofilled form fields",
+    "autofill-payment-form": "Building a payment form that follows best practice",
+    "autofill-sign-in-form": "Building a sign-in form that follows best practice",
+    "autofill-sign-up-form": "Building a sign-up form that follows best practice",
+    "brand-consistent-forms": "Brand-consistent forms",
+    "branded-select-styling": "Branded select styling",
+    "custom-select-picker-layouts": "Custom select picker layouts",
+    "form-fields-automatically-fit-contents": "Form fields that automatically fit their contents",
+    "forms": "Forms",
+    "ime-safe-enter-submit": "IME-safe Enter to submit",
+    "required-field-feedback": "Required field feedback"
   },
   "lines": {
     "mwg:install-web-app": {
@@ -750,6 +780,429 @@
       "story": "On mouseover an element suddenly moves above or below another, or a fixed-position child switches reference box. Transforms create a stacking context and containing block, so having them only on hover makes things jump. An identity transform makes them exist from the start.",
       "unlock": "",
       "support": "Individual transform properties: Widely (2022-08-05)"
+    },
+    "mwg:overflow-clipping-control": {
+      "title": "Use overflow-clip-margin to leave a safety zone so overflow: hidden doesn't slice child shadows",
+      "action": "Set `overflow: clip` plus a length `overflow-clip-margin` (e.g. `15px`) on the container, pushing the clip edge outward so a child's shadow can paint outside it",
+      "blocker": "`overflow: hidden` always clips at the padding box, so a child's prominent shadow is cut off at the container edge; the old workaround was an extra wrapper with padding and negative margins (quote: \"Without this, the child's shadow is clipped at the parent's boundary.\")",
+      "outcome": "`overflow-clip-margin` is only supported in Firefox 148; other browsers fall back to `overflow: hidden` and the shadow is still clipped (official claim)",
+      "story": "A submit button with a glowing shadow sits in a card that uses `overflow: hidden` to clip other overflow, and the shadow gets sliced flat. `overflow-clip-margin` moves the clip line outward without changing layout geometry. Chrome, Edge and Safari don't support it yet, so in practice you still rely on the fallback.",
+      "unlock": "Clipping and letting effects bleed used to be either/or → a card can clip overflowing text while button glows, lifted shadows and corner badges paint a little past the edge, with no extra wrapper. Firefox 148 only for now",
+      "support": "overflow-clip-margin: Limited (Firefox 148 only); overflow: clip itself Widely (2022-09-12)"
+    },
+    "mwg:overflow-clipping-control:2": {
+      "title": "Use overflow-clip-margin: content-box so inner corners become concentric automatically",
+      "action": "On a rounded, padded container set `overflow: clip; overflow-clip-margin: content-box` so the clip edge aligns with the content box and inner media and footers get concentric inner corners",
+      "blocker": "(missing) The guide only says it saves manual padding `calc()` and fixes \"awkward nesting curves\", without saying when or how the old inner corners go wrong (quote: \"solving awkward nesting curves without custom `calc()` logic.\")",
+      "outcome": "`overflow-clip-margin` is only supported in Firefox 148; other browsers fall back to `overflow: hidden`, clipping roughly at the padding box (official claim)",
+      "story": "A rounded card with a full-bleed image and a dark footer needs inner corners concentric with the outer ones, which used to mean computing outer radius minus padding by hand. Aligning the clip edge to the content box lets the browser derive the curve. Support is too narrow for anything but progressive enhancement.",
+      "unlock": "Nested radii used to be computed by hand → embedded media in cards and dialogs can rely on the outer radius alone and get matching concentric curves, even when padding changes. Firefox 148 only for now",
+      "support": "overflow-clip-margin: Limited (Firefox 148 only)"
+    },
+    "mwg:reduce-style-repetition": {
+      "title": "Wrap repeated style logic in parameterized @function functions",
+      "action": "Define `@function --name(--param <type>, --param: default)` returning a value via `result`, wrapping logic like gradient tokens or column counts that switch with `@media`, and call it in property values",
+      "blocker": "(missing) The guide only says large stylesheets accumulate repetitive logic, without saying when the repetition causes an observable problem (quote: \"Maintaining large stylesheets often leads to repetitive logic, especially when dealing with design system tokens like gradients or responsive layout patterns.\")",
+      "outcome": "`@function` is only in Chrome/Edge 139; Firefox and Safari don't support it, the whole value becomes invalid there, so you need a fallback value first or a preprocessor like Sass (official claim)",
+      "story": "The same gradient and the same 'stack when narrow, N columns when wide' rule get copied all over the stylesheet. `@function` turns them into one typed function with defaults, and `result` inside it resolves via the cascade to the last matching value. Two major browsers haven't shipped it, so cross-browser projects still lean on preprocessors.",
+      "unlock": "Stylesheet 'formulas' used to exist only in preprocessors at build time → a design system can ship runtime functions like `--fancy-gradient(color1, color2)` or `--grid-template(columns)` that return different values per media or container condition. Chromium only for now",
+      "support": "@function: Limited (Chrome 139, Edge 139; not Firefox or Safari)"
+    },
+    "mwg:responsive-design": {
+      "title": "Use dvh/dvw instead of vh/vw so layouts survive the address bar appearing or hiding",
+      "action": "Size layouts with dynamic viewport units `dvh` and `dvw` instead of `vh` and `vw`",
+      "blocker": "When mobile browser UI such as the address bar appears or disappears, layouts built on `vh`/`vw` break (quote: \"to prevent layout breakage when mobile browser UI elements (like address bars) appear or disappear.\")",
+      "outcome": "Dynamic viewport units follow the actually visible area, so the layout no longer breaks as the address bar changes (official claim)",
+      "story": "A full-height section built with `100vh` breaks as soon as the mobile address bar shows or hides, because the visible height changes. The guide only covers this in one sentence: use dynamic units that follow the browser UI; it doesn't spell out exactly how the layout breaks.",
+      "unlock": "",
+      "support": "N/A (the guide has no browser support data at all)"
+    },
+    "mwg:responsive-design:2": {
+      "title": "Reserve space for images and video with aspect-ratio",
+      "action": "Set `aspect-ratio` on media elements like `<img>` and `<video>` so their height is reserved before they load",
+      "blocker": "Without reserved space, media pushes content down when it loads, causing cumulative layout shift (quote: \"to reserve space during loading and prevent Cumulative Layout Shift (CLS).\")",
+      "outcome": "The ratio fixes the size up front, so the layout doesn't move before or after assets load (official claim)",
+      "story": "The paragraph you're reading jumps down because an image above it just finished downloading. Declaring the ratio lets the browser reserve the right space before the image arrives. This is the same point as the second line of the css-layout guide.",
+      "unlock": "",
+      "support": "N/A (the guide has no browser support data at all)"
+    },
+    "mwg:responsive-design:3": {
+      "title": "Fluid type: mix vw and rem in clamp(), with the max no more than 2.5× the min",
+      "action": "Write font sizes like `clamp(2rem, 1rem + 5vw, 4rem)` with font-relative bounds and a maximum at most 2.5× the minimum; never use `vw` alone for font size",
+      "blocker": "Viewport units don't grow when users zoom, so `vw`-only type gets too small or too large on extreme screens and doesn't grow when the page is zoomed (quote: \"Viewport units don't grow when users zoom\")",
+      "outcome": "With the max at most 2.5× the min, browser zoom up to 500% can still scale text to 200%, meeting WCAG 1.4.4 (official claim)",
+      "story": "A heading set in `5vw` is absurdly large on ultrawide screens and unreadably small on small phones, and a low-vision user zooming in barely sees it change because `vw` only looks at viewport width. Mixing in `rem` and clamping between font-relative bounds makes text respond to zoom.",
+      "unlock": "",
+      "support": "N/A (the guide has no browser support data at all)"
+    },
+    "mwg:selector-atrule-combinations": {
+      "title": "Store combined 'OS preference or manual toggle' conditions in a custom property and write rules once with style queries",
+      "action": "On `:root`, set `--color-scheme` from `@media (prefers-color-scheme)` and from `:has(meta[name=\"color-scheme\"])` or a class, then apply each state's rules with `@container style(--color-scheme: dark)` and `not style(...)`",
+      "blocker": "(missing) The guide only says the naive approach duplicates code — the same dark rules written once under the media query and again under `:root.dark` — without saying when that duplication causes an observable problem (quote: \"The naive approach leads to duplicated code\")",
+      "outcome": "Container style queries are Newly available; for non-critical branching, put defaults outside `@container` and only override with style queries, at the cost of coupled values; critical branching still has to fall back to duplicated rules where unsupported (official claim)",
+      "story": "Dark mode can come from the OS preference or from a toggle on the site, and both need the same styles, so the rules get copied twice. Computing 'is it dark right now' into one custom property first lets rules key off that property alone. The catch: the property must be set on an ancestor of everything that needs to match.",
+      "unlock": "Cross-type conditions (media plus selector plus container) used to mean copying rules under every combination → themes, density, or 'wide screen and compact mode chosen' can be computed into one flag that every component reads, so adding a new trigger source doesn't touch component styles",
+      "support": "Container style queries: Newly (2026-05-19)"
+    },
+    "mwg:size-aware-styling": {
+      "title": "Use container queries so components look at their own space, not the whole screen",
+      "action": "Set `container-type: inline-size` on a wrapper and have the component switch to a side-by-side layout or reveal extra details with `@container (min-width: 400px)`",
+      "blocker": "The same card or nav component may land in a narrow sidebar or a wide main column; viewport media queries require knowing in advance where it lives and writing a set for every layout (quote: \"You do not need to know where the component will live or write complex media queries to handle every possible layout.\")",
+      "outcome": "Container queries (size) are Widely available; components switch layout based on the space they actually get (official claim)",
+      "story": "A card is wide enough to go side-by-side in the main column, but the same card in a sidebar should stack, even though the viewport width hasn't changed. Querying the container frees the component from knowing where it was placed. Browsers without support get a safe stacked layout, roughly enhanced with media queries.",
+      "unlock": "",
+      "support": "Container queries (size): Widely (2023-02-14)"
+    },
+    "mwg:style-parent-with-has": {
+      "title": "Flag the whole section containing an invalid field with :has(:user-invalid)",
+      "action": "Use `.card-section:has(:user-invalid)` to change the outer card's border, background and header warning icon, scoping the selector to the field group rather than `body`",
+      "blocker": "(missing) The guide only says this used to require JavaScript toggling classes on parents, without saying where hand-written toggling fails (quote: \"Historically, this required JavaScript to toggle classes on parent elements.\")",
+      "outcome": "`:user-invalid` is Widely available; the outer styling follows the child field's validity directly and presentation logic stays in CSS (official claim)",
+      "story": "Errors often need to show outside the field — a fieldset border, an icon in the card header — which used to mean JS listening and adding classes up the tree. `:has()` lets ancestors read descendants' state. The guide notes that parent styling only adds emphasis; each field still needs its own error text saying what's wrong.",
+      "unlock": "",
+      "support": ":user-valid/:user-invalid: Widely (2023-11-02); `:has()` has no support data in this guide (recorded as Widely 2023-12-19 in content-based-styling)"
+    },
+    "mwg:style-parent-with-has:2": {
+      "title": "Start aria-invalid at \"false\", then sync it with :user-invalid",
+      "action": "Set `aria-invalid=\"false\"` on every field initially, and on blur, change and invalid events switch it to `\"true\"` or back depending on whether `:user-invalid` matches",
+      "blocker": "`:user-invalid` doesn't sync ARIA; left unset, Firefox and Safari expose empty required fields as invalid from page load, while Chromium doesn't expose them as invalid even after interaction unless `aria-invalid=\"true\"` is set (quote: \"Firefox and Safari expose an empty `required` field as invalid from page load, and Chromium doesn't expose an empty `required` field as invalid after interaction unless `aria-invalid=\"true\"` is set.\")",
+      "outcome": "The sync script keeps what assistive tech hears consistent with the on-screen error styling (official claim)",
+      "story": "The red border only appears after the user leaves the field, yet a screen reader may announce 'invalid' as soon as the page loads, or say nothing when there really is an error. An explicit `\"false\"` starting value plus a script that follows `:user-invalid` keeps both sides aligned.",
+      "unlock": "",
+      "support": ":user-valid/:user-invalid: Widely (2023-11-02)"
+    },
+    "mwg:style-parent-with-has:3": {
+      "title": "Attach the error message to aria-describedby only while the field is invalid",
+      "action": "Point the field's `data-error` at the error message `id`, and have the script add that `id` to `aria-describedby` only while the field is invalid, removing it once fixed; don't reference it in the markup",
+      "blocker": "The error element is always in the page, and text referenced by `aria-describedby` is announced even when hidden (quote: \"text that `aria-describedby` references is announced even when it's hidden.\")",
+      "outcome": "The message is linked only while shown, so what users hear on focus matches the screen (official claim)",
+      "story": "A user tabs into a field for the first time, hasn't typed anything, and already hears a 'required' error, because the hidden message was wired to the description in the markup. Attaching it dynamically means errors are only read when they actually appear.",
+      "unlock": "",
+      "support": ":user-valid/:user-invalid: Widely (2023-11-02)"
+    },
+    "mwg:usage-aware-component-variations": {
+      "title": "Let components react to a context flag with style queries instead of descendant selectors that hard-wire both sides",
+      "action": "Set a semantic flag on the context container (`--surface: featured`) and let components decide via `@container style(--surface: featured)` whether to show a badge, switch to a filled button or change direction; don't set `container-type`",
+      "blocker": "Descendant selectors (`.featured .button`) must encode both sides, have to change whenever either side does, and can't cross shadow DOM boundaries (quote: \"the selector must encode both sides of the relationship and must change whenever either side does.\")",
+      "outcome": "Container style queries are Newly available; the fallback ships a `:where(.featured)` selector default that the style query overrides where supported, but during fallback the component stays tied to class names and DOM placement (official claim)",
+      "story": "Adding a new kind of featured section means going back and adding a selector to every component that varies; adding a new varying component means listing every featured section. With a flag, the side that creates the context and the side that reacts never name each other and grow independently. For fixed one-off relationships, the guide still prefers descendant selectors.",
+      "unlock": "Components used to need every context's class name in their selectors, and couldn't be reached inside web components → a component library can ship components that 'switch to a filled button and show a badge in promo contexts', and a page only sets `--surface: featured` on any ancestor, even reaching components inside shadow DOM",
+      "support": "Container style queries: Newly (2026-05-19)"
+    },
+    "mwg:animated-select-picker": {
+      "title": "Animate the native select picker with appearance: base-select and @starting-style",
+      "action": "Set `appearance: base-select` on `<select>` and `::picker(select)`, transition the picker's `opacity`, `height`, `display` and `overlay` with `transition-behavior: allow-discrete` and `@starting-style`, and rotate the arrow via `:open::picker-icon`",
+      "blocker": "The native dropdown UI was rendered outside what the page controls, so it simply couldn't be animated (quote: \"Previously, animating native select dropdowns was impossible because their UI was rendered outside the accessible viewport constraints.\")",
+      "outcome": "Customizable `<select>` is Limited (Chrome/Edge 135, Safari 27, not Firefox); unsupported browsers fall back to the OS dropdown, which still works but isn't animated (official claim)",
+      "story": "Making a menu fade and grow out of its trigger was impossible with native `<select>`, so people swapped in a JS library. `base-select` makes the picker an ordinary page element, and its top-layer enter/exit animation is plain CSS. The guide also requires turning the animation off under `prefers-reduced-motion`.",
+      "unlock": "Native dropdowns used to pop open instantly, and animation meant giving up the native element → small dropdowns like theme or language pickers keep native `<select>` form behavior while getting a design-system open animation and rotating arrow. Firefox falls back to the system menu",
+      "support": "Customizable <select>: Limited (Chrome 135, Edge 135, Safari 27; not Firefox)"
+    },
+    "mwg:animated-select-picker:2": {
+      "title": "Write allow-discrete as a separate transition-behavior, not in the transition shorthand",
+      "action": "Keep only properties and timing in the `transition` shorthand and add a separate `transition-behavior: allow-discrete` declaration",
+      "blocker": "Putting `allow-discrete` inside the `transition` shorthand makes older browsers drop the entire `transition` declaration (quote: \"it will make older browsers ignore the entire `transition` declaration.\")",
+      "outcome": "Declared separately, browsers that don't know `allow-discrete` drop only that line and keep the other transitions; the customizable select the animation depends on is still Limited (official claim)",
+      "story": "`allow-discrete` is needed so the picker can transition to and from `display: none`, but slipping it into the shorthand means older browsers skip even the opacity transition. Split into two declarations, the new syntax only breaks itself.",
+      "unlock": "",
+      "support": "Customizable <select>: Limited; no support data for `transition-behavior` in this guide"
+    },
+    "mwg:animated-select-picker:3": {
+      "title": "Don't set overflow: hidden on ::picker(select)",
+      "action": "Keep the picker scrollable while animating its height; don't add `overflow: hidden` to `::picker(select)`",
+      "blocker": "At high zoom or in a short viewport not all options fit, and if the picker can't scroll the rest can't be reached (quote: \"The picker must stay scrollable so that options that don't fit in the available space, for example at high zoom or in a short viewport, can still be reached.\")",
+      "outcome": "With scrolling intact every option is reachable; this pitfall only exists in browsers that support base-select (Limited) (official claim)",
+      "story": "When animating `height: 0 → auto` it feels natural to add `overflow: hidden` to keep content from spilling out, and then a user zoomed to 200% can neither see nor scroll to the later options. The picker must stay scrollable.",
+      "unlock": "",
+      "support": "Customizable <select>: Limited"
+    },
+    "mwg:autofill-address-form": {
+      "title": "Give every field an autocomplete token, using address-line1/2 when splitting addresses",
+      "action": "Add the right `autocomplete` to every `<input>`, `<select>` and `<textarea>`; prefer one `<textarea autocomplete=\"street-address\">`, or `address-line1`/`address-line2` tokens if the data model needs separate lines, with only the first required",
+      "blocker": "Fields without tokens aren't autofilled, so users retype data; splitting the street address across inputs without these tokens breaks autofill (quote: \"Don't split the street address across inputs that lack these tokens\")",
+      "outcome": "`autocomplete` is Widely available; with the right tokens autofill works, and where it isn't supported users simply type (official claim)",
+      "story": "Address forms are among the most autofilled forms, yet they're often split into custom 'Address 1', 'Address 2', 'Number' fields the browser doesn't recognize, so the whole block stays empty. Correct tokens, or a single multi-line field, bring the saved address in at once.",
+      "unlock": "",
+      "support": "html.elements.input.autocomplete: Widely (2015-07-29)"
+    },
+    "mwg:autofill-address-form:2": {
+      "title": "Use a single name field with autocomplete=\"name\" where possible",
+      "action": "Unless you really need to store given name, family name or honorifics separately, use one name field with `autocomplete=\"name\"`",
+      "blocker": "(missing) The guide only lists benefits of a single field (simpler, pasteable, simpler autofill), without directly saying when split fields fail (quote: \"Using a single name input makes forms less complex, enables cut-and-paste, and makes autofill simpler.\")",
+      "outcome": "`autocomplete` is Widely available; a single field can be pasted into and autofilled whole (official claim)",
+      "story": "Separate 'first' and 'last' boxes assume every name splits that way. The guide says don't split without a reason, so pasting and autofill only deal with one field.",
+      "unlock": "",
+      "support": "html.elements.input.autocomplete: Widely (2015-07-29)"
+    },
+    "mwg:autofill-address-form:3": {
+      "title": "Validate names and addresses with Unicode letter matching, not Latin-only",
+      "action": "Use Unicode letter matching (e.g. `\\p{L}`) in validation regexes and make sure the backend handles Unicode input and output securely",
+      "blocker": "Latin-only regexes shut out users whose names or addresses contain non-Latin characters (quote: \"Latin-only excludes users with names or addresses that include characters that aren't in the Latin alphabet.\")",
+      "outcome": "With Unicode matching, these users' input passes validation (official claim)",
+      "story": "`[A-Za-z]+` looks like a sensible name check, but names like 王小明 or Олег fail it, so the form rejects real names. A Unicode letter class lets the same rule cover every script.",
+      "unlock": "",
+      "support": "N/A (the guide only says \"Unicode in regular expressions is well supported by modern browsers.\" with no Baseline data)"
+    },
+    "mwg:autofill-highlight-inputs": {
+      "title": "Add a non-color indicator with :autofill instead of relying on the browser tint",
+      "action": "Give `input:autofill` at least one indicator that isn't color, such as a thicker inset ring `box-shadow: inset 0 0 0 2px …`",
+      "blocker": "The browser's default autofill highlight is color only (quote: \"The browser's default highlight is color only.\")",
+      "outcome": "`:autofill` is Limited (Chrome/Edge 110, Safari 15; Firefox only matches username and password fields); unsupported browsers keep the default tint and lose the non-color indicator (official claim)",
+      "story": "Users who can't tell the tint apart can't see which fields the browser filled. An inset ring makes it visible by shape too. Firefox's other fields have no workaround, and the guide explicitly says not to add a JavaScript fallback.",
+      "unlock": "",
+      "support": ":autofill: Limited (Chrome 110, Edge 110, Safari 15; not Firefox)"
+    },
+    "mwg:autofill-highlight-inputs:2": {
+      "title": "If autofill styling uses outline, make the focus outline differ in more than color",
+      "action": "Don't remove the focus outline; if the autofill style itself uses `outline`, give `:autofill:focus-visible` an outline that differs in thickness, style or offset",
+      "blocker": "When autofill and focus both use outlines that differ only in color, you can't tell which field has focus (quote: \"give `:autofill:focus-visible` an outline that differs in more than color (e.g. thickness, style, or offset) so focus remains perceivable.\")",
+      "outcome": "The two states differ in shape, so focus stays perceivable; `:autofill` itself is Limited (official claim)",
+      "story": "A whole column of fields gets autofilled with the same outline, and as a keyboard user tabs through, the focused one differs only slightly in color, which is as good as no focus ring. Making focus differ in thickness or offset keeps it distinguishable.",
+      "unlock": "",
+      "support": ":autofill: Limited"
+    },
+    "mwg:autofill-highlight-inputs:3": {
+      "title": "Don't change border-width or padding in autofill styles",
+      "action": "In `:autofill` only change properties that don't affect layout (inset shadows, border color), not `border-width` or `padding`",
+      "blocker": "The autofill state toggles with user activity, so layout-affecting properties make content shift (quote: \"the state toggles with user activity so that would shift content.\")",
+      "outcome": "An `inset` shadow draws the ring and layout stays put when the state toggles; `:autofill` itself is Limited (official claim)",
+      "story": "The user picks an autofill suggestion, borders thicken and the form pushes down; they edit a field, the state clears and it shrinks back. An inset shadow is just as visible without changing geometry.",
+      "unlock": "",
+      "support": ":autofill: Limited"
+    },
+    "mwg:autofill-payment-form": {
+      "title": "Give payment fields cc-* autocomplete tokens and prefix billing address fields",
+      "action": "Use `autocomplete=\"cc-number\"`, `cc-name`, `cc-exp` and `cc-csc` for card fields; default billing to the delivery address and distinguish sections with `shipping`/`billing` prefixes (e.g. `billing address-line1`)",
+      "blocker": "Without autocomplete, users may write card details down or store them insecurely (quote: \"Without autocomplete, users may keep a physical record of payment card details or store them insecurely.\")",
+      "outcome": "With the right tokens the browser can securely store and autofill card and address data; where unsupported, users type and types and validation still work (official claim)",
+      "story": "Every checkout means pulling out the card and copying sixteen digits, so some people just keep the number in a notes file. With proper tokens the browser keeps and fills it; prefixes keep shipping and billing addresses from filling into each other.",
+      "unlock": "",
+      "support": "No autocomplete support data in this guide (Widely 2015-07-29 per autofill-address-form); enterkeyhint, Email/telephone/URL input types and inputmode are Widely"
+    },
+    "mwg:autofill-payment-form:2": {
+      "title": "Use a single name field with autocomplete=\"name\" where possible",
+      "action": "Unless you really need to store given name, family name or honorifics separately, use one name field with `autocomplete=\"name\"`",
+      "blocker": "(missing) The guide only lists benefits of a single field, without directly saying when split fields fail (quote: \"Using a single name input makes forms less complex, enables cut-and-paste, and makes autofill simpler.\")",
+      "outcome": "A single field can be pasted into and autofilled whole (official claim)",
+      "story": "This section is word-for-word the same as in the address form guide. The cardholder name has its own `cc-name`, and the guide's example also collects it in one field.",
+      "unlock": "",
+      "support": "No autocomplete support data in this guide (Widely 2015-07-29 per autofill-address-form)"
+    },
+    "mwg:autofill-payment-form:3": {
+      "title": "Validate names with Unicode letter matching, not Latin-only",
+      "action": "Use Unicode letter matching in validation regexes, e.g. `pattern=\"[\\p{L} \\-\\.]+\"` on the cardholder field, and make sure the backend handles Unicode securely",
+      "blocker": "Latin-only regexes shut out users whose names or addresses contain non-Latin characters (quote: \"Latin-only excludes users with names or addresses that include characters that aren't in the Latin alphabet.\")",
+      "outcome": "With Unicode matching, these users' input passes validation (official claim)",
+      "story": "This section is word-for-word the same as in the address form guide. On a payment page, rejecting a name costs a lost order.",
+      "unlock": "",
+      "support": "N/A (the guide only says \"Unicode in regular expressions is well supported by modern browsers.\" with no Baseline data)"
+    },
+    "mwg:autofill-sign-in-form": {
+      "title": "Use username/current-password so password managers can save and fill sign-in fields",
+      "action": "Use `autocomplete=\"username\"` on the email field and `autocomplete=\"current-password\"` on the password field; keep `name`/`id` stable, not random, inside a `<form>` with a submit button",
+      "blocker": "Without autocomplete, users are more likely to write sign-in details down or store them insecurely on their device; with randomly generated `name`/`id` values or no `<form>`, browsers won't store the data (quote: \"Without autocomplete, users may be more likely to keep a physical record of sign-in details, or store sign-in data insecurely on their device.\")",
+      "outcome": "The browser recognizes field roles and can securely store and autofill credentials; where unsupported, users type them (official claim)",
+      "story": "The password manager has the credentials, yet the sign-in page shows no suggestion, maybe because field names change with every deploy or the 'form' is just a pile of `<div>`s. Clear roles and stable names connect saving and filling.",
+      "unlock": "",
+      "support": "No autocomplete support data in this guide (Widely 2015-07-29 per autofill-address-form); Email/telephone/URL input types and inputmode are Widely"
+    },
+    "mwg:autofill-sign-in-form:2": {
+      "title": "Turn off spellcheck and autocorrect on username and email fields",
+      "action": "Add `spellcheck=\"false\"` to username and email fields; also turn off `autocorrect` and `autocapitalize` on non-email usernames (`type=\"email\"` already disables them)",
+      "blocker": "Usernames are identifiers, not prose, and the browser can 'correct' them into something the account doesn't match (quote: \"Add `spellcheck=\"false\"` so the browser does not rewrite them into something the account does not match.\")",
+      "outcome": "`autocorrect` is Newly available (2026-09-11); with these off, the browser no longer rewrites identifiers (official claim)",
+      "story": "Spellcheck, autocorrect and autocapitalize are designed for prose; applied to a username, the submitted string no longer matches the account. Turn them off on identifier fields and leave the defaults on free-text fields like messages and comments.",
+      "unlock": "",
+      "support": "autocorrect: Newly (2026-09-11); no support data for spellcheck or autocapitalize in this guide"
+    },
+    "mwg:autofill-sign-in-form:3": {
+      "title": "Use a single name field with autocomplete=\"name\" where possible",
+      "action": "Unless you really need to store given name, family name or honorifics separately, use one name field with `autocomplete=\"name\"`",
+      "blocker": "(missing) The guide only lists benefits of a single field, without directly saying when split fields fail (quote: \"Using a single name input makes forms less complex, enables cut-and-paste, and makes autofill simpler.\")",
+      "outcome": "A single field can be pasted into and autofilled whole (official claim)",
+      "story": "This section is word-for-word the same as in the address and payment form guides. Sign-in forms usually have no name field; this is a shared general rule.",
+      "unlock": "",
+      "support": "No autocomplete support data in this guide (Widely 2015-07-29 per autofill-address-form)"
+    },
+    "mwg:autofill-sign-up-form": {
+      "title": "Use username/new-password so the browser saves new credentials",
+      "action": "Give every field the right `autocomplete`, using `autocomplete=\"username\"` for email and `autocomplete=\"new-password\"` for the password; keep `name`/`id` stable, inside a `<form>` with a submit button",
+      "blocker": "Without autocomplete, users are more likely to write sign-up details down or store them insecurely on their device (quote: \"Without autocomplete, users may be more likely to keep a physical record of sign-up details, or store sign-up data insecurely on their device.\")",
+      "outcome": "The browser recognizes a new password, stores it securely, autofills it later and can suggest a strong password; where unsupported, users type (official claim)",
+      "story": "Sign-up is the moment the browser learns the credentials; if field roles are unclear, the user has to remember them for every later sign-in. Marking `new-password` is what makes the browser offer and save a generated strong password.",
+      "unlock": "",
+      "support": "No autocomplete support data in this guide (Widely 2015-07-29 per autofill-address-form); Email/telephone/URL input types and inputmode are Widely"
+    },
+    "mwg:autofill-sign-up-form:2": {
+      "title": "Turn off spellcheck and autocorrect on username and email fields",
+      "action": "Add `spellcheck=\"false\"` to username and email fields; also turn off `autocorrect` and `autocapitalize` on non-email usernames (`type=\"email\"` already disables them)",
+      "blocker": "Usernames are identifiers, not prose, and the browser can 'correct' them into something the account doesn't match (quote: \"Add `spellcheck=\"false\"` so the browser does not rewrite them into something the account does not match.\")",
+      "outcome": "`autocorrect` is Newly available (2026-09-11); with these off, the browser no longer rewrites identifiers (official claim)",
+      "story": "This section is word-for-word the same as in the sign-in form guide. Spellcheck, autocorrect and autocapitalize are designed for prose, and applied to a username they produce an identifier different from what the user meant.",
+      "unlock": "",
+      "support": "autocorrect: Newly (2026-09-11); no support data for spellcheck or autocapitalize in this guide"
+    },
+    "mwg:autofill-sign-up-form:3": {
+      "title": "Use a single name field with autocomplete=\"name\" where possible",
+      "action": "Unless you really need to store given name, family name or honorifics separately, use one name field with `autocomplete=\"name\"`",
+      "blocker": "(missing) The guide only lists benefits of a single field, without directly saying when split fields fail (quote: \"Using a single name input makes forms less complex, enables cut-and-paste, and makes autofill simpler.\")",
+      "outcome": "A single field can be pasted into and autofilled whole (official claim)",
+      "story": "This section is word-for-word the same as in the address, payment and sign-in form guides. Sign-up forms often ask for a name, and splitting it into first and last presumes its structure.",
+      "unlock": "",
+      "support": "No autocomplete support data in this guide (Widely 2015-07-29 per autofill-address-form)"
+    },
+    "mwg:brand-consistent-forms": {
+      "title": "Rebrand checkboxes and radios with one line of accent-color instead of rebuilding them",
+      "action": "Set `accent-color: var(--brand-color)` on `body` or a form container so checkbox, radio, range and progress take the brand color; pair it with `color-scheme` for dark mode",
+      "blocker": "Building custom controls from scratch takes time and easily leads to accessibility issues or missing states such as a checkbox's indeterminate state (quote: \"Building custom controls is time-consuming and can easily lead to accessibility issues or missing states (like the indeterminate state for checkboxes).\")",
+      "outcome": "The guide marks `accent-color` as Limited and requires the old 'visually hidden native input plus custom drawing' approach as an `@supports not` fallback (official claim)",
+      "story": "The design calls for brand-purple checkboxes, native controls only come in the browser's default blue, so the usual fix was hiding the native input and redrawing it with pseudo-elements, often forgetting indeterminate or focus styles. `accent-color` recolors the native controls themselves. The guide still requires keeping the redraw for unsupported browsers.",
+      "unlock": "Brand-colored checkboxes, sliders and progress bars used to mean rewriting the controls → surveys and settings pages can use native controls recolored with one line of CSS, with indeterminate, keyboard and focus handled by the browser. Only affects checkbox, radio, range and progress",
+      "support": "accent-color: Limited per the guide (which also lists Chrome 93, Edge 93, Firefox 92 and Safari 26.2 as supporting; marked Limited despite all four, pending manual check)"
+    },
+    "mwg:brand-consistent-forms:2": {
+      "title": "Pick an accent-color with enough contrast yourself instead of trusting automatic inversion",
+      "action": "Choose a brand color with at least 3:1 contrast against the background, use a lighter value in dark mode, and pair it with `color-scheme: light dark`",
+      "blocker": "Safari (WebKit bug 244233) and Android Chrome (Chromium bug 343503163) can fail to invert the checkmark color, leaving controls invisible or hard to see when contrast is low (quote: \"can fail to invert checkmark colors, leading to invisible or hard-to-see controls when using colors that lack sufficient contrast against the background\")",
+      "outcome": "With base contrast ensured, controls stay visible even when the browser doesn't invert; the bugs remain, and the guide lists `accent-color` as Limited (official claim)",
+      "story": "A pale yellow brand color in light mode should, in theory, get an automatically contrasting checkmark, but some implementations don't, and checked versus unchecked becomes nearly invisible. The guide's answer: don't bet on the browser, pick a contrasting color from the start.",
+      "unlock": "",
+      "support": "accent-color: Limited (as above; the guide's status is questionable)"
+    },
+    "mwg:branded-select-styling": {
+      "title": "Build branded dropdowns with appearance: base-select instead of rebuilding them in JS",
+      "action": "Set `appearance: base-select` on `<select>` and `::picker(select)`, use a `<button>` containing `<selectedcontent>` as the trigger, and style the list, arrow and checkmark via `::picker(select)`, `::picker-icon` and `option::checkmark`",
+      "blocker": "A fully branded dropdown used to require rebuilding the control from scratch in JavaScript, which often broke accessibility, keyboard navigation and native form integration (quote: \"Previously, achieving a fully branded select required rebuilding the control from scratch with JavaScript, which often broke accessibility, keyboard navigation, and native form integration.\")",
+      "outcome": "Customizable `<select>` is Limited (Chrome/Edge 135, Safari 27, not Firefox); where supported the browser handles focus, top layer and accessibility, and elsewhere it falls back to the OS dropdown, keeping function but losing the brand look (official claim)",
+      "story": "The design system wants dropdowns with dashed borders and monospace type like every other control; native `<select>` couldn't do it, so teams built their own and then had to re-add arrow keys, screen reader support and form submission one by one. `base-select` puts the look entirely in CSS while behavior stays native. The cost: no native iOS wheel picker.",
+      "unlock": "A branded dropdown used to mean writing your own listbox component → every dropdown in a form can match the design system in pure CSS, with keyboard, screen reader and submission needing no extra work. Firefox falls back to the system menu",
+      "support": "Customizable <select>: Limited (Chrome 135, Edge 135, Safari 27; not Firefox)"
+    },
+    "mwg:custom-select-picker-layouts": {
+      "title": "Lay out the native select picker as a grid of cards with base-select and grid",
+      "action": "Set `appearance: base-select` on `<select>` and `::picker(select)`, use `display: grid` on `select:open::picker(select)`, put images or SVGs in `<option>` as cards, and mark the chosen one with `option:checked` and `::checkmark`",
+      "blocker": "(missing) The guide only says you can break away from the traditional vertical list without custom JS, without saying when the list or custom JS goes wrong (quote: \"break away from the traditional stacked vertical list and create a rich visual experience without custom JS.\")",
+      "outcome": "Customizable `<select>` is Limited (not Firefox); unsupported browsers fall back to the system dropdown, drop non-text content in `<option>` and show text only; Left/Right arrow keys still need scripting (official claim)",
+      "story": "Color swatches, emoji or product variants are easier to choose from a grid than a long text list, which used to mean abandoning `<select>` and building your own. The picker can now use grid layout while value and submission stay native. But native select only handles Up/Down, so a grid layout needs extra keyboard handling.",
+      "unlock": "Options used to be a column of text, and visual choices meant writing your own component → colors, sizes, stickers or plan comparisons can be a native `<select>` laid out as a card grid that submits with the form. Firefox falls back to text only; Left/Right navigation and grid semantics for screen readers remain limited",
+      "support": "Customizable <select>: Limited (Chrome 135, Edge 135, Safari 27; not Firefox)"
+    },
+    "mwg:custom-select-picker-layouts:2": {
+      "title": "Put picker layout styles only on :open",
+      "action": "Write layout styles like `display: grid` on `select:open::picker(select)`, not directly on `select::picker(select)`",
+      "blocker": "Setting `display` directly on `select::picker(select)` shows the picker even while the select is closed (quote: \"If you style `select::picker(select)`, it will make the picker visible even when the select is closed!\")",
+      "outcome": "With `:open`, the layout applies only while the picker is open; this pitfall only exists in browsers that support base-select (Limited) (official claim)",
+      "story": "Writing `::picker(select) { display: grid }` the way you would for any element, the option grid is spread across the page before the menu is ever opened. Picker layout styles must wait for the open state.",
+      "unlock": "",
+      "support": "Customizable <select>: Limited"
+    },
+    "mwg:custom-select-picker-layouts:3": {
+      "title": "Always wrap <selectedcontent> in a <button>",
+      "action": "To show rich content for the selected option in the trigger, put `<selectedcontent>` inside the `<button>` within `<select>`",
+      "blocker": "Without a wrapping `<button>`, `<selectedcontent>` just becomes ordinary content in the picker (quote: \"the `<selectedcontent>` will just become part of the picker, like any other content element.\")",
+      "outcome": "Inside a `<button>`, the trigger shows the selected option's content; this pitfall only exists in browsers that support base-select (Limited) (official claim)",
+      "story": "You want the closed dropdown to show the chosen color swatch, drop in `<selectedcontent>`, and it ends up in the option list while the trigger still shows text only. It only works inside the trigger `<button>`.",
+      "unlock": "",
+      "support": "Customizable <select>: Limited"
+    },
+    "mwg:form-fields-automatically-fit-contents": {
+      "title": "Let inputs, textareas and selects grow and shrink with field-sizing: content",
+      "action": "Set `field-sizing: content` on `<input>`, `<textarea>` and `<select>`, resetting inherited global `width`/`height` to `auto`",
+      "blocker": "Form controls have fixed sizes by default regardless of how much the user enters, so overflow scrolls inside the field; auto-growing in older browsers needs a Grid trick with a hidden pseudo-element mirroring the input in real time (quote: \"Their sizes remain constant, regardless of the amount of content the user enters or selects.\")",
+      "outcome": "`field-sizing` is Newly available (2026-06-16); unsupported browsers fall back to fixed sizes with scrolling inside the field (official claim)",
+      "story": "A comment box is three lines tall, and writing more means scrolling inside a tiny frame; making it grow used to mean duplicating styles and syncing text into a hidden element with JS. One property replaces that whole mirror. The guide recommends most apps simply accept fixed sizes in older browsers rather than force a fallback.",
+      "unlock": "'Inputs that grow as you type' used to need JS mirroring or measuring → chat composers, inline rename fields and tag inputs can hug their text in pure CSS, looking like plain text yet editable on click",
+      "support": "field-sizing: Newly (2026-06-16; Chrome 123, Edge 123, Firefox 152, Safari 26.2)"
+    },
+    "mwg:form-fields-automatically-fit-contents:2": {
+      "title": "Give auto-width fields both a minimum and a maximum width",
+      "action": "Set `min-inline-size` (e.g. `15ch`) and `max-inline-size` (e.g. `50ch`) on text inputs using `field-sizing: content`, and `max-inline-size` on `<select>`",
+      "blocker": "Without a minimum, an empty field collapses to zero width and can't be clicked; without a maximum, it grows indefinitely and breaks the page layout (quote: \"A minimum size prevents the input from collapsing to a width of zero when empty (making it unclickable), and a maximum size ensures it doesn't expand indefinitely and break the page layout.\")",
+      "outcome": "The bounds stop the field at both ends; `field-sizing` itself is Newly available (official claim)",
+      "story": "An empty input with no placeholder simply vanishes once `field-sizing` is on; paste a long URL and the field pushes the whole row off screen. Give it a sensible range to grow within.",
+      "unlock": "",
+      "support": "field-sizing: Newly (2026-06-16)"
+    },
+    "mwg:form-fields-automatically-fit-contents:3": {
+      "title": "Give auto-growing textareas a fixed width",
+      "action": "When a `<textarea>` uses `field-sizing: content`, set an explicit width (`width: 50ch` or `100%`) so only height follows content, plus `min-block-size: 3lh` and `max-block-size: 10lh`",
+      "blocker": "If a textarea can auto-size horizontally, one with a long placeholder abruptly shrinks when the user types the first character (quote: \"a textarea with a long placeholder will abruptly shrink horizontally when the user types a single character\")",
+      "outcome": "With a fixed width only the height grows as text wraps, so it doesn't jump sideways while typing; `field-sizing` itself is Newly available (official claim)",
+      "story": "A full-sentence placeholder stretches the textarea that wide; the moment the user starts typing, the placeholder disappears and the box snaps to one character wide. Pin the width and let it grow downward until a scrollbar appears at the cap.",
+      "unlock": "",
+      "support": "field-sizing: Newly (2026-06-16)"
+    },
+    "mwg:forms": {
+      "title": "Explicitly mark helper buttons type=\"button\" so they don't submit the form",
+      "action": "Set `type=\"button\"` on secondary or helper buttons in a form (show password, add row, clear); keep the main submit button as `type=\"submit\"`",
+      "blocker": "A `<button>` inside `<form>` defaults to `type=\"submit\"`, so a helper button without a type submits the form when pressed (quote: \"explicitly set `type=\"button\"` on secondary or helper buttons so they don't default to type=\"submit\".\")",
+      "outcome": "Marked as `button`, helpers only do their own job and don't trigger submission (official claim)",
+      "story": "Halfway through a form, the user presses a helper like 'Show password' and the whole form submits, just because that button had no `type` and fell back to submit. The opposite applies to the main submit button: don't make it `type=\"button\"`.",
+      "unlock": "",
+      "support": "N/A (the guide has no browser support data at all)"
+    },
+    "mwg:forms:2": {
+      "title": "Send sensitive data with POST, not GET",
+      "action": "Use `method=\"POST\"` for sensitive data and state-changing forms; reserve `GET` for idempotent requests like search",
+      "blocker": "Sending sensitive data with `GET` exposes it in browser history and server logs (quote: \"DON'T use `GET` for sensitive data (it exposes data in history/logs).\")",
+      "outcome": "With `POST` the data goes in the request body, not the URL (official claim)",
+      "story": "`GET` appends form fields to the URL, and URLs persist in browser history and in server and proxy access logs. Fine for a search query, not for ID numbers or passwords.",
+      "unlock": "",
+      "support": "N/A (the guide has no browser support data at all)"
+    },
+    "mwg:forms:3": {
+      "title": "Use a checkbox, not a radio, for a single yes/no choice",
+      "action": "Pick controls by option count: a checkbox for a single binary toggle, radios for 2–5 exclusive options, `<select>` only for 6+, `<datalist>` for large or dynamic lists",
+      "blocker": "A single radio button can't be unchecked once checked (quote: \"Can be checked and unchecked with space unlike a radio button, which gets stuck once checked.\")",
+      "outcome": "A checkbox can be checked and unchecked with Space, so the state is reversible (official claim)",
+      "story": "'Subscribe to the newsletter' built as a single radio: the user clicks it, changes their mind, and has no way to undo it. The wrong control brings the wrong behavior. The guide maps each situation to a suitable native element with an option-count table.",
+      "unlock": "",
+      "support": "N/A (the guide has no browser support data at all)"
+    },
+    "mwg:ime-safe-enter-submit": {
+      "title": "Check isComposing (plus keyCode 229) before Enter-to-submit so you don't send mid-IME composition",
+      "action": "In a custom Enter `keydown` handler, return early without calling `form.requestSubmit()` when `event.isComposing` or `event.keyCode === 229`; applies to `<textarea>` and single-line `<input>` with custom Enter handling",
+      "blocker": "When typing Chinese, Japanese or Korean with an IME, Enter confirms the conversion candidate; a script that submits on Enter sends the message mid-conversion (quote: \"the user's message is sent while they are still converting characters, resulting in incomplete, fragmented, or incorrect messages.\")",
+      "outcome": "`isComposing` is Limited (not Safari, where an event-ordering bug also reset it to false by keydown time); adding the `keyCode === 229` fallback reliably blocks it (official claim)",
+      "story": "In a chat box you type a word, press Enter to confirm the conversion, and half-converted kana or phonetic input gets sent. Native implicit submission from an `<input>` is already handled by the browser; it's custom keydown handlers that break. The guide also warns that migrating old `keyCode === 13` checks to `key === 'Enter'` without these two checks introduces the bug.",
+      "unlock": "",
+      "support": "api.KeyboardEvent.isComposing: Limited (Chrome 56, Edge 79, Firefox 31; not Safari)"
+    },
+    "mwg:ime-safe-enter-submit:2": {
+      "title": "Call preventDefault() in custom Enter-to-submit to avoid submitting twice",
+      "action": "Call `event.preventDefault()` first in the Enter `keydown` handler, then call `requestSubmit()` yourself",
+      "blocker": "Enter's default action inserts a newline in a `<textarea>` and triggers implicit submission for an `<input>` in a `<form>`, so with your own submit it goes out twice (quote: \"in an `<input>` inside a `<form>` it triggers the browser's implicit submission, which would submit a second time.\")",
+      "outcome": "With the default action blocked, submission happens exactly once from your handler (official claim)",
+      "story": "Search bars, inline rename fields and command palettes often handle Enter themselves; forget to block the default and the browser submits the form again. `preventDefault()` also stops a textarea from adding a stray newline before sending.",
+      "unlock": "",
+      "support": "N/A (no support data for `preventDefault()` in the guide; its only support data is for isComposing)"
+    },
+    "mwg:required-field-feedback": {
+      "title": "Flag required-field errors with :user-invalid, not in red on page load",
+      "action": "Add `required` to fields and trigger error styles and error text with `:user-invalid`, starting messages with an icon whose text alternative is 'Error' so color isn't the only cue",
+      "blocker": "Marking required fields as errors as soon as the page loads is confusing; a field should only look invalid after the user tried and failed (quote: \"Marking required fields with an error state immediately upon page load can be confusing.\")",
+      "outcome": "`:user-invalid` is Widely available and only matches after the user interacts and leaves the field empty, or tries to submit, so no more `onBlur` handlers adding a `touched` class (official claim)",
+      "story": "The form opens with a red border on every required field, telling users they've done something wrong before they've started. `:user-invalid` follows the browser's interaction timing so errors only show when they should. ARIA state still needs a small sync script.",
+      "unlock": "",
+      "support": ":user-valid/:user-invalid: Widely (2023-11-02)"
+    },
+    "mwg:required-field-feedback:2": {
+      "title": "Sync aria-invalid from :user-invalid, not checkValidity()",
+      "action": "Start fields at `aria-invalid=\"false\"` and set `\"true\"` on blur or failed submit based on `el.matches(':user-invalid')`",
+      "blocker": "`checkValidity()` is already false when a user merely tabs through an untouched field, so assistive tech is told about errors too early (quote: \"deriving it from `:user-invalid`, not `checkValidity()`, which is already false when a user tabs through an untouched field.\")",
+      "outcome": "Using `:user-invalid` as the source makes screen reader error timing match the screen (official claim)",
+      "story": "The red border appears only after interaction, but if the ARIA sync script uses `checkValidity()`, a screen reader user hears 'invalid' on every field they tab through. Both sides need the same criterion. Firefox and Safari also expose empty required fields as invalid from load, so the starting value must be an explicit `\"false\"`.",
+      "unlock": "",
+      "support": ":user-valid/:user-invalid: Widely (2023-11-02)"
+    },
+    "mwg:required-field-feedback:3": {
+      "title": "Attach the error message to aria-describedby only while the field is invalid",
+      "action": "Point the field's `data-error` at the error message `id` and have the script list it in `aria-describedby` only while the field is invalid",
+      "blocker": "Referencing the error message in the markup makes the hidden message get read from page load (quote: \"A reference in the markup would read the hidden message from page load.\")",
+      "outcome": "The message is linked only while the field is invalid, so the screen reader reads it with the field on focus (official claim)",
+      "story": "The error element sits in the page, hidden with CSS, with the description already wired up, so the first focus reads 'This field is required.' Attaching it only when invalid means users hear the current state.",
+      "unlock": "",
+      "support": ":user-valid/:user-invalid: Widely (2023-11-02)"
     }
   }
 }
