@@ -86,7 +86,13 @@
     "圖示樣式管不到": "Icon styling can't reach the icon",
     "原生捲動手勢不合用途": "Native scroll gestures don't fit the use",
     "動畫曲線只有簡單形狀": "Easing curves limited to simple shapes",
-    "平台慣用操作沒有作用": "Familiar platform controls have no effect"
+    "平台慣用操作沒有作用": "Familiar platform controls have no effect",
+    "可及名稱蓋掉可見文字": "Accessible names hide visible text",
+    "浮層遮住說明": "Popovers cover instructions",
+    "不認得的語法讓整條規則失效": "Unrecognized syntax invalidates the whole rule",
+    "封裝邊界切斷關聯": "Encapsulation boundaries break relationships",
+    "押注不會普及的功能": "Betting on features that will not ship",
+    "時間模型失真": "The time model misrepresents reality"
   },
   "guides": {
     "install-web-app": "Installing web apps",
@@ -227,7 +233,27 @@
     "parallax-scroll-effects": "Build a parallax effect on scroll",
     "persistent-top-layer-ui": "Persistent top-layer UI",
     "physics-based-easing": "Physics-based easing",
-    "platform-controls-dismiss-dialog": "Platform controls dismiss dialog"
+    "platform-controls-dismiss-dialog": "Platform controls dismiss dialog",
+    "rich-media-picker": "Rich media picker (customizable select)",
+    "select-menu-interaction": "Validate select menus after interaction",
+    "slider": "Brand-consistent range sliders",
+    "sms-otp-form": "SMS one-time password (OTP) form verification",
+    "switch": "Accessible switch controls",
+    "validate-input-after-interaction": "Validate input after interaction",
+    "accessible-web-components": "Accessible Web Components",
+    "custom-elements": "Custom Elements",
+    "form-associated-custom-elements": "Form-associated Custom Elements",
+    "html": "HTML",
+    "prerendering-custom-elements": "Prerendering Custom Elements",
+    "shadow-dom": "Shadow DOM, Templates, and Slots",
+    "styling-web-components": "Styling Web Components",
+    "web-components": "Web Components Overview",
+    "calculate-event-differentials": "Calculate Event Differences and Format Durations with Temporal",
+    "capture-location-agnostic-data": "Capture Location-independent and Partial Dates with Temporal",
+    "coordinate-global-events": "Coordinate Global Events with Temporal",
+    "sort-high-precision-timestamps": "Sort High-precision Timestamps with Temporal.Instant",
+    "support-global-calendar-systems": "Support Global Calendar Systems with Temporal",
+    "batch-analytics-events": "Debounce and Batch Analytics Events"
   },
   "lines": {
     "mwg:install-web-app": {
@@ -3595,6 +3621,582 @@
       "story": "Mobile back now closes the dialog instead of navigating away from the whole page.",
       "unlock": "Mobile filters, image viewers, and confirmations can close like native app surfaces without leaving the page. Safari is still unsupported.",
       "support": "<dialog closedby>: Limited; Chrome/Edge 134 and Firefox 141, unsupported in Safari."
+    },
+    "mwg:rich-media-picker": {
+      "title": "Use base-select for rich options instead of a custom menu",
+      "action": "Set appearance: base-select on select and its picker; put SVG, images, titles, and descriptions in options, and mirror the selected content in the button.",
+      "blocker": "Native option markup was stripped to plain text, forcing heavy custom components for rich options. (quote: \"Prior to this API, the browser would strip tags from `<option>` tags and render only plain text.\")",
+      "outcome": "Supporting browsers retain native keyboard and form behavior; Firefox falls back to text-only system menus.",
+      "story": "Rich options no longer require abandoning native select.",
+      "unlock": "Assignee menus with avatars, color swatches, and plan descriptions can use native select and form submission. Firefox falls back to plain text.",
+      "support": "Customizable select: Limited; Chrome/Edge 135 and Safari 27, unsupported in Firefox."
+    },
+    "mwg:rich-media-picker:2": {
+      "title": "Make option text understandable without its visual layout",
+      "action": "Add visually hidden punctuation and connecting phrases so option text reads coherently as plain text.",
+      "blocker": "Unsupported browsers concatenate all option text into one line and lose the intended meaning. (quote: \"would be rendered as \"Frontend Developer React, Vue, CSS\", in a browser that doesn't support customizable selects.\")",
+      "outcome": "Hidden punctuation restores understandable fallback text and screen-reader pauses, but not the rich layout.",
+      "story": "The same option remains meaningful with or without customizable select support.",
+      "unlock": "",
+      "support": "Customizable select: Limited."
+    },
+    "mwg:rich-media-picker:3": {
+      "title": "Do not override option text with aria-label",
+      "action": "Let the complete option text provide its own accessible name instead of replacing it with aria-label.",
+      "blocker": "aria-label overrides option text, so visible text omitted from the label is not announced and the two can drift. (quote: \"This will result in people missing visible text that hasn't been included in the `aria-label`.\")",
+      "outcome": "Screen readers hear the complete visible text, within customizable-select support limits.",
+      "story": "A separate label creates a second source of truth and loses information.",
+      "unlock": "",
+      "support": "Customizable select: Limited."
+    },
+    "mwg:rich-media-picker:4": {
+      "title": "Do not put interactive elements inside option",
+      "action": "Keep links, buttons, and other interactive semantics out of options; use static text and images only.",
+      "blocker": "Screen-reader users do not hear interactive elements inside options and cannot tell that more information is present. (quote: \"People using screen readers will not hear the announcements, and as a result, won't be able to determine that further information is present.\")",
+      "outcome": "Static content keeps the announced and visible information aligned.",
+      "story": "Put additional interactive information outside the select.",
+      "unlock": "",
+      "support": "Customizable select: Limited."
+    },
+    "mwg:rich-media-picker:5": {
+      "title": "Give base-select an explicit width",
+      "action": "Set a fixed width or flex/grid constraints after enabling appearance: base-select.",
+      "blocker": "base-select removes longest-option sizing, so the select changes width with the selected content and shifts layout. (quote: \"Setting `appearance: base-select` removes the default browser behavior of sizing the select based on its longest option width.\")",
+      "outcome": "An explicit width stabilizes the layout.",
+      "story": "Native select reserves width for its longest option; customizable select does not.",
+      "unlock": "",
+      "support": "Customizable select: Limited."
+    },
+    "mwg:select-menu-interaction": {
+      "title": "Use select:user-invalid to delay required-select errors",
+      "action": "Give the first option an empty disabled value and trigger errors with :user-invalid and success with :user-valid.",
+      "blocker": "Standard validation marks an empty default option invalid on page load, creating visual noise. (quote: \"standard validation flags the field as invalid immediately if the default option has an empty value. This can create visual noise.\")",
+      "outcome": "The field stays neutral until the user changes it and leaves, or attempts submission.",
+      "story": "Errors appear only after meaningful interaction; browser differences still require device testing.",
+      "unlock": "",
+      "support": ":user-valid and :user-invalid: Widely since 2023-11-02."
+    },
+    "mwg:slider": {
+      "title": "Calculate slider fill in CSS with progress() and attr()",
+      "action": "Read min and max with typed attr(), calculate the percentage with progress(), and feed it to the track gradient; use ::-moz-range-progress in Firefox.",
+      "blocker": "WebKit/Blink has no filled-track pseudo-element, so scripts must synchronize values to style filled and unfilled portions. (quote: \"WebKit/Blink do not provide an equivalent pseudo-element, so sync the live input value to `--control-value` on `input` events\")",
+      "outcome": "CSS reads bounds and computes the ratio; Safari still needs JS for bounds and older browsers need calc().",
+      "story": "Only the current value still needs JavaScript synchronization.",
+      "unlock": "Volume, rating thresholds, and budget sliders can keep ratio calculations in CSS and change bounds through HTML attributes. Safari needs a JS fallback.",
+      "support": "progress(): Newly; typed attr(): Limited, unsupported in Safari."
+    },
+    "mwg:slider:2": {
+      "title": "Write WebKit and Firefox slider pseudo-elements in separate rules",
+      "action": "Use separate rule blocks for ::-webkit-slider-thumb and ::-moz-range-thumb, and likewise for tracks.",
+      "blocker": "A selector list containing an unrecognized vendor pseudo-element is dropped in full. (quote: \"browsers drop the entire rule if an unrecognized vendor pseudo-element is encountered.\")",
+      "outcome": "Each engine ignores only its own unsupported block and applies the other.",
+      "story": "Combining prefixed pseudo-elements makes the styling fail in both engines.",
+      "unlock": "",
+      "support": "No support data for prefixed pseudo-elements; N/A."
+    },
+    "mwg:sms-otp-form": {
+      "title": "Use WebOTP and domain-bound SMS to autofill verification codes",
+      "action": "Use one one-time-code input, put @domain #code in the SMS, retrieve it with navigator.credentials.get(), submit with requestSubmit(), and abort on exit paths.",
+      "blocker": "Switching apps to memorize or copy a code adds friction and drop-off and enables phishing on spoofed domains. (quote: \"Switching between a browser and an SMS messaging app to memorize or copy-paste a multi-digit code introduces user friction, increases drop-off rates, and leaves users vulnerable to phishing on spoofed domains.\")",
+      "outcome": "Supporting browsers verify the domain and fill the code in one click; others use keyboard suggestions or manual numeric input.",
+      "story": "Domain binding prevents autofill on a spoofed page and WebOTP removes app switching.",
+      "unlock": "Phone verification and payment confirmation can autofill and submit when SMS arrives, without exposing automatic fill to phishing pages. Cross-origin iframes remain Chromium-only for delegation.",
+      "support": "WebOTP: Limited; Chrome/Edge 93 and Safari 27, unsupported in Firefox."
+    },
+    "mwg:sms-otp-form:2": {
+      "title": "Use text plus inputmode=\"numeric\" for OTP, not type=\"number\"",
+      "action": "Use type=\"text\" with inputmode=\"numeric\" and a digit pattern for verification codes.",
+      "blocker": "Number inputs add spinners, can strip leading zeros, and allow scroll-wheel changes. (quote: \"Using `type=\"number\"` adds increment/decrement spinner buttons, can strip leading zeros, and allows accidental scroll-wheel value changes.\")",
+      "outcome": "Mobile still shows a numeric keyboard while the value remains an exact string.",
+      "story": "A code is an identifier, not a quantity.",
+      "unlock": "",
+      "support": "inputmode: Widely since 2021-12-07."
+    },
+    "mwg:sms-otp-form:3": {
+      "title": "Use one OTP field instead of six boxes",
+      "action": "Use one input and create a segmented appearance with monospace type and letter-spacing.",
+      "blocker": "Six separate inputs break native one-time-code autofill, hinder pasting, and complicate screen-reader navigation. (quote: \"Multi-box OTP patterns (six separate `maxlength=\"1\"` inputs) break native `autocomplete=\"one-time-code\"` autofill in many browsers, hinder copy-pasting, and complicate screen reader navigation.\")",
+      "outcome": "One field supports system suggestions and whole-code pasting while retaining the segmented appearance.",
+      "story": "The visual design no longer determines the input architecture.",
+      "unlock": "",
+      "support": "inputmode: Widely; no support data for one-time-code autocomplete."
+    },
+    "mwg:sms-otp-form:4": {
+      "title": "Use requestSubmit() after automatic OTP retrieval",
+      "action": "Fill the code and call form.requestSubmit(), or call the validation routine directly.",
+      "blocker": "form.submit() bypasses submit listeners and native constraint validation. (quote: \"`form.submit()` bypasses `submit` event listeners (`event.preventDefault()` / `fetch()` handlers) and skips native constraint validation.\")",
+      "outcome": "requestSubmit() follows the same listener and validation path as a user-initiated submission.",
+      "story": "Automatic retrieval no longer skips the application's normal submission logic.",
+      "unlock": "",
+      "support": "No support data for requestSubmit(); N/A."
+    },
+    "mwg:sms-otp-form:5": {
+      "title": "Place OTP format hints above the input",
+      "action": "Link persistent format instructions with aria-describedby and place them visually above the input.",
+      "blocker": "Autofill popovers and mobile keyboards cover hints placed below the input. (quote: \"place any format instructions (linked via `aria-describedby`) visually **above** the `<input>` so autofill popovers and mobile virtual keyboards never cover the instructions.\")",
+      "outcome": "The instructions remain visible while the field is focused.",
+      "story": "Moving the hint avoids both overlays at the moment the user needs it.",
+      "unlock": "",
+      "support": "Layout placement; no support data, N/A."
+    },
+    "mwg:switch": {
+      "title": "Build a native switch with <input type=\"checkbox\" switch>",
+      "action": "Add the switch attribute to a labeled checkbox and conditionally load a polyfill where unsupported.",
+      "blocker": "The guide states native form, keyboard, and semantics benefits but gives no concrete custom-switch failure.",
+      "outcome": "Only Safari 17.4 supports it natively; Chrome, Edge, and Firefox need a polyfill for role, appearance, and dragging.",
+      "story": "A checkbox can expose native switch appearance and semantics, but support remains limited.",
+      "unlock": "Settings switches can be one HTML element with native submission, keyboard behavior, and semantics. Only Safari is native; other browsers need a polyfill.",
+      "support": "Checkbox switch: Limited; Safari 17.4 only."
+    },
+    "mwg:validate-input-after-interaction": {
+      "title": "Use :user-invalid to report errors after editing",
+      "action": "Declare constraints with email type, pattern, and required; trigger error and success styles with :user-invalid and :user-valid.",
+      "blocker": "Standard :invalid styling reports errors while the user is still typing. (quote: \"Standard `:invalid` styling results in an error state appearing immediately, frustrating the user.\")",
+      "outcome": "Errors wait until edited blur or submission and clear as soon as the value is fixed.",
+      "story": "Typing stays neutral instead of turning red on every incomplete intermediate value.",
+      "unlock": "",
+      "support": ":user-valid and :user-invalid: Widely since 2023-11-02."
+    },
+    "mwg:validate-input-after-interaction:2": {
+      "title": "Hide satisfied rule lists with visibility, not collapsing layout",
+      "action": "Use visibility: hidden on the valid field's rules list so its space remains reserved.",
+      "blocker": "Collapsing on blur moves the submit button between mousedown and mouseup, losing the click. (quote: \"collapsing the list on blur would move the submit button between mousedown and mouseup, and the click would be lost.\")",
+      "outcome": "The button remains stationary and the click submits normally.",
+      "story": "Hiding without layout collapse prevents the pointer target from jumping.",
+      "unlock": "",
+      "support": ":user-valid and :user-invalid: Widely."
+    },
+    "mwg:validate-input-after-interaction:3": {
+      "title": "Give passwords an explicit error message, not just red rules",
+      "action": "Provide a textual password error with an Error-labelled icon; use rule-list color only as reinforcement.",
+      "blocker": "Turning rules red neither explains the problem nor conveys the change to screen readers. (quote: \"Turning the rules list red doesn't say what is wrong, and screen readers don't convey the color change.\")",
+      "outcome": "Visual and screen-reader users both receive the failure in text.",
+      "story": "Color alone leaves users to infer which requirement failed.",
+      "unlock": "",
+      "support": ":user-valid and :user-invalid: Widely."
+    },
+    "mwg:validate-input-after-interaction:4": {
+      "title": "Place format hints and password rules above the input",
+      "action": "Put persistent hints and rule lists above their inputs and connect them with aria-describedby.",
+      "blocker": "Autocomplete popovers and mobile keyboards cover hints below the input during editing. (quote: \"Place format hints above the input so autocomplete popovers don't cover them during editing\")",
+      "outcome": "Hints remain visible throughout input.",
+      "story": "The instructions stay above both overlays.",
+      "unlock": "",
+      "support": "Layout placement; no support data, N/A."
+    },
+    "mwg:validate-input-after-interaction:5": {
+      "title": "Wrap fallback selectors in :is()",
+      "action": "Use :is(:user-invalid, .user-invalid-fallback) instead of a plain comma-separated selector list.",
+      "blocker": "One unsupported selector in a plain list drops the entire rule. (quote: \"in a plain selector list, one unsupported selector drops the whole rule.\")",
+      "outcome": "The forgiving :is() list preserves fallback-class styling in browsers without :user-invalid.",
+      "story": "The fallback no longer disappears alongside the unsupported new selector.",
+      "unlock": "",
+      "support": ":user-valid and :user-invalid: Widely; no support data for :is()."
+    },
+    "mwg:accessible-web-components": {
+      "title": "Use ARIA element references across shadow boundaries",
+      "action": "Use ariaLabelledByElements and ariaDescribedByElements inside shadow trees to reference labels and descriptions in light DOM.",
+      "blocker": "ID references resolve only within their own tree, so cross-boundary references are silently ignored. (quote: \"An `id`-based attribute in the Light DOM cannot point at an `id` inside a shadow tree, and vice versa; the reference is silently ignored.\")",
+      "outcome": "Outward element references now work; inward references still need Reference Target, and unsupported browsers need aria-label text.",
+      "story": "Controls inside components can use page-owned help and error text without moving it into shadow DOM.",
+      "unlock": "Design-system inputs can accept consumer-owned labels, descriptions, and errors while keeping native controls encapsulated.",
+      "support": "Element.ariaLabelledByElements: Newly since 2025-04-04."
+    },
+    "mwg:accessible-web-components:2": {
+      "title": "Do not use delegatesFocus when the host owns the role",
+      "action": "Put host controls in the tab order in connectedCallback; use delegatesFocus only when wrapping an internal native control.",
+      "blocker": "Combining delegatesFocus with host role and state moves focus inside and skips the host state. (quote: \"Do not combine `delegatesFocus: true` with a role/state on the host, or focus will land on the inner element and skip the host's state.\")",
+      "outcome": "Focus lands on the semantic host so assistive technology announces its role and state.",
+      "story": "Choose either host semantics or delegated focus, not both.",
+      "unlock": "",
+      "support": "ARIA attribute reflection: Widely."
+    },
+    "mwg:accessible-web-components:3": {
+      "title": "Set tabIndex in connectedCallback, not the constructor",
+      "action": "Set a default tabIndex in connectedCallback only when the consumer has not supplied tabindex.",
+      "blocker": "Setting tabIndex in the constructor throws when createElement creates the element. (quote: \"setting tabIndex in the constructor throws on createElement\")",
+      "outcome": "Both markup and createElement construction work, and consumer values remain respected.",
+      "story": "Constructor-time attributes are invalid; defer them until connection.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:custom-elements": {
+      "title": "Handle moveBefore() with connectedMoveCallback",
+      "action": "Define connectedMoveCallback so atomic moves run it instead of disconnect and connect callbacks.",
+      "blocker": "Ordinary moves rerun expensive setup and teardown, resetting state, focus, and iframe or media playback. (quote: \"this callback fires *instead of* `disconnectedCallback` → `connectedCallback`, so state, focus, and iframe/media playback survive the move.\")",
+      "outcome": "Atomic movement preserves state, focus, and playback.",
+      "story": "Components can update only location-dependent state instead of rebuilding.",
+      "unlock": "Player, map, and editor components can move between workspaces or pop out and return without reloading; support follows moveBefore().",
+      "support": "No data in this guide; moveBefore() is Limited."
+    },
+    "mwg:custom-elements:2": {
+      "title": "Make connectedCallback repeatable and clean up in disconnectedCallback",
+      "action": "Make setup idempotent and remove global listeners, timers, and observers on disconnection.",
+      "blocker": "connectedCallback runs on every insertion, so moves rerun setup and missing teardown leaks resources. (quote: \"It fires on every insertion, so moving the element re-runs it.\")",
+      "outcome": "Moves and reinsertion neither duplicate listeners nor leak timers.",
+      "story": "Design for repeated connection rather than one-time initialization.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:custom-elements:3": {
+      "title": "Define lifecycle callbacks and observedAttributes before define()",
+      "action": "Place all lifecycle methods and static observedAttributes on the class before customElements.define().",
+      "blocker": "Registration reads these settings once; later additions are ignored and attributeChangedCallback never fires. (quote: \"`attributeChangedCallback` never fires unless `observedAttributes` was already present at `define()` time.\")",
+      "outcome": "Attribute and lifecycle callbacks fire as expected.",
+      "story": "Registration is a snapshot, not a live lookup.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:custom-elements:4": {
+      "title": "Handle existing attributes and late children during upgrades",
+      "action": "Call super() first, synchronize existing attributes on connection, and track later attributes and children with callbacks and slotchange.",
+      "blocker": "Upgraded elements may already have attributes and children, while long child lists may still be parsing during connectedCallback. (quote: \"the HTML parser can yield mid-parse of long child lists, so the callback sometimes runs before every child is attached.\")",
+      "outcome": "Event-driven synchronization initializes correctly regardless of upgrade timing.",
+      "story": "Read current state and observe later arrivals instead of assuming one fixed timing.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:custom-elements:5": {
+      "title": "Use delayed opacity for undefined elements instead of permanent hiding",
+      "action": "Give :not(:defined) opacity zero with a delayed fade-in, scoped only to the affected elements.",
+      "blocker": "Hard hiding leaves content invisible after failed or slow scripts; a body-wide guard lets one widget block the whole page. (quote: \"so a failed or slow script never hides content for good.\")",
+      "outcome": "Content appears after the timeout even when scripts fail.",
+      "story": "Fail open rather than allowing a styling guard to hide content forever.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:form-associated-custom-elements": {
+      "title": "Use FACE and ElementInternals instead of hidden inputs",
+      "action": "Set formAssociated, use setFormValue() and setValidity(), and implement reset, disabled, and restore callbacks.",
+      "blocker": "The guide lists FACE benefits but gives no concrete hidden-input failure.",
+      "outcome": "The element submits and validates like a native control, including reset, disabled fieldsets, and restoration.",
+      "story": "The custom element itself participates in forms rather than synchronizing a hidden proxy.",
+      "unlock": "",
+      "support": "Form-associated custom elements: Widely since 2023-03-27."
+    },
+    "mwg:form-associated-custom-elements:2": {
+      "title": "Disable internal controls only in formDisabledCallback",
+      "action": "Disable controls inside shadow DOM without setting disabled on the host.",
+      "blocker": "Setting host disabled leaves it permanently disabled after an ancestor fieldset is re-enabled. (quote: \"Do NOT toggle `disabled` on `this`, or a `<fieldset disabled>` toggle will leave the host permanently stuck with its own `disabled` attribute.\")",
+      "outcome": "The component restores normally with its fieldset and matches :disabled automatically.",
+      "story": "The fieldset cannot remove a host attribute added by the callback.",
+      "unlock": "",
+      "support": "Form-associated custom elements: Widely."
+    },
+    "mwg:form-associated-custom-elements:3": {
+      "title": "Do not set accessible names directly through ElementInternals",
+      "action": "Use ElementInternals for roles and states but leave naming to the consumer unless the element has its own visible label.",
+      "blocker": "An internals-provided name can override consumer naming such as a label element. (quote: \"this would likely override any accessible name set when using the custom element, such as by labelling the element using a HTML label's `for` attribute.\")",
+      "outcome": "The consumer label remains the announced accessible name.",
+      "story": "Component defaults must not replace page-specific names.",
+      "unlock": "",
+      "support": "Form-associated custom elements: Widely."
+    },
+    "mwg:html": {
+      "title": "Use dialog showModal() and closedby instead of hand-written modal behavior",
+      "action": "Use dialog with showModal(), closedby=\"any\", form method=\"dialog\", and ::backdrop; use popover for non-modal UI.",
+      "blocker": "The guide lists automatic focus containment, Escape, and dismissal benefits but gives no concrete hand-written failure.",
+      "outcome": "The browser handles focus containment, Escape, backdrop dismissal, and return values.",
+      "story": "Modal behavior moves into platform primitives while a visible close button remains necessary.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:html:2": {
+      "title": "Use inert to remove hidden regions from tab order and the accessibility tree",
+      "action": "Apply inert to off-canvas menus or background pages behind drawers and indicate the state visually.",
+      "blocker": "The guide states inert behavior but no concrete failure when it is omitted.",
+      "outcome": "Inert regions cannot be focused or announced.",
+      "story": "One attribute disables an entire region without changing every tabindex.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:html:3": {
+      "title": "Do not hide focusable elements with aria-hidden or presentation roles",
+      "action": "Use aria-hidden and role none only on non-focusable content, never on interactive iframes or their ancestors.",
+      "blocker": "Content can be hidden from assistive technology while remaining reachable by sequential keyboard navigation. (quote: \"Hiding elements from the assistive technology tree while leaving them accessible to sequential keyboard navigation violates core accessibility heuristics.\")",
+      "outcome": "Keyboard-reachable content remains perceivable to screen readers.",
+      "story": "A decorative wrapper must not silence an interactive descendant.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:html:4": {
+      "title": "Avoid focus({preventScroll:true}) without validation",
+      "action": "Allow focus to scroll by default and ensure the focused element is not obscured.",
+      "blocker": "preventScroll can leave the focused element off-screen. (quote: \"it can hide the focused element off-screen.\")",
+      "outcome": "The browser brings the focused element into view.",
+      "story": "Users can otherwise type into an invisible field.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:html:5": {
+      "title": "Make scrollable code blocks keyboard-focusable regions",
+      "action": "Give scrollable pre elements tabindex=\"0\", role=\"region\", and an accessible name.",
+      "blocker": "Without tab access, keyboard users cannot scroll to clipped code content. (quote: \"adding `tabindex=\"0\"` to the `<pre>` element if it becomes scrollable, allowing keyboard users to reach the content.\")",
+      "outcome": "Keyboard users can scroll with arrow keys and screen readers announce the region name.",
+      "story": "Horizontal overflow no longer makes part of the example unreachable.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:html:6": {
+      "title": "Do not use the title attribute for tooltips",
+      "action": "Use a tooltip pattern that supports keyboard triggering and consistent screen-reader announcements.",
+      "blocker": "title-based tooltips cannot be accessed with a keyboard. (quote: \"DON'T use the `title` attribute to create tooltip effects, as these cannot be accessed using a keyboard.\")",
+      "outcome": "Keyboard and screen-reader users can access the tooltip content.",
+      "story": "Hover-only explanations disappear for non-mouse users.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:html:7": {
+      "title": "Do not lazy-load the hero image; prioritize it",
+      "action": "Give the LCP image fetchpriority=\"high\", preload CSS hero backgrounds, and reserve lazy loading for off-screen media.",
+      "blocker": "Lazy-loading above-the-fold or hero images delays LCP. (quote: \"DON'T apply `loading=\"lazy\"` to above-the-fold or hero images. This delays LCP.\")",
+      "outcome": "The hero downloads early while only off-screen resources are delayed.",
+      "story": "Blanket lazy loading also delays the most important image.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:html:8": {
+      "title": "Set width and height on images and video",
+      "action": "Declare dimensions on every img and video, and optionally on picture sources.",
+      "blocker": "Media without dimensions expands only after loading and shifts layout. (quote: \"DO specify `width` and `height` on all `<img>` tags to preserve aspect ratio and prevent Layout Shifts (CLS).\")",
+      "outcome": "The browser reserves aspect-ratio space before media arrives.",
+      "story": "Reserved space keeps the reading position stable.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:html:9": {
+      "title": "Use specific autocomplete tokens instead of off",
+      "action": "Use tokens such as email, street-address, and cc-number aligned with type and inputmode.",
+      "blocker": "Browsers and password managers intentionally ignore autocomplete=\"off\" on credential, address, and payment fields. (quote: \"Browsers and password managers ignore it there by design.\")",
+      "outcome": "Specific tokens let autofill and password managers provide the correct values and actions.",
+      "story": "off neither disables suggestions nor identifies the field correctly.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:prerendering-custom-elements": {
+      "title": "Server-render shadow trees with Declarative Shadow DOM",
+      "action": "Place template shadowrootmode=\"open\" as the host's first child and include component styles in the template.",
+      "blocker": "Script-created shadow trees lack structure and style before JS runs, causing FOUC. (quote: \"DSD renders correctly on first paint only if styles ship inside the declarative template.\")",
+      "outcome": "The parser supplies structure and styles before any JavaScript, including streamed rendering.",
+      "story": "First paint contains the finished component rather than unstyled text.",
+      "unlock": "",
+      "support": "Declarative Shadow DOM: Widely since 2024-02-20."
+    },
+    "mwg:prerendering-custom-elements:2": {
+      "title": "Reuse the server shadow root during hydration",
+      "action": "Check this.shadowRoot before attachShadow() and attach behavior to existing server markup.",
+      "blocker": "Re-rendering discards server DOM and flashes. (quote: \"do NOT re-render; that would discard the server's DOM and flash.\")",
+      "outcome": "Server markup remains authoritative and the page does not repaint.",
+      "story": "Hydrate existing DOM instead of replacing it.",
+      "unlock": "",
+      "support": "Declarative Shadow DOM: Widely."
+    },
+    "mwg:shadow-dom": {
+      "title": "Share adoptedStyleSheets across component instances",
+      "action": "Create one CSSStyleSheet at module scope and adopt the same object in every shadow root.",
+      "blocker": "A style element is duplicated per instance and bloats the DOM at scale; links add requests and FOUC risk. (quote: \"Duplicated per instance; bloats the DOM at scale.\")",
+      "outcome": "All instances share one parsed sheet, at the cost of requiring JS and losing @import.",
+      "story": "Hundreds of instances no longer contain hundreds of identical style copies.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:shadow-dom:2": {
+      "title": "Use slotchange and assignedElements() to detect slot content",
+      "action": "Listen for slotchange and inspect assignedElements() before toggling slot-dependent state.",
+      "blocker": "Whitespace text nodes fill the default slot, and children may not exist yet during connectedCallback. (quote: \"Text nodes between elements (including pure whitespace) are assigned to the default slot, so a default slot is rarely truly \"empty.\"\")",
+      "outcome": "slotchange reliably signals initial and later assignments.",
+      "story": "Check assigned elements rather than assuming whitespace means real content.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:styling-web-components": {
+      "title": "Theme components with inherited custom properties, not :host-context()",
+      "action": "Set public custom properties on ancestors and consume them with var() inside the component.",
+      "blocker": "Firefox and Safari refuse :host-context(), leaving it a Chromium-only dead end. (quote: \"Firefox and Safari have declined to ship it and the CSSWG is leaning toward not developing it further — treat it as a Chromium-only dead end\")",
+      "outcome": "Inherited custom properties cross shadow boundaries in every browser.",
+      "story": "The page and component exchange theme values without relying on a non-portable selector.",
+      "unlock": "",
+      "support": "Custom properties: Widely; :host-context(): Limited."
+    },
+    "mwg:styling-web-components:2": {
+      "title": "Keep public custom properties unset on :host",
+      "action": "Define a private alias on :host that reads the public property with a fallback, and use the alias internally.",
+      "blocker": "A public property defined on :host can only be overridden by rules targeting the host, blocking ancestor inheritance. (quote: \"A custom property *defined* on `:host` can only be overridden by rules targeting the host element specifically.\")",
+      "outcome": "The public property can inherit from any ancestor and the default appears once.",
+      "story": "A private alias preserves the external override path.",
+      "unlock": "",
+      "support": "Custom properties: Widely."
+    },
+    "mwg:styling-web-components:3": {
+      "title": "Set font: inherit on wrapped native controls",
+      "action": "Apply font: inherit and usually color: inherit to buttons, inputs, and selects inside shadow trees.",
+      "blocker": "Form controls use UA fonts rather than inheriting, so wrapped controls render in the platform font. (quote: \"The wrapped control therefore renders in the platform font, not the page font, until you set `font: inherit`\")",
+      "outcome": "Controls match the page typography.",
+      "story": "The shadow boundary is not the cause; form controls simply do not inherit fonts by default.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:styling-web-components:4": {
+      "title": "Expose internal control styling with ::part or custom properties",
+      "action": "Mark internal controls with part attributes, export nested parts, or pass values through custom properties.",
+      "blocker": "Host background, border, and padding style only the host box, not the control inside. (quote: \"Setting `background`/`border`/`padding` on `:host` styles the host box, not the control inside it.\")",
+      "outcome": "Consumers can style selected internal elements without knowing the full structure.",
+      "story": "Use an intentional styling channel instead of assuming host declarations cascade inside.",
+      "unlock": "",
+      "support": "Shadow parts: Widely since 2020-07-28."
+    },
+    "mwg:styling-web-components:5": {
+      "title": "Avoid display: contents when the host must be measurable",
+      "action": "Treat display: contents plus all: inherit as a tradeoff; use parts or custom properties when measurement and anchoring matter.",
+      "blocker": "A display: contents host has zero client rects, breaking anchor positioning, and all: inherit erases UA defaults. (quote: \"`getBoundingClientRect()` and `getClientRects()` return zero for `display: contents` elements, so anchor positioning against the host is broken.\")",
+      "outcome": "Arbitrary style forwarding remains possible but measurement and anchoring costs remain.",
+      "story": "Transparent wrappers without boxes cannot position attached UI.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:styling-web-components:6": {
+      "title": "Give custom-element hosts a block box for container queries",
+      "action": "Set :host to display: block and container-type: inline-size before using @container.",
+      "blocker": "Custom elements default to inline, and size containment does not apply to inline or contents elements. (quote: \"custom elements default to `display: inline` and size containment does not apply to `inline` or `contents` elements\")",
+      "outcome": "The component responds to its own width in sidebars and full-width layouts.",
+      "story": "A single display declaration activates the containment context.",
+      "unlock": "",
+      "support": "Container queries: Widely since 2023-02-14."
+    },
+    "mwg:web-components": {
+      "title": "Wrap real native buttons instead of recreating semantics",
+      "action": "Use custom elements only for encapsulated state or scripting needs, and wrap actual native controls when needed.",
+      "blocker": "The guide calls semantic recreation a common misuse but gives no concrete failure.",
+      "outcome": "Native focus, activation, and accessibility remain platform-provided.",
+      "story": "CSS alone is enough when only appearance changes.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:web-components:2": {
+      "title": "Use open shadow roots",
+      "action": "Use attachShadow({mode:\"open\"}) or shadowrootmode=\"open\".",
+      "blocker": "Closed roots hide shadowRoot from page scripts, tests, and automated accessibility checkers. (quote: \"`mode: 'closed'` hides `element.shadowRoot` from page scripts, test harnesses, and automated accessibility checkers that walk shadow trees.\")",
+      "outcome": "Tools and hydration scripts can traverse the shadow tree.",
+      "story": "Encapsulation does not require hiding the root from tooling.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:web-components:3": {
+      "title": "Avoid customized built-in elements using is=\"…\"",
+      "action": "Wrap native elements in autonomous custom elements instead of extending built-ins with is.",
+      "blocker": "Safari has permanently declined customized built-in elements. (quote: \"Avoid *customized built-in elements* (`extends HTMLButtonElement` with `is=\"…\"`); Safari has permanently declined to ship them.\")",
+      "outcome": "Autonomous wrappers behave consistently across browsers.",
+      "story": "The elegant is syntax never gains the extended behavior in Safari.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:calculate-event-differentials": {
+      "title": "Calculate calendar-aware differences with ZonedDateTime since() and until()",
+      "action": "Use ZonedDateTime with IANA zones, calculate Duration with since() or until(), compare with relativeTo, and inspect sign for expiry.",
+      "blocker": "Legacy Date tracks only epoch milliseconds, making calendar months, DST, and unit balancing error-prone without a concrete example. (quote: \"The legacy `Date` object only tracks epoch milliseconds, making calendar-month arithmetic, Daylight Saving Time (DST) transitions, and unit balancing error-prone.\")",
+      "outcome": "Temporal provides calendar-aware differences and comparison; Safari needs a roughly 15 KB polyfill.",
+      "story": "Durations no longer assume every day is 86,400,000 milliseconds.",
+      "unlock": "Countdowns, trials, subscriptions, and SLA displays can calculate months and days directly without a date library. Safari needs a polyfill.",
+      "support": "Temporal: Limited; Chrome/Edge 144 and Firefox 139, unsupported in Safari."
+    },
+    "mwg:calculate-event-differentials:2": {
+      "title": "Format localized durations with Intl.DurationFormat",
+      "action": "Use duration.toLocaleString() or Intl.DurationFormat with long, short, narrow, or digital style; reserve toString() for ISO machine output.",
+      "blocker": "The guide rejects manually interpolated unit strings without giving a concrete failure.",
+      "outcome": "Intl.DurationFormat produces locale-correct duration text and is Newly available.",
+      "story": "Unit names, ordering, and separators come from locale data rather than string templates.",
+      "unlock": "Elapsed time, remaining estimates, and media lengths can be localized in one call, including digital 1:30:00 formatting.",
+      "support": "Intl.DurationFormat: Newly since 2025-03-04."
+    },
+    "mwg:capture-location-agnostic-data": {
+      "title": "Use PlainDate and PlainTime for birthdays and alarms",
+      "action": "Store calendar dates and wall-clock times in Temporal Plain types, and convert through Instant with an explicit zone only when Date is unavoidable.",
+      "blocker": "Date represents an instant in the viewer's zone, so a saved 1990-01-01 can appear as 1989-12-31 west of UTC. (quote: \"saving a date like `\"1990-01-01\"` can result in users west of UTC seeing `\"1989-12-31\"`\")",
+      "outcome": "Plain types preserve the same date everywhere; Safari needs a polyfill.",
+      "story": "A calendar day is represented directly instead of choosing a midnight instant.",
+      "unlock": "Birthdays, daily alarms, and store hours can synchronize across zones without shifting date or time. Safari needs a polyfill.",
+      "support": "Temporal: Limited; unsupported in Safari."
+    },
+    "mwg:capture-location-agnostic-data:2": {
+      "title": "Use PlainYearMonth and PlainMonthDay for partial dates",
+      "action": "Store month-only and day-only values in their matching Temporal types and choose explicit overflow behavior for recurrence.",
+      "blocker": "Placeholder days for month-only values cause overflow bugs. (quote: \"modeling partial dates (like a month-only card expiry) forces arbitrary placeholder days that cause overflow bugs.\")",
+      "outcome": "Partial-date types exclude fake days and recurrence can constrain or reject overflow; Safari needs a polyfill.",
+      "story": "Card expiry and monthly recurrence no longer invent a day that later changes the month.",
+      "unlock": "Subscriptions, anniversaries, and billing months can store exactly the precision they mean and declare end-of-month behavior. Safari needs a polyfill.",
+      "support": "Temporal: Limited."
+    },
+    "mwg:capture-location-agnostic-data:3": {
+      "title": "Identify time zones by IANA name, not fixed UTC offset",
+      "action": "Use names such as America/New_York for time zones.",
+      "blocker": "Offsets change with DST and legislation, so labels such as UTC-5 are wrong for part of the year. (quote: \"Offsets change with daylight saving time and legislation, so labels like `\"UTC-5\"` become wrong for part of the year.\")",
+      "outcome": "IANA data applies DST and legal changes automatically; Safari needs the Temporal polyfill.",
+      "story": "The geographic zone determines the offset instead of freezing one offset forever.",
+      "unlock": "",
+      "support": "Temporal: Limited."
+    },
+    "mwg:coordinate-global-events": {
+      "title": "Detect skipped and repeated DST times with ZonedDateTime disambiguation",
+      "action": "Use disambiguation reject to raise on invalid or ambiguous local times, compatible to choose automatically, and withTimeZone() for other cities.",
+      "blocker": "DST transitions skip or repeat hours, making cross-zone events difficult with legacy Date. (quote: \"especially around Daylight Saving Time (DST) transitions when hours can be skipped or repeated.\")",
+      "outcome": "Conflicts become detectable with an explicit resolution policy; PlainDateTime cannot handle DST and Safari needs a polyfill.",
+      "story": "Schedulers can reject nonexistent local times and show each attendee the corresponding time.",
+      "unlock": "International scheduling tools can warn immediately about nonexistent or duplicated times and list every attendee's local time. Safari needs a polyfill.",
+      "support": "Temporal: Limited; unsupported in Safari."
+    },
+    "mwg:sort-high-precision-timestamps": {
+      "title": "Parse nanosecond timestamps with Temporal.Instant",
+      "action": "Parse server timestamps with Instant.from(), sort with Instant.compare(), and use since() and equals() for intervals and equality.",
+      "blocker": "Date silently truncates sub-millisecond digits, so distinct events collide and sort unstably. (quote: \"parsing those strings with `new Date()` or `Date.parse()` silently truncates sub-millisecond digits, causing distinct events within the same millisecond to collide and sort in an unstable order.\")",
+      "outcome": "Instant preserves nanoseconds for deterministic sorting; Safari needs a polyfill and browser-generated Now values remain reduced precision.",
+      "story": "Distributed trace events retain their real order instead of sharing one millisecond.",
+      "unlock": "Browser log viewers and telemetry timelines can sort server nanosecond timestamps and display microsecond or nanosecond intervals. Safari needs a polyfill.",
+      "support": "Temporal: Limited; unsupported in Safari."
+    },
+    "mwg:sort-high-precision-timestamps:2": {
+      "title": "Keep intervals as Temporal.Duration instead of nanosecond Numbers",
+      "action": "Format Duration directly with toLocaleString() rather than total('nanoseconds').",
+      "blocker": "Nanosecond totals exceed Number.MAX_SAFE_INTEGER beyond roughly 104 days and silently lose precision. (quote: \"`duration.total('nanoseconds')` returns a `Number`, which exceeds `Number.MAX_SAFE_INTEGER` for spans longer than ~104 days and silently loses precision.\")",
+      "outcome": "Duration retains precision and unit structure; Safari needs a polyfill.",
+      "story": "Preserving timestamp precision is wasted if formatting converts the interval to an unsafe number.",
+      "unlock": "",
+      "support": "Temporal: Limited."
+    },
+    "mwg:support-global-calendar-systems": {
+      "title": "Use withCalendar() for Hebrew, Islamic, and Chinese calendar arithmetic",
+      "action": "Check supported calendars, convert with withCalendar(), compare in that calendar, and format with the matching Unicode locale extension.",
+      "blocker": "The guide says other calendars previously required complex libraries or manual calculations but gives no concrete failure. (quote: \"Developers previously had to rely on complex third-party libraries or manual calculations to support these systems.\")",
+      "outcome": "Temporal performs calendar arithmetic and formatting; Safari needs a polyfill and observation-based calendars remain approximations.",
+      "story": "Dates carry calendar identity through arithmetic, comparison, and formatting.",
+      "unlock": "Calendars and holiday reminders can support user-selected calendars and annual conversion without embedded calendar tables. Safari needs a polyfill.",
+      "support": "Temporal: Limited; unsupported in Safari."
+    },
+    "mwg:support-global-calendar-systems:2": {
+      "title": "Use monthsInYear and monthCode instead of assuming twelve months",
+      "action": "Drive loops with monthsInYear and daysInMonth, identify months with monthCode, and compare month to monthsInYear for the final month.",
+      "blocker": "Lunisolar leap years can add a whole leap month, breaking fixed twelve-month loops and numeric cross-year comparisons. (quote: \"DO NOT assume `inLeapYear === true` implies the year is only one day longer. In lunisolar calendars, it may add a full leap month.\")",
+      "outcome": "Calendar invariants keep the same code correct across calendars; Safari needs a polyfill.",
+      "story": "Leap months no longer disappear from calendar components or shift numeric month lookups.",
+      "unlock": "",
+      "support": "Temporal: Limited."
+    },
+    "mwg:batch-analytics-events": {
+      "title": "Batch events with fetchLater() activateAfter",
+      "action": "Schedule fetchLater() with the current queue, cancel and reschedule when new events arrive, and clear the queue after activation.",
+      "blocker": "The guide claims a balance between timely updates and fewer beacons but gives no concrete old-approach failure.",
+      "outcome": "Supporting browsers batch the window and guarantee sending on page exit; Firefox and Safari use a visibilitychange polyfill.",
+      "story": "Browser scheduling handles both a quiet time window and early page exit.",
+      "unlock": "Lightweight analytics, drafts, and reading progress can batch briefly without losing data on tab close. Native support is Chromium-only.",
+      "support": "fetchLater: Limited; Chrome/Edge 135, unsupported in Firefox and Safari."
+    },
+    "mwg:batch-analytics-events:2": {
+      "title": "Limit fetchLater() batch size and catch quota errors",
+      "action": "Cap the queue, wrap scheduling in try/catch, and avoid ReadableStream bodies.",
+      "blocker": "Oversized batches exceed the roughly 64 KB per-origin quota and throw. (quote: \"DO check to ensure you do not batch too many events together and exceed the `fetchLater()` quota (currently roughly 64KB per origin).\")",
+      "outcome": "Limits and error handling keep quota failures from stopping the pipeline.",
+      "story": "An unbounded queue can otherwise prevent every later event from being scheduled.",
+      "unlock": "",
+      "support": "fetchLater: Limited."
     }
   }
 }

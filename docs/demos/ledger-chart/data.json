@@ -1,5 +1,5 @@
 {
- "total": 374,
+ "total": 438,
  "updated": "2026-11-17",
  "groups": [
   {
@@ -63,6 +63,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:html:6",
+     "feature": "不要用 title 屬性做提示",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -155,6 +162,20 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:custom-elements",
+     "feature": "用 connectedMoveCallback 接住 moveBefore() 的搬移，擋掉搬一次就重來",
+     "result": "勝",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:prerendering-custom-elements:2",
+     "feature": "hydrate 時沿用伺服器的 shadow root，不要重新渲染",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -623,6 +644,20 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:rich-media-picker:5",
+     "feature": "base-select 不再依最長選項定寬，要自己給寬度",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:batch-analytics-events:2",
+     "feature": "fetchLater() 有配額，要限制批次大小並包 try/catch",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -730,6 +765,27 @@
     {
      "id": "mwg:motion:6",
      "feature": "預設靜態、停在最終狀態",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:custom-elements:5",
+     "feature": "用延遲的 opacity 動畫隱藏未定義元素，不要用 visibility: hidden 硬藏",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:form-associated-custom-elements:2",
+     "feature": "formDisabledCallback 只停用內部控制項，不要設宿主的 disabled",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:html:5",
+     "feature": "可捲動的程式碼區塊加 tabindex=\"0\" 與 role=\"region\"",
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
@@ -874,6 +930,27 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:validate-input-after-interaction:3",
+     "feature": "密碼要有自己的錯誤文字，不能只把規則清單變紅",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:accessible-web-components:2",
+     "feature": "宿主自帶角色時不要開 delegatesFocus",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:html:4",
+     "feature": "不要隨手用 focus({ preventScroll: true })",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -952,6 +1029,20 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:styling-web-components:5",
+     "feature": "display: contents 讓宿主量不到尺寸，錨點定位會壞",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:styling-web-components:6",
+     "feature": "元件要用 container query 時，先給 :host 一個區塊盒",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -971,6 +1062,13 @@
      "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:html",
+     "feature": "用 <dialog> 的 showModal() 與 closedby=\"any\" 做模態框，不自己寫焦點陷阱與關閉",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1066,6 +1164,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:rich-media-picker:2",
+     "feature": "option 文字要能獨立讀懂，擋掉退回時黏成一串的選項",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -1141,6 +1246,27 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:rich-media-picker:4",
+     "feature": "不要在 option 裡放互動元素",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:select-menu-interaction",
+     "feature": "用 select:user-invalid 讓必選下拉等互動後才標錯",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:validate-input-after-interaction",
+     "feature": "用 :user-invalid 等使用者打完再報錯，擋掉邊打邊變紅",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -1226,6 +1352,13 @@
      "id": "mwg:translator",
      "feature": "Translator",
      "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:support-global-calendar-systems",
+     "feature": "用 withCalendar() 讓日期直接以希伯來曆、伊斯蘭曆、農曆運算",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     }
@@ -1390,6 +1523,20 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:html:2",
+     "feature": "用 inert 把整塊隱藏區域移出 Tab 順序與無障礙樹",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:html:3",
+     "feature": "不要對可聚焦的元素或其祖先加 aria-hidden 或 role=\"presentation\"",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1505,6 +1652,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:slider",
+     "feature": "用 progress() 與 attr() 在 CSS 裡算出滑桿的填色比例",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
     }
    ]
   },
@@ -1608,6 +1762,20 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:validate-input-after-interaction:2",
+     "feature": "規則清單滿足後用 visibility: hidden 隱藏，不要收掉空間",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:html:8",
+     "feature": "img 與 video 都寫 width 與 height",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1683,6 +1851,20 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:styling-web-components:2",
+     "feature": "公開的自訂屬性不要在 :host 上設值，用私有別名放預設",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:styling-web-components:3",
+     "feature": "包住原生控制項時設 font: inherit",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1728,6 +1910,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:shadow-dom",
+     "feature": "大量實例共用一份 adoptedStyleSheets，不要每個實例各帶一份 <style>",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1773,6 +1962,27 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:sms-otp-form",
+     "feature": "用 WebOTP 與綁網域的簡訊格式自動帶入驗證碼，擋掉切 app 抄碼",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sms-otp-form:3",
+     "feature": "驗證碼用單一欄位，不要拆成六個格子",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:html:9",
+     "feature": "登入、地址、付款欄位不要用 autocomplete=\"off\"，改給具體 token",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1888,6 +2098,34 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:rich-media-picker",
+     "feature": "用 appearance: base-select 讓 option 放圖示與說明，擋掉「只能純文字、只好自製下拉」",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:switch",
+     "feature": "用 <input type=\"checkbox\" switch> 做原生開關",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:form-associated-custom-elements",
+     "feature": "用 formAssociated 與 ElementInternals 讓自訂控制項自己送值，不要藏一個 input",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:web-components",
+     "feature": "包住真正的 <button>，不要重做原生語意",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1923,6 +2161,13 @@
     {
      "id": "mwg:ime-safe-enter-submit:2",
      "feature": "preventDefault()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:sms-otp-form:4",
+     "feature": "自動取碼後用 requestSubmit()，不要用 form.submit()",
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
@@ -2034,6 +2279,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:sms-otp-form:2",
+     "feature": "驗證碼用 type=\"text\" 加 inputmode=\"numeric\"，不要用 type=\"number\"",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -2222,6 +2474,41 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:accessible-web-components:3",
+     "feature": "tabIndex 在 connectedCallback 設，不要在 constructor 設",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:custom-elements:2",
+     "feature": "connectedCallback 要能重跑，teardown 寫在 disconnectedCallback",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:custom-elements:3",
+     "feature": "生命週期回呼與 observedAttributes 要在 define() 之前就寫好",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:custom-elements:4",
+     "feature": "升級時屬性可能已在、子節點可能還沒到，用 slotchange 與 attributeChangedCallback 補",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:shadow-dom:2",
+     "feature": "用 slotchange 與 assignedElements() 判斷 slot 有沒有內容",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -2370,6 +2657,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:html:7",
+     "feature": "首屏主圖不要 loading=\"lazy\"，改給 fetchpriority=\"high\"",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -2396,6 +2690,13 @@
      "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:prerendering-custom-elements",
+     "feature": "用 Declarative Shadow DOM 從伺服器送出 shadow tree，擋掉等 JS 才有樣式的閃爍",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -2405,6 +2706,13 @@
     {
      "id": "mwg:full-session-analytics",
      "feature": "fetchLater(), AbortController",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:batch-analytics-events",
+     "feature": "用 fetchLater() 的 activateAfter 把一段時間內的事件併成一個 beacon",
      "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
@@ -2961,6 +3269,176 @@
      "feature": "showModal(), closedby",
      "result": "部分改善",
      "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "可及名稱蓋掉可見文字",
+   "lines": [
+    {
+     "id": "mwg:rich-media-picker:3",
+     "feature": "不要在 option 上加 aria-label 覆寫文字",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:form-associated-custom-elements:3",
+     "feature": "不要用 ElementInternals 直接給可及名稱",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "不認得的語法讓整條規則失效",
+   "lines": [
+    {
+     "id": "mwg:slider:2",
+     "feature": "WebKit 與 Firefox 的滑桿偽元素分開寫，不要放同一個選擇器清單",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:validate-input-after-interaction:5",
+     "feature": "fallback 選擇器用 :is() 包起來，擋掉一個不認得就整條失效",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "浮層遮住說明",
+   "lines": [
+    {
+     "id": "mwg:sms-otp-form:5",
+     "feature": "格式提示放在欄位上方，擋掉被自動填入浮層和鍵盤蓋住",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:validate-input-after-interaction:4",
+     "feature": "格式提示與密碼規則放在欄位上方",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    }
+   ]
+  },
+  {
+   "name": "封裝邊界切斷關聯",
+   "lines": [
+    {
+     "id": "mwg:accessible-web-components",
+     "feature": "用 ariaLabelledByElements 等元素參照跨過 shadow 邊界，擋掉 id 參照默默失效",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:styling-web-components:4",
+     "feature": ":host 的樣式不會傳到內部控制項，用 ::part 或自訂屬性轉交",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:web-components:2",
+     "feature": "shadow root 用 open 模式",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    }
+   ]
+  },
+  {
+   "name": "押注不會普及的功能",
+   "lines": [
+    {
+     "id": "mwg:styling-web-components",
+     "feature": "用繼承的自訂屬性做主題，不要用 :host-context()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:web-components:3",
+     "feature": "不要用自訂內建元素（is=\"…\"）",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    }
+   ]
+  },
+  {
+   "name": "時間模型失真",
+   "lines": [
+    {
+     "id": "mwg:calculate-event-differentials",
+     "feature": "用 ZonedDateTime 的 since()／until() 算時間差，不用 Date 毫秒相減",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:calculate-event-differentials:2",
+     "feature": "用 Intl.DurationFormat 輸出在地化時長，不要手拼單位字串",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:capture-location-agnostic-data",
+     "feature": "生日、鬧鐘這類日期用 Temporal.PlainDate／PlainTime，擋掉跨時區少一天",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:capture-location-agnostic-data:2",
+     "feature": "信用卡到期、年度紀念日用 PlainYearMonth／PlainMonthDay，不要塞假的日",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:capture-location-agnostic-data:3",
+     "feature": "時區用 IANA 名稱，不要用固定的 UTC 偏移",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:coordinate-global-events",
+     "feature": "用 ZonedDateTime 的 disambiguation 偵測日光節約跳過或重複的時刻",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sort-high-precision-timestamps",
+     "feature": "用 Temporal.Instant 解析奈秒時間戳，擋掉同一毫秒內的事件排序錯亂",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sort-high-precision-timestamps:2",
+     "feature": "間隔保持 Temporal.Duration 再格式化，不要轉成奈秒數字",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:support-global-calendar-systems:2",
+     "feature": "用 monthsInYear、monthCode，不要假設一年 12 個月",
+     "result": "部分改善",
+     "kind": "糾錯",
      "level": "Limited"
     }
    ]
