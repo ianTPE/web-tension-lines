@@ -79,7 +79,12 @@
     "合法連線被安全規則擋下": "Legitimate connections blocked by security rules",
     "登入打斷使用者": "Sign-in interrupts the user",
     "憑證狀態錯亂": "Credential state gets out of sync",
-    "確認到錯的身分": "Verifying the wrong identity"
+    "確認到錯的身分": "Verifying the wrong identity",
+    "防線形同虛設": "Defenses configured into no-ops",
+    "捲動連動效果靠JS監聽": "Scroll-linked effects rely on JS listeners",
+    "主題配色對不上": "Theme colors don't match their context",
+    "圖示樣式管不到": "Icon styling can't reach the icon",
+    "原生捲動手勢不合用途": "Native scroll gestures don't fit the use"
   },
   "guides": {
     "install-web-app": "Installing web apps",
@@ -180,7 +185,27 @@
     "quick-sign-ins": "Quick sign-ins with immediate UI mode",
     "restrict-outbound-connections": "Restrict outbound connections with Connection Allowlists",
     "sanitize-untrusted-html": "Sanitizing untrusted HTML",
-    "secure-external-subresources": "Secure external subresources with SRI, CORS, and Referrer Policy"
+    "secure-external-subresources": "Secure external subresources with SRI, CORS, and Referrer Policy",
+    "security": "Web security",
+    "trusted-types": "Prevent DOM-based XSS attacks with Trusted Types",
+    "validate-origins": "Compare and validate web origins and sites",
+    "verify-email-ownership": "Verify email address ownership",
+    "carousel-slide-effects": "Carousel slide effects",
+    "component-specific-light-dark-theme": "Component-specific light/dark themes",
+    "icons": "Using and managing icons",
+    "position-aware-tooltips": "Position-aware tooltips",
+    "pull-to-reveal": "Pull to reveal",
+    "responsive-table": "Responsive tables",
+    "scrollability-affordance-hints": "Scrollability affordance hints",
+    "scroll-position-aware-elements": "Scroll-position-aware elements",
+    "scroll-progress-indicator": "Scroll progress indicator",
+    "shrinking-header-on-scroll": "Shrinking header on scroll",
+    "state-aware-sticky-headers": "State-aware sticky headers",
+    "viewport-aware-dropdowns": "Viewport-aware dropdowns",
+    "2d-panning": "Two-dimensional panning",
+    "anchor-positioning-tab-underline": "Anchor positioning tab underline",
+    "animate-element-entry-exit": "Animate element entry and exit",
+    "animate-to-from-top-layer": "Animate elements to and from the top layer"
   },
   "lines": {
     "mwg:install-web-app": {
@@ -2297,6 +2322,726 @@
       "story": "Every file loaded from a CDN also tells the CDN which page the user is reading. Turn it off per resource, and let the document-level policy catch the rest.",
       "unlock": "",
       "support": "Same as mwg:secure-external-subresources; recorded as Widely"
+    },
+    "mwg:security": {
+      "title": "Replace script domain allowlists with a nonce plus `'strict-dynamic'`",
+      "action": "Use a fresh per-request nonce (script hashes for static HTML) with `'strict-dynamic'` and `'report-sample'` in CSP `script-src`, alongside `object-src 'none'`, `base-uri 'none'`, and `frame-ancestors`; let third-party analytics load their dependencies through `'strict-dynamic'` instead of allowlisting their domain",
+      "blocker": "Domain allowlists such as `https:` or `script-src https://cdn.example.com` as the primary defense can be bypassed through open redirects, JSONP endpoints, or dependency injection on the allowed origin (quote: \"they are easily bypassed by open redirects, JSONP endpoints, and dependency injection on the allowed origin.\")",
+      "outcome": "Only scripts carrying this response's nonce (and what they load) can run, so a hole on an allowlisted domain is no longer a free pass; the guide calls this the primary mechanism to prevent XSS (official claim)",
+      "story": "An allowlist looks strict but really trusts every endpoint on that domain. With a nonce, what you trust is the handful of `<script>` tags you wrote into this very response.",
+      "unlock": "",
+      "support": "CSP: the guide gives no browser support data; recorded as N/A"
+    },
+    "mwg:security:2": {
+      "title": "Hand nonces to your own scripts in the template, don't stamp them on with a regex",
+      "action": "Generate a nonce per request in the server or SSR middleware with `crypto.getRandomValues()`, put it in the `Content-Security-Policy` header and pass it into the template rendering context so only developer-authored `<script>` tags receive it",
+      "blocker": "Adding nonces to every `<script>` in already-rendered HTML with a regular expression cannot tell developer scripts from ones injected via reflected or stored HTML, so it authorizes the attacker's scripts (quote: \"authorizing attacker-injected scripts under `script-src 'nonce-...'`.\")",
+      "outcome": "Nonces go only to trusted tags at render time; injected `<script>` tags never get one (official claim)",
+      "story": "To ship CSP quickly, some sites scan the output and stamp every `<script>`. That hands CSP's core decision to a regex, and a regex can't tell friend from foe.",
+      "unlock": "",
+      "support": "CSP nonce: the guide gives no browser support data; recorded as N/A"
+    },
+    "mwg:security:3": {
+      "title": "Keep untrusted strings out of dangerous sinks and enforce it at runtime with Trusted Types",
+      "action": "Set text with `textContent`/`innerText`; insert untrusted HTML with `setHTML()`; build elements with `document.createElement` or DOMParser instead of concatenating HTML strings; add `require-trusted-types-for 'script'` to CSP and route necessary sink writes through a named `trustedTypes.createPolicy()`, never a pass-through policy",
+      "blocker": "Untrusted or unsanitized input written to the DOM through `innerHTML` or `setHTMLUnsafe` becomes DOM XSS; a pass-through policy that returns input unchanged neutralizes Trusted Types (quote: \"**DO NOT**: Use `innerHTML` or `setHTMLUnsafe` with untrusted or unsanitized input.\")",
+      "outcome": "Trusted Types blocks raw string assignments to `innerHTML`, `outerHTML`, `document.write`, and `script.src` at runtime unless they pass through a named policy (official claim)",
+      "story": "`innerHTML`, `eval`, and string `setTimeout` are the list you grep for. A source-level rule depends on people following it; Trusted Types turns the same rule into a runtime error.",
+      "unlock": "",
+      "support": "This guide gives no Trusted Types support data; recorded as N/A (the `trusted-types` guide records Newly, see mwg:trusted-types)"
+    },
+    "mwg:security:4": {
+      "title": "Start HSTS with a short max-age and raise it gradually",
+      "action": "Send `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload` to force HTTPS; in production start with a `max-age` of about 300 seconds and raise it step by step to a year",
+      "blocker": "Sending a long `max-age` from day one means a misconfiguration makes the site unreachable in every browser that saw the header until the cache expires (quote: \"A misconfigured HSTS with a long max-age can render the site permanently inaccessible until the cache expires in every browser that saw it.\")",
+      "outcome": "Starting short limits a lockout to the short cache lifetime; once raised, the same risk returns (official claim)",
+      "story": "HSTS can't be taken back once sent; browsers remember it for a full year. So send five minutes first, make sure every subdomain keeps up with HTTPS, then lengthen it.",
+      "unlock": "",
+      "support": "HSTS: the guide gives no browser support data; recorded as N/A"
+    },
+    "mwg:security:5": {
+      "title": "Use the `__Host-` prefix and `HttpOnly` on session cookies",
+      "action": "Name single-domain first-party session cookies `__Host-session` (requires `Secure`, `Path=/`, no `Domain`), fall back to `__Secure-` otherwise; set `HttpOnly` on session and auth cookies and explicitly set `SameSite=Lax`",
+      "blocker": "A session cookie without `HttpOnly` can be read by injected client-side scripts (quote: \"Set `HttpOnly` (`httpOnly: true`) on session and authentication cookies so they cannot be read by injected client-side scripts\")",
+      "outcome": "`HttpOnly` keeps injected scripts away from the session cookie; the `__Host-` prefix protects against same-site and network attackers (official claim)",
+      "story": "Once a page has XSS, any script that can read cookies can walk off with the session. Make the cookie unreachable to scripts and a big chunk of the damage disappears.",
+      "unlock": "",
+      "support": "Cookie attributes and prefixes: the guide gives no browser support data; recorded as N/A"
+    },
+    "mwg:security:6": {
+      "title": "Switch apps embedded in third-party pages to partitioned cookies",
+      "action": "When the app is embedded as an iframe in third-party contexts, set cookies with `SameSite=None; Secure; Partitioned`",
+      "blocker": "Relying on unpartitioned `SameSite=None` cookies, which are being systematically blocked for tracking prevention (quote: \"Rely on unpartitioned `SameSite=None` — these are being systematically blocked for tracking prevention.\")",
+      "outcome": "The guide only says to use `Partitioned`; it doesn't say what happens to cookies in embedded contexts afterwards",
+      "story": "Embedded widgets have long relied on third-party cookies to remember users, and browsers are closing that road. The way out the guide points to is partitioned cookies: one jar per embedding site.",
+      "unlock": "When third-party cookies got blocked, comment boxes, support chats, and payment widgets embedded in other sites forgot their users → now partitioned cookies keep sign-in and preferences within each site without turning the widget into a cross-site tracker. Same CHIPS as mwg:privacy:7",
+      "support": "CHIPS (Partitioned): the guide gives no browser support data; recorded as N/A"
+    },
+    "mwg:security:7": {
+      "title": "Pick a `frame-ancestors` tier per embedding need, and drop X-Frame-Options for cross-origin partners",
+      "action": "No framing: `frame-ancestors 'none'` plus `X-Frame-Options: DENY`; same-origin only: `'self'` plus `SAMEORIGIN`; specific cross-origin partners: only `frame-ancestors 'self' https://trusted-partner.com`, omitting `X-Frame-Options`",
+      "blocker": "Still sending `X-Frame-Options: DENY` or `SAMEORIGIN` when cross-origin embedding is needed makes clients that evaluate XFO without `frame-ancestors` block the embed (quote: \"`DENY` or `SAMEORIGIN` would block the embed in any client that evaluates `X-Frame-Options` without `frame-ancestors`\")",
+      "outcome": "Each tier has a matching recipe that blocks clickjacking without blocking legitimate partner embeds (official claim)",
+      "story": "X-Frame-Options can only say block everything or same-origin only; `ALLOW-FROM` has long been unsupported. When you need to allow a specific partner, keeping XFO locks that partner out in some clients.",
+      "unlock": "",
+      "support": "frame-ancestors, X-Frame-Options: the guide gives no browser support data; recorded as N/A"
+    },
+    "mwg:security:8": {
+      "title": "Get cross-origin isolation with `Document-Isolation-Policy` instead of adding CORP to every subresource",
+      "action": "Only isolate when `SharedArrayBuffer` is needed (e.g. WebAssembly threads); in Chromium prefer `Document-Isolation-Policy: isolate-and-credentialless`, which strips credentials from non-CORS cross-origin fetches instead of blocking them; use `isolate-and-require-corp` when blocking is wanted",
+      "blocker": "The cross-browser path (`COOP: same-origin` plus `COEP: require-corp`) requires every embedded subresource to send a CORP header or the browser won't load it (quote: \"Every embedded subresource (images, styles, external media) MUST serve an explicit `Cross-Origin-Resource-Policy` header or the browser will prevent it from loading.\")",
+      "outcome": "`Document-Isolation-Policy` lets cross-origin resources without CORP load (without credentials); but it is supported mainly in Chrome 142+ and other vendors haven't shown interest, so cross-browser isolation still goes through COEP (official claim)",
+      "story": "Turning on isolation for SharedArrayBuffer used to mean every third-party image needed its host to add a header, or it broke. The new policy loads them without cookies instead, but only in Chrome for now.",
+      "unlock": "Using SharedArrayBuffer used to require every third-party image, font, and video host to add CORP → now in-browser Wasm thread tools (video transcoding, local image processing) can enable isolation while still embedding outside assets. Mainly Chrome for now",
+      "support": "Document-Isolation-Policy: the guide says \"supported primarily in Chrome (142+) and other vendors have not yet shown interest\"; recorded as Limited"
+    },
+    "mwg:security:9": {
+      "title": "Use Fetch Metadata to reject cross-site requests before authentication",
+      "action": "On the server check `Sec-Fetch-Site`/`Sec-Fetch-Mode`/`Sec-Fetch-Dest`, reject `cross-site` requests to non-navigational endpoints before any authentication or authorization check; add `Vary: Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site`; drop `same-site` from the allowlist if any subdomain hosts user content",
+      "blocker": "Rejecting only after authentication leaks timing information about whether a resource or session exists; without `Vary`, an intermediate CDN may serve cached responses to attackers (quote: \"Reject disallowed requests *before* authentication or authorization checks, so the response does not leak timing information about whether a resource or session exists.\")",
+      "outcome": "Rejecting early leaves no timing gap, and `Vary` makes caches separate responses by Fetch Metadata (official claim)",
+      "story": "The cross-site request gets blocked, but if the block comes after looking up the account, an attacker can infer existence from response time alone. Reject first, then look up, and keep caches separated.",
+      "unlock": "",
+      "support": "Fetch Metadata: the guide gives no browser support data (its example lets legacy browsers without `Sec-Fetch-Site` through); recorded as N/A"
+    },
+    "mwg:security:10": {
+      "title": "Credentialed CORS must echo a specific origin, not `*`",
+      "action": "Validate the `Origin` request header on the server and set `Access-Control-Allow-Origin` dynamically to that origin; handle `OPTIONS` preflight first",
+      "blocker": "Setting `Access-Control-Allow-Origin` to `*` when `Access-Control-Allow-Credentials: true` is required makes the browser reject the response (quote: \"Use wildcard `*` for `Access-Control-Allow-Origin` if `Access-Control-Allow-Credentials: true` is required — the browser will reject the response.\")",
+      "outcome": "Echoing a validated origin makes credentialed cross-origin reads work without opening up to every origin (official claim)",
+      "story": "CORS is a grant, not a defense, and the usual mistake is granting too much. The wildcard-plus-cookies combo is one the browser simply refuses to read.",
+      "unlock": "",
+      "support": "CORS: the guide gives no browser support data; recorded as N/A"
+    },
+    "mwg:security:11": {
+      "title": "Send a complete `Clear-Site-Data` on logout",
+      "action": "Have the logout endpoint respond with `Clear-Site-Data: \"cookies\", \"storage\", \"cache\"`, all three directives",
+      "blocker": "Omitting any one leaves active session cookies, Web Storage state, or cached authenticated pages in the browser (quote: \"omitting any of these directives leaves active session cookies, Web Storage state, or cached authenticated pages behind.\")",
+      "outcome": "All three kinds of data are cleared together and the session fully ends (official claim)",
+      "story": "The logout button was pressed and the server session deleted, yet the browser cache still holds the previous account page. The next person at a shared computer just presses Back.",
+      "unlock": "",
+      "support": "Clear-Site-Data: the guide gives no browser support data; recorded as N/A"
+    },
+    "mwg:security:12": {
+      "title": "Use SRI only on immutable, versioned assets",
+      "action": "Add `integrity` (preferring `sha384`, `sha512`, or `sha256`) with `crossorigin=\"anonymous\"` to third-party scripts and stylesheets, with the CDN sending `Access-Control-Allow-Origin`; only for pinned-version URLs",
+      "blocker": "Putting SRI on dynamic or unversioned assets means the hash stops matching on the next silent update and the script fails to run (quote: \"Use SRI for dynamic or unversioned assets — silent updates will cause script execution to fail.\")",
+      "outcome": "SRI pinned to fixed versions never breaks because upstream changed (official claim)",
+      "story": "SRI exists precisely to refuse changed content, so binding it to an auto-updating file means the site breaks itself on the upstream's next release day.",
+      "unlock": "",
+      "support": "SRI: this guide gives no browser support data; recorded as N/A (the `secure-external-subresources` guide records Widely)"
+    },
+    "mwg:trusted-types": {
+      "title": "Use Trusted Types so dangerous sinks only accept policy-made objects",
+      "action": "Define sanitizing policies with `trustedTypes.createPolicy()` (delegating to DOMPurify or the app's escaping rules), convert to `TrustedHTML`/`TrustedScriptURL` before writing to sinks such as `innerHTML`, `document.write()`, `<script src>`, and `Worker()`; enforce with CSP `require-trusted-types-for 'script'` and restrict policy names with the `trusted-types` directive",
+      "blocker": "These DOM APIs accept raw strings by default, so a string carrying malicious script from an untrusted source gets executed (quote: \"If a string contains malicious script from an untrusted source, it can be executed.\")",
+      "outcome": "Under enforcement, string writes to sinks that skip a policy throw, and unlisted policies can't be created; `setHTML()` and `Document.parseHTML()` sanitize natively and need no policy. Trusted Types only became Baseline in 2026-02; older browsers run the sanitizing logic through a tinyfill but get no sink-level enforcement (official claim)",
+      "story": "Asking everyone not to use `innerHTML` is one thing; guaranteeing no code path ever pushes a raw string into it is another. Trusted Types hands the latter to the browser: any stray write throws.",
+      "unlock": "Confirming no `innerHTML` slipped through used to rely on code review and grep → now comment sections, Markdown previews, and CMS editors can have the browser guarantee across all four engines that any unsanitized write throws and gets reported",
+      "support": "Trusted Types: Newly available (2026-02-24). Supported by: Chrome 83, Edge 83, Firefox 148, Safari 26"
+    },
+    "mwg:trusted-types:2": {
+      "title": "Collect violations in Report-Only first; enforce Trusted Types only once they reach zero",
+      "action": "First confirm the framework and third-party libraries produce `TrustedHTML`/`TrustedScript`; send `Content-Security-Policy-Report-Only: require-trusted-types-for 'script'`, optionally registering a temporary `default` policy that logs where strings still arrive; switch to the enforcing `Content-Security-Policy` once reports drop to zero",
+      "blocker": "Enforcing while some sink writes aren't migrated, or while the framework or libraries don't produce Trusted Types, breaks the application (quote: \"it carries a risk of site breakage if every sink write hasn't been migrated.\")",
+      "outcome": "Report-Only logs without blocking, so sinks can be fixed one by one without breaking the site; enforcement is still impossible if the framework won't cooperate (official claim)",
+      "story": "Trusted Types protects by always throwing, and the same trait can take the site down the moment it's switched on. Observe, fix, and only then enforce.",
+      "unlock": "",
+      "support": "Same as mwg:trusted-types; recorded as Newly"
+    },
+    "mwg:trusted-types:3": {
+      "title": "Character escaping is not an HTML sanitizer",
+      "action": "Use `element.textContent` (not a Trusted Types sink) when only plain text is needed; use a full sanitizer (DOMPurify or `element.setHTML()`) when accepting markup or attributes; never interpolate `escapePolicy.createHTML()` output into another HTML template",
+      "blocker": "Interpolating character-escaped strings into unquoted attributes or URL attributes like `href` leaves `javascript:` URLs un-neutralized by entity escaping (quote: \"a URL attribute (`<a href=\"${escaped}\">`, where `javascript:` URLs are not neutralized by entity escaping)\")",
+      "outcome": "Plain text goes through `textContent`, markup through a full sanitizer, and escaped output is never used to build new HTML (official claim)",
+      "story": "An escaping policy makes Trusted Types stop complaining, so it looks like the check passed. But `&lt;` can't save you from `javascript:alert(1)`: it has no angle brackets to begin with.",
+      "unlock": "",
+      "support": "Same as mwg:trusted-types; recorded as Newly"
+    },
+    "mwg:validate-origins": {
+      "title": "Replace string prefix checks with `Origin.from()` plus `isSameOrigin()`",
+      "action": "For privileged actions such as cross-window `postMessage` commands or deciding whether to attach credentials, convert both sides to `Origin` objects with `Origin.from()` (MessageEvent, `<a>`, and URL can be passed directly) and compare scheme, host, and port with `isSameOrigin()`; wrap calls in try/catch so invalid URLs and \"null\" return false",
+      "blocker": "A `startsWith()` prefix check is bypassed by `https://app.example.com.attacker.example`; full URLs with paths or explicit default ports don't match under string equality (quote: \"Checking `url.startsWith('https://app.example.com')` is bypassed by `'https://app.example.com.attacker.example'`.\")",
+      "outcome": "Comparison happens after the browser's URL parser normalizes both sides, so prefix spoofing and port spelling no longer cause misjudgments; Firefox lacks support and must fall back to comparing `.origin` from `new URL()` after rejecting \"null\" (official claim)",
+      "story": "Prefix checks always pass in tests, because nobody tests with `app.example.com.attacker.example`. With structured origin objects you compare the parsed triple, not whether strings look alike.",
+      "unlock": "Every postMessage receiver used to parse URLs and handle default ports itself → now embedded checkouts, sign-in popups, and cross-window widgets can hand the event straight to `Origin.from()` and compare in one line. Not yet in Firefox",
+      "support": "Origin: Limited availability. Supported by: Chrome 145, Edge 145, Safari 26.5. Unsupported in: Firefox"
+    },
+    "mwg:validate-origins:2": {
+      "title": "Use `isSameSite()` for cross-subdomain redirects and links",
+      "action": "When validating post-login `?returnTo=` targets or classifying links as internal vs. external, convert with `Origin.from()` and call `isSameSite()` for a schemeful same-site comparison",
+      "blocker": "Splitting hostnames on `.` to decide same-site gets multi-label public suffixes like `.co.uk` and `.github.io` wrong and ignores http vs. https (quote: \"Splitting hostnames on `.` to check same-site relationships fails on multi-label public suffixes (such as `.co.uk` or shared hosting domains like `.github.io`) and ignores scheme mismatches (`http:` vs. `https:`).\")",
+      "outcome": "`isSameSite()` uses the browser's built-in Public Suffix List, so `tenant-a.github.io` and `tenant-b.github.io` count as different sites and http downgrades are rejected; in unsupported browsers `URL` has no PSL access, so you can only match domains you control or ship a PSL library (official claim)",
+      "story": "Take the last two labels of `a.co.uk` and `b.co.uk` and both are `co.uk`, so they look like one site. The right answer was always inside the browser; it just wasn't exposed.",
+      "unlock": "Correct same-site checks used to mean shipping a Public Suffix List to the front end → now services spread across subdomains (billing, help center, main site) can safely allow redirects between each other without being spoofed by neighbors on the same public suffix. Not in Firefox",
+      "support": "Same as mwg:validate-origins; recorded as Limited"
+    },
+    "mwg:validate-origins:3": {
+      "title": "Tell sandboxed iframes apart with `Origin.from(event)`",
+      "action": "When receiving messages from a sandboxed iframe (`sandbox=\"allow-scripts\"`), extract the underlying opaque origin with `Origin.from(event)`, pin it once at initialization from the expected iframe, then compare with `isSameOrigin()`; use `new Origin()` as a match-nothing sentinel before pinning; reject redirect targets whose `origin.opaque` is true",
+      "blocker": "Sandboxed iframes and `data:` URLs all serialize `event.origin` to the string \"null\", so comparing with `===` treats two unrelated opaque origins as the same (quote: \"Comparing two serialized runtime origins with `originA === originB` falsely equates two unrelated opaque contexts (`\"null\" === \"null\"`).\")",
+      "outcome": "Messages from the same sandboxed iframe match each other and different iframes don't; in unsupported browsers `event.origin` is always \"null\", so check `event.source` or use a dedicated `MessageChannel` handed over at initialization (official claim)",
+      "story": "Locking untrusted code inside a sandboxed iframe is a good idea, but every sandbox signs its mail \"null\". The new API lets the browser say whether this message came from the same sandbox as the last one.",
+      "unlock": "Telling several sandboxed iframes on one page apart used to require `event.source` or a separate MessageChannel → now plugin systems, user code previews, and multiple third-party widgets can each live in a sandbox while their messages still map reliably to the sender. Not in Firefox",
+      "support": "Same as mwg:validate-origins; recorded as Limited"
+    },
+    "mwg:validate-origins:4": {
+      "title": "Both sides of the `Origin` API must be `Origin` objects, and calls need try/catch",
+      "action": "Run both sides through `Origin.from()` before comparing; get the current context's origin with `Origin.from(self)`; fall back to parsing `event.origin` for synthetic test `MessageEvent`s; wrap every call on runtime input in try/catch returning false",
+      "blocker": "Passing a raw string to `isSameOrigin()`, passing `Location`/`Document` to `Origin.from()`, or synthesizing events with `new MessageEvent()` in unit tests all throw a `TypeError` (quote: \"passing a raw string throws a `TypeError`.\")",
+      "outcome": "Written this way, invalid URLs, \"null\" strings, and unsupported objects safely return false instead of throwing uncaught errors (official claim)",
+      "story": "The new API is stricter than strings, strict enough to throw on the wrong type. When an origin check throws, the whole message handler stops, so every call needs a fallback.",
+      "unlock": "",
+      "support": "Same as mwg:validate-origins; recorded as Limited"
+    },
+    "mwg:verify-email-ownership": {
+      "title": "Confirm email ownership without sending mail, using `autocomplete=\"email-verification-token\"`",
+      "action": "Put an `autocomplete=\"email\"` field and a hidden `autocomplete=\"email-verification-token\"` input carrying a server-side nonce in the same `<form>`; the browser checks the domain's DNS record, obtains an Email Verification Token from the email provider, binds it to the origin and nonce, and submits it; if the backend verifies it, skip the one-time code or magic link",
+      "blocker": "The traditional one-time code or magic link makes users leave the page, wait for mail, and copy codes, causing drop-off and phishing risk, and tells the email provider which site the user is visiting (quote: \"This forces users to leave your page, wait for email delivery, and copy codes—introducing friction, drop-off, and phishing risk, while also revealing to the email provider which relying party (RP) the user is visiting.\")",
+      "outcome": "With a supporting browser, a signed-in provider session, and a domain that publishes the DNS record, ownership is verified on the spot without the provider learning which site asked; but it currently requires an origin trial, and otherwise the field submits empty and you fall back to sending a verification email (official claim)",
+      "story": "Go check your inbox and type the six digits back is where sign-ups leak most. The browser is already signed into the mailbox, so the new protocol lets it present proof directly; when unsupported, the old flow takes over untouched.",
+      "unlock": "Verifying an email used to mean switching to the inbox and copying a code → now sign-up, checkout, and newsletter subscription can finish verification on the same page, almost frictionless for users of participating providers like Gmail. Chrome origin trial only for now",
+      "support": "Email Verification API: the guide gives no Baseline data, only says to enable an origin trial and mentions Chrome Origin Trial builds; recorded as Limited (Chrome origin trial only)"
+    },
+    "mwg:verify-email-ownership:2": {
+      "title": "Keep the verification nonce on the server and use it once",
+      "action": "Generate a nonce of at least 128 bits on the server for every form render, store it in server-side session state keyed by an `HttpOnly`, `Secure`, `SameSite=Lax` session cookie; serve the page with `Cache-Control: no-store`; atomically read and delete the nonce when the POST arrives",
+      "blocker": "Storing the expected nonce directly in a client cookie lets an attacker replay the cookie and token together (quote: \"never store the expected `nonce` value directly inside a client cookie where an attacker could replay both the cookie and token\")",
+      "outcome": "Each nonce is single-use, back/forward navigation won't reuse a consumed nonce, and intercepted tokens can't be replayed (official claim)",
+      "story": "The token is bound to the nonce; if the nonce also lives on the client, one captured pair works again and again. Keep the nonce on the server and delete it on use, and replay becomes pointless.",
+      "unlock": "",
+      "support": "Same as mwg:verify-email-ownership; recorded as Limited"
+    },
+    "mwg:verify-email-ownership:3": {
+      "title": "Verify tokens only on the server with established libraries, and check DNS delegation before trusting `iss`",
+      "action": "Parse `EVT~KB-JWT` with SD-JWT/JOSE libraries such as `@sd-jwt/core` and `jose`; before trusting `iss`, check the `_email-verification.<domain>` DNS TXT delegation and that `.well-known/email-verification` reports the same issuer; verify the EVT signature and the KB-JWT nonce, audience, freshness, and algorithm allowlist",
+      "blocker": "Verifying tokens in client-side JavaScript can be trivially bypassed or forged and gives the relying party no trust guarantee (quote: \"client-side checks can be trivially bypassed or forged and provide zero trust guarantee to the relying party.\")",
+      "outcome": "The email step is skipped only after the whole cryptographic chain verifies on the server; any failure falls back to a traditional verification email (official claim)",
+      "story": "The token is a JWT anyone can decode, and glancing at email_verified: true in the front end is easy, but anyone can forge that glance. The real check is on the server: signature, delegation, binding, all of them.",
+      "unlock": "",
+      "support": "Same as mwg:verify-email-ownership; recorded as Limited"
+    },
+    "mwg:verify-email-ownership:4": {
+      "title": "When the EVT has no `kid`, trial each of the provider's keys",
+      "action": "When `jwtVerify` throws `ERR_JWKS_MULTIPLE_MATCHING_KEYS`, iterate the candidate keys from the error with `for await` and verify against each; during the transition treat `Ed25519` and `EdDSA` as equivalent for the KB-JWT algorithm",
+      "blocker": "Providers such as Gmail omit `kid` from the EVT header, and with multiple keys in the JWKS `jose` throws outright (quote: \"When `kid` is absent and the JWKS contains multiple keys, `jose` throws `ERR_JWKS_MULTIPLE_MATCHING_KEYS`\")",
+      "outcome": "Catching the error and trialing each key lets verification pass once the matching key is found (official claim)",
+      "story": "Textbook verification code fails for the biggest email provider, because its tokens don't say which key signed them.",
+      "unlock": "",
+      "support": "Same as mwg:verify-email-ownership; recorded as Limited"
+    },
+    "mwg:carousel-slide-effects": {
+      "title": "Scale and fade slides with scroll position using a `view()` timeline",
+      "action": "Give each slide a 0%→50%→100% keyframe animation (e.g. `scale` 0.5→1→0.5) with `animation-timeline: view(inline)` (or a named `view-timeline`) so progress follows the slide through the scrollport; wrap in `prefers-reduced-motion: no-preference` and `@supports`, optionally with scroll snap to center",
+      "blocker": "The guide only says the native implementation is more performant than a scroll-listener plus Web Animations fallback and that fallbacks can't recreate every effect; it doesn't say when the old approach breaks (quote: \"In browsers with built-in support for scroll-driven animations, ALWAYS use the native CSS implementation as those are more performant.\")",
+      "outcome": "One continuous animation covers entering, centering, and exiting with no JS; scroll-driven animations only became Baseline in 2026-10, so older browsers need a scroll listener scrubbing paused animations, or simply no effect if it's decorative (official claim)",
+      "story": "Slides that grow in the middle and shrink and fade toward the edges used to mean measuring every slide on every scroll. Now position itself is the animation's timeline.",
+      "unlock": "Cover-flow style carousels used to compute each slide in a scroll handler → now photo albums, product carousels, and timelines can scale and fade continuously with scrolling in pure CSS",
+      "support": "Scroll-driven animations: Newly available (2026-10-27). Supported by: Chrome 115, Edge 115, Firefox 159, Safari 26"
+    },
+    "mwg:carousel-slide-effects:2": {
+      "title": "Write `animation-timeline` after the `animation` shorthand",
+      "action": "Write the `animation` shorthand first, then `animation-timeline` and `animation-range`",
+      "blocker": "Writing the shorthand afterwards resets the timeline (quote: \"declare `animation-timeline` and `animation-range` *after* it to prevent the shorthand from resetting the timeline.\")",
+      "outcome": "With the right order, the timeline and range aren't reset to defaults by the shorthand (official claim)",
+      "story": "The `animation` shorthand resets every sub-property it covers, `animation-timeline` included. Reverse the order and the animation goes back to running on time.",
+      "unlock": "",
+      "support": "Same as mwg:carousel-slide-effects; recorded as Newly"
+    },
+    "mwg:carousel-slide-effects:3": {
+      "title": "A scroller without focusable content must be focusable itself",
+      "action": "When slides contain no focusable elements, give the scroller `tabindex=\"0\"` and an accessible name; a `<ul>` already has the list role, a `<div>` needs a role that supports naming such as `role=\"region\"`",
+      "blocker": "Not every browser makes a scroll container keyboard-focusable, so keyboard users can't scroll the slides (quote: \"because not every browser makes a scroll container keyboard-focusable.\")",
+      "outcome": "With a focusable, named container, keyboard users can focus it and scroll with arrow keys (official claim)",
+      "story": "Mouse and touch can drag it, but the keyboard can't even get in. A Tab stop and a name fix that.",
+      "unlock": "",
+      "support": "tabindex, role: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:component-specific-light-dark-theme": {
+      "title": "Set `color-scheme` on a component so its whole subtree uses the other scheme",
+      "action": "With `light-dark()` color tokens on the page, set `color-scheme: dark` (or `only dark` to force it) on self-contained surfaces like code blocks, media players, galleries, and single-scheme embeds; tokens, form controls, and scrollbars in the subtree resolve under that scheme; skip shallow containers that just swap colors, like buttons",
+      "blocker": "The guide only lists use cases and says older browsers should switch custom properties on the root with `prefers-color-scheme` and avoid the media query on individual components; it doesn't say when the old approach breaks (quote: \"Avoid using the media query on individual components unless the component requires a very specific type of dark mode customization beyond colors.\")",
+      "outcome": "One `color-scheme` line switches the subtree and built-in browser UI to the other scheme; `light-dark()` is Newly, so unsupported browsers can only switch the whole page from the root with a media query (official claim)",
+      "story": "A dark code block on a light page used to need its own set of colors, and its scrollbar stayed light anyway. Now you declare the scheme on that block and the tokens re-resolve themselves.",
+      "unlock": "Keeping a component dark used to mean copying a color set while native controls lagged behind → now code blocks, video players, maps, and component previews on a light docs site can each lock their scheme, scrollbars and checkboxes included, with no second stylesheet",
+      "support": "color-scheme: Widely available (2022-02-03); light-dark(): Newly available (2024-05-13), Supported by: Chrome 123, Edge 123, Firefox 120, Safari 17.5"
+    },
+    "mwg:component-specific-light-dark-theme:2": {
+      "title": "Re-specify inherited color properties on elements that change `color-scheme`",
+      "action": "On the element with the `color-scheme` override, set `color`, `accent-color`, and other inherited color properties again (even to the same token); don't register design tokens as `<color>` with `@property`; don't use `inherit` on color properties of such elements",
+      "blocker": "`light-dark()` resolves at computed-value time, so only one of the two colors is inherited; when a component turns dark, its subtree's `accent-color` stays the light-scheme value (quote: \"any inherited `<color>` properties set to a `light-dark()` color will only pass down one of the two colors to their descendants\")",
+      "outcome": "Re-specified properties resolve again under the new scheme; unregistered tokens keep the live `light-dark()` expression for descendants to re-resolve (official claim)",
+      "story": "The scheme switched and the background went dark, but the accent color is still the blue meant for a light background. What got inherited was the already-computed color, not the expression that depends on the scheme.",
+      "unlock": "",
+      "support": "light-dark(): Newly"
+    },
+    "mwg:component-specific-light-dark-theme:3": {
+      "title": "Don't set `color-scheme` on elements without a background",
+      "action": "Override `color-scheme` only on complex surfaces that have their own background and establish their own visual context",
+      "blocker": "Setting `color-scheme` on an element without a background mixes background and text colors from different schemes, making text unreadable (quote: \"Do not set `color-scheme` on elements without a background, as that risks mixing background and text color pairs from different color-schemes, resulting in unreadable text.\")",
+      "outcome": "With its own background, the element's text and background come from the same scheme (official claim)",
+      "story": "The text follows the element into dark mode and turns light, while the page's light background shows through: white on white.",
+      "unlock": "",
+      "support": "color-scheme: Widely"
+    },
+    "mwg:component-specific-light-dark-theme:4": {
+      "title": "Safari doesn't pass the embedder's scheme into iframes, so pass it explicitly",
+      "action": "If you control both sides, pass the parent's scheme to the iframe via a URL parameter (`?theme=dark`) or `postMessage()`, and have the iframe set a class or `color-scheme` on `<html>` from it; if you only control the embedded page, expose and document an explicit theme parameter in the embed API",
+      "blocker": "Safari doesn't render iframes per the embedder's `color-scheme`, and `prefers-color-scheme` inside the iframe still follows the system setting (quote: \"Safari does not, and resolves `prefers-color-scheme` to the system setting even inside iframes.\")",
+      "outcome": "Passing it explicitly keeps iframes in every browser in step with the parent; if you only control the embedded page, Safari offers no reliable detection and you depend on the embedder passing the parameter (official claim)",
+      "story": "Chrome and Firefox let the iframe follow the outer scheme; Safari doesn't. A bright white widget sits inside a dark page, and the only fix is for both sides to talk through parameters.",
+      "unlock": "",
+      "support": "color-scheme: Widely (see the guide for the iframe behavior difference)"
+    },
+    "mwg:icons": {
+      "title": "Treat icons as CSS custom properties and let the cascade pick which one shows",
+      "action": "Each icon is a custom property holding an image (`--icon-trash`); an element shows one by setting `--icon-start`/`--icon-end`; `@container style(--icon-start)` detects a value and draws it in `::before` with `mask` and `currentColor`; state changes are just property overrides (`[aria-expanded=\"true\"]` swaps the icon); size, color, and spacing come from inheritable `--icon-style-*` set on an ancestor",
+      "blocker": "Recoloring icons with `<img>` plus CSS filters can't reliably apply an arbitrary CSS color, so recoloring is cumbersome and inflexible (quote: \"Filters can't reliably apply an arbitrary CSS color value to the image, so recoloring is cumbersome and inflexible.\")",
+      "outcome": "Icons follow the text color and its transitions, one selector gives every matching element its icon, and there's no second element to show or hide and no class to toggle; container style queries only became Baseline in 2026-05, so older browsers fall back to class hooks with an `image-set()` trick (official claim)",
+      "story": "An icon used to be another image: filter it or swap the file to change color, hide one and show another to change state. Once an icon is a property, it goes through the cascade like color or font size.",
+      "unlock": "Icon color and state used to need filters, file swaps, or class toggles → now a design system can ship its whole icon set as tokens: external links get an external-link icon automatically, expand buttons swap arrows by `aria-expanded`, and a toolbar resizes and recolors all its icons in one place, with no HTML changes",
+      "support": "Container style queries: Newly available (2026-05-19), Supported by: Chrome 111, Edge 111, Firefox 151, Safari 18; Registered custom properties: Newly available (2024-07-09)"
+    },
+    "mwg:icons:2": {
+      "title": "Register icon properties as non-inheriting",
+      "action": "`@property --icon-start { syntax: \"*\"; inherits: false; }` (same for `--icon-end`), forwarding the value to the pseudo-element with `--icon-start: inherit` inside the style query; without `@property`, reset descendants to `initial` inside the query",
+      "blocker": "If not registered as non-inheriting, an icon set on a button inherits down and every descendant draws one too (quote: \"without it, an icon set on a button would inherit into every descendant, and each of them would render the icon too.\")",
+      "outcome": "The icon appears only on the element that sets it (official claim)",
+      "story": "Custom properties inherit by default, which is great for tokens and a disaster for this element has an icon: the span inside the button thinks it should draw one too.",
+      "unlock": "",
+      "support": "Registered custom properties: Newly"
+    },
+    "mwg:icons:3": {
+      "title": "Use root-relative URLs or data URIs for icon tokens",
+      "action": "Use root-relative paths (`url(\"/icons/trash.svg\")`) or data URIs in icon tokens; if relative URLs are unavoidable, register with a syntax starting with `<url>` and declare the actual URL on `:root`; with many icons, register them in bulk via `CSS.registerProperty`",
+      "blocker": "A relative URL used through a custom property may resolve against the stylesheet that uses it rather than the one that defines it, pointing to the wrong file when they live in different directories; URLs in a registered property's `initial-value` only work in Firefox (quote: \"If those stylesheets are in different directories, the URL may resolve to the wrong file.\")",
+      "outcome": "Root-relative URLs and data URIs work everywhere; a `<url>`-first registration resolves against the declaring stylesheet in every browser, at the cost of declaring each icon twice and not working in shadow roots (official claim)",
+      "story": "A token defined in a stylesheet in directory A and used from one in directory B may get resolved with B's path, and the icon breaks.",
+      "unlock": "",
+      "support": "Registered custom properties: Newly"
+    },
+    "mwg:icons:4": {
+      "title": "Give the icon pseudo-element `flex: none` so long labels can't squeeze it out",
+      "action": "Set `flex: none` on the `::before`/`::after` that draws the icon",
+      "blocker": "An empty pseudo-element has a zero minimum size, so inside a flex button it's the first thing to shrink when the label is long, possibly to nothing (quote: \"inside a flex button it is the first thing to shrink when the label is long, potentially to nothing.\")",
+      "outcome": "Icon size stays a design decision instead of something layout pressure negotiates away (official claim)",
+      "story": "After translation into German the button label got longer and the trash icon quietly vanished.",
+      "unlock": "",
+      "support": "flex: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:icons:5": {
+      "title": "Add `forced-color-adjust: none` to mask-drawn icons",
+      "action": "Set `forced-color-adjust: none` on the pseudo-element that draws the icon and fill with `currentColor`",
+      "blocker": "Forced-colors mode replaces `background-color`, so an icon drawn with a mask disappears entirely (quote: \"In forced-colors mode the browser otherwise replaces `background-color`, making a masked icon disappear.\")",
+      "outcome": "The mask fill is kept and `currentColor` still follows the forced text color (official claim)",
+      "story": "A mask icon's color is really its background color, and the background color is the first thing forced-colors mode takes away.",
+      "unlock": "",
+      "support": "forced-color-adjust: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:icons:6": {
+      "title": "Inline the SVG the first time, then reuse it with `<use href=\"#id\">`",
+      "action": "Inline the SVG at an icon's first appearance and reference it on the same page with `<use href=\"#id\">`; keep external sprites (`<use href=\"/icons.svg#id\">`) for same-origin icons shared across many pages; put `viewBox` on the `<symbol>`; namespace symbol ids in inlined sprites",
+      "blocker": "External `<use>` references are same-origin only, and cross-origin sprites fail silently (quote: \"External references are same-origin only; cross-origin sprites fail silently.\")",
+      "outcome": "In-page references cost no request and have no cross-origin restriction (official claim)",
+      "story": "Putting the icon sprite on a CDN seems sensible, until every `<use>` renders blank with nothing in the console.",
+      "unlock": "",
+      "support": "SVG `<use>`: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:icons:7": {
+      "title": "Leave custom-property hooks in symbols so `<use>` icons can be tuned from outside",
+      "action": "In symbols you control, add hooks such as `fill=\"var(--icon-accent, currentColor)\"` and `stroke-width=\"var(--icon-stroke, 2)\"`, even CSS `d: var(--icon-path, path(…))` on a path; inline the SVG when you don't control the source",
+      "blocker": "Content referenced by `<use>` is cloned into a shadow tree, so page CSS can't select its elements (quote: \"With `<use>`, the referenced content is cloned into a shadow tree, so page CSS cannot select its elements.\")",
+      "outcome": "Inherited and custom properties cross the boundary, so color and stroke width are adjustable from outside; but CSS `d` is Limited and unsupported in Safari, so reshaping paths doesn't work there (official claim)",
+      "story": "`<use>` is cheap, at the price of page styles not reaching inside. As long as the icon leaves variables in place, you can still tune color and stroke from outside, and in most browsers even the shape.",
+      "unlock": "`<use>` icons used to allow little more than recoloring → now one symbol can change stroke width or even its path through CSS variables: play/pause or check/cross share one `<use>` and change shape with state. Path changes don't work in Safari yet",
+      "support": "css.properties.d: Limited availability. Supported by: Chrome 52, Edge 79, Firefox 97. Unsupported in: Safari"
+    },
+    "mwg:icons:8": {
+      "title": "Patch around two Safari rendering bugs",
+      "action": "Under a Safari-only `@supports`, apply an empty keyframe animation to `::before`/`::after` inside an `@layer`; in Safari re-register `--icon-start` as inheriting and reset descendants to `initial` inside the style query",
+      "blocker": "A WebKit bug can keep icons from appearing until the user interacts; another keeps a direct override of `--icon-start` on hover from taking effect (quote: \"can prevent them from appearing until user interaction\")",
+      "outcome": "The patch handles both display problems; living in a layer lets unlayered icon declarations still win (official claim)",
+      "story": "The same icon set works in Chrome, but in Safari it only shows up after a click on the page. The bug is the browser's, but the page has to route around it.",
+      "unlock": "",
+      "support": "Container style queries, registered custom properties: Newly"
+    },
+    "mwg:position-aware-tooltips": {
+      "title": "Flip the arrow along with the tooltip using anchored container queries",
+      "action": "Build the tooltip with popover and `popovertarget` (implicit anchor), set `position-try-fallbacks: flip-block` and `container-type: anchored`; inside `@container anchored(fallback: flip-block)` change the direction and position of the inner element's `::before` arrow; add an inner wrapper to restyle the box itself",
+      "blocker": "The tooltip sits above its anchor with a down arrow; after scrolling it flips below, and the arrow points the wrong way on the wrong side (quote: \"If the user scrolls and the tooltip flips to appear *below* the anchor, the arrow is now pointing the wrong way and is on the wrong side of the tooltip.\")",
+      "outcome": "In supporting browsers the arrow follows the actual position; anchored container queries are only in Chrome/Edge 143 and nothing else can tell which fallback is active, so unsupported browsers can only hide the arrow with `@supports (container-type: anchored)` (official claim)",
+      "story": "Anchor positioning makes tooltips flip at the edges, but only the browser knew it had flipped, not the arrow. The new query lets styles ask which side am I on now.",
+      "unlock": "After flipping, tooltip arrows used to point the wrong way, so people dropped the arrow or detected it in JS → now help bubbles, onboarding callouts, and chart annotations can keep the arrow pointing at the trigger in pure CSS. Chromium only for now",
+      "support": "Anchor position container queries: Limited availability. Supported by: Chrome 143, Edge 143. Unsupported in: Firefox, Safari. Popover: Newly (2025-01-27). This guide gives no anchor positioning group status"
+    },
+    "mwg:position-aware-tooltips:2": {
+      "title": "Don't let the tooltip cover the control that just got focus",
+      "action": "When the tooltip may cover the next focused element, reposition it, or dismiss it once it's no longer relevant",
+      "blocker": "Keyboard navigation doesn't close a `popover=auto` tooltip, so it can cover the control that just got focus, failing WCAG 2.4.11 Focus Not Obscured (quote: \"Keyboard navigation does not close a `popover=auto` tooltip, so ensure that tooltips do not obscure interactive elements as they receive focus via keyboard.\")",
+      "outcome": "The guide only suggests repositioning or dismissing, and admits there's no generic way to fully avoid it",
+      "story": "Mouse users move away and the tooltip goes; keyboard users carry it with them through every Tab, and the next button sits right under it.",
+      "unlock": "",
+      "support": "Popover: Newly"
+    },
+    "mwg:pull-to-reveal": {
+      "title": "Hide the search bar above the fold on load with `scroll-initial-target`",
+      "action": "Put the search bar first in the scroll container and the main content right after it with `scroll-initial-target: nearest`; give the container `scroll-snap-type: y mandatory` and both children `scroll-snap-align: start` so the bar is either fully shown or fully hidden",
+      "blocker": "This used to be done with `scrollIntoView()` or a `#content-id` fragment; the guide only says both have limitations and are tricky, not when they break (quote: \"both of which have limitations and are tricky to implement.\")",
+      "outcome": "Supporting browsers set the initial scroll position during layout; only Chrome/Edge 133, so other browsers still need `scrollIntoView({ behavior: 'instant' })` after `DOMContentLoaded` (official claim)",
+      "story": "Pull down to reveal search, common in mobile apps, always needed JS to scroll once after load on the web. The new property lets CSS declare start scrolled here.",
+      "unlock": "The initial scroll position used to wait for JS → now inboxes, note lists, and chat logs can open on the main content and reveal search, filters, or load earlier messages only when pulled down. Chromium only for now",
+      "support": "scroll-initial-target: Limited availability. Supported by: Chrome 133, Edge 133. Unsupported in: Firefox, Safari"
+    },
+    "mwg:pull-to-reveal:2": {
+      "title": "`scroll-initial-target` doesn't move keyboard focus",
+      "action": "If the target should be the keyboard starting point, call `element.focus()` yourself",
+      "blocker": "The property only moves the visual scroll position, not keyboard focus (quote: \"This property only moves the **visual** viewport; it does not move the keyboard focus.\")",
+      "outcome": "With focus managed manually, the keyboard starting point matches the screen (official claim)",
+      "story": "The screen starts at the main content, but Tab starts at the hidden search bar, and the first press jumps the view back to the top.",
+      "unlock": "",
+      "support": "Same as mwg:pull-to-reveal; recorded as Limited"
+    },
+    "mwg:pull-to-reveal:3": {
+      "title": "Every pull-to-reveal action needs a visible button",
+      "action": "Give every pull-to-reveal action a visible button (or menu item) that does the same thing with one click or Enter, at least 24×24 CSS pixels and named after what it acts on",
+      "blocker": "A feature reachable only by a pull gesture doesn't meet WCAG 2.5.1's requirement for path-based gestures (quote: \"give every pull to reveal action a visible button (or menu item) that performs the same action with a single click or the Enter key, as WCAG 2.5.1 Pointer Gestures requires for path-based gestures.\")",
+      "outcome": "People who can't or don't drag can reach the same feature with a click or Enter (official claim)",
+      "story": "Pulling down is a touchscreen gesture; mouse, keyboard, and switch users have no idea anything is hidden up there.",
+      "unlock": "",
+      "support": "Button: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:responsive-table": {
+      "title": "Keep large tables readable in narrow spaces with sticky headers and a container-query stacked layout",
+      "action": "Use a semantic `<table>`; make `thead` and row headers (`tbody th`) `position: sticky` with explicit z-index and backgrounds; give the wrapper `container-type: inline-size` and switch to stacked cards at `@container (width < 600px)`, hiding `thead` and injecting column names into each cell with `::before` and CSS variables; keep long text on one line with truncation",
+      "blocker": "Large data tables on small screens overflow or shrink columns beyond legibility (quote: \"Large data tables often become unreadable on small screens as columns overflow or shrink beyond legibility.\")",
+      "outcome": "Headers stay visible whichever way you scroll, and the table switches to stacked layout based on its own width (in a sidebar or narrow widget) rather than the viewport (official claim)",
+      "story": "Drop a table into a phone or a sidebar and either ten columns squash together or, by column seven, you've forgotten whose row this is. Sticky headers plus cards when narrow keep data and labels connected.",
+      "unlock": "",
+      "support": "position: sticky, container queries: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:responsive-table:2": {
+      "title": "A scrollable table wrapper must be keyboard-focusable",
+      "action": "Give the wrapper `tabindex=\"0\"`, `role=\"region\"`, and `aria-labelledby` pointing to the table's `<caption>` (or an `aria-label`)",
+      "blocker": "The table wrapper scrolls but can't take focus, so keyboard-only users can't reliably scroll the table (quote: \"Add a `tabindex=\"0\"` attribute to the container, to ensure that people using only a keyboard can consistently scroll the table.\")",
+      "outcome": "Keyboard users can focus and scroll the table region, and assistive tech knows what it is (official claim)",
+      "story": "A table of plain text with no links gets skipped by Tab entirely, and the columns past the right edge are never seen by keyboard users.",
+      "unlock": "",
+      "support": "tabindex, role: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:responsive-table:3": {
+      "title": "Give injected column labels alt text only for non-text content",
+      "action": "Inject labels in the stacked layout with `content: var(--label-2) \": \"`; provide an accessible name after `/` only for non-text content",
+      "blocker": "Providing alternative text for text content too makes screen readers announce both the text and the accessible name (quote: \"Only provide alternative text for non-text content, otherwise this may result in both the text content and accessible name being announced by screen readers.\")",
+      "outcome": "Each label is announced once (official claim)",
+      "story": "Every cell now starts with Role:, and if you also give it alt text, screen reader users hear it twice per cell.",
+      "unlock": "",
+      "support": "content alt text: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:scrollability-affordance-hints": {
+      "title": "Hint there's more content with scroll-state queries and a scroll-driven mask",
+      "action": "Shadows: give the scroller `container-type: scroll-state`, pin its own `::before`/`::after` to the edges with sticky, and show them under `@container scroll-state(scrollable: block-start/block-end)`; fades: cut gradient bands at both ends with a `mask` on the scroller and drive their size with `animation-timeline: scroll(self inline)`. Use shadows when content must stay legible to the edge (text, tables, forms), fades for horizontal rows of items or non-solid backgrounds",
+      "blocker": "The guide only says neither hint needs scroll listeners or extra elements; it doesn't say when listeners or extra elements break (quote: \"Both need no scroll listeners and no extra elements in the markup.\")",
+      "outcome": "Each hint disappears at its end, and none show when content fits; scroll-state queries are only in Chrome/Edge 144, so elsewhere shadows fade in via a scroll-driven animation (Newly) as you scroll away from an edge, falling back to `background-attachment: local` or IntersectionObserver only when neither is supported (official claim)",
+      "story": "A there's more down here hint used to need a scroll listener or sentinel elements. Now the container itself knows which end has more, and its pseudo-elements just ask.",
+      "unlock": "Scroll shadows used to need listeners or sentinels → now dialog bodies, sidebar lists, and horizontal tag rows can show edge shadows or fades in pure CSS that vanish at the end, and designs with hidden scrollbars still get a cue",
+      "support": "Container scroll-state queries: Limited availability. Supported by: Chrome 144, Edge 144. Unsupported in: Firefox, Safari. Scroll-driven animations: Newly (2026-10-27)"
+    },
+    "mwg:scrollability-affordance-hints:2": {
+      "title": "Mask only the two ends, and keep focused items out of the fade",
+      "action": "Write the mask as an opaque layer minus two gradient bands, not a single gradient; when the scroller snaps or contains focusable items, set `scroll-padding-inline` (or `-block`) to the fade size",
+      "blocker": "A single gradient clipped to the border box hides the scroller's focus outline, and focused or snapped items can rest inside the fade (quote: \"including a focus outline on the scroller, which a single gradient clipped to the border box would hide.\")",
+      "outcome": "Only the end bands are masked so the focus outline stays visible, and focused or snapped items never stop inside a fade (official claim)",
+      "story": "A pretty fade can cost keyboard users their sense of where focus is: the outline gets eaten by the mask, or the focused tag sits half-transparent at the edge.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly"
+    },
+    "mwg:scrollability-affordance-hints:3": {
+      "title": "Register the fade-size custom properties so they change smoothly",
+      "action": "Register `--fade-start` and `--fade-end` with `@property` as `<length>`, `inherits: false`, `initial-value: 0px`",
+      "blocker": "Unregistered custom properties don't interpolate, so the fade bands jump (quote: \"Unregistered custom properties do not interpolate, so the fades would jump.\")",
+      "outcome": "Once registered, fade width changes smoothly with scrolling (official claim)",
+      "story": "The keyframes animate a custom property, and since the browser doesn't know it's a length, it can only flip between 0 and 3rem.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly (this guide gives no `@property` support data)"
+    },
+    "mwg:scrollability-affordance-hints:4": {
+      "title": "Flip fade gradient directions for right-to-left content",
+      "action": "In `:dir(rtl)`, flip `--fade-dir` and swap the positions of the two bands",
+      "blocker": "The scroll timeline follows writing direction, but gradient directions and mask positions are physical, so unflipped right-to-left content doesn't line up (quote: \"The scroll timeline follows the writing direction, but gradient directions and mask positions are physical.\")",
+      "outcome": "After flipping, each end's fade matches the right scroll progress (official claim)",
+      "story": "The animation's starting point swaps with language direction, the gradients don't. In an Arabic UI the end that should fade is crisp and the end that shouldn't is faded.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly"
+    },
+    "mwg:scroll-position-aware-elements": {
+      "title": "Show back to top only after scrolling down, with `scroll-state(scrollable: top)`",
+      "action": "Give the scroll container `container-type: scroll-state`; place the floating button inside with `position: sticky`, hidden by default, and show and slide it in under `@container scroll-state(scrollable: top)` (the container can scroll up, meaning the user has scrolled down)",
+      "blocker": "The guide only says no JavaScript scroll listeners or observers are needed; it doesn't say when those break (quote: \"without relying on JavaScript scroll listeners or observers.\")",
+      "outcome": "Chrome/Edge 144 only; other browsers either keep the button always visible or use an IntersectionObserver on a top sentinel to toggle a class (official claim)",
+      "story": "A back to top button at the top of the page is useless, just in the way. Knowing whether the user has scrolled down used to take a script; the new query lets styles ask the container.",
+      "unlock": "Appear after scrolling floating buttons used to need listeners or sentinels → now back to top on long articles, floating add buttons on long lists, and mini title bars that appear past the intro can decide in pure CSS when to show. Chromium only for now",
+      "support": "Container scroll-state queries: Limited availability. Supported by: Chrome 144, Edge 144. Unsupported in: Firefox, Safari"
+    },
+    "mwg:scroll-position-aware-elements:2": {
+      "title": "Visible by default; hide by default only where supported",
+      "action": "Make the button visible in its base styles; switch to `visibility: hidden` and add the showing scroll-state query only inside `@supports (container-type: scroll-state)`",
+      "blocker": "With `visibility: hidden` as the default, browsers without scroll-state never show the button (quote: \"the floating element will remain invisible because of the default `visibility: hidden`.\")",
+      "outcome": "Unsupported browsers always show the button, keeping the feature, just without appearing and disappearing on scroll (official claim)",
+      "story": "Progressive enhancement written backwards: hide first, show when the query matches. In browsers where the query never matches, that means hidden forever.",
+      "unlock": "",
+      "support": "Same as mwg:scroll-position-aware-elements; recorded as Limited"
+    },
+    "mwg:scroll-position-aware-elements:3": {
+      "title": "Leave space under floating buttons so they don't cover the last items",
+      "action": "Give the main content enough bottom padding or margin",
+      "blocker": "Sticky or floating buttons hover over content and permanently cover the last few elements when scrolled to the bottom (quote: \"so that the last few elements are not permanently covered by the button when the user scrolls completely to the bottom.\")",
+      "outcome": "At the bottom, the last content sits above the button (official claim)",
+      "story": "The delete button on the last list item sits right under back to top, and no amount of scrolling lets you press it.",
+      "unlock": "",
+      "support": "padding/margin: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:scroll-progress-indicator": {
+      "title": "Build a reading progress bar with a `scroll()` timeline",
+      "action": "Give a fixed top element a `scaleX(0)`→`scaleX(1)` keyframe with `animation-timeline: scroll()` (tracking the nearest ancestor scroller, here the root) or a named `scroll-timeline` on `:root`; wrap in `prefers-reduced-motion: no-preference` and `@supports (animation-timeline: scroll())`",
+      "blocker": "The guide only says the native implementation is more performant than the scroll-listener fallback; it doesn't say when the old approach breaks (quote: \"In browsers with built-in support for scroll-driven animations, ALWAYS use the native CSS implementation as those are more performant.\")",
+      "outcome": "Progress follows the scroll position directly with no JS; Newly, so older browsers need a scroll listener computing a percentage into `transform` (official claim)",
+      "story": "A progress bar is just how far have you scrolled, which used to be recomputed on every scroll. Now scroll position drives the animation itself.",
+      "unlock": "Reading progress bars used to need a scroll listener → now long articles, tutorials, and terms pages can add one in pure CSS, and each scrollable block on a page (code, chat logs) can carry its own",
+      "support": "Scroll-driven animations: Newly available (2026-10-27). Supported by: Chrome 115, Edge 115, Firefox 159, Safari 26"
+    },
+    "mwg:scroll-progress-indicator:2": {
+      "title": "Write `animation-timeline` after the `animation` shorthand",
+      "action": "Write the `animation` shorthand first, then `animation-timeline`",
+      "blocker": "Writing the shorthand afterwards resets the timeline (quote: \"declare `animation-timeline` *after* it to prevent the shorthand from resetting the timeline.\")",
+      "outcome": "With the right order the bar follows scrolling instead of time (official claim)",
+      "story": "Swap the order of the same declarations and the bar goes from growing as you scroll to filling itself up after load.",
+      "unlock": "",
+      "support": "Same as mwg:scroll-progress-indicator; recorded as Newly"
+    },
+    "mwg:shrinking-header-on-scroll": {
+      "title": "Shrink the header as you scroll with `scroll(block root)` and `animation-range`",
+      "action": "Give the fixed header a height-shrinking keyframe with `animation-timeline: scroll(block root)` and `animation-range: 0px 150px` (end equal to the size difference so content scrolls in sync with the header)",
+      "blocker": "The guide only says the native implementation is more performant than the scroll-listener fallback; it doesn't say when the old approach breaks (quote: \"In browsers with built-in support for scroll-driven animations, ALWAYS use the native CSS implementation as those are more performant.\")",
+      "outcome": "The header shrinks smoothly over the first 150px of scrolling with no JS; Newly, so older browsers need a scroll listener setting the height by scroll distance (official claim)",
+      "story": "A big header takes a third of a phone screen and should make way as you scroll down. Size maps one-to-one to scroll distance, so hand it to a CSS timeline.",
+      "unlock": "Shrinking headers used to set height frame by frame in a scroll handler → now brand headers and campaign heroes can smoothly collapse into a compact nav bar over the first few hundred pixels and grow back on the way up, in pure CSS",
+      "support": "Scroll-driven animations: Newly available (2026-10-27). Supported by: Chrome 115, Edge 115, Firefox 159, Safari 26"
+    },
+    "mwg:shrinking-header-on-scroll:2": {
+      "title": "Don't let the fixed header cover content or focused controls",
+      "action": "With a sticky header, set `scroll-padding-top` on the scroller to the header height (animatable on the same scroll timeline); add `padding-top` equal to the header's initial height to `body` or the main content",
+      "blocker": "Focused elements end up displayed under the sticky header, failing WCAG 2.4.11 Focus Not Obscured, and the header can cover the content right after it (quote: \"set `scroll-padding-top` to ensure that when elements receive focus, they aren't displayed under the sticky content.\")",
+      "outcome": "Focused controls always appear below the header, and opening content isn't covered (official claim)",
+      "story": "Tab to the next link and the browser scrolls it into view, right under the header. Tell the browser how much space at the top is taken and it scrolls to the right place.",
+      "unlock": "",
+      "support": "scroll-padding: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:shrinking-header-on-scroll:3": {
+      "title": "With percentage ranges, the shrinking element must be out of flow",
+      "action": "When `animation-range` uses percentages, don't animate a `position: static` or `relative` element (the example uses `position: fixed`), or use pixel ranges",
+      "blocker": "An in-flow element shrinking also shrinks the total scroll distance, so percentage-based positions shift (quote: \"Shrinking those elements as you scroll, would shrink the total scroll distance, thereby affecting the computed value of — for example — `10%` into the scroll.\")",
+      "outcome": "Out of flow, shrinking doesn't change scroll distance and percentage ranges stay stable (official claim)",
+      "story": "The animation advances by percent scrolled while the animation itself changes the total length, and the two tug at each other.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly"
+    },
+    "mwg:shrinking-header-on-scroll:4": {
+      "title": "Write `animation-timeline` and `animation-range` after the `animation` shorthand",
+      "action": "Write the `animation` shorthand first, then `animation-timeline` and `animation-range`",
+      "blocker": "Writing the shorthand afterwards resets the timeline (quote: \"declare `animation-timeline` and `animation-range` *after* it to prevent the shorthand from resetting the timeline.\")",
+      "outcome": "The timeline and range aren't reset to defaults by the shorthand (official claim)",
+      "story": "As with other scroll-driven animations, the shorthand resets the timeline; order decides whether the animation follows scroll or time.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly"
+    },
+    "mwg:state-aware-sticky-headers": {
+      "title": "Restyle a sticky header when it's stuck with `scroll-state(stuck: top)`",
+      "action": "Set `container-type: scroll-state` and a `container-name` on the `position: sticky` element itself (not its scrolling ancestor); inside `@container section-header scroll-state(stuck: top)` change children's background, text color, and shadow (a container can't style itself from its own query); use `stuck: block-start` for other writing modes",
+      "blocker": "Traditional solutions use JS scroll listeners, and the guide only says they can cause performance issues without naming a concrete symptom (quote: \"Traditional solutions required JavaScript scroll listeners, which can cause performance issues.\")",
+      "outcome": "Chrome/Edge 144 only; elsewhere the header still sticks but doesn't change style, and if the stuck style matters for readability you need an IntersectionObserver toggling `.is-stuck` with duplicated styles (official claim)",
+      "story": "A stuck header overlaps content and often needs a background or shadow to stay readable. Is it stuck yet used to be inferred by script; the new query lets styles know directly.",
+      "unlock": "Restyle when stuck used to need listeners or observers toggling classes → now section headings in long documents and group headers in tables can gain a background, shadow, or compact form when stuck, making it obvious which section you're in. Chromium only for now",
+      "support": "Container scroll-state queries: Limited availability. Supported by: Chrome 144, Edge 144. Unsupported in: Firefox, Safari"
+    },
+    "mwg:state-aware-sticky-headers:2": {
+      "title": "To resize when stuck, turn off scroll anchoring on the parent",
+      "action": "Set `overflow-anchor: none` on the sticky element's direct parent (not `:root` or `body`); avoid box-model changes in the stuck state for bottom-stuck elements",
+      "blocker": "Changing height, padding, or font size when stuck makes scroll anchoring on the in-flow content below compensate, pushing the element out of its stuck position and causing a flickering oscillation (quote: \"Scroll anchoring on the in-flow content below the sticky element adjusts the scroll offset to compensate for the layout change, which pushes the element back out of its stuck position and triggers an oscillation.\")",
+      "outcome": "With anchoring off on the parent, the stuck state can freely change box model and transforms; it has no effect for bottom-stuck elements (official claim)",
+      "story": "The header shrinks as it sticks, content moves up to fill the gap, the browser scrolls back to keep things steady, the header unsticks and grows, and then sticks again.",
+      "unlock": "",
+      "support": "Same as mwg:state-aware-sticky-headers; recorded as Limited (this guide gives no `overflow-anchor` support data)"
+    },
+    "mwg:state-aware-sticky-headers:3": {
+      "title": "Set the scroller's `scroll-padding-top` to at least the sticky header's height",
+      "action": "Set `scroll-padding-top: var(--header-height)` on the scroller (e.g. `html`), equal to or greater than the sticky element's height",
+      "blocker": "Without it, focused controls can be fully hidden by the sticky header, failing WCAG 2.4.11 (quote: \"This approach should ensure that when controls receive focus, they'll be consistently visible below the sticky content\")",
+      "outcome": "Focused controls always appear below the sticky content (official claim)",
+      "story": "Wherever a keyboard user tabs to, the stuck header is sitting right on top of it.",
+      "unlock": "",
+      "support": "scroll-padding: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:viewport-aware-dropdowns": {
+      "title": "Flip panels at viewport edges with `position-area` plus `position-try-fallbacks`",
+      "action": "Open a `popover=\"auto\"` panel from a button with `popovertarget` (implicit anchor, no `anchor-name` needed); give the panel `position-area: block-end span-inline-end` and `inset: auto`, plus `position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline`; don't mix logical and physical keywords",
+      "blocker": "When the default position overflows, the panel gets cut off at the screen edge; this used to take JS libraries like Popper.js or Floating UI to compute position and collisions (quote: \"To prevent the panel from being cut off at the edge of the screen, define \"try tactics\" that the browser should attempt if the default position overflows.\")",
+      "outcome": "The browser tries each flip in turn, keeping the panel inside the viewport and attached to its trigger; core anchor positioning properties are Newly, and older browsers need the `@oddbird/css-anchor-positioning` polyfill loaded conditionally or an `@supports` gate that keeps default centering (official claim; support status corrected per verified deviation)",
+      "story": "The more menu on the last table row opens downward and runs off screen. Instead of a positioning library measuring all the time, list a few fallbacks and let the browser pick one that fits.",
+      "unlock": "Collision handling used to require a positioning library → now row-end more actions menus, card corner menus, and footer language pickers can open upward or leftward near viewport edges using CSS alone",
+      "support": "Anchor positioning core properties: Newly (2026-01-13). The guide says \"Supported by: Safari 27 (Sep 2026). Unsupported in: Chrome, Edge, and Firefox.\"; that group status is misleading, see `lines/ui-components/app-menus.md`; this line doesn't use `position-visibility`. Popover: Newly (2025-01-27)"
+    },
+    "mwg:viewport-aware-dropdowns:2": {
+      "title": "Without a polyfill, put `inset: auto` and `margin: 0` inside `@supports`",
+      "action": "Put `inset: auto` and `margin: 0` together with the positioning rules inside `@supports (position-area: block-end)`; optionally give a bottom-fixed panel under `@supports not (...)`",
+      "blocker": "Setting `inset: auto` or `margin: 0` unconditionally cancels the popover's default centering in browsers without anchor positioning while `position-area` is ignored, stranding the popover at (0, 0) or over its trigger (quote: \"leaving the popover stranded at `(0, 0)` or overlapping its trigger.\")",
+      "outcome": "Unsupported browsers keep default centering (or a bottom panel) instead of a top-left corner popover (official claim)",
+      "story": "Resetting inset is meant to let anchor positioning take over, but in browsers without it nothing takes over and the panel drops into the top-left corner.",
+      "unlock": "",
+      "support": "Same as mwg:viewport-aware-dropdowns; recorded as Newly"
+    },
+    "mwg:viewport-aware-dropdowns:3": {
+      "title": "Don't wrap rules meant for the anchor positioning polyfill in `@supports`",
+      "action": "Load the polyfill only when `CSS.supports(\"anchor-name: --a\")` is false; leave polyfilled rules outside `@supports`; give each trigger/panel pair explicit matching `anchor-name`/`position-anchor`, and use `anchor()` on insets instead of `position-area` when fallbacks are needed",
+      "blocker": "Unsupported browsers evaluate `@supports (position-area: ...)` and `@supports (anchor-name: --a)` as false and discard the whole block before the polyfill can process it (quote: \"Browsers without native anchor positioning evaluate `@supports (position-area: ...)` and `@supports (anchor-name: --a)` to `false` and discard the block before the polyfill can process it.\")",
+      "outcome": "Rules stay in the stylesheet for the polyfill to read; but the polyfill doesn't support implicit anchors or `position-area` with fallbacks, so the CSS has to bend to it (official claim)",
+      "story": "`@supports` is meant to protect old browsers, but with a polyfill it hides the very rules the polyfill needs to read.",
+      "unlock": "",
+      "support": "Same as mwg:viewport-aware-dropdowns; recorded as Newly"
+    },
+    "mwg:viewport-aware-dropdowns:4": {
+      "title": "Don't add `role=\"menu\"` or `aria-haspopup` without the full keyboard contract",
+      "action": "Treat the panel as a button group inside a popover; add `role=\"menu\"`/`menuitem` and `aria-haspopup` only if the full keyboard contract such as arrow-key navigation is implemented",
+      "blocker": "Adding `aria-haspopup` to the trigger promises assistive tech a matching role the target doesn't have in this pattern (quote: \"its value (`menu`, `listbox`, `tree`, `grid`, or the legacy `true`) is a promise that the target exposes a matching role, which this pattern does not.\")",
+      "outcome": "Declared roles match actual behavior, so screen reader users don't expect menu interactions that don't exist (official claim)",
+      "story": "When the screen reader says menu, users press arrow keys, and nothing moves. A role is a promise; don't make one you can't keep.",
+      "unlock": "",
+      "support": "ARIA: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:2d-panning": {
+      "title": "Turn off axis locking for 2D panning with `scroll-axis-lock: none`",
+      "action": "Set `scroll-axis-lock: none` on the element that establishes the 2D scroll container (`overflow: auto`) itself; it doesn't inherit, so a wrapper has no effect and nested 1D panels keep the default `auto`; keep `auto` on articles, feeds, and 1D lists",
+      "blocker": "If a gesture starts mostly along one axis, the browser locks scrolling to that axis and ignores perpendicular deltas, often for the rest of the gesture, so diagonal or L-shaped panning on maps, zoomed images, infinite canvases, and node graphs gets stuck (quote: \"the browser locks the scroll to that single horizontal or vertical axis and ignores perpendicular deltas—often for the remainder of the gesture.\")",
+      "outcome": "With support you keep compositor scrolling, momentum, native scrollbars, and keyboard navigation without axis locking; only Chrome 153, so elsewhere you either accept locking or use a JS fallback with `wheel` plus `pointermove` writing `scrollLeft`/`scrollTop`, moving scrolling to the main thread and losing touch momentum after release (official claim)",
+      "story": "Axis locking stops articles from drifting sideways, but on a map it means you drag toward the bottom-right and the view only goes right. You used to write your own panning engine; now one property tells the browser this area is two-dimensional.",
+      "unlock": "Free diagonal panning used to mean giving up native scrolling and writing a drag engine → now whiteboards, mind maps, large spreadsheets, and floor-plan viewers can pan freely in a native scroll container, with the browser's scrollbars, keyboard, and momentum. Chrome 153 only for now",
+      "support": "scroll-axis-lock: Limited availability. Supported by: Chrome 153. Unsupported in: Edge, Firefox, Safari"
+    },
+    "mwg:2d-panning:2": {
+      "title": "Stop scroll chaining and swipe navigation in 2D panning areas",
+      "action": "Add `overscroll-behavior: none` or `contain` to the 2D scroll container",
+      "blocker": "Panning into an edge chains scrolling to the parent page or triggers browser swipe back/forward navigation or pull-to-refresh (quote: \"so that reaching an edge does not chain scrolling to the parent page or trigger accidental browser overscroll navigations (such as horizontal back/forward swipe navigation or pull-to-refresh).\")",
+      "outcome": "Panning stops at the container edge without dragging the page or accidentally leaving it (official claim)",
+      "story": "Drag the map all the way left and the browser decides you want to go back a page.",
+      "unlock": "",
+      "support": "overscroll-behavior: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:2d-panning:3": {
+      "title": "Pan with `scrollLeft`/`scrollTop`, not `transform`",
+      "action": "When handling panning yourself, add the deltas to `scrollLeft` and `scrollTop`",
+      "blocker": "Translating the surface with CSS `transform` stops the element from being a scroll container, breaking native scrollbars, boundary clamping, arrow-key scrolling, `scroll` events, IntersectionObserver, and scroll-driven animations (quote: \"Translating the surface with `transform` stops the element from functioning as a scroll container\")",
+      "outcome": "The element stays a real scroll container; the browser clamps positions, keeps scrollbars in sync, and keyboard scrolling and events keep working (official claim)",
+      "story": "Dragging a canvas with transform feels natural, but from that moment the browser no longer knows this area can scroll.",
+      "unlock": "",
+      "support": "scrollLeft/scrollTop: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:2d-panning:4": {
+      "title": "Set `touch-action` only in the JS fallback, and use `pinch-zoom`",
+      "action": "Set `touch-action: pinch-zoom` (not `none`) only under `@supports not (scroll-axis-lock: none)` when the JS pointer fallback is active",
+      "blocker": "Setting `touch-action` unconditionally disables native compositor touch scrolling; `none` also disables pinch-to-zoom (quote: \"restricting it disables native compositor touch scrolling.\")",
+      "outcome": "Browsers with `scroll-axis-lock` keep native touch scrolling; in the fallback pinch-to-zoom still works (WCAG 1.4.4) but there's no momentum after release (official claim)",
+      "story": "Turning off the browser's gesture handling so JS can take over touch panning can easily take away the user's ability to zoom text too.",
+      "unlock": "",
+      "support": "touch-action: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:anchor-positioning-tab-underline": {
+      "title": "Slide the tab underline to the newly active tab with anchor positioning",
+      "action": "Draw the underline in the `<ul>`'s `::before` with `position: absolute` and `position-anchor: --active`; set `anchor-name: --active` on the active `<li>`; position with inset properties and `anchor()` (`inset-inline-start: anchor(left)` and so on), adding `transition: inset .2s` under `prefers-reduced-motion: no-preference`",
+      "blocker": "Without anchor positioning you can only draw a `border-bottom` on the active tab, and switching tabs doesn't animate the underline (quote: \"If anchor positioning is not supported in the browser, use a `border-bottom` to add an underline. It will not be animated.\")",
+      "outcome": "The underline slides to the new active tab, width included, with no extra DOM for decoration; it doesn't work when switching tabs loads a new page; core anchor positioning properties are Newly, and older browsers fall back to a static `border-bottom` (official claim; support status corrected per verified deviation)",
+      "story": "Sliding an underline from one tab to another used to mean measuring both tabs and pushing it over with JS. Now the underline just follows whichever element holds that anchor name; when the name moves, so does the line.",
+      "unlock": "Sliding active indicators used to need JS measurement → now tab bars, segmented controls, and vertical sidebars can slide the indicator from old position to new in pure CSS, width and all; the same trick could make a highlight box that follows the hovered row",
+      "support": "Anchor positioning core properties: Newly (2026-01-13; `position-anchor` 2026-09-14). The guide says \"Supported by: Safari 27 (Sep 2026). Unsupported in: Chrome, Edge, and Firefox.\"; that group status is misleading, see `lines/ui-components/app-menus.md`; this line doesn't use `position-visibility`"
+    },
+    "mwg:anchor-positioning-tab-underline:2": {
+      "title": "Don't use `position-area` on anchored elements you want to animate",
+      "action": "Position the underline with inset properties and `anchor()`, not `position-area`",
+      "blocker": "`position-area` can't be transitioned (quote: \"DO NOT use position-area, which can not be transitioned.\")",
+      "outcome": "Inset properties can transition, so the underline actually slides (official claim)",
+      "story": "`position-area` is the easiest to write, but it picks a region in a grid rather than a number, so going from A to B can only teleport.",
+      "unlock": "",
+      "support": "Same as mwg:anchor-positioning-tab-underline; recorded as Newly"
+    },
+    "mwg:anchor-positioning-tab-underline:3": {
+      "title": "Draw the underline with a border, not a background or shadow",
+      "action": "Draw the underline with `border-block-end`",
+      "blocker": "Drawing it with `background` or `box-shadow` means forced-colors mode removes both, leaving no indicator at all (quote: \"forced colors mode removes both, leaving no indicator.\")",
+      "outcome": "Borders survive forced-colors mode (official claim)",
+      "story": "High-contrast users need most to know which tab they're on, and what they see is a row of identical text.",
+      "unlock": "",
+      "support": "border: the guide gives no support data; recorded as N/A"
+    },
+    "mwg:animate-element-entry-exit": {
+      "title": "Transition elements appearing and `display: none` with `@starting-style` and `allow-discrete`",
+      "action": "Put final values in the base styles; put the entry starting point in `@starting-style`; list `display` in `transition` and add a separate `transition-behavior: allow-discrete`; put the exit end state on `[hidden]`; elements inserted with `appendChild()` also enter through `@starting-style`",
+      "blocker": "CSS transitions couldn't animate elements just added to the DOM or changing `display` from `none`, because browsers skip an element's first style update (quote: \"Browsers skip transitions on an element's first style update (initial render or `display: none` change) unless this is provided.\")",
+      "outcome": "Entry works in pure CSS in every browser with `@starting-style` (Newly); exit `display` transitions are Limited, unsupported in Firefox where elements vanish instantly, so you need a JS fallback with a `data-closing` attribute and waiting on `getAnimations()` (official claim)",
+      "story": "Toggle the `hidden` attribute and the element just pops in or out, transitions or not. Now entry has a starting point and exit can keep `display` until the animation ends, though Firefox exits still need a script.",
+      "unlock": "Toggling `hidden` used to be instant, and animating meant JS adding a class, waiting a frame, then adding an animation class → now notifications, expanded help text, and filtered result cards can fade in and out just by toggling `hidden`. Firefox exits still need the JS fallback",
+      "support": "@starting-style: Newly (2024-08-06); transition-behavior: Newly (2024-08-06); transitionable display: Limited availability, Supported by: Chrome 117, Edge 117, Safari 18, Unsupported in: Firefox"
+    },
+    "mwg:animate-element-entry-exit:2": {
+      "title": "Don't rely on `CSS.supports()` alone to know if `display` can transition",
+      "action": "Create a temporary probe element with `transition: display 1s allow-discrete`, set it to `display: none`, and check whether the computed value is still `block`; if not supported, take the `data-closing` fallback",
+      "blocker": "Firefox 129+ parses `transition-behavior: allow-discrete` (`CSS.supports()` returns true) but doesn't actually transition `display`, so elements vanish immediately on exit (quote: \"Firefox 129+ parses `transition-behavior: allow-discrete` (`CSS.supports('transition-behavior', 'allow-discrete')` returns `true`) without actually transitioning the `display` property\")",
+      "outcome": "The probe checks real behavior, so Firefox correctly takes the fallback and the exit animation survives (official claim)",
+      "story": "Feature detection says supported, and the user sees the element simply vanish. This time the browser knows the syntax but doesn't do what the syntax promises.",
+      "unlock": "",
+      "support": "transitionable display: Limited"
+    },
+    "mwg:animate-element-entry-exit:3": {
+      "title": "Don't put `allow-discrete` in the `transition` shorthand",
+      "action": "Write a separate `transition-behavior: allow-discrete` after `transition`",
+      "blocker": "Putting `allow-discrete` in the `transition` shorthand makes older browsers ignore the entire `transition` declaration (quote: \"it will make older browsers ignore the entire `transition` declaration.\")",
+      "outcome": "Older browsers at least keep the other properties' transitions, and newer ones aren't reset by the shorthand (official claim)",
+      "story": "For the sake of one new keyword, older browsers throw away even the opacity fade.",
+      "unlock": "",
+      "support": "transition-behavior: Newly"
+    },
+    "mwg:animate-element-entry-exit:4": {
+      "title": "Trigger the exit first and wait for animations to finish before `remove()`",
+      "action": "Set `element.hidden = true` to start the exit, then `Promise.race` between `Promise.allSettled(getAnimations().map(a => a.finished))` and a 2-second safety timeout, and only then call `element.remove()`",
+      "blocker": "`element.remove()` takes effect immediately and doesn't trigger a CSS transition (quote: \"Since `element.remove()` is instantaneous and doesn't trigger a CSS transition on its own\")",
+      "outcome": "The node is removed after the exit animation finishes; looping animations hit the timeout instead of hanging (official claim)",
+      "story": "The fade-out written for dismissing a notification never shows up, because the node is gone before the animation starts.",
+      "unlock": "",
+      "support": "@starting-style, transition-behavior: Newly (this guide gives no `getAnimations()` support data)"
+    },
+    "mwg:animate-to-from-top-layer": {
+      "title": "Animate dialogs and popovers into and out of the top layer with `overlay` and `allow-discrete`",
+      "action": "Put closed values on the base `dialog`/`[popover]` styles, list `display` and `overlay` in `transition-property` with a separate `transition-behavior: allow-discrete`; place `@starting-style` inside (or after) the open-state selector; transition `::backdrop` the same way; apply scaling only under `prefers-reduced-motion: no-preference`",
+      "blocker": "Top-layer elements toggle between `display: none` and visible and have long been hard to animate; without transitioning `overlay`, an exiting element leaves the top layer early and gets clipped by other elements or the viewport (quote: \"This ensures the element stays in the top layer for the duration of the animation, preventing it from being clipped by other elements or the viewport prematurely.\")",
+      "outcome": "Entry works in pure CSS wherever `@starting-style` is supported; exit needs `overlay` (Chrome/Edge only) and `display` transitions, so Firefox and Safari need a `data-closing` plus wait-for-animations JS fallback, and popover light dismiss and `popovertarget` toggles can't be intercepted there and still close instantly (official claim)",
+      "story": "Native `<dialog>` opened and closed instantly, so many sites switched to custom modals. Now opening can fade and scale with a dimming backdrop, and closing can stay in the top layer until the animation ends, though only Chromium does the exit natively for now.",
+      "unlock": "Wanting an animated dialog used to mean abandoning native `<dialog>` → now confirm dialogs, side drawers, and floating menus can keep native focus handling, Esc to close, and top-layer behavior while fading, scaling, and dimming the backdrop. Native exit animation is Chromium-only for now",
+      "support": "@starting-style: Newly (2024-08-06); overlay: Limited availability, Supported by: Chrome 117, Edge 117, Unsupported in: Firefox, Safari; transitionable display: Limited (Chrome 117, Edge 117, Safari 18); Popover: Newly"
+    },
+    "mwg:animate-to-from-top-layer:2": {
+      "title": "Don't rely on `CSS.supports()` alone to know if `display` can transition",
+      "action": "Test whether `display` transitions actually work with a temporary probe element and also check `CSS.supports('overlay', 'auto')`, evaluating lazily (the probe needs `document.body`); if unsupported, take the `data-closing` fallback and route the `cancel` event (Esc, `closedby`) through the same close function",
+      "blocker": "Firefox 129+ parses `transition-behavior: allow-discrete` (`CSS.supports()` returns true) but doesn't actually transition `display`, so elements vanish immediately on exit (quote: \"Firefox 129+ parses `transition-behavior: allow-discrete` (`CSS.supports('transition-behavior', 'allow-discrete')` returns `true`) without actually transitioning the `display` property\")",
+      "outcome": "Branching on real behavior gives Firefox and Safari exit animations through the fallback (except popover light dismiss) (official claim)",
+      "story": "Detection says supported, and the dialog just disappears. Top-layer elements also need `overlay` checked; only when both hold can you leave it to CSS.",
+      "unlock": "",
+      "support": "transitionable display, overlay: Limited"
+    },
+    "mwg:animate-to-from-top-layer:3": {
+      "title": "Don't put `allow-discrete` in the `transition` shorthand",
+      "action": "Write a separate `transition-behavior: allow-discrete` after `transition`",
+      "blocker": "Putting `allow-discrete` in the `transition` shorthand makes older browsers ignore the entire `transition` declaration (quote: \"it will make older browsers ignore the entire `transition` declaration.\")",
+      "outcome": "Older browsers keep the other properties' transitions (official claim)",
+      "story": "Just like regular element entry and exit, one new keyword can make older browsers drop the whole transition.",
+      "unlock": "",
+      "support": "transition-behavior: Newly"
     }
   }
 }

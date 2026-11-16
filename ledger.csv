@@ -234,3 +234,83 @@
 2026-11-16,v1.0.0,secure-external-subresources,mwg:secure-external-subresources:3,"CSS url() integrity()/cross-origin()/referrer-policy()",內容遭竄改未察覺,background-image、@import 等預設以 no-cors 抓取，不透明回應無法驗證雜湊,僵持,Limited,宣稱,有,新能力,從 CDN 發布的設計系統可以在 CSS 裡把字型、圖示、主題變數檔全部釘上雜湊，不必為了 SRI 把 @import 拆成一堆 link。目前只有 Chromium 會驗,有效
 2026-11-16,v1.0.0,secure-external-subresources,mwg:secure-external-subresources:4,分開的 @font-face src 宣告,新功能的副作用,驗證版與未驗證版寫在同一個 src 清單，被竄改時自動退到未驗證網址，繞過 SRI,部分改善,Limited,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,secure-external-subresources,mwg:secure-external-subresources:5,"referrerpolicy=no-referrer, Referrer-Policy",敏感資料外露,請求第三方主機時 Referer 標頭洩漏來源或路徑資訊,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,security,mwg:security,"CSP nonce, 'strict-dynamic'",防線形同虛設,以網域白名單當 script-src 主要防線，可被白名單網域上的開放重新導向、JSONP、相依注入繞過,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,security,mwg:security:2,樣板渲染時發 nonce,防線形同虛設,對渲染好的 HTML 用正規表示式補 nonce，分不出注入的 script，等於替攻擊者授權,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,security,mwg:security:3,"textContent, setHTML(), require-trusted-types-for",不可信內容當HTML解析,不可信輸入經 innerHTML、setHTMLUnsafe 寫進 DOM 形成 DOM XSS；pass-through 政策讓 Trusted Types 失效,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,security,mwg:security:4,HSTS max-age 逐步拉長,合法連線被安全規則擋下,一開始就送很長的 max-age，設錯時網站在每個見過標頭的瀏覽器裡都打不開直到快取過期,部分改善,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,security,mwg:security:5,"__Host- 前綴, HttpOnly",敏感資料外露,工作階段 cookie 沒有 HttpOnly，被注入的腳本讀得到,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,security,mwg:security:6,SameSite=None; Secure; Partitioned,合法連線被安全規則擋下,嵌入第三方情境的 app 依賴未分割的 SameSite=None cookie，正被防追蹤機制封鎖,缺,不適用,宣稱,有,新能力,嵌在別人頁面裡的留言框、客服視窗、付款小工具可以用分割 cookie 保住在該網站內的登入與偏好，不必變成跨站追蹤器,有效
+2026-11-17,v1.0.0,security,mwg:security:7,"frame-ancestors, 省略 X-Frame-Options",合法連線被安全規則擋下,需要跨來源嵌入時還送 X-Frame-Options DENY/SAMEORIGIN，只看 XFO 的用戶端把夥伴的嵌入擋掉,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,security,mwg:security:8,Document-Isolation-Policy: isolate-and-credentialless,合法連線被安全規則擋下,COOP+COEP require-corp 要求每個子資源都送 CORP，沒送的瀏覽器不載入,僵持,Limited,宣稱,有,新能力,瀏覽器裡的 Wasm 多執行緒工具（影片轉檔、本機影像處理）可以開啟跨來源隔離，同時照常嵌入沒送 CORP 的外部素材。目前主要僅 Chrome,有效
+2026-11-17,v1.0.0,security,mwg:security:9,"Sec-Fetch-* 先擋再驗證, Vary",敏感資料外露,驗證之後才拒絕跨站請求，回應時間洩漏資源或工作階段是否存在；沒加 Vary 時 CDN 可能把快取回應送給攻擊者,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,security,mwg:security:10,動態 Access-Control-Allow-Origin,合法連線被安全規則擋下,帶憑證的 CORS 把 Access-Control-Allow-Origin 設成 *，瀏覽器拒絕回應,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,security,mwg:security:11,"Clear-Site-Data: cookies, storage, cache",敏感資料外露,登出時少了任一指令，工作階段 cookie、Web Storage 或快取的已登入頁面留在瀏覽器裡,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,security,mwg:security:12,SRI 只用於有版本的資源,合法連線被安全規則擋下,對會靜默更新的無版本資源加 SRI，一更新雜湊對不上，腳本執行失敗,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,trusted-types,mwg:trusted-types,"trustedTypes.createPolicy(), require-trusted-types-for",不可信內容當HTML解析,DOM sink 預設接受原始字串，含不可信來源惡意腳本的字串會被執行,部分改善,Newly,宣稱,有,新能力,留言區、Markdown 預覽、CMS 編輯器可以在四大瀏覽器上讓瀏覽器擔保：任何沒經過清理政策的 sink 寫入都會丟錯並回報，不再只靠 code review,有效
+2026-11-17,v1.0.0,trusted-types,mwg:trusted-types:2,"Report-Only, 暫時的 default 政策",合法連線被安全規則擋下,sink 寫入沒改完或框架不產生 Trusted Type 時就直接強制，應用程式會壞,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,trusted-types,mwg:trusted-types:3,"textContent, 完整清理器",防線形同虛設,字元跳脫結果再插進屬性或 href 樣板，javascript: 網址不會被實體跳脫中和,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,validate-origins,mwg:validate-origins,"Origin.from(), isSameOrigin()",確認到錯的身分,startsWith() 前綴比對被 app.example.com.attacker.example 繞過；帶路徑或預設埠的網址字串比對不相等,部分改善,Limited,宣稱,有,新能力,嵌入式結帳、登入彈窗、跨視窗小工具可以把事件物件直接丟給 Origin.from() 比對來源，不用自己解析網址。Firefox 尚未支援,有效
+2026-11-17,v1.0.0,validate-origins,mwg:validate-origins:2,isSameSite(),確認到錯的身分,用 . 切主機名判斷同站，遇到 .co.uk、.github.io 判錯，也忽略 http/https 差異,部分改善,Limited,宣稱,有,新能力,跨多個子網域的服務可以安全放行彼此之間的 returnTo 轉址與站內連結，不必在前端內附公共後綴清單，也不怕同一公共後綴下的別人冒用。Firefox 不支援,有效
+2026-11-17,v1.0.0,validate-origins,mwg:validate-origins:3,"Origin.from(event), new Origin()",確認到錯的身分,沙箱 iframe 與 data: 的 event.origin 都是 null，用 === 比會把不相干的不透明來源當成同一個,部分改善,Limited,宣稱,有,新能力,外掛系統、使用者程式碼預覽、多個第三方小工具可以各自關在沙箱 iframe 裡，訊息仍能可靠對應回送出的那一個。Firefox 不支援,有效
+2026-11-17,v1.0.0,validate-origins,mwg:validate-origins:4,"Origin.from(self), try/catch",新功能的副作用,把原始字串傳給 isSameOrigin()、把 Location/Document 傳給 Origin.from() 或用合成 MessageEvent，都丟出 TypeError,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,verify-email-ownership,mwg:verify-email-ownership,"autocomplete=email-verification-token, Email Verification Protocol",登入打斷使用者,寄驗證碼或魔法連結，使用者要離開頁面、等信、抄碼，造成流失與釣魚風險，信箱供應商還知道使用者造訪哪個網站,僵持,Limited,宣稱,有,新能力,註冊、結帳、訂閱電子報可以在同一頁一次完成信箱驗證，不用切去收信抄碼。目前僅 Chrome origin trial,有效
+2026-11-17,v1.0.0,verify-email-ownership,mwg:verify-email-ownership:2,"伺服器端 nonce, Cache-Control: no-store",確認到錯的身分,把預期的 nonce 放在用戶端 cookie，攻擊者可以把 cookie 和權杖一起重放,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,verify-email-ownership,mwg:verify-email-ownership:3,"伺服器端 SD-JWT 驗證, DNS 委派",內容遭竄改未察覺,在用戶端 JavaScript 驗證權杖，檢查可被輕易繞過或偽造,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,verify-email-ownership,mwg:verify-email-ownership:4,逐把試驗 JWKS 金鑰,新功能的副作用,供應商的 EVT 省略 kid，JWKS 有多把金鑰時 jose 丟出 ERR_JWKS_MULTIPLE_MATCHING_KEYS,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,carousel-slide-effects,mwg:carousel-slide-effects,"view(), view-timeline",捲動連動效果靠JS監聽,指南只說原生實作比 scroll 監聽加 Web Animations 的退路更有效率，沒說舊做法在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,相簿、商品輪播、時間軸可以純 CSS 做出滑到中間放大、兩側縮小變淡的封面流效果，不必在 scroll 事件裡逐張計算位置,有效
+2026-11-17,v1.0.0,carousel-slide-effects,mwg:carousel-slide-effects:2,animation-timeline 寫在簡寫之後,層疊覆蓋不符意圖,animation 簡寫寫在後面會把時間軸重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,carousel-slide-effects,mwg:carousel-slide-effects:3,"tabindex=0, 可及名稱",隱藏或停用把人擋在外面,不是每個瀏覽器都讓捲動容器可用鍵盤聚焦，投影片沒有可聚焦元素時鍵盤使用者捲不動,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,component-specific-light-dark-theme,mwg:component-specific-light-dark-theme,"color-scheme, light-dark()",主題配色對不上,指南只列出適用情境並說舊瀏覽器要在根元素用 prefers-color-scheme，沒說舊做法在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,淺色文件站裡的程式碼區塊、影片播放器、地圖、元件預覽可以各自固定配色，連捲軸與勾選框都一起變，不必寫第二套樣式,有效
+2026-11-17,v1.0.0,component-specific-light-dark-theme,mwg:component-specific-light-dark-theme:2,重新指定繼承的顏色屬性,主題配色對不上,light-dark() 在計算值階段解析，元件改了 color-scheme 後子樹的 accent-color、color 仍是原配色那一個,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,component-specific-light-dark-theme,mwg:component-specific-light-dark-theme:3,只在有背景的區塊設 color-scheme,主題配色對不上,在沒有背景的元素上設 color-scheme，背景與文字來自不同配色，文字讀不出來,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,component-specific-light-dark-theme,mwg:component-specific-light-dark-theme:4,"網址參數, postMessage() 傳配色",主題配色對不上,Safari 不依嵌入端的 color-scheme 渲染 iframe，iframe 裡的 prefers-color-scheme 仍照系統設定,部分改善,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,icons,mwg:icons,"@container style(), @property, mask + currentColor",圖示樣式管不到,用 <img> 加 CSS filter 改圖示顏色，無法可靠套用任意顏色值，改色麻煩又死板,部分改善,Newly,宣稱,有,新能力,設計系統可以把整套圖示做成 token：外部連結自動帶外連圖示、展開鈕依 aria-expanded 換箭頭、工具列一處調整所有圖示，HTML 不用改,有效
+2026-11-17,v1.0.0,icons,mwg:icons:2,@property inherits: false,層疊覆蓋不符意圖,圖示屬性沒註冊成不繼承，按鈕上設的圖示讓每個子孫都畫出一個,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,icons,mwg:icons:3,"根相對網址, <url> 語法註冊",新功能的副作用,自訂屬性裡的相對網址可能相對於使用處的樣式表解析，不同目錄時指到錯的檔案；initial-value 的網址只在 Firefox 有效,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,icons,mwg:icons:4,flex: none,版面意外溢出或位移,flex 按鈕裡標籤一長，空的偽元素圖示最先被壓縮，甚至縮到不見,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,icons,mwg:icons:5,forced-color-adjust: none,焦點或狀態指示消失,強制色彩模式取代 background-color，用 mask 畫的圖示整個消失,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,icons,mwg:icons:6,內嵌 SVG + <use href=#id>,合法連線被安全規則擋下,<use> 外部參照只限同源，跨來源 sprite 靜默失敗,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,icons,mwg:icons:7,"symbol 內的 var() 掛鉤, CSS d",圖示樣式管不到,<use> 的內容被複製進 shadow tree，頁面 CSS 選不到裡面的元素,部分改善,Limited,宣稱,有,新能力,一個 symbol 可以靠 CSS 變數換線寬甚至換路徑，播放/暫停、勾/叉共用同一個 <use>，狀態一變形狀就跟著換。改路徑目前 Safari 不支援,有效
+2026-11-17,v1.0.0,icons,mwg:icons:8,"Safari 專用 @supports, @layer 補丁",新功能的副作用,WebKit 錯誤讓圖示在互動前不出現，hover 時覆寫 --icon-start 也不生效,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,position-aware-tooltips,mwg:position-aware-tooltips,"container-type: anchored, @container anchored(fallback)",彈出層脫離觸發點,tooltip 翻到錨點下方後，箭頭指錯方向也在錯的一側,僵持,Limited,宣稱,有,新能力,會自動翻面的說明氣泡、導覽教學框、圖表標註可以讓箭頭永遠指向觸發點，純 CSS。目前僅 Chromium,有效
+2026-11-17,v1.0.0,position-aware-tooltips,mwg:position-aware-tooltips:2,調整位置或關閉 tooltip,焦點或狀態指示消失,鍵盤導覽不會關閉 popover=auto 的 tooltip，它可能蓋住剛取得焦點的控制項,缺,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,pull-to-reveal,mwg:pull-to-reveal,scroll-initial-target: nearest,內容要等JS才成形,指南只說 scrollIntoView() 與網址片段有限制、不好做，沒說在哪個時刻出問題,僵持,Limited,宣稱,缺,新能力,收件匣、筆記列表、聊天紀錄可以一開就停在主內容，往上拉才露出搜尋、篩選或載入更早的訊息，不必等 JS 捲一下。目前僅 Chromium,有效
+2026-11-17,v1.0.0,pull-to-reveal,mwg:pull-to-reveal:2,element.focus(),新功能的副作用,scroll-initial-target 只移動視覺捲動位置，不移動鍵盤焦點,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,pull-to-reveal,mwg:pull-to-reveal:3,可見的替代按鈕,只能 hover 才看得到,只能靠下拉手勢叫出的功能，不符合 WCAG 2.5.1 路徑型手勢要求,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,responsive-table,mwg:responsive-table,"position: sticky, @container 堆疊版面",版面擠壓破壞可讀性,大型資料表在小螢幕上欄位溢出或被壓縮到無法辨讀,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,responsive-table,mwg:responsive-table:2,"tabindex=0, role=region",隱藏或停用把人擋在外面,表格包裝層可捲動但取不到焦點，只用鍵盤的人無法穩定捲動,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,responsive-table,mwg:responsive-table:3,只對非文字內容給替代文字,播報過量,注入的欄名對文字內容也給替代文字，讀屏把文字和可及名稱都唸一次,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scrollability-affordance-hints,mwg:scrollability-affordance-hints,"container-type: scroll-state, scroll(self) 遮罩",捲動連動效果靠JS監聽,指南只說兩種提示都不需要 scroll 監聽器與額外元素，沒說那些做法在哪個時刻出問題,部分改善,Limited,宣稱,缺,新能力,對話框內文、側欄清單、橫向標籤列可以純 CSS 在邊緣出現陰影或淡出、到底自動消失；捲軸被隱藏的設計也有替代線索,有效
+2026-11-17,v1.0.0,scrollability-affordance-hints,mwg:scrollability-affordance-hints:2,"減去式遮罩, scroll-padding",焦點或狀態指示消失,單一漸層遮罩連捲動容器的焦點外框一起遮掉；聚焦或吸附的項目停在淡出帶裡,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scrollability-affordance-hints,mwg:scrollability-affordance-hints:3,@property 註冊淡出寬度,尺寸動畫只能跳變,沒註冊的自訂屬性不會內插，淡出帶寬度直接跳,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scrollability-affordance-hints,mwg:scrollability-affordance-hints:4,:dir(rtl) 翻轉漸層,新功能的副作用,捲動時間軸跟著書寫方向，漸層方向與遮罩位置卻是實體方向，右到左內容不翻轉就對不上,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-position-aware-elements,mwg:scroll-position-aware-elements,scroll-state(scrollable: top),捲動連動效果靠JS監聽,指南只說不必依賴 JS 的 scroll 監聽器或 observer，沒說那些做法在哪個時刻出問題,僵持,Limited,宣稱,缺,新能力,長文的回到頂端、長清單的浮動新增鈕、捲過開頭才出現的迷你標題列可以純 CSS 決定何時現身。目前僅 Chromium,有效
+2026-11-17,v1.0.0,scroll-position-aware-elements,mwg:scroll-position-aware-elements:2,@supports 裡才預設隱藏,隱藏或停用把人擋在外面,按鈕預設 visibility: hidden，不支援 scroll-state 的瀏覽器永遠不顯示,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-position-aware-elements,mwg:scroll-position-aware-elements:3,主內容底部留空間,隱藏或停用把人擋在外面,sticky 浮動按鈕在捲到底時永久蓋住最後幾個元素,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-progress-indicator,mwg:scroll-progress-indicator,"scroll(), scroll-timeline",捲動連動效果靠JS監聽,指南只說原生實作比 scroll 監聽器的退路更有效率，沒說舊做法在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,長文、教學、條款頁可以純 CSS 加閱讀進度條；一頁裡每個可捲動區塊也能各自帶進度,有效
+2026-11-17,v1.0.0,scroll-progress-indicator,mwg:scroll-progress-indicator:2,animation-timeline 寫在簡寫之後,層疊覆蓋不符意圖,animation 簡寫寫在後面會把時間軸重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,shrinking-header-on-scroll,mwg:shrinking-header-on-scroll,"scroll(block root), animation-range",捲動連動效果靠JS監聽,指南只說原生實作比 scroll 監聽器的退路更有效率，沒說舊做法在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,品牌大標頭、活動頁主視覺可以在往下捲的前幾百像素平滑縮成精簡導覽列，往回捲又長回來，純 CSS,有效
+2026-11-17,v1.0.0,shrinking-header-on-scroll,mwg:shrinking-header-on-scroll:2,"scroll-padding-top, padding-top",焦點或狀態指示消失,取得焦點的元素被捲到 sticky 標頭底下；標頭也可能蓋住緊接在後的內容,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,shrinking-header-on-scroll,mwg:shrinking-header-on-scroll:3,動畫元素脫離文件流,版面依賴錯的量測,流內元素一邊縮小，總捲動距離跟著縮，百分比 animation-range 換算出的位置隨之改變,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,shrinking-header-on-scroll,mwg:shrinking-header-on-scroll:4,animation-timeline 寫在簡寫之後,層疊覆蓋不符意圖,animation 簡寫寫在後面會把時間軸重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,state-aware-sticky-headers,mwg:state-aware-sticky-headers,scroll-state(stuck: top),捲動連動效果靠JS監聽,傳統做法用 JS scroll 監聽器，指南只說可能造成效能問題，沒指出具體現象,僵持,Limited,宣稱,缺,新能力,長文件的章節標頭、表格的分組標題可以黏住時自動加底色、陰影或縮成精簡版，一眼看出現在在哪一節。目前僅 Chromium,有效
+2026-11-17,v1.0.0,state-aware-sticky-headers,mwg:state-aware-sticky-headers:2,父層 overflow-anchor: none,互動中畫面抖動,黏住時改尺寸，捲動錨定補償位移把元素推回非黏住狀態，來回振盪閃爍,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,state-aware-sticky-headers,mwg:state-aware-sticky-headers:3,scroll-padding-top,焦點或狀態指示消失,沒有預留時，取得焦點的控制項可能被 sticky 標頭完全蓋住,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,viewport-aware-dropdowns,mwg:viewport-aware-dropdowns,"position-area, position-try-fallbacks, popover",版面意外溢出或位移,面板在預設位置溢出時被螢幕邊緣切掉；以前要靠 Popper.js、Floating UI 計算位置與碰撞,部分改善,Newly,宣稱,有,新能力,表格列尾的更多動作、卡片角落的選單、頁尾的語言切換可以在靠近視窗邊緣時自動往上或往左開，不必載入定位函式庫,有效
+2026-11-17,v1.0.0,viewport-aware-dropdowns,mwg:viewport-aware-dropdowns:2,inset/margin 重設包進 @supports,彈出層脫離觸發點,無條件設 inset: auto 或 margin: 0，不支援錨點定位時 popover 卡在左上角或蓋住觸發鈕,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,viewport-aware-dropdowns,mwg:viewport-aware-dropdowns:3,polyfill 規則不包 @supports,功能偵測不可靠,不支援的瀏覽器把錨點定位的 @supports 判為 false，在 polyfill 處理前就丟掉整塊規則,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,viewport-aware-dropdowns,mwg:viewport-aware-dropdowns:4,不加 role=menu 與 aria-haspopup,語意結構失真,觸發鈕加 aria-haspopup 等於承諾目標具備相對應的角色，這個按鈕群組模式沒有,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,2d-panning,mwg:2d-panning,scroll-axis-lock: none,原生捲動手勢不合用途,手勢一開始偏向某軸，瀏覽器把整個手勢鎖在該軸，地圖、畫布上斜向或 L 形平移卡住,僵持,Limited,宣稱,有,新能力,白板、心智圖、大型試算表、平面圖檢視器可以直接用原生捲動容器做自由二維平移，捲軸、鍵盤、慣性都是瀏覽器的。目前僅 Chrome 153,有效
+2026-11-17,v1.0.0,2d-panning,mwg:2d-panning:2,overscroll-behavior: none/contain,原生捲動手勢不合用途,平移到邊界時捲動串接到父頁面，或觸發滑動上一頁、下拉重新整理,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,2d-panning,mwg:2d-panning:3,scrollLeft/scrollTop,自製控制項丟掉原生行為,用 transform 平移，元素不再是捲動容器，捲軸、邊界夾限、方向鍵、scroll 事件、IntersectionObserver 全失效,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,2d-panning,mwg:2d-panning:4,touch-action: pinch-zoom 只用在退路,自製控制項丟掉原生行為,無條件設 touch-action 關掉原生觸控捲動；設成 none 連雙指縮放一起關掉,部分改善,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,anchor-positioning-tab-underline,mwg:anchor-positioning-tab-underline,"anchor-name, position-anchor, anchor(), transition: inset",尺寸動畫只能跳變,沒有錨點定位時只能在作用中分頁畫 border-bottom，切換時底線沒有動畫,部分改善,Newly,宣稱,有,新能力,分頁列、分段控制、垂直側欄的作用中指示可以純 CSS 從舊位置滑到新位置、寬度跟著變，不必 JS 量位置,有效
+2026-11-17,v1.0.0,anchor-positioning-tab-underline,mwg:anchor-positioning-tab-underline:2,inset + anchor() 取代 position-area,尺寸動畫只能跳變,用 position-area 定位的底線無法過渡,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,anchor-positioning-tab-underline,mwg:anchor-positioning-tab-underline:3,border-block-end,焦點或狀態指示消失,用 background 或 box-shadow 畫底線，強制色彩模式移除兩者，沒有任何指示,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,animate-element-entry-exit,mwg:animate-element-entry-exit,"@starting-style, transition-behavior: allow-discrete",尺寸動畫只能跳變,瀏覽器跳過元素的第一次樣式更新，剛加入 DOM 或 display 從 none 變化的元素無法過渡,部分改善,Limited,宣稱,有,新能力,通知、展開的說明、篩選結果卡片可以只切 hidden 屬性就淡入淡出，不必 JS 先改 class 等影格再加動畫 class。Firefox 的離場仍需 JS 退路,有效
+2026-11-17,v1.0.0,animate-element-entry-exit,mwg:animate-element-entry-exit:2,探針元素實測 display 過渡,功能偵測不可靠,Firefox 129+ 的 CSS.supports() 對 allow-discrete 回傳 true，實際不過渡 display，元素離場立刻消失,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,animate-element-entry-exit,mwg:animate-element-entry-exit:3,獨立的 transition-behavior 宣告,新功能的副作用,把 allow-discrete 寫進 transition 簡寫，舊瀏覽器忽略整條 transition,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,animate-element-entry-exit,mwg:animate-element-entry-exit:4,"getAnimations().finished, 保險逾時",尺寸動畫只能跳變,element.remove() 立即生效，不會觸發 CSS 過渡，離場動畫沒機會跑,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,animate-to-from-top-layer,mwg:animate-to-from-top-layer,"overlay, allow-discrete, @starting-style, ::backdrop",尺寸動畫只能跳變,頂層元素在 display: none 與可見之間切換難以動畫；沒過渡 overlay 時離場提早離開頂層被裁掉,部分改善,Limited,宣稱,有,新能力,確認框、側邊抽屜、浮動選單可以保留原生 dialog/popover 的焦點管理與 Esc 關閉，同時有淡入縮放與背景漸暗。離場動畫目前僅 Chromium 原生,有效
+2026-11-17,v1.0.0,animate-to-from-top-layer,mwg:animate-to-from-top-layer:2,"探針實測, CSS.supports(overlay)",功能偵測不可靠,Firefox 129+ 的 CSS.supports() 對 allow-discrete 回傳 true，實際不過渡 display，對話框離場立刻消失,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,animate-to-from-top-layer,mwg:animate-to-from-top-layer:3,獨立的 transition-behavior 宣告,新功能的副作用,把 allow-discrete 寫進 transition 簡寫，舊瀏覽器忽略整條 transition,部分改善,Newly,宣稱,有,糾錯,,有效
