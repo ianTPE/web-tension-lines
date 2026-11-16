@@ -60,4 +60,38 @@ license: CC-BY-4.0（上游指南）
 - 類型：糾錯
 - 變更紀錄：2026-11-16（v1.0.0）回溯拆出
 
-另有 2 條未拆：動畫要包在 `prefers-reduced-motion` 裡（動暈）；`base-select` 不再依最長選項決定寬度，需要固定寬度以免版面位移。「不要自行鎖捲動」一條沒有說明可觀察的後果，不另拆。
+%% line-start id="mwg:animated-select-picker:4" %%
+## 減少動態偏好下關掉選單與箭頭動畫
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：在 `@media (prefers-reduced-motion: reduce)` 裡把 `::picker(select)` 與 `::picker-icon` 的 transition 關掉
+- 被什麼擋：選單縮放、淡入與箭頭旋轉會讓有動暈症的使用者不適（引用："Always wrap animation constraints in a `prefers-reduced-motion` media query to ensure accessible environments for those affected by motion sickness."）
+- 戰報：部分改善——偏好減少動態時直接開合、不旋轉；選擇功能仍在，customizable select 本身為 Limited（官方宣稱）
+
+經過：裝飾動畫不是每個人都想要，系統已經表達減少動態，頁面就不該再播放。Firefox 本來就退回無動畫的系統選單。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：忽略使用者設定
+- 支援狀態：Customizable <select>：Limited
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:animated-select-picker:5" %%
+## base-select 的觸發鈕要自行限制寬度
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：開啟 `appearance: base-select` 後給 `<select>` 固定寬度，或用 flex／grid 約束尺寸
+- 被什麼擋：`base-select` 移除瀏覽器依最長選項決定寬度的預設行為，選中內容改變時會造成版面位移（引用："Setting `appearance: base-select` removes the default browser behavior of sizing the select based on its longest option width. You may need to set a fixed width or use flex/grid constraints to prevent layout shifts."）
+- 戰報：部分改善——寬度固定後切換選項不再推動鄰近內容；這個陷阱只出現在支援 base-select 的瀏覽器（Limited）（官方宣稱）
+
+經過：原生選單會先量最長選項，自訂版不再代量。動畫再平滑，觸發鈕寬度跟著選項跳仍會破壞版面。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：版面意外溢出或位移
+- 支援狀態：Customizable <select>：Limited
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+「不要自行鎖捲動」沒有指出可觀察的後果，不另拆。

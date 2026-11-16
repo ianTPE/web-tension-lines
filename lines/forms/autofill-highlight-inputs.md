@@ -59,4 +59,19 @@ license: CC-BY-4.0（上游指南）
 - 類型：糾錯
 - 變更紀錄：2026-11-16（v1.0.0）回溯拆出
 
-另有 1 條未拆：瀏覽器用 `!important` 設定自動填入欄位的背景與文字色，要覆寫只能靠 `inset 0 0 0 100vmax` 陰影與 `-webkit-text-fill-color` 這類繞路，且會蓋掉原本的 `box-shadow` 焦點環；指南建議盡量保留預設底色。
+%% line-start id="mwg:autofill-highlight-inputs:4" %%
+## 覆寫自動填入顏色時要保留焦點陰影與游標顏色
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：優先保留瀏覽器底色；必須覆寫時用 `inset 0 0 0 100vmax` 陰影蓋背景、`-webkit-text-fill-color` 改文字，另設 `caret-color`，並把原本的焦點 `box-shadow` 重列在同一宣告
+- 被什麼擋：瀏覽器以 `!important` 設定自動填入的背景與文字色，一般宣告壓不過；用陰影繞路又會取代原本的 `box-shadow` 焦點環（引用："All browsers also set `background-color`, `background-image`, and `color` on autofilled fields with `!important` in their user agent stylesheets, so overriding them relies on workarounds."）
+- 戰報：部分改善——繞路能換色，補回陰影與游標後焦點仍可辨識；`:autofill` 本身為 Limited（官方宣稱）
+
+經過：品牌底色蓋上去了，焦點環卻消失，因為兩者共用 `box-shadow`。文字繞路只改繪製顏色，`color` 與 `currentColor` 仍是瀏覽器的 `FieldText`，明暗配色也要分別確認。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：焦點或狀態指示消失
+- 支援狀態：:autofill：Limited
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏

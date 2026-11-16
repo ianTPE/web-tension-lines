@@ -59,4 +59,87 @@ license: CC-BY-4.0（上游指南）
 - 類型：糾錯
 - 變更紀錄：2026-11-16（v1.0.0）回溯拆出
 
-另有 5 條未拆：卡號用 `type="number"` 會加上增減鈕、去掉開頭的 0；格式提示放在欄位下方，會被手機鍵盤或自動填入彈窗遮住；安全碼用 `type="password"` 遮罩，打錯一位要到付款被拒才發現；卡號、電話拆成多個欄位，自動填入無法運作；卡號長度的 pattern 寫太死、不允許空格。
+%% line-start id="mwg:autofill-payment-form:4" %%
+## 卡號用文字欄位加數字鍵盤，不用 type="number"
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：卡號用 `type="text"`、`inputmode="numeric"`、`autocomplete="cc-number"`，允許空格並設合理長度與 pattern
+- 被什麼擋：`type="number"` 會增加增減鈕並去掉開頭的 0，把卡號當成會參與算術的數量（引用："DO NOT use type="number" — it adds increment/decrement controls and strips leading zeros"）
+- 戰報：勝——`inputmode` 已 Widely，手機仍顯示數字鍵盤，卡號字串原樣保留（官方宣稱）
+
+經過：為了數字鍵盤選了 number，卻同時得到不需要的微調按鈕與數值正規化。文字欄位只借用鍵盤，不改變值的語意。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：用錯原生控制項
+- 支援狀態：inputmode：Widely（2021-12-07）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:autofill-payment-form:5" %%
+## 付款格式提示放在欄位上方
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：到期日等格式提示放在可見的欄位上方，用 `aria-describedby` 連結；placeholder 只當額外線索
+- 被什麼擋：欄位下方的提示會被手機鍵盤或自動填入浮層遮住；只靠 placeholder 時一開始輸入就消失（引用："Hints that sit below an input are easily hidden by the mobile keyboard or by the autofill popover at the moment the user needs them."）
+- 戰報：勝——提示在使用者編輯時持續可見，也能由讀屏作為描述播報（官方宣稱）
+
+經過：使用者正要輸入 MM/YY，鍵盤升起、建議浮層跳出，下方的格式說明正好消失。搬到上方就不用記住。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：浮層遮住說明
+- 支援狀態：不適用（版面擺放，指南未附支援資料）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:autofill-payment-form:6" %%
+## 安全碼不要遮罩，讓使用者送出前檢查數字
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：卡片安全碼用 `type="text"`、`inputmode="numeric"`、`autocomplete="cc-csc"`，不用 `type="password"`
+- 被什麼擋：遮住的三四位安全碼無法檢查，打錯一位要等付款被拒才發現；遮罩對印在卡片上的數字也增加不了多少保護（引用："Users can't check a masked three- or four-digit code for typos, so a mistyped digit isn't caught until the payment is declined"）
+- 戰報：勝——數字在送出前可核對，輸入錯誤不必等到交易失敗才暴露（官方宣稱）
+
+經過：安全碼只有幾位，使用者看一眼卡片就能確認；遮罩把這個確認機會拿掉，代價是一筆本可避免的被拒交易。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：表單假設錯的資料格式
+- 支援狀態：inputmode：Widely（2021-12-07）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:autofill-payment-form:7" %%
+## 卡號與電話各用一個欄位，不拆成多格
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：卡號、電話號碼各用單一 `<input>`，需要分組外觀時用樣式呈現，不切成多個欄位
+- 被什麼擋：拆成多格會讓瀏覽器無法自動填入，也增加輸入與驗證的負擔（引用："For payment card and phone numbers use a single input: don't split the number into parts. That makes it easier for users to enter data, makes validation simpler, and enables browsers to autofill."）
+- 戰報：勝——單一值可由瀏覽器整段帶入，貼上與驗證也只面對一個欄位（官方宣稱）
+
+經過：每四碼一格看起來像實體卡片，瀏覽器卻不知道要把完整卡號分到哪裡。保留一個資料入口，外觀另外處理。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：自動填入失效
+- 支援狀態：不適用（指南未附此做法的支援資料）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:autofill-payment-form:8" %%
+## 卡號 pattern 允許不同長度與空格
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：驗證卡號接受實際發卡範圍的長度與使用者輸入的空格，後端處理前再移除空格
+- 被什麼擋：pattern 寫死單一長度會拒絕合法卡片；不允許空格則把實體卡上的分組格式判成錯誤，打斷結帳（引用："Allow users to include spaces when they're entering a new payment card number, since this is how numbers are displayed on physical cards."）
+- 戰報：勝——合法長度與空格不再被前端擋下，處理前仍能得到乾淨數字字串（官方宣稱）
+
+經過：使用者照卡片輸入「1234 5678…」卻看到格式錯誤，只好重打。指南建議卡號長度保持彈性，安全碼則接受三或四位。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：表單假設錯的資料格式
+- 支援狀態：不適用（正規表示式驗證，指南未附支援資料）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏

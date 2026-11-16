@@ -92,7 +92,10 @@
     "不認得的語法讓整條規則失效": "Unrecognized syntax invalidates the whole rule",
     "封裝邊界切斷關聯": "Encapsulation boundaries break relationships",
     "押注不會普及的功能": "Betting on features that will not ship",
-    "時間模型失真": "The time model misrepresents reality"
+    "時間模型失真": "The time model misrepresents reality",
+    "簡寫或屬性連動重設": "Shorthands or linked properties reset settings",
+    "繼承範圍不符預期": "Inheritance reaches further or less far than expected",
+    "堆疊脈絡改變層級": "Stacking contexts change layering"
   },
   "guides": {
     "install-web-app": "Installing web apps",
@@ -689,33 +692,6 @@
       "support": "— (no support data given for textContent)"
     },
     "mwg:language-model:3": {
-      "title": "Set aria-busy while streaming so screen readers read the full response, not each chunk",
-      "action": "Make the output container a polite live region present from page load, set `aria-busy=\"true\"` while streaming and `false` after; don't move focus during streaming",
-      "blocker": "Without `aria-busy`, the live region reads out every streamed chunk (quote: \"so assistive technologies announce the complete response rather than each chunk\")",
-      "outcome": "Assistive tech waits until streaming ends and announces the complete response (official claim)",
-      "story": "The typewriter effect is feedback for sighted users and broken fragments for screen reader users. When the output language differs from the page, the output element must also get `lang` so it is pronounced correctly.",
-      "unlock": "",
-      "support": "— (no support data given for aria-busy / live regions)"
-    },
-    "mwg:prompt-api": {
-      "title": "Run Gemini Nano in the browser with the Prompt API",
-      "action": "Check with `LanguageModel.availability()`, download the model from a user gesture via `LanguageModel.create()`, then handle text, image and audio input with `prompt()`/`promptStreaming()`",
-      "blocker": "(missing) The guide only lists the benefits of running locally (privacy, lower server cost, offline), without saying where the old approach fails (quote: \"This built-in AI approach ensures user privacy, reduces server costs, and enables offline functionality.\")",
-      "outcome": "Only Chrome 148 supports it; Edge, Firefox and Safari fall back to a server/cloud API or a local endpoint such as Transformers.js (official claim)",
-      "story": "This guide is word-for-word identical to the language-model guide in v1.0.0. It covers session management, multimodal input and structured output; the opponent appears only as the flip side of the benefits. Hardware requirements are high, and the download needs a user gesture plus visible progress.",
-      "unlock": "Same as `mwg:language-model`: classify, rewrite or answer questions about images inside the page without a server; data stays on the device. Chrome 148 desktop only for now.",
-      "support": "LanguageModel: Limited (Chrome 148; not Edge, Firefox or Safari)"
-    },
-    "mwg:prompt-api:2": {
-      "title": "Always write model output with textContent, never innerHTML",
-      "action": "Write model responses into `textContent`; when limited HTML is needed, run the Sanitizer API or DOMPurify over the **complete** output",
-      "blocker": "Model output is untrusted and can contain injected markup, so setting `innerHTML` directly becomes XSS (quote: \"Model output is untrusted and can contain injected markup. Always use `textContent` or a sanitizer.\")",
-      "outcome": "Written as plain text, it is never parsed as markup (official claim)",
-      "story": "The usual streaming pattern is `innerHTML +=` for each chunk. The guide says that is slow and injectable, and malicious code can be split across two chunks, so sanitize the combined output, not each chunk.",
-      "unlock": "",
-      "support": "— (no support data given for textContent)"
-    },
-    "mwg:prompt-api:3": {
       "title": "Set aria-busy while streaming so screen readers read the full response, not each chunk",
       "action": "Make the output container a polite live region present from page load, set `aria-busy=\"true\"` while streaming and `false` after; don't move focus during streaming",
       "blocker": "Without `aria-busy`, the live region reads out every streamed chunk (quote: \"so assistive technologies announce the complete response rather than each chunk\")",
@@ -4197,6 +4173,231 @@
       "story": "An unbounded queue can otherwise prevent every later event from being scheduled.",
       "unlock": "",
       "support": "fetchLater: Limited."
+    },
+    "mwg:form-fields-automatically-fit-contents:4": {
+      "title": "Cancel flex and grid stretching for content-sized fields",
+      "action": "Set align-self:start or justify-self:start on field-sizing controls inside grid and flex layouts.",
+      "blocker": "Grid and flex layouts implicitly stretch children, preventing fields from shrinking to their content. (quote: \"Grid and Flexbox layouts often implicitly stretch their children to fill available space.\")",
+      "outcome": "Overriding stretch lets fields shrink to content; field-sizing is Newly.",
+      "story": "The container alignment default can defeat auto-sizing even after explicit widths are reset.",
+      "unlock": "",
+      "support": "field-sizing: Newly since 2026-06-16."
+    },
+    "mwg:autofill-highlight-inputs:4": {
+      "title": "Preserve focus shadows and caret color when overriding autofill colors",
+      "action": "Prefer the browser colors; otherwise use inset shadow, -webkit-text-fill-color, and caret-color, repeating existing focus shadows in the same declaration.",
+      "blocker": "UA !important colors require workarounds, and an inset-shadow workaround replaces existing box-shadow focus rings. (quote: \"All browsers also set `background-color`, `background-image`, and `color` on autofilled fields with `!important` in their user agent stylesheets, so overriding them relies on workarounds.\")",
+      "outcome": "Colors can change without losing focus indication; :autofill remains Limited.",
+      "story": "The brand background and focus ring compete for the same box-shadow property.",
+      "unlock": "",
+      "support": "`:autofill`: Limited."
+    },
+    "mwg:animated-select-picker:5": {
+      "title": "Give base-select an explicit width",
+      "action": "Set a fixed width or flex/grid constraints after enabling appearance: base-select.",
+      "blocker": "base-select removes longest-option sizing, so selected content changes width and shifts layout. (quote: \"Setting `appearance: base-select` removes the default browser behavior of sizing the select based on its longest option width. You may need to set a fixed width or use flex/grid constraints to prevent layout shifts.\")",
+      "outcome": "An explicit width keeps neighboring content stationary.",
+      "story": "Customizable select no longer reserves width for the longest option.",
+      "unlock": "",
+      "support": "Customizable select: Limited."
+    },
+    "mwg:custom-select-picker-layouts:4": {
+      "title": "Give base-select an explicit width",
+      "action": "Set a fixed width or flex/grid constraints after enabling appearance: base-select.",
+      "blocker": "base-select removes longest-option sizing, so selected content changes width and shifts layout. (quote: \"Setting `appearance: base-select` removes the default browser behavior of sizing the select based on its longest option width. You may need to set a fixed width or use flex/grid constraints to prevent layout shifts.\")",
+      "outcome": "An explicit width keeps neighboring content stationary.",
+      "story": "Customizable select no longer reserves width for the longest option.",
+      "unlock": "",
+      "support": "Customizable select: Limited."
+    },
+    "mwg:animated-select-picker:4": {
+      "title": "Disable picker and icon animation under reduced motion",
+      "action": "Disable picker and picker-icon transitions inside prefers-reduced-motion: reduce.",
+      "blocker": "Menu scaling, fading, and icon rotation can affect people with motion sickness. (quote: \"Always wrap animation constraints in a `prefers-reduced-motion` media query to ensure accessible environments for those affected by motion sickness.\")",
+      "outcome": "The menu opens directly without rotation for users requesting reduced motion.",
+      "story": "System motion preferences must also apply to decorative select animation.",
+      "unlock": "",
+      "support": "Customizable select: Limited."
+    },
+    "mwg:custom-select-picker-layouts:5": {
+      "title": "Add geometric left/right navigation while preserving linear up/down navigation",
+      "action": "Handle Left and Right with getBoundingClientRect(), retain sequential Up and Down, and do not apply grid role to the picker.",
+      "blocker": "Native select only handles linear Up/Down, so Left/Right do nothing; removing sequential navigation can hide options from screen-reader users. (quote: \"A native `<select>` only handles linear Up/Down arrow navigation, so Left/Right do nothing in the open picker and Up/Down still navigate items sequentially, regardless of rows and columns.\")",
+      "outcome": "Arrow keys follow the visual grid while every option remains sequentially reachable.",
+      "story": "Actual geometry handles irregular grids and RTL better than parsing CSS track strings.",
+      "unlock": "",
+      "support": "Customizable select: Limited."
+    },
+    "mwg:style-parent-with-has:4": {
+      "title": "Announce errors through one delayed polite live region",
+      "action": "Send field errors to one page-level polite live region after a short delay, and focus the first invalid field after failed submission.",
+      "blocker": "A live region that is merely shown rather than changed is not announced reliably, and simultaneous messages can talk over the next field. (quote: \"a live region that is shown, rather than changed, isn't announced reliably.\")",
+      "outcome": "Changing shared-region text makes the error audible without competing with focus announcements.",
+      "story": "The live region must exist from page load and receive a text update, not merely become visible.",
+      "unlock": "",
+      "support": ":user-valid and :user-invalid: Widely."
+    },
+    "mwg:required-field-feedback:4": {
+      "title": "Announce errors through one delayed polite live region",
+      "action": "Send field errors to one page-level polite live region after a short delay, and focus the first invalid field after failed submission.",
+      "blocker": "A live region that is merely shown rather than changed is not announced reliably, and simultaneous messages can talk over the next field. (quote: \"a live region that is shown, rather than changed, isn't announced reliably.\")",
+      "outcome": "Changing shared-region text makes the error audible without competing with focus announcements.",
+      "story": "The live region must exist from page load and receive a text update, not merely become visible.",
+      "unlock": "",
+      "support": ":user-valid and :user-invalid: Widely."
+    },
+    "mwg:required-field-feedback:5": {
+      "title": "Hide required-field asterisks from assistive technology",
+      "action": "Wrap visual asterisks in aria-hidden spans, explain the convention once, and retain the required attribute.",
+      "blocker": "required already announces the state, so an exposed asterisk adds redundant speech. (quote: \"wrap it in `<span aria-hidden=\"true\">*</span>`, because the `required` attribute already makes screen readers announce \"required\".\")",
+      "outcome": "Sighted users keep the asterisk while screen readers announce required once.",
+      "story": "Visual decoration should not duplicate a programmatic state.",
+      "unlock": "",
+      "support": ":user-valid and :user-invalid: Widely."
+    },
+    "mwg:required-field-feedback:6": {
+      "title": "Keep submit enabled so the browser reveals required errors",
+      "action": "Leave submit enabled before validity; activation triggers :user-invalid and focuses the first invalid field.",
+      "blocker": "A disabled submit prevents users from requesting validation and receiving error and focus guidance. (quote: \"Unlike `disabled` buttons, keep your submit button enabled. If the user clicks it, the browser will automatically trigger `:user-invalid` on all empty required fields and focus the first one.\")",
+      "outcome": "Submission reveals missing fields and focuses the first error.",
+      "story": "A disabled button says only that submission is unavailable, not what needs fixing.",
+      "unlock": "",
+      "support": ":user-valid and :user-invalid: Widely."
+    },
+    "mwg:autofill-payment-form:4": {
+      "title": "Use text and numeric inputmode for card numbers",
+      "action": "Use type=\"text\", inputmode=\"numeric\", and cc-number autocomplete, allowing spaces and appropriate lengths.",
+      "blocker": "Number inputs add spinners and strip leading zeros. (quote: \"DO NOT use type=\"number\" — it adds increment/decrement controls and strips leading zeros\")",
+      "outcome": "Mobile retains a numeric keyboard while the card number remains an exact string.",
+      "story": "A card number is an identifier, not a quantity.",
+      "unlock": "",
+      "support": "inputmode: Widely."
+    },
+    "mwg:autofill-payment-form:5": {
+      "title": "Place payment format hints above the input",
+      "action": "Put persistent hints above fields and connect them with aria-describedby; use placeholder only as an extra cue.",
+      "blocker": "Mobile keyboards and autofill popovers cover hints below inputs, and placeholder disappears during entry. (quote: \"Hints that sit below an input are easily hidden by the mobile keyboard or by the autofill popover at the moment the user needs them.\")",
+      "outcome": "The format remains visible and programmatically associated while editing.",
+      "story": "Moving the hint avoids both overlays.",
+      "unlock": "",
+      "support": "Layout placement; N/A."
+    },
+    "mwg:autofill-payment-form:6": {
+      "title": "Do not mask the card security code",
+      "action": "Use type=\"text\", numeric inputmode, and cc-csc autocomplete instead of type=\"password\".",
+      "blocker": "Users cannot check masked digits, so a typo appears only after payment is declined. (quote: \"Users can't check a masked three- or four-digit code for typos, so a mistyped digit isn't caught until the payment is declined\")",
+      "outcome": "Users can verify the code before submitting.",
+      "story": "Masking a code printed on the card adds little protection but removes a useful check.",
+      "unlock": "",
+      "support": "inputmode: Widely."
+    },
+    "mwg:autofill-payment-form:7": {
+      "title": "Use one field for card and phone numbers",
+      "action": "Keep each number in one input and create grouped visuals with styling rather than multiple fields.",
+      "blocker": "Splitting numbers prevents browser autofill and complicates entry and validation. (quote: \"For payment card and phone numbers use a single input: don't split the number into parts. That makes it easier for users to enter data, makes validation simpler, and enables browsers to autofill.\")",
+      "outcome": "The browser fills and validates the complete value in one field.",
+      "story": "The visual grouping no longer determines the data-entry structure.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:autofill-payment-form:8": {
+      "title": "Allow varied card lengths and spaces in patterns",
+      "action": "Accept valid issuer lengths and spaces, removing spaces before processing.",
+      "blocker": "Rigid patterns reject valid cards and the grouped spaces printed on physical cards. (quote: \"Allow users to include spaces when they're entering a new payment card number, since this is how numbers are displayed on physical cards.\")",
+      "outcome": "Valid lengths and spaces pass frontend validation while processing still receives clean digits.",
+      "story": "Users should not have to retype the format shown on their card.",
+      "unlock": "",
+      "support": "Regular-expression validation; N/A."
+    },
+    "mwg:autofill-sign-in-form:4": {
+      "title": "Allow Unicode letters in name validation",
+      "action": "Use Unicode-aware matching and secure Unicode handling on the backend.",
+      "blocker": "Latin-only validation excludes users whose names or addresses use other writing systems. (quote: \"Latin-only excludes users with names or addresses that include characters that aren't in the Latin alphabet.\")",
+      "outcome": "Names in non-Latin scripts pass validation.",
+      "story": "Names are international data, not English identifiers.",
+      "unlock": "",
+      "support": "No Baseline data; N/A."
+    },
+    "mwg:autofill-sign-in-form:5": {
+      "title": "Use a real form instead of div-based JavaScript-only submission",
+      "action": "Put credentials in a form with a submit button and preserve native submission before enhancing with JavaScript.",
+      "blocker": "JavaScript-only submission leaves the flow unusable when scripts fail and loses native accessibility behavior. (quote: \"can still work even if JavaScript fails.\")",
+      "outcome": "Native form submission remains available as a fallback.",
+      "story": "Visible fields are useless if script failure removes their only submission path.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:autofill-sign-in-form:6": {
+      "title": "Do not ask for email or password twice",
+      "action": "Request each value once and provide password visibility, confirmation, or reset paths instead of duplicate fields.",
+      "blocker": "Repeated entry adds work for everyone and increases abandonment, especially with autofill and generated passwords. (quote: \"causes extra work for all users, and increases abandonment rates.\")",
+      "outcome": "The flow loses a redundant round of typing and comparison.",
+      "story": "Duplicate fields defeat the automation supplied by password managers.",
+      "unlock": "",
+      "support": "Flow design; N/A."
+    },
+    "mwg:autofill-sign-in-form:7": {
+      "title": "Keep credentials and submit above the mobile keyboard",
+      "action": "Place only identifier, password, and the primary button near the top, moving secondary content below.",
+      "blocker": "Mobile keyboards can cover the form or button, and users may give up before understanding why. (quote: \"mobile keyboards may cover your form or, worse, partially obstruct the Sign in button. Users may give up before realizing what has happened.\")",
+      "outcome": "Core input and submission stay visible without dismissing the keyboard.",
+      "story": "A concise first screen prevents the keyboard from hiding the next action.",
+      "unlock": "",
+      "support": "Layout placement; N/A."
+    },
+    "mwg:autofill-sign-in-form:8": {
+      "title": "Allow pasting into password fields",
+      "action": "Do not block paste events; support password managers and visible-password controls.",
+      "blocker": "Blocking paste encourages memorable, easier-to-compromise passwords and does not remove clipboard risk. (quote: \"Disallowing password pasting annoys users, encourages passwords that are memorable (and therefore may be easier to compromise)\")",
+      "outcome": "Long unique passwords can be pasted or filled without being simplified for manual typing.",
+      "story": "The apparent security measure mainly penalizes password-manager users.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:autofill-sign-up-form:4": {
+      "title": "Allow Unicode letters in name validation",
+      "action": "Use Unicode-aware matching and secure Unicode handling on the backend.",
+      "blocker": "Latin-only validation excludes users whose names or addresses use other writing systems. (quote: \"Latin-only excludes users with names or addresses that include characters that aren't in the Latin alphabet.\")",
+      "outcome": "Names in non-Latin scripts pass validation.",
+      "story": "Names are international data, not English identifiers.",
+      "unlock": "",
+      "support": "No Baseline data; N/A."
+    },
+    "mwg:autofill-sign-up-form:5": {
+      "title": "Use a real form instead of div-based JavaScript-only submission",
+      "action": "Put credentials in a form with a submit button and preserve native submission before enhancing with JavaScript.",
+      "blocker": "JavaScript-only submission leaves the flow unusable when scripts fail and loses native accessibility behavior. (quote: \"can still work even if JavaScript fails.\")",
+      "outcome": "Native form submission remains available as a fallback.",
+      "story": "Visible fields are useless if script failure removes their only submission path.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:autofill-sign-up-form:6": {
+      "title": "Do not ask for email or password twice",
+      "action": "Request each value once and provide password visibility, confirmation, or reset paths instead of duplicate fields.",
+      "blocker": "Repeated entry adds work for everyone and increases abandonment, especially with autofill and generated passwords. (quote: \"causes extra work for all users, and increases abandonment rates.\")",
+      "outcome": "The flow loses a redundant round of typing and comparison.",
+      "story": "Duplicate fields defeat the automation supplied by password managers.",
+      "unlock": "",
+      "support": "Flow design; N/A."
+    },
+    "mwg:autofill-sign-up-form:7": {
+      "title": "Keep credentials and submit above the mobile keyboard",
+      "action": "Place only identifier, password, and the primary button near the top, moving secondary content below.",
+      "blocker": "Mobile keyboards can cover the form or button, and users may give up before understanding why. (quote: \"mobile keyboards may cover your form or, worse, partially obstruct the Sign up button. Users may give up before realizing what has happened.\")",
+      "outcome": "Core input and submission stay visible without dismissing the keyboard.",
+      "story": "A concise first screen prevents the keyboard from hiding the next action.",
+      "unlock": "",
+      "support": "Layout placement; N/A."
+    },
+    "mwg:autofill-sign-up-form:8": {
+      "title": "Allow pasting into password fields",
+      "action": "Do not block paste events; support password managers and visible-password controls.",
+      "blocker": "Blocking paste encourages memorable, easier-to-compromise passwords and does not remove clipboard risk. (quote: \"Disallowing password pasting annoys users, encourages passwords that are memorable (and therefore may be easier to compromise)\")",
+      "outcome": "Long unique passwords can be pasted or filled without being simplified for manual typing.",
+      "story": "The apparent security measure mainly penalizes password-manager users.",
+      "unlock": "",
+      "support": "No support data; N/A."
     }
   }
 }

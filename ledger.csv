@@ -48,9 +48,6 @@
 2026-11-16,v1.0.0,language-model,mwg:language-model,LanguageModel（Prompt API）,得送雲端或載大型函式庫,只列出本機執行的好處（隱私、降低伺服器成本、可離線），沒說舊做法在哪個時刻出問題,僵持,Limited,宣稱,缺,新能力,不經伺服器就能在頁面裡做分類、改寫、看圖回答，例如筆記 app 在本機替日記打標籤，資料不離開裝置，離線也能用。目前僅 Chrome 148 桌面版,有效
 2026-11-16,v1.0.0,language-model,mwg:language-model:2,"textContent, Sanitizer API",不可信內容當HTML解析,模型輸出可能夾帶注入的標記，直接設 `innerHTML` 會變成 XSS,勝,Widely,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,language-model,mwg:language-model:3,"aria-busy, aria-live",播報過量,串流輸出時 live region 把每個片段都唸出來,勝,Widely,宣稱,有,糾錯,,有效
-2026-11-16,v1.0.0,prompt-api,mwg:prompt-api,LanguageModel（Prompt API）,得送雲端或載大型函式庫,只列出本機執行的好處（隱私、降低伺服器成本、可離線），沒說舊做法在哪個時刻出問題（與 language-model 指南逐字相同）,僵持,Limited,宣稱,缺,新能力,同 mwg:language-model：不經伺服器就能在頁面裡做分類、改寫、看圖回答，資料不離開裝置。目前僅 Chrome 148 桌面版,有效
-2026-11-16,v1.0.0,prompt-api,mwg:prompt-api:2,"textContent, Sanitizer API",不可信內容當HTML解析,模型輸出可能夾帶注入的標記，直接設 `innerHTML` 會變成 XSS（與 language-model 指南逐字相同）,勝,Widely,宣稱,有,糾錯,,有效
-2026-11-16,v1.0.0,prompt-api,mwg:prompt-api:3,"aria-busy, aria-live",播報過量,串流輸出時 live region 把每個片段都唸出來（與 language-model 指南逐字相同）,勝,Widely,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,summarizer,mwg:summarizer,Summarizer,得送雲端或載大型函式庫,改由遠端服務處理時，本機隱私保證完全失效，還會產生伺服器端 API 費用,僵持,Limited,宣稱,有,新能力,私人文件（日記、會議紀錄、郵件）可以在頁面裡直接產生 TL;DR 或重點條列，內容不離開裝置，也沒有 API 帳單。目前僅 Chrome／Edge 138 桌面版,有效
 2026-11-16,v1.0.0,translator,mwg:translator,Translator,得送雲端或載大型函式庫,改由遠端服務處理時，本機隱私保證完全失效，也常產生伺服器端 API 費用,僵持,Limited,宣稱,有,新能力,聊天室、留言區可以逐則就地翻譯，訊息不經第三方翻譯服務，也沒有每字計費。目前僅 Chrome／Edge 桌面版,有效
 2026-11-16,v1.0.0,animate-to-intrinsic-sizes,mwg:animate-to-intrinsic-sizes,"interpolate-size, calc-size()",尺寸動畫只能跳變,不支援的瀏覽器裡，尺寸過渡到 `auto` 等關鍵字時直接瞬間跳到目標值,僵持,Limited,宣稱,有,新能力,任何高度隨內容的區塊（通知、展開說明、可收合側欄）都能用一行 CSS 做平滑展開與收合，不必 JS 量尺寸。目前僅 Chromium,有效
@@ -70,8 +67,8 @@
 2026-11-16,v1.0.0,dynamic-sibling-styling,mwg:dynamic-sibling-styling,"sibling-index(), sibling-count()",用JS補樣式狀態,只說過去要寫複雜的 `:nth-child` 迴圈或用 JS 注入行內樣式，沒說那樣做在哪個時刻出錯,部分改善,Newly,宣稱,缺,新能力,項目數量不固定的視覺化可以純 CSS 排：環狀選單、扇形展開的手牌、依數量自動分色的標籤雲，增刪項目時位置和顏色自己重算,有效
 2026-11-16,v1.0.0,fluid-scaling,mwg:fluid-scaling,"cqi/cqb, clamp()",版面依賴錯的量測,用視窗單位做流體縮放，元件照螢幕寬度而不是自己的寬度縮放,勝,Widely,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,fluid-scaling,mwg:fluid-scaling:2,clamp() 比例上限,忽略使用者設定,用 `clamp()` 夾住流體字級，會影響使用者縮放或調整基準字級的能力,勝,Widely,宣稱,有,糾錯,,有效
-2026-11-16,v1.0.0,individual-transform-properties,mwg:individual-transform-properties,"translate, rotate, scale",層疊覆蓋不符意圖,`transform` 改其中一個變換就得重寫整條變換鏈，單一變換難以獨立動畫,勝,Widely,宣稱,有,糾錯,,有效
-2026-11-16,v1.0.0,individual-transform-properties,mwg:individual-transform-properties:2,恆等變換,版面意外溢出或位移,只在 hover 時套變換，那一刻建立新的堆疊脈絡，造成意外的版面或 z-index 位移,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,individual-transform-properties,mwg:individual-transform-properties,"translate, rotate, scale",簡寫或屬性連動重設,`transform` 改其中一個變換就得重寫整條變換鏈，單一變換難以獨立動畫,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,individual-transform-properties,mwg:individual-transform-properties:2,恆等變換,堆疊脈絡改變層級,只在 hover 時套變換，那一刻建立新的堆疊脈絡，造成意外的版面或 z-index 位移,勝,Widely,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,overflow-clipping-control,mwg:overflow-clipping-control,"overflow: clip, overflow-clip-margin",裁切切掉不該切的,`overflow: hidden` 在 padding box 切齊，子元素的陰影在容器邊界被切斷；舊解法要多包 wrapper 加負邊距,僵持,Limited,宣稱,有,新能力,卡片可以裁掉溢出的內文，同時讓按鈕光暈、浮起陰影、角落徽章畫出邊界一段距離，不必多包 wrapper。目前僅 Firefox 148,有效
 2026-11-16,v1.0.0,overflow-clipping-control,mwg:overflow-clipping-control:2,overflow-clip-margin: content-box,裁切切掉不該切的,只說能省去手算 padding 的 calc()、解決 awkward nesting curves，沒說舊做法的內角在什麼情況出錯,僵持,Limited,宣稱,缺,新能力,圓角卡片裡的內嵌媒體只寫外框圓角，內層自動貼合同心弧度，換 padding 也不用重算。目前僅 Firefox 148,有效
 2026-11-16,v1.0.0,reduce-style-repetition,mwg:reduce-style-repetition,@function,樣式邏輯到處重複,只說大型樣式表容易累積重複邏輯，沒說重複在哪個時刻造成可觀察的問題,僵持,Limited,宣稱,缺,新能力,"設計系統可以在瀏覽器端提供 `--fancy-gradient(色1, 色2)`、`--grid-template(欄數)` 這種帶參數的 CSS 函式，還能依 media 條件回傳不同值。目前僅 Chromium",有效
@@ -231,7 +228,7 @@
 2026-11-16,v1.0.0,sanitize-untrusted-html,mwg:sanitize-untrusted-html:4,RETURN_TRUSTED_TYPE,新功能的副作用,強制 Trusted Types 時，退路把字串指派給 innerHTML 丟出例外,部分改善,Limited,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,secure-external-subresources,mwg:secure-external-subresources,"integrity（SRI）, 版本固定網址",內容遭竄改未察覺,引用 latest/ 這類會變動的網址，暴露在無聲的供應鏈變更下；執行時自己算雜湊等於相信遠端內容,勝,Widely,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,secure-external-subresources,mwg:secure-external-subresources:2,crossorigin=anonymous,合法連線被安全規則擋下,有 integrity 卻少了 crossorigin，以 no-cors 抓到無法驗證的不透明回應而被擋,勝,Widely,宣稱,有,糾錯,,有效
-2026-11-16,v1.0.0,secure-external-subresources,mwg:secure-external-subresources:3,"CSS url() integrity()/cross-origin()/referrer-policy()",內容遭竄改未察覺,background-image、@import 等預設以 no-cors 抓取，不透明回應無法驗證雜湊,僵持,Limited,宣稱,有,新能力,從 CDN 發布的設計系統可以在 CSS 裡把字型、圖示、主題變數檔全部釘上雜湊，不必為了 SRI 把 @import 拆成一堆 link。目前只有 Chromium 會驗,有效
+2026-11-16,v1.0.0,secure-external-subresources,mwg:secure-external-subresources:3,CSS url() integrity()/cross-origin()/referrer-policy(),內容遭竄改未察覺,background-image、@import 等預設以 no-cors 抓取，不透明回應無法驗證雜湊,僵持,Limited,宣稱,有,新能力,從 CDN 發布的設計系統可以在 CSS 裡把字型、圖示、主題變數檔全部釘上雜湊，不必為了 SRI 把 @import 拆成一堆 link。目前只有 Chromium 會驗,有效
 2026-11-16,v1.0.0,secure-external-subresources,mwg:secure-external-subresources:4,分開的 @font-face src 宣告,新功能的副作用,驗證版與未驗證版寫在同一個 src 清單，被竄改時自動退到未驗證網址，繞過 SRI,部分改善,Limited,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,secure-external-subresources,mwg:secure-external-subresources:5,"referrerpolicy=no-referrer, Referrer-Policy",敏感資料外露,請求第三方主機時 Referer 標頭洩漏來源或路徑資訊,勝,Widely,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,security,mwg:security,"CSP nonce, 'strict-dynamic'",防線形同虛設,以網域白名單當 script-src 主要防線，可被白名單網域上的開放重新導向、JSONP、相依注入繞過,勝,不適用,宣稱,有,糾錯,,有效
@@ -258,14 +255,14 @@
 2026-11-17,v1.0.0,verify-email-ownership,mwg:verify-email-ownership:3,"伺服器端 SD-JWT 驗證, DNS 委派",內容遭竄改未察覺,在用戶端 JavaScript 驗證權杖，檢查可被輕易繞過或偽造,部分改善,Limited,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,verify-email-ownership,mwg:verify-email-ownership:4,逐把試驗 JWKS 金鑰,新功能的副作用,供應商的 EVT 省略 kid，JWKS 有多把金鑰時 jose 丟出 ERR_JWKS_MULTIPLE_MATCHING_KEYS,部分改善,Limited,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,carousel-slide-effects,mwg:carousel-slide-effects,"view(), view-timeline",捲動連動效果靠JS監聽,指南只說原生實作比 scroll 監聽加 Web Animations 的退路更有效率，沒說舊做法在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,相簿、商品輪播、時間軸可以純 CSS 做出滑到中間放大、兩側縮小變淡的封面流效果，不必在 scroll 事件裡逐張計算位置,有效
-2026-11-17,v1.0.0,carousel-slide-effects,mwg:carousel-slide-effects:2,animation-timeline 寫在簡寫之後,層疊覆蓋不符意圖,animation 簡寫寫在後面會把時間軸重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,carousel-slide-effects,mwg:carousel-slide-effects:2,animation-timeline 寫在簡寫之後,簡寫或屬性連動重設,animation 簡寫寫在後面會把時間軸重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,carousel-slide-effects,mwg:carousel-slide-effects:3,"tabindex=0, 可及名稱",隱藏或停用把人擋在外面,不是每個瀏覽器都讓捲動容器可用鍵盤聚焦，投影片沒有可聚焦元素時鍵盤使用者捲不動,勝,不適用,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,component-specific-light-dark-theme,mwg:component-specific-light-dark-theme,"color-scheme, light-dark()",主題配色對不上,指南只列出適用情境並說舊瀏覽器要在根元素用 prefers-color-scheme，沒說舊做法在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,淺色文件站裡的程式碼區塊、影片播放器、地圖、元件預覽可以各自固定配色，連捲軸與勾選框都一起變，不必寫第二套樣式,有效
 2026-11-17,v1.0.0,component-specific-light-dark-theme,mwg:component-specific-light-dark-theme:2,重新指定繼承的顏色屬性,主題配色對不上,light-dark() 在計算值階段解析，元件改了 color-scheme 後子樹的 accent-color、color 仍是原配色那一個,部分改善,Newly,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,component-specific-light-dark-theme,mwg:component-specific-light-dark-theme:3,只在有背景的區塊設 color-scheme,主題配色對不上,在沒有背景的元素上設 color-scheme，背景與文字來自不同配色，文字讀不出來,勝,Widely,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,component-specific-light-dark-theme,mwg:component-specific-light-dark-theme:4,"網址參數, postMessage() 傳配色",主題配色對不上,Safari 不依嵌入端的 color-scheme 渲染 iframe，iframe 裡的 prefers-color-scheme 仍照系統設定,部分改善,Widely,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,icons,mwg:icons,"@container style(), @property, mask + currentColor",圖示樣式管不到,用 <img> 加 CSS filter 改圖示顏色，無法可靠套用任意顏色值，改色麻煩又死板,部分改善,Newly,宣稱,有,新能力,設計系統可以把整套圖示做成 token：外部連結自動帶外連圖示、展開鈕依 aria-expanded 換箭頭、工具列一處調整所有圖示，HTML 不用改,有效
-2026-11-17,v1.0.0,icons,mwg:icons:2,@property inherits: false,層疊覆蓋不符意圖,圖示屬性沒註冊成不繼承，按鈕上設的圖示讓每個子孫都畫出一個,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,icons,mwg:icons:2,@property inherits: false,繼承範圍不符預期,圖示屬性沒註冊成不繼承，按鈕上設的圖示讓每個子孫都畫出一個,部分改善,Newly,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,icons,mwg:icons:3,"根相對網址, <url> 語法註冊",新功能的副作用,自訂屬性裡的相對網址可能相對於使用處的樣式表解析，不同目錄時指到錯的檔案；initial-value 的網址只在 Firefox 有效,部分改善,Newly,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,icons,mwg:icons:4,flex: none,版面意外溢出或位移,flex 按鈕裡標籤一長，空的偽元素圖示最先被壓縮，甚至縮到不見,勝,不適用,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,icons,mwg:icons:5,forced-color-adjust: none,焦點或狀態指示消失,強制色彩模式取代 background-color，用 mask 畫的圖示整個消失,勝,不適用,宣稱,有,糾錯,,有效
@@ -288,11 +285,11 @@
 2026-11-17,v1.0.0,scroll-position-aware-elements,mwg:scroll-position-aware-elements:2,@supports 裡才預設隱藏,隱藏或停用把人擋在外面,按鈕預設 visibility: hidden，不支援 scroll-state 的瀏覽器永遠不顯示,部分改善,Limited,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,scroll-position-aware-elements,mwg:scroll-position-aware-elements:3,主內容底部留空間,隱藏或停用把人擋在外面,sticky 浮動按鈕在捲到底時永久蓋住最後幾個元素,勝,不適用,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,scroll-progress-indicator,mwg:scroll-progress-indicator,"scroll(), scroll-timeline",捲動連動效果靠JS監聽,指南只說原生實作比 scroll 監聽器的退路更有效率，沒說舊做法在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,長文、教學、條款頁可以純 CSS 加閱讀進度條；一頁裡每個可捲動區塊也能各自帶進度,有效
-2026-11-17,v1.0.0,scroll-progress-indicator,mwg:scroll-progress-indicator:2,animation-timeline 寫在簡寫之後,層疊覆蓋不符意圖,animation 簡寫寫在後面會把時間軸重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-progress-indicator,mwg:scroll-progress-indicator:2,animation-timeline 寫在簡寫之後,簡寫或屬性連動重設,animation 簡寫寫在後面會把時間軸重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,shrinking-header-on-scroll,mwg:shrinking-header-on-scroll,"scroll(block root), animation-range",捲動連動效果靠JS監聽,指南只說原生實作比 scroll 監聽器的退路更有效率，沒說舊做法在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,品牌大標頭、活動頁主視覺可以在往下捲的前幾百像素平滑縮成精簡導覽列，往回捲又長回來，純 CSS,有效
 2026-11-17,v1.0.0,shrinking-header-on-scroll,mwg:shrinking-header-on-scroll:2,"scroll-padding-top, padding-top",焦點或狀態指示消失,取得焦點的元素被捲到 sticky 標頭底下；標頭也可能蓋住緊接在後的內容,勝,不適用,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,shrinking-header-on-scroll,mwg:shrinking-header-on-scroll:3,動畫元素脫離文件流,版面依賴錯的量測,流內元素一邊縮小，總捲動距離跟著縮，百分比 animation-range 換算出的位置隨之改變,部分改善,Newly,宣稱,有,糾錯,,有效
-2026-11-17,v1.0.0,shrinking-header-on-scroll,mwg:shrinking-header-on-scroll:4,animation-timeline 寫在簡寫之後,層疊覆蓋不符意圖,animation 簡寫寫在後面會把時間軸重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,shrinking-header-on-scroll,mwg:shrinking-header-on-scroll:4,animation-timeline 寫在簡寫之後,簡寫或屬性連動重設,animation 簡寫寫在後面會把時間軸重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,state-aware-sticky-headers,mwg:state-aware-sticky-headers,scroll-state(stuck: top),捲動連動效果靠JS監聽,傳統做法用 JS scroll 監聽器，指南只說可能造成效能問題，沒指出具體現象,僵持,Limited,宣稱,缺,新能力,長文件的章節標頭、表格的分組標題可以黏住時自動加底色、陰影或縮成精簡版，一眼看出現在在哪一節。目前僅 Chromium,有效
 2026-11-17,v1.0.0,state-aware-sticky-headers,mwg:state-aware-sticky-headers:2,父層 overflow-anchor: none,互動中畫面抖動,黏住時改尺寸，捲動錨定補償位移把元素推回非黏住狀態，來回振盪閃爍,部分改善,Limited,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,state-aware-sticky-headers,mwg:state-aware-sticky-headers:3,scroll-padding-top,焦點或狀態指示消失,沒有預留時，取得焦點的控制項可能被 sticky 標頭完全蓋住,勝,不適用,宣稱,有,糾錯,,有效
@@ -367,7 +364,7 @@
 2026-11-17,v1.0.0,move-dom-element-without-losing-state,mwg:move-dom-element-without-losing-state:2,connectedMoveCallback(),生命週期假設錯,用 moveBefore() 搬自訂元素時 connectedCallback／disconnectedCallback 不觸發，裡面的邏輯不會跑,部分改善,Limited,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,parallax-scroll-effects,mwg:parallax-scroll-effects,"view-timeline, sibling-index(), animation-range",捲動連動效果靠JS監聽,指南只說原生實作比 scroll 監聽或 IntersectionObserver 退路更有效率，沒說退路在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,活動頁、產品故事頁、互動繪本可以任意加層，層數變了速度自動重新分配，純 CSS,有效
 2026-11-17,v1.0.0,parallax-scroll-effects,mwg:parallax-scroll-effects:2,@supports 加 (animation-range: entry),功能偵測不可靠,只偵測 animation-timeline 會讓只有部分支援的瀏覽器通過,部分改善,Newly,宣稱,有,糾錯,,有效
-2026-11-17,v1.0.0,parallax-scroll-effects,mwg:parallax-scroll-effects:3,animation-timeline 寫在簡寫之後,層疊覆蓋不符意圖,animation 簡寫寫在後面會把時間軸重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,parallax-scroll-effects,mwg:parallax-scroll-effects:3,animation-timeline 寫在簡寫之後,簡寫或屬性連動重設,animation 簡寫寫在後面會把時間軸重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,parallax-scroll-effects,mwg:parallax-scroll-effects:4,退路腳本檢查 matchMedia(reduce),忽略使用者設定,CSS 的 prefers-reduced-motion 管不到腳本設的行內樣式，JS 退路照樣讓各層移動,部分改善,Newly,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,persistent-top-layer-ui,mwg:persistent-top-layer-ui,moveBefore(),重建DOM丟狀態,傳統搬法先移除再插入，開著的模態、popover 與全螢幕元素突然關閉,部分改善,Limited,宣稱,有,新能力,全螢幕播放中的影片、開著的對話框可以在版面重組（側欄收合、分頁拆窗）時搬到新容器而不關閉。Safari 仍會關閉,有效
 2026-11-17,v1.0.0,physics-based-easing,mwg:physics-based-easing,linear() 多停點緩動,動畫曲線只有簡單形狀,ease-in、cubic-bezier() 只能畫簡單曲線，做不出彈跳或彈簧,勝,Widely,宣稱,有,糾錯,,有效
@@ -418,7 +415,7 @@
 2026-11-16,v1.0.0,shadow-dom,mwg:shadow-dom:2,用 slotchange 與 assignedElements() 判斷 slot 有沒有內容,生命週期假設錯,元素之間的空白文字節點也會被分配到預設 slot，所以預設 slot 幾乎從不真的是空的；升級時 Light DOM 子節點在 `connectedCallback` 可能還不存在,勝,不適用,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,styling-web-components,mwg:styling-web-components,用繼承的自訂屬性做主題，不要用 :host-context(),押注不會普及的功能,`:host-context()` 只有 Chromium 支援，Firefox 與 Safari 已拒絕實作，CSSWG 也傾向不再發展,勝,Limited,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,styling-web-components,mwg:styling-web-components:2,公開的自訂屬性不要在 :host 上設值，用私有別名放預設,層疊覆蓋不符意圖,在 `:host` 上定義的自訂屬性，只能被直接指定宿主元素的規則覆寫，祖先上設的值傳不進來,勝,Widely,宣稱,有,糾錯,,有效
-2026-11-16,v1.0.0,styling-web-components,mwg:styling-web-components:3,包住原生控制項時設 font: inherit,層疊覆蓋不符意圖,表單控制項的 `font` 來自 UA 樣式表、不繼承，被包住的控制項會顯示系統字型而不是頁面字型，這是最常見的遺漏,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-16,v1.0.0,styling-web-components,mwg:styling-web-components:3,包住原生控制項時設 font: inherit,繼承範圍不符預期,表單控制項的 `font` 來自 UA 樣式表、不繼承，被包住的控制項會顯示系統字型而不是頁面字型，這是最常見的遺漏,勝,不適用,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,styling-web-components,mwg:styling-web-components:4,:host 的樣式不會傳到內部控制項，用 ::part 或自訂屬性轉交,封裝邊界切斷關聯,在 `:host` 上設 `background`、`border`、`padding` 只會作用在宿主的盒子，不會層疊進被包住的元素,勝,Widely,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,styling-web-components,mwg:styling-web-components:5,display: contents 讓宿主量不到尺寸，錨點定位會壞,版面依賴錯的量測,`display: contents` 的元素 `getBoundingClientRect()` 與 `getClientRects()` 都回傳 0，以宿主為錨點的定位因此壞掉；`all: inherit` 也會抹掉 UA 預設,部分改善,不適用,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,styling-web-components,mwg:styling-web-components:6,元件要用 container query 時，先給 :host 一個區塊盒,版面依賴錯的量測,自訂元素預設 `display: inline`，尺寸 containment 不作用在 inline 或 contents 元素上，容器查詢就失效,勝,Widely,宣稱,有,糾錯,,有效
@@ -437,3 +434,28 @@
 2026-11-16,v1.0.0,support-global-calendar-systems,mwg:support-global-calendar-systems:2,用 monthsInYear、monthCode，不要假設一年 12 個月,時間模型失真,在陰陽合曆裡，閏年可能多出一整個閏月，不只多一天；寫死 12 個月或用數字月份跨年比對就會錯,部分改善,Limited,宣稱,有,糾錯,,有效
 2026-11-16,v1.0.0,batch-analytics-events,mwg:batch-analytics-events,用 fetchLater() 的 activateAfter 把一段時間內的事件併成一個 beacon,背景送出不可靠或過量,缺——指南說這是在即時更新與減少 beacon 之間的最佳做法，且使用者在逾時前離開也能可靠送出，但沒說舊做法在哪個時刻出問題,部分改善,Limited,宣稱,缺,新能力,自架的輕量分析、編輯器的自動草稿、閱讀進度同步，都能「攢一小段再送、關分頁也不掉」，不必自己拼 visibilitychange 加 sendBeacon。目前僅 Chromium，其他靠 polyfill,有效
 2026-11-16,v1.0.0,batch-analytics-events,mwg:batch-analytics-events:2,fetchLater() 有配額，要限制批次大小並包 try/catch,新功能的副作用,批次太大會超出 `fetchLater()` 的配額而丟出錯誤；用 `ReadableStream` 當 body 也會出錯,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,style-parent-with-has,mwg:style-parent-with-has:4,錯誤用全頁一個 polite live region 延遲播報,播報時機或可靠度出錯,每則錯誤各自當 live region，只是被顯示而不是文字內容改變時，讀屏不一定會播；同時播報又會蓋過下一個欄位,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,animated-select-picker,mwg:animated-select-picker:4,減少動態偏好下關掉選單與箭頭動畫,忽略使用者設定,選單縮放、淡入與箭頭旋轉會讓有動暈症的使用者不適,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,animated-select-picker,mwg:animated-select-picker:5,base-select 的觸發鈕要自行限制寬度,版面意外溢出或位移,`base-select` 移除瀏覽器依最長選項決定寬度的預設行為，選中內容改變時會造成版面位移,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-highlight-inputs,mwg:autofill-highlight-inputs:4,覆寫自動填入顏色時要保留焦點陰影與游標顏色,焦點或狀態指示消失,瀏覽器以 `!important` 設定自動填入的背景與文字色，一般宣告壓不過；用陰影繞路又會取代原本的 `box-shadow` 焦點環,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-payment-form,mwg:autofill-payment-form:4,"卡號用文字欄位加數字鍵盤，不用 type=""number""",用錯原生控制項,"`type=""number""` 會增加增減鈕並去掉開頭的 0，把卡號當成會參與算術的數量",勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-payment-form,mwg:autofill-payment-form:5,付款格式提示放在欄位上方,浮層遮住說明,欄位下方的提示會被手機鍵盤或自動填入浮層遮住；只靠 placeholder 時一開始輸入就消失,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-payment-form,mwg:autofill-payment-form:6,安全碼不要遮罩，讓使用者送出前檢查數字,表單假設錯的資料格式,遮住的三四位安全碼無法檢查，打錯一位要等付款被拒才發現；遮罩對印在卡片上的數字也增加不了多少保護,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-payment-form,mwg:autofill-payment-form:7,卡號與電話各用一個欄位，不拆成多格,自動填入失效,拆成多格會讓瀏覽器無法自動填入，也增加輸入與驗證的負擔,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-payment-form,mwg:autofill-payment-form:8,卡號 pattern 允許不同長度與空格,表單假設錯的資料格式,pattern 寫死單一長度會拒絕合法卡片；不允許空格則把實體卡上的分組格式判成錯誤，打斷結帳,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-sign-in-form,mwg:autofill-sign-in-form:4,姓名驗證改用 Unicode 字母，不只收拉丁字母,表單假設錯的資料格式,只比對拉丁字母會把名字或地址含其他文字的使用者擋在外面,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-sign-in-form,mwg:autofill-sign-in-form:5,登入資料放在真正的 form 裡，不靠 div 加 JS 才能送,自製控制項丟掉原生行為,只用 `<div>` 並完全靠 JavaScript 送出時，JS 失敗就無法登入，也失去內建的輔助技術與舊瀏覽器行為,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-sign-in-form,mwg:autofill-sign-in-form:6,登入不要求輸入兩次 email 或密碼,表單假設錯的資料格式,重複輸入對所有人都增加工作並提高放棄率，對能自動填入或使用強密碼建議的人尤其沒有意義,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-sign-in-form,mwg:autofill-sign-in-form:7,登入欄位與送出鈕放在手機鍵盤遮不到的位置,浮層遮住說明,手機鍵盤可能蓋住表單或部分遮住登入鈕，使用者還沒弄清狀況就放棄,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-sign-in-form,mwg:autofill-sign-in-form:8,密碼欄位允許貼上,隱藏或停用把人擋在外面,禁止貼上會促使使用者選好記、可能更容易被破的密碼；使用者要貼上時才發現被擋，也避不開剪貼簿風險,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-sign-up-form,mwg:autofill-sign-up-form:4,姓名驗證改用 Unicode 字母，不只收拉丁字母,表單假設錯的資料格式,只比對拉丁字母會把名字或地址含其他文字的使用者擋在外面,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-sign-up-form,mwg:autofill-sign-up-form:5,註冊資料放在真正的 form 裡，不靠 div 加 JS 才能送,自製控制項丟掉原生行為,只用 `<div>` 並完全靠 JavaScript 送出時，JS 失敗就無法註冊，也失去內建的輔助技術與舊瀏覽器行為,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-sign-up-form,mwg:autofill-sign-up-form:6,註冊不要求輸入兩次 email 或密碼,表單假設錯的資料格式,重複輸入對所有人都增加工作並提高放棄率，對能自動填入或使用強密碼建議的人尤其沒有意義,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-sign-up-form,mwg:autofill-sign-up-form:7,註冊欄位與送出鈕放在手機鍵盤遮不到的位置,浮層遮住說明,手機鍵盤可能蓋住表單或部分遮住註冊鈕，使用者還沒弄清狀況就放棄,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,autofill-sign-up-form,mwg:autofill-sign-up-form:8,密碼欄位允許貼上,隱藏或停用把人擋在外面,禁止貼上會促使使用者選好記、可能更容易被破的密碼；使用者要貼上時才發現被擋，也避不開剪貼簿風險,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,custom-select-picker-layouts,mwg:custom-select-picker-layouts:4,base-select 的觸發鈕要自行限制寬度,版面意外溢出或位移,`base-select` 移除依最長選項決定寬度的預設行為，選中內容改變時會造成版面位移,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,custom-select-picker-layouts,mwg:custom-select-picker-layouts:5,格狀選單用實際幾何補左右鍵，上下鍵仍走完整清單,自製控制項丟掉原生行為,原生 `<select>` 只處理上下鍵，格狀 picker 裡左右鍵沒有作用；若只補二維方向而拿掉線性順序，讀屏使用者可能走不完所有選項,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,form-fields-automatically-fit-contents,mwg:form-fields-automatically-fit-contents:4,Grid／Flexbox 裡的自動尺寸欄位要取消預設拉伸,尺寸不跟內容走,Grid 與 Flexbox 常把子元素拉伸填滿可用空間，欄位因此不肯隨內容縮小,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,required-field-feedback,mwg:required-field-feedback:4,錯誤用全頁一個 polite live region 延遲播報,播報時機或可靠度出錯,每則錯誤各自當 live region，只是被顯示而不是文字改變時，讀屏不一定會播；同時播報又會蓋過下一個欄位,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,required-field-feedback,mwg:required-field-feedback:5,必填星號加 aria-hidden，避免重複播報,播報過量,`required` 已讓讀屏播報必填，星號再進無障礙樹會多出無意義的「星號」或重複狀態,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,required-field-feedback,mwg:required-field-feedback:6,送出鈕保持可按，讓瀏覽器揭示所有必填錯誤,隱藏或停用把人擋在外面,停用送出鈕會讓使用者無法主動要求驗證，也看不到按下後應出現的錯誤與焦點導引,勝,Widely,宣稱,有,糾錯,,有效

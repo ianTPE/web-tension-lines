@@ -59,4 +59,53 @@ license: CC-BY-4.0（上游指南）
 - 類型：糾錯
 - 變更紀錄：2026-11-16（v1.0.0）回溯拆出
 
-另有 3 條未拆：錯誤改由全頁一個 polite live region 延遲播報，不讓每則錯誤自己當 live region（同 `mwg:accessible-error-announcement:3`）；必填星號要包 `aria-hidden="true"`，因為 `required` 已讓讀屏唸「required」；送出鈕保持可按，不要停用（按下時瀏覽器會觸發 `:user-invalid` 並聚焦第一個錯誤欄位）。
+%% line-start id="mwg:required-field-feedback:4" %%
+## 錯誤用全頁一個 polite live region 延遲播報
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：欄位離開或改變時，把錯誤送進全頁共用的 polite live region，延遲到下一個欄位播報完；失敗送出後聚焦第一個無效欄位
+- 被什麼擋：每則錯誤各自當 live region，只是被顯示而不是文字改變時，讀屏不一定會播；同時播報又會蓋過下一個欄位（引用："a live region that is shown, rather than changed, isn't announced reliably."）
+- 戰報：勝——共用區域的文字確實改變，延遲後錯誤能被聽到，也不和焦點欄位搶話（官方宣稱）
+
+經過：與 `mwg:accessible-error-announcement:3` 同一個對手。錯誤區域要在頁面載入時就存在，更新文字才可靠，不是把隱藏元素切換成可見。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：播報時機或可靠度出錯
+- 支援狀態：:user-valid／:user-invalid：Widely（2023-11-02）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:required-field-feedback:5" %%
+## 必填星號加 aria-hidden，避免重複播報
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：視覺必填標記用 `<span aria-hidden="true">*</span>`，在表單前解釋一次星號意義，欄位本身保留 `required`
+- 被什麼擋：`required` 已讓讀屏播報必填，星號再進無障礙樹會多出無意義的「星號」或重複狀態（引用："wrap it in `<span aria-hidden="true">*</span>`, because the `required` attribute already makes screen readers announce "required"."）
+- 戰報：勝——視覺使用者看得到星號，讀屏只播報一次 required（官方宣稱）
+
+經過：星號是給眼睛看的額外提示，程式狀態已經由 `required` 表達，不必讓輔助技術再讀一遍符號。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：播報過量
+- 支援狀態：:user-valid／:user-invalid：Widely；`required`／`aria-hidden` 本指南未另列支援資料
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:required-field-feedback:6" %%
+## 送出鈕保持可按，讓瀏覽器揭示所有必填錯誤
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：表單尚未有效時也保持送出鈕啟用；按下後由瀏覽器對空的必填欄位觸發 `:user-invalid` 並聚焦第一個錯誤
+- 被什麼擋：停用送出鈕會讓使用者無法主動要求驗證，也看不到按下後應出現的錯誤與焦點導引（引用："Unlike `disabled` buttons, keep your submit button enabled. If the user clicks it, the browser will automatically trigger `:user-invalid` on all empty required fields and focus the first one."）
+- 戰報：勝——使用者按送出就知道哪裡未完成，第一個錯誤欄位直接取得焦點（官方宣稱）
+
+經過：灰色送出鈕只告訴人「還不能送」，沒說缺什麼。讓按鈕可按，瀏覽器才能執行內建的錯誤揭露流程。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：隱藏或停用把人擋在外面
+- 支援狀態：:user-valid／:user-invalid：Widely（2023-11-02）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏

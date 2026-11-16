@@ -60,4 +60,19 @@ license: CC-BY-4.0（上游指南）
 - 類型：糾錯
 - 變更紀錄：2026-11-16（v1.0.0）回溯拆出
 
-另有 2 條未拆：全域 CSS 設了 `width: 100%` 等明確尺寸會蓋過 `field-sizing`，得重設為 `auto`（已併入第一條的動作）；Grid／Flexbox 預設拉伸子元素，欄位不肯縮時要加 `align-self: start` 或 `justify-self: start`。
+%% line-start id="mwg:form-fields-automatically-fit-contents:4" %%
+## Grid／Flexbox 裡的自動尺寸欄位要取消預設拉伸
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：`field-sizing: content` 的欄位在 Grid／Flexbox 容器裡設 `align-self: start` 或 `justify-self: start`
+- 被什麼擋：Grid 與 Flexbox 常把子元素拉伸填滿可用空間，欄位因此不肯隨內容縮小（引用："Grid and Flexbox layouts often implicitly stretch their children to fill available space."）
+- 戰報：部分改善——取消拉伸後欄位才按內容收縮；`field-sizing` 本身為 Newly（官方宣稱）
+
+經過：全域寬度已重設成 `auto`，欄位仍然撐滿整列，問題其實來自容器的對齊預設。全域 CSS 的明確寬高會蓋過自動尺寸，這點已併入第一條。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：尺寸不跟內容走
+- 支援狀態：field-sizing：Newly（2026-06-16）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏

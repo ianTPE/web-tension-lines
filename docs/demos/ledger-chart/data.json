@@ -1,5 +1,5 @@
 {
- "total": 438,
+ "total": 460,
  "updated": "2026-11-17",
  "groups": [
   {
@@ -218,13 +218,6 @@
      "level": "Widely"
     },
     {
-     "id": "mwg:prompt-api:3",
-     "feature": "aria-busy, aria-live",
-     "result": "勝",
-     "kind": "糾錯",
-     "level": "Widely"
-    },
-    {
      "id": "mwg:out-of-order-html-streaming:3",
      "feature": "live region 只包進度文字",
      "result": "勝",
@@ -251,6 +244,13 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:required-field-feedback:5",
+     "feature": "必填星號加 aria-hidden，避免重複播報",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -789,6 +789,27 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:8",
+     "feature": "密碼欄位允許貼上",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:8",
+     "feature": "密碼欄位允許貼上",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:required-field-feedback:6",
+     "feature": "送出鈕保持可按，讓瀏覽器揭示所有必填錯誤",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -951,6 +972,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-highlight-inputs:4",
+     "feature": "覆寫自動填入顏色時要保留焦點陰影與游標顏色",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -1267,6 +1295,20 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:style-parent-with-has:4",
+     "feature": "錯誤用全頁一個 polite live region 延遲播報",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:required-field-feedback:4",
+     "feature": "錯誤用全頁一個 polite live region 延遲播報",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -1314,6 +1356,13 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:animated-select-picker:4",
+     "feature": "減少動態偏好下關掉選單與箭頭動畫",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -1329,13 +1378,6 @@
     },
     {
      "id": "mwg:language-model",
-     "feature": "LanguageModel（Prompt API）",
-     "result": "僵持",
-     "kind": "新能力",
-     "level": "Limited"
-    },
-    {
-     "id": "mwg:prompt-api",
      "feature": "LanguageModel（Prompt API）",
      "result": "僵持",
      "kind": "新能力",
@@ -1369,13 +1411,6 @@
    "lines": [
     {
      "id": "mwg:language-model:2",
-     "feature": "textContent, Sanitizer API",
-     "result": "勝",
-     "kind": "糾錯",
-     "level": "Widely"
-    },
-    {
-     "id": "mwg:prompt-api:2",
      "feature": "textContent, Sanitizer API",
      "result": "勝",
      "kind": "糾錯",
@@ -1687,13 +1722,6 @@
      "level": "Widely"
     },
     {
-     "id": "mwg:individual-transform-properties:2",
-     "feature": "恆等變換",
-     "result": "勝",
-     "kind": "糾錯",
-     "level": "Widely"
-    },
-    {
      "id": "mwg:responsive-design",
      "feature": "dvh, dvw",
      "result": "勝",
@@ -1776,6 +1804,20 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:animated-select-picker:5",
+     "feature": "base-select 的觸發鈕要自行限制寬度",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:custom-select-picker-layouts:4",
+     "feature": "base-select 的觸發鈕要自行限制寬度",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -1811,6 +1853,18 @@
      "level": "Newly"
     },
     {
+     "id": "mwg:styling-web-components:2",
+     "feature": "公開的自訂屬性不要在 :host 上設值，用私有別名放預設",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "簡寫或屬性連動重設",
+   "lines": [
+    {
      "id": "mwg:individual-transform-properties",
      "feature": "translate, rotate, scale",
      "result": "勝",
@@ -1820,13 +1874,6 @@
     {
      "id": "mwg:carousel-slide-effects:2",
      "feature": "animation-timeline 寫在簡寫之後",
-     "result": "部分改善",
-     "kind": "糾錯",
-     "level": "Newly"
-    },
-    {
-     "id": "mwg:icons:2",
-     "feature": "@property inherits: false",
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
@@ -1851,20 +1898,18 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
-    },
+    }
+   ]
+  },
+  {
+   "name": "堆疊脈絡改變層級",
+   "lines": [
     {
-     "id": "mwg:styling-web-components:2",
-     "feature": "公開的自訂屬性不要在 :host 上設值，用私有別名放預設",
+     "id": "mwg:individual-transform-properties:2",
+     "feature": "恆等變換",
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
-    },
-    {
-     "id": "mwg:styling-web-components:3",
-     "feature": "包住原生控制項時設 font: inherit",
-     "result": "勝",
-     "kind": "糾錯",
-     "level": "不適用"
     }
    ]
   },
@@ -1983,6 +2028,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-payment-form:7",
+     "feature": "卡號與電話各用一個欄位，不拆成多格",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -2044,6 +2096,48 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-payment-form:6",
+     "feature": "安全碼不要遮罩，讓使用者送出前檢查數字",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-payment-form:8",
+     "feature": "卡號 pattern 允許不同長度與空格",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:4",
+     "feature": "姓名驗證改用 Unicode 字母，不只收拉丁字母",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:6",
+     "feature": "登入不要求輸入兩次 email 或密碼",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:4",
+     "feature": "姓名驗證改用 Unicode 字母，不只收拉丁字母",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:6",
+     "feature": "註冊不要求輸入兩次 email 或密碼",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -2126,6 +2220,27 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:5",
+     "feature": "登入資料放在真正的 form 裡，不靠 div 加 JS 才能送",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:5",
+     "feature": "註冊資料放在真正的 form 裡，不靠 div 加 JS 才能送",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:custom-select-picker-layouts:5",
+     "feature": "格狀選單用實際幾何補左右鍵，上下鍵仍走完整清單",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -2137,6 +2252,13 @@
      "feature": "field-sizing: content",
      "result": "部分改善",
      "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:form-fields-automatically-fit-contents:4",
+     "feature": "Grid／Flexbox 裡的自動尺寸欄位要取消預設拉伸",
+     "result": "部分改善",
+     "kind": "糾錯",
      "level": "Newly"
     }
    ]
@@ -2283,6 +2405,13 @@
     {
      "id": "mwg:sms-otp-form:2",
      "feature": "驗證碼用 type=\"text\" 加 inputmode=\"numeric\"，不要用 type=\"number\"",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-payment-form:4",
+     "feature": "卡號用文字欄位加數字鍵盤，不用 type=\"number\"",
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
@@ -3231,6 +3360,25 @@
    ]
   },
   {
+   "name": "繼承範圍不符預期",
+   "lines": [
+    {
+     "id": "mwg:icons:2",
+     "feature": "@property inherits: false",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:styling-web-components:3",
+     "feature": "包住原生控制項時設 font: inherit",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    }
+   ]
+  },
+  {
    "name": "原生捲動手勢不合用途",
    "lines": [
     {
@@ -3324,6 +3472,27 @@
     {
      "id": "mwg:validate-input-after-interaction:4",
      "feature": "格式提示與密碼規則放在欄位上方",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-payment-form:5",
+     "feature": "付款格式提示放在欄位上方",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:7",
+     "feature": "登入欄位與送出鈕放在手機鍵盤遮不到的位置",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:7",
+     "feature": "註冊欄位與送出鈕放在手機鍵盤遮不到的位置",
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"

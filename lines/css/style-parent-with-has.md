@@ -59,4 +59,19 @@ license: CC-BY-4.0（上游指南）
 - 類型：糾錯
 - 變更紀錄：2026-11-16（v1.0.0）回溯拆出
 
-另有 1 條未拆：錯誤改由全頁一個 polite live region 延遲播報，不讓每則錯誤自己當 live region（被顯示而非內容改變時讀屏不一定會播）——與 `mwg:accessible-error-announcement:3` 同一件事。
+%% line-start id="mwg:style-parent-with-has:4" %%
+## 錯誤用全頁一個 polite live region 延遲播報
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：欄位離開或改變時，把錯誤文字送進全頁共用的 polite live region，稍等下一個欄位播報完再更新；失敗送出後聚焦第一個無效欄位
+- 被什麼擋：每則錯誤各自當 live region，只是被顯示而不是文字內容改變時，讀屏不一定會播；同時播報又會蓋過下一個欄位（引用："a live region that is shown, rather than changed, isn't announced reliably."）
+- 戰報：勝——共用區域的文字確實改變，延遲後錯誤能被聽到，也不和焦點欄位搶話（官方宣稱）
+
+經過：畫面上的紅字出現了，讀屏卻沒有反應，因為它只對「內容更新」可靠。與 `mwg:accessible-error-announcement:3` 是同一個對手，這份指南提供相同的同步腳本。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：播報時機或可靠度出錯
+- 支援狀態：:user-valid／:user-invalid：Widely（2023-11-02）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏

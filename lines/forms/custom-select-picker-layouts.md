@@ -60,4 +60,36 @@ license: CC-BY-4.0（上游指南）
 - 類型：糾錯
 - 變更紀錄：2026-11-16（v1.0.0）回溯拆出
 
-另有 2 條未拆：`base-select` 不再依最長選項決定寬度，需固定寬度以免版面位移；原生 `<select>` 只處理上下鍵，格狀 picker 裡左右鍵沒有作用，要用 `getBoundingClientRect()` 依實際位置補左右導覽，且上下鍵仍須能依序走完所有選項（picker 不能用 `role="grid"`）。
+%% line-start id="mwg:custom-select-picker-layouts:4" %%
+## base-select 的觸發鈕要自行限制寬度
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：開啟 `appearance: base-select` 後給 `<select>` 固定寬度，或用 flex／grid 約束尺寸
+- 被什麼擋：`base-select` 移除依最長選項決定寬度的預設行為，選中內容改變時會造成版面位移（引用："Setting `appearance: base-select` removes the default browser behavior of sizing the select based on its longest option width. You may need to set a fixed width or use flex/grid constraints to prevent layout shifts."）
+- 戰報：部分改善——寬度固定後切換選項不再推動鄰近內容；customizable select 為 Limited（官方宣稱）
+
+經過：格狀卡片選單的選項寬度差異通常更大，不先限制觸發鈕，選一個長名稱就會推動整列表單。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：版面意外溢出或位移
+- 支援狀態：Customizable <select>：Limited
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:custom-select-picker-layouts:5" %%
+## 格狀選單用實際幾何補左右鍵，上下鍵仍走完整清單
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：攔截左右方向鍵，用 `getBoundingClientRect()` 找 pressed direction 最近的選項；保留上下鍵的線性導覽，不把 picker 改成 `role="grid"`
+- 被什麼擋：原生 `<select>` 只處理上下鍵，格狀 picker 裡左右鍵沒有作用；若只補二維方向而拿掉線性順序，讀屏使用者可能走不完所有選項（引用："A native `<select>` only handles linear Up/Down arrow navigation, so Left/Right do nothing in the open picker and Up/Down still navigate items sequentially, regardless of rows and columns."）
+- 戰報：部分改善——左右鍵跟著畫面格狀移動，上下鍵仍能依序走訪；格狀角色不能暴露給讀屏，Firefox 退回一般系統選單（官方宣稱）
+
+經過：視覺上是兩欄色票，鍵盤左右卻完全沒反應。幾何量測比解析 `grid-template-columns` 字串可靠，也能處理 subgrid、RTL 與不規則排列。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：自製控制項丟掉原生行為
+- 支援狀態：Customizable <select>：Limited
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
