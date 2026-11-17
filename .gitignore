@@ -1,3 +1,4 @@
 .cache/
 logs/
 .obsidian/workspace*.json
+.env
