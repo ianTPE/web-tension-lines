@@ -60,7 +60,7 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 </style></head><body><main>
 <p class="switch"><b>繁體中文</b> · <a href="en/">English</a> · <a href="weekly/">週記</a></p>
 <h1>Web 張力線</h1>
-<p class="lead">把 <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a> 的新指南拆成問題線：誰在做、做了什麼、被什麼擋、做完之後擋住的東西退了沒。找靈感時看<b>新能力</b>那幾條的「解鎖」。共 460 條線（新能力 138 條），處理到上游 v1.0.0。<a href="https://github.com/ianTPE/web-tension-lines">repo</a></p>
+<p class="lead">把 <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a> 的新指南拆成問題線：誰在做、做了什麼、被什麼擋、做完之後擋住的東西退了沒。找靈感時看<b>新能力</b>那幾條的「解鎖」。共 568 條線（新能力 161 條），處理到上游 v1.0.0。<a href="https://github.com/ianTPE/web-tension-lines">repo</a></p>
 <div class="bar">
 <input type="search" id="q" placeholder="搜尋：功能名、對手、指南…（Ctrl+F 也找得到摺起來的內容）" aria-label="搜尋問題線">
 <div class="row"><span class="lbl">類型</span><button type="button" class="chip" aria-pressed="true" data-f="kind" data-v="">全部</button><button type="button" class="chip" aria-pressed="false" data-f="kind" data-v="新能力">新能力</button><button type="button" class="chip" aria-pressed="false" data-f="kind" data-v="糾錯">糾錯</button></div>
@@ -3099,6 +3099,258 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前網頁彈窗擋不住手機返回鍵 → 現在行動版的篩選面板、圖片檢視、確認框可以像原生 app 一樣按返回就關、不離開頁面。Safari 尚未支援</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>模態對話框用 <code>showModal()</code> 或 <code>command="show-modal"</code> 開啟；不寫 <code>closedby</code> 時即等同 <code>closerequest</code>，要點背景也關閉時才設 <code>closedby="any"</code></dd><dt>被什麼擋</dt><dd><code>&lt;dialog&gt;</code> 剛推出時只能用 Esc 關閉，行動裝置的返回鍵或返回手勢關不掉；自己實作返回手勢關閉也沒有好方法（引用："it could be dismissed with the &lt;kbd&gt;Esc&lt;/kbd&gt; key, but not other platform controls such as a back button/gesture on mobile … There is no good way to implement close requests from mobile back button/gestures"）</dd><dt>戰報</dt><dd>部分改善——已經用模態 <code>&lt;dialog&gt;</code> 的頁面不必改任何程式，就能回應返回鍵、返回手勢與輔助技術的關閉手勢；<code>&lt;dialog closedby&gt;</code> 為 Limited，Safari 只有 Esc（官方宣稱）</dd></dl><p class="story">手機使用者習慣按返回關掉彈窗，網頁的對話框以前不吃這套，按下去反而離開整頁。現在關閉請求涵蓋平台的各種關閉方式。</p>
 <p class="support"><b>支援</b> &lt;dialog closedby&gt;：Limited availability，Supported by: Chrome 134, Edge 134, Firefox 141；Unsupported in: Safari</p>
 <p class="links"><code>mwg:platform-controls-dismiss-dialog</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/platform-controls-dismiss-dialog.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/platform-controls-dismiss-dialog.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--prevent-page-scroll-under-modal-dialog" data-kind="新能力" data-result="部分改善" data-group="原生捲動手勢不合用途" data-guide="防止模態對話框底下的頁面捲動">
+<summary><span class="t">用 <code>overscroll-behavior: contain</code> 鎖住模態框後面的頁面，不再改 <code>&lt;body&gt;</code> 的 overflow</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">防止模態對話框底下的頁面捲動 · 原生捲動手勢不合用途</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前鎖背景捲動得動根元素、付出版面跳動 → 現在燈箱、確認框、全螢幕設定面板可以純 CSS 鎖住背景，關掉後頁面停在原處、sticky 照常。Safari 只在對話框內容溢出時有效</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在 <code>dialog:modal</code> 設 <code>overscroll-behavior: contain</code>；在 <code>dialog::backdrop</code> 設 <code>overflow: hidden</code> 讓它變成不可捲動的捲動容器，再設 <code>overscroll-behavior: contain</code></dd><dt>被什麼擋</dt><dd><code>showModal()</code> 只擋點擊和焦點，不擋捲動：在 backdrop 上滑或在對話框裡滑到底，後面的頁面照樣捲；舊解法在 <code>&lt;html&gt;</code>／<code>&lt;body&gt;</code> 設 <code>overflow: hidden</code> 或 <code>position: fixed</code>，又讓捲軸消失、版面橫移、捲動位置跳走（引用："Mutating root overflow removes the page scrollbar (causing horizontal layout shift), can reset or jump the page scroll position, and can break <code>position: sticky</code> elements"）</dd><dt>戰報</dt><dd>部分改善——支援的瀏覽器在 backdrop 上與對話框內都完全擋住背景捲動；Safari 尚未對「不可捲動的捲動容器」套用 overscroll-behavior，只有對話框內容溢出時才擋得住，但 <code>showModal()</code> 仍讓背景 inert（官方宣稱）</dd></dl><p class="story">模態框開著，使用者在暗掉的背景上滑一下，底下的文章就默默捲走了；用 body 鎖捲動的老招又讓整頁往旁邊跳一下、sticky 標頭壞掉。現在兩條 CSS 宣告就把捲動關在對話框裡，Safari 是剩下的缺口。</p>
+<p class="support"><b>支援</b> overscroll-behavior（作用於不可捲動的捲動容器）：Limited availability，Supported by: Chrome 144, Edge 144, Firefox 150；Unsupported in: Safari</p>
+<p class="links"><code>mwg:prevent-page-scroll-under-modal-dialog</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/prevent-page-scroll-under-modal-dialog.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/prevent-page-scroll-under-modal-dialog.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--prevent-page-scroll-under-modal-dialog--2" data-kind="糾錯" data-result="部分改善" data-group="功能偵測不可靠" data-guide="防止模態對話框底下的頁面捲動">
+<summary><span class="t">不要用 <code>@supports</code> 偵測「不可捲動容器」的 overscroll 支援</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">防止模態對話框底下的頁面捲動 · 功能偵測不可靠</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>把對話框的捲動圍堵當成漸進增強，不用 <code>@supports (overscroll-behavior: contain)</code> 或 <code>CSS.supports()</code> 分支</dd><dt>被什麼擋</dt><dd>所有現代瀏覽器都認得這個屬性語法、偵測一律回傳 true，即使它們只在內容溢出時才執行（引用："All modern browsers support the <code>overscroll-behavior: contain</code> property syntax and return <code>true</code>, even if they only enforce it when content overflows."）</dd><dt>戰報</dt><dd>部分改善——不分支、直接寫，支援的瀏覽器完整圍堵，其他瀏覽器至少在內容溢出時圍堵（官方宣稱）</dd></dl><p class="story">寫了偵測想替 Safari 補退路，偵測卻在 Safari 也成立，退路永遠不會跑。這個行為無法偵測，只能直接寫、接受差異。</p>
+<p class="support"><b>支援</b> overscroll-behavior（不可捲動容器）：Limited</p>
+<p class="links"><code>mwg:prevent-page-scroll-under-modal-dialog:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/prevent-page-scroll-under-modal-dialog.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/prevent-page-scroll-under-modal-dialog.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--same-document-transitions" data-kind="新能力" data-result="部分改善" data-group="尺寸動畫只能跳變" data-guide="同文件轉場">
+<summary><span class="t">用 <code>startViewTransition()</code> 加共用的 <code>view-transition-name</code>，讓縮圖「長成」詳細頁主圖</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">同文件轉場 · 尺寸動畫只能跳變</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前列表到詳細頁的「接續感」要動畫函式庫算 FLIP → 現在相簿、商品目錄、聯絡人清單可以幾行 JS 讓點到的那張卡片變形成詳細頁，不支援的瀏覽器照常切換</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>把 SPA 的視圖切換包進 <code>document.startViewTransition()</code>；列表項目與詳細頁主圖共用同一個 <code>view-transition-name</code>（列表各給唯一名稱再動態套到詳細頁，或反過來只在被選的項目上加名稱）</dd><dt>被什麼擋</dt><dd>從列表點進詳細頁時，縮圖直接消失、大圖瞬間出現在別處，使用者難以追蹤兩者的關係（引用："the thumbnail disappears and a new, larger image appears instantly elsewhere on the screen. This lack of continuity makes it harder for users to track relationships between elements."）</dd><dt>戰報</dt><dd>部分改善——瀏覽器自動算出位置、尺寸與樣式差異並平滑變形；View Transitions 為 Newly，不支援時直接更新 DOM、沒有動畫（官方宣稱）</dd></dl><p class="story">商品列表點進去，畫面一跳，眼睛得重新找剛剛點的那張圖。把更新包進轉場、給兩端同一個名字，圖就從原位飛到新位置。舊瀏覽器只是退回瞬間切換。</p>
+<p class="support"><b>支援</b> View transitions：Baseline Newly available（2025-10-14 起）</p>
+<p class="links"><code>mwg:same-document-transitions</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/same-document-transitions.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/same-document-transitions.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--same-document-transitions--2" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="同文件轉場">
+<summary><span class="t">同一個 <code>view-transition-name</code> 前後各只能有一個元素，轉場完要清掉</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">同文件轉場 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>確保轉場前後每個名稱只對應一個元素；用 <code>.selected</code> 臨時加上的名稱，在 <code>transition.finished</code> 之後移除</dd><dt>被什麼擋</dt><dd>同名元素有兩個以上時，DOM 直接更新、完全沒有轉場（引用："If there are 2 or more elements with a given <code>view-transition-name</code>, the DOM will be updated to the new state immediately, without a transition."）</dd><dt>戰報</dt><dd>部分改善——名稱唯一並在結束後清理，下一次導覽不會出錯（官方宣稱）</dd></dl><p class="story">第一次點進去有動畫，回到列表再點另一張就沒了——上一次留下的名稱還掛在舊項目上，跟新項目撞名。</p>
+<p class="support"><b>支援</b> View transitions：Newly</p>
+<p class="links"><code>mwg:same-document-transitions:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/same-document-transitions.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/same-document-transitions.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--same-document-transitions--3" data-kind="糾錯" data-result="部分改善" data-group="隱藏或停用把人擋在外面" data-guide="同文件轉場">
+<summary><span class="t">轉場不管焦點，切換視圖後要自己把焦點送到新標題</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">同文件轉場 · 隱藏或停用把人擋在外面</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在 DOM 更新後或 <code>transition.finished</code> 時，把焦點移到新視圖的標題或容器（加 <code>tabindex="-1"</code>）；不支援轉場的分支也要做</dd><dt>被什麼擋</dt><dd>焦點留在轉場中被隱藏或移除的元素上就會被丟棄，鍵盤與輔助技術使用者失去位置（引用："If focus remains on an element that is hidden or removed during the transition, focus is abandoned, leaving keyboard and assistive technology users without context."）</dd><dt>戰報</dt><dd>部分改善——焦點轉送到新標題，讀屏宣告新脈絡、Tab 順序接得上（官方宣稱）</dd></dl><p class="story">用鍵盤按下縮圖，畫面漂亮地變形成詳細頁，但焦點掉回頁首，下一個 Tab 從頭開始。</p>
+<p class="support"><b>支援</b> View transitions：Newly</p>
+<p class="links"><code>mwg:same-document-transitions:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/same-document-transitions.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/same-document-transitions.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--same-document-transitions--4" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="同文件轉場">
+<summary><span class="t">文字轉場用 <code>fit-content</code> 固定比例，避免快照被拉伸</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">同文件轉場 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>轉場的文字元素在新舊視圖都設 <code>width: fit-content</code>；比例會變的元素把 <code>::view-transition-old/new()</code> 設 <code>height: 100%</code>，必要時用 <code>object-fit</code></dd><dt>被什麼擋</dt><dd>瀏覽器預設在一個會同時容納新舊快照的群組裡交叉淡化，群組被拉伸，快照跟著變形（引用："By default, the browser cross-fades the old and new snapshots within a group that stretches to fit both."）</dd><dt>戰報</dt><dd>部分改善——寬度貼合內容後，轉場中的元素比例穩定（官方宣稱）</dd></dl><p class="story">標題從列表飛到詳細頁時被壓扁再撐開。快照是圖片，容器多寬它就被拉多寬。</p>
+<p class="support"><b>支援</b> View transitions：Newly</p>
+<p class="links"><code>mwg:same-document-transitions:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/same-document-transitions.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/same-document-transitions.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scoped-component-transitions" data-kind="新能力" data-result="僵持" data-group="新功能的副作用" data-guide="元件範圍的轉場">
+<summary><span class="t">用 <code>element.startViewTransition()</code> 把轉場關在元件裡，不再蓋住整頁</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">元件範圍的轉場 · 新功能的副作用</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前一個小元件的動畫會凍住整頁 → 現在儀表板上多個卡片可以各自同時做排序、增刪動畫，頁首、浮動工具列照常可按。目前僅 Chromium</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在元件根元素上呼叫 <code>element.startViewTransition()</code>，子項目用 <code>view-transition-name: match-element</code>；重複出現的元件容器加 <code>view-transition-scope: all</code>，讓名稱不外洩</dd><dt>被什麼擋</dt><dd><code>document.startViewTransition()</code> 把 <code>::view-transition</code> 疊層掛在 <code>:root</code>，轉場期間整頁點不到、不能同時跑兩個轉場，還會蓋住 <code>position: fixed</code> 標頭與開著的 popover（引用："blocks pointer events on the rest of the page, prevents concurrent transitions, and obscures <code>position: fixed</code> headers or open <code>[popover]</code> elements"）</dd><dt>戰報</dt><dd>僵持——支援的瀏覽器中疊層只覆蓋該元件、頁面其餘部分可操作、多個元件可同時轉場；僅 Chrome／Edge 147，其他瀏覽器指南建議直接更新、不要動畫，退回 document 轉場會帶回原本的問題（官方宣稱）</dd></dl><p class="story">側欄的清單在重排動畫，同時使用者想點頁首的按鈕卻點不到，打開的選單也被轉場蓋掉。把轉場範圍縮到元件本身，頁面其他地方不受影響；但目前只有 Chromium 做得到。</p>
+<p class="support"><b>支援</b> Element-scoped view transitions：Limited availability，Supported by: Chrome 147, Edge 147；Unsupported in: Firefox, Safari（View transitions 本身為 Newly）</p>
+<p class="links"><code>mwg:scoped-component-transitions</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scoped-component-transitions.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scoped-component-transitions.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scoped-component-transitions--2" data-kind="糾錯" data-result="部分改善" data-group="重建DOM丟狀態" data-guide="元件範圍的轉場">
+<summary><span class="t"><code>match-element</code> 要搬動既有節點，不能用 <code>innerHTML</code> 重建</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">元件範圍的轉場 · 重建DOM丟狀態</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 <code>view-transition-name: match-element</code> 時，重排或刪除都以搬動、移除既有 DOM 節點完成</dd><dt>被什麼擋</dt><dd><code>match-element</code> 依 DOM 節點身分配對，重建出來的新節點對不上舊節點（引用："Preserve and move existing DOM nodes (rather than recreating them with <code>innerHTML</code>) when using <code>view-transition-name: match-element</code>, as <code>match-element</code> tracks DOM node identity."）</dd><dt>戰報</dt><dd>部分改善——搬動既有節點，每個項目都能自動得到名稱並各自變形（官方宣稱）</dd></dl><p class="story">排序後重新 render 整串清單，轉場裡的項目找不到前身，只剩淡入淡出。</p>
+<p class="support"><b>支援</b> Element-scoped view transitions：Limited</p>
+<p class="links"><code>mwg:scoped-component-transitions:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scoped-component-transitions.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scoped-component-transitions.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scoped-component-transitions--3" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="元件範圍的轉場">
+<summary><span class="t">同一元件快速重複觸發轉場時，接住 <code>ready</code> 的 rejection</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">元件範圍的轉場 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>每次 <code>element.startViewTransition()</code> 後加 <code>transition.ready.catch(() =&gt; {})</code></dd><dt>被什麼擋</dt><dd>在同一個元素上再次呼叫會跳過進行中的轉場並讓 <code>ready</code> reject，沒接住就變成未處理的 promise 錯誤（引用："Re-triggering startViewTransition() on the same element skips the active transition and rejects <code>ready</code>."）</dd><dt>戰報</dt><dd>部分改善——接住後快速連點只會跳過舊轉場，不會丟錯（官方宣稱）</dd></dl><p class="story">使用者連點「排序」，主控台冒出一串 unhandled rejection。</p>
+<p class="support"><b>支援</b> Element-scoped view transitions：Limited</p>
+<p class="links"><code>mwg:scoped-component-transitions:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scoped-component-transitions.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scoped-component-transitions.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scoped-component-transitions--4" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="元件範圍的轉場">
+<summary><span class="t">會裁切溢出的範圍元素不要設 <code>view-transition-name: none</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">元件範圍的轉場 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>讓範圍元素保留瀏覽器預設的自我參與（<code>view-transition-name: root</code>），由 <code>::view-transition-group-children(root)</code> 自動套 <code>overflow: clip</code></dd><dt>被什麼擋</dt><dd>退出自我參與就會關掉自動溢出裁切，轉場中的子項目會溢出元件邊界（引用："opting out of self-participation disables automatic overflow clipping."）</dd><dt>戰報</dt><dd>部分改善——保留預設時，轉場子項目被裁在元件邊界內，元件本身的尺寸變化也一起動畫（官方宣稱）</dd></dl><p class="story">可捲動的清單卡片在重排時，項目飛出卡片外面，蓋在旁邊的內容上。</p>
+<p class="support"><b>支援</b> Element-scoped view transitions：Limited</p>
+<p class="links"><code>mwg:scoped-component-transitions:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scoped-component-transitions.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scoped-component-transitions.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scoped-component-transitions--5" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="元件範圍的轉場">
+<summary><span class="t">外層轉場要搬動元件時，包一層有名稱的 wrapper 並把內層設成 <code>view-transition-scope: all</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">元件範圍的轉場 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>範圍元素外包一層 wrapper 並給它 <code>view-transition-name</code>，範圍元素加 <code>view-transition-scope: all</code>；或讓外層捕捉子項目時改用巢狀轉場群組並手動補 <code>overflow: clip</code></dd><dt>被什麼擋</dt><dd>從父元件或 document 發起的外層轉場，會把範圍元素和裡面所有東西一起捕捉並動畫（引用："the outer transition will capture and animate the scope element and everything inside it."）</dd><dt>戰報</dt><dd>部分改善——外層只動畫 wrapper，內層轉場可以跑完（官方宣稱）</dd></dl><p class="story">頁面切版的大轉場一開始，卡片內正在跑的小轉場被打斷，裡面的項目被外層抓去亂飛。</p>
+<p class="support"><b>支援</b> Element-scoped view transitions：Limited</p>
+<p class="links"><code>mwg:scoped-component-transitions:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scoped-component-transitions.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scoped-component-transitions.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-completion-effects" data-kind="新能力" data-result="僵持" data-group="完成時機靠猜" data-guide="程式捲動完成後觸發效果">
+<summary><span class="t"><code>await scrollIntoView()</code> 等捲動真的停下，不再用 <code>setTimeout</code> 猜時間</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">程式捲動完成後觸發效果 · 完成時機靠猜</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前「捲到那裡再做事」要猜時間或拼 scrollend → 現在導覽教學、程式碼逐行講解、地圖清單可以一步一步 <code>await</code> 捲動再高亮，流程寫成直線。目前僅 Chromium</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>把處理函式寫成 <code>async</code>，直接 <code>await element.scrollIntoView({ behavior: 'smooth' })</code>（或 <code>scrollTo()</code>、<code>scrollBy()</code>），之後才加高亮、啟動動畫或移動焦點</dd><dt>被什麼擋</dt><dd>用 <code>setTimeout()</code> 猜捲動時間，長距離捲動太早觸發、短距離太晚；包一層 <code>scrollend</code> promise 又在目標已在畫面內、根本沒捲動時永遠等不到（引用："fires too early on long scrolls and too late on short ones"；"<code>scrollend</code> does not fire when the target is already in view and no scrolling occurs"）</dd><dt>戰報</dt><dd>僵持——支援的瀏覽器中 promise 在捲動結束時 resolve、目標已在畫面內就立刻 resolve；僅 Chrome／Edge 150，其他瀏覽器 <code>await</code> 會立刻往下跑，要準確就得回到 <code>scrollend</code> 加逾時的舊做法（官方宣稱）</dd></dl><p class="story">點目錄跳到某段並閃一下高亮，結果高亮在段落還在畫面外時就閃完了。捲動方法自己回傳 promise 後，時間點不用猜；但在 Firefox、Safari 還得保留舊的拼裝版本。</p>
+<p class="support"><b>支援</b> Scroll method promises：Limited availability，Supported by: Chrome 150, Edge 150；Unsupported in: Firefox, Safari</p>
+<p class="links"><code>mwg:scroll-completion-effects</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-completion-effects.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-completion-effects.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-completion-effects--2" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="程式捲動完成後觸發效果">
+<summary><span class="t">被打斷的平滑捲動也會 resolve，用遞增 ID 擋掉過期的後續效果</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">程式捲動完成後觸發效果 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>每次捲動前遞增一個操作 ID，<code>await</code> 之後若已不是最新 ID 就直接 return</dd><dt>被什麼擋</dt><dd>新的捲動打斷進行中的平滑捲動時，瀏覽器會讓所有等待中的 promise resolve 而不是 reject，舊的後續效果照樣執行（引用："the browser aborts the ongoing smooth scroll and **resolves** (does not reject) all pending scroll promises on that container."）</dd><dt>戰報</dt><dd>部分改善——只有最後一次捲動的效果會跑（官方宣稱）</dd></dl><p class="story">使用者快速連點三個章節，三個章節都閃了高亮。</p>
+<p class="support"><b>支援</b> Scroll method promises：Limited</p>
+<p class="links"><code>mwg:scroll-completion-effects:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-completion-effects.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-completion-effects.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-completion-effects--3" data-kind="糾錯" data-result="勝" data-group="互動中畫面抖動" data-guide="程式捲動完成後觸發效果">
+<summary><span class="t">捲動完再聚焦時加 <code>{ preventScroll: true }</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">程式捲動完成後觸發效果 · 互動中畫面抖動</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>await</code> 捲動之後呼叫 <code>focus({ preventScroll: true })</code></dd><dt>被什麼擋</dt><dd><code>focus()</code> 預設會自己再捲一次，和剛完成的捲動打架，畫面跳動（引用："so the browser does not jump or scroll a second time."）</dd><dt>戰報</dt><dd>勝——焦點移過去、畫面不再跳第二次（官方宣稱）</dd></dl><p class="story">平滑捲到位、置中好了，聚焦標題時畫面又猛地一跳把標題頂到最上面。</p>
+<p class="support"><b>支援</b> focus() 的 preventScroll：指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:scroll-completion-effects:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-completion-effects.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-completion-effects.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-completion-effects--4" data-kind="糾錯" data-result="僵持" data-group="新功能的副作用" data-guide="程式捲動完成後觸發效果">
+<summary><span class="t">Chrome 捲動根捲動器時 promise 會太早 resolve，不要為此多包捲動容器</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">程式捲動完成後觸發效果 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>知道這個 bug 存在；巢狀捲動容器上的 <code>scrollIntoView()</code> 正常，但不要為了繞過 bug 把內容包進 <code>overflow-y: auto</code> 的 div</dd><dt>被什麼擋</dt><dd>Chrome 捲動的是文件根捲動器時，<code>scrollIntoView()</code> 回傳的 promise 太早 resolve（引用："Chrome has a bug where the <code>Promise</code> returned by <code>scrollIntoView()</code> resolves too early when it is the document's root scroller that is scrolling."）</dd><dt>戰報</dt><dd>僵持——指南只說不要用包容器繞過，沒有給出修正，整頁捲動時效果仍可能提早觸發（官方宣稱）</dd></dl><p class="story">同一段程式在側欄清單裡時間點剛好，用在整頁時高亮又提早閃了。</p>
+<p class="support"><b>支援</b> Scroll method promises：Limited</p>
+<p class="links"><code>mwg:scroll-completion-effects:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-completion-effects.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-completion-effects.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-entry-exit-effects" data-kind="新能力" data-result="部分改善" data-group="捲動連動效果靠JS監聽" data-guide="元素進出捲動視窗的效果">
+<summary><span class="t">用 <code>view()</code> 加 <code>animation-range: entry, exit</code> 做進場與離場效果</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">元素進出捲動視窗的效果 · 捲動連動效果靠JS監聽</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前進出場效果要 IntersectionObserver 逐一算比例 → 現在水平相簿、時間軸、商品列可以讓每一項在進出視窗時縮放、淡入淡出，捲動倒退也自動倒帶</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>進場與離場各寫一組 <code>@keyframes</code>（進場 fill <code>backwards</code>、離場 <code>forwards</code>），用 <code>animation-timeline: view()</code> 綁到元素自身的可見度，再以 <code>animation-range: entry, exit</code> 限定區段；也可在單一 <code>@keyframes</code> 裡用 <code>entry 0%</code>、<code>exit 100%</code> 這類範圍選擇器</dd><dt>被什麼擋</dt><dd>指南沒說舊做法哪裡壞，只說不支援時退路是 IntersectionObserver，而原生實作效能較好（引用："In browsers with built-in support for scroll-driven animations, ALWAYS use the native CSS implementation as those are more performant."）</dd><dt>戰報</dt><dd>部分改善——純 CSS 依捲動位置驅動進出場；Scroll-driven animations 為 Newly，裝飾性效果可不給退路（官方宣稱）</dd></dl><p class="story">卡片滑進畫面時長大、滑出時縮小，以前要每個元素掛觀察器、算交集比例。現在一組 keyframes 綁在 view timeline 上，捲多少動多少。</p>
+<p class="support"><b>支援</b> Scroll-driven animations：Baseline Newly available（2026-10-27 起）</p>
+<p class="links"><code>mwg:scroll-entry-exit-effects</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-entry-exit-effects.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-entry-exit-effects.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-entry-exit-effects--2" data-kind="糾錯" data-result="部分改善" data-group="功能偵測不可靠" data-guide="元素進出捲動視窗的效果">
+<summary><span class="t"><code>@supports</code> 要同時檢查 <code>animation-range: entry</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">元素進出捲動視窗的效果 · 功能偵測不可靠</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>偵測寫成 <code>@supports ((animation-timeline: view()) and (animation-range: entry))</code></dd><dt>被什麼擋</dt><dd>只偵測 <code>animation-timeline</code> 會放行只有部分支援的瀏覽器（引用："The <code>(animation-range: entry)</code> check **MUST** be included here, to filter out browsers with only partial support."）</dd><dt>戰報</dt><dd>部分改善——部分支援的瀏覽器被濾掉，走退路或不做效果（官方宣稱）</dd></dl><p class="story">偵測通過了，效果卻在某些瀏覽器跑在錯的區段。</p>
+<p class="support"><b>支援</b> Scroll-driven animations：Newly</p>
+<p class="links"><code>mwg:scroll-entry-exit-effects:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-entry-exit-effects.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-entry-exit-effects.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-entry-exit-effects--3" data-kind="糾錯" data-result="部分改善" data-group="簡寫或屬性連動重設" data-guide="元素進出捲動視窗的效果">
+<summary><span class="t"><code>animation-timeline</code> 與 <code>animation-range</code> 寫在 <code>animation</code> 簡寫之後</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">元素進出捲動視窗的效果 · 簡寫或屬性連動重設</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>先寫 <code>animation</code> 簡寫，再寫 <code>animation-timeline</code>、<code>animation-range</code></dd><dt>被什麼擋</dt><dd>簡寫寫在後面會把時間軸與區段重設掉（引用："declare <code>animation-timeline</code> and <code>animation-range</code> *after* it to prevent the shorthand from resetting them."）</dd><dt>戰報</dt><dd>部分改善——順序正確時時間軸與區段保留（官方宣稱）</dd></dl><p class="story">動畫在頁面載入時自己跑完一次，跟捲動毫無關係。</p>
+<p class="support"><b>支援</b> Scroll-driven animations：Newly</p>
+<p class="links"><code>mwg:scroll-entry-exit-effects:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-entry-exit-effects.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-entry-exit-effects.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-entry-exit-effects--4" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="元素進出捲動視窗的效果">
+<summary><span class="t">單一 keyframes 寫進出場時，要明寫中段的靜止狀態</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">元素進出捲動視窗的效果 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 <code>entry 100%, exit 0%</code> 一起設定靜止值（例如 <code>scale: 1</code>），搭配 <code>animation-fill-mode: both</code></dd><dt>被什麼擋</dt><dd>沒寫中段的話，元素會從 <code>entry 0%</code> 一路內插到 <code>exit 100%</code>（引用："Explicitly set the resting state across the middle (<code>contain</code>) phase so the element doesn't interpolate straight from entry 0% to exit 100%"）</dd><dt>戰報</dt><dd>部分改善——完整在畫面內時保持原尺寸（官方宣稱）</dd></dl><p class="story">卡片一進畫面就開始慢慢縮，完全沒有「停在正常大小」的那段。</p>
+<p class="support"><b>支援</b> Scroll-driven animations：Newly</p>
+<p class="links"><code>mwg:scroll-entry-exit-effects:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-entry-exit-effects.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-entry-exit-effects.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-snap-realtime-feedback" data-kind="新能力" data-result="僵持" data-group="回饋落後於手勢" data-guide="捲動吸附的即時回饋">
+<summary><span class="t">用 <code>scrollsnapchanging</code> 在手指還沒放開時就標出即將吸附的項目</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">捲動吸附的即時回饋 · 回饋落後於手勢</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前吸附的回饋只能等停穩 → 現在轉盤式選擇器（日期、時間、數量）、相簿縮圖列可以在拖動中就預告結果，像實體轉盤一樣邊轉邊亮。目前僅 Chromium</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在捲動容器上聽 <code>scrollsnapchanging</code>，用 <code>event.snapTargetInline</code>（或 <code>snapTargetBlock</code>）替對應縮圖加 <code>pending</code> 樣式；再聽 <code>scrollsnapchange</code> 在真正吸附後設成 <code>active</code> 並更新 <code>aria-current</code></dd><dt>被什麼擋</dt><dd>傳統的捲動吸附只在手勢結束、元素停穩之後才有回饋（引用："Traditional scroll snap only provides feedback *after* the scroll gesture completes and the element settles."）</dd><dt>戰報</dt><dd>僵持——支援的瀏覽器在拖動中就能高亮即將停下的項目；僅 Chrome／Edge 129，其他瀏覽器必須自己用 <code>scroll</code> 加 <code>requestAnimationFrame</code> 算最近的項目，否則連動的介面會和內容脫節（官方宣稱）</dd></dl><p class="story">相簿往左滑，下方縮圖列要等滑完、停穩才換高亮，手指還在動時看不出會停在哪張。原生事件能提前告知「快要停在這張」，但目前只有 Chromium 給。</p>
+<p class="support"><b>支援</b> Scroll snap events：Limited availability，Supported by: Chrome 129, Edge 129；Unsupported in: Firefox, Safari（Scroll snap 本身為 Widely）</p>
+<p class="links"><code>mwg:scroll-snap-realtime-feedback</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-snap-realtime-feedback.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-snap-realtime-feedback.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-snap-realtime-feedback--2" data-kind="糾錯" data-result="部分改善" data-group="生命週期假設錯" data-guide="捲動吸附的即時回饋">
+<summary><span class="t">載入時捲動位置被還原，要自己同步一次初始狀態</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">捲動吸附的即時回饋 · 生命週期假設錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>頁面載入（<code>load</code> 或 <code>readyState === 'complete'</code>）時跑一次幾何計算，找出最接近中心的項目並設成 active</dd><dt>被什麼擋</dt><dd>瀏覽器透過歷史紀錄或錨點還原捲動位置時，<code>scrollsnapchange</code> 與 <code>scroll</code> 都不會自動觸發（引用："Neither <code>scrollsnapchange</code> nor <code>scroll</code> events will fire automatically."）</dd><dt>戰報</dt><dd>部分改善——一次性的幾何檢查讓初始高亮與實際位置一致（官方宣稱）</dd></dl><p class="story">按上一頁回到相簿，畫面停在第五張，縮圖列卻還亮著第一張。</p>
+<p class="support"><b>支援</b> Scroll snap events：Limited</p>
+<p class="links"><code>mwg:scroll-snap-realtime-feedback:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-snap-realtime-feedback.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-snap-realtime-feedback.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-snap-state-sync" data-kind="新能力" data-result="僵持" data-group="捲動連動效果靠JS監聽" data-guide="捲動吸附狀態同步">
+<summary><span class="t">用 <code>scrollsnapchange</code> 在捲動停到新段落時同步目錄高亮</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">捲動吸附狀態同步 · 捲動連動效果靠JS監聽</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前「現在停在哪一段」要自己算偏移 → 現在投影片式文件、分章節的說明頁、直式短影音列表可以在停下時同步頁碼、目錄或播放狀態。目前僅 Chromium</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>容器設 <code>scroll-snap-type</code>、段落標題設 <code>scroll-snap-align: start</code>，監聽 <code>scrollsnapchange</code>，以 <code>event.snapTargetBlock</code> 更新側欄目錄的作用中連結</dd><dt>被什麼擋</dt><dd>指南只說以前要寫複雜的 scroll 監聽、手算捲動偏移與 IntersectionObserver，沒說這些做法在哪個時刻出錯（引用："traditionally required complex scroll event listeners, manual calculations of scroll offsets, and intersection observers."）</dd><dt>戰報</dt><dd>僵持——支援的瀏覽器在捲動停在新吸附目標時觸發一次；僅 Chrome／Edge 129，其他瀏覽器退回 IntersectionObserver，且會在捲動途中就觸發而非停穩後（官方宣稱）</dd></dl><p class="story">長文配側欄目錄，讀到哪一節目錄就亮哪一節，以前得自己算。吸附事件把「停在哪」直接交給你，但跨瀏覽器仍得留一份觀察器版本。</p>
+<p class="support"><b>支援</b> Scroll snap events：Limited availability，Supported by: Chrome 129, Edge 129；Unsupported in: Firefox, Safari</p>
+<p class="links"><code>mwg:scroll-snap-state-sync</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-snap-state-sync.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-snap-state-sync.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-snap-state-sync--2" data-kind="糾錯" data-result="勝" data-group="焦點或狀態指示消失" data-guide="捲動吸附狀態同步">
+<summary><span class="t">吸附事件只同步畫面，作用中狀態要另外用 <code>aria-current</code> 告訴輔助技術</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">捲動吸附狀態同步 · 焦點或狀態指示消失</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>目錄連結作用中時設 <code>aria-current="true"</code> 或 <code>"location"</code>，並把目錄包在有名稱的 <code>&lt;nav&gt;</code> 裡</dd><dt>被什麼擋</dt><dd>捲動吸附事件讓畫面同步，但不會自動把這些資訊暴露給程式（引用："it does not automatically expose that information programmatically."）</dd><dt>戰報</dt><dd>勝——作用中狀態反映在無障礙樹上（官方宣稱）</dd></dl><p class="story">視覺上目錄亮了第三節，讀屏使用者聽到的每個連結都一樣，不知道自己在哪。</p>
+<p class="support"><b>支援</b> aria-current：指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:scroll-snap-state-sync:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-snap-state-sync.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-snap-state-sync.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-snap-state-sync--3" data-kind="糾錯" data-result="勝" data-group="隱藏或停用把人擋在外面" data-guide="捲動吸附狀態同步">
+<summary><span class="t">段落比畫面長時小心 <code>mandatory</code> 吸附</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
+<span class="meta">捲動吸附狀態同步 · 隱藏或停用把人擋在外面</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>長文的段落吸附用 <code>scroll-snap-type: y proximity</code>，不要隨手用 <code>mandatory</code></dd><dt>被什麼擋</dt><dd><code>mandatory</code> 會讓吸附點之間、比畫面還長的內容讀不到（引用："it can cause content in-between snap-points to become inaccessible when longer than the screen."）</dd><dt>戰報</dt><dd>勝——<code>proximity</code> 只在接近吸附點時吸附，中間內容可以自由捲動（官方宣稱）</dd></dl><p class="story">一節內容比螢幕長，往下捲就被硬拉到下一節的標題，中間那半段永遠看不到。</p>
+<p class="support"><b>支援</b> Scroll snap：Baseline Widely available（2020-01-15 起）</p>
+<p class="links"><code>mwg:scroll-snap-state-sync:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-snap-state-sync.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-snap-state-sync.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-target-on-load" data-kind="新能力" data-result="僵持" data-group="內容要等JS才成形" data-guide="設定初次渲染的捲動目標">
+<summary><span class="t">用 <code>scroll-initial-target: nearest</code> 讓清單一開就停在指定項目</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">設定初次渲染的捲動目標 · 內容要等JS才成形</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前「從中間開始」的捲動要等 JS 捲一下 → 現在月曆停在今天、聊天室停在最後一則已讀、時間軸停在現在，第一個畫面就對。目前僅 Chromium</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在捲動容器裡要先露出的那個子元素設 <code>scroll-initial-target: nearest</code>（例如行事曆的今天、相簿的指定照片、動態牆的精選項目）</dd><dt>被什麼擋</dt><dd>以前靠 JS 的 <code>scrollIntoView()</code> 或網址片段 <code>#item-id</code>；指南只說兩者都有限制、不好做，沒說在哪個時刻出問題（引用："both of which have limitations and are tricky to implement."）</dd><dt>戰報</dt><dd>僵持——支援的瀏覽器在版面配置階段就把目標放進視野；僅 Chrome／Edge 133，其他瀏覽器仍要在 <code>DOMContentLoaded</code> 後呼叫 <code>scrollIntoView({ behavior: "instant" })</code>（官方宣稱）</dd></dl><p class="story">行事曆一打開該停在今天，不是一月一日。屬性讓 CSS 直接宣告起始位置，不等腳本；Firefox、Safari 還是得留那段腳本。</p>
+<p class="support"><b>支援</b> scroll-initial-target：Limited availability，Supported by: Chrome 133, Edge 133；Unsupported in: Firefox, Safari</p>
+<p class="links"><code>mwg:scroll-target-on-load</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-target-on-load.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-target-on-load.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-target-on-load--2" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="設定初次渲染的捲動目標">
+<summary><span class="t"><code>scroll-initial-target</code> 只動畫面，不動鍵盤焦點</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">設定初次渲染的捲動目標 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>目標若也該是鍵盤使用者的起點，另外呼叫 <code>element.focus()</code></dd><dt>被什麼擋</dt><dd>這個屬性只移動視覺上的捲動位置，鍵盤焦點留在原處（引用："This property only moves the **visual** viewport; it does not move the keyboard focus."）</dd><dt>戰報</dt><dd>部分改善——手動聚焦後，畫面與焦點一致（官方宣稱）</dd></dl><p class="story">畫面停在今天，按一下 Tab 卻跳回頁首的第一個連結。</p>
+<p class="support"><b>支援</b> scroll-initial-target：Limited</p>
+<p class="links"><code>mwg:scroll-target-on-load:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-target-on-load.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-target-on-load.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-target-on-load--3" data-kind="糾錯" data-result="部分改善" data-group="版面意外溢出或位移" data-guide="設定初次渲染的捲動目標">
+<summary><span class="t">初始目標前面的媒體要先給尺寸</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">設定初次渲染的捲動目標 · 版面意外溢出或位移</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>圖片與影片設 <code>aspect-ratio</code> 或固定的 <code>width</code>／<code>height</code></dd><dt>被什麼擋</dt><dd>捲動位置在初次版面配置時計算，媒體載入後撐開高度，目標就被推離位置（引用："ensure images or videos have <code>aspect-ratio</code> or fixed <code>height</code>/<code>width</code> to prevent the target from shifting after the media loads."）</dd><dt>戰報</dt><dd>部分改善——預留空間後，目標停在算好的位置（官方宣稱）</dd></dl><p class="story">一開始確實停在精選項目，前面的圖片陸續載入後，它被一路往下推出畫面。</p>
+<p class="support"><b>支援</b> scroll-initial-target：Limited</p>
+<p class="links"><code>mwg:scroll-target-on-load:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-target-on-load.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-target-on-load.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scroll-target-on-load--4" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="設定初次渲染的捲動目標">
+<summary><span class="t">網址片段與 <code>scroll-start</code> 會蓋過 <code>scroll-initial-target</code>，同一容器只設一個</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">設定初次渲染的捲動目標 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>同一個捲動容器只給一個元素設 <code>scroll-initial-target</code>；記得網址片段與容器的 <code>scroll-start</code> 優先</dd><dt>被什麼擋</dt><dd>多個元素都設時瀏覽器只取 DOM 順序的第一個；網址帶片段時屬性被忽略（引用："A URL fragment (e.g., <code>example.com/#top</code>) and the container-level <code>scroll-start</code> property both take precedence over <code>scroll-initial-target</code>."）</dd><dt>戰報</dt><dd>部分改善——知道優先順序後，起始位置可以預測（官方宣稱）</dd></dl><p class="story">分享出去的連結帶了 <code>#top</code>，收到的人打開時清單停在最上面，而不是精選項目。</p>
+<p class="support"><b>支援</b> scroll-initial-target：Limited</p>
+<p class="links"><code>mwg:scroll-target-on-load:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-target-on-load.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scroll-target-on-load.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scrollytelling" data-kind="新能力" data-result="部分改善" data-group="捲動連動效果靠JS監聽" data-guide="捲動敘事">
+<summary><span class="t">用具名 <code>view-timeline</code> 加 <code>timeline-scope</code>，讓一組段落驅動另一組元素的動畫</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">捲動敘事 · 捲動連動效果靠JS監聽</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前「讀到這段、旁邊的圖就換」要掛 scrollama 之類的函式庫 → 現在年度回顧、產品導覽、資料新聞可以讓每段文字驅動一個固定圖層的變化，捲回去自動倒帶</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在被追蹤的段落上設 <code>view-timeline: --tl-1 block</code> 等具名時間軸，在共同祖先（常用 <code>html</code>）設 <code>timeline-scope</code> 公開這些名稱，另一組被動畫的元素用 <code>animation-timeline: --tl-1</code> 綁上，再用 <code>animation-range</code> 精確指定區段</dd><dt>被什麼擋</dt><dd>指南沒說舊做法哪裡壞，只說可以不靠 JavaScript、動畫跟著捲動位置而不是時鐘走（引用："The animations are controlled by the scroll position, not a time-based clock, which ensures they are always in sync with the user's scroll."）</dd><dt>戰報</dt><dd>部分改善——純 CSS 讓文字段落驅動另一側的圖像進出場；Scroll-driven animations 為 Newly，退路是 IntersectionObserver 加多段門檻（官方宣稱）</dd></dl><p class="story">報導左邊是文字、右邊是隨段落變換的圖。文字段落當時間軸、圖當動畫，兩者不必是父子關係，靠 timeline-scope 牽在一起。</p>
+<p class="support"><b>支援</b> Scroll-driven animations：Baseline Newly available（2026-10-27 起）</p>
+<p class="links"><code>mwg:scrollytelling</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scrollytelling.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scrollytelling.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scrollytelling--2" data-kind="糾錯" data-result="部分改善" data-group="功能偵測不可靠" data-guide="捲動敘事">
+<summary><span class="t">偵測要加 <code>animation-range: 0% 100%</code>，濾掉部分支援</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">捲動敘事 · 功能偵測不可靠</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>寫成 <code>@supports ((animation-timeline: scroll()) and (animation-range: 0% 100%))</code></dd><dt>被什麼擋</dt><dd>只偵測 <code>animation-timeline</code> 會讓部分支援的瀏覽器通過（引用："The <code>(animation-range: 0% 100%)</code> check **MUST** be included here, to filter out browsers with only partial support."）</dd><dt>戰報</dt><dd>部分改善——部分支援的瀏覽器改走退路（官方宣稱）</dd></dl><p class="story">偵測說支援，但區段設定被忽略，圖在錯的段落才出現。</p>
+<p class="support"><b>支援</b> Scroll-driven animations：Newly</p>
+<p class="links"><code>mwg:scrollytelling:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scrollytelling.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scrollytelling.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scrollytelling--3" data-kind="糾錯" data-result="部分改善" data-group="簡寫或屬性連動重設" data-guide="捲動敘事">
+<summary><span class="t"><code>animation-timeline</code> 寫在 <code>animation</code> 簡寫之後</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">捲動敘事 · 簡寫或屬性連動重設</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>先寫 <code>animation</code> 簡寫，再寫 <code>animation-timeline</code> 與 <code>animation-range</code></dd><dt>被什麼擋</dt><dd>簡寫會把時間軸重設掉（引用："declare <code>animation-timeline</code> and <code>animation-range</code> *after* it to prevent the shorthand from resetting the timeline."）</dd><dt>戰報</dt><dd>部分改善——順序正確時時間軸保留（官方宣稱）</dd></dl><p class="story">每個段落的動畫在載入時就自己播完了。</p>
+<p class="support"><b>支援</b> Scroll-driven animations：Newly</p>
+<p class="links"><code>mwg:scrollytelling:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scrollytelling.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scrollytelling.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--scrollytelling--4" data-kind="糾錯" data-result="部分改善" data-group="隱藏或停用把人擋在外面" data-guide="捲動敘事">
+<summary><span class="t">退路腳本沒跑、或使用者要求減少動態時，內容必須保持可見</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">捲動敘事 · 隱藏或停用把人擋在外面</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>退路的「先隱藏」樣式只掛在腳本加上的 <code>.scroll-fallback</code> 類別上；<code>prefers-reduced-motion: reduce</code> 時強制 <code>opacity: 1</code>、<code>transform: none</code></dd><dt>被什麼擋</dt><dd>預設就把段落藏起來等動畫，腳本沒跑時內容永遠看不到（引用："The CSS only hides the sections once this class is set, so they stay visible if the script doesn't run"）</dd><dt>戰報</dt><dd>部分改善——腳本失敗或減少動態時，敘事內容照樣完整可讀（官方宣稱）</dd></dl><p class="story">腳本被擋或載入失敗，右側整欄空白，故事少了一半。</p>
+<p class="support"><b>支援</b> Scroll-driven animations：Newly</p>
+<p class="links"><code>mwg:scrollytelling:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scrollytelling.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/scrollytelling.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--search-hidden-content" data-kind="新能力" data-result="部分改善" data-group="隱藏或停用把人擋在外面" data-guide="可被搜尋的隱藏內容">
+<summary><span class="t">用 <code>&lt;details&gt;</code> 或 <code>hidden="until-found"</code> 藏內容，頁內搜尋仍找得到</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">可被搜尋的隱藏內容 · 隱藏或停用把人擋在外面</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前自訂分頁的內容對搜尋隱形 → 現在設定頁的多個分頁、文件站的分頁式程式碼範例、產品規格的切換面板可以被 Ctrl+F 與文字片段連結直接命中並切到對的分頁。Safari 退回全部展開</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>一般摺疊優先用 <code>&lt;details&gt;</code>；控制鈕在 DOM 別處、要完全自訂樣式或不打算再收起時，用 <code>hidden="until-found"</code>，並在 <code>beforematch</code> 事件裡同步相關狀態（例如設 <code>aria-expanded="true"</code>、收起其他面板）</dd><dt>被什麼擋</dt><dd>用 <code>display: none</code> 或 <code>visibility: hidden</code> 藏起來的內容，讀屏與「在頁面中尋找」都完全碰不到（引用："they also make that content completely inaccessible to screen readers and browser features like "Find in page"."）</dd><dt>戰報</dt><dd>部分改善——藏起的內容可被頁內搜尋、網址片段與 Scroll to Text Fragment 連結找到並自動展開；<code>&lt;details&gt;</code> 為 Widely，<code>hidden="until-found"</code> 在 Safari 不支援，退路是全部展開（官方宣稱）</dd></dl><p class="story">分頁、自訂手風琴裡的文字 Ctrl+F 找不到，分享出去的文字片段連結也打不開。換成 until-found，搜尋命中時瀏覽器自己展開並觸發 beforematch，讓按鈕狀態跟上。</p>
+<p class="support"><b>支援</b> &lt;details&gt;：Widely；hidden="until-found"：Limited availability，Supported by: Chrome 102, Edge 102, Firefox 148；Unsupported in: Safari</p>
+<p class="links"><code>mwg:search-hidden-content</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/search-hidden-content.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/search-hidden-content.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--search-hidden-content--2" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="可被搜尋的隱藏內容">
+<summary><span class="t">不要在 <code>hidden="until-found"</code> 元素上再設 <code>display</code> 或 <code>visibility</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">可被搜尋的隱藏內容 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>隱藏完全交給 <code>hidden="until-found"</code>，不另外寫 <code>display: none</code>、<code>visibility: hidden</code> 等樣式</dd><dt>被什麼擋</dt><dd>這些樣式會破壞原生行為，內容永遠從搜尋索引消失（引用："This breaks the native functionality and permanently hides the content from the search index."）</dd><dt>戰報</dt><dd>部分改善——不覆寫時搜尋可以找到並展開（官方宣稱）</dd></dl><p class="story">為了保險又加了一行 <code>display: none</code>，結果 until-found 等於沒寫。</p>
+<p class="support"><b>支援</b> hidden="until-found"：Limited</p>
+<p class="links"><code>mwg:search-hidden-content:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/search-hidden-content.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/search-hidden-content.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--search-hidden-content--3" data-kind="糾錯" data-result="部分改善" data-group="版面意外溢出或位移" data-guide="可被搜尋的隱藏內容">
+<summary><span class="t">邊框、內距、背景放在內層 wrapper，不放在 until-found 元素本身</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">可被搜尋的隱藏內容 · 版面意外溢出或位移</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>把框線、padding、背景套在子層 wrapper</dd><dt>被什麼擋</dt><dd>直接套在 <code>hidden="until-found"</code> 元素上，隱藏時會留下版面位移或視覺殘影（引用："This prevents unintended layout shifts or visual remnants while the element is hidden."）</dd><dt>戰報</dt><dd>部分改善——隱藏時不留痕跡（官方宣稱）</dd></dl><p class="story">收起的面板還留著一條空的邊框和一段高度。</p>
+<p class="support"><b>支援</b> hidden="until-found"：Limited</p>
+<p class="links"><code>mwg:search-hidden-content:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/search-hidden-content.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/search-hidden-content.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--search-hidden-content--4" data-kind="糾錯" data-result="勝" data-group="敏感資料外露" data-guide="可被搜尋的隱藏內容">
+<summary><span class="t">敏感或不相關的資料不要用 <code>hidden="until-found"</code> 藏</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Limited</span></span>
+<span class="meta">可被搜尋的隱藏內容 · 敏感資料外露</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>敏感資訊、內部資料 token、不該被搜到的內容不放在 until-found 區塊裡</dd><dt>被什麼擋</dt><dd>until-found 的內容會被頁內搜尋找到並展開（引用："**DO NOT** use <code>hidden="until-found"</code> for sensitive information, internal data tokens, or irrelevant data that should not be exposed via search."）</dd><dt>戰報</dt><dd>勝——不放進去就不會被搜尋揭露（官方宣稱）</dd></dl><p class="story">以為藏起來就安全，使用者一搜就把內部欄位翻了出來。</p>
+<p class="support"><b>支援</b> hidden="until-found"：Limited</p>
+<p class="links"><code>mwg:search-hidden-content:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/search-hidden-content.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/search-hidden-content.md">線檔</a> · v1.0.0</p></div></details>
 <details class="line" id="mwg--sortable-table" data-kind="糾錯" data-result="勝" data-group="重建DOM丟狀態" data-guide="可排序表格">
 <summary><span class="t">排序時搬 &lt;tr&gt;，不重建 tbody</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
@@ -3113,6 +3365,160 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 <code>data-type</code> 宣告每欄型別，數字與日期依原始值比較</dd><dt>被什麼擋</dt><dd>直接比對畫面上格式化過的字串，數字與日期排出錯誤順序（引用："DO NOT sort formatted strings when the underlying values are numbers or dates."）</dd><dt>戰報</dt><dd>勝——依型別比較後順序正確；不涉及新功能（官方宣稱）</dd></dl><p class="story">「1,200」排在「950」前面、「2026/1/10」排在「2025/12/3」前面，都是比字串的結果。指南要求每欄宣告型別，不要從內容猜。</p>
 <p class="support"><b>支援</b> —</p>
 <p class="links"><code>mwg:sortable-table:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/sortable-table.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/sortable-table.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--spatial-navigation" data-kind="糾錯" data-result="勝" data-group="平台慣用操作沒有作用" data-guide="空間導覽（方向鍵移動焦點）">
+<summary><span class="t">方向上沒有候選項目時不要 <code>preventDefault()</code>，讓瀏覽器照常捲動</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">空間導覽（方向鍵移動焦點） · 平台慣用操作沒有作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>只在複合元件裡攔方向鍵；找到候選項目才 <code>preventDefault()</code>、移動 roving tabindex 並 <code>scrollIntoView({ block: 'nearest', inline: 'nearest' })</code>；找不到就直接 return；有修飾鍵、事件已被處理、或目標本身會用方向鍵（可編輯欄位、滑桿）時都不攔</dd><dt>被什麼擋</dt><dd>無條件攔截方向鍵，會讓瀏覽器原生的捲動失效、破壞可及性（引用："Overriding arrow keys unconditionally breaks accessibility (WCAG 1.4.10)."）</dd><dt>戰報</dt><dd>勝——邊界上的方向鍵交回瀏覽器捲動視窗（官方宣稱）</dd></dl><p class="story">媒體列做了方向鍵導覽，焦點在最後一列時按下鍵，整頁卻捲不下去了。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:spatial-navigation</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/spatial-navigation.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/spatial-navigation.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--spatial-navigation--2" data-kind="糾錯" data-result="勝" data-group="視覺順序與DOM順序脫鉤" data-guide="空間導覽（方向鍵移動焦點）">
+<summary><span class="t">依每次按鍵當下的實際幾何選下一個焦點，不靠索引或 DOM 順序</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">空間導覽（方向鍵移動焦點） · 視覺順序與DOM順序脫鉤</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>按鍵時讀目前元素與候選元素的 <code>getBoundingClientRect()</code>（不快取），以邊緣判斷方向、優先選垂直軸有重疊的，否則以 <code>gap + w * 垂直偏移</code> 計分；候選只取通過 <code>checkVisibility()</code> 的元素</dd><dt>被什麼擋</dt><dd>不對稱、會換行或格狀的版面裡，用索引對應會選錯；隱藏元素的矩形可能是 <code>(0, 0)</code> 的零尺寸，變成意外的上、左目標（引用："In asymmetrical, wrapped, or grid layouts, index-based mapping fails."；"Hidden elements can have a zero-sized rect at <code>(0, 0)</code> and must not become accidental <code>up</code> or <code>left</code> targets."）</dd><dt>戰報</dt><dd>勝——焦點沿著視覺上相鄰的列或欄移動（官方宣稱）</dd></dl><p class="story">寬卡片和窄卡片混排，按右鍵焦點跳到下一行開頭；某個藏起來的按鈕還讓按上鍵飛到左上角。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:spatial-navigation:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/spatial-navigation.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/spatial-navigation.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--spatial-navigation--3" data-kind="糾錯" data-result="勝" data-group="語意結構失真" data-guide="空間導覽（方向鍵移動焦點）">
+<summary><span class="t">roving tabindex 要搭配複合元件角色，光有 tabindex 讀屏不認</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">空間導覽（方向鍵移動焦點） · 語意結構失真</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>依用途給容器與項目 <code>grid</code>／<code>gridcell</code>、<code>tablist</code>、<code>listbox</code>／<code>option</code>、<code>tree</code>、<code>treegrid</code> 或 <code>combobox</code> 等角色</dd><dt>被什麼擋</dt><dd>只有 tabindex、沒有對應角色時，roving tabindex 在讀屏上不成立（引用："Roving tabindex only works with screen readers when the container and items have appropriate composite-widget roles and states (e.g. grid/gridcell, listbox/option); tabindex alone isn't enough."）</dd><dt>戰報</dt><dd>勝——加上角色與狀態後，讀屏能理解單一停點與方向鍵移動（官方宣稱）</dd></dl><p class="story">鍵盤使用者用得很順，讀屏使用者卻只聽到一堆不相關的按鈕，不知道可以用方向鍵。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:spatial-navigation:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/spatial-navigation.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/spatial-navigation.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--spatial-navigation--4" data-kind="糾錯" data-result="勝" data-group="封裝邊界切斷關聯" data-guide="空間導覽（方向鍵移動焦點）">
+<summary><span class="t">判斷按鍵來源用 <code>composedPath()[0]</code>，不要只看 <code>e.target</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">空間導覽（方向鍵移動焦點） · 封裝邊界切斷關聯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>以 <code>e.composedPath()[0]</code> 取最內層目標，再用 <code>:read-write, select, input[type="range"], [role="slider"]</code> 判斷它是否自己要用方向鍵</dd><dt>被什麼擋</dt><dd><code>e.target</code> 可能被重定向成 shadow host，看不出真正收到按鍵的是裡面的輸入框（引用："Use <code>e.composedPath()[0]</code> rather than only <code>e.target</code>, because <code>e.target</code> can be retargeted to a shadow host."）</dd><dt>戰報</dt><dd>勝——web component 內的輸入框保有自己的方向鍵行為（closed shadow root 仍無法檢查）（官方宣稱）</dd></dl><p class="story">在某個自訂元件的文字框裡按左鍵想移游標，焦點卻跳到旁邊的卡片。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:spatial-navigation:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/spatial-navigation.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/spatial-navigation.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-remove" data-kind="糾錯" data-result="勝" data-group="自製控制項丟掉原生行為" data-guide="滑動移除">
+<summary><span class="t">用捲動吸附加 IntersectionObserver 做滑動移除，不手寫指標事件</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
+<span class="meta">滑動移除 · 自製控制項丟掉原生行為</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>每列是一條三欄（左空白、內容、右空白）的水平 <code>scroll-snap-type: x mandatory</code> 軌道；以軌道為 root 的 IntersectionObserver 觀察內容，可見比例低於 <code>activateThreshold</code> 時放大圖示、低於 <code>commitThreshold</code> 時立刻提交並開始收合動畫</dd><dt>被什麼擋</dt><dd>用 <code>pointerdown</code>／<code>pointermove</code>／<code>pointerup</code> 自己驅動 transform，會失去原生捲動免費提供的慣性、回彈與鍵盤捲動（引用："You'll lose the momentum, snap-back, and keyboard scrolling that native scrolling gives you for free."）</dd><dt>戰報</dt><dd>勝——手勢交給瀏覽器的捲動引擎，慣性與吸附都是原生的；用到的捲動吸附、IntersectionObserver、MutationObserver、Web Animations 都是 Widely（官方宣稱）</dd></dl><p class="story">手寫拖曳的刪除列，放手後不會順著慣性滑走，速度判斷也怪。把列做成會吸附的水平捲軸，手指甩出去就是原生的手感，程式只負責看「內容還剩多少在畫面上」。</p>
+<p class="support"><b>支援</b> Scroll snap、Intersection observer、MutationObserver、Web animations：Baseline Widely available</p>
+<p class="links"><code>mwg:swipe-to-remove</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-remove.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-remove--2" data-kind="糾錯" data-result="部分改善" data-group="原生捲動手勢不合用途" data-guide="滑動移除">
+<summary><span class="t">軌道設 <code>overscroll-behavior-x: none</code>，擋掉滑過頭觸發上一頁</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">滑動移除 · 原生捲動手勢不合用途</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在每列的水平捲動軌道上設 <code>overscroll-behavior-x: none</code></dd><dt>被什麼擋</dt><dd>沒有它時，滑過頭會觸發 iOS／Android 瀏覽器的返回上一頁手勢（引用："Without it, an over-swipe can trigger the browser's back-navigation gesture on iOS/Android."）</dd><dt>戰報</dt><dd>部分改善——滑動被關在列內；指南標 overscroll-behavior 為 Limited，但說這裡軌道一定可捲動，各瀏覽器行為一致、不需退路（官方宣稱）</dd></dl><p class="story">用力往右甩想封存一封信，整個頁面卻回到上一頁。</p>
+<p class="support"><b>支援</b> overscroll-behavior：Limited availability，Supported by: Chrome 144, Edge 144, Firefox 150；Unsupported in: Safari（指南註明該限制只影響沒有可捲動溢出的容器）</p>
+<p class="links"><code>mwg:swipe-to-remove:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-remove.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-remove--3" data-kind="糾錯" data-result="勝" data-group="原生捲動手勢不合用途" data-guide="滑動移除">
+<summary><span class="t">吸附用 <code>mandatory</code>，不用 <code>proximity</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
+<span class="meta">滑動移除 · 原生捲動手勢不合用途</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>軌道設 <code>scroll-snap-type: x mandatory</code></dd><dt>被什麼擋</dt><dd><code>proximity</code> 讓列可以停在一半，動作底色露出半截（引用："With <code>proximity</code>, the row can rest partially scrolled, leaving the action background half-visible."）</dd><dt>戰報</dt><dd>勝——列永遠停在內容或空白欄上（官方宣稱）</dd></dl><p class="story">輕輕一撥，那一列就卡在半開，紅色底露出一塊。</p>
+<p class="support"><b>支援</b> Scroll snap：Widely</p>
+<p class="links"><code>mwg:swipe-to-remove:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-remove.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-remove--4" data-kind="糾錯" data-result="勝" data-group="只能 hover 才看得到" data-guide="滑動移除">
+<summary><span class="t">每個滑動動作都要有可見按鈕當替代</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">滑動移除 · 只能 hover 才看得到</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>每列放一顆至少 24×24 CSS px、名稱含項目名的原生按鈕，按下時走和滑動同一個 <code>commit</code> 函式</dd><dt>被什麼擋</dt><dd>滑動無法用鍵盤、單擊或讀屏完成，只能滑的功能違反路徑型手勢準則（引用："functionality must not be available solely through swiping gestures."）</dd><dt>戰報</dt><dd>勝——語音控制、鍵盤、讀屏使用者都能執行同一個動作（官方宣稱）</dd></dl><p class="story">用語音控制的人說得出「刪除」卻滑不了，那封信永遠刪不掉。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:swipe-to-remove:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-remove.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-remove--5" data-kind="糾錯" data-result="勝" data-group="動作被意外觸發" data-guide="滑動移除">
+<summary><span class="t">列裡有按鈕時不要讓軌道可聚焦，並提供復原</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">滑動移除 · 動作被意外觸發</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>已經有動作按鈕的列不在軌道上加 <code>tabindex</code>；移除後考慮顯示復原提示</dd><dt>被什麼擋</dt><dd>軌道可聚焦時，按方向鍵捲動軌道就會直接提交動作、沒有任何確認；滑動本身也很容易誤觸（引用："arrow keys on a focused track commit the action with no confirmation."；"the gesture is fast and easy to trigger by accident."）</dd><dt>戰報</dt><dd>勝——鍵盤只能透過按鈕刪除，誤觸有復原路徑（官方宣稱）</dd></dl><p class="story">鍵盤使用者 Tab 到某一列、想往下看按了方向鍵，結果那一列被刪掉了。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:swipe-to-remove:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-remove.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-remove--6" data-kind="糾錯" data-result="部分改善" data-group="互動中畫面抖動" data-guide="滑動移除">
+<summary><span class="t">Safari 慣性還在跑時移除節點，下一列會自己捲走</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">不適用</span></span>
+<span class="meta">滑動移除 · 互動中畫面抖動</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>偵測 <code>GestureEvent</code>（Safari 專有）時，先把列設 <code>inert</code>，延後幾秒才真正 <code>remove()</code></dd><dt>被什麼擋</dt><dd>Safari 的捲動鎖定 bug：手勢慣性還沒結束就移除節點，補上來的下一列繼承了捲動，立刻把自己捲出畫面（引用："causes the next item (which slides up into this one's place) to inherit the scroll and immediately scroll itself off-screen."）</dd><dt>戰報</dt><dd>部分改善——延後移除可避開，代價是節點在 DOM 裡多留幾秒（官方宣稱）</dd></dl><p class="story">在 iPhone 上刪掉一封信，下一封也跟著滑出去，看起來像連刪兩封。</p>
+<p class="support"><b>支援</b> 瀏覽器 bug，指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:swipe-to-remove:6</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-remove.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-remove--7" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="滑動移除">
+<summary><span class="t"><code>scroll-initial-target</code> 要等軌道真的變成捲動容器才套用</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">滑動移除 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>把內容的 <code>scroll-initial-target: nearest</code> 包在 <code>.is-initialized</code> 選擇器裡，JS 接好之後才生效</dd><dt>被什麼擋</dt><dd>軌道還不是捲動容器時，這個屬性會往上找最近的可捲動祖先（通常是整頁），改掉頁面的初始捲動位置（引用："would let the property walk up to the nearest scrollable ancestor (typically the document) and shift the page's initial scroll position"）</dd><dt>戰報</dt><dd>部分改善——屬性只在列自己的軌道上生效（官方宣稱）</dd></dl><p class="story">清單在頁面中段，一打開頁面卻直接被捲到某一列。</p>
+<p class="support"><b>支援</b> scroll-initial-target：Limited availability，Supported by: Chrome 133, Edge 133；Unsupported in: Firefox, Safari</p>
+<p class="links"><code>mwg:swipe-to-remove:7</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-remove.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-remove--8" data-kind="糾錯" data-result="部分改善" data-group="動作被意外觸發" data-guide="滑動移除">
+<summary><span class="t">退路的程式捲動要在接上觀察器之前執行</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">滑動移除 · 動作被意外觸發</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>不支援 <code>scroll-initial-target</code> 時，在加上 <code>.is-initialized</code> 之後、接上內層 IntersectionObserver 之前設 <code>track.scrollLeft = track.clientWidth</code>；再用 ResizeObserver 在尺寸變化時補設，移除前記得取消觀察</dd><dt>被什麼擋</dt><dd>順序反了，初始的程式捲動會被當成一次滑動，馬上觸發提交（引用："Otherwise the initial programmatic scroll past the left spacer will be observed as a "swipe" and immediately fire the commit handler."）</dd><dt>戰報</dt><dd>部分改善——順序正確時列安靜地停在內容上（官方宣稱）</dd></dl><p class="story">在 Firefox 打開收件匣，每一列一出現就自己刪掉了。</p>
+<p class="support"><b>支援</b> scroll-initial-target：Limited</p>
+<p class="links"><code>mwg:swipe-to-remove:8</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-remove.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-remove--9" data-kind="糾錯" data-result="勝" data-group="生命週期假設錯" data-guide="滑動移除">
+<summary><span class="t">每列在進入畫面時才初始化，後來加入的列用 MutationObserver 接上</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
+<span class="meta">滑動移除 · 生命週期假設錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>外層 IntersectionObserver 在列第一次進入畫面時才 <code>setupItem()</code>，離開時暫停內層觀察；<code>&lt;ul&gt;</code> 上的 MutationObserver 把新增的列交給外層觀察器</dd><dt>被什麼擋</dt><dd>頁面載入時就全部接好，會在列還沒渲染時讀到為 0 的 <code>clientWidth</code>；之後加入的列則根本沒被接上（引用："<code>setupItem</code> reads layout-dependent values like <code>clientWidth</code>, which return 0 until the item is rendered"；"Without it, items appended after page load won't get wired up."）</dd><dt>戰報</dt><dd>勝——每列都拿到真實尺寸，觀察器數量和畫面上看得到的列成正比（官方宣稱）</dd></dl><p class="story">無限捲動載入的新信件滑不動，舊信件的退路捲動又捲到 0。</p>
+<p class="support"><b>支援</b> Intersection observer、MutationObserver：Widely</p>
+<p class="links"><code>mwg:swipe-to-remove:9</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-remove.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-remove--10" data-kind="糾錯" data-result="勝" data-group="播報時機或可靠度出錯" data-guide="滑動移除">
+<summary><span class="t">移除結果寫進頁面上原本就有的 <code>role="status"</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">滑動移除 · 播報時機或可靠度出錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>頁面一開始就放一個空的 <code>role="status"</code>，移除時寫入「Item One removed」</dd><dt>被什麼擋</dt><dd>一列消失本身不會被播報；而讀屏只播報「變動前就存在」的 live region（引用："A row disappearing isn't announced"；"screen readers only announce changes to live regions that existed before the change."）</dd><dt>戰報</dt><dd>勝——讀屏使用者知道哪一項被移除（官方宣稱）</dd></dl><p class="story">讀屏使用者按了移除，聽不到任何回應，不確定到底刪了沒。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:swipe-to-remove:10</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-remove.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-remove--11" data-kind="糾錯" data-result="勝" data-group="隱藏或停用把人擋在外面" data-guide="滑動移除">
+<summary><span class="t">移除聚焦中的列之前，先把焦點移到下一列</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">滑動移除 · 隱藏或停用把人擋在外面</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>移除前若焦點在列內，移到下一列（或上一列、清單標題），並保持同一種元素（軌道對軌道、按鈕對按鈕）</dd><dt>被什麼擋</dt><dd>移除或 inert 掉含焦點的列，焦點會掉回 <code>&lt;body&gt;</code>（引用："Removing or inerting the row drops focus to &lt;body&gt; if focus is inside it"）</dd><dt>戰報</dt><dd>勝——鍵盤使用者可以連續處理下一列（官方宣稱）</dd></dl><p class="story">按鈕刪掉一封信後，下一個 Tab 從頁首重新開始。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:swipe-to-remove:11</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-remove.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-remove--12" data-kind="糾錯" data-result="勝" data-group="焦點或狀態指示消失" data-guide="滑動移除">
+<summary><span class="t">強制色彩模式下改用 <code>CanvasText</code> 加遮罩畫動作圖示</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">滑動移除 · 焦點或狀態指示消失</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>@media (forced-colors: active)</code> 時設 <code>forced-color-adjust: none</code>，背景用 <code>CanvasText</code>、以圖示當 <code>mask</code></dd><dt>被什麼擋</dt><dd>強制色彩把動作底色換成 <code>Canvas</code>，白色圖示就看不見了（引用："Forced colors replaces the action background with Canvas, which hides the white icon."）</dd><dt>戰報</dt><dd>勝——圖示在強制色彩下仍可見（官方宣稱）</dd></dl><p class="story">高對比模式的使用者滑開一列，只看到一片空白，不知道會發生什麼。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:swipe-to-remove:12</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-remove.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-reveal" data-kind="糾錯" data-result="勝" data-group="自製控制項丟掉原生行為" data-guide="滑動揭露">
+<summary><span class="t">用捲動吸附做滑開動作列，不攔 wheel、touchmove、pointermove</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
+<span class="meta">滑動揭露 · 自製控制項丟掉原生行為</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>外層 <code>.SwipeReveal</code> 是兩欄 grid（<code>100% max-content</code>）的水平捲動容器，<code>scroll-snap-type: x mandatory</code>，內容吸附 <code>start</code>、動作面板吸附 <code>end</code></dd><dt>被什麼擋</dt><dd>在主執行緒攔截手勢事件自己平移內容，會擋住合成器驅動的捲動、破壞原生慣性、拖慢反應（引用："Main-thread gesture interception blocks compositor-driven scrolling, breaks native scroll momentum, and degrades responsiveness."）</dd><dt>戰報</dt><dd>勝——慣性、吸附、鍵盤聚焦捲動與捲動串接都由瀏覽器處理，不需手勢監聽（官方宣稱）</dd></dl><p class="story">手寫滑動的列表在低階手機上卡頓，放手後停得很生硬。改成會吸附的水平捲軸，滑開的手感和原生 app 一樣。</p>
+<p class="support"><b>支援</b> Scroll snap：Baseline Widely available（2020-01-15 起）</p>
+<p class="links"><code>mwg:swipe-to-reveal</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-reveal.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-reveal.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-reveal--2" data-kind="新能力" data-result="部分改善" data-group="原生捲動手勢不合用途" data-guide="滑動揭露">
+<summary><span class="t">外層滑動容器設 <code>overscroll-behavior: chain</code>：照樣串接捲動，但不回彈</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">滑動揭露 · 原生捲動手勢不合用途</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前巢狀捲動只能選「回彈」或「困住」 → 現在直向動態牆裡可以放滑開動作的列、可側滑的卡片或橫向膠囊列，邊界不回彈、多餘捲動自然傳給外層。Safari 仍會回彈</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>外層 <code>.SwipeReveal</code> 設 <code>overscroll-behavior: chain</code>；內層可捲動的內容窗格保留預設 <code>auto</code></dd><dt>被什麼擋</dt><dd>預設的 <code>auto</code> 會讓外層包裝在邊界回彈、選單跟著彈；<code>contain</code>、<code>none</code> 又會把捲動困住，傳不到外面的頁面（引用："avoid on the outer swipe wrapper where it causes the menu to bounce"）</dd><dt>戰報</dt><dd>部分改善——支援的瀏覽器中多餘的捲動傳給父層、動作列不再回彈；<code>chain</code> 為 Limited，不認得的瀏覽器解析時忽略、留在 <code>auto</code>，功能照常只是會回彈（官方宣稱）</dd></dl><p class="story">滑開動作列時整條連同按鈕一起橡皮筋彈一下，很廉價。以前只能在「會彈」和「捲動被困住」之間二選一，新關鍵字把串接和回彈拆開了。</p>
+<p class="support"><b>支援</b> overscroll-behavior：Limited availability，Supported by: Chrome 144, Edge 144, Firefox 150；Unsupported in: Safari</p>
+<p class="links"><code>mwg:swipe-to-reveal:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-reveal.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-reveal.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-reveal--3" data-kind="糾錯" data-result="勝" data-group="原生捲動手勢不合用途" data-guide="滑動揭露">
+<summary><span class="t">滑開面板用 <code>mandatory</code> 吸附，不用 <code>proximity</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
+<span class="meta">滑動揭露 · 原生捲動手勢不合用途</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>外層設 <code>scroll-snap-type: x mandatory</code></dd><dt>被什麼擋</dt><dd><code>proximity</code> 下輕輕一滑，動作按鈕或側選單會停在半露狀態（引用："With <code>proximity</code>, a light swipe can leave the action buttons or side menu partially exposed at rest."）</dd><dt>戰報</dt><dd>勝——面板只會全開或全關（官方宣稱）</dd></dl><p class="story">列表裡好幾列都露著半顆「刪除」按鈕。</p>
+<p class="support"><b>支援</b> Scroll snap：Widely</p>
+<p class="links"><code>mwg:swipe-to-reveal:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-reveal.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-reveal.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-reveal--4" data-kind="糾錯" data-result="勝" data-group="只能 hover 才看得到" data-guide="滑動揭露">
+<summary><span class="t">滑開才看得到的動作，要有觸發按鈕可以打開</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">滑動揭露 · 只能 hover 才看得到</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>內容裡放一顆名稱含項目名的觸發按鈕（<code>aria-expanded</code>），按下時捲動到面板、把面板按鈕的 <code>tabindex</code> 改成 0；再按一次反向操作</dd><dt>被什麼擋</dt><dd>只能靠滑動取得的功能，違反路徑型手勢準則（引用："functionality must not be available solely through swiping gestures."）</dd><dt>戰報</dt><dd>勝——鍵盤與語音控制使用者可用按鈕打開並操作面板（官方宣稱）</dd></dl><p class="story">鍵盤使用者知道每列有「釘選」「封存」，卻找不到任何方法打開它們。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:swipe-to-reveal:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-reveal.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-reveal.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-reveal--5" data-kind="新能力" data-result="僵持" data-group="內容要等JS才成形" data-guide="滑動揭露">
+<summary><span class="t">左側面板用 <code>scroll-initial-target</code> 讓列一開始停在內容欄</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">滑動揭露 · 內容要等JS才成形</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前雙向滑動的列要 JS 先捲到中間 → 現在郵件、待辦、聊天列表可以純 CSS 做「左滑一組動作、右滑另一組」的雙側列，載入時就停在中間。目前僅 Chromium</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>左右兩側都有面板（<code>max-content 100% max-content</code>）時，把前導面板放在內容前面，內容設 <code>scroll-initial-target: nearest</code></dd><dt>被什麼擋</dt><dd>不支援的瀏覽器從捲動位置 0 開始渲染，左側面板一開始就露在外面（引用："browsers that do not support <code>scroll-initial-target: nearest</code> will initially render at scroll offset <code>0</code> with the leading panel exposed."）</dd><dt>戰報</dt><dd>僵持——支援的瀏覽器初始就停在內容欄；僅 Chrome／Edge 133，其他瀏覽器要在 <code>load</code> 時用 <code>scrollTo({ behavior: 'instant' })</code> 補（官方宣稱）</dd></dl><p class="story">郵件列左滑封存、右滑刪除，在 Safari 打開時每一列都先露出左邊的封存鈕。</p>
+<p class="support"><b>支援</b> scroll-initial-target：Limited availability，Supported by: Chrome 133, Edge 133；Unsupported in: Firefox, Safari</p>
+<p class="links"><code>mwg:swipe-to-reveal:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-reveal.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-reveal.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--swipe-to-reveal--6" data-kind="糾錯" data-result="部分改善" data-group="不認得的語法讓整條規則失效" data-guide="滑動揭露">
+<summary><span class="t">覆寫既有的 <code>contain</code>／<code>none</code> 時，先寫 <code>auto</code> 再寫 <code>chain</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">滑動揭露 · 不認得的語法讓整條規則失效</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>基礎樣式已設 <code>overscroll-behavior: contain</code> 或 <code>none</code> 時，在 <code>chain</code> 前面緊接著宣告 <code>overscroll-behavior: auto</code></dd><dt>被什麼擋</dt><dd>不認得 <code>chain</code> 的瀏覽器會丟掉這行，留下先前的 <code>contain</code>／<code>none</code>，捲動被困住（引用："declare <code>overscroll-behavior: auto</code> immediately before <code>overscroll-behavior: chain</code> so browsers that do not yet support <code>chain</code> still chain scrolling to the parent rather than trapping it."）</dd><dt>戰報</dt><dd>部分改善——不支援時退回 <code>auto</code>，捲動仍能傳給父層（官方宣稱）</dd></dl><p class="story">工具類別預設 <code>overscroll-behavior: none</code>，換成 Safari 後在這一列上下滑整頁都不動。</p>
+<p class="support"><b>支援</b> overscroll-behavior：Limited</p>
+<p class="links"><code>mwg:swipe-to-reveal:6</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-reveal.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-behaviors/swipe-to-reveal.md">線檔</a> · v1.0.0</p></div></details>
 <details class="line" id="mwg--accordion" data-kind="糾錯" data-result="勝" data-group="原生元素角色實作不一致" data-guide="手風琴（Accordion）">
 <summary><span class="t">需要個別標題時不要把 heading 塞進 summary</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
@@ -3155,6 +3561,41 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>斜角、箭頭、缺角這類形狀可以連邊框和焦點框一起跟著形狀走，不必再用 clip-path 切掉可及性。目前僅 Chromium</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 <code>corner-shape</code>／<code>border-shape</code> 畫斜角或箭頭形分段，邊框與焦點外框沿著形狀</dd><dt>被什麼擋</dt><dd>用 <code>clip-path</code> 切形狀會切掉邊框與焦點外框；強制色彩模式又移除背景，被切的段落失去輪廓（引用："<code>clip-path</code> clips borders and outlines, so under the fallback use a color/background change plus negative <code>outline-offset</code> for focus instead of an outside outline."）</dd><dt>戰報</dt><dd>僵持——<code>corner-shape</code>、<code>border-shape</code> 只有 Chrome/Edge 支援；其他瀏覽器退回矩形段落加分隔符，且原文說圓角不能當斜角的替代（官方宣稱）</dd></dl><p class="story">箭頭形麵包屑過去多用 <code>clip-path</code>，鍵盤聚焦時外框被切掉，高對比模式下整段消失。新屬性讓邊框本身就是那個形狀，但 Firefox 與 Safari 都還不支援。</p>
 <p class="support"><b>支援</b> corner-shape：Limited（Chrome/Edge 139）；border-shape：Limited（Chrome/Edge 147）</p>
 <p class="links"><code>mwg:breadcrumbs:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/breadcrumbs.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/breadcrumbs.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--card" data-kind="糾錯" data-result="勝" data-group="播報過量" data-guide="卡片">
+<summary><span class="t">卡片內容多或有其他動作時，改用「延伸連結」，不要整張包在 <code>&lt;a&gt;</code> 裡</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">卡片 · 播報過量</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>整張卡片只有一個目的地且內容短，才用一個 <code>&lt;a&gt;</code> 包住 <code>&lt;article&gt;</code>；否則只讓標題裡的 <code>.card-link</code> 是連結，用 <code>::after</code> 加 <code>inset: 0</code> 把點擊範圍延伸到整張卡</dd><dt>被什麼擋</dt><dd>整張包在連結裡時，連結的可及名稱就是卡片的全部文字（引用："Because the link's accessible name is all of the card's text, keep the content short"）</dd><dt>戰報</dt><dd>勝——連結名稱只剩標題，整張卡片仍可點（官方宣稱）</dd></dl><p class="story">讀屏使用者在連結清單裡聽到一整段摘要、作者、日期才知道這是哪篇文章。只讓標題當連結、用偽元素撐大點擊區，聽起來和點起來都對了。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:card</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/card.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/card.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--card--2" data-kind="糾錯" data-result="勝" data-group="語意結構失真" data-guide="卡片">
+<summary><span class="t">「閱讀更多」連結要有以可見文字開頭的完整名稱</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">卡片 · 語意結構失真</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>寫成 <code>Read more&lt;span&gt;（視覺隱藏）about poached eggs&lt;/span&gt;</code>；不要再加其他重複標題網址的連結</dd><dt>被什麼擋</dt><dd>一模一樣的「閱讀更多」在讀屏的連結清單裡無法分辨（引用："identical "read more" links are ambiguous in a screen reader's link list."）</dd><dt>戰報</dt><dd>勝——每個連結名稱各自指出目的地（官方宣稱）</dd></dl><p class="story">連結清單裡排了十個「閱讀更多」。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:card:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/card.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/card.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--card--3" data-kind="糾錯" data-result="勝" data-group="版面意外溢出或位移" data-guide="卡片">
+<summary><span class="t">選擇卡片被選取時，不要改會影響版面的屬性</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">卡片 · 版面意外溢出或位移</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>&lt;label class="card"&gt;</code> 內放勾選框或單選鈕，用 <code>:has(&gt; :checked)</code> 只改透明邊框的顏色、<code>outline</code> 或 <code>box-shadow</code></dd><dt>被什麼擋</dt><dd>選取時改 <code>border-width</code>、<code>padding</code>、<code>font-weight</code>，這張卡和旁邊的卡都會跳動（引用："Never change layout-affecting properties such as <code>border-width</code>, <code>padding</code>, or <code>font-weight</code> on selection, because the card and its neighbors jump"）</dd><dt>戰報</dt><dd>勝——選取只改顏色，版面不動（官方宣稱）</dd></dl><p class="story">方案比較卡一點選，整排卡片往右擠了兩像素。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:card:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/card.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/card.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--card--4" data-kind="糾錯" data-result="勝" data-group="堆疊脈絡改變層級" data-guide="卡片">
+<summary><span class="t">延伸連結只能有一個，其他互動元素逐一提升層級</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">卡片 · 堆疊脈絡改變層級</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>每張卡只在一個連結上加 <code>.card-link</code>；其他 <code>a</code>、<code>button</code>、<code>input</code> 等元素依類型設 <code>position: relative; z-index: 1</code>，不要對整個容器設 <code>z-index</code></dd><dt>被什麼擋</dt><dd>多個連結都延伸時最後一個蓋住整張卡；對整個容器設 <code>z-index</code> 則會攔下不產生任何動作的點擊（引用："each would stretch its own overlay and the last one would capture the whole card"；"Do NOT apply <code>z-index</code> to entire containers as that would make them capture pointer events that don't produce any action."）</dd><dt>戰報</dt><dd>勝——卡片其他區域點了走主連結，按鈕各自可按（官方宣稱）</dd></dl><p class="story">點卡片上的「收藏」卻打開了文章；點頁尾空白處什麼事都沒發生。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:card:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/card.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/card.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--card--5" data-kind="糾錯" data-result="勝" data-group="版面依賴錯的量測" data-guide="卡片">
+<summary><span class="t">以卡片自己為容器查詢排版，不看視窗或格線父層</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">卡片 · 版面依賴錯的量測</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>卡片設 <code>container-type: inline-size</code>，用 <code>@container</code> 規則調整子元素；有媒體的卡片才用 <code>:has(&gt; img)</code> 開側欄</dd><dt>被什麼擋</dt><dd>卡片的實際寬度取決於欄數、間距等，用父層訂的斷點很不準（引用："the card's actual width can depend on column count, gaps and so on, making parent-based breakpoints are noisy."）</dd><dt>戰報</dt><dd>勝——窄時依原始順序堆疊、寬時媒體靠邊，放到哪都對（官方宣稱）</dd></dl><p class="story">同一張卡在三欄格線裡太擠、在側欄裡卻用了寬版排法。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:card:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/card.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/card.md">線檔</a> · v1.0.0</p></div></details>
 <details class="line" id="mwg--carousel" data-kind="新能力" data-result="部分改善" data-group="重複內容干擾輔助技術" data-guide="輪播（Carousel）">
 <summary><span class="t">循環輪播不複製投影片，改用 order 暫停一張</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
@@ -3162,6 +3603,27 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>無限循環的輪播不用複製投影片：用 CSS order 暫停一張、捲動停下後再補償位移。內容只有一份，框架和讀屏都不會打架</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>循環時用 <code>--current</code> 與 CSS <code>order</code> 把首或尾一張「停」到旁邊並設為 <code>inert</code>，不複製也不搬動投影片</dd><dt>被什麼擋</dt><dd>複製投影片或在 DOM 裡搬動來做無限循環，和框架衝突，輔助技術也會讀到重複內容（引用："Do not clone slides or move them in the DOM, which conflicts with frameworks and duplicates content for assistive technology."）</dd><dt>戰報</dt><dd>部分改善——不複製就沒有重複內容；但要在捲動停止時補償位移並暫時關掉 snap，<code>scrollend</code> 才剛 Newly（官方宣稱）</dd></dl><p class="story">無限輪播最常見的做法是頭尾各複製一份，螢幕閱讀器因此讀到兩次同樣的投影片。指南改成只把一張投影片在視覺上停到另一端並設 inert，Tab 順序與無障礙樹都和畫面一致。另外，指南要求「暫時」不要用 <code>::scroll-button()</code>／<code>::scroll-marker</code>，但沒有說原因。</p>
 <p class="support"><b>支援</b> Scroll snap：Widely（2020-01-15）；scrollend：Newly（2025-12-12）；Scroll-driven animations：Newly（2026-10-27）</p>
 <p class="links"><code>mwg:carousel</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/carousel.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/carousel.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--checkbox" data-kind="新能力" data-result="部分改善" data-group="自製控制項丟掉原生行為" data-guide="核取方塊樣式">
+<summary><span class="t">用 <code>accent-color</code> 或 <code>appearance: none</code> 改核取方塊外觀，保留原生 <code>&lt;input&gt;</code></span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">核取方塊樣式 · 自製控制項丟掉原生行為</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前品牌化勾選框得自製元件 → 現在待辦清單、權限設定、批次選取的「全選（部分）」狀態都能用原生 input 做出設計稿的樣子，indeterminate 也有對應圖示</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>簡單換品牌色用 <code>accent-color</code>（保留原生繪製、鍵盤、驗證與系統焦點框）；要控制形狀、尺寸與狀態時，在 <code>&lt;input type="checkbox"&gt;</code> 上設 <code>appearance: none</code>，用 <code>::before</code> 加 <code>mask</code> 畫勾號與 <code>:indeterminate</code> 的橫線</dd><dt>被什麼擋</dt><dd>指南沒說舊做法哪裡壞，只說這兩種做法能保留原生行為或讓 <code>&lt;input&gt;</code> 仍是互動目標（引用："This removes the native visual styling while leaving the <code>&lt;input&gt;</code> as the interactive target."）</dd><dt>戰報</dt><dd>部分改善——兩種做法都保留原生互動；指南標 <code>accent-color</code> 為 Limited 並稱其為漸進增強，不支援時使用預設色（官方宣稱）</dd></dl><p class="story">品牌化的勾選框常被做成 div 加圖示。現在一行 accent-color 就換色，要更大膽的造型也能直接在 input 上畫，鍵盤、表單、讀屏都不用另外補。</p>
+<p class="support"><b>支援</b> accent-color：Limited availability，Supported by: Chrome 93, Edge 93, Firefox 92, Safari 26.2（指南標 Limited 但列出四大瀏覽器，同 <code>mwg:brand-consistent-forms</code>）；Masks：Widely</p>
+<p class="links"><code>mwg:checkbox</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/checkbox.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/checkbox.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--checkbox--2" data-kind="糾錯" data-result="部分改善" data-group="焦點或狀態指示消失" data-guide="核取方塊樣式">
+<summary><span class="t">Safari 的 <code>accent-color</code> 不一定保證勾號對比，要實測</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">核取方塊樣式 · 焦點或狀態指示消失</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在 Safari 的淺色與深色配色下測試重要的 accent-color 組合，勾選與部分勾選狀態維持至少 3:1 對比</dd><dt>被什麼擋</dt><dd>Safari 可能固定用白（淺色）或黑（深色）勾號、改的是背後的強調色，不一定對每個顏色都有足夠對比（引用："This adjustment does not always provide sufficient contrast for every supplied color"）</dd><dt>戰報</dt><dd>部分改善——測過的組合可以確認對比；指南沒有自動解法（官方宣稱）</dd></dl><p class="story">品牌黃在 Chrome 上配黑勾很清楚，到 Safari 變成白勾，幾乎看不出有沒有勾。</p>
+<p class="support"><b>支援</b> accent-color：Limited</p>
+<p class="links"><code>mwg:checkbox:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/checkbox.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/checkbox.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--checkbox--3" data-kind="糾錯" data-result="勝" data-group="自製控制項丟掉原生行為" data-guide="核取方塊樣式">
+<summary><span class="t"><code>appearance: none</code> 之後要自己給尺寸</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">核取方塊樣式 · 自製控制項丟掉原生行為</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用相對單位設 <code>--checkbox-size</code>、<code>--checkbox-icon-size</code>，圖示比方框小</dd><dt>被什麼擋</dt><dd><code>appearance: none</code> 連瀏覽器預設尺寸一起拿掉（引用："<code>appearance: none</code> removes the browser’s default dimensions."）</dd><dt>戰報</dt><dd>勝——方框與勾號有固定比例，並隨字級縮放（官方宣稱）</dd></dl><p class="story">拿掉原生外觀後，勾選框縮成一個看不見的點。</p>
+<p class="support"><b>支援</b> appearance：指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:checkbox:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/checkbox.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/checkbox.md">線檔</a> · v1.0.0</p></div></details>
 <details class="line" id="mwg--copy-button" data-kind="糾錯" data-result="勝" data-group="隱藏或停用把人擋在外面" data-guide="複製按鈕">
 <summary><span class="t">回饋期間不要停用按鈕</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
@@ -3183,6 +3645,237 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>頁面上大量重複的複製按鈕平時隱藏，hover 或聚焦時顯示，只用 <code>opacity</code> 藏</dd><dt>被什麼擋</dt><dd>用 <code>display: none</code> 或 <code>visibility: hidden</code> 藏按鈕，按鈕從 Tab 順序中消失，鍵盤使用者永遠到不了（引用："<code>display: none</code> and <code>visibility: hidden</code> remove the button from the tab order, so keyboard users could never reach it."）</dd><dt>戰報</dt><dd>勝——<code>opacity</code> 隱藏不影響可聚焦性；無 hover 的裝置一律顯示（官方宣稱）</dd></dl><p class="story">每個程式碼區塊都放一顆複製鈕會很吵，所以常見做法是 hover 才顯示。問題在於用哪種方式隱藏：大多數隱藏方式同時把按鈕移出 Tab 順序。指南也禁止用 <code>aria-hidden</code> 或 <code>inert</code> 來「藏」。</p>
 <p class="support"><b>支援</b> —</p>
 <p class="links"><code>mwg:copy-button:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/copy-button.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/copy-button.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--dark-mode-toggle" data-kind="糾錯" data-result="勝" data-group="層疊覆蓋不符意圖" data-guide="深色模式切換">
+<summary><span class="t">只改 <code>&lt;meta name="color-scheme"&gt;</code> 沒用，要用 <code>:has()</code> 把它映射回 CSS</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">深色模式切換 · 層疊覆蓋不符意圖</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>:root</code> 維持 <code>color-scheme: light dark</code>，再用 <code>:root:has(&gt; head &gt; meta[name="color-scheme"][content="dark"])</code>（與 <code>light</code>）覆寫成單一配色；切換時只改 <code>&lt;meta&gt;</code> 的 content</dd><dt>被什麼擋</dt><dd><code>&lt;meta&gt;</code> 只是呈現提示，作者 CSS 裡的 <code>color-scheme</code> 會蓋過它，只更新 <code>&lt;meta&gt;</code> 等於沒做（引用："updating the <code>&lt;meta&gt;</code> alone is a **no-op** — CSS wins."）</dd><dt>戰報</dt><dd>勝——<code>light-dark()</code>、系統色與原生介面都跟著覆寫走；JS 沒跑時 <code>&lt;meta&gt;</code> 維持 <code>light dark</code>，照系統偏好（官方宣稱）</dd></dl><p class="story">按了切換鈕，meta 確實變了，頁面顏色紋風不動。把 meta 接回 color-scheme 屬性，所有顏色一次跟上。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:dark-mode-toggle</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/dark-mode-toggle.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/dark-mode-toggle.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--dark-mode-toggle--2" data-kind="糾錯" data-result="勝" data-group="內容要等JS才成形" data-guide="深色模式切換">
+<summary><span class="t">儲存的配色用緊接在 <code>&lt;meta&gt;</code> 後面的同步內嵌腳本套用</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">深色模式切換 · 內容要等JS才成形</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在 <code>&lt;meta name="color-scheme"&gt;</code> 後面放一段極小的內嵌 <code>&lt;script&gt;</code>（不是 module、不加 defer），從 <code>localStorage</code> 讀值寫回 meta</dd><dt>被什麼擋</dt><dd>晚一點才套用儲存的偏好，會先閃一下錯的配色（引用："To avoid a flash of the wrong scheme, apply the stored value in an inline script (NOT <code>type=module</code>, NOT <code>defer</code>) placed immediately after the <code>&lt;meta&gt;</code> element"）</dd><dt>戰報</dt><dd>勝——第一次繪製就是使用者選的配色（官方宣稱）</dd></dl><p class="story">選了深色的使用者每次換頁都被白光閃一下。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:dark-mode-toggle:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/dark-mode-toggle.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/dark-mode-toggle.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--dark-mode-toggle--3" data-kind="糾錯" data-result="勝" data-group="忽略使用者設定" data-guide="深色模式切換">
+<summary><span class="t">只在儲存當下比對系統偏好，之後不要因為兩者一致就刪掉儲存值</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">深色模式切換 · 忽略使用者設定</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>兩態切換的目標是「目前畫面的相反」；目標和系統偏好不同才存，相同就刪除儲存值；之後系統偏好變得和儲存值一樣時保留，不用 <code>matchMedia()</code> 自動清除</dd><dt>被什麼擋</dt><dd>很多人的系統會依時段自動切換，一致時就刪掉儲存值，使用者永遠無法固定配色；反過來存下與系統相同的值，又會在之後系統變更時悄悄釘死（引用："removing the stored value whenever the two happen to coincide would make it impossible to pin a scheme at all."；"that would invisibly pin the scheme against future system changes."）</dd><dt>戰報</dt><dd>勝——使用者可以固定配色，也可以一鍵回到跟隨系統（官方宣稱）</dd></dl><p class="story">白天把網站固定成深色，傍晚系統自動變深色時偏好被清掉，隔天早上網站又變回淺色。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:dark-mode-toggle:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/dark-mode-toggle.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/dark-mode-toggle.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--dark-mode-toggle--4" data-kind="糾錯" data-result="勝" data-group="主題配色對不上" data-guide="深色模式切換">
+<summary><span class="t">非顏色的分支不要只靠 JS 加的 <code>.dark</code> 類別</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">深色模式切換 · 主題配色對不上</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>字重、圖片來源等非顏色值，用 <code>prefers-color-scheme</code> 媒體查詢搭配 <code>:root:has(&gt; head &gt; meta[...][content="dark"])</code> 選擇器分支</dd><dt>被什麼擋</dt><dd>JS 沒載入、系統預設又是深色時，只靠 <code>.dark</code> 類別的分支就會錯（引用："they will be incorrect if JS doesn't load and the OS default is dark."）</dd><dt>戰報</dt><dd>勝——不論 JS 是否執行，分支都和實際配色一致（官方宣稱）</dd></dl><p class="story">深色系統、腳本被擋：底色是深的，Logo 卻還是給淺色背景用的黑色版。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:dark-mode-toggle:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/dark-mode-toggle.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/dark-mode-toggle.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--dialog" data-kind="糾錯" data-result="勝" data-group="手寫焦點管理" data-guide="對話框">
+<summary><span class="t">用原生 <code>&lt;dialog&gt;</code> 的 <code>showModal()</code>，不手寫焦點陷阱、inert 與 Esc</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">對話框 · 手寫焦點管理</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>阻斷式的確認、表單、登入用 <code>&lt;dialog&gt;</code> 以 <code>command="show-modal"</code> 或 <code>showModal()</code> 開啟；不加 <code>role="dialog"</code>、<code>aria-modal</code>、焦點陷阱、<code>inert</code> 切換或 Esc 處理</dd><dt>被什麼擋</dt><dd>指南只說自製浮層得手工重建這些行為，沒說重建版在哪個時刻出錯（引用："It provides the accessibility semantics, focus handling, top-layer rendering and <code>Esc</code> handling that custom overlays have to rebuild by hand."）</dd><dt>戰報</dt><dd>勝——瀏覽器提供背景 inert、焦點圍堵、頂層、<code>::backdrop</code>、Esc 與返回手勢關閉、關閉後焦點還給觸發者（官方宣稱）</dd></dl><p class="story">每個專案都有一份自己的 modal 元件，各自漏掉不同的東西。原生 dialog 把這一整包交給瀏覽器。</p>
+<p class="support"><b>支援</b> &lt;dialog&gt; 本身：指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:dialog</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/dialog.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/dialog.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--dialog--2" data-kind="新能力" data-result="部分改善" data-group="原生捲動手勢不合用途" data-guide="對話框">
+<summary><span class="t">模態框的背景捲動用 <code>overscroll-behavior</code> 擋，不鎖 <code>&lt;body&gt;</code></span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">對話框 · 原生捲動手勢不合用途</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>同 <code>mwg:prevent-page-scroll-under-modal-dialog</code>：所有模態框（燈箱、確認、表單）都能純 CSS 鎖背景捲動，不再有版面跳動</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>dialog:modal</code> 設 <code>overscroll-behavior: contain</code>；<code>dialog::backdrop</code> 設 <code>overflow: hidden</code> 加 <code>overscroll-behavior: contain</code>（細節見 <code>mwg:prevent-page-scroll-under-modal-dialog</code>）</dd><dt>被什麼擋</dt><dd>沒有這兩條，在背景上或對話框內捲動會捲到後面的頁面；用 <code>overflow: hidden</code> 或 <code>position: fixed</code> 鎖根元素則會拿掉捲軸、讓版面橫移（引用："without them, scrolling over the backdrop or inside the dialog scrolls the page behind it"）</dd><dt>戰報</dt><dd>部分改善——支援的瀏覽器完全擋住背景捲動；Safari 只在對話框內容溢出時擋得住，且這個行為無法偵測（官方宣稱）</dd></dl><p class="story">確認刪除的框開著，手指一滑，後面的列表捲走了。</p>
+<p class="support"><b>支援</b> overscroll-behavior：Limited availability，Supported by: Chrome 144, Edge 144, Firefox 150；Unsupported in: Safari</p>
+<p class="links"><code>mwg:dialog:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/dialog.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/dialog.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--dialog--3" data-kind="糾錯" data-result="部分改善" data-group="用錯原生控制項" data-guide="對話框">
+<summary><span class="t">讓使用者邊開邊用頁面的面板用 <code>&lt;dialog popover&gt;</code>，不用 <code>showModal()</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">對話框 · 用錯原生控制項</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>尋找列、檢視器、調色盤、撰寫窗格這類「開著也要繼續操作頁面」的對話框，用 <code>&lt;dialog popover&gt;</code>（<code>auto</code> 會點外面關閉、<code>manual</code> 不會），並放一顆可見的關閉鈕；選單、提示、懸停卡則用帶 <code>popover</code> 的語意元素，不用 <code>&lt;dialog&gt;</code></dd><dt>被什麼擋</dt><dd>用 <code>showModal()</code> 開這類面板會擋住整個頁面（引用："**DON'T** use <code>showModal()</code>, which blocks the page."）</dd><dt>戰報</dt><dd>部分改善——面板在頂層、頁面保持可操作且不被 inert；Popover 為 Newly（官方宣稱）</dd></dl><p class="story">開了「尋找」想邊找邊點結果，結果頁面全被鎖住，只能先關掉對話框。</p>
+<p class="support"><b>支援</b> Popover：Baseline Newly available（2025-01-27 起）</p>
+<p class="links"><code>mwg:dialog:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/dialog.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/dialog.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--dialog--4" data-kind="糾錯" data-result="勝" data-group="生命週期假設錯" data-guide="對話框">
+<summary><span class="t">讀完 <code>returnValue</code> 就重設成空字串</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">對話框 · 生命週期假設錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在 <code>close</code> 監聽裡讀 <code>dialog.returnValue</code> 判斷按了哪顆，讀完設 <code>dialog.returnValue = ''</code>，把空字串當成「沒選就關」</dd><dt>被什麼擋</dt><dd>Esc 與其他關閉要求不設值，瀏覽器對是否清掉上一次的值又不一致，舊值會漏到這一次（引用："browsers differ on whether they clear the previous one, so without the reset a stale value can leak."）</dd><dt>戰報</dt><dd>勝——每次關閉都只看到這一次的選擇（官方宣稱）</dd></dl><p class="story">上次按了「刪除」，這次按 Esc 關掉，程式卻又刪了一筆。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:dialog:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/dialog.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/dialog.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--dialog--5" data-kind="糾錯" data-result="勝" data-group="播報時機或可靠度出錯" data-guide="對話框">
+<summary><span class="t">攔下關閉時，要讓使用者知道對話框為什麼還開著</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">對話框 · 播報時機或可靠度出錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>cancel</code> 被 <code>preventDefault()</code> 時顯示一段可見訊息，並由接到焦點的控制項（例如「捨棄」）用 <code>aria-describedby</code> 指向它</dd><dt>被什麼擋</dt><dd>沒有這段描述時，焦點移到新按鈕只會唸出按鈕名稱（引用："Without it, focus moving to a new button announces only that button's name."）</dd><dt>戰報</dt><dd>勝——讀屏在焦點移過去時一併唸出原因（官方宣稱）</dd></dl><p class="story">按 Esc 沒關掉，讀屏只說「捨棄，按鈕」，使用者不懂發生了什麼。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:dialog:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/dialog.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/dialog.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--dialog--6" data-kind="糾錯" data-result="勝" data-group="動作被意外觸發" data-guide="對話框">
+<summary><span class="t">出現確認訊息時，不要讓按鈕移到游標底下</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">對話框 · 動作被意外觸發</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>訊息空間預先保留（用 <code>visibility</code> 隱藏，不用 <code>display</code> 或 <code>hidden</code>）；破壞性按鈕加在現有按鈕不會移動的位置</dd><dt>被什麼擋</dt><dd>版面一變，第二下點在同一個位置就會按到「捨棄」，丟掉使用者的修改（引用："so a second click at the same spot cannot discard the user's changes."）</dd><dt>戰報</dt><dd>勝——按鈕不位移，重複點擊不會誤按破壞性動作（官方宣稱）</dd></dl><p class="story">連點兩下「取消」，第二下剛好落在新冒出來的「捨棄變更」上。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:dialog:6</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/dialog.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/dialog.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--dialog--7" data-kind="糾錯" data-result="勝" data-group="層疊覆蓋不符意圖" data-guide="對話框">
+<summary><span class="t">不要無條件在 <code>dialog</code> 上設 <code>display</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">對話框 · 層疊覆蓋不符意圖</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>版面用的 <code>display</code> 寫在 <code>dialog[open]</code> 上</dd><dt>被什麼擋</dt><dd>直接設在 <code>dialog</code> 會蓋掉關閉狀態（引用："It overrides the closed state. Scope it with <code>dialog[open]</code>."）</dd><dt>戰報</dt><dd>勝——關閉的對話框保持隱藏（官方宣稱）</dd></dl><p class="story">為了排版寫了 <code>dialog { display: flex }</code>，對話框從頁面載入起就一直開著。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:dialog:7</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/dialog.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/dialog.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--dialog--8" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="對話框">
+<summary><span class="t">未存修改的保護寫在 <code>cancel</code> 裡，不能只靠 <code>closedby="none"</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">對話框 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>表單有未存修改時設 <code>closedby="none"</code>，同時在 <code>cancel</code> 監聽裡擋下並顯示確認；取消鈕用 <code>command="request-close"</code> 或 <code>requestClose()</code></dd><dt>被什麼擋</dt><dd>不支援 <code>closedby</code> 的瀏覽器會忽略 <code>closedby="none"</code>，按 Esc 照樣觸發 <code>cancel</code> 並關閉對話框（引用："<code>closedby="none"</code> is ignored the same way: <code>Esc</code> fires <code>cancel</code> and then closes the dialog."）</dd><dt>戰報</dt><dd>部分改善——<code>cancel</code> 裡的保護在所有瀏覽器都有效；<code>closedby</code> 為 Limited（官方宣稱）</dd></dl><p class="story">在 Safari 填了一半的長表單，順手按了 Esc，全部消失。</p>
+<p class="support"><b>支援</b> &lt;dialog closedby&gt;：Limited availability，Supported by: Chrome 134, Edge 134, Firefox 141；Unsupported in: Safari</p>
+<p class="links"><code>mwg:dialog:8</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/dialog.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/dialog.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--hovercard" data-kind="新能力" data-result="部分改善" data-group="只能 hover 才看得到" data-guide="互動式懸停卡片">
+<summary><span class="t">用 <code>interestfor</code> 讓連結在 hover 與聚焦時都叫出預覽卡</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">互動式懸停卡片 · 只能 hover 才看得到</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前預覽卡要自己寫 hover、focus、延遲與關閉計時 → 現在維基式的詞條預覽、使用者名片、引用文獻預覽可以宣告式做出，鍵盤一樣叫得出。原生僅 Chromium，其他靠 polyfill</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>觸發連結加 <code>interestfor="卡片 id"</code>，卡片設 <code>popover="hint"</code>；用 <code>interest-delay</code> 調整開關延遲，已有卡片開著時以 <code>:root:has(:interest-source)</code> 把開啟延遲設成 0</dd><dt>被什麼擋</dt><dd>指南沒說舊做法哪裡壞，只說這樣能確保卡片在 hover 與聚焦時都出現（引用："This ensures the card appears on both hover and focus."）</dd><dt>戰報</dt><dd>部分改善——hover 與聚焦都會顯示、預設半秒延遲避免掃過就開；Interest invokers 僅 Chrome／Edge 149，其他瀏覽器依指南載入 <code>interestfor</code> polyfill（官方宣稱）</dd></dl><p class="story">連結預覽卡以前大多只聽 mouseover，鍵盤使用者看不到。宣告一個屬性，hover 和 Tab 都會叫出同一張卡，延遲也交給 CSS。</p>
+<p class="support"><b>支援</b> Interest invokers：Limited availability，Supported by: Chrome 149, Edge 149；Unsupported in: Firefox, Safari</p>
+<p class="links"><code>mwg:hovercard</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/hovercard.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/hovercard.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--hovercard--2" data-kind="新能力" data-result="部分改善" data-group="新功能的副作用" data-guide="互動式懸停卡片">
+<summary><span class="t">預覽卡用 <code>popover="hint"</code>，不會把已開的選單關掉</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">互動式懸停卡片 · 新功能的副作用</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前提示層和選單會互相關掉 → 現在工具列選單開著時也能看各項的說明卡、表格篩選面板開著時也能預覽欄位定義。Safari 尚未支援</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>卡片容器設 <code>popover="hint"</code></dd><dt>被什麼擋</dt><dd>用一般 popover 時，叫出預覽卡會關掉其他已開的 popover 選單（引用："Use <code>hint</code> to avoid closing unrelated popover menus that may be open."）</dd><dt>戰報</dt><dd>部分改善——hint 不影響其他 popover；<code>popover="hint"</code> 在 Safari 不支援，會退回 <code>manual</code>，用鍵盤開的卡片可能在另一張由 hover 開啟時留著不關（官方宣稱）</dd></dl><p class="story">選單開著，滑鼠經過某個連結，預覽卡一出來選單就收起來了。</p>
+<p class="support"><b>支援</b> popover="hint"：Limited availability，Supported by: Chrome 151, Edge 151, Firefox 153；Unsupported in: Safari</p>
+<p class="links"><code>mwg:hovercard:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/hovercard.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/hovercard.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--hovercard--3" data-kind="糾錯" data-result="勝" data-group="播報過量" data-guide="互動式懸停卡片">
+<summary><span class="t">提示內容和觸發元素名稱相同時，什麼 ARIA 都不加</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">互動式懸停卡片 · 播報過量</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>比對正規化後的提示文字與觸發元素的可及名稱，相同就不加描述</dd><dt>被什麼擋</dt><dd>描述與名稱一樣時會被唸兩次（引用："A description identical to the name would be read twice."）</dd><dt>戰報</dt><dd>勝——只唸一次（官方宣稱）</dd></dl><p class="story">「粗體，按鈕，粗體」。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:hovercard:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/hovercard.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/hovercard.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--hovercard--4" data-kind="糾錯" data-result="勝" data-group="語意結構失真" data-guide="互動式懸停卡片">
+<summary><span class="t">會導覽或執行動作的觸發元素不加 <code>aria-expanded</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">互動式懸停卡片 · 語意結構失真</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>觸發連結或有自己動作的按鈕，提示卡設 <code>role="tooltip"</code>、觸發元素用 <code>aria-describedby</code>；只有「按下就是打開提示」的按鈕才用 <code>aria-expanded</code></dd><dt>被什麼擋</dt><dd>觸發元素被唸成「已收合」會暗示按 Enter 會展開，但 Enter 其實是導覽或執行動作（引用："A trigger announced as "collapsed" suggests <code>Enter</code> would expand it, but <code>Enter</code> navigates or acts."）</dd><dt>戰報</dt><dd>勝——讀屏對按 Enter 的結果有正確預期（官方宣稱）</dd></dl><p class="story">讀屏使用者以為按 Enter 會展開預覽，結果直接跳到別頁。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:hovercard:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/hovercard.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/hovercard.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--hovercard--5" data-kind="糾錯" data-result="勝" data-group="播報時機或可靠度出錯" data-guide="互動式懸停卡片">
+<summary><span class="t">當作描述暴露的提示，只能放錯過也沒關係的內容</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">互動式懸停卡片 · 播報時機或可靠度出錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>懸停卡只放可從其他地方取得的補充資訊；使用者需要的內容放在 toggletip 或直接寫在頁面上</dd><dt>被什麼擋</dt><dd>不是每個讀屏都會在瀏覽時唸描述，NVDA 的瀏覽模式就刻意略過（引用："Not every screen reader reads descriptions when moving through the page (NVDA skips them in browse mode by design)"）</dd><dt>戰報</dt><dd>勝——就算描述沒被唸到，也不會漏掉必要資訊（官方宣稱）</dd></dl><p class="story">重要的限制條件只寫在懸停卡裡，NVDA 使用者完全沒聽到。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:hovercard:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/hovercard.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/hovercard.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--hovercard--6" data-kind="糾錯" data-result="勝" data-group="播報時機或可靠度出錯" data-guide="互動式懸停卡片">
+<summary><span class="t">ARIA 屬性在 DOM 解析完就一次接好，不要等 focus、interest 或 polyfill</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Limited</span></span>
+<span class="meta">互動式懸停卡片 · 播報時機或可靠度出錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>寫一小段腳本，在每個瀏覽器、載入 <code>interestfor</code> polyfill 之前、DOM 解析完就掃過所有 <code>[interestfor]</code> 觸發元素補上 ARIA，並提供給後來插入的內容重跑的函式</dd><dt>被什麼擋</dt><dd>讀屏的瀏覽模式在任何互動之前就要讀到這些屬性，等到 focus 或 interest 才接已經太晚；polyfill 又要到 <code>load</code> 才接，也不替純文字提示加 <code>role="tooltip"</code>（引用："wiring them lazily on <code>focus</code> or <code>interest</code> is too late, and so is waiting for the polyfill"）</dd><dt>戰報</dt><dd>勝——瀏覽模式下一開始就能讀到關聯（官方宣稱）</dd></dl><p class="story">讀屏使用者用方向鍵讀過整頁，所有連結都沒有任何描述，因為那些屬性要等滑鼠移過去才加上。</p>
+<p class="support"><b>支援</b> Interest invokers：Limited</p>
+<p class="links"><code>mwg:hovercard:6</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/hovercard.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/hovercard.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--hovercard--7" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="互動式懸停卡片">
+<summary><span class="t">同步 <code>aria-expanded</code> 要在 document 上以捕獲階段聽 <code>toggle</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">互動式懸停卡片 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在 <code>document</code> 上掛一個 <code>capture: true</code> 的 <code>toggle</code> 監聽，依 popover 狀態更新所有指向它、由腳本管理的觸發元素；不從 <code>interest</code>／<code>loseinterest</code> 同步</dd><dt>被什麼擋</dt><dd><code>toggle</code> 不冒泡，掛在 document 的一般監聽永遠不會觸發；而 popover 也可能被 Esc、點外面或別的觸發元素關掉（引用："<code>toggle</code> does not bubble. A bubbling listener on <code>document</code> never fires"）</dd><dt>戰報</dt><dd>部分改善——不論怎麼關閉，狀態都正確（官方宣稱）</dd></dl><p class="story">提示卡已經關了，讀屏還說「已展開」。</p>
+<p class="support"><b>支援</b> Popover：Baseline Newly available（2025-01-27 起）</p>
+<p class="links"><code>mwg:hovercard:7</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/hovercard.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/hovercard.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--hovercard--8" data-kind="新能力" data-result="部分改善" data-group="彈出層脫離觸發點" data-guide="互動式懸停卡片">
+<summary><span class="t">用錨點定位把預覽卡貼在連結下方，溢出時自動翻轉</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">互動式懸停卡片 · 彈出層脫離觸發點</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前預覽卡要用 Floating UI 算位置 → 現在連結預覽、人名卡、註腳彈窗只寫兩行 CSS 就黏在觸發點旁並自動避開邊緣</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>interestfor</code> 讓觸發元素成為隱式錨點；卡片設 <code>position-area: block-end span-inline-end</code> 與 <code>position-try-fallbacks: flip-block, flip-inline</code></dd><dt>被什麼擋</dt><dd>沒有錨點定位時，popover 退回瀏覽器預設的視窗置中，和觸發點分離（引用："tethered elements such as <code>[popover]</code> overlays fall back to their default user-agent placement (centered in the viewport for popovers)."）</dd><dt>戰報</dt><dd>部分改善——卡片黏著連結、碰到視窗邊緣自動換邊；核心屬性已是 Newly，不支援時可載入 polyfill（需明確 <code>anchor-name</code>）或用 <code>@supports</code> 退回置中或底部條（官方宣稱）</dd></dl><p class="story">預覽卡出現在螢幕正中央，看不出是哪個連結的。錨點定位讓它長在連結底下，靠近邊緣就翻到另一側。</p>
+<p class="support"><b>支援</b> Anchor positioning：記 Newly（核心屬性 2026-01-13 起 Baseline）。指南寫 "Supported by: Safari 27 … Unsupported in: Chrome, Edge, and Firefox"，為群組狀態誤導，見 <code>lines/ui-components/app-menus.md</code>；本線未用 <code>position-visibility</code></p>
+<p class="links"><code>mwg:hovercard:8</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/hovercard.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/hovercard.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--hovercard--9" data-kind="糾錯" data-result="部分改善" data-group="彈出層脫離觸發點" data-guide="互動式懸停卡片">
+<summary><span class="t">不用 polyfill 時，<code>inset: auto</code> 與 <code>margin: 0</code> 要包在 <code>@supports</code> 裡</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">互動式懸停卡片 · 彈出層脫離觸發點</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>把 <code>inset: auto</code>、<code>margin: 0</code> 與 <code>position-area</code> 一起放進 <code>@supports (position-area: block-end)</code>，必要時寫 <code>@supports not (...)</code> 的固定底部條</dd><dt>被什麼擋</dt><dd>不支援的瀏覽器忽略 <code>position-area</code>，但 <code>inset: auto</code> 照樣蓋掉預設置中，popover 卡在 <code>(0, 0)</code> 或疊在觸發點上（引用："leaving the popover stranded at <code>(0, 0)</code> or overlapping its trigger."）</dd><dt>戰報</dt><dd>部分改善——不支援時保留預設置中或改成底部條（官方宣稱）</dd></dl><p class="story">在舊瀏覽器裡，所有預覽卡都擠在畫面左上角。</p>
+<p class="support"><b>支援</b> Anchor positioning：記 Newly（群組狀態誤導，見 <code>lines/ui-components/app-menus.md</code>）</p>
+<p class="links"><code>mwg:hovercard:9</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/hovercard.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/hovercard.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--hovercard--10" data-kind="糾錯" data-result="勝" data-group="新功能的副作用" data-guide="互動式懸停卡片">
+<summary><span class="t"><code>transition-behavior: allow-discrete</code> 獨立宣告在 <code>transition</code> 之後</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">互動式懸停卡片 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>transition</code> 列出 <code>opacity, transform, display, overlay</code>，再另起一行 <code>transition-behavior: allow-discrete</code>；進場值寫在 <code>@starting-style</code>，全部包在 <code>prefers-reduced-motion: no-preference</code> 裡</dd><dt>被什麼擋</dt><dd>把 <code>allow-discrete</code> 寫進簡寫，舊瀏覽器會忽略整條 transition（引用："Declare <code>transition-behavior: allow-discrete</code> as a separate property after <code>transition</code> rather than inside the <code>transition</code> shorthand so older browsers do not ignore the entire <code>transition</code> declaration."）</dd><dt>戰報</dt><dd>勝——舊瀏覽器至少保有一般的淡入淡出（官方宣稱）</dd></dl><p class="story">新瀏覽器裡卡片優雅滑出，舊瀏覽器裡連最基本的淡入都沒了。</p>
+<p class="support"><b>支援</b> transition-behavior：指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:hovercard:10</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/hovercard.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/hovercard.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--hovercard--11" data-kind="新能力" data-result="部分改善" data-group="生命週期假設錯" data-guide="互動式懸停卡片">
+<summary><span class="t">預覽卡點下去後，用跨文件轉場把卡片變形成目的頁</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">互動式懸停卡片 · 生命週期假設錯</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前「預覽」和「打開」是兩個斷開的畫面 → 現在多頁網站的文章預覽卡、商品快看卡可以點下去直接長成完整頁面，不必改成 SPA。Firefox 退回一般換頁</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>兩頁都 <code>@view-transition { navigation: auto; }</code>；只在 <code>[popover]:popover-open</code> 內給卡片、標題、圖片 <code>view-transition-name</code>，目的頁對應元素用同名；目的頁以 <code>&lt;link rel="expect" href="#main-content" blocking="render"&gt;</code> 等關鍵內容解析完才渲染</dd><dt>被什麼擋</dt><dd>目的頁不等內容就渲染時轉場會不穩、閃爍（引用："To ensure the transition is stable and doesn't flicker, the destination page should use <code>blocking="render"</code> and <code>&lt;link rel="expect"&gt;</code>"）</dd><dt>戰報</dt><dd>部分改善——支援的瀏覽器中預覽卡的標題與圖片直接飛到目的頁的位置；Cross-document view transitions 在 Firefox 不支援，退回一般換頁（官方宣稱）</dd></dl><p class="story">預覽卡上已經看到文章標題和主圖，點下去整頁一白再重新出現。名稱只掛在開著的那張卡上，不會撞名，目的頁等主內容到了才拍快照。</p>
+<p class="support"><b>支援</b> Cross-document view transitions：Limited availability，Supported by: Chrome 126, Edge 126, Safari 18.2；Unsupported in: Firefox</p>
+<p class="links"><code>mwg:hovercard:11</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/hovercard.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/hovercard.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--menu" data-kind="新能力" data-result="僵持" data-group="手寫焦點管理" data-guide="彈出選單">
+<summary><span class="t">用 <code>focusgroup="menu"</code> 加 <code>command="toggle-popover"</code> 宣告彈出選單</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">彈出選單 · 手寫焦點管理</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前一個有子選單的「⋯」選單要幾百行鍵盤處理 → 現在表格列的動作選單、編輯器的匯出子選單可以大半宣告式寫出，點外面關閉與子選單關係由瀏覽器管。focusgroup 目前僅 Chromium</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>觸發鈕設 <code>commandfor</code> 與 <code>command="toggle-popover"</code>，選單是緊接在後的 <code>popover="auto"</code>，裡面巢一層 <code>&lt;div focusgroup="menu nomemory"&gt;</code>；不寫 <code>role="menu"</code>／<code>menuitem</code>，由 focusgroup 推斷；子選單是放在父選單 focusgroup 內的另一個 <code>popover="auto"</code></dd><dt>被什麼擋</dt><dd>指南只要求不要在 focusgroup 裡再做一套 roving tabindex、明寫角色會擋住推斷，沒說手寫版在哪個時刻出錯（引用："Do not add a second roving-tabindex system inside a focusgroup."）</dd><dt>戰報</dt><dd>僵持——支援的瀏覽器由 focusgroup 處理方向鍵移動與角色、由 invoker 處理開關與點外面關閉；focusgroup 僅 Chrome／Edge 150，其他瀏覽器要自己裝上下鍵、Home／End 並補角色（官方宣稱）</dd></dl><p class="story">選單的開關、點外面關閉、方向鍵移動、角色，以前全是自己的 JS。現在大半是屬性；開子選單預覽、焦點還原仍得自己寫，focusgroup 也只有 Chromium。</p>
+<p class="support"><b>支援</b> focusgroup：Limited availability，Supported by: Chrome 150, Edge 150；Unsupported in: Firefox, Safari；Invoker commands：Newly；Popover：Newly</p>
+<p class="links"><code>mwg:menu</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/menu.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/menu.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--menu--2" data-kind="新能力" data-result="部分改善" data-group="彈出層脫離觸發點" data-guide="彈出選單">
+<summary><span class="t">子選單用錨點定位貼在父項目旁，不能退回視窗置中</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">彈出選單 · 彈出層脫離觸發點</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前多層選單要定位函式庫逐層算位置 → 現在檔案管理器的右鍵選單、編輯器的巢狀「插入」選單可以純 CSS 逐層展開並自動翻邊</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>頂層選單 <code>position-area: block-end span-inline-end</code>、子選單 <code>position-area: inline-end span-block-end</code>，各帶 <code>position-try-fallbacks</code> 翻轉；隱式錨點來自 invoker，不寫 <code>anchor-name</code>；不支援時用 <code>@supports not</code> 加腳本計算位置</dd><dt>被什麼擋</dt><dd>沒有錨點定位時 popover 退回視窗置中，選單脫離觸發鈕，置中的子選單還蓋住父選單（引用："it detaches the menu from its trigger, and a centered submenu covers its parent."）</dd><dt>戰報</dt><dd>部分改善——選單黏在觸發鈕、子選單在父項目旁，溢出就翻邊；核心屬性已是 Newly，舊瀏覽器要腳本定位（官方宣稱）</dd></dl><p class="story">「匯出 ›」一展開，子選單跳到畫面正中央，把剛剛的選單整個蓋住。</p>
+<p class="support"><b>支援</b> Anchor positioning：記 Newly（核心屬性 2026-01-13 起 Baseline）。指南寫 "Supported by: Safari 27 … Unsupported in: Chrome, Edge, and Firefox"，為群組狀態誤導，見 <code>lines/ui-components/app-menus.md</code>；本線未用 <code>position-visibility</code></p>
+<p class="links"><code>mwg:menu:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/menu.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/menu.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--menu--3" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="彈出選單">
+<summary><span class="t">窄螢幕的最後退路 <code>--below</code> 要允許子選單縮小</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">彈出選單 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>@position-try --below</code> 放在最後，內含 <code>min-inline-size: 0</code> 與 <code>max-inline-size: calc(100% - 1rem)</code></dd><dt>被什麼擋</dt><dd>放不下的退路會被跳過；若沒有一個放得下，瀏覽器保留基本位置，寬了幾像素的子選單就靜靜蓋住自己的觸發項目（引用："a submenu that is a few pixels too wide silently covers its trigger."）</dd><dt>戰報</dt><dd>部分改善——子選單在 375px 寬時也不蓋住觸發項目（官方宣稱）</dd></dl><p class="story">手機上點「匯出」，子選單正好疊在「匯出」上面，想收回都找不到按鈕。</p>
+<p class="support"><b>支援</b> Anchor positioning：記 Newly（群組狀態誤導，見 <code>lines/ui-components/app-menus.md</code>）</p>
+<p class="links"><code>mwg:menu:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/menu.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/menu.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--menu--4" data-kind="新能力" data-result="部分改善" data-group="彈出層脫離觸發點" data-guide="彈出選單">
+<summary><span class="t">右鍵選單與游標處選單用 <code>showPopover({ source })</code> 加零尺寸佔位錨點</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">彈出選單 · 彈出層脫離觸發點</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前右鍵選單與輸入點選單要自己算座標與碰撞 → 現在看板卡片的右鍵選單、聊天輸入框的 @ 提及與 / 指令清單可以用同一套 CSS 定位並自動避開邊緣</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>沒有觸發鈕的選單以 <code>showPopover({ source })</code> 開啟，<code>source</code> 給被右鍵的卡片或目前聚焦的元素；要開在某一點（游標、<code>@</code> 提及的輸入點）時，放一個緊接在選單前、零尺寸、<code>position: fixed</code> 的佔位元素，每次開啟時移到該點再當 <code>source</code>；選單用 <code>aria-label</code> 命名</dd><dt>被什麼擋</dt><dd>指南只說要用錨點定位、不要用 JS 座標，沒說 JS 座標在哪個時刻出錯（引用："Use CSS anchor positioning, not JavaScript coordinates."）</dd><dt>戰報</dt><dd>部分改善——選單左上角落在指定點、靠邊會翻轉，和原生右鍵選單一樣；<code>showPopover({ source })</code> 的隱式錨點為 Newly（官方宣稱）</dd></dl><p class="story">右鍵選單或 @ 提及清單，以前都是讀滑鼠座標、算視窗邊界再擺上去。改成移一個看不見的點當錨，剩下的翻轉交給同一套 CSS。</p>
+<p class="support"><b>支援</b> showPopover() 的 source 參數（隱式錨點）：Baseline Newly available（2026-01-13 起）</p>
+<p class="links"><code>mwg:menu:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/menu.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/menu.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--menu--5" data-kind="糾錯" data-result="部分改善" data-group="動作被意外觸發" data-guide="彈出選單">
+<summary><span class="t">子選單的「安全三角」用 CSS 畫，從游標離開的點延伸到子選單邊緣</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">彈出選單 · 動作被意外觸發</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>只在 <code>(hover: hover)</code> 時，於子選單觸發項目的 <code>pointerleave</code> 把游標位置寫成 <code>--pointer-x</code>／<code>--pointer-y</code> 並設 <code>data-bridge</code>；子選單的 <code>::before</code> 用 <code>clip-path: polygon()</code> 畫出從該點到子選單近側兩角的三角形（以 <code>sign()</code> 判斷左右），游標停下約 300ms、轉向或到達項目時移除</dd><dt>被什麼擋</dt><dd>靜態的 CSS 橋太窄，只有游標從父選單邊緣出發才有效；斜著移向子選單時會經過兄弟項目，把子選單關掉（引用："A static CSS bridge is too narrow: it only works when the pointer starts near the parent's edge."）</dd><dt>戰報</dt><dd>部分改善——斜線移動到子選單項目時子選單保持開啟，移到無關的兄弟項目才關；<code>sign()</code> 為 Newly，不支援時用 <code>clamp()</code> 代替（官方宣稱）</dd></dl><p class="story">滑鼠從「匯出」斜斜往右下移到「PDF」，途中掃過「重新命名」，子選單就收掉了。三角形擋在路徑上，兄弟項目收不到那次 hover。</p>
+<p class="support"><b>支援</b> abs() 與 sign()：Baseline Newly available（2025-06-26 起）</p>
+<p class="links"><code>mwg:menu:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/menu.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/menu.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--menu--6" data-kind="糾錯" data-result="部分改善" data-group="生命週期假設錯" data-guide="彈出選單">
+<summary><span class="t">開啟後移焦點要在 <code>toggle</code> 事件裡做，不在 <code>command</code> 裡</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">彈出選單 · 生命週期假設錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>鍵盤開啟時在 <code>toggle</code> 監聽裡把焦點移到第一個可用項目；<code>aria-expanded</code> 也只在 <code>toggle</code> 裡設</dd><dt>被什麼擋</dt><dd><code>command</code> 事件在 <code>toggle-popover</code> 打開選單之前觸發，那時焦點移不進去（引用："The <code>command</code> event fires before <code>toggle-popover</code> opens the menu, so focus cannot move into the menu there."）</dd><dt>戰報</dt><dd>部分改善——鍵盤開啟後焦點確實進入選單（官方宣稱）</dd></dl><p class="story">按 Enter 開了選單，焦點卻還留在觸發鈕上，按下鍵沒反應。</p>
+<p class="support"><b>支援</b> Invoker commands：Baseline Newly available（2025-12-12 起）</p>
+<p class="links"><code>mwg:menu:6</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/menu.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/menu.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--menu--7" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="彈出選單">
+<summary><span class="t">子選單一次只關一層，焦點自己還給它的觸發項目</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">彈出選單 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>子選單裡的 Esc 與左鍵呼叫 <code>stopPropagation()</code>；關閉時先聚焦觸發項目再 <code>hidePopover()</code></dd><dt>被什麼擋</dt><dd>HTML 只替堆疊中第一個 <code>popover="auto"</code> 還原焦點，巢狀層級得自己還；沒擋下冒泡時，父選單的監聽也會把自己關掉（引用："HTML restores focus only for the first <code>popover="auto"</code> in a stack, so nested levels must restore focus to their trigger explicitly."；"or the parent's listener closes it too."）</dd><dt>戰報</dt><dd>部分改善——Esc 只收起子選單，焦點回到「匯出」，父選單仍開著（官方宣稱）</dd></dl><p class="story">在子選單按 Esc，整串選單一起消失，焦點掉到頁面某處。</p>
+<p class="support"><b>支援</b> Popover：Newly</p>
+<p class="links"><code>mwg:menu:7</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/menu.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/menu.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--menu--8" data-kind="糾錯" data-result="勝" data-group="層疊覆蓋不符意圖" data-guide="彈出選單">
+<summary><span class="t">勾選項目的勾號選擇器要至少和基本 <code>::before</code> 一樣特定</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">彈出選單 · 層疊覆蓋不符意圖</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>[focusgroup~="menu"] button[aria-checked="true"]::before { content: "✓" }</code>，特異度不低於保留圖示欄的基本規則</dd><dt>被什麼擋</dt><dd>特異度不夠時空的 <code>content</code> 勝出，勾號永遠不顯示（引用："or the empty content wins and the check mark never shows."）</dd><dt>戰報</dt><dd>勝——勾選的項目顯示勾號（官方宣稱）</dd></dl><p class="story">「顯示格線」明明已開啟，選單裡卻沒有勾。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:menu:8</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/menu.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/menu.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--menu--9" data-kind="糾錯" data-result="勝" data-group="版面意外溢出或位移" data-guide="彈出選單">
+<summary><span class="t">選單列對齊用固定寬的前導欄加 <code>margin-inline-start: auto</code>，不用 subgrid</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">彈出選單 · 版面意外溢出或位移</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>項目設 <code>display: flex</code>，<code>::before</code> 是固定寬度的圖示／勾號欄，快捷鍵或子選單指示放在 <code>margin-inline-start: auto</code> 的 <code>.hint</code></dd><dt>被什麼擋</dt><dd>用 subgrid 時，多出來的行內子元素（例如徽章）會變成自己的格線項目，版面壞掉（引用："any extra inline child (a badge, for example) becomes its own grid item and breaks the layout."）</dd><dt>戰報</dt><dd>勝——有沒有圖示、多不多一個徽章，標籤都對齊（官方宣稱）</dd></dl><p class="story">某一項加了「新」徽章，整個選單的欄位全部錯位。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:menu:9</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/menu.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/menu.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--menu--10" data-kind="糾錯" data-result="勝" data-group="尺寸動畫只能跳變" data-guide="彈出選單">
+<summary><span class="t">選單開啟動畫要有 <code>@starting-style</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">彈出選單 · 尺寸動畫只能跳變</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>開啟狀態裡寫 <code>@starting-style { opacity: 0; translate: ... }</code>；<code>display</code>、<code>overlay</code> 加入 transition，<code>transition-behavior: allow-discrete</code> 另起一行</dd><dt>被什麼擋</dt><dd>關閉的 popover 是 <code>display: none</code>，transition 不會從未渲染的狀態開始，沒有起始值時開啟直接跳出、只有關閉有動畫（引用："Without it the open snaps and only the close animates."）</dd><dt>戰報</dt><dd>勝——開與關都有短動畫，且不延誤鍵盤焦點（官方宣稱）</dd></dl><p class="story">選單收起時會淡出，打開時卻啪一下出現。</p>
+<p class="support"><b>支援</b> @starting-style：指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:menu:10</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/menu.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/menu.md">線檔</a> · v1.0.0</p></div></details>
 <details class="line" id="mwg--navbar" data-kind="新能力" data-result="部分改善" data-group="版面依賴錯的量測" data-guide="響應式網站導覽列">
 <summary><span class="t">不寫死斷點，量測放不放得下才收合</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
@@ -3197,6 +3890,69 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>巢狀導覽的觸發用 <code>&lt;button aria-expanded aria-controls&gt;</code>，緊接子選單清單</dd><dt>被什麼擋</dt><dd>用 <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> 做子選單，<code>summary</code> 該對應 button 角色卻沒有被一致實作（引用："DO NOT use <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code>: <code>&lt;summary&gt;</code> should map to a <code>button</code> role, but has not been consistently implemented"）</dd><dt>戰報</dt><dd>勝——button 的角色在各輔助技術中一致（官方宣稱）</dd></dl><p class="story">和 accordion 指南是同一個對手：summary 的角色在不同螢幕閱讀器表現不一。<code>&lt;details&gt;</code> 不寫 JS 就能開合，很誘人，但在導覽情境裡角色不穩定的代價更高。</p>
 <p class="support"><b>支援</b> —</p>
 <p class="links"><code>mwg:navbar:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/navbar.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/navbar.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--navigation-drawer" data-kind="新能力" data-result="部分改善" data-group="自製控制項丟掉原生行為" data-guide="導覽抽屜">
+<summary><span class="t">抽屜用捲動吸附開關、背景暗度綁在捲動時間軸上</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">導覽抽屜 · 自製控制項丟掉原生行為</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前「跟手」的抽屜與底部面板要手勢函式庫 → 現在側欄導覽、底部動作面板、可拉出的篩選面板都能用原生捲動做，拖動中背景同步變暗，放手自然停在開或關</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>模態 <code>&lt;dialog&gt;</code> 裡放一個水平捲動容器（抽屜寬度一欄＋整個視窗寬的空白欄），<code>scroll-snap-type: x mandatory</code> 讓它只停在開或關；用 <code>scroll-timeline</code> 加 <code>timeline-scope</code> 把 <code>--drawer-backdrop</code>（以 <code>@property</code> 註冊為 number）綁到捲動位置，<code>::backdrop</code> 的不透明度跟著變；IntersectionObserver 觀察抽屜，完全離開時才 <code>close()</code></dd><dt>被什麼擋</dt><dd>用 JS 驅動 <code>transform</code> 動畫時，抽屜位置由補間決定、不是手指（引用："the scroll mechanism gives the user direct control of the panel's position (their finger drives it, not a tween)"）</dd><dt>戰報</dt><dd>部分改善——手指拖多少抽屜就移多少、背景同步變暗，慣性與中途反向都由瀏覽器處理；捲動吸附為 Widely，Scroll-driven animations 為 Newly，不支援時以 <code>scroll</code> 監聽寫入暗度（官方宣稱）</dd></dl><p class="story">手機上拉出側欄選單，舊做法放手後播一段固定動畫，拖到一半反悔也拉不回來。改成捲動之後，抽屜就是手指底下的東西，背景的暗度也跟著位置走。</p>
+<p class="support"><b>支援</b> Scroll snap：Widely；Scroll-driven animations：Baseline Newly available（2026-10-27 起）；Registered custom properties：Newly</p>
+<p class="links"><code>mwg:navigation-drawer</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/navigation-drawer.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--navigation-drawer--2" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="導覽抽屜">
+<summary><span class="t">滿版抽屜不要用 <code>closedby="any"</code>，自己判斷點在抽屜外</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>
+<span class="meta">導覽抽屜 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在 dialog 上聽 <code>click</code>，目標不在抽屜內就呼叫捲回關閉的 <code>closeDrawer()</code></dd><dt>被什麼擋</dt><dd>dialog 佔滿整個視窗，點擊落在 dialog 上而不是 <code>::backdrop</code>，而且會在沒有滑出動畫的情況下直接關閉（引用："the dialog fills the viewport, so taps land on the dialog rather than its ::backdrop, and it would close without the slide-out animation."）</dd><dt>戰報</dt><dd>部分改善——點暗處就滑出關閉（官方宣稱）</dd></dl><p class="story">加了 <code>closedby="any"</code>，點暗處抽屜瞬間消失，沒有滑出去。</p>
+<p class="support"><b>支援</b> &lt;dialog closedby&gt;：指南本篇未給支援資料；其他指南記為 Limited</p>
+<p class="links"><code>mwg:navigation-drawer:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/navigation-drawer.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--navigation-drawer--3" data-kind="糾錯" data-result="勝" data-group="生命週期假設錯" data-guide="導覽抽屜">
+<summary><span class="t">關閉時先捲回去，等觀察器看到抽屜完全離開才 <code>close()</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
+<span class="meta">導覽抽屜 · 生命週期假設錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>closeDrawer()</code> 只捲到空白欄；IntersectionObserver 在可見比例低於門檻時才呼叫 <code>drawer.close()</code>；Esc 的 <code>cancel</code> 也 <code>preventDefault()</code> 後改走滑出</dd><dt>被什麼擋</dt><dd>直接呼叫 <code>close()</code> 會在動畫途中把元素移出頂層，看不到關閉動畫（引用："doing so would remove the element from the top layer mid-animation and the close animation would not be visible."）</dd><dt>戰報</dt><dd>勝——滑動、按鈕、點暗處、Esc 都匯流到同一個回呼，關閉動畫完整（官方宣稱）</dd></dl><p class="story">按了關閉鈕，抽屜沒滑出去，直接不見。</p>
+<p class="support"><b>支援</b> Intersection observer：Baseline Widely available（2019-03-25 起）</p>
+<p class="links"><code>mwg:navigation-drawer:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/navigation-drawer.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--navigation-drawer--4" data-kind="糾錯" data-result="部分改善" data-group="新功能的副作用" data-guide="導覽抽屜">
+<summary><span class="t">捲動驅動的背景動畫整塊包在 <code>@supports (animation-timeline: scroll())</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">導覽抽屜 · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>@keyframes</code>、<code>@property</code>、<code>animation-timeline</code> 都放進 <code>@supports</code> 區塊</dd><dt>被什麼擋</dt><dd>不支援的瀏覽器仍會解析 keyframes 並套用 <code>0%</code> 的值，背景永遠全暗（引用："would apply the animation's <code>0%</code> value (--drawer-backdrop: 1) at all times, leaving the backdrop permanently opaque."）</dd><dt>戰報</dt><dd>部分改善——不支援時由 JS 退路唯一負責寫入暗度（官方宣稱）</dd></dl><p class="story">在舊瀏覽器開過一次抽屜，關掉後背景還是一片暗。</p>
+<p class="support"><b>支援</b> Scroll-driven animations：Newly</p>
+<p class="links"><code>mwg:navigation-drawer:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/navigation-drawer.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--navigation-drawer--5" data-kind="糾錯" data-result="部分改善" data-group="尺寸動畫只能跳變" data-guide="導覽抽屜">
+<summary><span class="t">背景暗度的自訂屬性一定要用 <code>@property</code> 註冊成數字</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">導覽抽屜 · 尺寸動畫只能跳變</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>@property --drawer-backdrop { syntax: '&lt;number&gt;'; inherits: true; initial-value: 0; }</code></dd><dt>被什麼擋</dt><dd>沒有註冊時瀏覽器把它當字串、無法內插，背景從 0 直接跳到 1（引用："the backdrop would jump from 0 to 1 with no fade."）</dd><dt>戰報</dt><dd>部分改善——暗度隨拖動連續變化（官方宣稱）</dd></dl><p class="story">拖抽屜時背景不是漸暗，而是在某一點突然變黑。</p>
+<p class="support"><b>支援</b> Registered custom properties：Baseline Newly available（2024-07-09 起）</p>
+<p class="links"><code>mwg:navigation-drawer:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/navigation-drawer.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--navigation-drawer--6" data-kind="糾錯" data-result="勝" data-group="版面意外溢出或位移" data-guide="導覽抽屜">
+<summary><span class="t">抽屜高度用 <code>svh</code>，不用 <code>vh</code> 或 <code>dvh</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">導覽抽屜 · 版面意外溢出或位移</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>抽屜內容設 <code>height: 100svh</code></dd><dt>被什麼擋</dt><dd>iOS Safari 的網址列在滑動途中縮放，<code>vh</code>／<code>dvh</code> 讓抽屜高度跟著跳（引用："so the sheet height does not jump when the iOS Safari address bar resizes mid-swipe."）</dd><dt>戰報</dt><dd>勝——滑動中高度固定（官方宣稱）</dd></dl><p class="story">在 iPhone 上拉抽屜，抽屜高度一抖一抖。</p>
+<p class="support"><b>支援</b> svh：指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:navigation-drawer:6</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/navigation-drawer.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--navigation-drawer--7" data-kind="糾錯" data-result="勝" data-group="動作被意外觸發" data-guide="導覽抽屜">
+<summary><span class="t">會兼當側欄的抽屜用 <code>popover="manual"</code>，不用 <code>auto</code> 或 <code>hint</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
+<span class="meta">導覽抽屜 · 動作被意外觸發</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>一般元素加 <code>role="dialog"</code> 與 <code>popover="manual"</code>，並自己做 inert、<code>aria-modal</code>、焦點還原與 Esc</dd><dt>被什麼擋</dt><dd><code>auto</code>、<code>hint</code> 內建的點外面關閉會在滑動途中觸發（引用："their built-in light-dismiss would also fire mid-swipe."）</dd><dt>戰報</dt><dd>勝——只有程式決定何時關閉，拖動中不會被誤關（官方宣稱）</dd></dl><p class="story">手指拖著抽屜往回推，還沒放手抽屜就自己關了。</p>
+<p class="support"><b>支援</b> showPopover()：Baseline Widely available（2024-04-16 起）</p>
+<p class="links"><code>mwg:navigation-drawer:7</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/navigation-drawer.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--navigation-drawer--8" data-kind="糾錯" data-result="勝" data-group="語意結構失真" data-guide="導覽抽屜">
+<summary><span class="t">寬螢幕會變成常駐側欄的抽屜不要用 <code>&lt;dialog&gt;</code></span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">導覽抽屜 · 語意結構失真</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>要兼當側欄時改用一般元素加 <code>role="dialog"</code>，在側欄狀態時用 <code>matchMedia()</code> 拿掉 role</dd><dt>被什麼擋</dt><dd><code>&lt;dialog&gt;</code> 永遠被當成對話框暴露，但側欄不是對話框（引用："A <code>&lt;dialog&gt;</code> element does not work here, since it is always exposed as a dialog, but a sidebar is not one."）</dd><dt>戰報</dt><dd>勝——側欄狀態下是一般導覽、抽屜狀態下是對話框（官方宣稱）</dd></dl><p class="story">桌機上的固定側欄，讀屏每次都唸「對話框」。</p>
+<p class="support"><b>支援</b> 指南未給支援資料，記 不適用</p>
+<p class="links"><code>mwg:navigation-drawer:8</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/navigation-drawer.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--navigation-drawer--9" data-kind="新能力" data-result="僵持" data-group="尺寸動畫只能跳變" data-guide="導覽抽屜">
+<summary><span class="t">用 <code>scroll-initial-target</code> 讓抽屜一進頂層就停在關閉位置，再滑進來</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">導覽抽屜 · 尺寸動畫只能跳變</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前捲動式抽屜的初始位置要腳本先捲一次再等兩幀 → 現在底部面板、側欄、可拉出的評論區都能在進場前就停在畫面外，開啟只要一次捲動。目前僅 Chromium</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>空白欄的 <code>::after</code> 設 <code>scroll-initial-target: nearest</code>，<code>showModal()</code> 後再 <code>scrollTo({ left: 0 })</code> 滑進來；不支援時先即時捲到關閉位置、等兩個 <code>requestAnimationFrame</code> 再捲回</dd><dt>被什麼擋</dt><dd>沒有初始位置時，抽屜一出現就在開啟位置，沒有滑入動畫；退路只等一個 rAF 時，第二次 <code>scrollTo</code> 會把第一次取消（引用："Without this, the drawer would appear instantly in the open position with no slide-in animation."）</dd><dt>戰報</dt><dd>僵持——支援的瀏覽器開啟時從畫面外滑入；僅 Chrome／Edge 133，其他瀏覽器要用雙 rAF 的腳本（官方宣稱）</dd></dl><p class="story">點選單鈕，抽屜不是滑出來而是直接出現在那裡。初始捲動位置讓它先待在畫面外，才有東西可以滑。</p>
+<p class="support"><b>支援</b> scroll-initial-target：Limited availability，Supported by: Chrome 133, Edge 133；Unsupported in: Firefox, Safari</p>
+<p class="links"><code>mwg:navigation-drawer:9</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/ui-components/navigation-drawer.md">線檔</a> · v1.0.0</p></div></details>
 <details class="line" id="mwg--tabs" data-kind="新能力" data-result="僵持" data-group="手寫焦點管理" data-guide="分頁介面（Tabs）">
 <summary><span class="t">用 focusgroup 取代手寫 roving tabindex</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>

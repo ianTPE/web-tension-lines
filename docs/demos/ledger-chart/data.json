@@ -1,5 +1,5 @@
 {
- "total": 460,
+ "total": 568,
  "updated": "2026-11-17",
  "groups": [
   {
@@ -70,6 +70,27 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:swipe-to-remove:4",
+     "feature": "每個滑動動作配一顆可見按鈕",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:swipe-to-reveal:4",
+     "feature": "觸發按鈕 aria-expanded, 切換 tabindex",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:hovercard",
+     "feature": "interestfor, interest-delay, :interest-source",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
     }
    ]
   },
@@ -82,6 +103,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:spatial-navigation:2",
+     "feature": "getBoundingClientRect() 即時幾何, checkVisibility()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -115,6 +143,20 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:scroll-completion-effects:3",
+     "feature": "focus({ preventScroll: true })",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:swipe-to-remove:6",
+     "feature": "Safari 延後 remove(), inert",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -176,6 +218,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:scoped-component-transitions:2",
+     "feature": "搬動既有節點而非 innerHTML 重建",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -251,6 +300,20 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:card",
+     "feature": "延伸連結 .card-link::after, inset: 0",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:hovercard:3",
+     "feature": "提示與名稱相同時不加 ARIA",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -658,6 +721,153 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:same-document-transitions:2",
+     "feature": "唯一的 view-transition-name、finished 後清除",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:same-document-transitions:4",
+     "feature": "width: fit-content, ::view-transition-old/new height: 100%",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scoped-component-transitions",
+     "feature": "element.startViewTransition(), view-transition-name: match-element, view-transition-scope",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scoped-component-transitions:3",
+     "feature": "transition.ready.catch()",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scoped-component-transitions:4",
+     "feature": "範圍元素保留自我參與（不設 view-transition-name: none）",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scoped-component-transitions:5",
+     "feature": "具名 wrapper, view-transition-scope: all",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-completion-effects:2",
+     "feature": "遞增操作 ID 擋掉過期效果",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-completion-effects:4",
+     "feature": "不為 Chrome 根捲動器 bug 多包捲動容器",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-entry-exit-effects:4",
+     "feature": "entry 100%, exit 0% 明寫靜止值",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-target-on-load:2",
+     "feature": "另外呼叫 element.focus()",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-target-on-load:4",
+     "feature": "同一容器只設一個目標、注意片段與 scroll-start 優先",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:search-hidden-content:2",
+     "feature": "不在 until-found 元素上設 display／visibility",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-remove:7",
+     "feature": "scroll-initial-target 包在 .is-initialized 裡",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:dialog:8",
+     "feature": "cancel 監聽保護未存修改, request-close",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:hovercard:2",
+     "feature": "popover=\"hint\"",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:hovercard:7",
+     "feature": "document 上 capture 的 toggle 監聽",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:hovercard:10",
+     "feature": "獨立的 transition-behavior 宣告",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:menu:3",
+     "feature": "@position-try --below 允許縮小（min-inline-size: 0）",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:menu:7",
+     "feature": "stopPropagation(), 關閉前先聚焦觸發項目",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:navigation-drawer:2",
+     "feature": "不用 closedby=any、自己判斷點在抽屜外",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:navigation-drawer:4",
+     "feature": "@supports (animation-timeline: scroll()) 包住整塊",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
     }
    ]
   },
@@ -810,6 +1020,41 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:same-document-transitions:3",
+     "feature": "轉場後把焦點送到新標題（tabindex=-1）",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-snap-state-sync:3",
+     "feature": "scroll-snap-type: proximity",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:scrollytelling:4",
+     "feature": "隱藏樣式只掛在 .scroll-fallback, reduced-motion 時強制可見",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:search-hidden-content",
+     "feature": "<details>, hidden=until-found, beforematch",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-remove:11",
+     "feature": "移除前把焦點移到下一列",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -842,6 +1087,34 @@
      "feature": "inset/margin 重設包進 @supports, 明確 anchor-name",
      "result": "部分改善",
      "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:hovercard:8",
+     "feature": "position-area, position-try-fallbacks, 隱式錨點",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:hovercard:9",
+     "feature": "inset/margin 重設包進 @supports",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:menu:2",
+     "feature": "position-area, position-try-fallbacks, @position-try",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:menu:4",
+     "feature": "showPopover({ source }), 零尺寸 fixed 佔位錨點",
+     "result": "部分改善",
+     "kind": "新能力",
      "level": "Newly"
     }
    ]
@@ -979,6 +1252,27 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-snap-state-sync:2",
+     "feature": "aria-current 標示作用中連結",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:swipe-to-remove:12",
+     "feature": "forced-colors 下 CanvasText + mask",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:checkbox:2",
+     "feature": "在 Safari 實測 accent-color 對比",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -1071,6 +1365,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:card:5",
+     "feature": "container-type: inline-size 在卡片上, :has(> img)",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1097,6 +1398,20 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:dialog",
+     "feature": "<dialog> showModal(), command=show-modal",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:menu",
+     "feature": "focusgroup=menu nomemory, command=toggle-popover, popover=auto",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
     }
    ]
   },
@@ -1199,6 +1514,34 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:spatial-navigation:3",
+     "feature": "grid/listbox/tablist 等複合角色",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:card:2",
+     "feature": "閱讀更多加視覺隱藏的完整名稱",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:hovercard:4",
+     "feature": "role=tooltip + aria-describedby, 不加 aria-expanded",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:navigation-drawer:8",
+     "feature": "role=dialog 一般元素, 側欄狀態拿掉 role",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1309,6 +1652,34 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:swipe-to-remove:10",
+     "feature": "預先存在的 role=status",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:dialog:5",
+     "feature": "可見訊息 + aria-describedby",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:hovercard:5",
+     "feature": "描述型提示只放可錯過的內容",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:hovercard:6",
+     "feature": "DOM 解析完就一次接好 ARIA",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -1363,6 +1734,13 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:dark-mode-toggle:3",
+     "feature": "只在儲存當下比對系統偏好",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1546,6 +1924,34 @@
      "result": "缺",
      "kind": "新能力",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:same-document-transitions",
+     "feature": "document.startViewTransition(), view-transition-name",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:menu:10",
+     "feature": "@starting-style, allow-discrete 獨立宣告",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:navigation-drawer:5",
+     "feature": "@property 註冊 --drawer-backdrop 為 number",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:navigation-drawer:9",
+     "feature": "scroll-initial-target: nearest（關閉位置）",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
     }
    ]
   },
@@ -1644,6 +2050,27 @@
     {
      "id": "mwg:parallax-scroll-effects:2",
      "feature": "@supports 加 (animation-range: entry)",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:prevent-page-scroll-under-modal-dialog:2",
+     "feature": "不用 @supports 偵測、直接當漸進增強",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-entry-exit-effects:2",
+     "feature": "@supports 加 (animation-range: entry)",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scrollytelling:2",
+     "feature": "@supports 加 (animation-range: 0% 100%)",
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
@@ -1818,6 +2245,41 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-target-on-load:3",
+     "feature": "媒體設 aspect-ratio 或 width/height",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:search-hidden-content:3",
+     "feature": "框線與內距放內層 wrapper",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:card:3",
+     "feature": ":has(> :checked) 只改邊框顏色",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:menu:9",
+     "feature": "固定寬前導欄, margin-inline-start: auto",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:navigation-drawer:6",
+     "feature": "height: 100svh",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1858,6 +2320,27 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:dark-mode-toggle",
+     "feature": "meta color-scheme + :root:has() 映射回 color-scheme",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:dialog:7",
+     "feature": "display 寫在 dialog[open]",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:menu:8",
+     "feature": "aria-checked 勾號選擇器提高特異度",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1898,6 +2381,20 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-entry-exit-effects:3",
+     "feature": "animation-timeline 寫在簡寫之後",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scrollytelling:3",
+     "feature": "animation-timeline 寫在簡寫之後",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
     }
    ]
   },
@@ -1910,6 +2407,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:card:4",
+     "feature": "單一 .card-link, 互動元素逐一 z-index: 1",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -2241,6 +2745,41 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-remove",
+     "feature": "scroll-snap-type: x mandatory, IntersectionObserver 門檻",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:swipe-to-reveal",
+     "feature": "scroll-snap-type: x mandatory, grid 100% max-content",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:checkbox",
+     "feature": "accent-color, appearance: none + mask",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:checkbox:3",
+     "feature": "appearance: none 後用相對單位給尺寸",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:navigation-drawer",
+     "feature": "scroll-snap 開關, scroll-timeline + @property 背景暗度, IntersectionObserver",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
     }
    ]
   },
@@ -2389,6 +2928,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:search-hidden-content:4",
+     "feature": "敏感資料不放進 until-found 區塊",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -2415,6 +2961,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:dialog:3",
+     "feature": "<dialog popover>",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
     }
    ]
   },
@@ -2638,6 +3191,48 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:scroll-snap-realtime-feedback:2",
+     "feature": "載入時跑一次幾何計算同步初始狀態",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-remove:9",
+     "feature": "進入畫面才初始化, MutationObserver 接新列",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:dialog:4",
+     "feature": "讀完 returnValue 就重設為空字串",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:hovercard:11",
+     "feature": "@view-transition, :popover-open 內的 view-transition-name, blocking=render",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:menu:6",
+     "feature": "在 toggle 事件裡移焦點",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:navigation-drawer:3",
+     "feature": "先捲回、觀察器看到離開才 close()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -2683,6 +3278,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-completion-effects",
+     "feature": "await scrollIntoView()/scrollTo()/scrollBy()",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
     }
    ]
   },
@@ -2826,6 +3428,27 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:scroll-target-on-load",
+     "feature": "scroll-initial-target: nearest",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-reveal:5",
+     "feature": "scroll-initial-target: nearest（雙側面板）",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:dark-mode-toggle:2",
+     "feature": "緊接 meta 的同步內嵌腳本",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -3304,6 +3927,27 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-entry-exit-effects",
+     "feature": "view(), animation-range: entry/exit, timeline-range 關鍵影格",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-snap-state-sync",
+     "feature": "scrollsnapchange, snapTargetBlock",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scrollytelling",
+     "feature": "具名 view-timeline, timeline-scope, animation-range",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
     }
    ]
   },
@@ -3337,6 +3981,13 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:dark-mode-toggle:4",
+     "feature": "prefers-color-scheme + :root:has(meta) 分支",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -3394,6 +4045,48 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:prevent-page-scroll-under-modal-dialog",
+     "feature": "overscroll-behavior: contain（dialog:modal 與 ::backdrop）, ::backdrop overflow: hidden",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-remove:2",
+     "feature": "overscroll-behavior-x: none",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-remove:3",
+     "feature": "scroll-snap-type: x mandatory",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:swipe-to-reveal:2",
+     "feature": "overscroll-behavior: chain",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-reveal:3",
+     "feature": "scroll-snap-type: x mandatory",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:dialog:2",
+     "feature": "overscroll-behavior: contain（dialog:modal 與 ::backdrop）",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Limited"
     }
    ]
   },
@@ -3418,6 +4111,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:spatial-navigation",
+     "feature": "沒有候選時不 preventDefault()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -3456,6 +4156,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:swipe-to-reveal:6",
+     "feature": "overscroll-behavior: auto 寫在 chain 前面",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -3519,6 +4226,13 @@
     {
      "id": "mwg:web-components:2",
      "feature": "shadow root 用 open 模式",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:spatial-navigation:4",
+     "feature": "e.composedPath()[0]",
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
@@ -3609,6 +4323,58 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "回饋落後於手勢",
+   "lines": [
+    {
+     "id": "mwg:scroll-snap-realtime-feedback",
+     "feature": "scrollsnapchanging, scrollsnapchange, snapTargetInline",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "動作被意外觸發",
+   "lines": [
+    {
+     "id": "mwg:swipe-to-remove:5",
+     "feature": "有按鈕的列不讓軌道可聚焦, 復原提示",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:swipe-to-remove:8",
+     "feature": "退路捲動先於觀察器, ResizeObserver 補設",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:dialog:6",
+     "feature": "visibility 預留訊息空間, 破壞性按鈕放在不位移處",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:menu:5",
+     "feature": "clip-path 安全三角, --pointer-x/y, sign()",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:navigation-drawer:7",
+     "feature": "popover=manual",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   }

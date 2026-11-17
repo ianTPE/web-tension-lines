@@ -95,7 +95,9 @@
     "時間模型失真": "The time model misrepresents reality",
     "簡寫或屬性連動重設": "Shorthands or linked properties reset settings",
     "繼承範圍不符預期": "Inheritance reaches further or less far than expected",
-    "堆疊脈絡改變層級": "Stacking contexts change layering"
+    "堆疊脈絡改變層級": "Stacking contexts change layering",
+    "回饋落後於手勢": "Feedback lags behind the gesture",
+    "動作被意外觸發": "Actions get triggered by accident"
   },
   "guides": {
     "install-web-app": "Installing web apps",
@@ -256,7 +258,27 @@
     "coordinate-global-events": "Coordinate Global Events with Temporal",
     "sort-high-precision-timestamps": "Sort High-precision Timestamps with Temporal.Instant",
     "support-global-calendar-systems": "Support Global Calendar Systems with Temporal",
-    "batch-analytics-events": "Debounce and Batch Analytics Events"
+    "batch-analytics-events": "Debounce and Batch Analytics Events",
+    "prevent-page-scroll-under-modal-dialog": "Prevent the page underneath a modal dialog from scrolling",
+    "same-document-transitions": "Same-document transitions",
+    "scoped-component-transitions": "Scoped component transitions",
+    "scroll-completion-effects": "Triggering effects after programmatic scrolling completes",
+    "scroll-entry-exit-effects": "Entry and exit effects as elements enter or exit the scrollport",
+    "scroll-snap-realtime-feedback": "Scroll snap real-time feedback",
+    "scroll-snap-state-sync": "Scroll snap state sync",
+    "scroll-target-on-load": "Set a scroll target for the initial render",
+    "scrollytelling": "Scrollytelling",
+    "search-hidden-content": "Search hidden content",
+    "spatial-navigation": "Spatial navigation (directional keypad focus)",
+    "swipe-to-remove": "Swipe to remove",
+    "swipe-to-reveal": "Swipe to reveal",
+    "card": "Build a card",
+    "checkbox": "Styling checkboxes",
+    "dark-mode-toggle": "Dark mode toggles",
+    "dialog": "Dialog",
+    "hovercard": "Build an interactive hovercard",
+    "menu": "Build a popup menu",
+    "navigation-drawer": "Navigation drawer"
   },
   "lines": {
     "mwg:install-web-app": {
@@ -4398,6 +4420,978 @@
       "story": "The apparent security measure mainly penalizes password-manager users.",
       "unlock": "",
       "support": "No support data; N/A."
+    },
+    "mwg:prevent-page-scroll-under-modal-dialog": {
+      "title": "Lock the page behind a modal with `overscroll-behavior: contain` instead of changing `<body>` overflow",
+      "action": "Set `overscroll-behavior: contain` on `dialog:modal`; set `overflow: hidden` on `dialog::backdrop` to make it a non-scrollable scroll container, then `overscroll-behavior: contain` on it too",
+      "blocker": "`showModal()` blocks clicks and focus but not scrolling: scrolling over the backdrop or past the end of the dialog scrolls the page; the old fix of `overflow: hidden` or `position: fixed` on `<html>`/`<body>` removes the scrollbar, shifts layout and jumps the scroll position (quote: \"Mutating root overflow removes the page scrollbar (causing horizontal layout shift), can reset or jump the page scroll position, and can break `position: sticky` elements\")",
+      "outcome": "Supporting browsers fully stop background scrolling both over the backdrop and inside the dialog; Safari does not yet apply overscroll-behavior to non-scrollable containers, so it only contains scrolling when the dialog content overflows, while `showModal()` still makes the page inert (official claim)",
+      "story": "With a modal open, one swipe on the dimmed backdrop quietly scrolled the article behind it; the body-lock trick made the whole page jump sideways and broke sticky headers. Two CSS declarations now keep scrolling inside the dialog; Safari is the remaining gap.",
+      "unlock": "Locking background scroll used to mean touching the root element and paying with layout jumps → lightboxes, confirmations, and full-screen settings panels can lock the background in pure CSS, and the page stays put with sticky intact on close. Safari only when the dialog content overflows",
+      "support": "overscroll-behavior (on non-scrollable scroll containers): Limited availability. Supported by: Chrome 144, Edge 144, Firefox 150. Unsupported in: Safari"
+    },
+    "mwg:prevent-page-scroll-under-modal-dialog:2": {
+      "title": "Don't feature-detect overscroll support on non-scrollable containers with `@supports`",
+      "action": "Treat dialog scroll containment as progressive enhancement; do not branch on `@supports (overscroll-behavior: contain)` or `CSS.supports()`",
+      "blocker": "Every modern browser recognises the syntax and returns true, even if it only enforces the property when content overflows (quote: \"All modern browsers support the `overscroll-behavior: contain` property syntax and return `true`, even if they only enforce it when content overflows.\")",
+      "outcome": "Writing it unconditionally gives full containment where supported and containment on overflow elsewhere (official claim)",
+      "story": "A detection branch meant to add a Safari fallback also passed in Safari, so the fallback never ran. The behaviour cannot be detected; write it and accept the difference.",
+      "unlock": "",
+      "support": "overscroll-behavior (non-scrollable containers): Limited"
+    },
+    "mwg:same-document-transitions": {
+      "title": "Use `startViewTransition()` with a shared `view-transition-name` so a thumbnail grows into the detail-page hero",
+      "action": "Wrap SPA view changes in `document.startViewTransition()`; give the list item and the detail hero the same `view-transition-name` (unique names in the list applied dynamically to the detail page, or the reverse with only the selected item named)",
+      "blocker": "Clicking from list to detail makes the thumbnail vanish and a larger image appear elsewhere instantly, so users lose track of how the two relate (quote: \"the thumbnail disappears and a new, larger image appears instantly elsewhere on the screen. This lack of continuity makes it harder for users to track relationships between elements.\")",
+      "outcome": "The browser computes position, size and style differences and morphs smoothly; View Transitions are Newly available, and unsupported browsers update the DOM without animation (official claim)",
+      "story": "Clicking into a product made the screen jump and the eye had to find the image again. Wrapping the update in a transition and naming both ends lets the image fly from where it was to where it goes. Older browsers just switch instantly.",
+      "unlock": "List-to-detail continuity used to need a FLIP animation library → photo albums, product catalogues and contact lists can morph the clicked card into the detail view in a few lines of JS, with plain switching where unsupported",
+      "support": "View transitions: Baseline Newly available (since 2025-10-14)"
+    },
+    "mwg:same-document-transitions:2": {
+      "title": "Each `view-transition-name` may belong to only one element before and after; clear temporary names afterwards",
+      "action": "Ensure each name maps to one element before and after the transition; remove names added via `.selected` after `transition.finished`",
+      "blocker": "With two or more elements sharing a name, the DOM updates immediately with no transition (quote: \"If there are 2 or more elements with a given `view-transition-name`, the DOM will be updated to the new state immediately, without a transition.\")",
+      "outcome": "Unique names cleaned up after each run keep the next navigation from failing (official claim)",
+      "story": "The first click animated; back on the list, clicking another card did nothing — the name left on the previous item collided with the new one.",
+      "unlock": "",
+      "support": "View transitions: Newly"
+    },
+    "mwg:same-document-transitions:3": {
+      "title": "Transitions don't manage focus: move it to the new heading yourself",
+      "action": "After the DOM update or when `transition.finished` resolves, focus the new view's heading or container (`tabindex=\"-1\"`), including in the no-transition branch",
+      "blocker": "If focus stays on an element hidden or removed during the transition, it is abandoned and keyboard and AT users lose context (quote: \"If focus remains on an element that is hidden or removed during the transition, focus is abandoned, leaving keyboard and assistive technology users without context.\")",
+      "outcome": "Focus routed to the new heading announces the new context and keeps the tab order connected (official claim)",
+      "story": "Pressing a thumbnail by keyboard morphed beautifully into the detail page, but focus fell back to the top and the next Tab started over.",
+      "unlock": "",
+      "support": "View transitions: Newly"
+    },
+    "mwg:same-document-transitions:4": {
+      "title": "Use `fit-content` on transitioning text so snapshots don't stretch",
+      "action": "Set `width: fit-content` on the transitioning text in both views; for elements that change aspect ratio set `height: 100%` on `::view-transition-old/new()` and use `object-fit` if needed",
+      "blocker": "By default the old and new snapshots cross-fade inside a group that stretches to fit both, distorting them (quote: \"By default, the browser cross-fades the old and new snapshots within a group that stretches to fit both.\")",
+      "outcome": "With widths fitted to content, the element's aspect ratio stays stable during the transition (official claim)",
+      "story": "The title flying from list to detail got squashed and then stretched. A snapshot is an image; it takes whatever width its group has.",
+      "unlock": "",
+      "support": "View transitions: Newly"
+    },
+    "mwg:scoped-component-transitions": {
+      "title": "Use `element.startViewTransition()` to keep a transition inside a component instead of covering the page",
+      "action": "Call `element.startViewTransition()` on the component root, name children with `view-transition-name: match-element`, and add `view-transition-scope: all` to repeated component containers so names don't leak",
+      "blocker": "`document.startViewTransition()` attaches the overlay to `:root`, so during the transition the page can't be clicked, transitions can't run concurrently, and fixed headers and open popovers are covered (quote: \"blocks pointer events on the rest of the page, prevents concurrent transitions, and obscures `position: fixed` headers or open `[popover]` elements\")",
+      "outcome": "In supporting browsers the overlay covers only the component, the rest of the page stays interactive and several components can transition at once; Chrome/Edge 147 only, and elsewhere the guide recommends updating without animation since falling back to a document transition brings the problems back (official claim)",
+      "story": "While a sidebar list was animating a reorder, the header buttons couldn't be clicked and an open menu was hidden under the transition. Scoping it to the component leaves the rest of the page alone — but only Chromium can do it for now.",
+      "unlock": "A small component's animation used to freeze the whole page → dashboard cards can each animate sorting, adding and removing at the same time while the header and floating toolbars stay clickable. Chromium only for now",
+      "support": "Element-scoped view transitions: Limited availability. Supported by: Chrome 147, Edge 147. Unsupported in: Firefox, Safari (View transitions themselves are Newly)"
+    },
+    "mwg:scoped-component-transitions:2": {
+      "title": "`match-element` needs existing nodes moved, not rebuilt with `innerHTML`",
+      "action": "With `view-transition-name: match-element`, reorder or remove by moving and removing existing DOM nodes",
+      "blocker": "`match-element` pairs by DOM node identity, so recreated nodes cannot match the old ones (quote: \"Preserve and move existing DOM nodes (rather than recreating them with `innerHTML`) when using `view-transition-name: match-element`, as `match-element` tracks DOM node identity.\")",
+      "outcome": "Moving existing nodes gives every item an automatic name and its own morph (official claim)",
+      "story": "After sorting, the whole list was re-rendered; items in the transition couldn't find their predecessors and only cross-faded.",
+      "unlock": "",
+      "support": "Element-scoped view transitions: Limited"
+    },
+    "mwg:scoped-component-transitions:3": {
+      "title": "Catch the `ready` rejection when a component re-triggers transitions rapidly",
+      "action": "Add `transition.ready.catch(() => {})` after each `element.startViewTransition()`",
+      "blocker": "Calling it again on the same element skips the active transition and rejects `ready`, which becomes an unhandled promise rejection if not caught (quote: \"Re-triggering startViewTransition() on the same element skips the active transition and rejects `ready`.\")",
+      "outcome": "Rapid clicks just skip the old transition without errors (official claim)",
+      "story": "A user clicked \"Sort\" repeatedly and the console filled with unhandled rejections.",
+      "unlock": "",
+      "support": "Element-scoped view transitions: Limited"
+    },
+    "mwg:scoped-component-transitions:4": {
+      "title": "Don't set `view-transition-name: none` on a scope element that clips overflow",
+      "action": "Let the scope keep its default self-participation (`view-transition-name: root`) so `::view-transition-group-children(root)` automatically applies `overflow: clip`",
+      "blocker": "Opting out of self-participation disables automatic overflow clipping, so transitioning children spill outside the component (quote: \"opting out of self-participation disables automatic overflow clipping.\")",
+      "outcome": "With the default kept, children stay clipped to the component and the component's own size change animates too (official claim)",
+      "story": "During a reorder, items in a scrollable card flew outside the card and over the neighbouring content.",
+      "unlock": "",
+      "support": "Element-scoped view transitions: Limited"
+    },
+    "mwg:scoped-component-transitions:5": {
+      "title": "When an outer transition must move the component, wrap it in a named wrapper and set the inner scope to `view-transition-scope: all`",
+      "action": "Wrap the scope element in a wrapper with its own `view-transition-name` and add `view-transition-scope: all` to the scope; or, if the outer transition captures children, use nested transition groups and re-apply `overflow: clip` manually",
+      "blocker": "An outer transition started from a parent or the document captures and animates the scope element and everything inside it (quote: \"the outer transition will capture and animate the scope element and everything inside it.\")",
+      "outcome": "The outer transition animates only the wrapper and the inner transition can finish (official claim)",
+      "story": "As soon as a page-level transition began, the small transition running inside a card was interrupted and its items were grabbed by the outer one.",
+      "unlock": "",
+      "support": "Element-scoped view transitions: Limited"
+    },
+    "mwg:scroll-completion-effects": {
+      "title": "`await scrollIntoView()` until scrolling really stops instead of guessing with `setTimeout`",
+      "action": "Make the handler `async` and `await element.scrollIntoView({ behavior: 'smooth' })` (or `scrollTo()`, `scrollBy()`), then add the highlight, start the animation or move focus",
+      "blocker": "Guessing scroll duration with `setTimeout()` fires too early on long scrolls and too late on short ones; a hand-wrapped `scrollend` promise never resolves when the target is already in view (quote: \"fires too early on long scrolls and too late on short ones\"; \"`scrollend` does not fire when the target is already in view and no scrolling occurs\")",
+      "outcome": "In supporting browsers the promise resolves when scrolling ends, or immediately if no scroll is needed; Chrome/Edge 150 only, and elsewhere `await` continues immediately, so accuracy still needs the old `scrollend` plus timeout approach (official claim)",
+      "story": "Clicking a table-of-contents entry should scroll and then flash a highlight, but the flash finished while the section was still off-screen. With the scroll methods returning promises the timing needs no guessing — though Firefox and Safari still need the hand-built version.",
+      "unlock": "\"Scroll there, then act\" used to mean guessing or wiring scrollend → guided tours, line-by-line code walkthroughs and map lists can `await` each scroll and highlight in straight-line code. Chromium only for now",
+      "support": "Scroll method promises: Limited availability. Supported by: Chrome 150, Edge 150. Unsupported in: Firefox, Safari"
+    },
+    "mwg:scroll-completion-effects:2": {
+      "title": "Interrupted smooth scrolls also resolve: use an incrementing ID to drop stale follow-ups",
+      "action": "Increment an operation ID before each scroll and return early after `await` if it is no longer the latest",
+      "blocker": "When a new scroll interrupts a smooth scroll, the browser resolves rather than rejects all pending promises, so the old follow-up still runs (quote: \"the browser aborts the ongoing smooth scroll and **resolves** (does not reject) all pending scroll promises on that container.\")",
+      "outcome": "Only the latest scroll's effect runs (official claim)",
+      "story": "A user clicked three sections quickly and all three flashed their highlight.",
+      "unlock": "",
+      "support": "Scroll method promises: Limited"
+    },
+    "mwg:scroll-completion-effects:3": {
+      "title": "Pass `{ preventScroll: true }` when focusing after a scroll",
+      "action": "After awaiting the scroll, call `focus({ preventScroll: true })`",
+      "blocker": "`focus()` scrolls again by default, fighting the scroll that just finished (quote: \"so the browser does not jump or scroll a second time.\")",
+      "outcome": "Focus moves without a second jump (official claim)",
+      "story": "The smooth scroll centred the section, then focusing the heading jerked it to the top of the screen.",
+      "unlock": "",
+      "support": "focus() preventScroll: no support data in the guide; N/A"
+    },
+    "mwg:scroll-completion-effects:4": {
+      "title": "Chrome resolves too early when scrolling the root scroller; don't wrap content in a scroll container to work around it",
+      "action": "Know the bug exists: `scrollIntoView()` on nested scroll containers works, but don't wrap content in an `overflow-y: auto` div as a workaround",
+      "blocker": "When the document's root scroller is scrolling, Chrome resolves the `scrollIntoView()` promise too early (quote: \"Chrome has a bug where the `Promise` returned by `scrollIntoView()` resolves too early when it is the document's root scroller that is scrolling.\")",
+      "outcome": "The guide gives no fix beyond not wrapping, so page-level effects may still fire early (official claim)",
+      "story": "The same code timed perfectly inside a sidebar list flashed early when used on the whole page.",
+      "unlock": "",
+      "support": "Scroll method promises: Limited"
+    },
+    "mwg:scroll-entry-exit-effects": {
+      "title": "Build entry and exit effects with `view()` and `animation-range: entry, exit`",
+      "action": "Write separate `@keyframes` for entry (fill `backwards`) and exit (fill `forwards`), bind them with `animation-timeline: view()` to the element's own visibility, and limit them with `animation-range: entry, exit`; or use range selectors like `entry 0%` and `exit 100%` in one `@keyframes`",
+      "blocker": "The guide doesn't say what breaks in the old approach; it only says the fallback is IntersectionObserver and native is more performant (quote: \"In browsers with built-in support for scroll-driven animations, ALWAYS use the native CSS implementation as those are more performant.\")",
+      "outcome": "Pure CSS drives entry and exit by scroll position; scroll-driven animations are Newly available and decorative effects may skip a fallback (official claim)",
+      "story": "Cards that grow as they slide in and shrink as they leave used to need an observer per element and ratio maths. Now one set of keyframes on a view timeline moves exactly as much as you scroll.",
+      "unlock": "Entry and exit effects used to need IntersectionObserver ratios per element → horizontal galleries, timelines and product rows can scale and fade each item as it enters and leaves, rewinding automatically when scrolled back",
+      "support": "Scroll-driven animations: Baseline Newly available (since 2026-10-27)"
+    },
+    "mwg:scroll-entry-exit-effects:2": {
+      "title": "`@supports` must also check `animation-range: entry`",
+      "action": "Write the check as `@supports ((animation-timeline: view()) and (animation-range: entry))`",
+      "blocker": "Checking only `animation-timeline` lets partially supporting browsers through (quote: \"The `(animation-range: entry)` check **MUST** be included here, to filter out browsers with only partial support.\")",
+      "outcome": "Partially supporting browsers are filtered out and take the fallback or no effect (official claim)",
+      "story": "Detection passed, but in some browsers the effect ran in the wrong range.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly"
+    },
+    "mwg:scroll-entry-exit-effects:3": {
+      "title": "Put `animation-timeline` and `animation-range` after the `animation` shorthand",
+      "action": "Write the `animation` shorthand first, then `animation-timeline` and `animation-range`",
+      "blocker": "A shorthand written later resets the timeline and range (quote: \"declare `animation-timeline` and `animation-range` *after* it to prevent the shorthand from resetting them.\")",
+      "outcome": "In the right order the timeline and range are kept (official claim)",
+      "story": "The animation played once on page load, unrelated to scrolling.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly"
+    },
+    "mwg:scroll-entry-exit-effects:4": {
+      "title": "In a single keyframes rule, spell out the resting state across the middle",
+      "action": "Set the resting value (e.g. `scale: 1`) at `entry 100%, exit 0%` together, with `animation-fill-mode: both`",
+      "blocker": "Without the middle, the element interpolates straight from `entry 0%` to `exit 100%` (quote: \"Explicitly set the resting state across the middle (`contain`) phase so the element doesn't interpolate straight from entry 0% to exit 100%\")",
+      "outcome": "The element stays at its normal size while fully in view (official claim)",
+      "story": "Cards started shrinking the moment they entered, never resting at normal size.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly"
+    },
+    "mwg:scroll-snap-realtime-feedback": {
+      "title": "Use `scrollsnapchanging` to mark the pending snap target before the finger lifts",
+      "action": "Listen for `scrollsnapchanging` on the scroll container and use `event.snapTargetInline` (or `snapTargetBlock`) to add a `pending` style to the matching thumbnail; listen for `scrollsnapchange` to make it `active` and update `aria-current` once it actually snaps",
+      "blocker": "Traditional scroll snap only gives feedback after the gesture completes and the element settles (quote: \"Traditional scroll snap only provides feedback *after* the scroll gesture completes and the element settles.\")",
+      "outcome": "Supporting browsers can highlight the item about to settle while dragging; Chrome/Edge 129 only, and other browsers must compute the closest item with `scroll` plus `requestAnimationFrame` or the linked UI desynchronises from the content (official claim)",
+      "story": "Swiping the gallery, the thumbnail strip only switched its highlight after the swipe settled; mid-drag you couldn't tell where it would land. The native event announces \"about to stop here\" early, but only Chromium provides it.",
+      "unlock": "Snap feedback used to wait until settling → wheel-style pickers (date, time, quantity) and gallery thumbnail strips can preview the result mid-drag, lighting up like a physical dial. Chromium only for now",
+      "support": "Scroll snap events: Limited availability. Supported by: Chrome 129, Edge 129. Unsupported in: Firefox, Safari (scroll snap itself is Widely)"
+    },
+    "mwg:scroll-snap-realtime-feedback:2": {
+      "title": "Sync the initial state yourself when the scroll position is restored on load",
+      "action": "On page load (`load` or `readyState === 'complete'`), run one geometric check to find the item closest to centre and mark it active",
+      "blocker": "When the browser restores the scroll position via history or an anchor, neither `scrollsnapchange` nor `scroll` fires (quote: \"Neither `scrollsnapchange` nor `scroll` events will fire automatically.\")",
+      "outcome": "The one-off check aligns the initial highlight with the actual position (official claim)",
+      "story": "Going back to the gallery, the view sat on the fifth photo while the thumbnail strip still highlighted the first.",
+      "unlock": "",
+      "support": "Scroll snap events: Limited"
+    },
+    "mwg:scroll-snap-state-sync": {
+      "title": "Use `scrollsnapchange` to sync the table-of-contents highlight when scrolling settles on a new section",
+      "action": "Set `scroll-snap-type` on the container and `scroll-snap-align: start` on section headings, listen for `scrollsnapchange`, and update the active sidebar link from `event.snapTargetBlock`",
+      "blocker": "The guide only says this used to need complex scroll listeners, manual offset maths and IntersectionObserver, not when those break (quote: \"traditionally required complex scroll event listeners, manual calculations of scroll offsets, and intersection observers.\")",
+      "outcome": "Supporting browsers fire once when scrolling settles on a new snap target; Chrome/Edge 129 only, other browsers fall back to IntersectionObserver, which fires during the scroll rather than after it settles (official claim)",
+      "story": "A long article with a sidebar TOC should light up whichever section you are reading; you used to compute that yourself. Snap events hand you \"where it stopped\", but cross-browser you still keep an observer version.",
+      "unlock": "\"Which section are we on?\" used to need offset maths → slide-style documents, chaptered help pages and vertical short-video feeds can sync page numbers, TOCs or playback when scrolling stops. Chromium only for now",
+      "support": "Scroll snap events: Limited availability. Supported by: Chrome 129, Edge 129. Unsupported in: Firefox, Safari"
+    },
+    "mwg:scroll-snap-state-sync:2": {
+      "title": "Snap events only sync visuals; expose the active state with `aria-current`",
+      "action": "Set `aria-current=\"true\"` or `\"location\"` on the active TOC link and wrap the TOC in a named `<nav>`",
+      "blocker": "Scroll snap events sync the screen but don't expose that state programmatically (quote: \"it does not automatically expose that information programmatically.\")",
+      "outcome": "The active state is reflected in the accessibility tree (official claim)",
+      "story": "Visually the TOC highlighted section three; a screen reader user heard every link the same and couldn't tell where they were.",
+      "unlock": "",
+      "support": "aria-current: no support data in the guide; N/A"
+    },
+    "mwg:scroll-snap-state-sync:3": {
+      "title": "Be careful with `mandatory` snapping when sections are taller than the screen",
+      "action": "Use `scroll-snap-type: y proximity` for section snapping in long articles rather than `mandatory`",
+      "blocker": "`mandatory` can make content between snap points that is taller than the screen unreachable (quote: \"it can cause content in-between snap-points to become inaccessible when longer than the screen.\")",
+      "outcome": "`proximity` only snaps near snap points, so content in between scrolls freely (official claim)",
+      "story": "A section longer than the screen kept yanking you to the next heading; the second half was never visible.",
+      "unlock": "",
+      "support": "Scroll snap: Baseline Widely available (since 2020-01-15)"
+    },
+    "mwg:scroll-target-on-load": {
+      "title": "Use `scroll-initial-target: nearest` so a list opens on a chosen item",
+      "action": "Set `scroll-initial-target: nearest` on the child that should be visible first (today in a calendar, a specific photo in a gallery, a featured item in a feed)",
+      "blocker": "This used to be done with `scrollIntoView()` or a `#item-id` fragment; the guide only says both have limitations and are tricky, not when they break (quote: \"both of which have limitations and are tricky to implement.\")",
+      "outcome": "Supporting browsers bring the target into view during layout; Chrome/Edge 133 only, other browsers still need `scrollIntoView({ behavior: \"instant\" })` after `DOMContentLoaded` (official claim)",
+      "story": "A calendar should open on today, not January 1st. The property lets CSS declare the starting position without waiting for script; Firefox and Safari still need the script.",
+      "unlock": "Middle-start scrolling used to wait for JS → calendars on today, chats on the last read message, timelines on now — right on the first frame. Chromium only for now",
+      "support": "scroll-initial-target: Limited availability. Supported by: Chrome 133, Edge 133. Unsupported in: Firefox, Safari"
+    },
+    "mwg:scroll-target-on-load:2": {
+      "title": "`scroll-initial-target` moves the view, not keyboard focus",
+      "action": "If the target should also be the keyboard starting point, call `element.focus()` separately",
+      "blocker": "The property only moves the visual scroll position; keyboard focus stays where it was (quote: \"This property only moves the **visual** viewport; it does not move the keyboard focus.\")",
+      "outcome": "With focus moved manually, view and focus agree (official claim)",
+      "story": "The view opened on today, but one Tab jumped back to the first link at the top.",
+      "unlock": "",
+      "support": "scroll-initial-target: Limited"
+    },
+    "mwg:scroll-target-on-load:3": {
+      "title": "Give media before the initial target its dimensions",
+      "action": "Set `aspect-ratio` or fixed `width`/`height` on images and videos",
+      "blocker": "The scroll position is computed during initial layout; media that loads later grows and pushes the target away (quote: \"ensure images or videos have `aspect-ratio` or fixed `height`/`width` to prevent the target from shifting after the media loads.\")",
+      "outcome": "With space reserved, the target stays where it was computed (official claim)",
+      "story": "The feed did open on the featured item, then the images above it loaded and pushed it off-screen.",
+      "unlock": "",
+      "support": "scroll-initial-target: Limited"
+    },
+    "mwg:scroll-target-on-load:4": {
+      "title": "URL fragments and `scroll-start` override `scroll-initial-target`; set only one per container",
+      "action": "Give only one element per scroll container `scroll-initial-target`; remember that URL fragments and the container's `scroll-start` take precedence",
+      "blocker": "With several elements set, only the first in DOM order is used; with a fragment in the URL the property is ignored (quote: \"A URL fragment (e.g., `example.com/#top`) and the container-level `scroll-start` property both take precedence over `scroll-initial-target`.\")",
+      "outcome": "Knowing the precedence makes the starting position predictable (official claim)",
+      "story": "A shared link carried `#top`, so the recipient's list opened at the top instead of the featured item.",
+      "unlock": "",
+      "support": "scroll-initial-target: Limited"
+    },
+    "mwg:scrollytelling": {
+      "title": "Use named `view-timeline`s and `timeline-scope` so one set of sections drives another set's animations",
+      "action": "Put named timelines like `view-timeline: --tl-1 block` on the tracked sections, publish them with `timeline-scope` on a common ancestor (often `html`), bind the animated elements with `animation-timeline: --tl-1`, and set exact ranges with `animation-range`",
+      "blocker": "The guide doesn't say what breaks in the old approach; it only says this needs no JavaScript and follows scroll position rather than a clock (quote: \"The animations are controlled by the scroll position, not a time-based clock, which ensures they are always in sync with the user's scroll.\")",
+      "outcome": "Pure CSS lets text sections drive the images on the other side; scroll-driven animations are Newly available, with IntersectionObserver plus many thresholds as fallback (official claim)",
+      "story": "Text on the left, a picture on the right that changes with each section. The text is the timeline and the picture the animation; they needn't be parent and child — timeline-scope ties them together.",
+      "unlock": "\"Read this paragraph and the graphic changes\" used to need a library like scrollama → year-in-review pages, product tours and data journalism can let each paragraph drive a pinned layer, rewinding when scrolled back",
+      "support": "Scroll-driven animations: Baseline Newly available (since 2026-10-27)"
+    },
+    "mwg:scrollytelling:2": {
+      "title": "Add `animation-range: 0% 100%` to the check to filter partial support",
+      "action": "Write `@supports ((animation-timeline: scroll()) and (animation-range: 0% 100%))`",
+      "blocker": "Checking only `animation-timeline` lets partially supporting browsers through (quote: \"The `(animation-range: 0% 100%)` check **MUST** be included here, to filter out browsers with only partial support.\")",
+      "outcome": "Partially supporting browsers take the fallback (official claim)",
+      "story": "Detection said yes, but the ranges were ignored and the image appeared at the wrong section.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly"
+    },
+    "mwg:scrollytelling:3": {
+      "title": "Put `animation-timeline` after the `animation` shorthand",
+      "action": "Write the `animation` shorthand first, then `animation-timeline` and `animation-range`",
+      "blocker": "The shorthand resets the timeline (quote: \"declare `animation-timeline` and `animation-range` *after* it to prevent the shorthand from resetting the timeline.\")",
+      "outcome": "In the right order the timeline is kept (official claim)",
+      "story": "Every section's animation played through by itself on load.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly"
+    },
+    "mwg:scrollytelling:4": {
+      "title": "Content must stay visible if the fallback script doesn't run or reduced motion is requested",
+      "action": "Attach the fallback's \"hidden first\" styles only to a `.scroll-fallback` class added by script; under `prefers-reduced-motion: reduce` force `opacity: 1` and `transform: none`",
+      "blocker": "Hiding sections by default while waiting for animation leaves content invisible forever if the script doesn't run (quote: \"The CSS only hides the sections once this class is set, so they stay visible if the script doesn't run\")",
+      "outcome": "If the script fails or motion is reduced, the story remains fully readable (official claim)",
+      "story": "The script was blocked and the whole right column stayed blank; half the story was missing.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly"
+    },
+    "mwg:search-hidden-content": {
+      "title": "Hide content with `<details>` or `hidden=\"until-found\"` so find-in-page still reaches it",
+      "action": "Prefer `<details>` for ordinary disclosure; when the controls live elsewhere in the DOM, styling must be fully custom, or content won't be re-hidden, use `hidden=\"until-found\"` and sync related state in `beforematch` (e.g. set `aria-expanded=\"true\"`, close other panels)",
+      "blocker": "Content hidden with `display: none` or `visibility: hidden` is completely unreachable to screen readers and Find in page (quote: \"they also make that content completely inaccessible to screen readers and browser features like \"Find in page\".\")",
+      "outcome": "Hidden content can be found by find-in-page, URL fragments and Scroll to Text Fragment links and is revealed automatically; `<details>` is Widely available, `hidden=\"until-found\"` is unsupported in Safari, where the fallback expands everything (official claim)",
+      "story": "Text inside tabs and custom accordions couldn't be found with Ctrl+F, and shared text-fragment links didn't open. With until-found the browser reveals the match itself and fires beforematch so buttons can catch up.",
+      "unlock": "Custom tab contents used to be invisible to search → settings pages with many tabs, tabbed code samples on docs sites and product spec switchers can be hit directly by Ctrl+F and text-fragment links that switch to the right tab. Safari falls back to expanding everything",
+      "support": "<details>: Widely. hidden=\"until-found\": Limited availability. Supported by: Chrome 102, Edge 102, Firefox 148. Unsupported in: Safari"
+    },
+    "mwg:search-hidden-content:2": {
+      "title": "Don't add `display` or `visibility` to `hidden=\"until-found\"` elements",
+      "action": "Leave hiding entirely to `hidden=\"until-found\"`; don't add `display: none`, `visibility: hidden` or similar",
+      "blocker": "Those styles break the native behaviour and remove the content from the search index for good (quote: \"This breaks the native functionality and permanently hides the content from the search index.\")",
+      "outcome": "Without overrides, search finds and reveals it (official claim)",
+      "story": "An extra `display: none` \"to be safe\" made until-found do nothing.",
+      "unlock": "",
+      "support": "hidden=\"until-found\": Limited"
+    },
+    "mwg:search-hidden-content:3": {
+      "title": "Put borders, padding and backgrounds on an inner wrapper, not the until-found element",
+      "action": "Apply borders, padding and backgrounds to a child wrapper",
+      "blocker": "Applied directly to the `hidden=\"until-found\"` element they leave layout shifts or visual remnants while hidden (quote: \"This prevents unintended layout shifts or visual remnants while the element is hidden.\")",
+      "outcome": "Hidden panels leave no trace (official claim)",
+      "story": "A collapsed panel still showed an empty border and a strip of height.",
+      "unlock": "",
+      "support": "hidden=\"until-found\": Limited"
+    },
+    "mwg:search-hidden-content:4": {
+      "title": "Don't hide sensitive or irrelevant data with `hidden=\"until-found\"`",
+      "action": "Keep sensitive information, internal data tokens and content that shouldn't be searchable out of until-found sections",
+      "blocker": "until-found content is found and revealed by find-in-page (quote: \"**DO NOT** use `hidden=\"until-found\"` for sensitive information, internal data tokens, or irrelevant data that should not be exposed via search.\")",
+      "outcome": "Kept out, it can't be revealed by search (official claim)",
+      "story": "Thinking hidden meant safe, internal fields were turned up by a user's search.",
+      "unlock": "",
+      "support": "hidden=\"until-found\": Limited"
+    },
+    "mwg:spatial-navigation": {
+      "title": "Don't `preventDefault()` when there is no candidate in that direction; let the browser scroll",
+      "action": "Intercept arrow keys only in composite widgets; only when a candidate is found call `preventDefault()`, move the roving tabindex and `scrollIntoView({ block: 'nearest', inline: 'nearest' })`; otherwise return; ignore modifier keys, already-handled events and targets that use arrows themselves (editable fields, sliders)",
+      "blocker": "Overriding arrow keys unconditionally kills native scrolling and breaks accessibility (quote: \"Overriding arrow keys unconditionally breaks accessibility (WCAG 1.4.10).\")",
+      "outcome": "Arrow keys at the edge go back to the browser to scroll the viewport (official claim)",
+      "story": "A media rail got arrow-key navigation; with focus on the last row, pressing Down no longer scrolled the page.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:spatial-navigation:2": {
+      "title": "Pick the next focus from live geometry on each keypress, not index or DOM order",
+      "action": "On keypress read `getBoundingClientRect()` for the current and candidate elements (no caching), test direction by edges, prefer candidates overlapping on the perpendicular axis, else score `gap + w * perpendicular offset`; only consider elements passing `checkVisibility()`",
+      "blocker": "In asymmetric, wrapped or grid layouts index mapping picks wrong; hidden elements can have a zero-size rect at `(0, 0)` and become accidental up/left targets (quote: \"In asymmetrical, wrapped, or grid layouts, index-based mapping fails.\"; \"Hidden elements can have a zero-sized rect at `(0, 0)` and must not become accidental `up` or `left` targets.\")",
+      "outcome": "Focus moves along the visually adjacent row or column (official claim)",
+      "story": "Wide and narrow cards mixed: Right jumped to the start of the next line, and a hidden button made Up fly to the top-left corner.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:spatial-navigation:3": {
+      "title": "Roving tabindex needs composite-widget roles; screen readers ignore tabindex alone",
+      "action": "Give the container and items roles that fit the use: `grid`/`gridcell`, `tablist`, `listbox`/`option`, `tree`, `treegrid` or `combobox`",
+      "blocker": "Without matching roles, roving tabindex doesn't work with screen readers (quote: \"Roving tabindex only works with screen readers when the container and items have appropriate composite-widget roles and states (e.g. grid/gridcell, listbox/option); tabindex alone isn't enough.\")",
+      "outcome": "With roles and states, screen readers understand the single tab stop and arrow movement (official claim)",
+      "story": "Keyboard users loved it; screen reader users heard a pile of unrelated buttons and never learned arrows worked.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:spatial-navigation:4": {
+      "title": "Use `composedPath()[0]` to find where the key came from, not just `e.target`",
+      "action": "Take the innermost target with `e.composedPath()[0]` and check it against `:read-write, select, input[type=\"range\"], [role=\"slider\"]` to see if it uses arrows itself",
+      "blocker": "`e.target` can be retargeted to a shadow host, hiding that the key came from an input inside (quote: \"Use `e.composedPath()[0]` rather than only `e.target`, because `e.target` can be retargeted to a shadow host.\")",
+      "outcome": "Inputs inside web components keep their own arrow behaviour (closed shadow roots still can't be inspected) (official claim)",
+      "story": "Pressing Left inside a custom element's text field to move the caret jumped focus to the neighbouring card.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:swipe-to-remove": {
+      "title": "Build swipe-to-remove with scroll snap and IntersectionObserver, not hand-written pointer events",
+      "action": "Make each row a three-column (left spacer, content, right spacer) horizontal track with `scroll-snap-type: x mandatory`; an IntersectionObserver rooted at the track watches the content, popping the icon below `activateThreshold` and committing with the collapse animation below `commitThreshold`",
+      "blocker": "Driving a transform yourself with `pointerdown`/`pointermove`/`pointerup` loses the momentum, snap-back and keyboard scrolling native scrolling gives for free (quote: \"You'll lose the momentum, snap-back, and keyboard scrolling that native scrolling gives you for free.\")",
+      "outcome": "The gesture belongs to the browser's scroll engine, so momentum and snapping are native; scroll snap, IntersectionObserver, MutationObserver and Web Animations are all Widely available (official claim)",
+      "story": "A hand-built swipe-to-delete didn't coast after release and judged speed oddly. Making the row a snapping horizontal scroller gives native feel; the code only watches how much content is still on screen.",
+      "unlock": "",
+      "support": "Scroll snap, Intersection observer, MutationObserver, Web animations: Baseline Widely available"
+    },
+    "mwg:swipe-to-remove:2": {
+      "title": "Set `overscroll-behavior-x: none` on the track to stop over-swipes triggering Back",
+      "action": "Set `overscroll-behavior-x: none` on each row's horizontal track",
+      "blocker": "Without it, an over-swipe can trigger the iOS/Android back-navigation gesture (quote: \"Without it, an over-swipe can trigger the browser's back-navigation gesture on iOS/Android.\")",
+      "outcome": "The swipe stays inside the row; the guide lists overscroll-behavior as Limited but says the track is always scrollable here, so behaviour is consistent and needs no fallback (official claim)",
+      "story": "A hard swipe right to archive an email sent the whole page back to the previous one.",
+      "unlock": "",
+      "support": "overscroll-behavior: Limited availability. Supported by: Chrome 144, Edge 144, Firefox 150. Unsupported in: Safari (the guide notes this only affects containers without scrollable overflow)"
+    },
+    "mwg:swipe-to-remove:3": {
+      "title": "Use `mandatory` snapping, not `proximity`",
+      "action": "Set `scroll-snap-type: x mandatory` on the track",
+      "blocker": "`proximity` lets the row rest half-scrolled with the action background half visible (quote: \"With `proximity`, the row can rest partially scrolled, leaving the action background half-visible.\")",
+      "outcome": "The row always rests on the content or a spacer (official claim)",
+      "story": "A light flick left one row stuck half-open with a strip of red showing.",
+      "unlock": "",
+      "support": "Scroll snap: Widely"
+    },
+    "mwg:swipe-to-remove:4": {
+      "title": "Give every swipe action a visible button alternative",
+      "action": "Put a native button of at least 24×24 CSS px in each row, named with the item, that runs the same `commit` function as the swipe",
+      "blocker": "Swiping can't be done by keyboard, single tap or screen reader; swipe-only functions fail the pointer-gestures criterion (quote: \"functionality must not be available solely through swiping gestures.\")",
+      "outcome": "Voice control, keyboard and screen reader users can perform the same action (official claim)",
+      "story": "A voice control user could say \"delete\" but not swipe, so the email could never be deleted.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:swipe-to-remove:5": {
+      "title": "Don't make the track focusable when the row has buttons, and offer undo",
+      "action": "Don't add `tabindex` to the track of rows that already have action buttons; consider an undo toast after removal",
+      "blocker": "A focused track commits the action on arrow keys with no confirmation, and the swipe is easy to trigger by accident (quote: \"arrow keys on a focused track commit the action with no confirmation.\"; \"the gesture is fast and easy to trigger by accident.\")",
+      "outcome": "Keyboard deletion only happens through the button, and mistakes can be undone (official claim)",
+      "story": "A keyboard user tabbed to a row, pressed an arrow to look further, and the row was deleted.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:swipe-to-remove:6": {
+      "title": "In Safari, removing a node mid-momentum makes the next row scroll itself away",
+      "action": "When `GestureEvent` (Safari-only) exists, mark the row `inert` and delay the actual `remove()` by a few seconds",
+      "blocker": "Safari's scroll-latching bug: removing the node while momentum is still resolving lets the next row inherit the scroll and immediately scroll off-screen (quote: \"causes the next item (which slides up into this one's place) to inherit the scroll and immediately scroll itself off-screen.\")",
+      "outcome": "Delaying removal avoids it, at the cost of the node staying in the DOM a few seconds longer (official claim)",
+      "story": "Deleting one email on an iPhone also slid the next one away, looking like two deletions.",
+      "unlock": "",
+      "support": "Browser bug; no support data in the guide; N/A"
+    },
+    "mwg:swipe-to-remove:7": {
+      "title": "Apply `scroll-initial-target` only once the track is actually a scroll container",
+      "action": "Scope the content's `scroll-initial-target: nearest` under the `.is-initialized` selector so it only applies after JS has wired the row",
+      "blocker": "Before the track is a scroll container, the property walks up to the nearest scrollable ancestor (usually the page) and changes the page's initial scroll (quote: \"would let the property walk up to the nearest scrollable ancestor (typically the document) and shift the page's initial scroll position\")",
+      "outcome": "The property only acts on the row's own track (official claim)",
+      "story": "The list sat mid-page, yet opening the page scrolled straight to one of its rows.",
+      "unlock": "",
+      "support": "scroll-initial-target: Limited availability. Supported by: Chrome 133, Edge 133. Unsupported in: Firefox, Safari"
+    },
+    "mwg:swipe-to-remove:8": {
+      "title": "Run the fallback's programmatic scroll before attaching the observer",
+      "action": "Without `scroll-initial-target`, set `track.scrollLeft = track.clientWidth` after adding `.is-initialized` and before attaching the inner IntersectionObserver; re-apply with a ResizeObserver on resize and unobserve before removal",
+      "blocker": "In the wrong order the initial programmatic scroll is seen as a swipe and commits immediately (quote: \"Otherwise the initial programmatic scroll past the left spacer will be observed as a \"swipe\" and immediately fire the commit handler.\")",
+      "outcome": "In the right order rows rest quietly on their content (official claim)",
+      "story": "Opening the inbox in Firefox, every row deleted itself as soon as it appeared.",
+      "unlock": "",
+      "support": "scroll-initial-target: Limited"
+    },
+    "mwg:swipe-to-remove:9": {
+      "title": "Set up each row when it enters the viewport, and wire later rows with MutationObserver",
+      "action": "An outer IntersectionObserver calls `setupItem()` the first time a row enters view and pauses the inner observer when it leaves; a MutationObserver on the `<ul>` registers newly added rows",
+      "blocker": "Wiring everything at load reads `clientWidth` as 0 before rows render, and rows added later never get wired (quote: \"`setupItem` reads layout-dependent values like `clientWidth`, which return 0 until the item is rendered\"; \"Without it, items appended after page load won't get wired up.\")",
+      "outcome": "Every row gets real dimensions and the observer count stays proportional to what is visible (official claim)",
+      "story": "New emails from infinite scroll wouldn't swipe, and older ones' fallback scroll went to 0.",
+      "unlock": "",
+      "support": "Intersection observer, MutationObserver: Widely"
+    },
+    "mwg:swipe-to-remove:10": {
+      "title": "Write the removal result into a `role=\"status\"` that was already on the page",
+      "action": "Render an empty `role=\"status\"` from the start and write e.g. \"Item One removed\" into it on removal",
+      "blocker": "A row disappearing isn't announced, and screen readers only announce changes to live regions that existed before the change (quote: \"A row disappearing isn't announced\"; \"screen readers only announce changes to live regions that existed before the change.\")",
+      "outcome": "Screen reader users learn which item was removed (official claim)",
+      "story": "A screen reader user pressed Remove, heard nothing, and couldn't tell whether it worked.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:swipe-to-remove:11": {
+      "title": "Before removing the focused row, move focus to the next row",
+      "action": "If focus is inside the row, move it to the next row (or previous, or the list heading) before removal, keeping the same kind of element (track to track, button to button)",
+      "blocker": "Removing or inerting the row containing focus drops focus to `<body>` (quote: \"Removing or inerting the row drops focus to <body> if focus is inside it\")",
+      "outcome": "Keyboard users can carry on with the next row (official claim)",
+      "story": "After deleting an email with the button, the next Tab started from the top of the page.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:swipe-to-remove:12": {
+      "title": "In forced colors, paint the action icon with `CanvasText` through a mask",
+      "action": "Under `@media (forced-colors: active)` set `forced-color-adjust: none`, use `CanvasText` as the background and the icon as a `mask`",
+      "blocker": "Forced colors replaces the action background with `Canvas`, hiding the white icon (quote: \"Forced colors replaces the action background with Canvas, which hides the white icon.\")",
+      "outcome": "The icon stays visible in forced colors (official claim)",
+      "story": "A high-contrast user swiped a row open and saw only blank space, with no hint of what would happen.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:swipe-to-reveal": {
+      "title": "Build swipe-to-reveal with scroll snap; don't intercept wheel, touchmove or pointermove",
+      "action": "Make the outer `.SwipeReveal` a two-column grid (`100% max-content`) horizontal scroller with `scroll-snap-type: x mandatory`; content snaps to `start`, the action panel to `end`",
+      "blocker": "Intercepting gestures on the main thread to translate content yourself blocks compositor scrolling, breaks momentum and hurts responsiveness (quote: \"Main-thread gesture interception blocks compositor-driven scrolling, breaks native scroll momentum, and degrades responsiveness.\")",
+      "outcome": "Momentum, snapping, keyboard focus scrolling and scroll chaining are handled by the browser with no gesture listeners (official claim)",
+      "story": "A hand-built swipe list stuttered on low-end phones and stopped stiffly after release. As a snapping horizontal scroller, it opens with native-app feel.",
+      "unlock": "",
+      "support": "Scroll snap: Baseline Widely available (since 2020-01-15)"
+    },
+    "mwg:swipe-to-reveal:2": {
+      "title": "Use `overscroll-behavior: chain` on the outer swipe wrapper: scroll still chains, but no bounce",
+      "action": "Set `overscroll-behavior: chain` on the outer `.SwipeReveal`; keep the default `auto` on inner scrollable content panes",
+      "blocker": "The default `auto` makes the outer wrapper rubber-band and the menu bounce with it; `contain` or `none` trap scrolling so it never reaches the page (quote: \"avoid on the outer swipe wrapper where it causes the menu to bounce\")",
+      "outcome": "In supporting browsers excess scroll passes to the parent and the action strip no longer bounces; `chain` is Limited, and browsers that don't recognise it drop it at parse time and keep `auto`, still working but bouncing (official claim)",
+      "story": "Swiping the action strip open made it rubber-band, buttons and all, which felt cheap. You used to choose between \"bounces\" and \"traps scroll\"; the new keyword separates chaining from bouncing.",
+      "unlock": "Nested scrollers used to force a choice between bouncing and trapping → vertical feeds can contain swipe-to-act rows, side-swipeable cards or horizontal chip rows that don't bounce at the edge and hand extra scroll to the page. Safari still bounces",
+      "support": "overscroll-behavior: Limited availability. Supported by: Chrome 144, Edge 144, Firefox 150. Unsupported in: Safari"
+    },
+    "mwg:swipe-to-reveal:3": {
+      "title": "Snap the reveal panel with `mandatory`, not `proximity`",
+      "action": "Set `scroll-snap-type: x mandatory` on the outer wrapper",
+      "blocker": "With `proximity`, a light swipe can leave the buttons or side menu half exposed (quote: \"With `proximity`, a light swipe can leave the action buttons or side menu partially exposed at rest.\")",
+      "outcome": "The panel is either fully open or fully closed (official claim)",
+      "story": "Several rows showed half a \"Delete\" button.",
+      "unlock": "",
+      "support": "Scroll snap: Widely"
+    },
+    "mwg:swipe-to-reveal:4": {
+      "title": "Actions revealed by swiping need a trigger button that opens them",
+      "action": "Put a trigger button named with the item (`aria-expanded`) in the content; on press scroll to the panel and set the panel buttons' `tabindex` to 0; reverse on second press",
+      "blocker": "Functions only reachable by swiping fail the pointer-gestures criterion (quote: \"functionality must not be available solely through swiping gestures.\")",
+      "outcome": "Keyboard and voice control users can open and use the panel via the button (official claim)",
+      "story": "A keyboard user knew every row had \"Pin\" and \"Archive\" but found no way to open them.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:swipe-to-reveal:5": {
+      "title": "Use `scroll-initial-target` so rows with a leading panel start on the content column",
+      "action": "With panels on both sides (`max-content 100% max-content`), place the leading panel before the content and set `scroll-initial-target: nearest` on the content",
+      "blocker": "Unsupported browsers render at scroll offset 0 with the leading panel exposed (quote: \"browsers that do not support `scroll-initial-target: nearest` will initially render at scroll offset `0` with the leading panel exposed.\")",
+      "outcome": "Supporting browsers start on the content column; Chrome/Edge 133 only, others need `scrollTo({ behavior: 'instant' })` on `load` (official claim)",
+      "story": "Mail rows with swipe-left-to-archive and swipe-right-to-delete opened in Safari with every archive button already showing.",
+      "unlock": "Two-sided swipe rows used to need JS to scroll to the middle first → mail, to-do and chat lists can have one set of actions on the left and another on the right in pure CSS, resting in the middle on load. Chromium only for now",
+      "support": "scroll-initial-target: Limited availability. Supported by: Chrome 133, Edge 133. Unsupported in: Firefox, Safari"
+    },
+    "mwg:swipe-to-reveal:6": {
+      "title": "When overriding an existing `contain`/`none`, declare `auto` right before `chain`",
+      "action": "If base styles set `overscroll-behavior: contain` or `none`, declare `overscroll-behavior: auto` immediately before `overscroll-behavior: chain`",
+      "blocker": "Browsers that don't recognise `chain` drop the line and keep the earlier `contain`/`none`, trapping scroll (quote: \"declare `overscroll-behavior: auto` immediately before `overscroll-behavior: chain` so browsers that do not yet support `chain` still chain scrolling to the parent rather than trapping it.\")",
+      "outcome": "Unsupported browsers fall back to `auto` and still chain to the parent (official claim)",
+      "story": "A utility class defaulted to `overscroll-behavior: none`; in Safari, swiping up or down on that row moved nothing.",
+      "unlock": "",
+      "support": "overscroll-behavior: Limited"
+    },
+    "mwg:card": {
+      "title": "When a card has a lot of text or other actions, use a stretched link instead of wrapping it in `<a>`",
+      "action": "Wrap the `<article>` in one `<a>` only when the whole card is one destination and the text is short; otherwise make only the heading's `.card-link` a link and stretch its hit area with `::after` and `inset: 0`",
+      "blocker": "When the whole card is inside the link, the link's accessible name is all of the card's text (quote: \"Because the link's accessible name is all of the card's text, keep the content short\")",
+      "outcome": "The link name is just the heading while the whole card stays clickable (official claim)",
+      "story": "Screen reader users had to hear the whole summary, author and date in the link list to learn which article it was. Making only the heading a link and stretching the hit area fixes both hearing and clicking.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:card:2": {
+      "title": "\"Read more\" links need a full name that starts with the visible text",
+      "action": "Write `Read more<span>(visually hidden) about poached eggs</span>`; add no other links repeating the heading's URL",
+      "blocker": "Identical \"read more\" links can't be told apart in a screen reader's link list (quote: \"identical \"read more\" links are ambiguous in a screen reader's link list.\")",
+      "outcome": "Each link name identifies its destination (official claim)",
+      "story": "The link list showed ten \"Read more\" entries.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:card:3": {
+      "title": "Don't change layout-affecting properties when a choice card is selected",
+      "action": "Put a checkbox or radio in `<label class=\"card\">` and use `:has(> :checked)` to change only a transparent border's colour, `outline` or `box-shadow`",
+      "blocker": "Changing `border-width`, `padding` or `font-weight` on selection makes the card and its neighbours jump (quote: \"Never change layout-affecting properties such as `border-width`, `padding`, or `font-weight` on selection, because the card and its neighbors jump\")",
+      "outcome": "Selection only changes colour; the layout stays still (official claim)",
+      "story": "Selecting a plan card nudged the whole row two pixels to the right.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:card:4": {
+      "title": "Only one stretched link per card; lift other interactive elements individually",
+      "action": "Add `.card-link` to exactly one link per card; give other `a`, `button`, `input` etc. `position: relative; z-index: 1` by element type, never `z-index` on whole containers",
+      "blocker": "With several stretched links the last one covers the card; `z-index` on a whole container captures clicks that do nothing (quote: \"each would stretch its own overlay and the last one would capture the whole card\"; \"Do NOT apply `z-index` to entire containers as that would make them capture pointer events that don't produce any action.\")",
+      "outcome": "Clicks elsewhere on the card go to the main link, and buttons work on their own (official claim)",
+      "story": "Clicking \"Save\" on a card opened the article; clicking the footer's empty space did nothing.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:card:5": {
+      "title": "Lay out cards with the card itself as the query container, not the viewport or grid parent",
+      "action": "Set `container-type: inline-size` on the card and adapt children with `@container` rules; open a media side column only on cards with media via `:has(> img)`",
+      "blocker": "A card's real width depends on column count, gaps and so on, so parent-based breakpoints are unreliable (quote: \"the card's actual width can depend on column count, gaps and so on, making parent-based breakpoints are noisy.\")",
+      "outcome": "Narrow cards stack in source order and wide ones put media at the side, wherever they are placed (official claim)",
+      "story": "The same card was cramped in a three-column grid but used the wide layout in a sidebar.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:checkbox": {
+      "title": "Restyle checkboxes with `accent-color` or `appearance: none` while keeping the native `<input>`",
+      "action": "Use `accent-color` for a simple brand colour (keeping native rendering, keyboard, validation and system focus rings); for control over shape, size and states set `appearance: none` on `<input type=\"checkbox\">` and draw the check and `:indeterminate` dash with `::before` and `mask`",
+      "blocker": "The guide doesn't say what breaks in the old approach; it only says both techniques keep native behaviour or keep the `<input>` as the interactive target (quote: \"This removes the native visual styling while leaving the `<input>` as the interactive target.\")",
+      "outcome": "Both keep native interaction; the guide labels `accent-color` Limited and calls it progressive enhancement, falling back to default colours (official claim)",
+      "story": "Branded checkboxes were often a div plus an icon. Now one accent-color line recolours them, and bolder designs can be drawn on the input itself with keyboard, forms and screen readers untouched.",
+      "unlock": "Branded checkboxes used to mean a custom component → to-do lists, permission settings and bulk \"select all (partial)\" states can use native inputs that match the design, with a proper indeterminate icon",
+      "support": "accent-color: Limited availability. Supported by: Chrome 93, Edge 93, Firefox 92, Safari 26.2 (labelled Limited though all four engines are listed, as in mwg:brand-consistent-forms); Masks: Widely"
+    },
+    "mwg:checkbox:2": {
+      "title": "Safari's `accent-color` doesn't guarantee check-mark contrast; test it",
+      "action": "Test important accent colours in Safari in both light and dark schemes, keeping checked and indeterminate states at 3:1 contrast or more",
+      "blocker": "Safari may keep a white (light) or black (dark) check and adjust the accent behind it, which doesn't always give enough contrast (quote: \"This adjustment does not always provide sufficient contrast for every supplied color\")",
+      "outcome": "Tested combinations can be confirmed; the guide offers no automatic fix (official claim)",
+      "story": "Brand yellow with a black check was clear in Chrome; in Safari the check turned white and you could barely tell it was ticked.",
+      "unlock": "",
+      "support": "accent-color: Limited"
+    },
+    "mwg:checkbox:3": {
+      "title": "After `appearance: none`, give the checkbox a size yourself",
+      "action": "Set `--checkbox-size` and `--checkbox-icon-size` in relative units, with the icon smaller than the box",
+      "blocker": "`appearance: none` also removes the browser's default dimensions (quote: \"`appearance: none` removes the browser’s default dimensions.\")",
+      "outcome": "Box and check keep a fixed ratio and scale with text (official claim)",
+      "story": "Once the native look was removed, the checkbox shrank to an invisible dot.",
+      "unlock": "",
+      "support": "appearance: no support data in the guide; N/A"
+    },
+    "mwg:dark-mode-toggle": {
+      "title": "Changing `<meta name=\"color-scheme\">` alone does nothing; map it back to CSS with `:has()`",
+      "action": "Keep `color-scheme: light dark` on `:root`, then override it via `:root:has(> head > meta[name=\"color-scheme\"][content=\"dark\"])` (and `light`); the toggle only changes the meta's content",
+      "blocker": "The `<meta>` is only a presentational hint and author CSS `color-scheme` overrides it, so updating the meta alone is a no-op (quote: \"updating the `<meta>` alone is a **no-op** — CSS wins.\")",
+      "outcome": "`light-dark()`, system colours and native UI follow the override; without JS the meta stays `light dark` and follows the system (official claim)",
+      "story": "The toggle changed the meta, and the page's colours didn't move. Wiring the meta back to the color-scheme property brings every colour along at once.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:dark-mode-toggle:2": {
+      "title": "Apply the stored scheme with a synchronous inline script right after the `<meta>`",
+      "action": "Place a tiny inline `<script>` (not a module, no defer) right after `<meta name=\"color-scheme\">` that reads `localStorage` and writes it back to the meta",
+      "blocker": "Applying the stored preference later flashes the wrong scheme first (quote: \"To avoid a flash of the wrong scheme, apply the stored value in an inline script (NOT `type=module`, NOT `defer`) placed immediately after the `<meta>` element\")",
+      "outcome": "The first paint uses the user's chosen scheme (official claim)",
+      "story": "A user who chose dark got flashed with white on every page load.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:dark-mode-toggle:3": {
+      "title": "Compare with the system preference only when storing; never delete the stored value later just because they match",
+      "action": "A two-state toggle targets the opposite of what is shown; store it only if it differs from the system preference, remove the stored value if it matches; keep stored values that later match the system and don't clear them with `matchMedia()`",
+      "blocker": "Many systems switch by time of day, so deleting the stored value whenever they coincide makes pinning impossible; storing a value equal to the system silently pins it against future changes (quote: \"removing the stored value whenever the two happen to coincide would make it impossible to pin a scheme at all.\"; \"that would invisibly pin the scheme against future system changes.\")",
+      "outcome": "Users can pin a scheme and also return to following the system in one click (official claim)",
+      "story": "Pinned to dark during the day, the preference was wiped when the OS turned dark at dusk, and the next morning the site was light again.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:dark-mode-toggle:4": {
+      "title": "Don't branch non-colour values only on a JS-applied `.dark` class",
+      "action": "Branch font weights, image sources and other non-colour values with the `prefers-color-scheme` media query combined with a `:root:has(> head > meta[...][content=\"dark\"])` selector",
+      "blocker": "If JS doesn't load and the OS default is dark, branches that rely only on `.dark` are wrong (quote: \"they will be incorrect if JS doesn't load and the OS default is dark.\")",
+      "outcome": "Branches match the actual scheme whether or not JS runs (official claim)",
+      "story": "Dark OS, script blocked: a dark background with the black logo meant for light backgrounds.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:dialog": {
+      "title": "Use native `<dialog>` with `showModal()`; don't hand-write focus traps, inert or Esc",
+      "action": "Open blocking confirmations, forms and sign-in as `<dialog>` via `command=\"show-modal\"` or `showModal()`; add no `role=\"dialog\"`, `aria-modal`, focus trap, `inert` toggling or Esc handler",
+      "blocker": "The guide only says custom overlays must rebuild these behaviours by hand, not when the rebuilt version fails (quote: \"It provides the accessibility semantics, focus handling, top-layer rendering and `Esc` handling that custom overlays have to rebuild by hand.\")",
+      "outcome": "The browser provides an inert page, focus containment, top layer, `::backdrop`, Esc and back-gesture dismissal, and focus return to the invoker (official claim)",
+      "story": "Every project had its own modal component, each missing something different. Native dialog hands the whole bundle to the browser.",
+      "unlock": "",
+      "support": "<dialog> itself: no support data in the guide; N/A"
+    },
+    "mwg:dialog:2": {
+      "title": "Stop background scrolling under a modal with `overscroll-behavior`, not by locking `<body>`",
+      "action": "Set `overscroll-behavior: contain` on `dialog:modal`; set `overflow: hidden` plus `overscroll-behavior: contain` on `dialog::backdrop` (details in mwg:prevent-page-scroll-under-modal-dialog)",
+      "blocker": "Without both rules, scrolling over the backdrop or in the dialog scrolls the page behind; locking the root with `overflow: hidden` or `position: fixed` removes the scrollbar and shifts layout (quote: \"without them, scrolling over the backdrop or inside the dialog scrolls the page behind it\")",
+      "outcome": "Supporting browsers fully block background scrolling; Safari only when the dialog content overflows, and this can't be feature-detected (official claim)",
+      "story": "With a delete confirmation open, one swipe scrolled the list behind it away.",
+      "unlock": "Same as mwg:prevent-page-scroll-under-modal-dialog: every modal (lightbox, confirmation, form) can lock background scroll in pure CSS without layout jumps",
+      "support": "overscroll-behavior: Limited availability. Supported by: Chrome 144, Edge 144, Firefox 150. Unsupported in: Safari"
+    },
+    "mwg:dialog:3": {
+      "title": "Use `<dialog popover>` for panels people work alongside, not `showModal()`",
+      "action": "For find bars, inspectors, palettes and compose panes, use `<dialog popover>` (`auto` light-dismisses, `manual` doesn't) with a visible close button; for menus, tooltips and hovercards use a semantic element with `popover`, not `<dialog>`",
+      "blocker": "Opening such panels with `showModal()` blocks the whole page (quote: \"**DON'T** use `showModal()`, which blocks the page.\")",
+      "outcome": "The panel sits in the top layer while the page stays interactive and not inert; Popover is Newly available (official claim)",
+      "story": "Opening \"Find\" to search while clicking results locked the entire page until the dialog was closed.",
+      "unlock": "",
+      "support": "Popover: Baseline Newly available (since 2025-01-27)"
+    },
+    "mwg:dialog:4": {
+      "title": "Reset `returnValue` to an empty string after reading it",
+      "action": "In the `close` listener read `dialog.returnValue` to see which button was used, then set `dialog.returnValue = ''`, treating empty as \"dismissed without choosing\"",
+      "blocker": "Esc and other close requests set no value and browsers differ on clearing the previous one, so a stale value leaks into this close (quote: \"browsers differ on whether they clear the previous one, so without the reset a stale value can leak.\")",
+      "outcome": "Each close only sees this time's choice (official claim)",
+      "story": "Last time \"Delete\" was pressed; this time Esc closed the dialog, and the code deleted another item.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:dialog:5": {
+      "title": "When closing is blocked, tell the user why the dialog stayed open",
+      "action": "When `cancel` is prevented, show a visible message and reference it with `aria-describedby` from the control that receives focus (such as Discard)",
+      "blocker": "Without it, focus moving to a new button announces only that button's name (quote: \"Without it, focus moving to a new button announces only that button's name.\")",
+      "outcome": "Screen readers read the reason when focus moves (official claim)",
+      "story": "Esc didn't close the dialog and the screen reader only said \"Discard, button\"; the user had no idea what happened.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:dialog:6": {
+      "title": "Don't move buttons under the pointer when the confirmation appears",
+      "action": "Reserve the message's space (hide it with `visibility`, not `display` or `hidden`) and add the destructive button where existing buttons don't move",
+      "blocker": "If the layout shifts, a second click at the same spot hits Discard and throws away the user's changes (quote: \"so a second click at the same spot cannot discard the user's changes.\")",
+      "outcome": "Buttons stay put, so repeated clicks can't hit the destructive action (official claim)",
+      "story": "A double-click on \"Cancel\" landed its second click on the newly appeared \"Discard changes\".",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:dialog:7": {
+      "title": "Don't set `display` on `dialog` unconditionally",
+      "action": "Put layout `display` values on `dialog[open]`",
+      "blocker": "Setting it on `dialog` overrides the closed state (quote: \"It overrides the closed state. Scope it with `dialog[open]`.\")",
+      "outcome": "Closed dialogs stay hidden (official claim)",
+      "story": "`dialog { display: flex }` for layout left the dialog open from page load onwards.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:dialog:8": {
+      "title": "Guard unsaved changes in `cancel`, not with `closedby=\"none\"` alone",
+      "action": "With unsaved changes set `closedby=\"none\"` and also prevent and confirm in a `cancel` listener; use `command=\"request-close\"` or `requestClose()` for Cancel buttons",
+      "blocker": "Browsers without `closedby` ignore `closedby=\"none\"`, so Esc still fires `cancel` and closes the dialog (quote: \"`closedby=\"none\"` is ignored the same way: `Esc` fires `cancel` and then closes the dialog.\")",
+      "outcome": "The `cancel` guard works in every browser; `closedby` is Limited (official claim)",
+      "story": "Halfway through a long form in Safari, a stray Esc wiped everything.",
+      "unlock": "",
+      "support": "<dialog closedby>: Limited availability. Supported by: Chrome 134, Edge 134, Firefox 141. Unsupported in: Safari"
+    },
+    "mwg:hovercard": {
+      "title": "Use `interestfor` so a link shows its preview card on both hover and focus",
+      "action": "Add `interestfor=\"card id\"` to the trigger link and `popover=\"hint\"` to the card; tune open/close delays with `interest-delay`, and set the start delay to 0 via `:root:has(:interest-source)` when a card is already open",
+      "blocker": "The guide doesn't say what breaks in the old approach; it only says this ensures the card appears on hover and focus (quote: \"This ensures the card appears on both hover and focus.\")",
+      "outcome": "Shown on hover and focus with a default half-second delay against accidental opening; Interest invokers are Chrome/Edge 149 only, elsewhere the guide loads the `interestfor` polyfill (official claim)",
+      "story": "Link preview cards mostly listened for mouseover, so keyboard users never saw them. One attribute makes hover and Tab open the same card, with delays handled in CSS.",
+      "unlock": "Preview cards used to need hand-written hover, focus, delay and close timers → wiki-style term previews, user profile cards and citation previews can be declarative and keyboard-reachable. Native only in Chromium, polyfill elsewhere",
+      "support": "Interest invokers: Limited availability. Supported by: Chrome 149, Edge 149. Unsupported in: Firefox, Safari"
+    },
+    "mwg:hovercard:2": {
+      "title": "Use `popover=\"hint\"` for preview cards so open menus stay open",
+      "action": "Set `popover=\"hint\"` on the card container",
+      "blocker": "With a regular popover, showing a preview card closes other open popover menus (quote: \"Use `hint` to avoid closing unrelated popover menus that may be open.\")",
+      "outcome": "Hints don't affect other popovers; `popover=\"hint\"` is unsupported in Safari and falls back to `manual`, so a keyboard-opened card may stay open when another is opened by hover (official claim)",
+      "story": "With a menu open, moving the mouse over a link brought up the preview and the menu collapsed.",
+      "unlock": "Hints and menus used to close each other → toolbar menus can stay open while showing item explanations, and table filter panels can preview column definitions. Safari not yet supported",
+      "support": "popover=\"hint\": Limited availability. Supported by: Chrome 151, Edge 151, Firefox 153. Unsupported in: Safari"
+    },
+    "mwg:hovercard:3": {
+      "title": "When the hint repeats the trigger's name, add no ARIA",
+      "action": "Compare the normalised hint text with the trigger's accessible name and add no description if they match",
+      "blocker": "A description identical to the name is read twice (quote: \"A description identical to the name would be read twice.\")",
+      "outcome": "It is read once (official claim)",
+      "story": "\"Bold, button, Bold.\"",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:hovercard:4": {
+      "title": "Don't put `aria-expanded` on triggers that navigate or act",
+      "action": "For links and buttons with their own action, give the hint `role=\"tooltip\"` and the trigger `aria-describedby`; use `aria-expanded` only on buttons whose job is opening the hint",
+      "blocker": "A trigger announced as \"collapsed\" implies Enter expands it, but Enter navigates or acts (quote: \"A trigger announced as \"collapsed\" suggests `Enter` would expand it, but `Enter` navigates or acts.\")",
+      "outcome": "Screen reader users correctly expect what Enter does (official claim)",
+      "story": "A screen reader user pressed Enter expecting the preview to expand and was taken to another page.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:hovercard:5": {
+      "title": "Hints exposed as descriptions may only carry content users can afford to miss",
+      "action": "Keep hovercards to supplementary information available elsewhere; anything users need goes in a toggletip or inline",
+      "blocker": "Not every screen reader reads descriptions while browsing; NVDA skips them in browse mode by design (quote: \"Not every screen reader reads descriptions when moving through the page (NVDA skips them in browse mode by design)\")",
+      "outcome": "Even if the description isn't read, nothing essential is lost (official claim)",
+      "story": "An important restriction lived only in the hovercard; NVDA users never heard it.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:hovercard:6": {
+      "title": "Wire ARIA once the DOM is parsed, not on focus, interest or after the polyfill",
+      "action": "Run a small script in every browser, before loading the `interestfor` polyfill and once the DOM is parsed, that adds ARIA to all `[interestfor]` triggers, and expose it for content inserted later",
+      "blocker": "Browse-mode screen readers need the attributes before any interaction, so wiring on focus or interest is too late, as is waiting for the polyfill, which wires only on `load` and adds no `role=\"tooltip\"` to plain hints (quote: \"wiring them lazily on `focus` or `interest` is too late, and so is waiting for the polyfill\")",
+      "outcome": "Relationships are readable in browse mode from the start (official claim)",
+      "story": "A screen reader user arrowed through the whole page and no link had a description, because the attributes were only added on mouseover.",
+      "unlock": "",
+      "support": "Interest invokers: Limited"
+    },
+    "mwg:hovercard:7": {
+      "title": "Sync `aria-expanded` by listening for `toggle` in the capture phase on document",
+      "action": "Add one `capture: true` `toggle` listener on `document` that updates every script-owned trigger for that popover; don't sync from `interest`/`loseinterest`",
+      "blocker": "`toggle` doesn't bubble, so an ordinary listener on document never fires; and the popover can be closed by Esc, light dismiss or another trigger (quote: \"`toggle` does not bubble. A bubbling listener on `document` never fires\")",
+      "outcome": "State stays correct however the popover is closed (official claim)",
+      "story": "The hint was closed, but the screen reader still said \"expanded\".",
+      "unlock": "",
+      "support": "Popover: Baseline Newly available (since 2025-01-27)"
+    },
+    "mwg:hovercard:8": {
+      "title": "Use anchor positioning to keep the preview card under its link, flipping on overflow",
+      "action": "`interestfor` makes the trigger an implicit anchor; set `position-area: block-end span-inline-end` and `position-try-fallbacks: flip-block, flip-inline` on the card",
+      "blocker": "Without anchor positioning, popovers fall back to the default viewport-centred placement, detached from the trigger (quote: \"tethered elements such as `[popover]` overlays fall back to their default user-agent placement (centered in the viewport for popovers).\")",
+      "outcome": "The card sticks to the link and flips at viewport edges; core properties are Newly available, and without support you can load the polyfill (with explicit `anchor-name`) or fall back with `@supports` to centred or bottom-bar placement (official claim)",
+      "story": "The preview card appeared in the middle of the screen with no clue which link it belonged to. Anchor positioning grows it under the link and flips it near edges.",
+      "unlock": "Preview cards used to need Floating UI → link previews, people cards and footnote popups stick to their trigger and avoid edges with two lines of CSS",
+      "support": "Anchor positioning: recorded as Newly (core properties Baseline since 2026-01-13). The guide's \"Supported by: Safari 27 … Unsupported in: Chrome, Edge, and Firefox\" is a misleading group status (see lines/ui-components/app-menus.md); this line does not use `position-visibility`"
+    },
+    "mwg:hovercard:9": {
+      "title": "Without the polyfill, put `inset: auto` and `margin: 0` inside `@supports`",
+      "action": "Place `inset: auto`, `margin: 0` and `position-area` together inside `@supports (position-area: block-end)`, with an optional `@supports not (...)` fixed bottom bar",
+      "blocker": "Unsupported browsers ignore `position-area` but still apply `inset: auto`, overriding the default centring and stranding the popover at `(0, 0)` or over its trigger (quote: \"leaving the popover stranded at `(0, 0)` or overlapping its trigger.\")",
+      "outcome": "Without support, the default centring or a bottom bar is kept (official claim)",
+      "story": "In older browsers every preview card piled up in the top-left corner.",
+      "unlock": "",
+      "support": "Anchor positioning: recorded as Newly (misleading group status, see lines/ui-components/app-menus.md)"
+    },
+    "mwg:hovercard:10": {
+      "title": "Declare `transition-behavior: allow-discrete` separately after `transition`",
+      "action": "List `opacity, transform, display, overlay` in `transition`, then `transition-behavior: allow-discrete` on its own line; put entry values in `@starting-style`, all inside `prefers-reduced-motion: no-preference`",
+      "blocker": "Putting `allow-discrete` in the shorthand makes older browsers ignore the whole transition (quote: \"Declare `transition-behavior: allow-discrete` as a separate property after `transition` rather than inside the `transition` shorthand so older browsers do not ignore the entire `transition` declaration.\")",
+      "outcome": "Older browsers at least keep the plain fade (official claim)",
+      "story": "New browsers slid the card out elegantly; older ones lost even the basic fade.",
+      "unlock": "",
+      "support": "transition-behavior: no support data in the guide; N/A"
+    },
+    "mwg:hovercard:11": {
+      "title": "After clicking a preview card, morph it into the destination page with a cross-document transition",
+      "action": "Opt both pages into `@view-transition { navigation: auto; }`; give the card, title and image `view-transition-name` only inside `[popover]:popover-open`, with matching names on the destination; block rendering on the destination with `<link rel=\"expect\" href=\"#main-content\" blocking=\"render\">` until key content is parsed",
+      "blocker": "If the destination renders before its content is parsed, the transition is unstable and flickers (quote: \"To ensure the transition is stable and doesn't flicker, the destination page should use `blocking=\"render\"` and `<link rel=\"expect\">`\")",
+      "outcome": "In supporting browsers the card's title and image fly straight into place on the destination; cross-document view transitions are unsupported in Firefox, which does a normal navigation (official claim)",
+      "story": "The preview already showed the title and hero image, yet clicking flashed the page white and redrew it. Names live only on the open card, so they never collide, and the destination waits for its main content before the snapshot.",
+      "unlock": "\"Preview\" and \"open\" used to be two disconnected screens → multi-page sites can let article previews and product quick-view cards grow into the full page on click, without becoming a SPA. Firefox does a normal navigation",
+      "support": "Cross-document view transitions: Limited availability. Supported by: Chrome 126, Edge 126, Safari 18.2. Unsupported in: Firefox"
+    },
+    "mwg:menu": {
+      "title": "Declare popup menus with `focusgroup=\"menu\"` and `command=\"toggle-popover\"`",
+      "action": "Give the trigger `commandfor` and `command=\"toggle-popover\"`; the menu is the next-sibling `popover=\"auto\"` containing `<div focusgroup=\"menu nomemory\">`; don't write `role=\"menu\"`/`menuitem` so focusgroup can infer them; submenus are another `popover=\"auto\"` inside the parent focusgroup",
+      "blocker": "The guide only says not to add a second roving tabindex inside a focusgroup and that explicit roles block inference, not when a hand-written version fails (quote: \"Do not add a second roving-tabindex system inside a focusgroup.\")",
+      "outcome": "In supporting browsers focusgroup handles arrow movement and roles and invokers handle open, close and light dismiss; focusgroup is Chrome/Edge 150 only, elsewhere you install Up/Down/Home/End and roles yourself (official claim)",
+      "story": "Opening, closing, light dismiss, arrow keys and roles used to be your own JS. Now most of it is attributes; submenu preview and focus restoration are still script, and focusgroup is Chromium only.",
+      "unlock": "A \"⋯\" menu with a submenu used to need hundreds of lines of keyboard handling → table row action menus and an editor's Export submenu can be mostly declarative, with light dismiss and submenu relationships managed by the browser. focusgroup is Chromium only for now",
+      "support": "focusgroup: Limited availability. Supported by: Chrome 150, Edge 150. Unsupported in: Firefox, Safari. Invoker commands: Newly. Popover: Newly"
+    },
+    "mwg:menu:2": {
+      "title": "Anchor submenus beside their parent item; never fall back to viewport centring",
+      "action": "Top-level menus use `position-area: block-end span-inline-end`, submenus `position-area: inline-end span-block-end`, each with `position-try-fallbacks` flips; the implicit anchor comes from the invoker, so no `anchor-name`; without support, position from script under `@supports not`",
+      "blocker": "Without anchor positioning popovers fall back to viewport centring, detaching the menu from its trigger and letting a centred submenu cover its parent (quote: \"it detaches the menu from its trigger, and a centered submenu covers its parent.\")",
+      "outcome": "Menus stick to triggers and submenus sit beside parents, flipping on overflow; core properties are Newly available, older browsers need script positioning (official claim)",
+      "story": "Opening \"Export ›\" made the submenu jump to the centre of the screen, completely covering the menu you came from.",
+      "unlock": "Multi-level menus used to need a positioning library per level → file-manager context menus and an editor's nested Insert menu can cascade in pure CSS and flip at edges",
+      "support": "Anchor positioning: recorded as Newly (core properties Baseline since 2026-01-13). The guide's \"Supported by: Safari 27 … Unsupported in: Chrome, Edge, and Firefox\" is a misleading group status (see lines/ui-components/app-menus.md); this line does not use `position-visibility`"
+    },
+    "mwg:menu:3": {
+      "title": "Let the narrow-screen `--below` fallback shrink the submenu",
+      "action": "Keep `@position-try --below` last, with `min-inline-size: 0` and `max-inline-size: calc(100% - 1rem)`",
+      "blocker": "A fallback that doesn't fit is skipped; if none fit the base placement is kept, so a submenu a few pixels too wide silently covers its trigger (quote: \"a submenu that is a few pixels too wide silently covers its trigger.\")",
+      "outcome": "At 375px no submenu covers its own trigger (official claim)",
+      "story": "On a phone the Export submenu landed right on top of \"Export\", so there was nothing to tap to close it.",
+      "unlock": "",
+      "support": "Anchor positioning: recorded as Newly (misleading group status, see lines/ui-components/app-menus.md)"
+    },
+    "mwg:menu:4": {
+      "title": "Use `showPopover({ source })` plus a zero-size placeholder anchor for context menus and caret menus",
+      "action": "Open trigger-less menus with `showPopover({ source })`, passing the right-clicked card or the focused element; to open at a point (pointer, `@`-mention caret), keep an empty zero-size `position: fixed` element right before the menu, move it to the point on each open and pass it as `source`; name the menu with `aria-label`",
+      "blocker": "The guide only says to use anchor positioning rather than JavaScript coordinates, not when coordinates fail (quote: \"Use CSS anchor positioning, not JavaScript coordinates.\")",
+      "outcome": "The menu's corner lands on the point and flips near edges like a native context menu; the implicit anchor from `showPopover({ source })` is Newly available (official claim)",
+      "story": "Context menus and @-mention lists used to read pointer coordinates and compute viewport bounds. Moving an invisible dot to act as anchor lets the same CSS handle flipping.",
+      "unlock": "Context and caret menus used to need hand-computed coordinates and collision → kanban card context menus and chat-input @-mention and /command lists can share one CSS positioning setup that avoids edges",
+      "support": "showPopover() source parameter (implicit anchor): Baseline Newly available (since 2026-01-13)"
+    },
+    "mwg:menu:5": {
+      "title": "Draw the submenu \"safe triangle\" in CSS from where the pointer left to the submenu's edge",
+      "action": "Only under `(hover: hover)`, on `pointerleave` of a submenu trigger write the pointer position to `--pointer-x`/`--pointer-y` and set `data-bridge`; the submenu's `::before` uses `clip-path: polygon()` to draw a triangle from that point to the submenu's near corners (side picked with `sign()`), removed after about 300 ms at rest, on turning away, or on reaching an item",
+      "blocker": "A static CSS bridge is too narrow and only works if the pointer starts near the parent's edge; a diagonal move crosses sibling items and closes the submenu (quote: \"A static CSS bridge is too narrow: it only works when the pointer starts near the parent's edge.\")",
+      "outcome": "Diagonal moves to a submenu item keep it open, while moving to an unrelated sibling closes it; `sign()` is Newly available with a `clamp()` fallback (official claim)",
+      "story": "Moving diagonally from \"Export\" down to \"PDF\" brushed over \"Rename\" and the submenu closed. The triangle sits on the path so siblings never get that hover.",
+      "unlock": "",
+      "support": "abs() and sign(): Baseline Newly available (since 2025-06-26)"
+    },
+    "mwg:menu:6": {
+      "title": "Move focus into the menu in the `toggle` event, not `command`",
+      "action": "On keyboard open, focus the first enabled item in the `toggle` listener; set `aria-expanded` only there too",
+      "blocker": "The `command` event fires before `toggle-popover` opens the menu, so focus can't move in yet (quote: \"The `command` event fires before `toggle-popover` opens the menu, so focus cannot move into the menu there.\")",
+      "outcome": "After a keyboard open, focus actually enters the menu (official claim)",
+      "story": "Enter opened the menu but focus stayed on the trigger, and Down did nothing.",
+      "unlock": "",
+      "support": "Invoker commands: Baseline Newly available (since 2025-12-12)"
+    },
+    "mwg:menu:7": {
+      "title": "Close submenus one level at a time and restore focus to their trigger yourself",
+      "action": "Call `stopPropagation()` on Esc and ArrowLeft in submenus; focus the trigger before `hidePopover()`",
+      "blocker": "HTML restores focus only for the first `popover=\"auto\"` in a stack, so nested levels must do it; without stopping propagation the parent's listener closes it too (quote: \"HTML restores focus only for the first `popover=\"auto\"` in a stack, so nested levels must restore focus to their trigger explicitly.\"; \"or the parent's listener closes it too.\")",
+      "outcome": "Esc closes only the submenu, focus returns to \"Export\" and the parent stays open (official claim)",
+      "story": "Esc in a submenu made the whole chain vanish and dropped focus somewhere on the page.",
+      "unlock": "",
+      "support": "Popover: Newly"
+    },
+    "mwg:menu:8": {
+      "title": "Make the check-mark selector at least as specific as the base `::before` rule",
+      "action": "`[focusgroup~=\"menu\"] button[aria-checked=\"true\"]::before { content: \"✓\" }`, no less specific than the rule reserving the icon slot",
+      "blocker": "If it is less specific, the empty `content` wins and the check never shows (quote: \"or the empty content wins and the check mark never shows.\")",
+      "outcome": "Checked items show a check mark (official claim)",
+      "story": "\"Show grid\" was on, yet the menu showed no check.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:menu:9": {
+      "title": "Align menu rows with a fixed leading slot and `margin-inline-start: auto`, not subgrid",
+      "action": "Make items `display: flex` with a fixed-width `::before` for icon or check, and put shortcuts or submenu indicators in a `.hint` with `margin-inline-start: auto`",
+      "blocker": "With subgrid, any extra inline child (such as a badge) becomes its own grid item and breaks the layout (quote: \"any extra inline child (a badge, for example) becomes its own grid item and breaks the layout.\")",
+      "outcome": "Labels align with or without icons or an extra badge (official claim)",
+      "story": "Adding a \"New\" badge to one item misaligned every column in the menu.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:menu:10": {
+      "title": "Menu open animations need `@starting-style`",
+      "action": "Add `@starting-style { opacity: 0; translate: ... }` in the open state; include `display` and `overlay` in the transition with `transition-behavior: allow-discrete` on its own line",
+      "blocker": "A closed popover is `display: none` and transitions don't start from an unrendered state, so without start values the open snaps and only the close animates (quote: \"Without it the open snaps and only the close animates.\")",
+      "outcome": "Both open and close get short animations without delaying keyboard focus (official claim)",
+      "story": "The menu faded out when closing but popped in instantly when opening.",
+      "unlock": "",
+      "support": "@starting-style: no support data in the guide; N/A"
+    },
+    "mwg:navigation-drawer": {
+      "title": "Open and close the drawer with scroll snap and tie the backdrop dim to a scroll timeline",
+      "action": "Inside a modal `<dialog>`, a horizontal scroller (one drawer-width column plus a full-viewport spacer) with `scroll-snap-type: x mandatory` rests only open or closed; `scroll-timeline` and `timeline-scope` bind `--drawer-backdrop` (registered as a number with `@property`) to the scroll position so `::backdrop` opacity follows; an IntersectionObserver calls `close()` only once the sheet has fully left",
+      "blocker": "With JS-driven `transform` animations, the drawer's position is set by a tween, not the finger (quote: \"the scroll mechanism gives the user direct control of the panel's position (their finger drives it, not a tween)\")",
+      "outcome": "The drawer moves exactly with the finger and the backdrop darkens in sync, with momentum and mid-gesture reversal handled by the browser; scroll snap is Widely available, scroll-driven animations Newly, with a `scroll` listener writing the dim where unsupported (official claim)",
+      "story": "Pulling out a side menu on a phone used to play a fixed animation on release, and you couldn't pull it back halfway. As a scroller, the drawer is whatever is under your finger, and the backdrop dims with its position.",
+      "unlock": "Finger-following drawers and bottom sheets used to need a gesture library → side navigation, bottom action sheets and pull-out filter panels can use native scrolling, darkening the backdrop as you drag and settling open or closed on release",
+      "support": "Scroll snap: Widely. Scroll-driven animations: Baseline Newly available (since 2026-10-27). Registered custom properties: Newly"
+    },
+    "mwg:navigation-drawer:2": {
+      "title": "Don't use `closedby=\"any\"` on a full-viewport drawer; detect taps outside the sheet yourself",
+      "action": "Listen for `click` on the dialog and call the scroll-back `closeDrawer()` when the target isn't inside the sheet",
+      "blocker": "The dialog fills the viewport, so taps land on the dialog rather than `::backdrop`, and it would close without the slide-out (quote: \"the dialog fills the viewport, so taps land on the dialog rather than its ::backdrop, and it would close without the slide-out animation.\")",
+      "outcome": "Tapping the dimmed area slides the drawer out (official claim)",
+      "story": "With `closedby=\"any\"`, tapping the dim area made the drawer vanish instantly instead of sliding away.",
+      "unlock": "",
+      "support": "<dialog closedby>: no support data in this guide; other guides record Limited"
+    },
+    "mwg:navigation-drawer:3": {
+      "title": "To close, scroll back first and only `close()` once the observer sees the sheet has left",
+      "action": "`closeDrawer()` only scrolls to the spacer; the IntersectionObserver calls `drawer.close()` when visibility drops below the threshold; Esc's `cancel` is prevented and also slides out",
+      "blocker": "Calling `close()` directly removes the element from the top layer mid-animation, hiding the close animation (quote: \"doing so would remove the element from the top layer mid-animation and the close animation would not be visible.\")",
+      "outcome": "Swipe, button, backdrop tap and Esc all converge on one callback with the full close animation (official claim)",
+      "story": "Pressing the close button made the drawer disappear rather than slide out.",
+      "unlock": "",
+      "support": "Intersection observer: Baseline Widely available (since 2019-03-25)"
+    },
+    "mwg:navigation-drawer:4": {
+      "title": "Wrap the scroll-driven backdrop animation entirely in `@supports (animation-timeline: scroll())`",
+      "action": "Put the `@keyframes`, `@property` and `animation-timeline` inside the `@supports` block",
+      "blocker": "Unsupported browsers still parse the keyframes and apply the `0%` value, leaving the backdrop permanently dark (quote: \"would apply the animation's `0%` value (--drawer-backdrop: 1) at all times, leaving the backdrop permanently opaque.\")",
+      "outcome": "Where unsupported, the JS fallback is the only writer of the dim (official claim)",
+      "story": "In an older browser, after opening the drawer once, the background stayed dark after closing.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Newly"
+    },
+    "mwg:navigation-drawer:5": {
+      "title": "Register the backdrop custom property as a number with `@property`",
+      "action": "`@property --drawer-backdrop { syntax: '<number>'; inherits: true; initial-value: 0; }`",
+      "blocker": "Unregistered, the browser treats it as a string and can't interpolate, so the backdrop jumps from 0 to 1 (quote: \"the backdrop would jump from 0 to 1 with no fade.\")",
+      "outcome": "The dim changes continuously while dragging (official claim)",
+      "story": "Dragging the drawer didn't fade the background; it suddenly went black at some point.",
+      "unlock": "",
+      "support": "Registered custom properties: Baseline Newly available (since 2024-07-09)"
+    },
+    "mwg:navigation-drawer:6": {
+      "title": "Size the drawer with `svh`, not `vh` or `dvh`",
+      "action": "Set `height: 100svh` on the sheet",
+      "blocker": "iOS Safari's address bar resizes mid-swipe, so `vh`/`dvh` make the sheet height jump (quote: \"so the sheet height does not jump when the iOS Safari address bar resizes mid-swipe.\")",
+      "outcome": "Height stays fixed while swiping (official claim)",
+      "story": "Pulling the drawer on an iPhone made its height twitch.",
+      "unlock": "",
+      "support": "svh: no support data in the guide; N/A"
+    },
+    "mwg:navigation-drawer:7": {
+      "title": "A drawer that doubles as a sidebar uses `popover=\"manual\"`, not `auto` or `hint`",
+      "action": "Use a regular element with `role=\"dialog\"` and `popover=\"manual\"`, and handle inert, `aria-modal`, focus return and Esc yourself",
+      "blocker": "The built-in light dismiss of `auto` and `hint` would fire mid-swipe (quote: \"their built-in light-dismiss would also fire mid-swipe.\")",
+      "outcome": "Only your code decides when to close, so dragging never closes it by mistake (official claim)",
+      "story": "Pushing the drawer back with a finger, it closed itself before the finger lifted.",
+      "unlock": "",
+      "support": "showPopover(): Baseline Widely available (since 2024-04-16)"
+    },
+    "mwg:navigation-drawer:8": {
+      "title": "Don't use `<dialog>` for a drawer that becomes a permanent sidebar on wide screens",
+      "action": "When it doubles as a sidebar, use a regular element with `role=\"dialog\"` and remove the role via `matchMedia()` in sidebar mode",
+      "blocker": "`<dialog>` is always exposed as a dialog, but a sidebar isn't one (quote: \"A `<dialog>` element does not work here, since it is always exposed as a dialog, but a sidebar is not one.\")",
+      "outcome": "It is ordinary navigation as a sidebar and a dialog as a drawer (official claim)",
+      "story": "On desktop the fixed sidebar was announced as \"dialog\" every time.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:navigation-drawer:9": {
+      "title": "Use `scroll-initial-target` so the drawer enters the top layer at its closed position, then slides in",
+      "action": "Set `scroll-initial-target: nearest` on the spacer's `::after`, then `scrollTo({ left: 0 })` after `showModal()`; without support, jump to the closed position and wait two `requestAnimationFrame`s before scrolling back",
+      "blocker": "Without an initial position the drawer appears already open with no slide-in, and with only one rAF the second `scrollTo` cancels the first (quote: \"Without this, the drawer would appear instantly in the open position with no slide-in animation.\")",
+      "outcome": "Supporting browsers slide the drawer in from off-screen; Chrome/Edge 133 only, other browsers need the double-rAF script (official claim)",
+      "story": "Tapping the menu button made the drawer simply appear instead of sliding out. An initial scroll position parks it off-screen first, so there is something to slide.",
+      "unlock": "Scroll-based drawers used to need a scripted jump plus two frames of waiting → bottom sheets, side drawers and pull-out comment panels can start off-screen before entering and open with a single scroll. Chromium only for now",
+      "support": "scroll-initial-target: Limited availability. Supported by: Chrome 133, Edge 133. Unsupported in: Firefox, Safari"
     }
   }
 }

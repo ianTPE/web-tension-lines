@@ -459,3 +459,111 @@
 2026-11-17,v1.0.0,required-field-feedback,mwg:required-field-feedback:4,錯誤用全頁一個 polite live region 延遲播報,播報時機或可靠度出錯,每則錯誤各自當 live region，只是被顯示而不是文字改變時，讀屏不一定會播；同時播報又會蓋過下一個欄位,勝,Widely,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,required-field-feedback,mwg:required-field-feedback:5,必填星號加 aria-hidden，避免重複播報,播報過量,`required` 已讓讀屏播報必填，星號再進無障礙樹會多出無意義的「星號」或重複狀態,勝,Widely,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,required-field-feedback,mwg:required-field-feedback:6,送出鈕保持可按，讓瀏覽器揭示所有必填錯誤,隱藏或停用把人擋在外面,停用送出鈕會讓使用者無法主動要求驗證，也看不到按下後應出現的錯誤與焦點導引,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,prevent-page-scroll-under-modal-dialog,mwg:prevent-page-scroll-under-modal-dialog,"overscroll-behavior: contain（dialog:modal 與 ::backdrop）, ::backdrop overflow: hidden",原生捲動手勢不合用途,showModal() 不擋捲動，背景頁照樣被捲走；舊解法鎖 html／body 的 overflow 又讓捲軸消失、版面橫移、捲動位置跳走、sticky 失效,部分改善,Limited,宣稱,有,新能力,燈箱、確認框、全螢幕設定面板可以純 CSS 鎖住背景捲動，關掉後頁面停在原處、sticky 照常。Safari 只在對話框內容溢出時有效,有效
+2026-11-17,v1.0.0,prevent-page-scroll-under-modal-dialog,mwg:prevent-page-scroll-under-modal-dialog:2,不用 @supports 偵測、直接當漸進增強,功能偵測不可靠,@supports (overscroll-behavior: contain) 在只對溢出內容生效的瀏覽器也回傳 true，退路永遠不會跑,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,same-document-transitions,mwg:same-document-transitions,"document.startViewTransition(), view-transition-name",尺寸動畫只能跳變,從列表點進詳細頁時縮圖直接消失、大圖瞬間出現在別處，使用者難以追蹤兩者關係,部分改善,Newly,宣稱,有,新能力,相簿、商品目錄、聯絡人清單可以幾行 JS 讓點到的卡片變形成詳細頁，不必用動畫函式庫算 FLIP；不支援的瀏覽器照常切換,有效
+2026-11-17,v1.0.0,same-document-transitions,mwg:same-document-transitions:2,唯一的 view-transition-name、finished 後清除,新功能的副作用,同名元素有兩個以上時 DOM 直接更新、完全沒有轉場,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,same-document-transitions,mwg:same-document-transitions:3,轉場後把焦點送到新標題（tabindex=-1）,隱藏或停用把人擋在外面,焦點留在轉場中被隱藏或移除的元素上就被丟棄，鍵盤與讀屏使用者失去位置,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,same-document-transitions,mwg:same-document-transitions:4,"width: fit-content, ::view-transition-old/new height: 100%",新功能的副作用,新舊快照在會撐開的群組裡交叉淡化，文字快照被拉伸變形,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scoped-component-transitions,mwg:scoped-component-transitions,"element.startViewTransition(), view-transition-name: match-element, view-transition-scope",新功能的副作用,document 範圍的轉場疊層掛在 :root，期間整頁點不到、不能同時轉場，還蓋住 fixed 標頭與開著的 popover,僵持,Limited,宣稱,有,新能力,儀表板上多個卡片可以各自同時做排序、增刪動畫，頁首與浮動工具列照常可按。目前僅 Chromium,有效
+2026-11-17,v1.0.0,scoped-component-transitions,mwg:scoped-component-transitions:2,搬動既有節點而非 innerHTML 重建,重建DOM丟狀態,match-element 依節點身分配對，用 innerHTML 重建的新節點對不上舊節點,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scoped-component-transitions,mwg:scoped-component-transitions:3,transition.ready.catch(),新功能的副作用,同一元素再次觸發轉場會跳過進行中的轉場並讓 ready reject，沒接住就是未處理的 promise 錯誤,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scoped-component-transitions,mwg:scoped-component-transitions:4,範圍元素保留自我參與（不設 view-transition-name: none）,新功能的副作用,退出自我參與會關掉自動溢出裁切，轉場中的子項目溢出元件邊界,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scoped-component-transitions,mwg:scoped-component-transitions:5,"具名 wrapper, view-transition-scope: all",新功能的副作用,外層轉場會把範圍元素和裡面所有東西一起捕捉並動畫，打斷內層轉場,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-completion-effects,mwg:scroll-completion-effects,"await scrollIntoView()/scrollTo()/scrollBy()",完成時機靠猜,setTimeout 猜捲動時間，長捲動太早觸發、短捲動太晚；scrollend 在目標已在畫面內時永遠不觸發,僵持,Limited,宣稱,有,新能力,導覽教學、程式碼逐行講解、地圖清單可以一步步 await 捲動再高亮，流程寫成直線，不必猜時間。目前僅 Chromium,有效
+2026-11-17,v1.0.0,scroll-completion-effects,mwg:scroll-completion-effects:2,遞增操作 ID 擋掉過期效果,新功能的副作用,被打斷的平滑捲動會 resolve 而非 reject，舊的後續效果照樣執行,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-completion-effects,mwg:scroll-completion-effects:3,focus({ preventScroll: true }),互動中畫面抖動,捲動完成後 focus() 又自己捲一次，畫面跳第二下,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-completion-effects,mwg:scroll-completion-effects:4,不為 Chrome 根捲動器 bug 多包捲動容器,新功能的副作用,Chrome 捲動文件根捲動器時 scrollIntoView() 的 promise 太早 resolve,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-entry-exit-effects,mwg:scroll-entry-exit-effects,"view(), animation-range: entry/exit, timeline-range 關鍵影格",捲動連動效果靠JS監聽,指南只說原生實作比 IntersectionObserver 退路效能好，沒說舊做法在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,水平相簿、時間軸、商品列可以讓每一項在進出視窗時縮放淡入淡出，捲動倒退也自動倒帶，不必逐一掛觀察器,有效
+2026-11-17,v1.0.0,scroll-entry-exit-effects,mwg:scroll-entry-exit-effects:2,@supports 加 (animation-range: entry),功能偵測不可靠,只偵測 animation-timeline 會放行只有部分支援的瀏覽器,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-entry-exit-effects,mwg:scroll-entry-exit-effects:3,animation-timeline 寫在簡寫之後,簡寫或屬性連動重設,animation 簡寫寫在後面會把時間軸與區段重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-entry-exit-effects,mwg:scroll-entry-exit-effects:4,"entry 100%, exit 0% 明寫靜止值",新功能的副作用,單一 keyframes 沒寫中段時，元素從 entry 0% 一路內插到 exit 100%,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-snap-realtime-feedback,mwg:scroll-snap-realtime-feedback,"scrollsnapchanging, scrollsnapchange, snapTargetInline",回饋落後於手勢,傳統捲動吸附只在手勢結束、元素停穩後才有回饋，拖動中看不出會停在哪,僵持,Limited,宣稱,有,新能力,轉盤式選擇器（日期、時間、數量）、相簿縮圖列可以在拖動中就預告結果，像實體轉盤邊轉邊亮。目前僅 Chromium,有效
+2026-11-17,v1.0.0,scroll-snap-realtime-feedback,mwg:scroll-snap-realtime-feedback:2,載入時跑一次幾何計算同步初始狀態,生命週期假設錯,瀏覽器還原捲動位置時 scrollsnapchange 與 scroll 都不觸發，高亮停在錯的項目,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-snap-state-sync,mwg:scroll-snap-state-sync,"scrollsnapchange, snapTargetBlock",捲動連動效果靠JS監聽,指南只說以前要 scroll 監聽、手算偏移與 IntersectionObserver，沒說這些做法在哪個時刻出錯,僵持,Limited,宣稱,缺,新能力,投影片式文件、分章節說明頁、直式短影音列表可以在停下時同步頁碼、目錄或播放狀態，不必自己算偏移。目前僅 Chromium,有效
+2026-11-17,v1.0.0,scroll-snap-state-sync,mwg:scroll-snap-state-sync:2,aria-current 標示作用中連結,焦點或狀態指示消失,吸附事件只同步畫面，不會把作用中狀態暴露給輔助技術,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-snap-state-sync,mwg:scroll-snap-state-sync:3,scroll-snap-type: proximity,隱藏或停用把人擋在外面,mandatory 吸附讓吸附點之間、比畫面長的內容讀不到,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-target-on-load,mwg:scroll-target-on-load,scroll-initial-target: nearest,內容要等JS才成形,指南只說 scrollIntoView() 與網址片段有限制、不好做，沒說在哪個時刻出問題,僵持,Limited,宣稱,缺,新能力,月曆停在今天、聊天室停在最後一則已讀、時間軸停在現在，第一個畫面就對，不必等 JS 捲一下。目前僅 Chromium,有效
+2026-11-17,v1.0.0,scroll-target-on-load,mwg:scroll-target-on-load:2,另外呼叫 element.focus(),新功能的副作用,scroll-initial-target 只移動視覺捲動位置，不移動鍵盤焦點,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-target-on-load,mwg:scroll-target-on-load:3,媒體設 aspect-ratio 或 width/height,版面意外溢出或位移,媒體載入後撐開高度，算好的初始目標被推離位置,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scroll-target-on-load,mwg:scroll-target-on-load:4,同一容器只設一個目標、注意片段與 scroll-start 優先,新功能的副作用,網址片段與 scroll-start 蓋過 scroll-initial-target；多個目標時只取 DOM 順序第一個,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scrollytelling,mwg:scrollytelling,"具名 view-timeline, timeline-scope, animation-range",捲動連動效果靠JS監聽,指南只說可以不靠 JavaScript、動畫跟著捲動位置走，沒說舊做法在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,年度回顧、產品導覽、資料新聞可以讓每段文字驅動一個固定圖層的變化，捲回去自動倒帶，不必掛 scrollama 之類的函式庫,有效
+2026-11-17,v1.0.0,scrollytelling,mwg:scrollytelling:2,@supports 加 (animation-range: 0% 100%),功能偵測不可靠,只偵測 animation-timeline 會讓部分支援的瀏覽器通過,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scrollytelling,mwg:scrollytelling:3,animation-timeline 寫在簡寫之後,簡寫或屬性連動重設,animation 簡寫寫在後面會把時間軸重設掉,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scrollytelling,mwg:scrollytelling:4,"隱藏樣式只掛在 .scroll-fallback, reduced-motion 時強制可見",隱藏或停用把人擋在外面,預設就把段落藏起來等動畫，退路腳本沒跑時內容永遠看不到,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,search-hidden-content,mwg:search-hidden-content,"<details>, hidden=until-found, beforematch",隱藏或停用把人擋在外面,display: none 或 visibility: hidden 藏起的內容，讀屏與頁內搜尋都完全碰不到,部分改善,Limited,宣稱,有,新能力,設定頁的多個分頁、文件站的分頁式程式碼範例、產品規格切換面板可以被 Ctrl+F 與文字片段連結直接命中並切到對的分頁。Safari 退回全部展開,有效
+2026-11-17,v1.0.0,search-hidden-content,mwg:search-hidden-content:2,不在 until-found 元素上設 display／visibility,新功能的副作用,在 hidden=until-found 元素上再設 display 或 visibility，內容永遠從搜尋索引消失,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,search-hidden-content,mwg:search-hidden-content:3,框線與內距放內層 wrapper,版面意外溢出或位移,邊框、內距、背景直接套在 until-found 元素上，隱藏時留下位移或殘影,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,search-hidden-content,mwg:search-hidden-content:4,敏感資料不放進 until-found 區塊,敏感資料外露,until-found 的內容會被頁內搜尋找到並展開，藏在裡面的敏感資料被揭露,勝,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,spatial-navigation,mwg:spatial-navigation,沒有候選時不 preventDefault(),平台慣用操作沒有作用,無條件攔截方向鍵，邊界上按方向鍵整頁捲不動,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,spatial-navigation,mwg:spatial-navigation:2,"getBoundingClientRect() 即時幾何, checkVisibility()",視覺順序與DOM順序脫鉤,不對稱或會換行的版面用索引對應會選錯；隱藏元素位於原點的零尺寸矩形變成意外的上、左目標,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,spatial-navigation,mwg:spatial-navigation:3,"grid/listbox/tablist 等複合角色",語意結構失真,只有 tabindex、沒有複合元件角色時，roving tabindex 在讀屏上不成立,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,spatial-navigation,mwg:spatial-navigation:4,e.composedPath()[0],封裝邊界切斷關聯,e.target 被重定向成 shadow host，看不出按鍵其實來自裡面的輸入框,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-remove,mwg:swipe-to-remove,"scroll-snap-type: x mandatory, IntersectionObserver 門檻",自製控制項丟掉原生行為,用 pointer 事件自己驅動 transform，失去原生的慣性、回彈與鍵盤捲動,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-remove,mwg:swipe-to-remove:2,overscroll-behavior-x: none,原生捲動手勢不合用途,滑過頭觸發 iOS／Android 的返回上一頁手勢,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-remove,mwg:swipe-to-remove:3,scroll-snap-type: x mandatory,原生捲動手勢不合用途,proximity 讓列停在一半，動作底色露出半截,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-remove,mwg:swipe-to-remove:4,每個滑動動作配一顆可見按鈕,只能 hover 才看得到,只能滑動的功能無法用鍵盤、單擊或讀屏完成，違反 WCAG 2.5.1,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-remove,mwg:swipe-to-remove:5,"有按鈕的列不讓軌道可聚焦, 復原提示",動作被意外觸發,軌道可聚焦時方向鍵直接提交動作、沒有確認；滑動也很容易誤觸,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-remove,mwg:swipe-to-remove:6,"Safari 延後 remove(), inert",互動中畫面抖動,Safari 慣性未結束就移除節點，補上來的下一列繼承捲動、自己捲出畫面,部分改善,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-remove,mwg:swipe-to-remove:7,scroll-initial-target 包在 .is-initialized 裡,新功能的副作用,軌道還不是捲動容器時，屬性往上找到整頁，改掉頁面的初始捲動位置,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-remove,mwg:swipe-to-remove:8,"退路捲動先於觀察器, ResizeObserver 補設",動作被意外觸發,退路的初始程式捲動被當成一次滑動，列一出現就被提交刪除,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-remove,mwg:swipe-to-remove:9,"進入畫面才初始化, MutationObserver 接新列",生命週期假設錯,載入時全部初始化會讀到為 0 的 clientWidth；之後加入的列根本沒接上,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-remove,mwg:swipe-to-remove:10,預先存在的 role=status,播報時機或可靠度出錯,一列消失不會被播報；讀屏只播報變動前就存在的 live region,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-remove,mwg:swipe-to-remove:11,移除前把焦點移到下一列,隱藏或停用把人擋在外面,移除或 inert 含焦點的列，焦點掉回 body,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-remove,mwg:swipe-to-remove:12,"forced-colors 下 CanvasText + mask",焦點或狀態指示消失,強制色彩把動作底色換成 Canvas，白色圖示看不見,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-reveal,mwg:swipe-to-reveal,"scroll-snap-type: x mandatory, grid 100% max-content",自製控制項丟掉原生行為,在主執行緒攔 wheel／touchmove／pointermove 自己平移，擋住合成器捲動、破壞慣性、拖慢反應,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-reveal,mwg:swipe-to-reveal:2,overscroll-behavior: chain,原生捲動手勢不合用途,預設 auto 讓外層包裝回彈、選單跟著彈；contain／none 又把捲動困住傳不到頁面,部分改善,Limited,宣稱,有,新能力,直向動態牆裡可以放滑開動作的列、可側滑的卡片或橫向膠囊列，邊界不回彈、多餘捲動自然傳給外層。Safari 仍會回彈,有效
+2026-11-17,v1.0.0,swipe-to-reveal,mwg:swipe-to-reveal:3,scroll-snap-type: x mandatory,原生捲動手勢不合用途,proximity 下輕滑一下，動作按鈕或側選單停在半露狀態,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-reveal,mwg:swipe-to-reveal:4,"觸發按鈕 aria-expanded, 切換 tabindex",只能 hover 才看得到,只能靠滑動取得的功能，違反 WCAG 2.5.1,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,swipe-to-reveal,mwg:swipe-to-reveal:5,scroll-initial-target: nearest（雙側面板）,內容要等JS才成形,不支援的瀏覽器從捲動位置 0 開始，左側面板一開始就露在外面,僵持,Limited,宣稱,有,新能力,郵件、待辦、聊天列表可以純 CSS 做左滑一組動作、右滑另一組的雙側列，載入時就停在中間。目前僅 Chromium,有效
+2026-11-17,v1.0.0,swipe-to-reveal,mwg:swipe-to-reveal:6,overscroll-behavior: auto 寫在 chain 前面,不認得的語法讓整條規則失效,不認得 chain 的瀏覽器丟掉這行，留下先前的 contain／none，捲動被困住,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,card,mwg:card,"延伸連結 .card-link::after, inset: 0",播報過量,整張卡包在一個連結裡，連結名稱就是卡片全部文字,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,card,mwg:card:2,閱讀更多加視覺隱藏的完整名稱,語意結構失真,一模一樣的閱讀更多在讀屏的連結清單裡無法分辨,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,card,mwg:card:3,:has(> :checked) 只改邊框顏色,版面意外溢出或位移,選取時改 border-width、padding、font-weight，這張卡和旁邊的卡都跳動,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,card,mwg:card:4,"單一 .card-link, 互動元素逐一 z-index: 1",堆疊脈絡改變層級,多個延伸連結時最後一個蓋住整張卡；對整個容器設 z-index 會攔下無動作的點擊,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,card,mwg:card:5,"container-type: inline-size 在卡片上, :has(> img)",版面依賴錯的量測,用視窗或格線父層訂斷點，但卡片實際寬度取決於欄數與間距，斷點很不準,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,checkbox,mwg:checkbox,"accent-color, appearance: none + mask",自製控制項丟掉原生行為,指南只說這兩種做法保留原生行為、input 仍是互動目標，沒說舊做法哪裡壞,部分改善,Limited,宣稱,缺,新能力,待辦清單、權限設定、批次選取的「全選（部分）」都能用原生 input 做出設計稿的樣子，indeterminate 也有對應圖示，不必自製元件,有效
+2026-11-17,v1.0.0,checkbox,mwg:checkbox:2,在 Safari 實測 accent-color 對比,焦點或狀態指示消失,Safari 可能固定白／黑勾號、改的是背後的強調色，不一定有足夠對比,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,checkbox,mwg:checkbox:3,appearance: none 後用相對單位給尺寸,自製控制項丟掉原生行為,appearance: none 連預設尺寸一起拿掉，勾選框縮成看不見,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dark-mode-toggle,mwg:dark-mode-toggle,"meta color-scheme + :root:has() 映射回 color-scheme",層疊覆蓋不符意圖,作者 CSS 的 color-scheme 蓋過 meta，只更新 meta 等於沒做,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dark-mode-toggle,mwg:dark-mode-toggle:2,緊接 meta 的同步內嵌腳本,內容要等JS才成形,晚一點才套用儲存的偏好，先閃一下錯的配色,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dark-mode-toggle,mwg:dark-mode-toggle:3,只在儲存當下比對系統偏好,忽略使用者設定,一致時就刪掉儲存值讓人永遠無法固定配色；存下與系統相同的值又在之後悄悄釘死,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dark-mode-toggle,mwg:dark-mode-toggle:4,"prefers-color-scheme + :root:has(meta) 分支",主題配色對不上,只靠 JS 加的 .dark 類別，JS 沒載入且系統是深色時分支就錯,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dialog,mwg:dialog,"<dialog> showModal(), command=show-modal",手寫焦點管理,指南只說自製浮層得手工重建語意、焦點、頂層與 Esc，沒說重建版在哪個時刻出錯,勝,不適用,宣稱,缺,糾錯,,有效
+2026-11-17,v1.0.0,dialog,mwg:dialog:2,"overscroll-behavior: contain（dialog:modal 與 ::backdrop）",原生捲動手勢不合用途,在背景上或對話框內捲動會捲到後面的頁面；鎖根元素又讓捲軸消失、版面橫移,部分改善,Limited,宣稱,有,新能力,同 mwg:prevent-page-scroll-under-modal-dialog：所有模態框都能純 CSS 鎖背景捲動，不再有版面跳動。Safari 只在內容溢出時有效,有效
+2026-11-17,v1.0.0,dialog,mwg:dialog:3,<dialog popover>,用錯原生控制項,尋找列、檢視器這類邊用頁面邊開的面板用 showModal() 開，整個頁面被擋住,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dialog,mwg:dialog:4,讀完 returnValue 就重設為空字串,生命週期假設錯,Esc 不設值、瀏覽器對清除舊值不一致，上一次的 returnValue 漏到這一次,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dialog,mwg:dialog:5,可見訊息 + aria-describedby,播報時機或可靠度出錯,攔下關閉後焦點移到新按鈕，只唸按鈕名稱，使用者不知道為什麼沒關,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dialog,mwg:dialog:6,"visibility 預留訊息空間, 破壞性按鈕放在不位移處",動作被意外觸發,確認訊息出現時按鈕位移，第二下點在同一位置就按到捨棄,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dialog,mwg:dialog:7,display 寫在 dialog[open],層疊覆蓋不符意圖,無條件在 dialog 上設 display，蓋掉關閉狀態,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dialog,mwg:dialog:8,"cancel 監聽保護未存修改, request-close",新功能的副作用,不支援 closedby 的瀏覽器忽略 closedby=none，Esc 照樣觸發 cancel 並關閉,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,hovercard,mwg:hovercard,"interestfor, interest-delay, :interest-source",只能 hover 才看得到,指南只說能確保 hover 與聚焦都出現，沒說舊做法哪裡壞,部分改善,Limited,宣稱,缺,新能力,維基式的詞條預覽、使用者名片、引用文獻預覽可以宣告式做出，鍵盤一樣叫得出，不必寫 hover／focus／延遲計時。原生僅 Chromium，其他靠 polyfill,有效
+2026-11-17,v1.0.0,hovercard,mwg:hovercard:2,"popover=""hint""",新功能的副作用,用一般 popover 時，叫出預覽卡會關掉其他已開的選單,部分改善,Limited,宣稱,有,新能力,工具列選單開著時也能看各項的說明卡、表格篩選面板開著時也能預覽欄位定義。Safari 尚未支援,有效
+2026-11-17,v1.0.0,hovercard,mwg:hovercard:3,提示與名稱相同時不加 ARIA,播報過量,描述和名稱一樣時被唸兩次,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,hovercard,mwg:hovercard:4,"role=tooltip + aria-describedby, 不加 aria-expanded",語意結構失真,會導覽的觸發元素被唸成已收合，暗示 Enter 會展開，實際卻是換頁,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,hovercard,mwg:hovercard:5,描述型提示只放可錯過的內容,播報時機或可靠度出錯,NVDA 瀏覽模式刻意略過描述，只放在懸停卡的必要資訊被漏掉,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,hovercard,mwg:hovercard:6,DOM 解析完就一次接好 ARIA,播報時機或可靠度出錯,等 focus、interest 或 polyfill 才接屬性，讀屏瀏覽模式在互動前讀不到,勝,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,hovercard,mwg:hovercard:7,document 上 capture 的 toggle 監聽,新功能的副作用,toggle 不冒泡，掛在 document 的一般監聽永遠不觸發，aria-expanded 不同步,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,hovercard,mwg:hovercard:8,"position-area, position-try-fallbacks, 隱式錨點",彈出層脫離觸發點,沒有錨點定位時 popover 退回視窗置中，和觸發連結分離,部分改善,Newly,宣稱,有,新能力,連結預覽、人名卡、註腳彈窗只寫兩行 CSS 就黏在觸發點旁並自動避開邊緣，不必載入 Floating UI,有效
+2026-11-17,v1.0.0,hovercard,mwg:hovercard:9,inset/margin 重設包進 @supports,彈出層脫離觸發點,無條件寫 inset: auto，不支援的瀏覽器裡 popover 卡在左上角原點或疊在觸發點上,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,hovercard,mwg:hovercard:10,獨立的 transition-behavior 宣告,新功能的副作用,allow-discrete 寫進 transition 簡寫，舊瀏覽器忽略整條 transition,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,hovercard,mwg:hovercard:11,"@view-transition, :popover-open 內的 view-transition-name, blocking=render",生命週期假設錯,目的頁不等關鍵內容就渲染，轉場不穩、閃爍,部分改善,Limited,宣稱,有,新能力,多頁網站的文章預覽卡、商品快看卡可以點下去直接長成完整頁面，不必改成 SPA。Firefox 退回一般換頁,有效
+2026-11-17,v1.0.0,menu,mwg:menu,"focusgroup=menu nomemory, command=toggle-popover, popover=auto",手寫焦點管理,指南只要求不要在 focusgroup 裡再做一套 roving tabindex，沒說手寫版在哪個時刻出錯,僵持,Limited,宣稱,缺,新能力,表格列的動作選單、編輯器的匯出子選單可以大半宣告式寫出，點外面關閉與子選單關係由瀏覽器管。focusgroup 目前僅 Chromium,有效
+2026-11-17,v1.0.0,menu,mwg:menu:2,"position-area, position-try-fallbacks, @position-try",彈出層脫離觸發點,沒有錨點定位時選單退回視窗置中、脫離觸發鈕，置中的子選單蓋住父選單,部分改善,Newly,宣稱,有,新能力,檔案管理器的右鍵選單、編輯器的巢狀插入選單可以純 CSS 逐層展開並自動翻邊，不必逐層算位置,有效
+2026-11-17,v1.0.0,menu,mwg:menu:3,"@position-try --below 允許縮小（min-inline-size: 0）",新功能的副作用,放不下的退路被跳過，寬了幾像素的子選單靜靜蓋住自己的觸發項目,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,menu,mwg:menu:4,"showPopover({ source }), 零尺寸 fixed 佔位錨點",彈出層脫離觸發點,指南只說要用錨點定位、不要用 JS 座標，沒說 JS 座標在哪個時刻出錯,部分改善,Newly,宣稱,缺,新能力,看板卡片的右鍵選單、聊天輸入框的 @ 提及與 / 指令清單可以用同一套 CSS 定位並自動避開邊緣，不必自己算座標與碰撞,有效
+2026-11-17,v1.0.0,menu,mwg:menu:5,"clip-path 安全三角, --pointer-x/y, sign()",動作被意外觸發,靜態 CSS 橋太窄，斜移向子選單時經過兄弟項目，子選單被關掉,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,menu,mwg:menu:6,在 toggle 事件裡移焦點,生命週期假設錯,command 事件在選單打開之前觸發，那時焦點移不進去,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,menu,mwg:menu:7,"stopPropagation(), 關閉前先聚焦觸發項目",新功能的副作用,HTML 只替第一層 auto popover 還原焦點；沒擋冒泡時子選單的 Esc 連父選單一起關,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,menu,mwg:menu:8,aria-checked 勾號選擇器提高特異度,層疊覆蓋不符意圖,特異度不夠時空的 content 勝出，勾號永遠不顯示,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,menu,mwg:menu:9,"固定寬前導欄, margin-inline-start: auto",版面意外溢出或位移,用 subgrid 對齊時，多一個徽章就變成自己的格線項目，整個選單錯位,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,menu,mwg:menu:10,"@starting-style, allow-discrete 獨立宣告",尺寸動畫只能跳變,關閉的 popover 是 display: none，沒有起始值時開啟直接跳出、只有關閉有動畫,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,navigation-drawer,mwg:navigation-drawer,"scroll-snap 開關, scroll-timeline + @property 背景暗度, IntersectionObserver",自製控制項丟掉原生行為,用 JS 驅動 transform 時抽屜位置由補間決定、不是手指,部分改善,Newly,宣稱,有,新能力,側欄導覽、底部動作面板、可拉出的篩選面板都能用原生捲動做成跟手的抽屜，拖動中背景同步變暗，放手自然停在開或關,有效
+2026-11-17,v1.0.0,navigation-drawer,mwg:navigation-drawer:2,不用 closedby=any、自己判斷點在抽屜外,新功能的副作用,滿版 dialog 上點擊落在 dialog 而非 ::backdrop，且直接關閉、沒有滑出動畫,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,navigation-drawer,mwg:navigation-drawer:3,先捲回、觀察器看到離開才 close(),生命週期假設錯,直接 close() 在動畫途中移出頂層，看不到關閉動畫,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,navigation-drawer,mwg:navigation-drawer:4,@supports (animation-timeline: scroll()) 包住整塊,新功能的副作用,不支援的瀏覽器仍解析 keyframes 並套用 0% 值，背景永遠全暗,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,navigation-drawer,mwg:navigation-drawer:5,@property 註冊 --drawer-backdrop 為 number,尺寸動畫只能跳變,沒註冊時自訂屬性被當字串無法內插，背景從 0 直接跳到 1,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,navigation-drawer,mwg:navigation-drawer:6,height: 100svh,版面意外溢出或位移,iOS Safari 網址列在滑動中縮放，vh／dvh 讓抽屜高度跟著跳,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,navigation-drawer,mwg:navigation-drawer:7,popover=manual,動作被意外觸發,auto 或 hint 內建的點外面關閉在滑動途中觸發，抽屜被誤關,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,navigation-drawer,mwg:navigation-drawer:8,"role=dialog 一般元素, 側欄狀態拿掉 role",語意結構失真,<dialog> 永遠被當成對話框暴露，兼當側欄時讀屏也唸對話框,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,navigation-drawer,mwg:navigation-drawer:9,scroll-initial-target: nearest（關閉位置）,尺寸動畫只能跳變,沒有初始捲動位置時抽屜一出現就在開啟位置，沒有滑入動畫,僵持,Limited,宣稱,有,新能力,底部面板、側欄、可拉出的評論區都能在進場前就停在畫面外，開啟只要一次捲動，不必先捲一次再等兩幀。目前僅 Chromium,有效
