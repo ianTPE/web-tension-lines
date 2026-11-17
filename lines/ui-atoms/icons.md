@@ -121,7 +121,7 @@ license: CC-BY-4.0（上游指南）
 ## 在 symbol 裡預留自訂屬性，讓 `<use>` 的圖示可以從外面調
 - 做法：自己掌控的 symbol 預留掛鉤：`fill="var(--icon-accent, currentColor)"`、`stroke-width="var(--icon-stroke, 2)"`，甚至對某條路徑用 CSS `d: var(--icon-path, path(…))`；不掌控來源的圖示就直接內嵌 SVG
 - 對手：`<use>` 引用的內容被複製進 shadow tree，頁面 CSS 選不到裡面的元素（引用："With `<use>`, the referenced content is cloned into a shadow tree, so page CSS cannot select its elements."）
-- 退路：失去主要好處——Safari 不能用 CSS `d` 改路徑，只能保留其他掛鉤或改內嵌 SVG
+- 退路：保住主要行為——Safari 不能用 CSS `d` 改路徑，但填色與線寬等掛鉤照常可用
 - 解鎖：symbol 可預留 CSS 變數掛鉤，讓 `<use>` 從外部改顏色、線寬或路徑
 
 經過：`<use>` 很省，代價是頁面樣式碰不到裡面。只要圖示本身留好變數，從外面還是能調顏色、線寬，在大部分瀏覽器連形狀都能換。
@@ -130,11 +130,11 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：圖示樣式管不到
 - 支援狀態：css.properties.d：Limited availability。Supported by: Chrome 52, Edge 79, Firefox 97。Unsupported in: Safari
-- 戰報：僵持（由支援狀態與退路推出）
+- 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：以前 `<use>` 的圖示只能改顏色 → 現在一個 symbol 可以靠 CSS 變數換線寬，甚至換路徑：播放／暫停、勾／叉共用同一個 `<use>`，狀態一變形狀就跟著換。改路徑目前 Safari 不支援
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 退路經交叉核對與仲裁更正為「保住主要行為」
 
 %% line-start id="mwg:icons:8" %%
 ## 針對 Safari 的兩個渲染錯誤加補丁

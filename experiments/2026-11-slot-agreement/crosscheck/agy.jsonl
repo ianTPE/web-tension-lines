@@ -1,0 +1,30 @@
+{"key": "mwg:state-aware-sticky-headers:2", "fallback": "保住主要行為", "fallback_text": "不支援 scroll-state 時可退回純 position: sticky 不改尺寸，或改用 IntersectionObserver 加 .is-stuck，仍保留黏住功能。", "unlock": "（缺）"}
+{"key": "mwg:custom-elements", "fallback": "沒說", "fallback_text": "指南未交代瀏覽器不支援 connectedMoveCallback 或 Node.moveBefore() 時該如何處理。", "unlock": "用 Node.moveBefore() 搬移自訂元素時跳過斷開與重連，讓狀態、焦點與 iframe／媒體播放撐過搬移。"}
+{"key": "mwg:navigation-drawer:5", "fallback": "保住主要行為", "fallback_text": "不支援捲動驅動動畫與 @property 時由 JS scroll 監聽直接寫入暗度數值，仍可漸變背景，只失去純 CSS 內插。", "unlock": "（缺）"}
+{"key": "mwg:calculate-with-intrinsic-sizes", "fallback": "失去主要好處", "fallback_text": "前一行先寫一般關鍵字或長度讓版面仍可用，但無法對固有尺寸做運算且展開收合會直接跳變、失去插值動畫。", "unlock": "對 auto／min-content／fit-content 做加減與 min／max／clamp 約束，並讓長度與固有尺寸之間可平滑動畫。"}
+{"key": "mwg:viewport-aware-dropdowns:2", "fallback": "保住主要行為", "fallback_text": "包進 @supports 後不支援錨點定位會退回置中或底部固定面板，且 Popover 可載入 polyfill，避免面板卡在角落。", "unlock": "（缺）"}
+{"key": "mwg:cpp-on-the-web", "fallback": "不需要", "fallback_text": "支援狀態為不適用，這些是 Emscripten 編譯與連結旗標設定，不涉及瀏覽器執行期 API 相容性退路。", "unlock": "（缺）"}
+{"key": "mwg:accessible-web-components", "fallback": "保住主要行為", "fallback_text": "同樹改用 id 型 aria-* 屬性，跨 shadow 邊界改寫純文字 aria-label，仍保有無障礙標示但失去直接參照外部節點。", "unlock": "讓 shadow tree 內的控制項能透過元素參照直接被 Light DOM 或 slot 內容標記與描述。"}
+{"key": "mwg:css-layout:4", "fallback": "失去主要好處", "fallback_text": "退回先宣告的 flex-wrap: wrap，項目仍可正常換行不溢出，但無法平均分配每列數量，最後一列仍可能只剩一個項目。", "unlock": "讓標籤雲、篩選膠囊等折列項目僅靠 CSS 就能平均分配各列數量，避免末列出現單一孤兒項目。"}
+{"key": "mwg:dark-mode-toggle", "fallback": "不需要", "fallback_text": "支援狀態為不適用，color-scheme 與 :has() 組合用來把 <meta> 同步回 CSS，無須額外退路。", "unlock": "（缺）"}
+{"key": "mwg:icons:8", "fallback": "保住主要行為", "fallback_text": "若亦不支援樣式查詢或 @property，可退回 .icon-start／.icon-end 類別與 image-set()，圖示仍可顯示，只失去純屬性觸發。", "unlock": "（缺）"}
+{"key": "mwg:copy-button:2", "fallback": "保住主要行為", "fallback_text": "偵測不支援 CommandEvent 時改在 document 掛單一 click 事件委派呼叫同一份 copy()，功能不變只多出退路 JS。", "unlock": "按鈕可用 HTML 屬性宣告複製目標與自訂命令，不必為每顆複製按鈕逐一綁定 JavaScript 事件。"}
+{"key": "mwg:progress:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，這是避免跨引擎偽元素選擇器整條失效的 CSS 寫法，不需要功能退路。", "unlock": "（缺）"}
+{"key": "mwg:spinner", "fallback": "保住主要行為", "fallback_text": "缺 border-area 可退回 mask-image 挖空，缺 @property 則退為固定弧長旋轉，轉圈載入提示仍可正常運作。", "unlock": "直接以原生無 value 的 <progress> 兼顧螢幕報讀語意與純 CSS 漸層圓環伸縮轉圈動畫。"}
+{"key": "mwg:scroll-progress-indicator:2", "fallback": "保住主要行為", "fallback_text": "不支援 animation-timeline 時可退回 JS scroll 監聽器更新 scaleX（純裝飾可略過），仍可顯示進度但失去合成層效能。", "unlock": "（缺）"}
+{"key": "mwg:progress-ring", "fallback": "保住主要行為", "fallback_text": "缺 border-area 改用 mask-image、缺 attr() 用 MutationObserver 同步 --value、缺 @property 則直接跳值，環形進度仍可用。", "unlock": "免手刻 SVG 路徑與 ARIA，直接以原生 <progress> 搭 attr() 與圓錐漸層畫出可隨設計系統調整的環形進度。"}
+{"key": "mwg:component-specific-light-dark-theme", "fallback": "失去主要好處", "fallback_text": "退回在 :root 用 @media (prefers-color-scheme: dark) 切換分離變數，原生控制項仍隨 color-scheme 變色，但子樹 token 不會自動翻轉。", "unlock": "用 light-dark() 定義色彩 token 後，只需在元件設 color-scheme 就能讓子樹的 token 與原生控制項改用另一套明暗。"}
+{"key": "mwg:html:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，這是避免藏起可聚焦元素的標準 HTML 與 ARIA 無障礙規範，無須瀏覽器退路。", "unlock": "（缺）"}
+{"key": "mwg:hovercard:8", "fallback": "保住主要行為", "fallback_text": "可條件載入 anchor positioning polyfill 並改用顯式 anchor-name 與 anchor() 維持貼齊（或以 @supports 退回置中），僅失去隱式錨點。", "unlock": "純 CSS 就能把 popover 預覽卡依隱式錨點貼齊觸發連結，並在溢出視窗邊緣時自動翻轉位置。"}
+{"key": "mwg:styling-web-components:5", "fallback": "不需要", "fallback_text": "支援狀態為不適用，這是提醒 display: contents 與 ::part／自訂屬性間的設計取捨，不需額外退路。", "unlock": "（缺）"}
+{"key": "mwg:menu:7", "fallback": "保住主要行為", "fallback_text": "不支援 Popover API 時可條件載入 @oddbird/popover-polyfill 並搭配 :is(:popover-open, .\\:popover-open)，巢狀關閉與還原焦點仍可運作。", "unlock": "（缺）"}
+{"key": "mwg:position-aware-tooltips:2", "fallback": "保住主要行為", "fallback_text": "不支援 Popover API 時可條件載入 @oddbird/popover-polyfill，避免遮住新聚焦控制項的調位與關閉邏輯仍可照常執行。", "unlock": "（缺）"}
+{"key": "mwg:scroll-progress-indicator", "fallback": "保住主要行為", "fallback_text": "不支援時改用 JS scroll 監聽器計算比例並更新 scaleX（純裝飾可略過），仍能顯示進度但失去純 CSS 與合成層效能。", "unlock": "免用 JS 捲動監聽器就能以 CSS animation-timeline 直接追蹤捲動進度，在合成層流暢縮放進度條。"}
+{"key": "mwg:scrollability-affordance-hints:4", "fallback": "保住主要行為", "fallback_text": "不支援捲動驅動動畫時可改用 IntersectionObserver 切換類別（有捲軸亦可略過），仍保有漸層淡出但失去隨捲動平滑連動。", "unlock": "（缺）"}
+{"key": "mwg:navigation-drawer:2", "fallback": "保住主要行為", "fallback_text": "點外部關閉只依賴基本 click 事件；抽屜其餘 Limited／Newly 特性如 scroll-initial-target 亦有 JS 退路維持完整滑動開閉。", "unlock": "（缺）"}
+{"key": "mwg:hovercard:2", "fallback": "保住主要行為", "fallback_text": "不支援 hint 的瀏覽器會自動退回 popover=\"manual\"，同樣不會關掉其他選單，只須由觸發端在失去興趣時明確關閉。", "unlock": "讓懸浮預覽卡屬於提示型頂層氣泡，顯示與關閉時不會把頁面上其他已開啟的選單 popover 一併關掉。"}
+{"key": "mwg:migrate-web-app-origin", "fallback": "失去主要好處", "fallback_text": "退回在舊站顯示橫幅請使用者自行前往新站重裝，舊 app 不會自動移除，捷徑等系統整合與設定也無法無縫轉移。", "unlock": "讓同站換來源的已安裝 PWA 在新舊雙方授權後自動移轉工作列捷徑與圖示等安裝狀態，不必手動解除並重裝。"}
+{"key": "mwg:icons:7", "fallback": "保住主要行為", "fallback_text": "Safari 不支援 CSS d 時僅能沿用預設路徑或改採內嵌 SVG，但仍可用自訂屬性從外部調整 fill 與 stroke-width 等呈現屬性。", "unlock": "不必重複內嵌整段 SVG，也能讓外部 CSS 透過自訂屬性客製 <use> 圖示內部的填色、線寬甚至路徑。"}
+{"key": "mwg:card:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，這是以標準 HTML 與視覺隱藏文字提供明確連結名稱的做法，無須瀏覽器退路。", "unlock": "（缺）"}
+{"key": "mwg:atrule-support-conditionals:2", "fallback": "保住主要行為", "fallback_text": "此查詢本身即特性偵測閘門，不支援 style queries 的瀏覽器會安全忽略該區塊並沿用外部基準樣式，只失去進階分支。", "unlock": "（缺）"}
+{"key": "mwg:css-layout:10", "fallback": "沒說", "fallback_text": "指南未交代瀏覽器不支援 scrollbar-gutter: stable 時該如何處理。", "unlock": "在捲軸出現前預先保留槽位，讓內容變多長出捲軸時可用寬度不變、不觸發版面位移，也不必強開捲軸。"}

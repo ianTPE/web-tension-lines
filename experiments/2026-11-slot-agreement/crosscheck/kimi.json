@@ -1,0 +1,152 @@
+{
+ "mwg:state-aware-sticky-headers:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時維持 sticky 且不變尺寸，避免黏住狀態振盪",
+  "unlock": "（缺）"
+ },
+ "mwg:custom-elements": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南未交代不支援 `moveBefore()` 時怎麼辦",
+  "unlock": "自訂元素可在搬移時保留狀態、焦點與 iframe／媒體播放"
+ },
+ "mwg:navigation-drawer:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `@property` 時由 scroll 監聽逐幀寫入數值，保留暗度變化",
+  "unlock": "註冊為數字的自訂屬性可在捲動動畫中平滑內插"
+ },
+ "mwg:calculate-with-intrinsic-sizes": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回一般尺寸關鍵字或長度，失去固有尺寸運算與平滑過渡",
+  "unlock": "`calc-size()` 可對固有尺寸加減、設限制，並與固定長度互相過渡"
+ },
+ "mwg:viewport-aware-dropdowns:2": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回預設置中或固定底條，失去貼附觸發鈕與自動翻邊",
+  "unlock": "（缺）"
+ },
+ "mwg:cpp-on-the-web": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）"
+ },
+ "mwg:accessible-web-components": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回同樹 id 或 `aria-label`，失去跨 shadow 的元素參照",
+  "unlock": "shadow 內控制項可直接參照 Light DOM 的標籤與描述元素"
+ },
+ "mwg:css-layout:4": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回一般 `wrap`，保留換行但最後一列仍可能只有一項",
+  "unlock": "`flex-wrap: balance` 可平均分配各列項目，避免最後一列落單"
+ },
+ "mwg:dark-mode-toggle": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）"
+ },
+ "mwg:icons:8": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南提供 Safari 錯誤補丁，未交代其他不支援情況",
+  "unlock": "（缺）"
+ },
+ "mwg:copy-button:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 Invoker Commands 時改用 click listener 呼叫同一複製函式",
+  "unlock": "用 `command` 與 `commandfor` 宣告複製目標，不必逐顆按鈕接 JavaScript"
+ },
+ "mwg:progress:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）"
+ },
+ "mwg:spinner": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時用 mask 挖空圓環並只旋轉，失去伸縮弧線",
+  "unlock": "無 `value` 的 `<progress>` 可同時提供不確定進度語義與自訂轉圈外觀"
+ },
+ "mwg:scroll-progress-indicator:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時用 scroll 監聽更新進度，保留指示器",
+  "unlock": "（缺）"
+ },
+ "mwg:progress-ring": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時用 mask 與 MutationObserver 補上圓環及數值同步",
+  "unlock": "原生 `<progress>` 可直接畫成圓環，CSS 也能讀取 `value` 屬性"
+ },
+ "mwg:component-specific-light-dark-theme": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回根元素的 media query 與 token，失去元件級原生 UI 配色",
+  "unlock": "單一元件可覆寫配色，讓子樹 token、表單控制項與捲軸一起切換"
+ },
+ "mwg:html:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）"
+ },
+ "mwg:hovercard:8": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時載入錨點定位 polyfill，改用明確錨點保持貼附",
+  "unlock": "CSS 錨點定位可讓預覽卡貼在觸發連結旁，溢出時自動翻邊"
+ },
+ "mwg:styling-web-components:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）"
+ },
+ "mwg:menu:7": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 popover 時載入 polyfill，保留巢狀選單開合",
+  "unlock": "（缺）"
+ },
+ "mwg:position-aware-tooltips:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 popover 時載入 polyfill，保留提示開關行為",
+  "unlock": "（缺）"
+ },
+ "mwg:scroll-progress-indicator": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 scroll 監聽更新進度，保留指示器但失去原生效能優勢",
+  "unlock": "進度條動畫可直接由捲動位置驅動，不必手寫捲動計算"
+ },
+ "mwg:scrollability-affordance-hints:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時改用背景陰影或 IntersectionObserver，保留邊緣提示",
+  "unlock": "（缺）"
+ },
+ "mwg:navigation-drawer:2": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南未交代不支援 `closedby` 時怎麼辦",
+  "unlock": "（缺）"
+ },
+ "mwg:hovercard:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `hint` 時退回 manual，須在失去 interest 時自行關閉",
+  "unlock": "`popover=\"hint\"` 可開啟預覽卡而不關掉其他選單"
+ },
+ "mwg:migrate-web-app-origin": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回舊站提示使用者到新站，失去自動遷移與設定保留",
+  "unlock": "已安裝 PWA 可在同站的新舊來源間遷移，不必手動解除再重裝"
+ },
+ "mwg:icons:7": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Safari 不能用 CSS `d` 改路徑，只能保留其他掛鉤或改內嵌 SVG",
+  "unlock": "symbol 可預留 CSS 變數掛鉤，讓 `<use>` 從外部改顏色、線寬或路徑"
+ },
+ "mwg:card:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）"
+ },
+ "mwg:atrule-support-conditionals:2": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南未交代不支援 style query 時怎麼辦",
+  "unlock": "（缺）"
+ },
+ "mwg:css-layout:10": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南未交代不支援 `scrollbar-gutter` 時怎麼辦",
+  "unlock": "可預留捲軸空間，內容長出捲軸時版面寬度不再改變"
+ }
+}

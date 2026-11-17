@@ -1,0 +1,272 @@
+[
+ {
+  "key": "mwg:state-aware-sticky-headers:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/state-aware-sticky-headers.md",
+  "title": "黏住時要改尺寸，就在父層關掉捲動錨定",
+  "action": "在 sticky 元素的直接父層設 `overflow-anchor: none`（不要設在 `:root` 或 `body`）；貼在底部的元素不要在黏住狀態改盒模型",
+  "opponent": "黏住時改高度、padding、字級，下方流內內容的捲動錨定會補償位移，把元素推回非黏住狀態，來回振盪閃爍（引用：\"Scroll anchoring on the in-flow content below the sticky element adjusts the scroll offset to compensate for the layout change, which pushes the element back out of its stuck position and triggers an oscillation.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:custom-elements",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/custom-elements.md",
+  "title": "用 connectedMoveCallback 接住 moveBefore() 的搬移，擋掉搬一次就重來",
+  "action": "自訂元素定義 `connectedMoveCallback`，元素被 `Node.moveBefore()` 搬動時改跑這個回呼，不跑 disconnect／connect",
+  "opponent": "一般搬動會先 `disconnectedCallback` 再 `connectedCallback`，昂貴或看得出來的 setup／teardown 整套重跑；`connectedMoveCallback` 存在的理由就是讓狀態、焦點、iframe／媒體播放撐過搬移（引用：\"this callback fires *instead of* `disconnectedCallback` → `connectedCallback`, so state, focus, and iframe/media playback survive the move.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:navigation-drawer:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md",
+  "title": "背景暗度的自訂屬性一定要用 `@property` 註冊成數字",
+  "action": "`@property --drawer-backdrop { syntax: '<number>'; inherits: true; initial-value: 0; }`",
+  "opponent": "沒有註冊時瀏覽器把它當字串、無法內插，背景從 0 直接跳到 1（引用：\"the backdrop would jump from 0 to 1 with no fade.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:calculate-with-intrinsic-sizes",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/calculate-with-intrinsic-sizes.md",
+  "title": "用 calc-size() 在內容尺寸上加減、夾範圍，還能動畫",
+  "action": "用 `calc-size(<基準>, <算式>)` 對 `auto`／`min-content`／`fit-content` 做運算（例如 `calc-size(auto, size + 2rem)`、`calc-size(fit-content, min(size + …, …))`），前一行先寫一般關鍵字當 fallback",
+  "opponent": "瀏覽器預設無法在長度和固有尺寸關鍵字之間插值，例如 `0px` 到 `auto`（引用：\"By default, browsers cannot interpolate between a length (e.g., `0px`) and an intrinsic keyword (e.g., `auto`).\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:viewport-aware-dropdowns:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/viewport-aware-dropdowns.md",
+  "title": "不載 polyfill 時，`inset: auto` 與 `margin: 0` 要包進 `@supports`",
+  "action": "把 `inset: auto`、`margin: 0` 和定位規則一起放進 `@supports (position-area: block-end)`；需要時在 `@supports not (...)` 裡另給固定在底部的面板",
+  "opponent": "無條件設 `inset: auto` 或 `margin: 0`，不支援錨點定位的瀏覽器取消了 popover 的預設置中、`position-area` 又被忽略，popover 卡在 (0, 0) 或蓋住觸發鈕（引用：\"leaving the popover stranded at `(0, 0)` or overlapping its trigger.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:cpp-on-the-web",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/wasm/cpp-on-the-web.md",
+  "title": "用 `-sENVIRONMENT=web`、靜態連結與乾淨的發行設定，只出貨瀏覽器需要的程式碼",
+  "action": "連結時加 `-sSTRICT`、`-sEXPORT_ES6`（輸出 ES 模組、不汙染全域）與 `-sENVIRONMENT=web`（或 `worker`、`web,worker`）；發行版用 `-O3`／`-Os`／`-Oz` 加 `-flto`，不帶 `-g` 與 `-sASSERTIONS`，必要時 `--closure=1`；用靜態函式庫（`.a`），非得載入外掛才用 `-sMAIN_MODULE`／`-sSIDE_MODULE`",
+  "opponent": "預設輸出帶著 Node.js 與 shell 的執行環境程式碼；動態連結再加上程式碼大小與執行時的額外負擔（引用：\"Strip Node.js and shell runtime support code to minimize bundle size. … add code-size and runtime overhead\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessible-web-components",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/accessible-web-components.md",
+  "title": "用 ariaLabelledByElements 等元素參照跨過 shadow 邊界，擋掉 id 參照默默失效",
+  "action": "shadow tree 內的控制項用 `ariaLabelledByElements`、`ariaDescribedByElements` 這類反射 ARIA 元素屬性，直接拿 Light DOM（或 slot 進來的內容）的元素當標籤或描述",
+  "opponent": "`aria-labelledby`、`aria-describedby` 這類 id 參照只在自己那棵樹裡解析，Light DOM 指不到 shadow 裡的 id、反之亦然，參照會被默默忽略（引用：\"An `id`-based attribute in the Light DOM cannot point at an `id` inside a shadow tree, and vice versa; the reference is silently ignored.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:css-layout:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "用 flex-wrap: balance 避免最後一列只剩一個孤兒項目",
+  "action": "標籤雲、篩選 pills、按鈕群等緊湊項目先設 `flex-wrap: wrap`，再疊 `flex-wrap: balance`",
+  "opponent": "一般換行只決定何時折列，最後一列可能只剩一個項目，視覺重量不均（引用：\"distribute items evenly across lines and prevent a single orphaned item on the final row\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:dark-mode-toggle",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/dark-mode-toggle.md",
+  "title": "只改 `<meta name=\"color-scheme\">` 沒用，要用 `:has()` 把它映射回 CSS",
+  "action": "`:root` 維持 `color-scheme: light dark`，再用 `:root:has(> head > meta[name=\"color-scheme\"][content=\"dark\"])`（與 `light`）覆寫成單一配色；切換時只改 `<meta>` 的 content",
+  "opponent": "`<meta>` 只是呈現提示，作者 CSS 裡的 `color-scheme` 會蓋過它，只更新 `<meta>` 等於沒做（引用：\"updating the `<meta>` alone is a **no-op** — CSS wins.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:icons:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/icons.md",
+  "title": "針對 Safari 的兩個渲染錯誤加補丁",
+  "action": "用只命中 Safari 的 `@supports` 對 `::before`／`::after` 套一個空的關鍵影格動畫，放進 `@layer`；在 Safari 把 `--icon-start` 改註冊為可繼承，並在樣式查詢裡把子孫重設為 `initial`",
+  "opponent": "WebKit 的錯誤可能讓圖示在使用者互動前都不出現；另一個錯誤讓 hover 時直接覆寫 `--icon-start` 不生效（引用：\"can prevent them from appearing until user interaction\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:copy-button:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/copy-button.md",
+  "title": "用 Invoker Commands 宣告複製目標",
+  "action": "用 `command` + `commandfor` 宣告按鈕要複製哪個元素，取代每顆按鈕各自接 JavaScript",
+  "opponent": "（缺）指南只說要取代 \"per-button JavaScript wiring\"，沒有指出舊寫法具體在哪個時刻出問題（引用：\"Declare the target with Invoker Commands (`command` + `commandfor`) instead of per-button JavaScript wiring\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:progress:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/progress.md",
+  "title": "`-webkit-` 與 `-moz-` 進度條偽元素分開寫，不要放在同一條規則",
+  "action": "`::-webkit-progress-value` 與 `::-moz-progress-bar` 各寫一條規則、各出現一次；狀態差異用 `progress` 上的自訂屬性傳進去",
+  "opponent": "合在同一個選擇器清單時，瀏覽器不認得另一家的偽元素，整條規則被判無效而忽略；`:is()`、`:where()` 也救不了（引用：\"The rule will be deemed invalid and will be ignored. `:is()` and `:where()` do not help here, as they don't support pseudo-elements.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:spinner",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/spinner.md",
+  "title": "用沒有 `value` 的 `<progress>` 做轉圈，`@property` 決定要不要加伸縮弧線",
+  "action": "`<progress aria-label=\"Loading\">` 不設 `value` 即為不確定狀態；`conic-gradient()` 畫拖尾、`background-clip: border-area` 挖成圓環、`rotate` 旋轉；以 `@property` 註冊 `--arc-start`／`--arc-end`，並讓 `--progress-dash-animation` 的 `initial-value` 帶入伸縮動畫，不支援 `@property` 時自動只剩旋轉",
+  "opponent": "缺——指南只說原生 `<progress>` 確保讀屏正確播報，沒說自製轉圈在哪個時刻出錯",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:scroll-progress-indicator:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/scroll-progress-indicator.md",
+  "title": "`animation-timeline` 要寫在 `animation` 簡寫之後",
+  "action": "先寫 `animation` 簡寫，再寫 `animation-timeline`",
+  "opponent": "簡寫寫在後面會把時間軸重設掉（引用：\"declare `animation-timeline` *after* it to prevent the shorthand from resetting the timeline.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:progress-ring",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/progress-ring.md",
+  "title": "用 `<progress>` 加 `conic-gradient()` 與 `attr()` 畫環形進度，不用 SVG 加 ARIA",
+  "action": "`<progress value max aria-label>` 本身就是圓環：`--value: attr(value type(<number>))` 讀屬性、`conic-gradient()` 畫填色、`background-clip: border-area` 配透明邊框挖空中心；隱藏原生進度條偽元素，中心數字另放一層",
+  "opponent": "缺——指南只說優於只用 SVG 的做法，因為用的是語意元素而非 ARIA、也更容易融入版面與設計系統，沒說 SVG 做法在哪個時刻出錯",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:component-specific-light-dark-theme",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/component-specific-light-dark-theme.md",
+  "title": "在元件上設 `color-scheme`，讓整個子樹改用另一套明暗",
+  "action": "頁面以 `light-dark()` 定義色彩 token 後，在程式碼區塊、媒體播放器、相簿、只支援單一配色的嵌入等「自成視覺脈絡」的區塊設 `color-scheme: dark`（要強制時用 `only dark`），子樹裡的 token、表單控制項、捲軸都改照這個配色解析；按鈕這類只是換色的淺層容器不用",
+  "opponent": "指南只列出適用情境，並說舊瀏覽器要在根元素用 `prefers-color-scheme` 切自訂屬性、避免在個別元件上用 media query，沒說舊做法在哪個時刻出問題（引用：\"Avoid using the media query on individual components unless the component requires a very specific type of dark mode customization beyond colors.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:html:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/html.md",
+  "title": "不要對可聚焦的元素或其祖先加 aria-hidden 或 role=\"presentation\"",
+  "action": "`aria-hidden=\"true\"`、`role=\"none\"` 只用在不可聚焦的元素上；背景影片可以，因為省略 `controls` 後它不可聚焦，互動式 `<iframe>` 不行",
+  "opponent": "把元素從輔助技術的樹裡藏起來，卻還能用鍵盤依序走到它（引用：\"Hiding elements from the assistive technology tree while leaving them accessible to sequential keyboard navigation violates core accessibility heuristics.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:hovercard:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/hovercard.md",
+  "title": "用錨點定位把預覽卡貼在連結下方，溢出時自動翻轉",
+  "action": "`interestfor` 讓觸發元素成為隱式錨點；卡片設 `position-area: block-end span-inline-end` 與 `position-try-fallbacks: flip-block, flip-inline`",
+  "opponent": "沒有錨點定位時，popover 退回瀏覽器預設的視窗置中，和觸發點分離（引用：\"tethered elements such as `[popover]` overlays fall back to their default user-agent placement (centered in the viewport for popovers).\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:styling-web-components:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/styling-web-components.md",
+  "title": "display: contents 讓宿主量不到尺寸，錨點定位會壞",
+  "action": "要把任意樣式傳給被包住的原生元素時，若用 `display: contents` 加 `all: inherit`，要知道它的代價；不適合時改用 `::part` 或自訂屬性",
+  "opponent": "`display: contents` 的元素 `getBoundingClientRect()` 與 `getClientRects()` 都回傳 0，以宿主為錨點的定位因此壞掉；`all: inherit` 也會抹掉 UA 預設（引用：\"`getBoundingClientRect()` and `getClientRects()` return zero for `display: contents` elements, so anchor positioning against the host is broken.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:menu:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/menu.md",
+  "title": "子選單一次只關一層，焦點自己還給它的觸發項目",
+  "action": "子選單裡的 Esc 與左鍵呼叫 `stopPropagation()`；關閉時先聚焦觸發項目再 `hidePopover()`",
+  "opponent": "HTML 只替堆疊中第一個 `popover=\"auto\"` 還原焦點，巢狀層級得自己還；沒擋下冒泡時，父選單的監聽也會把自己關掉（引用：\"HTML restores focus only for the first `popover=\"auto\"` in a stack, so nested levels must restore focus to their trigger explicitly. … or the parent's listener closes it too.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:position-aware-tooltips:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/position-aware-tooltips.md",
+  "title": "tooltip 不要蓋住剛取得焦點的控制項",
+  "action": "tooltip 可能遮住下一個聚焦元素時，調整它的位置，或在它不再相關時關閉",
+  "opponent": "鍵盤導覽不會關閉 `popover=auto` 的 tooltip，它可能蓋住剛取得焦點的控制項，不符 WCAG 2.4.11 Focus Not Obscured（引用：\"Keyboard navigation does not close a `popover=auto` tooltip, so ensure that tooltips do not obscure interactive elements as they receive focus via keyboard.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scroll-progress-indicator",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/scroll-progress-indicator.md",
+  "title": "用 `scroll()` 時間軸做閱讀進度條",
+  "action": "一個固定在頂端的元素套 `scaleX(0)`→`scaleX(1)` 的關鍵影格，`animation-timeline: scroll()`（追蹤最近的祖先捲動容器，這裡是根）或在 `:root` 定義具名 `scroll-timeline`；包在 `prefers-reduced-motion: no-preference` 與 `@supports (animation-timeline: scroll())` 裡",
+  "opponent": "指南只說原生實作比 scroll 監聽器的退路更有效率，沒說舊做法在哪個時刻出問題（引用：\"In browsers with built-in support for scroll-driven animations, ALWAYS use the native CSS implementation as those are more performant.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:scrollability-affordance-hints:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/scrollability-affordance-hints.md",
+  "title": "右到左內容要翻轉淡出的漸層方向",
+  "action": "在 `:dir(rtl)` 裡翻轉 `--fade-dir`，並交換兩條漸層帶的位置",
+  "opponent": "捲動時間軸跟著書寫方向，但漸層方向與遮罩位置是實體方向，右到左內容不翻轉就對不上（引用：\"The scroll timeline follows the writing direction, but gradient directions and mask positions are physical.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:navigation-drawer:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md",
+  "title": "滿版抽屜不要用 `closedby=\"any\"`，自己判斷點在抽屜外",
+  "action": "在 dialog 上聽 `click`，目標不在抽屜內就呼叫捲回關閉的 `closeDrawer()`",
+  "opponent": "dialog 佔滿整個視窗，點擊落在 dialog 上而不是 `::backdrop`，而且會在沒有滑出動畫的情況下直接關閉（引用：\"the dialog fills the viewport, so taps land on the dialog rather than its ::backdrop, and it would close without the slide-out animation.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:hovercard:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/hovercard.md",
+  "title": "預覽卡用 `popover=\"hint\"`，不會把已開的選單關掉",
+  "action": "卡片容器設 `popover=\"hint\"`",
+  "opponent": "用一般 popover 時，叫出預覽卡會關掉其他已開的 popover 選單（引用：\"Use `hint` to avoid closing unrelated popover menus that may be open.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:migrate-web-app-origin",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/pwa/migrate-web-app-origin.md",
+  "title": "用 manifest 的 `migrate_from`／`migrate_to` 搬家，不再要使用者解除安裝再重裝",
+  "action": "新站 manifest 宣告 `migrate_from`（可設 `behavior: \"force\"`），舊站在 `/.well-known/web-app-origin-association` 授權 `allow_migration`，舊站 manifest 可加 `migrate_to` 主動通知；新舊來源必須同站（同 eTLD+1）",
+  "opponent": "換來源時得要使用者手動解除安裝舊 app、再安裝新 app，失去工作列捷徑、通知權限等系統整合（引用：\"This process usually causes the loss of OS-level integration, such as taskbar shortcuts and notification permissions.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:icons:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/icons.md",
+  "title": "在 symbol 裡預留自訂屬性，讓 `<use>` 的圖示可以從外面調",
+  "action": "自己掌控的 symbol 預留掛鉤：`fill=\"var(--icon-accent, currentColor)\"`、`stroke-width=\"var(--icon-stroke, 2)\"`，甚至對某條路徑用 CSS `d: var(--icon-path, path(…))`；不掌控來源的圖示就直接內嵌 SVG",
+  "opponent": "`<use>` 引用的內容被複製進 shadow tree，頁面 CSS 選不到裡面的元素（引用：\"With `<use>`, the referenced content is cloned into a shadow tree, so page CSS cannot select its elements.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:card:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/card.md",
+  "title": "「閱讀更多」連結要有以可見文字開頭的完整名稱",
+  "action": "寫成 `Read more<span>（視覺隱藏）about poached eggs</span>`；不要再加其他重複標題網址的連結",
+  "opponent": "一模一樣的「閱讀更多」在讀屏的連結清單裡無法分辨（引用：\"identical \"read more\" links are ambiguous in a screen reader's link list.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:atrule-support-conditionals:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/atrule-support-conditionals.md",
+  "title": "偵測 style query 支援要用「永遠為真」的查詢",
+  "action": "用 `@container style(--a: 1) or (not (style(--a: 1))) { … }` 包住只在 style queries 可用時才套用的規則",
+  "opponent": "用 `@supports at-rule(@container style(--a: 1))` 或 `@supports (container-type: style)` 偵測 style queries，兩者都不會成立（引用：\"IMPORTANT: Do NOT try `@supports (container-type: style)` to detect support for style queries, as this will not work.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css-layout:10",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "用 scrollbar-gutter: stable 先留捲軸位置",
+  "action": "可能長出捲軸的容器設 `scrollbar-gutter: stable`，捲動需求用 `overflow: auto`",
+  "opponent": "內容變多才出現捲軸時，可用寬度突然改變，整個版面跟著位移（引用：\"Use `scrollbar-gutter: stable` to reserve space for scrollbars and prevent layout shifts when content grows.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ }
+]

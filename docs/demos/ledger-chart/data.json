@@ -921,7 +921,7 @@
     {
      "id": "mwg:navigation-drawer:2",
      "feature": "不用 closedby=any、自己判斷點在抽屜外",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -1860,7 +1860,7 @@
     {
      "id": "mwg:expose-canvas-content-to-browser-features",
      "feature": "<canvas content=\"drawable\">, drawElementImage()",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     }
@@ -5110,7 +5110,7 @@
     {
      "id": "mwg:icons:7",
      "feature": "symbol 內的 var() 掛鉤, CSS d",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },

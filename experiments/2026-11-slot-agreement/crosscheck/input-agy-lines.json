@@ -1,0 +1,272 @@
+[
+ {
+  "key": "mwg:anchor-positioning-tab-underline",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/anchor-positioning-tab-underline.md",
+  "title": "用錨點定位讓分頁底線滑到新的作用中分頁",
+  "action": "在 `<ul>` 的 `::before` 畫底線，`position: absolute` 加 `position-anchor: --active`；作用中的 `<li>` 設 `anchor-name: --active`；用 inset 屬性加 `anchor()` 定位（`inset-inline-start: anchor(left)` 等），在 `prefers-reduced-motion: no-preference` 時加 `transition: inset .2s`",
+  "opponent": "沒有錨點定位時只能在作用中的分頁畫 `border-bottom`，切換分頁時底線沒有動畫（引用：\"If anchor positioning is not supported in the browser, use a `border-bottom` to add an underline. It will not be animated.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:motion:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/motion.md",
+  "title": "非必要的捲動連動效果用捲動驅動動畫",
+  "action": "捲動相關的裝飾效果用 `animation-timeline: scroll()`",
+  "opponent": "指南只說用它取代 JS 監聽器，沒說監聽器在哪個時刻出問題（引用：\"Use **Scroll-Driven Animations** (`animation-timeline: scroll()`) for non-essential scroll-bound effects instead of JS listeners.\"）",
+  "support": "不適用",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:expose-canvas-content-to-browser-features",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/expose-canvas-content-to-browser-features.md",
+  "title": "把真 DOM 畫進 canvas，讓內容不再對瀏覽器隱形",
+  "action": "在 `<canvas content=\"drawable\">` 裡放真正的 HTML 子元素（標 `drawable`），在 `onpaint` 用 `drawElementImage()` 畫出來（WebGL／WebGPU 則複製成貼圖）",
+  "opponent": "一般 `<canvas>` 畫出來的內容，螢幕閱讀器、搜尋索引、翻譯工具、頁內搜尋、列印全都看不到（引用：\"Regular `<canvas>` content is not exposed to browser features such as screen readers, indexing, translation tools, accessibility assistive tools, find-in-page, print, etc.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:adapt-scrollbar-to-contrast-preferences",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/adapt-scrollbar-to-contrast-preferences.md",
+  "title": "用 `prefers-contrast: more` 把客製捲軸換成高對比配色",
+  "action": "捲軸顏色放在 `--scrollbar-thumb`／`--scrollbar-track` 變數，經 `scrollbar-color` 套用；`@media (prefers-contrast: more)` 裡改成純黑拇指配白軌道",
+  "opponent": "缺——指南只說開啟高對比的使用者期待強烈的前後景分隔，而不是淡灰或主題色，沒說低對比捲軸在哪個時刻出問題",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:interest-triggered-action-previews:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/interest-triggered-action-previews.md",
+  "title": "興趣觸發的預覽不要用 live region 播報",
+  "action": "預覽本身就是提示，不用 live region 播報套用與撤銷",
+  "opponent": "移動指標或 Tab 經過附近按鈕就會觸發興趣，套用／撤銷的播報很快變成噪音，蓋掉使用者真正在意的內容（引用：\"apply/unapply announcements quickly become noise that can drown out content the user actually cares about\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:optimize-script-priority",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/optimize-script-priority.md",
+  "title": "用 `<script fetchpriority>` 讓關鍵腳本先下載、非必要腳本讓路",
+  "action": "對影響 INP 的關鍵 `async`/`defer` 腳本加 `fetchpriority=\"high\"`；分析、廣告、首屏以下小工具的腳本，以及 body 尾端會阻擋解析的腳本，加 `fetchpriority=\"low\"`",
+  "opponent": "瀏覽器依位置與 `async`/`defer` 屬性給腳本預設優先序，body 尾端的腳本會和更關鍵的資源搶頻寬（引用：\"Use `fetchpriority=\"low\"` on parser-blocking scripts at the end of the body to prevent them from contending for bandwidth with more critical resources.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:move-dom-element-without-losing-state",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/move-dom-element-without-losing-state.md",
+  "title": "用 `moveBefore()` 搬元素，iframe 不重載、焦點不丟",
+  "action": "`newParent.moveBefore(element, null)` 取代 `appendChild()`／`insertBefore()`；先用 `'moveBefore' in Element.prototype` 偵測，不支援時退回 `insertBefore()`",
+  "opponent": "傳統搬法其實是先移除再插入，會重設許多內部狀態：`<iframe>` 重新載入、CSS 動畫重頭開始、輸入欄位失去焦點（引用：\"causing `<iframe>` elements to reload, CSS animations to restart, and input fields to lose focus\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:dynamic-sort:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/dynamic-sort.md",
+  "title": "排序結果只播報一次",
+  "action": "用一個 `role=\"status\"` 區域在排序後播報一次結果，焦點留在觸發排序的控制項",
+  "opponent": "把 `aria-live` 放在清單上，每個被搬動的項目都被唸一次（引用：\"DO NOT put `aria-live` on the list, which would announce every moved item.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:carousel-snap-highlights",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/carousel-snap-highlights.md",
+  "title": "用 `scroll-state(snapped)` 查詢標亮吸附到位的項目",
+  "action": "捲動容器設 `scroll-snap-type: x mandatory`，每個項目設 `container-type: scroll-state`，再用 `@container scroll-state(snapped: x)` 改項目內部卡片的樣式；效果包在 `prefers-reduced-motion: no-preference` 裡",
+  "opponent": "指南只說不必依賴 IntersectionObserver 或 scroll 監聽器，沒說那些做法在哪個時刻出問題（引用：\"without relying on JavaScript intersection observers or scroll event listeners\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:optimize-preload-priority:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/optimize-preload-priority.md",
+  "title": "預載太多會彼此搶頻寬，as 寫錯預載就白費",
+  "action": "整頁預載最多約 2 張圖、2～3 個必要字型，`fetchpriority=\"high\"` 最多給 1～2 個；正確寫 `as` 與 `type`；能放進 HTML `<img>` 的關鍵圖就不要靠預載",
+  "opponent": "預載數量過多造成頻寬互搶；`as` 不正確時預載不會被使用（引用：\"DO: Limit the total number of preloads on a page to at most 2 images and 2-3 essential fonts to prevent bandwidth contention.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:defer-rendering-heavy-content:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/defer-rendering-heavy-content.md",
+  "title": "content-visibility: auto 一定要配 contain-intrinsic-size",
+  "action": "替每個 `content-visibility: auto` 區塊寫 `contain-intrinsic-size: auto none auto 150px` 這類預估尺寸，`auto` 讓瀏覽器記住渲染過的真實尺寸",
+  "opponent": "沒給預估尺寸時，畫面外的區塊被收成 0px 高，捲動時版面大幅位移、捲軸亂跳（引用：\"Failure to do so forces the browser to collapse the element to a 0px height when off-screen, causing severe layout shifting and scrollbar jumping as the user scrolls.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:interest-triggered-tooltips:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/interest-triggered-tooltips.md",
+  "title": "當描述用的提示只能放錯過也無妨的內容",
+  "action": "接成描述的提示只放連結預覽、動作說明這類可錯過的內容；使用者需要的資訊放 toggletip 或直接寫在頁面上",
+  "opponent": "不是每個讀屏在瀏覽時都會唸描述，NVDA 在瀏覽模式下刻意跳過（引用：\"Not every screen reader reads descriptions when moving through the page (NVDA skips them in browse mode by design)\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:optimize-image-priority",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/optimize-image-priority.md",
+  "title": "用 fetchpriority 告訴瀏覽器哪張圖是 LCP、哪些藏著的圖可以晚點",
+  "action": "對 LCP 候選圖（通常是頂端英雄圖）加 `fetchpriority=\"high\"`；對技術上在首屏、但一開始看不到的圖（輪播的隱藏投影片、大型選單裡的圖）加 `fetchpriority=\"low\"`",
+  "opponent": "瀏覽器用啟發式規則分配圖片優先序，預設值不一定對得上頁面的 LCP（引用：\"Browsers use heuristics to assign loading priorities to images, but these defaults may not always align with your page's Largest Contentful Paint (LCP).\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:out-of-order-html-streaming:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/out-of-order-html-streaming.md",
+  "title": "live region 只包進度文字，不包整塊串流內容，也不用 `role=\"alert\"`",
+  "action": "只在「載入中…」這類進度文字的容器上加 live region；不要把整塊內容包進 live region；進度訊息不用 `role=\"alert\"`",
+  "opponent": "整塊內容包進 live region，串流完成時讀屏會把補上的全部內容唸一遍；`role=\"alert\"` 讓 NVDA 先唸「Alert」（引用：\"Do not wrap the entire content in a live region, as this will cause screen readers to announce the full \"patched\" content when streaming is complete, which can overwhelm screen reader users.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scroll-snap-realtime-feedback:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-snap-realtime-feedback.md",
+  "title": "載入時捲動位置被還原，要自己同步一次初始狀態",
+  "action": "頁面載入（`load` 或 `readyState === 'complete'`）時跑一次幾何計算，找出最接近中心的項目並設成 active",
+  "opponent": "瀏覽器透過歷史紀錄或錨點還原捲動位置時，`scrollsnapchange` 與 `scroll` 都不會自動觸發（引用：\"Neither `scrollsnapchange` nor `scroll` events will fire automatically.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scroll-entry-exit-effects:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-entry-exit-effects.md",
+  "title": "單一 keyframes 寫進出場時，要明寫中段的靜止狀態",
+  "action": "用 `entry 100%, exit 0%` 一起設定靜止值（例如 `scale: 1`），搭配 `animation-fill-mode: both`",
+  "opponent": "沒寫中段的話，元素會從 `entry 0%` 一路內插到 `exit 100%`（引用：\"Explicitly set the resting state across the middle (`contain`) phase so the element doesn't interpolate straight from entry 0% to exit 100%\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:animate-element-entry-exit",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/animate-element-entry-exit.md",
+  "title": "用 `@starting-style` 與 `allow-discrete` 讓元素出現與 `display: none` 都能過渡",
+  "action": "基礎樣式寫最終值；`@starting-style` 寫進場的起點；`transition` 列入 `display`，另寫一條 `transition-behavior: allow-discrete`；`[hidden]` 寫離場的終點；用 `appendChild()` 插入的元素一樣靠 `@starting-style` 進場",
+  "opponent": "CSS transition 以前無法對剛加入 DOM、或 `display` 從 `none` 變化的元素做動畫：瀏覽器跳過元素的第一次樣式更新（引用：\"Browsers skip transitions on an element's first style update (initial render or `display: none` change) unless this is provided.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:scoped-component-transitions:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scoped-component-transitions.md",
+  "title": "`match-element` 要搬動既有節點，不能用 `innerHTML` 重建",
+  "action": "用 `view-transition-name: match-element` 時，重排或刪除都以搬動、移除既有 DOM 節點完成",
+  "opponent": "`match-element` 依 DOM 節點身分配對，重建出來的新節點對不上舊節點（引用：\"Preserve and move existing DOM nodes (rather than recreating them with `innerHTML`) when using `view-transition-name: match-element`, as `match-element` tracks DOM node identity.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:same-document-transitions",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/same-document-transitions.md",
+  "title": "用 `startViewTransition()` 加共用的 `view-transition-name`，讓縮圖「長成」詳細頁主圖",
+  "action": "把 SPA 的視圖切換包進 `document.startViewTransition()`；列表項目與詳細頁主圖共用同一個 `view-transition-name`（列表各給唯一名稱再動態套到詳細頁，或反過來只在被選的項目上加名稱）",
+  "opponent": "從列表點進詳細頁時，縮圖直接消失、大圖瞬間出現在別處，使用者難以追蹤兩者的關係（引用：\"the thumbnail disappears and a new, larger image appears instantly elsewhere on the screen. This lack of continuity makes it harder for users to track relationships between elements.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:defer-rendering-heavy-content:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/defer-rendering-heavy-content.md",
+  "title": "用 content-visibility: hidden 藏起來但保留渲染狀態，切換時立即顯示",
+  "action": "對初始隱藏的重區塊（大型資料表的額外列、切換的視圖）設 `content-visibility: hidden`，要顯示時改成 `visible` 或 `auto`；以 `@supports (content-visibility: hidden)` 包住，預設仍是 `display: none`",
+  "opponent": "缺——指南只說它比 `display: none` 好（\"superior to `display: none`\"），沒說 `display: none` 在切換時具體出了什麼事",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:visually-texture-content",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/visually-texture-content.md",
+  "title": "用 `mask-image` 紋理讓內容本身斑駁，而不是蓋一層紋理圖",
+  "action": "`mask-image` 指向可重複的紋理圖（`mask-repeat: repeat`、`mask-size` 控制比例），或用 CSS 漸層組出幾何圖樣，同時寫 `-webkit-mask-*`；注意來源決定模式：頁內 SVG `<mask>` 預設看亮度，圖檔與漸層預設看透明度，要改用 `mask-mode`",
+  "opponent": "把紋理當背景或疊層貼上去，只是蓋在內容上面或後面，內容自己的透明度不變，底下的背景透不出來（引用：\"You can use a background image or an overlay as a fallback to simulate the texture, although it will not affect the transparency of the content itself.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:2d-panning:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/2d-panning.md",
+  "title": "`touch-action` 只在 JS 退路裡設，而且用 `pinch-zoom`",
+  "action": "只在 `@supports not (scroll-axis-lock: none)` 的 JS 指標退路啟用時設 `touch-action: pinch-zoom`，不用 `none`",
+  "opponent": "無條件設 `touch-action` 會關掉原生的合成器觸控捲動；設成 `none` 還連雙指縮放一起關掉（引用：\"restricting it disables native compositor touch scrolling.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:interest-triggered-action-previews",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/interest-triggered-action-previews.md",
+  "title": "用 `interestfor` 在按下之前預覽動作效果",
+  "action": "按鈕或連結寫 `interestfor=\"目標id\"`，目標上監聽 `interest`／`loseinterest`，依 `event.source` 套用或撤銷預覽；`:interest-source`／`:interest-target` 設樣式，`interest-delay-start`／`-end` 調延遲",
+  "opponent": "指南只說讓使用者在確定前先預覽動作會有幫助，沒說舊做法在哪個時刻出問題（引用：\"It can be beneficial to provide users a preview of their actions before they commit to them.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:conditional-async-dependencies:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/conditional-async-dependencies.md",
+  "title": "top-level await 只擋住匯入它的父模組，不擋兄弟 import",
+  "action": "從單一入口匯入含 top-level await 的模組；入口要委派給其他應用模組時，用 `await import('./polyfill.js'); await import('./app.js');` 串起來，不寫成兩個並列的靜態 import，也不讓多個兄弟模組同時匯入它",
+  "opponent": "並列的靜態 import 會讓 `app.js` 在 polyfill 載完前就執行；Safari 15–26.6 在多個模組同時匯入含 top-level await 的模組時直接失敗（引用：\"top-level `await` only suspends the parent module that imports it—not sibling static imports—so `./app.js` will evaluate concurrently in all browsers before the polyfill finishes loading.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:lazy-load-video-and-audio",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/lazy-load-video-and-audio.md",
+  "title": "用 <video>／<audio> 的 loading=\"lazy\" 把海報圖與 metadata 請求延到接近視窗時",
+  "action": "對首屏以下的 `<video>`、`<audio>` 加 `loading=\"lazy\"`，搭配 `preload=\"none\"`（要使用者按播放）或 `preload=\"metadata\"`（進入視窗後自動帶出長度與首格）；`autoplay` 也會等到接近視窗才下載與播放",
+  "opponent": "即使設了 `preload=\"metadata\"` 或 `preload=\"none\"`，瀏覽器仍立刻抓 `poster` 圖，`preload=\"metadata\"` 還會對頁面上每個播放器發出範圍請求（引用：\"Even when `preload=\"metadata\"` or `preload=\"none\"` is set on a `<video>`, the browser eagerly fetches its `poster` image immediately, and `preload=\"metadata\"` still initiates range requests for media headers across every player on the page.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:swipe-to-reveal:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-reveal.md",
+  "title": "覆寫既有的 `contain`／`none` 時，先寫 `auto` 再寫 `chain`",
+  "action": "基礎樣式已設 `overscroll-behavior: contain` 或 `none` 時，在 `chain` 前面緊接著宣告 `overscroll-behavior: auto`",
+  "opponent": "不認得 `chain` 的瀏覽器會丟掉這行，留下先前的 `contain`／`none`，捲動被困住（引用：\"declare `overscroll-behavior: auto` immediately before `overscroll-behavior: chain` so browsers that do not yet support `chain` still chain scrolling to the parent rather than trapping it.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:adapt-scrollbar-to-contrast-preferences:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/adapt-scrollbar-to-contrast-preferences.md",
+  "title": "不要對 `scrollbar-color` 做動畫或過渡",
+  "action": "切換主題或高對比時直接換值，不加 `transition`",
+  "opponent": "WebKit 的 bug 讓 `scrollbar-color` 每次改變時捲軸都會閃爍（引用：\"A [WebKit bug](https://bugs.webkit.org/show_bug.cgi?id=311752) causes the scrollbar to flicker every time `scrollbar-color` changes.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-remove:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md",
+  "title": "退路的程式捲動要在接上觀察器之前執行",
+  "action": "不支援 `scroll-initial-target` 時，在加上 `.is-initialized` 之後、接上內層 IntersectionObserver 之前設 `track.scrollLeft = track.clientWidth`；再用 ResizeObserver 在尺寸變化時補設，移除前記得取消觀察",
+  "opponent": "順序反了，初始的程式捲動會被當成一次滑動，馬上觸發提交（引用：\"Otherwise the initial programmatic scroll past the left spacer will be observed as a \"swipe\" and immediately fire the commit handler.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:calculate-total-foreground-time",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/calculate-total-foreground-time.md",
+  "title": "用 visibility-state 效能條目算出真正在看的時間，不把背景分頁算進去",
+  "action": "用 `performance.getEntriesByType('visibility-state')` 取得整段可見性歷史，把每段 `visible` 到下一筆狀態變化之間的時間加總",
+  "opponent": "傳統的停留時間把頁面待在背景的時間也算進去（引用：\"Traditional metrics like time-on-page often incorrectly include time spent with the page in the background.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:performance:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/performance.md",
+  "title": "用 `contain` 與 `content-visibility: auto` 把排版重算圈在元件裡",
+  "action": "對獨立的 UI 元件（彈窗、小工具）用 `contain: layout style paint`；大型複雜頁面的畫面外區塊用 `content-visibility: auto` 並配 `contain-intrinsic-size`（用 `auto` 與依內容推算的值）",
+  "opponent": "元件內部變動觸發整頁重排（引用：\"use `contain: layout style paint` to prevent internal changes from triggering page-wide reflows.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ }
+]

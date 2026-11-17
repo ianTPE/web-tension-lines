@@ -31,7 +31,7 @@ license: CC-BY-4.0（上游指南）
 ## 滿版抽屜不要用 `closedby="any"`，自己判斷點在抽屜外
 - 做法：在 dialog 上聽 `click`，目標不在抽屜內就呼叫捲回關閉的 `closeDrawer()`
 - 對手：dialog 佔滿整個視窗，點擊落在 dialog 上而不是 `::backdrop`，而且會在沒有滑出動畫的情況下直接關閉（引用："the dialog fills the viewport, so taps land on the dialog rather than its ::backdrop, and it would close without the slide-out animation."）
-- 退路：沒說——指南未交代不支援 `closedby` 時怎麼辦
+- 退路：保住主要行為——點外部關閉靠一般 click 事件，不依賴 `closedby`；捲動起點另有 JS 退路
 - 解鎖：（缺）
 
 經過：加了 `closedby="any"`，點暗處抽屜瞬間消失，沒有滑出去。
@@ -40,10 +40,10 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：新功能的副作用
 - 支援狀態：<dialog closedby>：指南本篇未給支援資料；其他指南記為 Limited
-- 戰報：僵持（由支援狀態與退路推出）
+- 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 退路經交叉核對與仲裁更正為「保住主要行為」
 
 %% line-start id="mwg:navigation-drawer:3" %%
 ## 關閉時先捲回去，等觀察器看到抽屜完全離開才 `close()`

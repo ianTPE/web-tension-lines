@@ -1,0 +1,30 @@
+{"key":"mwg:anchor-positioning-tab-underline","fallback":"保住主要行為","fallback_text":"退回作用中分頁的 border-bottom，失去底線滑動動畫","unlock":"分頁切換時可讓同一條底線平滑移到新位置"}
+{"key":"mwg:motion:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"可用 CSS 讓非必要的裝飾動畫直接跟隨捲動進度"}
+{"key":"mwg:expose-canvas-content-to-browser-features","fallback":"保住主要行為","fallback_text":"退回 CSS 覆疊或 polyfill，失去原生 canvas 繪製整合","unlock":"canvas 內的真 DOM 可供無障礙、翻譯與頁內搜尋使用"}
+{"key":"mwg:adapt-scrollbar-to-contrast-preferences","fallback":"保住主要行為","fallback_text":"退回 ::-webkit-scrollbar 配色，失去標準 scrollbar-color","unlock":"可依高對比偏好把捲軸切成鮮明的前後景配色"}
+{"key":"mwg:interest-triggered-action-previews:2","fallback":"保住主要行為","fallback_text":"退回 interestfor polyfill，需改用類別與 CSS 變數","unlock":"（缺）"}
+{"key":"mwg:optimize-script-priority","fallback":"失去主要好處","fallback_text":"退回瀏覽器預設排程，失去腳本優先序控制","unlock":"可明確提高關鍵腳本並降低非必要腳本的下載優先序"}
+{"key":"mwg:move-dom-element-without-losing-state","fallback":"失去主要好處","fallback_text":"退回 insertBefore()，iframe、動畫與焦點狀態會重設","unlock":"搬移 DOM 時可保留 iframe、動畫與焦點狀態"}
+{"key":"mwg:dynamic-sort:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:carousel-snap-highlights","fallback":"保住主要行為","fallback_text":"退回 IntersectionObserver 標亮，仍需 JS 判斷吸附項目","unlock":"不靠 JS 監聽器即可依吸附狀態標亮輪播項目"}
+{"key":"mwg:optimize-preload-priority:2","fallback":"保住主要行為","fallback_text":"仍按資源類型的預設優先序預載，失去優先序調整","unlock":"（缺）"}
+{"key":"mwg:defer-rendering-heavy-content:2","fallback":"保住主要行為","fallback_text":"退回正常渲染，失去畫面外延遲渲染的效能收益","unlock":"（缺）"}
+{"key":"mwg:interest-triggered-tooltips:4","fallback":"保住主要行為","fallback_text":"退回 interestfor polyfill，需額外腳本維護提示語意","unlock":"（缺）"}
+{"key":"mwg:optimize-image-priority","fallback":"失去主要好處","fallback_text":"退回瀏覽器啟發式優先序，失去 LCP 圖片優先控制","unlock":"可明確提高 LCP 圖片並降低隱藏圖片的載入優先序"}
+{"key":"mwg:out-of-order-html-streaming:3","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:scroll-snap-realtime-feedback:2","fallback":"保住主要行為","fallback_text":"退回 scroll 與 requestAnimationFrame，失去原生 snap 事件","unlock":"（缺）"}
+{"key":"mwg:scroll-entry-exit-effects:4","fallback":"保住主要行為","fallback_text":"退回 IntersectionObserver 更新樣式，失去原生 CSS 動畫效能","unlock":"（缺）"}
+{"key":"mwg:animate-element-entry-exit","fallback":"保住主要行為","fallback_text":"退回 data-closing 與 JS 延遲隱藏，失去純宣告式離場","unlock":"可為首次插入與 display:none 切換加入進出場過渡"}
+{"key":"mwg:scoped-component-transitions:2","fallback":"保住主要行為","fallback_text":"退回立即更新 DOM，失去元件轉場動畫","unlock":"（缺）"}
+{"key":"mwg:same-document-transitions","fallback":"失去主要好處","fallback_text":"退回立即更新 DOM，失去縮圖到主圖的連續動畫","unlock":"可讓列表縮圖平滑變成詳細頁主圖"}
+{"key":"mwg:defer-rendering-heavy-content:4","fallback":"保住主要行為","fallback_text":"退回 display:none，切換仍在但失去保留渲染狀態","unlock":"可隱藏重區塊並保留渲染狀態，切換時立即顯示"}
+{"key":"mwg:visually-texture-content","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:2d-panning:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:interest-triggered-action-previews","fallback":"保住主要行為","fallback_text":"退回 interestfor polyfill，需以類別與 CSS 變數模擬原生功能","unlock":"可在使用者按下前，以 hover 或焦點預覽動作效果"}
+{"key":"mwg:conditional-async-dependencies:2","fallback":"保住主要行為","fallback_text":"退回 async 函式或 Promise 鏈，失去 top-level await 寫法","unlock":"（缺）"}
+{"key":"mwg:lazy-load-video-and-audio","fallback":"保住主要行為","fallback_text":"退回 IntersectionObserver 延後請求，需自寫載入邏輯","unlock":"可將海報、metadata 與 autoplay 下載延到媒體接近視窗"}
+{"key":"mwg:swipe-to-reveal:6","fallback":"保住主要行為","fallback_text":"退回 overscroll-behavior:auto，保留捲動串接但恢復邊界反彈","unlock":"（缺）"}
+{"key":"mwg:adapt-scrollbar-to-contrast-preferences:3","fallback":"保住主要行為","fallback_text":"退回 ::-webkit-scrollbar 直接換色，失去標準 scrollbar-color","unlock":"（缺）"}
+{"key":"mwg:swipe-to-remove:8","fallback":"保住主要行為","fallback_text":"退回程式設定 scrollLeft 與 ResizeObserver，失去原生初始定位","unlock":"（缺）"}
+{"key":"mwg:calculate-total-foreground-time","fallback":"失去主要好處","fallback_text":"退回 performance.now()，背景分頁時間仍會算入","unlock":"可從可見性歷史只加總使用者實際看頁面的時間"}
+{"key":"mwg:performance:5","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}

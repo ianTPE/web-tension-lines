@@ -31,7 +31,7 @@ license: CC-BY-4.0（上游指南）
 ## 不載 polyfill 時，`inset: auto` 與 `margin: 0` 要包進 `@supports`
 - 做法：把 `inset: auto`、`margin: 0` 和定位規則一起放進 `@supports (position-area: block-end)`；需要時在 `@supports not (...)` 裡另給固定在底部的面板
 - 對手：無條件設 `inset: auto` 或 `margin: 0`，不支援錨點定位的瀏覽器取消了 popover 的預設置中、`position-area` 又被忽略，popover 卡在 (0, 0) 或蓋住觸發鈕（引用："leaving the popover stranded at `(0, 0)` or overlapping its trigger."）
-- 退路：失去主要好處——退回預設置中或固定底條，失去貼附觸發鈕與自動翻邊
+- 退路：保住主要行為——包在 `@supports` 裡，不支援錨點定位時退回置中或底部固定面板，只失去貼附觸發鈕
 - 解鎖：（缺）
 
 經過：重設 inset 是為了讓錨點定位接手，可是在不支援的瀏覽器裡沒有人接手，面板就掉到左上角。
@@ -43,7 +43,7 @@ license: CC-BY-4.0（上游指南）
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 退路經交叉核對與仲裁更正為「保住主要行為」
 
 %% line-start id="mwg:viewport-aware-dropdowns:3" %%
 ## 交給錨點定位 polyfill 的規則不要包在 `@supports` 裡

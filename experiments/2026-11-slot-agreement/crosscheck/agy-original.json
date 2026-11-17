@@ -1,0 +1,152 @@
+{
+ "mwg:anchor-positioning-tab-underline": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時以 `@supports` 退回 `border-bottom` 仍可標示作用中分頁，只失去滑動動畫",
+  "unlock": "用錨點定位讓純 CSS 底線跟著作用中分頁平滑移動並配合寬度變化，不必新增 DOM"
+ },
+ "mwg:motion:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——總覽僅指方向且本指南未列支援資料，非必要裝飾在無支援時亦可靜態呈現",
+  "unlock": "純 CSS 就能做出非必要的捲動連動裝飾效果，不必再掛 JavaScript 捲動監聽器"
+ },
+ "mwg:expose-canvas-content-to-browser-features": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回將 HTML 用 CSS 疊在 canvas 上或用 polyfill，失去畫進 canvas 渲染的能力",
+  "unlock": "把真實 DOM 放進 `<canvas content=\"drawable\">` 繪製，讓內容同時保留讀屏、翻譯、搜尋與列印"
+ },
+ "mwg:adapt-scrollbar-to-contrast-preferences": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `::-webkit-scrollbar` 或原生系統捲軸，僅失去標準化自訂配色",
+  "unlock": "用標準 `scrollbar-color` 搭 `prefers-contrast: more`，讓品牌捲軸在高對比模式下自動切換黑白"
+ },
+ "mwg:interest-triggered-action-previews:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不用 live region 播報，在原生與 polyfill 環境皆不製造讀屏噪音且預覽照常觸發",
+  "unlock": "（缺）"
+ },
+ "mwg:optimize-script-priority": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援時忽略 `fetchpriority`，退回瀏覽器預設排程而失去手動調度",
+  "unlock": "用 `<script fetchpriority>` 明確調度關鍵與非必要腳本的下載優先序"
+ },
+ "mwg:move-dom-element-without-losing-state": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Safari 退回 insertBefore() 雖能完成搬動，但 iframe、動畫與焦點狀態仍會重置",
+  "unlock": "將已有狀態的 DOM 元素直接搬進新父層，維持 iframe、CSS 動畫與輸入框焦點不斷線重設"
+ },
+ "mwg:dynamic-sort:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——ARIA live regions 已廣泛支援，按規範使用單一 status 區域與 visually-hidden 即可",
+  "unlock": "（缺）"
+ },
+ "mwg:carousel-snap-highlights": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Firefox 與 Safari 退回無高亮基本版，或改用 `IntersectionObserver` 腳本而失去純 CSS 做法",
+  "unlock": "用 `@container scroll-state(snapped)` 純 CSS 標亮吸附到位的輪播項目，免寫捲動或觀察器腳本"
+ },
+ "mwg:optimize-preload-priority:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `fetchpriority` 時仍須控制預載數量與正確 `as`，避免互搶或白抓",
+  "unlock": "（缺）"
+ },
+ "mwg:defer-rendering-heavy-content:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時兩個屬性皆被忽略而照常計算高度，不會發生捲軸亂跳",
+  "unlock": "（缺）"
+ },
+ "mwg:interest-triggered-tooltips:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——關鍵資訊本就改放 toggletip 或內文並搭配 polyfill，所有瀏覽器與讀屏都能取得",
+  "unlock": "（缺）"
+ },
+ "mwg:optimize-image-priority": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援時忽略該屬性而退回瀏覽器預設啟發式規則，失去手動調度優先序",
+  "unlock": "用 `fetchpriority` 主動告知瀏覽器 LCP 圖先抓、隱藏首屏圖延後，減少頻寬爭搶"
+ },
+ "mwg:out-of-order-html-streaming:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`aria-live` 機制已 Widely，不必另設退路",
+  "unlock": "（缺）"
+ },
+ "mwg:scroll-snap-realtime-feedback:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——載入時的一次性幾何計算不依賴吸附事件，原生環境與 scroll 退路皆能同步初始狀態",
+  "unlock": "（缺）"
+ },
+ "mwg:scroll-entry-exit-effects:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——中段靜止設定只作用於支援瀏覽器，不支援者退回 IntersectionObserver 依比例顯示正常大小",
+  "unlock": "（缺）"
+ },
+ "mwg:animate-element-entry-exit": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox 離場退回 `data-closing` 搭 `getAnimations()`，仍保住進離場動畫但須靠 JS",
+  "unlock": "用 `@starting-style` 與 `allow-discrete` 讓 `display: none` 切換與新插入元素都能宣告式過渡"
+ },
+ "mwg:scoped-component-transitions:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——維持搬動既有節點，支援瀏覽器保住變形配對，無元件轉場的退路亦能正確更新清單",
+  "unlock": "（缺）"
+ },
+ "mwg:same-document-transitions": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不支援時直接執行 DOM 更新並切換視圖，功能完整只是沒有縮圖變形動畫",
+  "unlock": "單頁應用切換視圖時能自動比對共有元素的大小與位置差異，讓縮圖平滑變形成詳細頁主圖"
+ },
+ "mwg:defer-rendering-heavy-content:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時以 `@supports` 退回 `display: none` 仍可隱藏，但切換時失去渲染狀態快取",
+  "unlock": "用 `content-visibility: hidden` 隱藏重區塊並保留樣式與排版狀態，切換顯示時幾乎無延遲"
+ },
+ "mwg:visually-texture-content": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——遮罩功能已 Widely，不必另設退路",
+  "unlock": "（缺）"
+ },
+ "mwg:2d-panning:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）"
+ },
+ "mwg:interest-triggered-action-previews": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不支援時載入 interestfor polyfill 並配 `:is()` 與 CSS 變數，Firefox／Safari 也能預覽",
+  "unlock": "按鈕或連結加上屬性就能宣告興趣關係，不用自組 hover 與延遲腳本即可在確認前先預覽動作效果"
+ },
+ "mwg:conditional-async-dependencies:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 15–26.6 照單一入口或串接動態 `import()` 即可避開錯誤；更舊瀏覽器改用 `async` 函式",
+  "unlock": "（缺）"
+ },
+ "mwg:lazy-load-video-and-audio": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `IntersectionObserver` 搭 `data-*` 仍可延後海報與媒體請求，僅失去純 HTML 簡潔性",
+  "unlock": "在 `<video>` 與 `<audio>` 加 `loading=\"lazy\"`，不必寫腳本即可把海報圖、preload 與自動播放延到捲近時"
+ },
+ "mwg:swipe-to-reveal:6": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——先寫 auto 再寫 chain，不支援的 Safari 會回退到 auto 並照常將捲動串接回父層",
+  "unlock": "（缺）"
+ },
+ "mwg:adapt-scrollbar-to-contrast-preferences:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `::-webkit-scrollbar` 或預設捲軸仍可正常顯示與切換，不會閃爍",
+  "unlock": "（缺）"
+ },
+ "mwg:swipe-to-remove:8": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——依序先加類別並捲動再掛觀察器且搭配 ResizeObserver，不支援瀏覽器也能穩停內容欄",
+  "unlock": "（缺）"
+ },
+ "mwg:calculate-total-foreground-time": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Firefox 與 Safari 退回 `performance.now()`，依然把背景時間算進停留總長",
+  "unlock": "直接查詢 `visibility-state` 效能條目算出真正前景觀看時間，不必自行監聽事件累加"
+ },
+ "mwg:performance:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）"
+ }
+}

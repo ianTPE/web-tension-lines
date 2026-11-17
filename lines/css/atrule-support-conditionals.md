@@ -31,7 +31,7 @@ license: CC-BY-4.0（上游指南）
 ## 偵測 style query 支援要用「永遠為真」的查詢
 - 做法：用 `@container style(--a: 1) or (not (style(--a: 1))) { … }` 包住只在 style queries 可用時才套用的規則
 - 對手：用 `@supports at-rule(@container style(--a: 1))` 或 `@supports (container-type: style)` 偵測 style queries，兩者都不會成立（引用："IMPORTANT: Do NOT try `@supports (container-type: style)` to detect support for style queries, as this will not work."）
-- 退路：沒說——指南未交代不支援 style query 時怎麼辦
+- 退路：保住主要行為——不支援樣式查詢時整個區塊被略過，沿用基準樣式，只失去進階分支
 - 解鎖：（缺）
 
 經過：其他 container query 類型都能用 `container-type` 的值偵測，偏偏 style queries 沒有對應值，直覺寫法會靜默失敗。指南給的恆真查詢不管用什麼屬性名稱都成立，只要前後兩段相同。
@@ -43,6 +43,6 @@ license: CC-BY-4.0（上游指南）
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 退路經交叉核對與仲裁更正為「保住主要行為」
 
 未拆：「不要用 `CSS.registerProperty` 偵測 `@property`，它的支援範圍較廣」——指南沒說誤判後的可觀察現象。

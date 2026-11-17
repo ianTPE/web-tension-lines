@@ -12,7 +12,7 @@ license: CC-BY-4.0（上游指南）
 ## 用 `startViewTransition()` 加共用的 `view-transition-name`，讓縮圖「長成」詳細頁主圖
 - 做法：把 SPA 的視圖切換包進 `document.startViewTransition()`；列表項目與詳細頁主圖共用同一個 `view-transition-name`（列表各給唯一名稱再動態套到詳細頁，或反過來只在被選的項目上加名稱）
 - 對手：從列表點進詳細頁時，縮圖直接消失、大圖瞬間出現在別處，使用者難以追蹤兩者的關係（引用："the thumbnail disappears and a new, larger image appears instantly elsewhere on the screen. This lack of continuity makes it harder for users to track relationships between elements."）
-- 退路：保住主要行為——偵測不支援時直接執行 DOM 更新並切換視圖，功能完整只是沒有縮圖變形動畫
+- 退路：失去主要好處——不支援時直接更新 DOM，縮圖到主圖的連續動畫消失，影像又會瞬間跳換
 - 解鎖：單頁應用切換視圖時能自動比對共有元素的大小與位置差異，讓縮圖平滑變形成詳細頁主圖
 
 經過：商品列表點進去，畫面一跳，眼睛得重新找剛剛點的那張圖。把更新包進轉場、給兩端同一個名字，圖就從原位飛到新位置。舊瀏覽器只是退回瞬間切換。
@@ -25,7 +25,7 @@ license: CC-BY-4.0（上游指南）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：以前列表到詳細頁的「接續感」要動畫函式庫算 FLIP → 現在相簿、商品目錄、聯絡人清單可以幾行 JS 讓點到的那張卡片變形成詳細頁，不支援的瀏覽器照常切換
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 退路經交叉核對與仲裁更正為「失去主要好處」
 
 %% line-start id="mwg:same-document-transitions:2" %%
 ## 同一個 `view-transition-name` 前後各只能有一個元素，轉場完要清掉
