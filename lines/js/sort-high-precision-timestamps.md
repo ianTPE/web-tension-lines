@@ -13,7 +13,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：伺服器或日誌給的 ISO 8601 時間戳用 `Temporal.Instant.from()` 解析，`Temporal.Instant.compare()` 當排序比較函式，`.since()` 算間隔、`.equals()` 判斷相同
 - 對手：`Date` 只存毫秒，`new Date()`／`Date.parse()` 會默默截掉毫秒以下的位數，同一毫秒內的不同事件撞在一起、排序不穩定（引用："parsing those strings with `new Date()` or `Date.parse()` silently truncates sub-millisecond digits, causing distinct events within the same millisecond to collide and sort in an unstable order."）
 - 退路：保住主要行為——Safari 沒有原生 API 時動態載入 temporal-polyfill，奈秒精度一樣保住
-- 解鎖：有——以前時間戳只到毫秒，同一毫秒內的事件排序不穩；現在能解析奈秒並用專門的比較函式排序
+- 解鎖：以前時間戳只到毫秒，同一毫秒內的事件排序不穩；現在能解析奈秒並用專門的比較函式排序
 
 經過：分散式追蹤的三筆事件都在 12:00:00.000 這一毫秒內，用 `Date` 解析後時間完全相同，畫出來的順序每次都可能不一樣。`Instant` 保住後面的六位數，request.start、db.query、request.end 永遠按真實順序排。
 %% line-end %%

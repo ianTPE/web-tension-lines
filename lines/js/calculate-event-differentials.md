@@ -32,7 +32,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：`duration.toLocaleString(locale, { style })` 或 `new Intl.DurationFormat(locale, { style: 'long' | 'short' | 'narrow' | 'digital' })`；`toString()` 只用在 ISO 8601 機器格式
 - 對手：缺——指南只說不要手動內插 `${duration.years}y ${duration.months}m...`，沒說手拼版在哪個時刻出錯
 - 退路：沒說——指南只給 Temporal 的 polyfill 退路，沒有交代 `Intl.DurationFormat` 不支援時怎麼辦
-- 解鎖：有——以前顯示時長要自己拼單位字串，換語系就得重寫；現在單位、順序與分隔符交給語系資料處理
+- 解鎖：以前顯示時長要自己拼單位字串，換語系就得重寫；現在單位、順序與分隔符交給語系資料處理
 
 經過：時長要顯示給人看，常見的是自己拼「1h 30m」，換語系就整串要重寫。`Intl.DurationFormat` 把單位、順序、分隔符交給語系資料處理。
 %% line-end %%

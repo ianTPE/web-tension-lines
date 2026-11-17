@@ -51,6 +51,9 @@ if [ "$NOW" != "$TO" ]; then
   echo "WARN: run finished but state.json not advanced (still $NOW)"; exit 1
 fi
 
+if ! python3 scripts/check_lines.py; then
+  echo "WARN: check_lines.py failed, not committing"; exit 1
+fi
 python3 scripts/build_page.py && python3 scripts/build_weekly.py && python3 scripts/build_demo.py
 git add -A lines ledger.csv weekly state.json docs i18n
 if ! git diff --cached --quiet; then

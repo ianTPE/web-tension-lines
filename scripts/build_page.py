@@ -20,7 +20,7 @@ for p in sorted((ROOT / "lines").rglob("*.md")):
     for m in re.finditer(r'%% line-start id="([^"]+)" %%\n(.*?)%% line-end %%\n(.*?)(?=%% line-start|\Z)', text, re.S):
         lid, body, detail = m.groups()
         title = re.search(r"^## (.+)$", body, re.M).group(1)
-        slots = dict(re.findall(r"^- (誰在做|動作＋對象|被什麼擋|戰報)：(.+)$", body, re.M))
+        slots = dict(re.findall(r"^- (做法|對手|退路|解鎖)：(.+)$", body, re.M))
         story = re.search(r"^經過：(.+)$", body, re.M)
         det = dict(re.findall(r"^- ([^：\n]+)：(.+)$", detail, re.M))
         led = ledger.get(lid, {})
@@ -28,9 +28,10 @@ for p in sorted((ROOT / "lines").rglob("*.md")):
             id=lid, title=title, guide=fm.get("guide", ""), gtitle=gtitle,
             category=fm.get("category", ""), upstream=fm.get("upstream", ""),
             file=str(p.relative_to(ROOT)), slots=slots, story=story.group(1) if story else "",
-            unlock=det.get("解鎖（發想，非指南原文）", ""), support=det.get("支援狀態", ""),
+            idea=det.get("發想（非指南原文）", ""), support=det.get("支援狀態", ""),
             group=led.get("對手組", det.get("對手組", "")), kind=led.get("類型", det.get("類型", "")),
-            result=led.get("戰報", ""), level=led.get("支援狀態", ""), release=led.get("版本", ""),
+            fallback_cat=led.get("退路", ""), result=led.get("戰報", ""),
+            level=led.get("支援狀態", ""), release=led.get("版本", ""),
         ))
 
 EN = json.load(open(ROOT / "i18n" / "en.json", encoding="utf-8"))
@@ -38,51 +39,52 @@ EN = json.load(open(ROOT / "i18n" / "en.json", encoding="utf-8"))
 UI = {
  "zh": dict(lang="zh-Hant", title="Web 張力線", desc="把 modern-web-guidance 的新指南拆成問題線：哪個新做法擋掉了哪個老問題",
    switch='<b>繁體中文</b> · <a href="en/">English</a> · <a href="weekly/">週記</a>',
-   lead=lambda n,k,rel: f'把 <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a> 的新指南拆成問題線：誰在做、做了什麼、被什麼擋、做完之後擋住的東西退了沒。找靈感時看<b>新能力</b>那幾條的「解鎖」。共 {n} 條線（新能力 {k} 條），處理到上游 {rel}。<a href="https://github.com/ianTPE/web-tension-lines">repo</a>',
-   ph="搜尋：功能名、對手、指南…（Ctrl+F 也找得到摺起來的內容）", aria="搜尋問題線",
+   lead=lambda n,k,rel: f'把 <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a> 的新指南拆成問題線：做法、對手、退路與解鎖。找靈感時看<b>新能力</b>那幾條的「解鎖」與「發想」。共 {n} 條線（新能力 {k} 條），處理到上游 {rel}。<a href="https://github.com/ianTPE/web-tension-lines">repo</a>',
+   ph="搜尋：功能名、對手、退路、指南…（Ctrl+F 也找得到摺起來的內容）", aria="搜尋問題線",
    l_kind="類型", l_result="戰報", l_group="分組", all="全部", by_group="對手組", by_guide="指南",
-   expand="全部展開", collapse="全部收合", unit="條", empty="沒有符合的線", unlock="解鎖・發想", support="支援",
+   expand="全部展開", collapse="全部收合", unit="條", empty="沒有符合的線", idea="發想（非指南原文）", support="支援",
    upstream="上游指南", file="線檔", lp="（", rp="）",
-   slots=("誰在做","動作＋對象","被什麼擋","戰報"),
-   foot='上游指南為 CC-BY 4.0（GoogleChrome/modern-web-guidance）。「解鎖」是發想，不是指南原文。這頁由 <code>scripts/build_page.py</code> 從 <code>lines/</code> 產生。'),
+   slots=("做法","對手","退路","解鎖"),
+   foot='上游指南為 CC-BY 4.0（GoogleChrome/modern-web-guidance）。「發想」不是指南原文。這頁由 <code>scripts/build_page.py</code> 從 <code>lines/</code> 產生。'),
  "en": dict(lang="en", title="Web Tension Lines", desc="New modern-web-guidance guides broken into problem lines: which new technique defeats which old problem",
    switch='<a href="../">繁體中文</a> · <b>English</b> · <a href="../weekly/">Weekly notes (Chinese)</a>',
-   lead=lambda n,k,rel: f'New guides from <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a>, broken into problem lines: who acts, what they do, what blocks it, and whether that blocker receded afterwards. For ideas, read the <b>Unlock</b> box on the <b>New capability</b> lines. {n} lines ({k} new capabilities), up to upstream {rel}. <a href="https://github.com/ianTPE/web-tension-lines">repo</a>',
-   ph="Search: feature, blocker, guide… (Ctrl+F also finds collapsed content)", aria="Search problem lines",
+   lead=lambda n,k,rel: f'New guides from <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a>, broken into problem lines: action, opponent, fallback, and what it unlocks. For ideas, read <b>Unlock</b> and the <b>Idea</b> box on the <b>New capability</b> lines. {n} lines ({k} new capabilities), up to upstream {rel}. <a href="https://github.com/ianTPE/web-tension-lines">repo</a>',
+   ph="Search: feature, opponent, fallback, guide… (Ctrl+F also finds collapsed content)", aria="Search problem lines",
    l_kind="Type", l_result="Outcome", l_group="Group by", all="All", by_group="Opponent", by_guide="Guide",
-   expand="Expand all", collapse="Collapse all", unit="lines", empty="No matching lines", unlock="Unlock · brainstorm", support="Support",
+   expand="Expand all", collapse="Collapse all", unit="lines", empty="No matching lines", idea="Idea · brainstorm", support="Support",
    upstream="Upstream guide", file="Line file", lp=" (", rp=")",
-   slots=("Who acts","Action + object","Blocker","Outcome"),
-   foot='Upstream guides are CC-BY 4.0 (GoogleChrome/modern-web-guidance). "Unlock" is brainstorming, not guide text. Lines are written in Chinese and translated in <code>i18n/en.json</code>; this page is generated by <code>scripts/build_page.py</code>.'),
+   slots=("Action","Opponent","Fallback","Unlock"),
+   foot='Upstream guides are CC-BY 4.0 (GoogleChrome/modern-web-guidance). "Idea" is brainstorming, not guide text. Lines are written in Chinese and translated in <code>i18n/en.json</code>; this page is generated by <code>scripts/build_page.py</code>.'),
 }
 
 def view(it, lang):
     """回傳該語言下要顯示的欄位；英文缺譯時退回中文並標記。"""
     s = it["slots"]
     zh = dict(title=it["title"], gtitle=it["gtitle"], group=it["group"], kind=it["kind"], result=it["result"], level=it["level"],
-              slots=[s.get(k, "") for k in ("誰在做","動作＋對象","被什麼擋","戰報")], story=it["story"], unlock=it["unlock"], support=it["support"], todo=False)
+              slots=[("" if k == "解鎖" and s.get(k, "").startswith("（缺）") else s.get(k, "")) for k in ("做法","對手","退路","解鎖")], story=it["story"], idea=it["idea"], support=it["support"], todo=False)
     if lang == "zh":
         return zh
     t = EN["lines"].get(it["id"])
     res = it["result"]; outc = EN["result"].get(res, res)
+    fb_cat = EN["fallback"].get(it["fallback_cat"], it["fallback_cat"])
     v = dict(gtitle=EN["guides"].get(it["guide"], it["gtitle"]), group=EN["groups"].get(it["group"], it["group"]),
              kind=EN["kind"].get(it["kind"], it["kind"]), result=outc, level=EN["level"].get(it["level"], it["level"]), todo=t is None)
     if t is None:
         return {**zh, **v}
-    v.update(title=t["title"], slots=[EN["who"], t["action"], t["blocker"], f'{outc} — {t["outcome"]}'],
-             story=t["story"], unlock=t["unlock"], support=t["support"])
+    v.update(title=t["title"], slots=[t["action"], t["opponent"], f'{fb_cat} — {t["fallback"]}', t["unlock"]],
+             story=t["story"], idea=t["idea"], support=t["support"])
     return v
 
 def card(it, lang, u):
     v = view(it, lang)
     rows = "".join(f"<dt>{k}</dt><dd>{inline(x)}</dd>" for k, x in zip(u["slots"], v["slots"]) if x)
-    unlock = f'<div class="unlock"><span class="tag">{u["unlock"]}</span>{inline(v["unlock"])}</div>' if v["unlock"] else ""
+    idea = f'<div class="unlock"><span class="tag">{u["idea"]}</span>{inline(v["idea"])}</div>' if v["idea"] else ""
     todo = '<span class="b lv">untranslated</span>' if v["todo"] else ""
     return f'''<details class="line" id="{it["id"].replace(":", "--")}" data-kind="{it["kind"]}" data-result="{it["result"]}" data-group="{html.escape(v["group"])}" data-guide="{html.escape(v["gtitle"])}">
 <summary><span class="t">{inline(v["title"])}</span>
 <span class="badges"><span class="b k-{it["kind"]}">{v["kind"]}</span><span class="b r-{it["result"]}">{v["result"]}</span><span class="b lv">{v["level"]}</span>{todo}</span>
 <span class="meta">{html.escape(v["gtitle"])} · {html.escape(v["group"])}</span></summary>
-<div class="body">{unlock}<dl>{rows}</dl><p class="story">{inline(v["story"])}</p>
+<div class="body">{idea}<dl>{rows}</dl><p class="story">{inline(v["story"])}</p>
 <p class="support"><b>{u["support"]}</b> {inline(v["support"])}</p>
 <p class="links"><code>{it["id"]}</code> · <a href="{it["upstream"]}">{u["upstream"]}</a> · <a href="{REPO}/{it["file"]}">{u["file"]}</a> · {it["release"]}</p></div></details>'''
 
@@ -92,7 +94,7 @@ def chips(name, values, lang, u):
     return b + "".join(f'<button type="button" class="chip" aria-pressed="false" data-f="{name}" data-v="{v}">{lab(v)}</button>' for v in values)
 
 kinds = ["新能力", "糾錯"]
-results = ["勝", "部分改善", "僵持", "缺"]
+results = ["勝", "部分改善", "僵持"]
 n_new = sum(1 for i in items if i["kind"] == "新能力")
 def build(lang):
     u = UI[lang]

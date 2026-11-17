@@ -13,7 +13,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：先用 `Intl.supportedValuesOf('calendar')` 確認環境支援，再以 `plainDate.withCalendar('hebrew')` 等轉換，依該曆法比較（`Temporal.PlainDate.compare()`）並用 `toLocaleString('en-u-ca-hebrew', { era: 'long', … })` 顯示
 - 對手：缺——指南只說 `Date` 以預推格里曆為基礎，支援其他曆法「很有挑戰」，以前得靠複雜的第三方函式庫或手算，沒指出哪個具體情境出錯（引用："Developers previously had to rely on complex third-party libraries or manual calculations to support these systems."）
 - 退路：保住主要行為——Safari 沒有原生 API 時動態載入 temporal-polyfill，曆法換算照樣做得到
-- 解鎖：有——以前要支援希伯來曆或農曆得載第三方曆法函式庫；現在日期帶著曆法識別碼，加減比較都依那套曆法
+- 解鎖：以前要支援希伯來曆或農曆得載第三方曆法函式庫；現在日期帶著曆法識別碼，加減比較都依那套曆法
 
 經過：要替使用者顯示希伯來曆或農曆日期，過去得載一套曆法函式庫。Temporal 讓日期帶著曆法識別碼，加減、比較、格式化都依那個曆法進行。
 %% line-end %%

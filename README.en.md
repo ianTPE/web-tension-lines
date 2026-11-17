@@ -4,7 +4,7 @@
 
 **[Browse online](https://iantpe.github.io/web-tension-lines/en/)** (searchable, filterable, expandable; [Chinese version](https://iantpe.github.io/web-tension-lines/), [weekly notes, Chinese only](https://iantpe.github.io/web-tension-lines/weekly/))
 
-Every week this repo checks [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance) for new guides and breaks each one into **problem lines** using four slots: who acts / action + object / what blocks it / outcome. The result is not a feature list. It records *which new technique defeats which old problem*, and then asks *what becomes buildable once that problem is gone*, as a source of ideas for new applications.
+Every week this repo checks [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance) for new guides and breaks each one into **problem lines** using four slots: action / opponent / fallback / unlock. The result is not a feature list. It records *which new technique defeats which old problem, what fallback exists when unsupported, and what becomes doable*, plus brainstorming ideas for new applications.
 
 > The line files, ledger and weekly notes are written in Traditional Chinese. The [English web page](https://iantpe.github.io/web-tension-lines/en/) shows every line translated (translations live in `i18n/en.json`); the glossary below maps the field values you will see in the raw files.
 
@@ -14,16 +14,16 @@ A problem line records the shape of one problem in four slots:
 
 | Slot | Asks | Example (`dynamic-sort` guide) |
 |---|---|---|
-| 誰在做 · Who acts | The actor | A developer |
-| 動作＋對象 · Action + object | What technique is applied to what | Reorder by moving the existing nodes with `moveBefore()` |
-| 被什麼擋 · Blocker | The concrete moment the old approach fails | Rebuilding the list with `innerHTML` loses focus, scroll position and image state |
-| 戰報 · Outcome | After the change, how far did *the same* problem recede? | Partial: focus is kept, but Safari does not support `moveBefore()` |
+| 做法 · Action | What technique is applied to what | Reorder by moving the existing nodes with `moveBefore()` |
+| 對手 · Opponent | The concrete moment the old approach fails | Rebuilding the list with `innerHTML` loses focus, scroll position and image state |
+| 退路 · Fallback | What happens when unsupported and what is lost | Keeps core behavior — Safari lacks `moveBefore()` and falls back to `append()`, preserving order while resetting focus and item state |
+| 解鎖 · Unlock | What becomes achievable, grounded in the guide text | Reorder existing items without rebuilding the DOM, preserving focus, iframes, and animations |
 
-Slots 3 and 4 carry the weight. A blocker must point to an observable phenomenon; labels such as "bad performance" or "tedious to write" count as missing. An outcome must answer whether *the same* blocker receded; "convenient" or "more modern" does not count. When a guide leaves a slot out, it is marked missing rather than filled in.
+Opponent, Fallback and Unlock carry the weight. An opponent must point to an observable phenomenon; labels such as "bad performance" or "tedious to write" count as missing. Fallback classifies browser degradation into one of four categories plus one sentence on what is lost. Unlock states what the guide itself enables; when a guide leaves Opponent or Unlock out, it is marked missing (`（缺）`) rather than filled in. Outcome (`戰報`) is then derived mechanically from Support level and Fallback rather than judged directly.
 
 The payoff: when several guides fight the same opponent (for example "the way something is hidden locks keyboard users out"), filtering `ledger.csv` by opponent group shows it at once.
 
-The four slots come from the Four-Slot Tension Coach in [ctxfst](https://github.com/ctxfst); the original definition is in [skill-line-coach/references/four-slot-coach.md](https://github.com/ctxfst/skill-line-coach/blob/main/references/four-slot-coach.md). It was designed for coaching one's own notes; here it is applied to someone else's feature guides. The adjustments (for example, "who acts" is fixed to the developer, and outcomes are graded by browser support) are in [PROMPT.md](PROMPT.md).
+The four slots come from the Four-Slot Tension Coach in [ctxfst](https://github.com/ctxfst); the original definition is in [skill-line-coach/references/four-slot-coach.md](https://github.com/ctxfst/skill-line-coach/blob/main/references/four-slot-coach.md). It was designed for coaching one's own notes; here it is applied to someone else's feature guides. The v2 rules (fallback classification, derived outcome, and unlock vs. idea separation) are in [PROMPT.md](PROMPT.md).
 
 ## Layout
 
@@ -46,15 +46,19 @@ The four slots come from the Four-Slot Tension Coach in [ctxfst](https://github.
 
 | Field | Value | Meaning |
 |---|---|---|
-| 戰報 · Outcome | 勝 | Win: Baseline *Widely available*, the opponent is gone |
-| | 部分改善 | Partial: *Newly available*, or the fallback loses part of the benefit |
-| | 僵持 | Stalemate: *Limited availability* or no browser support yet |
-| | 缺 | Missing: the guide does not say what improved |
+| 退路 · Fallback | 不需要 | Not needed: support level is *Widely* or *N/A* |
+| | 保住主要行為 | Keeps core behavior: fallback works, losing some extra benefit |
+| | 失去主要好處 | Loses the main benefit: fallback brings the opponent back or lacks the main point |
+| | 沒說 | Not stated: neither *Widely* nor *N/A*, and the guide gives no fallback |
+| 戰報 · Outcome | 勝 | Win: derived when support level is *Widely* or *N/A* |
+| | 部分改善 | Partial: derived when support level is *Newly* or fallback is *Keeps core behavior* |
+| | 僵持 | Stalemate: derived in all other cases |
 | 證據 · Evidence | 宣稱 / 實測 | Claimed by the official guide (always, for automated runs) / verified by hand in a browser |
 | 類型 · Type | 新能力 | New capability: a new platform feature makes something feasible or cheap |
 | | 糾錯 | Correction: fixes a common mistake with long-available features. Useful, but does not lead to new applications |
-| 解鎖 · Unlock | — | New capabilities only: one sentence on "what used to be stuck → what can be built now". This is brainstorming, not guide text |
-| 槽3 = 缺 | — | The guide recommends a new technique without saying how the old one actually fails |
+| 解鎖 · Unlock | — | What becomes doable, grounded directly in the guide text (empty in `ledger.csv` / `i18n/en.json` when missing) |
+| 發想 · Idea | — | New capabilities only: brainstorming on "what used to be stuck → what can be built now", not guide text |
+| 對手有無 = 缺 | — | Opponent missing: the guide recommends a new technique without saying how the old one fails |
 
 ## Agent Skill
 

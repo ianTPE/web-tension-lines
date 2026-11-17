@@ -175,7 +175,7 @@
     {
      "id": "mwg:swipe-to-remove:6",
      "feature": "Safari 延後 remove(), inert",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -236,21 +236,21 @@
     {
      "id": "mwg:move-dom-element-without-losing-state",
      "feature": "moveBefore()",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
     {
      "id": "mwg:persistent-top-layer-ui",
      "feature": "moveBefore()",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
     {
      "id": "mwg:custom-elements",
      "feature": "用 connectedMoveCallback 接住 moveBefore() 的搬移，擋掉搬一次就重來",
-     "result": "勝",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -271,7 +271,7 @@
     {
      "id": "mwg:language-model:16",
      "feature": "AI 改寫保留版本、比較與復原，不覆蓋唯一草稿",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     }
@@ -304,7 +304,7 @@
     {
      "id": "mwg:accessible-generated-content:2",
      "feature": "content 替代文字（/ 語法）",
-     "result": "勝",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
     },
@@ -424,7 +424,7 @@
     {
      "id": "mwg:accordion:2",
      "feature": "<details name>",
-     "result": "勝",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
     },
@@ -564,7 +564,7 @@
     {
      "id": "mwg:passkeys",
      "feature": "伺服器決定的 RP ID",
-     "result": "缺",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -767,7 +767,7 @@
     {
      "id": "mwg:motion:4",
      "feature": "獨立的 transition-behavior 宣告",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -802,7 +802,7 @@
     {
      "id": "mwg:scoped-component-transitions",
      "feature": "element.startViewTransition(), view-transition-name: match-element, view-transition-scope",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -837,7 +837,7 @@
     {
      "id": "mwg:scroll-completion-effects:4",
      "feature": "不為 Chrome 根捲動器 bug 多包捲動容器",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -921,7 +921,7 @@
     {
      "id": "mwg:navigation-drawer:2",
      "feature": "不用 closedby=any、自己判斷點在抽屜外",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -935,7 +935,7 @@
     {
      "id": "mwg:persistent-toast-notifications:5",
      "feature": "獨立的 transition-behavior 宣告",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -963,7 +963,7 @@
     {
      "id": "mwg:color:2",
      "feature": "color-mix(in oklab), 亮度調整不超過 30%",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -991,14 +991,14 @@
     {
      "id": "mwg:agentic-forms:3",
      "feature": "Angular Signal Forms 用 `experimentalWebMcpTool` 選項，不再加 `toolname`",
-     "result": "僵持",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
     {
      "id": "mwg:language-model:15",
      "feature": "不用 maxLength 逼模型縮短，生成後由程式截斷",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     }
@@ -1213,7 +1213,7 @@
     {
      "id": "mwg:content-first-noise-reduction:3",
      "feature": "scroll-state(scrollable: top)",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -1267,7 +1267,7 @@
     {
      "id": "mwg:position-aware-tooltips",
      "feature": "container-type: anchored, @container anchored(fallback)",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -1382,7 +1382,7 @@
     {
      "id": "mwg:position-aware-tooltips:2",
      "feature": "調整位置或關閉 tooltip",
-     "result": "缺",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
     },
@@ -1522,7 +1522,7 @@
     {
      "id": "mwg:agentic-forms:6",
      "feature": "用 `:tool-form-active`／`:tool-submit-active` 標出代理正在操作的表單與待確認的送出鈕",
-     "result": "僵持",
+     "result": "勝",
      "kind": "新能力",
      "level": "不適用"
     },
@@ -1567,7 +1567,7 @@
     {
      "id": "mwg:copy-button:2",
      "feature": "Invoker commands",
-     "result": "缺",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Newly"
     },
@@ -1635,7 +1635,7 @@
     {
      "id": "mwg:styling-web-components:5",
      "feature": "display: contents 讓宿主量不到尺寸，錨點定位會壞",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -1670,7 +1670,7 @@
     {
      "id": "mwg:precise-text-alignment",
      "feature": "text-box: trim-both cap alphabetic",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -1717,14 +1717,14 @@
     {
      "id": "mwg:tabs",
      "feature": "focusgroup",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
     {
      "id": "mwg:toolbar:2",
      "feature": "focusgroup",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -1745,14 +1745,14 @@
     {
      "id": "mwg:menu",
      "feature": "focusgroup=menu nomemory, command=toggle-popover, popover=auto",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
     {
      "id": "mwg:persistent-app-tours:2",
      "feature": "showPopover() 後 focus(), 關閉時送回控制項",
-     "result": "缺",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -1827,21 +1827,21 @@
     {
      "id": "mwg:improve-text-layout-and-legibility:2",
      "feature": "text-wrap: pretty",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
     {
      "id": "mwg:typography:3",
      "feature": "避免兩端對齊；非用不可時配 `hyphens: auto` 並宣告 `lang`",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
     {
      "id": "mwg:typography:6",
      "feature": "標題用 `text-wrap: balance`，長篇內文用 `text-wrap: pretty`",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "新能力",
      "level": "不適用"
     },
@@ -1886,7 +1886,7 @@
     {
      "id": "mwg:custom-text-decorations:4",
      "feature": "text-decoration-inset",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "新能力",
      "level": "不適用"
     },
@@ -2001,7 +2001,7 @@
     {
      "id": "mwg:language-model:7",
      "feature": "輸出語言不同時在輸出元素設 lang",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -2195,7 +2195,7 @@
     {
      "id": "mwg:hovercard:6",
      "feature": "DOM 解析完就一次接好 ARIA",
-     "result": "勝",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -2277,7 +2277,7 @@
     {
      "id": "mwg:respect-os-text-scale:3",
      "feature": "<meta name=\"text-scale\">",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -2432,7 +2432,7 @@
     {
      "id": "mwg:animate-to-intrinsic-sizes",
      "feature": "interpolate-size, calc-size()",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -2523,7 +2523,7 @@
     {
      "id": "mwg:motion:3",
      "feature": "View Transitions",
-     "result": "缺",
+     "result": "勝",
      "kind": "新能力",
      "level": "不適用"
     },
@@ -2551,7 +2551,7 @@
     {
      "id": "mwg:navigation-drawer:9",
      "feature": "scroll-initial-target: nearest（關閉位置）",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -2617,7 +2617,7 @@
     {
      "id": "mwg:atrule-support-conditionals",
      "feature": "@supports at-rule()",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -2708,7 +2708,7 @@
     {
      "id": "mwg:agentic-forms:5",
      "feature": "`toolactivated`／`toolcancel` 先偵測該掛在 `document.modelContext` 還是 `window`",
-     "result": "僵持",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     }
@@ -2989,7 +2989,7 @@
     {
      "id": "mwg:css:3",
      "feature": "針對元素類型的 reset",
-     "result": "缺",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -3198,7 +3198,7 @@
     {
      "id": "mwg:shadow-dom",
      "feature": "大量實例共用一份 adoptedStyleSheets，不要每個實例各帶一份 <style>",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -3264,7 +3264,7 @@
     {
      "id": "mwg:sms-otp-form",
      "feature": "用 WebOTP 與綁網域的簡訊格式自動帶入驗證碼，擋掉切 app 抄碼",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -3409,7 +3409,7 @@
     {
      "id": "mwg:agentic-forms:4",
      "feature": "欄位互相連動、自訂元件或多步驟的表單不用宣告式 API",
-     "result": "僵持",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -3470,7 +3470,7 @@
     {
      "id": "mwg:2d-panning:4",
      "feature": "touch-action: pinch-zoom 只用在退路",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -3603,7 +3603,7 @@
     {
      "id": "mwg:browser-ui-theming",
      "feature": "accent-color, color-scheme, scrollbar-color, ::selection, field-sizing, appearance: base-select",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -3697,7 +3697,7 @@
     {
      "id": "mwg:agentic-forms:2",
      "feature": "不可逆、金流、對外發送與帳號設定的表單不加 `toolautosubmit`",
-     "result": "僵持",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -3723,7 +3723,7 @@
     {
      "id": "mwg:privacy",
      "feature": "資料最小化（年齡區間、訪客結帳、差分隱私）",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -3807,14 +3807,14 @@
     {
      "id": "mwg:search-hidden-content:4",
      "feature": "敏感資料不放進 until-found 區塊",
-     "result": "勝",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     },
     {
      "id": "mwg:language-model:9",
      "feature": "對話歷史存 localStorage 前先處理個資風險",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     }
@@ -3887,7 +3887,7 @@
     {
      "id": "mwg:performance:4",
      "feature": "scheduler.yield()",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "新能力",
      "level": "不適用"
     },
@@ -3922,7 +3922,7 @@
     {
      "id": "mwg:language-model:14",
      "feature": "只送任務所需輸入，避免大資料讓本機模型像壞掉",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     }
@@ -3962,7 +3962,7 @@
     {
      "id": "mwg:identify-inp-causes:2",
      "feature": "LoAF styleDuration/layoutDuration, forcedStyleDuration/forcedLayoutDuration",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -4042,7 +4042,7 @@
     {
      "id": "mwg:lazy-load-video-and-audio:3",
      "feature": "不依賴 window load 事件",
-     "result": "缺",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -4133,7 +4133,7 @@
     {
      "id": "mwg:hovercard:11",
      "feature": "@view-transition, :popover-open 內的 view-transition-name, blocking=render",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -4175,7 +4175,7 @@
     {
      "id": "mwg:agentic-javascript-tools:9",
      "feature": "executeTool() 對舊 Chrome 保留 JSON 字串輸入退路",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "無瀏覽器支援"
     },
@@ -4283,7 +4283,7 @@
     {
      "id": "mwg:scroll-completion-effects",
      "feature": "await scrollIntoView()/scrollTo()/scrollBy()",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     }
@@ -4412,7 +4412,7 @@
     {
      "id": "mwg:flicker-free-client-side-ab-testing",
      "feature": "blocking=\"render\"",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -4426,7 +4426,7 @@
     {
      "id": "mwg:pull-to-reveal",
      "feature": "scroll-initial-target: nearest",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -4440,14 +4440,14 @@
     {
      "id": "mwg:scroll-target-on-load",
      "feature": "scroll-initial-target: nearest",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
     {
      "id": "mwg:swipe-to-reveal:5",
      "feature": "scroll-initial-target: nearest（雙側面板）",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -4532,7 +4532,7 @@
     {
      "id": "mwg:language-model:17",
      "feature": "重複輸入用本機快取，不重新跑相同推論",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     }
@@ -4558,7 +4558,7 @@
     {
      "id": "mwg:privacy:8",
      "feature": "功能偵測, UA Client Hints",
-     "result": "缺",
+     "result": "勝",
      "kind": "新能力",
      "level": "不適用"
     }
@@ -4570,7 +4570,7 @@
     {
      "id": "mwg:privacy:9",
      "feature": "<permission> 元素（PEPC）",
-     "result": "缺",
+     "result": "勝",
      "kind": "新能力",
      "level": "不適用"
     },
@@ -4690,14 +4690,14 @@
     {
      "id": "mwg:security:4",
      "feature": "HSTS max-age 逐步拉長",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
     {
      "id": "mwg:security:6",
      "feature": "SameSite=None; Secure; Partitioned",
-     "result": "缺",
+     "result": "勝",
      "kind": "新能力",
      "level": "不適用"
     },
@@ -4791,21 +4791,21 @@
     {
      "id": "mwg:passkey-authentication:3",
      "feature": "signalUnknownCredential()",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
     {
      "id": "mwg:passkey-conditional-create:2",
      "feature": "signalUnknownCredential()",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
     {
      "id": "mwg:passkey-management",
      "feature": "signalAllAcceptedCredentials(), signalCurrentUserDetails()",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -4852,14 +4852,14 @@
     {
      "id": "mwg:validate-origins:2",
      "feature": "isSameSite()",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
     {
      "id": "mwg:validate-origins:3",
      "feature": "Origin.from(event), new Origin()",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -4913,7 +4913,7 @@
     {
      "id": "mwg:agentic-javascript-tools:6",
      "feature": "consequentialHint 之外仍保留應用程式自己的確認",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "無瀏覽器支援"
     }
@@ -4939,7 +4939,7 @@
     {
      "id": "mwg:scroll-position-aware-elements",
      "feature": "scroll-state(scrollable: top)",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -4960,7 +4960,7 @@
     {
      "id": "mwg:state-aware-sticky-headers",
      "feature": "scroll-state(stuck: top)",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -4974,7 +4974,7 @@
     {
      "id": "mwg:motion:2",
      "feature": "animation-timeline: scroll()",
-     "result": "缺",
+     "result": "勝",
      "kind": "新能力",
      "level": "不適用"
     },
@@ -4995,7 +4995,7 @@
     {
      "id": "mwg:scroll-snap-state-sync",
      "feature": "scrollsnapchange, snapTargetBlock",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -5009,7 +5009,7 @@
     {
      "id": "mwg:scrollspy",
      "feature": "scroll-target-group: auto, :target-current",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -5023,7 +5023,7 @@
     {
      "id": "mwg:content-first-noise-reduction",
      "feature": "container-type: scroll-state, scroll-state(scrolled: bottom)",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     }
@@ -5056,7 +5056,7 @@
     {
      "id": "mwg:component-specific-light-dark-theme:4",
      "feature": "網址參數, postMessage() 傳配色",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
     },
@@ -5077,7 +5077,7 @@
     {
      "id": "mwg:dark-mode",
      "feature": "<meta name=color-scheme>",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
     },
@@ -5091,7 +5091,7 @@
     {
      "id": "mwg:visual-effects",
      "feature": "漸層與 `color-mix()` 明確寫 `in oklch` 或 `in oklab` 指定插值色彩空間",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "新能力",
      "level": "不適用"
     }
@@ -5110,7 +5110,7 @@
     {
      "id": "mwg:icons:7",
      "feature": "symbol 內的 var() 掛鉤, CSS d",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -5162,7 +5162,7 @@
     {
      "id": "mwg:prevent-page-scroll-under-modal-dialog",
      "feature": "overscroll-behavior: contain（dialog:modal 與 ::backdrop）, ::backdrop overflow: hidden",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -5197,7 +5197,7 @@
     {
      "id": "mwg:dialog:2",
      "feature": "overscroll-behavior: contain（dialog:modal 與 ::backdrop）",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -5228,7 +5228,7 @@
     {
      "id": "mwg:platform-controls-dismiss-dialog",
      "feature": "showModal(), closedby",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -5315,7 +5315,7 @@
     {
      "id": "mwg:visual-effects:2",
      "feature": "用 `@supports` 設定的自訂屬性帶入插值空間，並保留非空的漸層前導",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     }
@@ -5362,7 +5362,7 @@
     {
      "id": "mwg:persistent-app-tours:4",
      "feature": "調整提示位置或關閉提示",
-     "result": "缺",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -5414,7 +5414,7 @@
     {
      "id": "mwg:styling-web-components",
      "feature": "用繼承的自訂屬性做主題，不要用 :host-context()",
-     "result": "勝",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -5501,7 +5501,7 @@
     {
      "id": "mwg:scroll-snap-realtime-feedback",
      "feature": "scrollsnapchanging, scrollsnapchange, snapTargetInline",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     }
@@ -5562,7 +5562,7 @@
     {
      "id": "mwg:stack-drill-down:14",
      "feature": "overscroll-behavior-x: none",
-     "result": "部分改善",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     },
@@ -5617,7 +5617,7 @@
     {
      "id": "mwg:agentic-forms",
      "feature": "用 `toolname`／`tooldescription` 把一般 `<form>` 變成代理可呼叫的 WebMCP 工具",
-     "result": "僵持",
+     "result": "勝",
      "kind": "新能力",
      "level": "不適用"
     },

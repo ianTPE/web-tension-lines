@@ -33,9 +33,10 @@ def load_data(root):
             row = ledger.get(line_id, {})
             if row.get("狀態", "有效") != "有效":
                 continue
-            slots = dict(re.findall(r"^- (誰在做|動作＋對象|被什麼擋|戰報)：(.+)$", body, re.M))
+            slots = dict(re.findall(r"^- (做法|對手|退路|解鎖)：(.+)$", body, re.M))
             story = re.search(r"^經過：(.+)$", body, re.M)
             details = dict(re.findall(r"^- ([^：\n]+)：(.+)$", detail, re.M))
+            unlock_raw = slots.get("解鎖", "")
             items.append({
                 "id": line_id,
                 "guide_id": frontmatter.get("guide", ""),
@@ -46,16 +47,18 @@ def load_data(root):
                 "feature": row.get("功能", ""),
                 "group": row.get("對手組", details.get("對手組", "")),
                 "kind": row.get("類型", details.get("類型", "")),
+                "fallback_cat": row.get("退路", ""),
                 "result": row.get("戰報", ""),
                 "level": row.get("支援狀態", ""),
                 "evidence": row.get("證據", "宣稱"),
                 "release": row.get("版本", ""),
                 "title": re.search(r"^## (.+)$", body, re.M).group(1),
-                "action": slots.get("動作＋對象", ""),
-                "blocker": slots.get("被什麼擋", ""),
-                "outcome": slots.get("戰報", ""),
+                "action": slots.get("做法", ""),
+                "opponent": slots.get("對手", ""),
+                "fallback": slots.get("退路", ""),
+                "unlock": "" if unlock_raw.startswith("（缺）") else unlock_raw,
+                "idea": details.get("發想（非指南原文）", row.get("發想", "")),
                 "story": story.group(1) if story else "",
-                "unlock": details.get("解鎖（發想，非指南原文）", row.get("解鎖", "")),
                 "support": details.get("支援狀態", ""),
             })
     return items, en
@@ -65,25 +68,28 @@ def view(item, lang, en):
     if lang == "zh":
         return {k: item[k] for k in (
             "id", "guide_id", "guide_title", "category", "upstream", "file", "feature",
-            "group", "kind", "result", "level", "evidence", "release", "title", "action",
-            "blocker", "outcome", "story", "unlock", "support",
+            "group", "kind", "fallback_cat", "result", "level", "evidence", "release", "title",
+            "action", "opponent", "fallback", "unlock", "idea", "story", "support",
         )}
     translated = en["lines"].get(item["id"], {})
     result = en["result"].get(item["result"], item["result"])
+    fb_cat = en["fallback"].get(item["fallback_cat"], item["fallback_cat"])
     return {
         **{k: item[k] for k in ("id", "guide_id", "category", "upstream", "file", "feature", "release")},
         "guide_title": en["guides"].get(item["guide_id"], item["guide_title"]),
         "group": en["groups"].get(item["group"], item["group"]),
         "kind": en["kind"].get(item["kind"], item["kind"]),
+        "fallback_cat": fb_cat,
         "result": result,
         "level": en["level"].get(item["level"], item["level"]),
         "evidence": "Tested" if item["evidence"] == "實測" else "Claimed",
         "title": translated.get("title", item["title"]),
         "action": translated.get("action", item["action"]),
-        "blocker": translated.get("blocker", item["blocker"]),
-        "outcome": f'{result} — {translated["outcome"]}' if translated else item["outcome"],
-        "story": translated.get("story", item["story"]),
+        "opponent": translated.get("opponent", item["opponent"]),
+        "fallback": f'{fb_cat} — {translated["fallback"]}' if translated else item["fallback"],
         "unlock": translated.get("unlock", item["unlock"]),
+        "idea": translated.get("idea", item["idea"]),
+        "story": translated.get("story", item["story"]),
         "support": translated.get("support", item["support"]),
     }
 
@@ -110,9 +116,9 @@ def search_fields(item, lang, en):
         for keys, weight in (
             (("id", "guide_id", "feature"), 6),
             (("title", "group", "guide_title"), 5),
-            (("blocker", "action"), 4),
-            (("unlock", "story"), 3),
-            (("outcome", "support"), 2),
+            (("opponent", "action"), 4),
+            (("unlock", "idea", "story"), 3),
+            (("fallback", "support"), 2),
         ):
             weighted.append((weight, " ".join(data[key] for key in keys).casefold()))
     return weighted
@@ -148,7 +154,7 @@ def main():
     parser.add_argument("query", nargs="?", help="兩到六個核心關鍵字，以空白分隔")
     parser.add_argument("--id", help="直接讀取一個 line ID")
     parser.add_argument("--kind", choices=("新能力", "糾錯"), help="篩選問題線類型")
-    parser.add_argument("--result", choices=("勝", "部分改善", "僵持", "缺"), help="篩選戰報")
+    parser.add_argument("--result", choices=("勝", "部分改善", "僵持"), help="篩選戰報")
     parser.add_argument("--group", help="以中英文對手組名稱的一部分篩選")
     parser.add_argument("--lang", choices=("zh", "en"), default="zh", help="輸出語言，預設 zh")
     parser.add_argument("--limit", type=int, default=5, help="最多回傳幾條，預設 5")
@@ -190,11 +196,13 @@ def main():
             print(f'- Type / outcome / support: {item["kind"]} / {item["result"]} / {item["level"]}')
             print(f'- Opponent group: {item["group"]}')
             print(f'- Feature: {item["feature"]}')
-            print(f'- Blocker: {item["blocker"]}')
             print(f'- Action: {item["action"]}')
-            print(f'- Outcome: {item["outcome"]}')
+            print(f'- Opponent: {item["opponent"]}')
+            print(f'- Fallback: {item["fallback"]}')
             if item["unlock"]:
-                print(f'- Unlock (brainstorm, not guide text): {item["unlock"]}')
+                print(f'- Unlock: {item["unlock"]}')
+            if item["idea"]:
+                print(f'- Idea (brainstorm, not guide text): {item["idea"]}')
             print(f'- Support details: {item["support"]}')
             print(f'- Evidence: {item["evidence"]}')
             print(f'- Upstream: {item["upstream"]}')
@@ -205,11 +213,13 @@ def main():
             print(f'- 類型／戰報／支援：{item["kind"]}／{item["result"]}／{item["level"]}')
             print(f'- 對手組：{item["group"]}')
             print(f'- 功能：{item["feature"]}')
-            print(f'- 被什麼擋：{item["blocker"]}')
-            print(f'- 動作＋對象：{item["action"]}')
-            print(f'- 戰報：{item["outcome"]}')
+            print(f'- 做法：{item["action"]}')
+            print(f'- 對手：{item["opponent"]}')
+            print(f'- 退路：{item["fallback"]}')
             if item["unlock"]:
-                print(f'- 解鎖（發想，非指南原文）：{item["unlock"]}')
+                print(f'- 解鎖：{item["unlock"]}')
+            if item["idea"]:
+                print(f'- 發想（非指南原文）：{item["idea"]}')
             print(f'- 支援狀態：{item["support"]}')
             print(f'- 證據：{item["evidence"]}')
             print(f'- 上游指南：{item["upstream"]}')
