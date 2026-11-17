@@ -35,6 +35,7 @@
 | `docs/demos/` | 用新能力做的模組 demo。目前有 `ledger-chart/`：用 HTML-in-Canvas 畫的對手組戰報圖，標籤是真 DOM，可搜尋、可匯出（僅 Chrome 157 起，其他瀏覽器走 fallback）。資料由 `scripts/build_demo.py` 從 `ledger.csv` 產生 |
 | `i18n/en.json` | 英文版網頁用的譯文。線檔維持中文，每週任務會替新線補上譯文；缺譯時英文頁退回顯示中文 |
 | `wants.md` | 你自己「想做但卡住的事」。有寫東西時，週記會多一節「對到你的清單」，列出剛好擋掉這些問題的新功能 |
+| `.agents/skills/web-tension-lines/` | 顧問型 Agent Skill：從開發者描述的阻礙檢索相關線，回報新做法、戰報、限制與原文 |
 | `PROMPT.md` | 每週自動任務的完整指示 |
 | `scripts/weekly.sh` | 抓上游、算差異、叫 `claude -p` 跑 PROMPT.md |
 | `state.json` | 上次處理到的上游 commit |
@@ -46,6 +47,25 @@
 - **類型**：`新能力`（新平台功能讓某件事變得可行）或 `糾錯`（糾正常見錯誤，用的是早就能用的功能）。找靈感時只看新能力。
 - **解鎖**：新能力的線才有，一句話寫「以前卡在哪 → 現在能做出什麼」。這是發想，不是指南原文。
 - **槽3 = 缺**：指南推薦了新做法，卻沒說舊做法具體壞在哪。
+
+## Agent Skill
+
+Kimi Code 會自動發現專案內的 `.agents/skills/web-tension-lines/SKILL.md`。可手動呼叫：
+
+```text
+/skill:web-tension-lines 以前不敢做可拖曳的儀表板，因為圖表一搬就重新載入
+```
+
+skill 會用症狀與對手檢索一到三條相關線，附上戰報、支援限制、證據狀態與上游指南；不會自動改碼或開 issues。其他支援 Agent Skills 的工具可把同一目錄複製或連結到自己的 skills 掃描目錄。
+
+也可不透過代理直接檢索，只需要 Python 3，沒有第三方依賴：
+
+```bash
+python3 .agents/skills/web-tension-lines/scripts/search.py --kind 新能力 --limit 3 "拖曳 圖表 重新載入"
+python3 .agents/skills/web-tension-lines/scripts/search.py --id mwg:move-dom-element-without-losing-state --json
+```
+
+查詢同時比對中英文；加 `--lang en` 可輸出英文。詳細選項見 `--help`。
 
 ## 排程
 

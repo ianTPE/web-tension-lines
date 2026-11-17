@@ -37,6 +37,7 @@ The four slots come from the Four-Slot Tension Coach in [ctxfst](https://github.
 | `docs/demos/` | Module demos built with new capabilities. Currently `ledger-chart/`: an opponent-group chart drawn with HTML-in-Canvas whose labels are real DOM, searchable and exportable (Chrome 157+ only; other browsers get a fallback). Data is generated from `ledger.csv` by `scripts/build_demo.py` |
 | `i18n/en.json` | English translations for the web page. Line files stay in Chinese; the weekly run adds translations for new lines, and untranslated lines fall back to Chinese |
 | `wants.md` | Your own list of "things I wanted to build but got stuck on". When it has entries, the weekly note gains a section matching them to new capabilities that defeat the same blocker |
+| `.agents/skills/web-tension-lines/` | Advisory Agent Skill: retrieves lines from a developer's blocker and reports new approaches, outcomes, limitations and sources |
 | `PROMPT.md` | Full instructions for the weekly automated run |
 | `scripts/weekly.sh` | Fetches upstream, computes the diff, runs `claude -p` with PROMPT.md |
 | `state.json` | The last upstream commit processed |
@@ -54,6 +55,25 @@ The four slots come from the Four-Slot Tension Coach in [ctxfst](https://github.
 | | 糾錯 | Correction: fixes a common mistake with long-available features. Useful, but does not lead to new applications |
 | 解鎖 · Unlock | — | New capabilities only: one sentence on "what used to be stuck → what can be built now". This is brainstorming, not guide text |
 | 槽3 = 缺 | — | The guide recommends a new technique without saying how the old one actually fails |
+
+## Agent Skill
+
+Kimi Code automatically discovers `.agents/skills/web-tension-lines/SKILL.md` in this project. Invoke it manually with:
+
+```text
+/skill:web-tension-lines I avoided a draggable dashboard because charts reloaded whenever they moved
+```
+
+The skill retrieves one to three relevant lines by symptom and opponent, including their outcome, support limits, evidence status and upstream guide. It does not automatically change code or open issues. Other agents that support Agent Skills can copy or symlink the same directory into their skill scan directory.
+
+You can also search without an agent. Only Python 3 is required; there are no third-party dependencies:
+
+```bash
+python3 .agents/skills/web-tension-lines/scripts/search.py --kind 新能力 --limit 3 "drag chart reload"
+python3 .agents/skills/web-tension-lines/scripts/search.py --id mwg:move-dom-element-without-losing-state --json
+```
+
+Queries match both Chinese and English. Add `--lang en` for English output. See `--help` for all options.
 
 ## Schedule
 
