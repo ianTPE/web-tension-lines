@@ -29,7 +29,7 @@ license: CC-BY-4.0（上游指南）
 ## 依每次按鍵當下的實際幾何選下一個焦點，不靠索引或 DOM 順序
 - 誰在做：開發者（或寫程式的代理）
 - 動作＋對象：按鍵時讀目前元素與候選元素的 `getBoundingClientRect()`（不快取），以邊緣判斷方向、優先選垂直軸有重疊的，否則以 `gap + w * 垂直偏移` 計分；候選只取通過 `checkVisibility()` 的元素
-- 被什麼擋：不對稱、會換行或格狀的版面裡，用索引對應會選錯；隱藏元素的矩形可能是 `(0, 0)` 的零尺寸，變成意外的上、左目標（引用："In asymmetrical, wrapped, or grid layouts, index-based mapping fails."；"Hidden elements can have a zero-sized rect at `(0, 0)` and must not become accidental `up` or `left` targets."）
+- 被什麼擋：不對稱、會換行或格狀的版面裡，用索引對應會選錯；隱藏元素的矩形可能是 `(0, 0)` 的零尺寸，變成意外的上、左目標（引用："In asymmetrical, wrapped, or grid layouts, index-based mapping fails. … Hidden elements can have a zero-sized rect at `(0, 0)` and must not become accidental `up` or `left` targets."）
 - 戰報：勝——焦點沿著視覺上相鄰的列或欄移動（官方宣稱）
 
 經過：寬卡片和窄卡片混排，按右鍵焦點跳到下一行開頭；某個藏起來的按鈕還讓按上鍵飛到左上角。

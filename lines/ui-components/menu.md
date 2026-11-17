@@ -117,7 +117,7 @@ license: CC-BY-4.0（上游指南）
 ## 子選單一次只關一層，焦點自己還給它的觸發項目
 - 誰在做：開發者（或寫程式的代理）
 - 動作＋對象：子選單裡的 Esc 與左鍵呼叫 `stopPropagation()`；關閉時先聚焦觸發項目再 `hidePopover()`
-- 被什麼擋：HTML 只替堆疊中第一個 `popover="auto"` 還原焦點，巢狀層級得自己還；沒擋下冒泡時，父選單的監聽也會把自己關掉（引用："HTML restores focus only for the first `popover="auto"` in a stack, so nested levels must restore focus to their trigger explicitly."；"or the parent's listener closes it too."）
+- 被什麼擋：HTML 只替堆疊中第一個 `popover="auto"` 還原焦點，巢狀層級得自己還；沒擋下冒泡時，父選單的監聽也會把自己關掉（引用："HTML restores focus only for the first `popover="auto"` in a stack, so nested levels must restore focus to their trigger explicitly. … or the parent's listener closes it too."）
 - 戰報：部分改善——Esc 只收起子選單，焦點回到「匯出」，父選單仍開著（官方宣稱）
 
 經過：在子選單按 Esc，整串選單一起消失，焦點掉到頁面某處。

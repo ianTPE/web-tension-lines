@@ -647,3 +647,29 @@
 2026-11-17,v1.0.0,improve-text-layout-and-legibility,mwg:improve-text-layout-and-legibility:4,有框元素不用 balance,新功能的副作用,balance 不改容器寬度，有邊框或底色的元素尾端留下空白,勝,不適用,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,precise-text-alignment,mwg:precise-text-alignment,text-box: trim-both cap alphabetic,版面依賴錯的量測,字型內建留白讓文字比旁邊圖示高或低、內距看起來不等，只能靠負邊距魔術數字,部分改善,Limited,宣稱,有,新能力,徽章、按鈕、標籤可以直接把設計稿的間距寫進 CSS，換字型也不必重調。Firefox 尚未支援,有效
 2026-11-17,v1.0.0,shaped-cutouts,mwg:shaped-cutouts,"遮罩套在相鄰裝飾元素, maskContentUnits=objectBoundingBox",裁切切掉不該切的,直接對含文字的元素套遮罩可能把文字切掉,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,soft-edge-content-fade,mwg:soft-edge-content-fade,用 `mask-image` 漸層讓內容本身淡出，不再蓋一層半透明疊層,手工重現瀏覽器渲染,用半透明疊層假造淡出時，要先知道背景色，而且疊層會擋住文字選取與點擊,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,typography,mwg:typography,字級用 `rem`，不用 `px`,忽略使用者設定,`px` 字級不理會使用者在瀏覽器設定的字級偏好,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,typography,mwg:typography:2,有文字的元件不設固定高度，改用 `min-block-size`,尺寸不跟內容走,使用者加大行高、段距、字距與詞距時，固定高度的元件裡文字溢出或被裁掉,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,typography,mwg:typography:3,避免兩端對齊；非用不可時配 `hyphens: auto` 並宣告 `lang`,版面擠壓破壞可讀性,兩端對齊在字與字之間撐出過大的空白、讓文字更難讀,部分改善,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,typography,mwg:typography:4,長網址用 `overflow-wrap` 斷開，內文不用 `nowrap` 與固定寬度,版面意外溢出或位移,不換行、固定寬度的內文在窄螢幕或放大時撐出容器，得橫向捲動,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,typography,mwg:typography:5,流體字級用 `clamp()` 混合 `rem` 與 `vw`，上限不超過下限的 2.5 倍,忽略使用者設定,視窗單位不隨使用者縮放變大，只用 `vw` 的字級在極端螢幕上太小或太大,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,typography,mwg:typography:6,標題用 `text-wrap: balance`，長篇內文用 `text-wrap: pretty`,版面擠壓破壞可讀性,缺——指南只說用來平衡標題、處理長篇內文，沒說預設換行在哪個時刻出問題,部分改善,不適用,宣稱,缺,新能力,以前標題斷行要手插 `<br>` 或依寬度逐一調整 → 現在新聞列表、卡片標題、表格欄位標題在任何寬度都自動斷得整齊，CMS 產生的文字也一樣,有效
+2026-11-17,v1.0.0,typography,mwg:typography:7,`balance`／`pretty` 只套在需要的元素，不套在 `*`,優化用過頭反傷,這兩種換行有效能成本，全域套用讓整頁都付代價,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,typography,mwg:typography:8,有背景或邊框的元素不用 `text-wrap: balance`,新功能的副作用,`balance` 只改容器內的換行位置，不改容器寬度，可見的盒子尾端留下一塊空白,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,visual-effects,mwg:visual-effects,漸層與 `color-mix()` 明確寫 `in oklch` 或 `in oklab` 指定插值色彩空間,主題配色對不上,缺——指南只說不要用 `in srgb`，沒說 sRGB 插值在哪個時刻出問題,部分改善,不適用,宣稱,缺,新能力,以前漸層只能接受瀏覽器預設的混色方式 → 現在品牌雙色漸層、資料視覺化的連續色階、`color-mix()` 產生的 hover 色都能指定在哪個色彩空間混，依畫面選保彩度或保色域,有效
+2026-11-17,v1.0.0,visual-effects,mwg:visual-effects:2,用 `@supports` 設定的自訂屬性帶入插值空間，並保留非空的漸層前導,不認得的語法讓整條規則失效,部分 2024 年以前的瀏覽器不支援漸層插值色彩空間；變數為空時若沒有其他前導，舊瀏覽器直接判為語法錯誤,部分改善,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,visual-effects,mwg:visual-effects:3,條紋、棋盤、圓點、圓餅用 CSS 漸層畫，不用 SVG 或外部圖檔,圖示樣式管不到,SVG 與外部圖檔拿不到周遭的 CSS 變數與長度，圖樣不能跟著主題色或字級變,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,visually-stable-font-fallbacks,mwg:visually-stable-font-fallbacks,用 `font-size-adjust: from-font` 讓退路字型和網頁字型一樣大，換字時不跳,版面意外溢出或位移,網頁字型載入後取代尺寸不同的退路字型，即使 `font-size` 相同也會造成版面位移，x 高度差太多時文字還難以辨讀,部分改善,Newly,宣稱,有,新能力,以前要壓掉換字跳動，得為每個退路字型逐一算 `size-adjust` 與上下伸部覆寫 → 現在新聞站、部落格、多語系文件可以放心用網頁字型，一行宣告就讓任何退路字型和它等大，Core Web Vitals 的 CLS 不再被字型拖累,有效
+2026-11-17,v1.0.0,visually-stable-mixed-fonts,mwg:visually-stable-mixed-fonts,混排字型時用 `font-size-adjust` 以 x 高度對齊大小，不再只看 `font-size`,版面依賴錯的量測,不同字型的 x 高度不同，同樣的 `font-size` 下一種看起來明顯比另一種小或大，可讀性變差並造成版面位移,部分改善,Newly,宣稱,有,新能力,以前混排字型只能挑 x 高度相近的組合或逐個手調字級 → 現在技術文件的行內程式碼、可切換字型的電子書閱讀器、多主題的部落格可以自由搭配字型，切換主題字型時版面也不跳,有效
+2026-11-17,v1.0.0,visually-texture-content,mwg:visually-texture-content,用 `mask-image` 紋理讓內容本身斑駁，而不是蓋一層紋理圖,手工重現瀏覽器渲染,把紋理當背景或疊層貼上去，只是蓋在內容上面或後面，內容自己的透明度不變，底下的背景透不出來,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,cpp-on-the-web,mwg:cpp-on-the-web,用 `-sENVIRONMENT=web`、靜態連結與乾淨的發行設定，只出貨瀏覽器需要的程式碼,載入超過需要的資源,預設輸出帶著 Node.js 與 shell 的執行環境程式碼；動態連結再加上程式碼大小與執行時的額外負擔,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,cpp-on-the-web,mwg:cpp-on-the-web:2,Wasm 入口一次處理整塊緩衝區，不逐像素跨越 JS 邊界,邊界往返吃掉效能,每個像素、音訊取樣或頂點都呼叫一次匯出函式，跨邊界的開銷把 Wasm 的效能優勢吃光,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,cpp-on-the-web,mwg:cpp-on-the-web:3,開了記憶體成長時，每次 Wasm 呼叫後重新讀取 `HEAPU8`,生命週期假設錯,記憶體成長時舊的 `ArrayBuffer` 會被分離，先前拿到的視圖失效,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,cpp-on-the-web,mwg:cpp-on-the-web:4,超過幾毫秒的 Wasm 計算移到 Worker、多執行緒，或拆成逐幀讓出,主執行緒被重活卡住,在主執行緒同步跑影像渲染、光線追蹤、物理模擬或大量解析，頁面渲染與輸入全部凍結,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,cpp-on-the-web,mwg:cpp-on-the-web:5,深度遞迴改成迴圈或加大 `-sSTACK_SIZE`，開發時用 `-sASSERTIONS` 驗證,移植時沿用原生假設,Emscripten 預設堆疊只有 64 KB，比原生作業系統的堆疊小得多，深度遞迴會溢位並破壞線性記憶體,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,agentic-forms,mwg:agentic-forms,用 `toolname`／`tooldescription` 把一般 `<form>` 變成代理可呼叫的 WebMCP 工具,頁面功能對代理不透明,缺——指南只說瀏覽器會從表單欄位合成 JSON Schema 並處理代理互動，沒說沒有這些屬性時代理在哪個時刻出問題,僵持,不適用,宣稱,缺,新能力,以前要讓代理操作網站得另寫一套 API → 現在搜尋、篩選、查庫存這類現成表單加幾個屬性，就成為瀏覽器內代理可呼叫、還能回傳結果的工具。目前沒有瀏覽器原生支援，只有 Chromium 旗標預覽,有效
+2026-11-17,v1.0.0,agentic-forms,mwg:agentic-forms:2,不可逆、金流、對外發送與帳號設定的表單不加 `toolautosubmit`,表單意外送出,有 `toolautosubmit` 時，代理可以不等使用者互動就送出表單,僵持,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,agentic-forms,mwg:agentic-forms:3,Angular Signal Forms 用 `experimentalWebMcpTool` 選項，不再加 `toolname`,新功能的副作用,兩種做法同時用，同一張表單被註冊兩次,僵持,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,agentic-forms,mwg:agentic-forms:4,欄位互相連動、自訂元件或多步驟的表單不用宣告式 API,表單假設錯的資料格式,合成出來的 schema 表達不了欄位間的相依；自訂元件的值不會自動序列化,僵持,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,agentic-forms,mwg:agentic-forms:5,`toolactivated`／`toolcancel` 先偵測該掛在 `document.modelContext` 還是 `window`,功能偵測不可靠,Chrome 156 起事件改在 `document.modelContext` 上派送，舊版在 `window`，只掛一邊會在另一種版本收不到,僵持,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,agentic-forms,mwg:agentic-forms:6,用 `:tool-form-active`／`:tool-submit-active` 標出代理正在操作的表單與待確認的送出鈕,焦點或狀態指示消失,缺——指南只說用這兩個虛擬類別在代理互動時標亮表單，沒說不標示時在哪個時刻出問題,僵持,不適用,宣稱,缺,新能力,以前代理操作頁面時使用者看不出它動了哪裡 → 現在可以做「代理代填、人來按送出」的交接介面：被代理使用的表單整塊標亮，等待確認的按鈕用動畫提醒。目前沒有瀏覽器原生支援,有效

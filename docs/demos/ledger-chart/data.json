@@ -1,5 +1,5 @@
 {
- "total": 648,
+ "total": 674,
  "updated": "2026-11-17",
  "groups": [
   {
@@ -938,6 +938,20 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:typography:8",
+     "feature": "有背景或邊框的元素不用 `text-wrap: balance`",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:agentic-forms:3",
+     "feature": "Angular Signal Forms 用 `experimentalWebMcpTool` 選項，不再加 `toolname`",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -1434,6 +1448,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:agentic-forms:6",
+     "feature": "用 `:tool-form-active`／`:tool-submit-active` 標出代理正在操作的表單與待確認的送出鈕",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "不適用"
     }
    ]
   },
@@ -1568,6 +1589,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:visually-stable-mixed-fonts",
+     "feature": "混排字型時用 `font-size-adjust` 以 x 高度對齊大小，不再只看 `font-size`",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
     }
    ]
   },
@@ -1662,6 +1690,20 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:typography:3",
+     "feature": "避免兩端對齊；非用不可時配 `hyphens: auto` 並宣告 `lang`",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:typography:6",
+     "feature": "標題用 `text-wrap: balance`，長篇內文用 `text-wrap: pretty`",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "不適用"
     }
    ]
   },
@@ -1700,6 +1742,20 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:soft-edge-content-fade",
+     "feature": "用 `mask-image` 漸層讓內容本身淡出，不再蓋一層半透明疊層",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:visually-texture-content",
+     "feature": "用 `mask-image` 紋理讓內容本身斑駁，而不是蓋一層紋理圖",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -2042,6 +2098,20 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:typography",
+     "feature": "字級用 `rem`，不用 `px`",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:typography:5",
+     "feature": "流體字級用 `clamp()` 混合 `rem` 與 `vw`，上限不超過下限的 2.5 倍",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -2389,6 +2459,13 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:agentic-forms:5",
+     "feature": "`toolactivated`／`toolcancel` 先偵測該掛在 `document.modelContext` 還是 `window`",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -2602,6 +2679,20 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:typography:4",
+     "feature": "長網址用 `overflow-wrap` 斷開，內文不用 `nowrap` 與固定寬度",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:visually-stable-font-fallbacks",
+     "feature": "用 `font-size-adjust: from-font` 讓退路字型和網頁字型一樣大，換字時不跳",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
     }
    ]
   },
@@ -3013,6 +3104,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:agentic-forms:4",
+     "feature": "欄位互相連動、自訂元件或多步驟的表單不用宣告式 API",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -3219,6 +3317,13 @@
      "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:typography:2",
+     "feature": "有文字的元件不設固定高度，改用 `min-block-size`",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -3250,6 +3355,13 @@
      "id": "mwg:sms-otp-form:4",
      "feature": "自動取碼後用 requestSubmit()，不要用 form.submit()",
      "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:agentic-forms:2",
+     "feature": "不可逆、金流、對外發送與帳號設定的表單不加 `toolautosubmit`",
+     "result": "僵持",
      "kind": "糾錯",
      "level": "不適用"
     }
@@ -3442,6 +3554,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:cpp-on-the-web:4",
+     "feature": "超過幾毫秒的 Wasm 計算移到 Worker、多執行緒，或拆成逐幀讓出",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -3536,6 +3655,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:cpp-on-the-web",
+     "feature": "用 `-sENVIRONMENT=web`、靜態連結與乾淨的發行設定，只出貨瀏覽器需要的程式碼",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -3664,6 +3790,13 @@
     {
      "id": "mwg:dark-mode:4",
      "feature": "matchMedia 的 change 事件",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:cpp-on-the-web:3",
+     "feature": "開了記憶體成長時，每次 Wasm 呼叫後重新讀取 `HEAPU8`",
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
@@ -3942,6 +4075,13 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:typography:7",
+     "feature": "`balance`／`pretty` 只套在需要的元素，不套在 `*`",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -4485,6 +4625,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:visual-effects",
+     "feature": "漸層與 `color-mix()` 明確寫 `in oklch` 或 `in oklab` 指定插值色彩空間",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "不適用"
     }
    ]
   },
@@ -4504,6 +4651,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:visual-effects:3",
+     "feature": "條紋、棋盤、圓點、圓餅用 CSS 漸層畫，不用 SVG 或外部圖檔",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -4688,6 +4842,13 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:visual-effects:2",
+     "feature": "用 `@supports` 設定的自訂屬性帶入插值空間，並保留非空的漸層前導",
+     "result": "部分改善",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -4940,6 +5101,42 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "邊界往返吃掉效能",
+   "lines": [
+    {
+     "id": "mwg:cpp-on-the-web:2",
+     "feature": "Wasm 入口一次處理整塊緩衝區，不逐像素跨越 JS 邊界",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    }
+   ]
+  },
+  {
+   "name": "移植時沿用原生假設",
+   "lines": [
+    {
+     "id": "mwg:cpp-on-the-web:5",
+     "feature": "深度遞迴改成迴圈或加大 `-sSTACK_SIZE`，開發時用 `-sASSERTIONS` 驗證",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    }
+   ]
+  },
+  {
+   "name": "頁面功能對代理不透明",
+   "lines": [
+    {
+     "id": "mwg:agentic-forms",
+     "feature": "用 `toolname`／`tooldescription` 把一般 `<form>` 變成代理可呼叫的 WebMCP 工具",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "不適用"
     }
    ]
   }

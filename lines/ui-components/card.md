@@ -63,7 +63,7 @@ license: CC-BY-4.0（上游指南）
 ## 延伸連結只能有一個，其他互動元素逐一提升層級
 - 誰在做：開發者（或寫程式的代理）
 - 動作＋對象：每張卡只在一個連結上加 `.card-link`；其他 `a`、`button`、`input` 等元素依類型設 `position: relative; z-index: 1`，不要對整個容器設 `z-index`
-- 被什麼擋：多個連結都延伸時最後一個蓋住整張卡；對整個容器設 `z-index` 則會攔下不產生任何動作的點擊（引用："each would stretch its own overlay and the last one would capture the whole card"；"Do NOT apply `z-index` to entire containers as that would make them capture pointer events that don't produce any action."）
+- 被什麼擋：多個連結都延伸時最後一個蓋住整張卡；對整個容器設 `z-index` 則會攔下不產生任何動作的點擊（引用："each would stretch its own overlay and the last one would capture the whole card … Do NOT apply `z-index` to entire containers as that would make them capture pointer events that don't produce any action."）
 - 戰報：勝——卡片其他區域點了走主連結，按鈕各自可按（官方宣稱）
 
 經過：點卡片上的「收藏」卻打開了文章；點頁尾空白處什麼事都沒發生。

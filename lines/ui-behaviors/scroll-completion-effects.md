@@ -12,7 +12,7 @@ license: CC-BY-4.0（上游指南）
 ## `await scrollIntoView()` 等捲動真的停下，不再用 `setTimeout` 猜時間
 - 誰在做：開發者（或寫程式的代理）
 - 動作＋對象：把處理函式寫成 `async`，直接 `await element.scrollIntoView({ behavior: 'smooth' })`（或 `scrollTo()`、`scrollBy()`），之後才加高亮、啟動動畫或移動焦點
-- 被什麼擋：用 `setTimeout()` 猜捲動時間，長距離捲動太早觸發、短距離太晚；包一層 `scrollend` promise 又在目標已在畫面內、根本沒捲動時永遠等不到（引用："fires too early on long scrolls and too late on short ones"；"`scrollend` does not fire when the target is already in view and no scrolling occurs"）
+- 被什麼擋：用 `setTimeout()` 猜捲動時間，長距離捲動太早觸發、短距離太晚；包一層 `scrollend` promise 又在目標已在畫面內、根本沒捲動時永遠等不到（引用："fires too early on long scrolls and too late on short ones … `scrollend` does not fire when the target is already in view and no scrolling occurs"）
 - 戰報：僵持——支援的瀏覽器中 promise 在捲動結束時 resolve、目標已在畫面內就立刻 resolve；僅 Chrome／Edge 150，其他瀏覽器 `await` 會立刻往下跑，要準確就得回到 `scrollend` 加逾時的舊做法（官方宣稱）
 
 經過：點目錄跳到某段並閃一下高亮，結果高亮在段落還在畫面外時就閃完了。捲動方法自己回傳 promise 後，時間點不用猜；但在 Firefox、Safari 還得保留舊的拼裝版本。

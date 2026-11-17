@@ -98,7 +98,10 @@
     "堆疊脈絡改變層級": "Stacking contexts change layering",
     "回饋落後於手勢": "Feedback lags behind the gesture",
     "動作被意外觸發": "Actions get triggered by accident",
-    "裁切只有硬邊": "Clipping only gives hard edges"
+    "裁切只有硬邊": "Clipping only gives hard edges",
+    "邊界往返吃掉效能": "Boundary crossings consume performance",
+    "移植時沿用原生假設": "Native assumptions survive porting",
+    "頁面功能對代理不透明": "Page capabilities are opaque to agents"
   },
   "guides": {
     "install-web-app": "Installing web apps",
@@ -299,7 +302,15 @@
     "equal-width-text-lines": "Equal-width text lines",
     "improve-text-layout-and-legibility": "Improve text layout and legibility",
     "precise-text-alignment": "Precise text alignment",
-    "shaped-cutouts": "Shaped cutouts"
+    "shaped-cutouts": "Shaped cutouts",
+    "soft-edge-content-fade": "Soft-edge Content Fades",
+    "typography": "Typography",
+    "visual-effects": "Visual Effects",
+    "visually-stable-font-fallbacks": "Visually Stable Font Fallbacks",
+    "visually-stable-mixed-fonts": "Visually Stable Mixed Fonts",
+    "visually-texture-content": "Adding Visual Texture to Content",
+    "cpp-on-the-web": "Compile C/C++ to WebAssembly with Emscripten",
+    "agentic-forms": "Forms for Agents"
   },
   "lines": {
     "mwg:install-web-app": {
@@ -6133,6 +6144,240 @@
       "story": "A membership card needed a concave curve on its right; masking the whole card meant text wrapping toward the right got eaten by the curve. Moving the curve onto an empty neighboring div kept the text safe.",
       "unlock": "",
       "support": "Masks: Baseline Widely available (since 2023-12-07)"
+    },
+    "mwg:soft-edge-content-fade": {
+      "title": "Fade content itself with mask-image instead of an overlay",
+      "action": "Apply a linear mask gradient with the WebKit-prefixed equivalent to scrolled containers or truncated text.",
+      "blocker": "A translucent overlay requires the background color and can interfere with selection and clicks. (quote: \"it requires knowing the background color and may interfere with text selection unless `pointer-events: none` is used.\")",
+      "outcome": "Content fades against any background without intercepting input; masks are Widely available.",
+      "story": "The text itself fades rather than being covered by a theme-dependent layer.",
+      "unlock": "",
+      "support": "Masks: Widely since 2023-12-07."
+    },
+    "mwg:typography": {
+      "title": "Use rem instead of px for font sizes",
+      "action": "Use rem for root-relative sizes and em or percentages for contextual scaling.",
+      "blocker": "Pixel sizes ignore browser font-size preferences. (quote: \"Prefer `rem` to honor the user's browser font-size preferences (root font size)\")",
+      "outcome": "Text follows the user's root font-size preference.",
+      "story": "Changing the browser default now scales the whole page.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:typography:2": {
+      "title": "Use min-block-size instead of fixed heights for text components",
+      "action": "Let content determine height and use min-block-size when a minimum is needed.",
+      "blocker": "Fixed heights clip or overflow text when users increase spacing. (quote: \"so text doesn't overflow or get clipped when users increase text spacing to a line height of 1.5, spacing after paragraphs of 2em, letter spacing of 0.12em and word spacing of 0.16em\")",
+      "outcome": "Components grow with text and preserve content.",
+      "story": "User spacing settings no longer cut off button labels.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:typography:3": {
+      "title": "Avoid justified text or add hyphenation and lang",
+      "action": "Prefer text-align:start; when justification is required, use hyphens:auto with correct language metadata.",
+      "blocker": "Justification creates excessive inter-word whitespace and harms readability. (quote: \"Avoid `text-align: justify` as it can make text harder to read. If you must use it, combine it with `hyphens: auto` to avoid excessive whitespace between words.\")",
+      "outcome": "Hyphenation reduces large gaps but justification remains discouraged.",
+      "story": "Language-aware hyphenation reduces rivers of whitespace in narrow columns.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:typography:4": {
+      "title": "Wrap long URLs and avoid nowrap and fixed widths on prose",
+      "action": "Use overflow-wrap and allow running text to reflow at 320 CSS pixels.",
+      "blocker": "Nonwrapping fixed-width prose overflows on narrow screens or zoom and requires horizontal scrolling. (quote: \"let text reflow at a 320 CSS px viewport width without horizontal scrolling (WCAG 1.4.10 Reflow); avoid `white-space: nowrap` and fixed widths on running text.\")",
+      "outcome": "Text reflows without lost content or horizontal scrolling.",
+      "story": "Long URLs wrap instead of widening the whole page.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:typography:5": {
+      "title": "Use clamp() with rem and vw and bounded fluid type",
+      "action": "Mix font-relative and viewport units in clamp(), with a maximum no more than 2.5 times the minimum.",
+      "blocker": "Viewport units do not grow with zoom and produce extreme sizes. (quote: \"Viewport units don't grow when users zoom … it can scale text too small or too large on extreme screens.\")",
+      "outcome": "Browser zoom can still enlarge text to 200 percent.",
+      "story": "A rem component lets headings respond to user zoom.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:typography:6": {
+      "title": "Use text-wrap: balance for headings and pretty for prose",
+      "action": "Apply balance to headings and pretty to paragraphs and quotations.",
+      "blocker": "The guide does not identify an observable default-wrapping failure.",
+      "outcome": "Wrapping becomes more balanced, with a performance cost that prevents global use.",
+      "story": "Short orphan lines in headings can be balanced automatically.",
+      "unlock": "Support is documented in the text-layout guide.",
+      "support": "CMS and card headings can wrap cleanly at any width without manual br elements."
+    },
+    "mwg:typography:7": {
+      "title": "Apply balance and pretty only where needed",
+      "action": "Select individual elements rather than applying text-wrap globally.",
+      "blocker": "These wrapping algorithms have a performance cost when applied everywhere. (quote: \"**DO NOT** apply it on `*` as it does have a performance cost.\")",
+      "outcome": "The cost is limited to elements that benefit.",
+      "story": "Global balancing unnecessarily slows text-heavy pages.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:typography:8": {
+      "title": "Do not use text-wrap: balance on boxed elements",
+      "action": "Avoid balance on buttons, labels, and headings with backgrounds, borders, or shadows.",
+      "blocker": "Balance changes wrapping but not container width, leaving empty space in the visible box. (quote: \"it does not change the container's width, it only affects how text wraps *within* that width. This can leave empty space at the end of the container\")",
+      "outcome": "Box size remains aligned with the text.",
+      "story": "Balanced short lines can leave a large empty colored area.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:visual-effects": {
+      "title": "Specify OKLCH or OKLab interpolation for gradients and color-mix()",
+      "action": "Choose an explicit interpolation space according to chroma and gamut needs rather than default sRGB.",
+      "blocker": "The guide discourages sRGB but gives no concrete interpolation failure.",
+      "outcome": "Authors can choose preserved chroma or gamut with explicit tradeoffs.",
+      "story": "Interpolation becomes a deliberate design choice.",
+      "unlock": "No Baseline data; N/A.",
+      "support": "Brand gradients, visualization scales, and hover colors can choose their interpolation space."
+    },
+    "mwg:visual-effects:2": {
+      "title": "Feature-detect interpolation-space variables and retain a nonempty gradient preamble",
+      "action": "Initialize interpolation custom properties empty, fill them under @supports, and retain a direction outside the variable.",
+      "blocker": "Older browsers reject interpolation spaces, and an empty variable without another preamble is a syntax error. (quote: \"make sure there is always a non-empty gradient preamble without it, otherwise it will be a syntax error in older browsers.\")",
+      "outcome": "Older browsers still render a gradient with default interpolation.",
+      "story": "Conditional variables prevent the entire background declaration from failing.",
+      "unlock": "",
+      "support": "No Baseline data; N/A."
+    },
+    "mwg:visual-effects:3": {
+      "title": "Draw patterns with CSS gradients instead of SVG or external images",
+      "action": "Use hard-stop linear, conic, and radial gradients tied to CSS variables and lengths.",
+      "blocker": "SVG and external images cannot access surrounding CSS variables and lengths, so patterns do not follow theme or font size. (quote: \"these can be more flexible and performant than SVGs or external images as they can have access to CSS variables and lengths from the surrounding context.\")",
+      "outcome": "Patterns respond directly to surrounding theme values and dimensions.",
+      "story": "A theme change no longer requires re-exporting pattern assets.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:visually-stable-font-fallbacks": {
+      "title": "Match fallback-font size with font-size-adjust: from-font",
+      "action": "Derive fallback sizing from the preferred font, using cap-height or ch-width where appropriate.",
+      "blocker": "Different fallback metrics cause layout shift and illegibility even at the same font-size. (quote: \"This causes \"layout shift\" (Cumulative Layout Shift) and can make text illegible if the fallback's lowercase letters (x-height) are significantly different than the preferred font.\")",
+      "outcome": "Fallback and web fonts occupy the same visual space; unsupported browsers can use manual overrides.",
+      "story": "The fallback is scaled before the web font arrives, reducing visible jumps.",
+      "unlock": "font-size-adjust: Newly since 2024-07-25.",
+      "support": "Sites can use web fonts with a one-line fallback metric adjustment instead of hand-tuning every fallback."
+    },
+    "mwg:visually-stable-mixed-fonts": {
+      "title": "Align mixed fonts by x-height with font-size-adjust",
+      "action": "Use from-font in mixed-font containers or an explicit preferred-font ratio for unrelated themes.",
+      "blocker": "Different x-heights make fonts look different sizes at the same font-size, harming legibility and shifting layout. (quote: \"differences in \"x-height\" (the height of lowercase letters) can make one font appear much smaller or larger than the other font. This can lead to poor legibility and layout shifts.\")",
+      "outcome": "Lowercase text aligns visually; unsupported browsers need manual sizing or similar font choices.",
+      "story": "Inline code and prose no longer look like different text sizes.",
+      "unlock": "font-size-adjust: Newly since 2024-07-25.",
+      "support": "Technical documents and theme-switching readers can mix fonts without manual size tuning or layout jumps."
+    },
+    "mwg:visually-texture-content": {
+      "title": "Texture content itself with mask-image",
+      "action": "Use a repeating texture mask or CSS gradients with correct mask-mode and prefixed equivalents.",
+      "blocker": "Backgrounds and overlays do not change content transparency, so the underlying background cannot show through. (quote: \"You can use a background image or an overlay as a fallback to simulate the texture, although it will not affect the transparency of the content itself.\")",
+      "outcome": "Texture removes content pixels and reveals the actual background; masks are Widely available.",
+      "story": "Distressed areas become transparent rather than painted-on spots.",
+      "unlock": "",
+      "support": "Masks: Widely since 2023-12-07."
+    },
+    "mwg:cpp-on-the-web": {
+      "title": "Ship only browser-required Emscripten output",
+      "action": "Target web or worker, use ES modules, optimized static linking, and release builds without debug assertions.",
+      "blocker": "Default output includes Node and shell support, while dynamic linking adds size and runtime overhead. (quote: \"Strip Node.js and shell runtime support code to minimize bundle size. … add code-size and runtime overhead\")",
+      "outcome": "Unused runtime and debugging code is removed to minimize bundles.",
+      "story": "Browser-only targeting and static linking remove unnecessary support code.",
+      "unlock": "",
+      "support": "Toolchain guide; N/A."
+    },
+    "mwg:cpp-on-the-web:2": {
+      "title": "Process whole buffers per Wasm call",
+      "action": "Pass pointers and lengths for whole images or audio buffers, allocating and releasing linear memory once.",
+      "blocker": "Per-pixel, sample, or vertex calls incur boundary overhead that negates Wasm gains. (quote: \"Calling an exported Wasm function per pixel, per audio sample, or per vertex incurs boundary overhead that negates Wasm performance gains.\")",
+      "outcome": "One boundary crossing handles an entire buffer.",
+      "story": "The processing loop moves inside Wasm instead of crossing the boundary for every item.",
+      "unlock": "",
+      "support": "Toolchain guide; N/A."
+    },
+    "mwg:cpp-on-the-web:3": {
+      "title": "Re-read HEAPU8 after calls when memory can grow",
+      "action": "Do not cache heap views with ALLOW_MEMORY_GROWTH; recreate and copy views after allocating calls.",
+      "blocker": "Memory growth detaches the previous ArrayBuffer and invalidates old views. (quote: \"`-sALLOW_MEMORY_GROWTH` detaches the previous `ArrayBuffer` when resizing.\")",
+      "outcome": "JavaScript always reads the current grown buffer.",
+      "story": "A larger input no longer leaves JavaScript reading a detached view.",
+      "unlock": "",
+      "support": "Toolchain guide; N/A."
+    },
+    "mwg:cpp-on-the-web:4": {
+      "title": "Move long Wasm work off the main thread or yield per frame",
+      "action": "Use module workers and transferable buffers, pthreads with cross-origin isolation, or frame-based yielding.",
+      "blocker": "Synchronous work over a few milliseconds freezes rendering and input. (quote: \"Any WebAssembly call that takes more than a few milliseconds … **must not** run synchronously on the main thread, or it will freeze page rendering and input.\")",
+      "outcome": "Heavy computation leaves the interface responsive; threading requires isolation.",
+      "story": "Rendering and cancellation controls remain usable during computation.",
+      "unlock": "",
+      "support": "Toolchain guide; N/A."
+    },
+    "mwg:cpp-on-the-web:5": {
+      "title": "Avoid deep recursion or increase STACK_SIZE",
+      "action": "Rewrite deep recursion as iteration or raise STACK_SIZE, using assertions during development.",
+      "blocker": "The default 64 KB stack can overflow and corrupt linear memory. (quote: \"Deeply recursive algorithms (such as recursive ray tracers or tree traversals) can overflow the stack and corrupt linear memory\")",
+      "outcome": "Recursion stays within the stack and memory is not silently corrupted.",
+      "story": "Native recursion assumptions do not hold in the smaller Wasm stack.",
+      "unlock": "",
+      "support": "Toolchain guide; N/A."
+    },
+    "mwg:agentic-forms": {
+      "title": "Expose a normal form as a WebMCP tool with toolname and tooldescription",
+      "action": "Declare tool metadata on forms, refine parameter descriptions, and return agent results with respondWith() without navigation.",
+      "blocker": "The guide says schemas are synthesized but gives no concrete failure without these attributes.",
+      "outcome": "No major browser supports it natively; unsupported browsers ignore the attributes and preserve the form.",
+      "story": "An existing labeled form becomes a callable agent tool with direct results.",
+      "unlock": "Form-associated WebMCP attributes: no native major-browser support.",
+      "support": "Search, filtering, and inventory forms can become agent-callable tools without a separate API, currently only behind a Chromium flag."
+    },
+    "mwg:agentic-forms:2": {
+      "title": "Do not use toolautosubmit for irreversible or sensitive forms",
+      "action": "Use auto-submit only for read-only or low-risk reversible actions; omit it for deletion, payment, outbound messages, and account settings.",
+      "blocker": "toolautosubmit lets an agent submit without waiting for user interaction. (quote: \"`toolautosubmit`: (Optional) If present, the agent can submit the form without waiting for user interaction.\")",
+      "outcome": "Omitting it pauses for user review, but no major browser supports the feature natively.",
+      "story": "The final irreversible action remains under user control.",
+      "unlock": "",
+      "support": "No native major-browser support."
+    },
+    "mwg:agentic-forms:3": {
+      "title": "Use experimentalWebMcpTool for Angular Signal Forms instead of toolname",
+      "action": "Use Angular's provider and form option integration rather than HTML tool attributes.",
+      "blocker": "Using both approaches registers the same form twice. (quote: \"Using both approaches registers the same form twice.\")",
+      "outcome": "Framework-only integration registers one tool, but browser support is absent.",
+      "story": "Duplicate registration shows the agent two identical tools.",
+      "unlock": "",
+      "support": "No native major-browser support."
+    },
+    "mwg:agentic-forms:4": {
+      "title": "Use imperative APIs for dependent, custom, or multi-step forms",
+      "action": "Keep declarative forms self-contained; use imperative APIs or DOM interaction for dependent fields, custom editors, and wizards.",
+      "blocker": "Synthesized schemas cannot express field dependencies or automatically serialize custom component values. (quote: \"The synthesized schema cannot express these dependencies well.\")",
+      "outcome": "The guide recommends imperative APIs, with no native browser support.",
+      "story": "Dependent fields cannot be represented as unrelated schema parameters.",
+      "unlock": "",
+      "support": "No native major-browser support."
+    },
+    "mwg:agentic-forms:5": {
+      "title": "Detect whether tool events belong on document.modelContext or window",
+      "action": "Feature-detect event handler properties before subscribing to toolactivated and toolcancel.",
+      "blocker": "Chrome 156 dispatches on document.modelContext while older versions use window, so a single fixed target misses events. (quote: \"Starting in Chrome 156, these events are dispatched on `document.modelContext`. Older versions dispatch them on `window`.\")",
+      "outcome": "Both versions receive events after detection, but native support is absent.",
+      "story": "Agent activity indicators must follow the event target used by the browser version.",
+      "unlock": "",
+      "support": "No native major-browser support."
+    },
+    "mwg:agentic-forms:6": {
+      "title": "Highlight agent-active forms and pending submit buttons",
+      "action": "Use :tool-form-active and :tool-submit-active to indicate agent activity and required user confirmation.",
+      "blocker": "The guide does not identify a concrete failure when these indicators are omitted.",
+      "outcome": "No major browser supports these pseudo-classes natively.",
+      "story": "Users can see which form the agent changed and where confirmation is needed.",
+      "unlock": "No native major-browser support.",
+      "support": "An agent-fills, human-submits interface can clearly mark the active form and pending button, currently without native support."
     }
   }
 }

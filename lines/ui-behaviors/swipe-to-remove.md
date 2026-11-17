@@ -80,7 +80,7 @@ license: CC-BY-4.0（上游指南）
 ## 列裡有按鈕時不要讓軌道可聚焦，並提供復原
 - 誰在做：開發者（或寫程式的代理）
 - 動作＋對象：已經有動作按鈕的列不在軌道上加 `tabindex`；移除後考慮顯示復原提示
-- 被什麼擋：軌道可聚焦時，按方向鍵捲動軌道就會直接提交動作、沒有任何確認；滑動本身也很容易誤觸（引用："arrow keys on a focused track commit the action with no confirmation."；"the gesture is fast and easy to trigger by accident."）
+- 被什麼擋：軌道可聚焦時，按方向鍵捲動軌道就會直接提交動作、沒有任何確認；滑動本身也很容易誤觸（引用："arrow keys on a focused track commit the action with no confirmation. … the gesture is fast and easy to trigger by accident."）
 - 戰報：勝——鍵盤只能透過按鈕刪除，誤觸有復原路徑（官方宣稱）
 
 經過：鍵盤使用者 Tab 到某一列、想往下看按了方向鍵，結果那一列被刪掉了。
@@ -149,7 +149,7 @@ license: CC-BY-4.0（上游指南）
 ## 每列在進入畫面時才初始化，後來加入的列用 MutationObserver 接上
 - 誰在做：開發者（或寫程式的代理）
 - 動作＋對象：外層 IntersectionObserver 在列第一次進入畫面時才 `setupItem()`，離開時暫停內層觀察；`<ul>` 上的 MutationObserver 把新增的列交給外層觀察器
-- 被什麼擋：頁面載入時就全部接好，會在列還沒渲染時讀到為 0 的 `clientWidth`；之後加入的列則根本沒被接上（引用："`setupItem` reads layout-dependent values like `clientWidth`, which return 0 until the item is rendered"；"Without it, items appended after page load won't get wired up."）
+- 被什麼擋：頁面載入時就全部接好，會在列還沒渲染時讀到為 0 的 `clientWidth`；之後加入的列則根本沒被接上（引用："`setupItem` reads layout-dependent values like `clientWidth`, which return 0 until the item is rendered … Without it, items appended after page load won't get wired up."）
 - 戰報：勝——每列都拿到真實尺寸，觀察器數量和畫面上看得到的列成正比（官方宣稱）
 
 經過：無限捲動載入的新信件滑不動，舊信件的退路捲動又捲到 0。
@@ -166,7 +166,7 @@ license: CC-BY-4.0（上游指南）
 ## 移除結果寫進頁面上原本就有的 `role="status"`
 - 誰在做：開發者（或寫程式的代理）
 - 動作＋對象：頁面一開始就放一個空的 `role="status"`，移除時寫入「Item One removed」
-- 被什麼擋：一列消失本身不會被播報；而讀屏只播報「變動前就存在」的 live region（引用："A row disappearing isn't announced"；"screen readers only announce changes to live regions that existed before the change."）
+- 被什麼擋：一列消失本身不會被播報；而讀屏只播報「變動前就存在」的 live region（引用："A row disappearing isn't announced … screen readers only announce changes to live regions that existed before the change."）
 - 戰報：勝——讀屏使用者知道哪一項被移除（官方宣稱）
 
 經過：讀屏使用者按了移除，聽不到任何回應，不確定到底刪了沒。

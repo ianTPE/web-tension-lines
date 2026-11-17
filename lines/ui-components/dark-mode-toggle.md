@@ -46,7 +46,7 @@ license: CC-BY-4.0（上游指南）
 ## 只在儲存當下比對系統偏好，之後不要因為兩者一致就刪掉儲存值
 - 誰在做：開發者（或寫程式的代理）
 - 動作＋對象：兩態切換的目標是「目前畫面的相反」；目標和系統偏好不同才存，相同就刪除儲存值；之後系統偏好變得和儲存值一樣時保留，不用 `matchMedia()` 自動清除
-- 被什麼擋：很多人的系統會依時段自動切換，一致時就刪掉儲存值，使用者永遠無法固定配色；反過來存下與系統相同的值，又會在之後系統變更時悄悄釘死（引用："removing the stored value whenever the two happen to coincide would make it impossible to pin a scheme at all."；"that would invisibly pin the scheme against future system changes."）
+- 被什麼擋：很多人的系統會依時段自動切換，一致時就刪掉儲存值，使用者永遠無法固定配色；反過來存下與系統相同的值，又會在之後系統變更時悄悄釘死（引用："removing the stored value whenever the two happen to coincide would make it impossible to pin a scheme at all. … that would invisibly pin the scheme against future system changes."）
 - 戰報：勝——使用者可以固定配色，也可以一鍵回到跟隨系統（官方宣稱）
 
 經過：白天把網站固定成深色，傍晚系統自動變深色時偏好被清掉，隔天早上網站又變回淺色。
