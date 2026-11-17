@@ -12,7 +12,7 @@ license: CC-BY-4.0（上游指南）
 ## 用 Prompt API 在瀏覽器內跑 Gemini Nano
 - 做法：用 `LanguageModel.availability()` 檢查，由使用者手勢觸發 `LanguageModel.create()` 下載模型，再用 `prompt()`／`promptStreaming()` 處理文字、圖片、音訊輸入
 - 對手：（缺）只列出本機執行的好處（隱私、降低伺服器成本、可離線），沒說舊做法在哪個時刻出問題（引用："This built-in AI approach ensures user privacy, reduces server costs, and enables offline functionality."）
-- 退路：失去主要好處——退回雲端或本機 API，資料又離開瀏覽器，隱私與離線的好處沒了
+- 退路：保住主要行為——退回雲端 API 或 Transformers.js，失去內建模型部署便利
 - 解鎖：以前要在瀏覽器裡做推論只能自己載模型或呼叫雲端；現在 `LanguageModel` 能在裝置上跑，文字、圖片、音訊都能餵進去，離線也能用
 
 經過：指南涵蓋 session 管理（`clone()`、`initialPrompts`、`destroy()`）、多模態輸入與 JSON Schema 結構化輸出。對手只以「好處」的反面出現，沒有可觀察的失敗。硬體門檻高（22 GB 空間、16 GB RAM），下載要使用者手勢並顯示進度。
@@ -21,11 +21,11 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：得送雲端或載大型函式庫
 - 支援狀態：LanguageModel：Limited（Chrome 148；Edge、Firefox、Safari 不支援）
-- 戰報：僵持（由支援狀態與退路推出）
+- 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 缺／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：不經伺服器就能在頁面裡做分類、改寫、看圖回答，例如筆記 app 在本機替每篇日記打標籤、把截圖內容轉成文字，資料不離開裝置，離線也能用。目前僅 Chrome 148 桌面版，且有硬體門檻
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「保住主要行為」
 
 %% line-start id="mwg:language-model:2" %%
 ## 模型輸出一律用 textContent，不塞進 innerHTML
@@ -67,7 +67,7 @@ license: CC-BY-4.0（上游指南）
 ## 需要下載模型時由使用者手勢呼叫 create()
 - 做法：`availability()` 為 downloadable／downloading 時，在按鈕等事件處理中呼叫 `LanguageModel.create()`，不要在頁面載入時呼叫
 - 對手：下載模型的 `create()` 需要使用者手勢，頁面載入時呼叫會以 `NotAllowedError` 拒絕（引用："Call it from an event listener, not on page load, or it rejects with a `NotAllowedError`."）
-- 退路：失去主要好處——退回雲端 API 時本來就沒有模型要下載，手勢與下載這套規則整套不存在
+- 退路：保住主要行為——退回雲端或替代本機模型，不再觸發內建模型下載手勢錯誤
 - 解鎖：（缺）
 
 經過：模型已可用時能直接建 session；需要下載時則要由使用者明確啟動，並先檢查裝置是否 unavailable。
@@ -76,10 +76,10 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：權限請求不看時機
 - 支援狀態：LanguageModel：Limited（Chrome 148）
-- 戰報：僵持（由支援狀態與退路推出）
+- 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「保住主要行為」
 
 %% line-start id="mwg:language-model:5" %%
 ## 模型下載顯示可及進度與完成狀態
@@ -103,7 +103,7 @@ license: CC-BY-4.0（上游指南）
 ## 下載或停止鈕消失前把焦點移到合理目標
 - 做法：下載鈕在聚焦狀態被隱藏時，焦點移到帶 `tabindex="-1"` 的狀態文字；停止生成鈕隱藏時移回原本啟動控制項
 - 對手：目前聚焦的按鈕被隱藏後，鍵盤使用者失去所在位置（引用："If the button that starts the download is hidden while it has focus, move focus to the download's status text"）
-- 退路：失去主要好處——退回雲端 API 時沒有下載鈕與停止鈕，焦點不會掉到無處
+- 退路：沒說——指南未交代不支援時怎麼辦
 - 解鎖：（缺）
 
 經過：下載開始或生成結束常會改變可用按鈕，不能只是刪掉目前焦點元素。
@@ -115,7 +115,7 @@ license: CC-BY-4.0（上游指南）
 - 戰報：僵持（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「沒說」
 
 %% line-start id="mwg:language-model:7" %%
 ## 輸出語言不同時在輸出元素設 lang
@@ -194,7 +194,7 @@ license: CC-BY-4.0（上游指南）
 ## 使用者意圖明確時先暖機，initialPrompts 在建立時給齊
 - 做法：使用者進入 AI 工作區或和周圍 UI 互動時先建立 session；`initialPrompts` 準備好再一次傳入 `create()`
 - 對手：等按下 Generate 才載入模型會有冷啟動延遲；system instructions 放到第一次 prompt 也要在最後一刻才處理，增加延遲（引用："This leads to a cold start delay, because the model must first load into memory and prepare its execution pipeline."）
-- 退路：失去主要好處——退回雲端 API 時沒有本機模型要暖機，冷啟動換成網路延遲
+- 退路：保住主要行為——退回替代模型，仍可在意圖明確時提前準備請求與指示
 - 解鎖：（缺）
 
 經過：暖機不是頁面一載入就下載模型，而是意圖已明確時提前準備。`initialPrompts` 只能在建立時設定，不能暖機後才補。
@@ -203,16 +203,16 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：載入優先序錯置
 - 支援狀態：LanguageModel：Limited
-- 戰報：僵持（由支援狀態與退路推出）
+- 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「保住主要行為」
 
 %% line-start id="mwg:language-model:12" %%
 ## 不相干任務從乾淨 base session clone，不共用舊脈絡
 - 做法：base session 只放 system instructions，新任務用 `clone()` 分支；不要重用含無關歷史的 session 或 clone
 - 對手：同一 session 的先前互動會干擾目前任務，clone 也會繼承所有無關歷史（引用："Both patterns can cause unrelated previous context to interfere with your current task."）
-- 退路：失去主要好處——退回雲端 API 時沒有 session 與 clone 可以分支
+- 退路：保住主要行為——退回替代模型的乾淨請求，不帶入無關任務歷史
 - 解鎖：（缺）
 
 經過：昨天翻譯用的 session 今天拿來分類，舊語言與指令可能影響結果。乾淨基底既省初始化，也避免串味。
@@ -221,16 +221,16 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：生命週期假設錯
 - 支援狀態：LanguageModel：Limited
-- 戰報：僵持（由支援狀態與退路推出）
+- 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「保住主要行為」
 
 %% line-start id="mwg:language-model:13" %%
 ## 用完的 session 明確 destroy() 釋放裝置記憶體
 - 做法：clone 任務完成就 destroy，不再需要新 clone 時也 destroy base session
 - 對手：多個大型 session 同時保留會持續占用記憶體；垃圾回收比明確釋放來得慢（引用："Each session consumes memory, which creates unnecessary resource usage and might become a problem."）
-- 退路：失去主要好處——退回雲端 API 時沒有本機 session 佔用裝置記憶體
+- 退路：保住主要行為——退回雲端模型或明確關閉替代本機工作，釋放不再需要資源
 - 解鎖：（缺）
 
 經過：session 與 clone 是裝置上的大型資源，不只是普通 JS 物件。保留 base 的唯一理由是之後還要分支。
@@ -239,10 +239,10 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：生命週期假設錯
 - 支援狀態：LanguageModel：Limited
-- 戰報：僵持（由支援狀態與退路推出）
+- 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「保住主要行為」
 
 %% line-start id="mwg:language-model:14" %%
 ## 只送任務所需輸入，避免大資料讓本機模型像壞掉

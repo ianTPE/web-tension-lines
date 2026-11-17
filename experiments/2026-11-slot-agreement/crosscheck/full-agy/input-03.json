@@ -1,0 +1,416 @@
+[
+ {
+  "key": "mwg:tabs",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/tabs.md",
+  "title": "用 focusgroup 取代手寫 roving tabindex",
+  "action": "在 tablist 上用 `focusgroup`，自動得到正確角色與方向鍵移動",
+  "opponent": "（缺）只說要取代手動實作 roving tabindex 或 activedescendant，沒說手寫版在哪個情境出錯（引用：\"Instead of manually implementing a roving tabindex or ARIA activedescendant pattern to meet the focus management requirement of the ARIA `tablist` role, we can use `focusgroup`\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:tabs:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/tabs.md",
+  "title": "選中底線用偽元素邊框，強制色彩下不消失",
+  "action": "用偽元素上的 border 畫選中分頁的底線，並以 `aria-selected` 為樣式依據",
+  "opponent": "用 `box-shadow` 或背景畫底線，強制色彩模式把兩者都移除，選中狀態完全沒有指示（引用：\"DO NOT use `box-shadow` or a background: forced colors mode removes both, leaving no indicator.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:tabs:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/tabs.md",
+  "title": "分頁不換行，放不下時捲動或收進選單",
+  "action": "分頁保持單列，放不下時用水平捲動加淡出提示、或收進「More」選單",
+  "opponent": "分頁換成多列，Tab 順序與選中的分頁都難以追蹤（引用：\"DO NOT wrap them onto multiple rows: wrapped rows make the tab order and the selected tab hard to follow.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:toolbar",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/toolbar.md",
+  "title": "用 aria-disabled 停用，讓控制項仍可聚焦",
+  "action": "工具列中暫時不能用的按鈕設 `aria-disabled=\"true\"` 並忽略點擊",
+  "opponent": "用 `disabled` 停用後按鈕無法聚焦，方向鍵移動時直接跳過，使用者不知道它存在（引用：\"Disable with `aria-disabled=\"true\"` rather than `disabled` so the control stays focusable and reachable by arrow keys.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:toolbar:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/toolbar.md",
+  "title": "用 focusgroup 讓工具列只有一個 Tab 停點",
+  "action": "在 `role=\"toolbar\"` 容器上加 `focusgroup=\"toolbar wrap\"`，由瀏覽器處理方向鍵與 roving tab stop",
+  "opponent": "（缺）指南規定「同時只能有一個項目在 Tab 順序中」，但沒有描述每個按鈕都是 Tab 停點時具體造成什麼（引用：\"MANDATORY: Only one item is in the tab order at a time.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:animate-to-intrinsic-sizes",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/animate-to-intrinsic-sizes.md",
+  "title": "用 interpolate-size 讓 height: auto 也能過渡",
+  "action": "在 `:root` 設 `interpolate-size: allow-keywords`，讓 `block-size` 從固定長度過渡到 `auto`／`max-content` 等關鍵字；需要在固有尺寸上做加減時改用 `calc-size()`",
+  "opponent": "不支援的瀏覽器裡，尺寸會直接跳到目標值，沒有過渡（引用：\"Browsers that do not support them will perform an instant jump to the target size.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:atrule-support-conditionals",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/atrule-support-conditionals.md",
+  "title": "用 @supports at-rule() 在 CSS 裡偵測 at-rule",
+  "action": "用 `@supports at-rule(@property) { … }` 包住只有在該 at-rule 可用時才合理的規則或宣告（可搭配巢狀寫在選擇器裡）",
+  "opponent": "（缺）指南只說沒有 `at-rule()` 時要改用屬性／選擇器偵測、註冊屬性技巧，最後才用 JS，沒說這些做法在哪個時刻出問題（引用：\"When `at-rule()` is not an option, either due to browser support or because deeper detection is needed, you can use the guidance below.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:calculate-with-intrinsic-sizes:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/calculate-with-intrinsic-sizes.md",
+  "title": "收合到 0 高度時一併設 visibility: hidden",
+  "action": "收合狀態設 `visibility: hidden`、展開狀態設 `visible`，並把 `visibility` 放進 transition，讓內容在收合動畫結束前保持可見",
+  "opponent": "只把 `block-size` 收到 0，內容只是視覺上消失，讀屏照唸，裡面的連結與控制項也還在 Tab 順序裡（引用：\"Collapsing to zero size (`block-size: 0` or `height: 0`) hides content only visually: screen readers still read it, and its links and controls stay in the tab order.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:child-state-based-styling",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/child-state-based-styling.md",
+  "title": "用 :has() 讓容器反應子元素狀態，不用 JS 切 class",
+  "action": "在容器上用 `:has()` 搭配狀態偽類（`:checked`、`:invalid`、`:focus`…），例如 `.theme-card:has(.theme-toggle:checked)` 改寫容器的自訂屬性",
+  "opponent": "（缺）只說不再需要 JS 在父元素切換 `.is-active`、`.has-error` 這類修飾 class，沒說手寫切換在哪個時刻出錯（引用：\"without needing JavaScript to toggle \"modifier\" classes (like `.is-active` or `.has-error`) on parent elements.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:content-based-styling",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/content-based-styling.md",
+  "title": "用 :has() 依有沒有某個子元素切換版面",
+  "action": "在元件容器上用 `:has(img)` 切換成並排版面，用 `:not(:has(img))` 指定沒有圖片時的樣式",
+  "opponent": "（缺）只說過去要用 JS 或模板條件注入 `.card--has-image` 之類的修飾 class，沒說那樣做在哪個時刻出錯（引用：\"Historically, applying different layouts to a component based on its content required either JavaScript or conditional logic in your HTML templating language to inject modifier classes\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css-layout",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "替換元素的縫隙用 display: block 消掉，不用 overflow: hidden 遮",
+  "action": "對 `<img>`、`<canvas>`、`<svg>`、`<video>`、`<iframe>` 改用區塊外部顯示值（`display: block`／`grid`／`flex`），從源頭移除縫隙",
+  "opponent": "這些替換元素預設是 `display: inline`，在某些版面會多出一條縫（引用：\"certain replaced elements like `<canvas>`, `<img>`, `<svg>`, `<video>`, `<iframe>` use `display: inline` by default, which can add a gap in certain layouts.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css-layout:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "用 aspect-ratio 先替媒體留位置",
+  "action": "媒體元素設 `aspect-ratio`（例如 `16 / 9`），搭配 `inline-size: 100%; block-size: auto`",
+  "opponent": "圖片、影片載入前沒有預留空間，載入後把下方內容往下推，造成版面位移（引用：\"Use `aspect-ratio` to reserve space for media and prevent layout shift before assets load.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css-layout:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "可能放不下的 flex 列要開 flex-wrap: wrap",
+  "action": "只要有溢出的可能，flex 容器就設 `flex-wrap: wrap`；含長網址、程式碼的項目另設 `min-inline-size: 0`",
+  "opponent": "`nowrap` 又沒有 `overflow: auto/hidden`，窄視窗下項目會溢出容器（引用：\"`nowrap` without `overflow: auto/hidden` will spill on narrow viewports.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css-layout:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "置中對齊加 safe，窄容器不裁掉焦點內容",
+  "action": "位置對齊寫成 `align-items: safe center` 等 safe alignment",
+  "opponent": "容器比內容窄時，普通置中會把可聚焦內容切掉（引用：\"Prefix positional alignment with `safe` (e.g., `align-items: safe center`) so focusable content isn't clipped when the container is narrower than its content.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css-layout:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "不用 order、*-reverse、dense 改變互動內容的視覺順序",
+  "action": "互動項目在 DOM 就排成實際閱讀順序，不用 `order`、`flex-direction: *-reverse` 或 `grid-auto-flow: dense` 重排",
+  "opponent": "這些功能只改視覺順序，DOM 仍驅動 Tab，鍵盤焦點與畫面位置對不上（引用：\"They change visual order only; the DOM order still drives sequential focus, so keyboard tab flow won't match what the user sees.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css-layout:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "用 subgrid 對齊不同卡片裡的標題、 metadata 與 CTA",
+  "action": "卡片以 `grid-row: span 2` 跨軌，內層 `grid-template-rows: subgrid` 繼承外層軌道，前面保留一般 rows 宣告作退路",
+  "opponent": "卡片內容長短不一時，各卡的標題、metadata 與行動鈕形成參差不齊的邊緣（引用：\"Subgrid lets a nested grid inherit its parent's tracks so grandchildren align across siblings.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css-layout:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "子項目數量不固定時 subgrid 只沿一個軸",
+  "action": "子項目數量會變時只在一軸用 subgrid，另一軸用 `grid-auto-rows`／`grid-auto-columns`",
+  "opponent": "兩軸都 subgrid 時，多出的項目會全部落在最後一條軌道（引用：\"Don't apply subgrid to both axes when the child count is variable. Extras land in the last track\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css-layout:9",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "container-type: size 要同時給容器明確高度",
+  "action": "需要查詢兩軸時用 `container-type: size` 並給容器明確 `block-size`；只查寬度用 `inline-size`",
+  "opponent": "size containment 會忽略子元素的內在尺寸，沒給高度時容器與後代會塌陷（引用：\"without one, descendants collapse because size containment forces the container to ignore its content.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css-layout:11",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "只要裁切用 overflow: clip，不要 hidden 或永遠顯示捲軸",
+  "action": "單純裁切用 `overflow: clip`；需要時才用 `auto` 出捲軸，不用 `hidden` 或無條件 `scroll`",
+  "opponent": "`hidden` 仍建立可被程式捲動的容器；`scroll` 則在沒有溢出時也強制出現捲軸（引用：\"`hidden` establishes a scroll container that can be programmatically scrolled.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css-layout:12",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "全寬版面不用 100vw，避免捲軸寬造成水平溢出",
+  "action": "全寬用 `100%`；需要視窗單位時依情境用 `100dvw`／`100svw`",
+  "opponent": "`100vw` 不扣捲軸寬，桌面出現捲軸時內容就比可見區域寬（引用：\"it ignores scrollbar width and causes horizontal overflow.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css-layout:13",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "repeat(auto-fit／auto-fill) 前容器要有明確寬度",
+  "action": "自動重複軌道的容器設明確 `inline-size`，避免在 `inline-grid` 或未設寬 flex item 上直接用",
+  "opponent": "容器沒有寬度可分配時，軌道數量會變得不可預測（引用：\"inside `display: inline-grid` or an unsized flex item, the container has no width to divide, making track counts unpredictable.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css-layout:14",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css-layout.md",
+  "title": "Grid lanes 尚未可用，先用多欄或接受 dense 的重排代價",
+  "action": "文件片段用 multi-column；卡片用 `grid-auto-flow: dense` 並接受視覺／DOM 順序差異；masonry 只在 `@supports` 中當增強",
+  "opponent": "不同高度項目要緊密排列時，一般 grid 留空洞；grid lanes 卻尚無主要瀏覽器原生支援（引用：\"Grid lanes is not natively supported by any major browser yet.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:css",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css.md",
+  "title": "用 :not() 排除，不用後面的規則蓋回去",
+  "action": "要排除不相關的狀態或目標時用 `:not()`，例如 `li:not(:last-child)`、`button:hover:not(:disabled)`",
+  "opponent": "先套樣式再用另一條規則覆寫回去，一旦兩條規則對調順序，停用的按鈕也會出現 hover 背景；覆寫也可能誤蓋掉別處設定的值（引用：\"If we reorder the two rules, we will get a hover background on disabled buttons!\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css.md",
+  "title": "排除巢狀子樹用 @scope，不用 :not() 加後代選擇器",
+  "action": "用 `@scope (.card) to (.content) { … }` 選取卡片內、但不在 `.content` 裡的元素",
+  "opponent": "`.card :not(.content *)` 遇到巢狀卡片就不如預期，排除範圍選錯元素（引用：\"For example, `.card :not(.content *)` will not work as expected for nested cards.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:css:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/css.md",
+  "title": "不寫套在 * 上的全域 reset",
+  "action": "reset 只套在特定元素類型或條件上，不寫在 `*`",
+  "opponent": "套在 `*` 的 reset，web component 和優先序較低的 cascade layer 都覆寫不了，除非動用 `!important`（引用：\"they cannot be overridden by web components or lower-priority cascade layers (without `!important`).\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:design-token-reactivity",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/design-token-reactivity.md",
+  "title": "用 container style queries 讓高階 token 直接寫在 CSS 裡",
+  "action": "在容器上設 `--density: compact` 這類自訂屬性，後代用 `@container style(--density: compact)` 套用對應樣式",
+  "opponent": "改用 `data-density` 屬性加選擇器時，同層級的選擇器特異度相同，巢狀的密度區塊無法正確覆寫，永遠由出現順序決定（引用：\"A major limitation of this fallback approach is that it does not support nesting elements with the `data-density` attribute set, since the selector specificity is the same, order of appearance will be used to determine the styles\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:dynamic-sibling-styling",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/dynamic-sibling-styling.md",
+  "title": "用 sibling-index() 與 sibling-count() 讓每個項目自己算樣式",
+  "action": "在 `calc()` 裡用 `sibling-index()`、`sibling-count()` 算出每個兄弟元素的色相、旋轉角度或圓周位置（可搭配 `sin()`／`cos()`）",
+  "opponent": "（缺）只說過去要寫複雜的 `:nth-child` 迴圈或用 JS 注入行內樣式，沒說那樣做在哪個時刻出錯（引用：\"Historically, applying unique styles to each sibling in a list required complex `:nth-child` loops or JavaScript to inject inline styles.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:fluid-scaling",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/fluid-scaling.md",
+  "title": "用容器查詢單位做流體縮放，不跟視窗寬度走",
+  "action": "在外層設 `container-type: inline-size`，元件內的字級、內距用 `cqi`／`cqb`，再用 `clamp()` 夾住範圍",
+  "opponent": "用視窗單位做流體縮放，元件是照螢幕寬度、而不是照自己的寬度縮放（引用：\"This fallback ensures that the text still scales, but it will be based on the screen width rather than the component's width.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:fluid-scaling:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/fluid-scaling.md",
+  "title": "流體字級的上限不超過下限的 2.5 倍，縮放時容器不能跟著變小",
+  "action": "`clamp()` 的最大值不超過最小值的 2.5 倍；瀏覽器放大時不讓容器變窄",
+  "opponent": "用 `clamp()` 夾住流體字級，會影響使用者縮放或調整基準字級的能力（引用：\"This impacts the user's ability to zoom or adjust their base font size.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:individual-transform-properties",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/individual-transform-properties.md",
+  "title": "用 translate／rotate／scale 各自動畫，不重寫整串 transform",
+  "action": "用獨立的 `translate`、`rotate`、`scale` 屬性，hover 或 transition 只改其中一項",
+  "opponent": "`transform` 要改其中一個變換就得重寫整條變換鏈，所以很難只動畫單一變換；hover 改 `transform` 會把正在跑的位移動畫蓋掉（引用：\"any changes to a single transformation require re-specifying the entire transformation chain. This makes it tricky to animate or transition a single transformation.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:individual-transform-properties:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/individual-transform-properties.md",
+  "title": "會變換的元素先給恆等變換，避免 hover 時堆疊脈絡突變",
+  "action": "狀態改變時可能被變換的元素，基礎狀態就先設 `translate: 0px; rotate: 0deg; scale: 1;`",
+  "opponent": "只在 hover 時才套變換，會在那一刻建立新的堆疊脈絡，造成意外的版面或 z-index 位移，也會影響錨點定位（引用：\"This prevents unexpected layout or z-index shifts caused by creating a new stacking context only on hover.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:overflow-clipping-control",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/overflow-clipping-control.md",
+  "title": "用 overflow-clip-margin 留出安全距離，不讓 overflow: hidden 切掉子元素的陰影",
+  "action": "在容器上設 `overflow: clip` 加長度值的 `overflow-clip-margin`（例如 `15px`），讓裁切邊界往外推一段，子元素的陰影可以畫出容器外",
+  "opponent": "`overflow: hidden` 一律在 padding box 切齊，子元素明顯的陰影在容器邊界被切斷；舊解法是多包一層 wrapper 再配 padding 與負邊距（引用：\"Without this, the child's shadow is clipped at the parent's boundary.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:overflow-clipping-control:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/overflow-clipping-control.md",
+  "title": "用 overflow-clip-margin: content-box 讓內層圓角自動同心",
+  "action": "在有圓角與 padding 的容器上設 `overflow: clip; overflow-clip-margin: content-box`，讓裁切邊界對齊內容框，內層圖片與頁尾的角被切成同心的內圓角",
+  "opponent": "（缺）只說能省去手算 padding 的 `calc()`、解決「awkward nesting curves」，沒說舊做法的內角在什麼情況下出現什麼樣的錯（引用：\"solving awkward nesting curves without custom `calc()` logic.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:reduce-style-repetition",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/reduce-style-repetition.md",
+  "title": "用 @function 把重複的樣式邏輯包成帶參數的函式",
+  "action": "用 `@function --名稱(--參數 <型別>, --參數: 預設值)` 定義函式，以 `result` 回傳值；把漸層 token、依 `@media` 切換的欄數這類邏輯包起來，在屬性值裡呼叫",
+  "opponent": "（缺）只說大型樣式表容易累積重複邏輯，沒說重複在哪個時刻造成什麼可觀察的問題（引用：\"Maintaining large stylesheets often leads to repetitive logic, especially when dealing with design system tokens like gradients or responsive layout patterns.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:responsive-design",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/responsive-design.md",
+  "title": "用 dvh／dvw 取代 vh／vw，網址列出現或收起時版面不壞",
+  "action": "版面高度、寬度改用動態視窗單位 `dvh`、`dvw`，取代 `vh`、`vw`",
+  "opponent": "行動瀏覽器的網址列等介面出現或收起時，用 `vh`／`vw` 的版面會壞掉（引用：\"to prevent layout breakage when mobile browser UI elements (like address bars) appear or disappear.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:responsive-design:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/responsive-design.md",
+  "title": "用 aspect-ratio 替圖片、影片先留位置",
+  "action": "在 `<img>`、`<video>` 等媒體元素上設 `aspect-ratio`，載入前就保留對應的高度",
+  "opponent": "媒體載入前沒有預留空間，載入後把下方內容推開，造成累積版面位移（引用：\"to reserve space during loading and prevent Cumulative Layout Shift (CLS).\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:responsive-design:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/responsive-design.md",
+  "title": "流體字級用 clamp() 混合 vw 與 rem，且上限不超過下限 2.5 倍",
+  "action": "字級寫成 `clamp(2rem, 1rem + 5vw, 4rem)` 這種形式，上下限用字級相對單位，且最大值不超過最小值的 2.5 倍；不單獨用 `vw` 當字級",
+  "opponent": "視窗單位不會隨使用者縮放而變大，只用 `vw` 的字級在極端螢幕上太小或太大，放大頁面時文字也不跟著放大（引用：\"Viewport units don't grow when users zoom\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:selector-atrule-combinations",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/selector-atrule-combinations.md",
+  "title": "把「系統偏好或手動切換」的組合條件存進自訂屬性，用 style query 只寫一次規則",
+  "action": "在 `:root` 依 `@media (prefers-color-scheme)` 與 `:has(meta[name=\"color-scheme\"])`／class 設 `--color-scheme`，各狀態的規則改用 `@container style(--color-scheme: dark)` 與 `not style(...)` 套用",
+  "opponent": "（缺）只說直覺寫法會產生重複程式碼——同一組深色規則在 media query 與 `:root.dark` 底下各寫一次——沒說重複在哪個時刻造成可觀察的問題（引用：\"The naive approach leads to duplicated code\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:size-aware-styling",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/size-aware-styling.md",
+  "title": "用 container queries 讓元件看自己的空間，而不是整個螢幕",
+  "action": "在外層設 `container-type: inline-size`，元件用 `@container (min-width: 400px)` 切換並排版面、顯示或隱藏額外細節",
+  "opponent": "同一個卡片或導覽元件可能放進窄側欄或寬主欄，用視窗寬度的 media query 得事先知道元件會放在哪，替每種版面各寫一組（引用：\"You do not need to know where the component will live or write complex media queries to handle every possible layout.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:style-parent-with-has",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/style-parent-with-has.md",
+  "title": "用 :has(:user-invalid) 標示含錯誤欄位的整個區塊",
+  "action": "以 `.card-section:has(:user-invalid)` 改變外層卡片的邊框、背景與標題列的警示圖示，選擇器範圍限定在欄位群組，不掛在 `body`",
+  "opponent": "（缺）只說過去要靠 JavaScript 在父元素上切換 class，沒說手寫切換在哪個時刻出錯（引用：\"Historically, this required JavaScript to toggle classes on parent elements.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:style-parent-with-has:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/style-parent-with-has.md",
+  "title": "aria-invalid 先設 \"false\"，再跟著 :user-invalid 同步",
+  "action": "所有欄位一開始設 `aria-invalid=\"false\"`，在 blur、change、invalid 事件時依 `:user-invalid` 是否成立改成 `\"true\"` 或改回",
+  "opponent": "`:user-invalid` 不會自動同步 ARIA；不設值時 Firefox 和 Safari 從頁面載入就把空的必填欄位報成無效，Chromium 則在互動後也不報，除非設了 `aria-invalid=\"true\"`（引用：\"Firefox and Safari expose an empty `required` field as invalid from page load, and Chromium doesn't expose an empty `required` field as invalid after interaction unless `aria-invalid=\"true\"` is set.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:style-parent-with-has:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/style-parent-with-has.md",
+  "title": "錯誤訊息只在欄位無效時才掛進 aria-describedby",
+  "action": "欄位用 `data-error` 指向錯誤訊息的 `id`，由腳本只在欄位無效時把該 `id` 加進 `aria-describedby`，修好後移除；標記裡不預先引用",
+  "opponent": "錯誤訊息元素一直在頁面上，被 `aria-describedby` 引用的文字即使隱藏也會被唸出（引用：\"text that `aria-describedby` references is announced even when it's hidden.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:style-parent-with-has:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/style-parent-with-has.md",
+  "title": "錯誤用全頁一個 polite live region 延遲播報",
+  "action": "欄位離開或改變時，把錯誤文字送進全頁共用的 polite live region，稍等下一個欄位播報完再更新；失敗送出後聚焦第一個無效欄位",
+  "opponent": "每則錯誤各自當 live region，只是被顯示而不是文字內容改變時，讀屏不一定會播；同時播報又會蓋過下一個欄位（引用：\"a live region that is shown, rather than changed, isn't announced reliably.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:usage-aware-component-variations",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/css/usage-aware-component-variations.md",
+  "title": "用 style query 讓元件回應情境旗標，不用後代選擇器綁死兩端",
+  "action": "在情境容器上設語意旗標（`--surface: featured`），元件用 `@container style(--surface: featured)` 自行決定要顯示徽章、改成實心按鈕或換排列方向；不設 `container-type`",
+  "opponent": "後代選擇器（`.featured .button`）必須同時寫出兩端，任何一端改變都得改選擇器，也穿不過 shadow DOM 邊界（引用：\"the selector must encode both sides of the relationship and must change whenever either side does.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:accessible-web-components:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/accessible-web-components.md",
+  "title": "宿主自帶角色時不要開 delegatesFocus",
+  "action": "宿主本身就是控制項（以 `ElementInternals` 設角色與狀態）時，在 `connectedCallback` 裡把宿主放進 Tab 順序；只有包住內部原生控制項時才用 `delegatesFocus: true`",
+  "opponent": "`delegatesFocus: true` 與宿主上的角色／狀態同時使用，焦點會落到內部元素，略過宿主的狀態（引用：\"Do not combine `delegatesFocus: true` with a role/state on the host, or focus will land on the inner element and skip the host's state.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessible-web-components:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/accessible-web-components.md",
+  "title": "tabIndex 在 connectedCallback 設，不要在 constructor 設",
+  "action": "`connectedCallback` 裡 `if (!this.hasAttribute('tabindex')) this.tabIndex = 0`",
+  "opponent": "在 constructor 裡設 tabindex，`document.createElement` 建立元素時會丟例外（引用：\"setting tabIndex in the constructor throws on createElement\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ }
+]

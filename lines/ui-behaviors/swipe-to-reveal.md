@@ -30,7 +30,7 @@ license: CC-BY-4.0（上游指南）
 ## 外層滑動容器設 `overscroll-behavior: chain`：照樣串接捲動，但不回彈
 - 做法：外層 `.SwipeReveal` 設 `overscroll-behavior: chain`；內層可捲動的內容窗格保留預設 `auto`
 - 對手：預設的 `auto` 會讓外層包裝在邊界回彈、選單跟著彈；`contain`、`none` 又會把捲動困住，傳不到外面的頁面（引用："avoid on the outer swipe wrapper where it causes the menu to bounce"）
-- 退路：保住主要行為——Safari 忽略 chain 而維持預設 auto，滑開面板與串接外層捲動照常運作，僅仍會回彈
+- 退路：失去主要好處——退回 overscroll-behavior:auto，串接保留但選單邊界回彈
 - 解鎖：在不截斷父層捲動串接的前提下，單獨消掉外層滑動容器在邊界產生的局部回彈效果
 
 經過：滑開動作列時整條連同按鈕一起橡皮筋彈一下，很廉價。以前只能在「會彈」和「捲動被困住」之間二選一，新關鍵字把串接和回彈拆開了。
@@ -39,11 +39,11 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：原生捲動手勢不合用途
 - 支援狀態：overscroll-behavior：Limited availability，Supported by: Chrome 144, Edge 144, Firefox 150；Unsupported in: Safari
-- 戰報：部分改善（由支援狀態與退路推出）
+- 戰報：僵持（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：以前巢狀捲動只能選「回彈」或「困住」 → 現在直向動態牆裡可以放滑開動作的列、可側滑的卡片或橫向膠囊列，邊界不回彈、多餘捲動自然傳給外層。Safari 仍會回彈
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「失去主要好處」
 
 %% line-start id="mwg:swipe-to-reveal:3" %%
 ## 滑開面板用 `mandatory` 吸附，不用 `proximity`

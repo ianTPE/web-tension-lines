@@ -12,7 +12,7 @@ license: CC-BY-4.0（上游指南）
 ## 用 appearance: base-select 讓 option 放圖示與說明，擋掉「只能純文字、只好自製下拉」
 - 做法：`<select>` 與 `::picker(select)` 都設 `appearance: base-select`，在 `<option>` 裡放 SVG、圖片、標題與說明，按鈕內用 `<button><selectedcontent>` 自動映出選中內容
 - 對手：原生 `<option>` 裡的標記會被瀏覽器剝掉，只剩純文字，想要圖示加說明的選項只能改用沉重的自製元件（引用："Prior to this API, the browser would strip tags from `<option>` tags and render only plain text."）
-- 退路：保住主要行為——退回作業系統的下拉選單，選單功能與表單送出照常，只是選項只剩純文字
+- 退路：失去主要好處——退回純文字原生選項，圖示與說明版面仍做不到
 - 解鎖：以前原生 `<option>` 只能放純文字，要圖示加說明得改用沉重的自製元件；現在 option 能直接裝 HTML、行為仍是原生的
 
 經過：角色、方案、帳號這類選項需要圖示和一行說明，原生 select 一律剝成純文字，於是大家改用 JS 框架做的假下拉。`base-select` 讓 option 直接裝 HTML，picker 在 top layer、用錨點定位對齊按鈕。不支援的瀏覽器仍是可用的原生下拉，只是失去圖文版面。
@@ -21,11 +21,11 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：自製控制項丟掉原生行為
 - 支援狀態：Customizable `<select>`：Limited availability。Supported by: Chrome 135, Edge 135, Safari 27；Unsupported in: Firefox
-- 戰報：部分改善（由支援狀態與退路推出）
+- 戰報：僵持（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：帶頭像的指派人選單、帶色票的標籤選單、帶圖示與一行說明的方案選擇，都能用原生 `<select>` 做，直接參與表單送出，不必再載下拉元件庫。目前 Firefox 退回純文字
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「失去主要好處」
 
 %% line-start id="mwg:rich-media-picker:2" %%
 ## option 文字要能獨立讀懂，擋掉退回時黏成一串的選項

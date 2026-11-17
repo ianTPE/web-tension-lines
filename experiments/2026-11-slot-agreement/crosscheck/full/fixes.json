@@ -1,0 +1,412 @@
+{
+ "mwg:2d-panning": {
+  "fallback": [
+   "保住主要行為",
+   "退回 wheel／pointermove 更新捲動，失去原生慣性與合成器捲動",
+   "Fall back to updating scroll position from wheel/pointermove, losing native inertia and compositor scrolling"
+  ]
+ },
+ "mwg:directional-navigation-transitions": {
+  "fallback": [
+   "失去主要好處",
+   "退回立即更新 DOM，畫面仍沒有方向性轉場",
+   "Fall back to updating the DOM immediately, still with no directional transition"
+  ]
+ },
+ "mwg:highlight-text-ranges": {
+  "fallback": [
+   "失去主要好處",
+   "退回 <mark> 包住文字，仍須改 DOM 並保護監聽器與結構",
+   "Fall back to wrapping text in `<mark>`, which still requires DOM changes and protecting listeners and structure"
+  ]
+ },
+ "mwg:interactive-content-reveal": {
+  "fallback": [
+   "失去主要好處",
+   "退回未註冊變數的遮罩，聚光燈仍在但開合會跳",
+   "Fall back to a mask with unregistered variables; the spotlight still works but opening and closing jumps"
+  ]
+ },
+ "mwg:interest-triggered-tooltips": {
+  "fallback": [
+   "失去主要好處",
+   "退回 popover=auto，開提示仍可能關掉已開選單",
+   "Fall back to `popover=auto`, where opening a tooltip may still close an already open menu"
+  ]
+ },
+ "mwg:same-document-transitions:2": {
+  "fallback": [
+   "失去主要好處",
+   "退回立即更新 DOM，仍完全沒有轉場",
+   "Fall back to updating the DOM immediately, still with no transition at all"
+  ]
+ },
+ "mwg:swipe-to-reveal:2": {
+  "fallback": [
+   "失去主要好處",
+   "退回 overscroll-behavior:auto，串接保留但選單邊界回彈",
+   "Fall back to `overscroll-behavior:auto`, which keeps scroll chaining but lets the menu bounce at its edge"
+  ]
+ },
+ "mwg:defer-work-until-scroll-ends:2": {
+  "fallback": [
+   "失去主要好處",
+   "退回 debounce 猜捲動結束，重活仍可能落在捲動途中",
+   "Fall back to debouncing to guess when scrolling ends, so heavy work may still land mid-scroll"
+  ]
+ },
+ "mwg:faster-spa-view-transitions": {
+  "fallback": [
+   "失去主要好處",
+   "退回 display:none，切回視圖仍須重算排版與繪製",
+   "Fall back to `display:none`, so switching back to a view still requires recomputing layout and paint"
+  ]
+ },
+ "mwg:interaction-paint-timing:2": {
+  "fallback": [
+   "失去主要好處",
+   "不支援時沒有軟導覽條目可配對，主要量測做不到",
+   "Without support there are no soft navigation entries to match, so the main measurement cannot be done"
+  ]
+ },
+ "mwg:interaction-paint-timing:3": {
+  "fallback": [
+   "失去主要好處",
+   "不支援時無法持續觀察軟導覽，主要量測做不到",
+   "Without support, soft navigations cannot be observed continuously, so the main measurement cannot be done"
+  ]
+ },
+ "mwg:out-of-order-html-streaming:2": {
+  "fallback": [
+   "保住主要行為",
+   "退回 html-setters polyfill，失去原生串流 setter",
+   "Fall back to the html-setters polyfill, losing the native streaming setters"
+  ]
+ },
+ "mwg:equal-width-text-lines:2": {
+  "fallback": [
+   "保住主要行為",
+   "退回 JS 逐行量測縮放，不再跳過末行或強制換行",
+   "Fall back to measuring and scaling each line in JS, no longer skipping the last line or forcing line breaks"
+  ]
+ },
+ "mwg:equal-width-text-lines:3": {
+  "fallback": [
+   "失去主要好處",
+   "退回較小 line-height，行距仍隨各行字級變大",
+   "Fall back to a smaller `line-height`, though line spacing still grows with each line's font size"
+  ]
+ },
+ "mwg:interactive-content-in-3d-scenes": {
+  "fallback": [
+   "保住主要行為",
+   "退回 CSS 覆疊或 polyfill，失去原生 3D 貼圖與幾何同步",
+   "Fall back to a CSS overlay or polyfill, losing native 3D texture mapping and geometry sync"
+  ]
+ },
+ "mwg:animated-select-picker": {
+  "fallback": [
+   "失去主要好處",
+   "退回標準作業系統下拉選單，仍無法自訂開合動畫",
+   "Fall back to the standard OS dropdown, which still can't have custom open/close animations"
+  ]
+ },
+ "mwg:autofill-highlight-inputs": {
+  "fallback": [
+   "失去主要好處",
+   "退回預設底色或 :-webkit-autofill，Firefox 一般欄位仍只有顏色",
+   "Fall back to the default background or `:-webkit-autofill`, while ordinary Firefox fields still only get a color"
+  ],
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:autofill-sign-in-form:2": {
+  "fallback": [
+   "沒說",
+   "指南未交代不支援 autocorrect 時怎麼辦",
+   "The guide doesn't say what to do when `autocorrect` is unsupported"
+  ],
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:autofill-sign-up-form:2": {
+  "fallback": [
+   "沒說",
+   "指南未交代不支援 autocorrect 時怎麼辦",
+   "The guide doesn't say what to do when `autocorrect` is unsupported"
+  ],
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:rich-media-picker": {
+  "fallback": [
+   "失去主要好處",
+   "退回純文字原生選項，圖示與說明版面仍做不到",
+   "Fall back to plain-text native options, which still can't do icon and description layouts"
+  ]
+ },
+ "mwg:switch": {
+  "fallback": [
+   "保住主要行為",
+   "退回 input-switch-polyfill，補上角色、外觀與拖曳操作",
+   "Fall back to input-switch-polyfill, which adds the role, appearance, and drag interaction"
+  ]
+ },
+ "mwg:local-network-access:5": {
+  "fallback": [
+   "沒說",
+   "指南未交代不支援時怎麼辦",
+   "The guide doesn't say what to do without support"
+  ],
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:secure-external-subresources:4": {
+  "fallback": [
+   "失去主要好處",
+   "退回純 url() 字型，竄改內容不會經 SRI 擋下",
+   "Fall back to plain `url()` fonts, so tampered content is not blocked by SRI"
+  ]
+ },
+ "mwg:validate-origins:2": {
+  "fallback": [
+   "保住主要行為",
+   "退回私有網域規則或 Public Suffix List 函式庫，並比對 scheme",
+   "Fall back to private domain rules or a Public Suffix List library, and compare the scheme"
+  ]
+ },
+ "mwg:validate-origins:3": {
+  "fallback": [
+   "保住主要行為",
+   "退回 event.source 或 MessageChannel，不再比對 null 字串",
+   "Fall back to `event.source` or `MessageChannel`, no longer comparing against the `null` string"
+  ]
+ },
+ "mwg:respect-os-text-scale:3": {
+  "fallback": [
+   "失去主要好處",
+   "退回預設字級與手動縮放，根字級仍不跟系統偏好",
+   "Fall back to the default font size and manual scaling, so the root font size still doesn't follow the system preference"
+  ]
+ },
+ "mwg:language-model": {
+  "fallback": [
+   "保住主要行為",
+   "退回雲端 API 或 Transformers.js，失去內建模型部署便利",
+   "Fall back to a cloud API or Transformers.js, losing the convenience of built-in model deployment"
+  ]
+ },
+ "mwg:language-model:4": {
+  "fallback": [
+   "保住主要行為",
+   "退回雲端或替代本機模型，不再觸發內建模型下載手勢錯誤",
+   "Fall back to a cloud or alternative local model, no longer triggering the built-in model download gesture error"
+  ]
+ },
+ "mwg:language-model:6": {
+  "fallback": [
+   "沒說",
+   "指南未交代不支援時怎麼辦",
+   "The guide doesn't say what to do without support"
+  ]
+ },
+ "mwg:language-model:11": {
+  "fallback": [
+   "保住主要行為",
+   "退回替代模型，仍可在意圖明確時提前準備請求與指示",
+   "Fall back to an alternative model, while still preparing requests and instructions early when intent is clear"
+  ]
+ },
+ "mwg:language-model:12": {
+  "fallback": [
+   "保住主要行為",
+   "退回替代模型的乾淨請求，不帶入無關任務歷史",
+   "Fall back to a clean request to an alternative model, without carrying over unrelated task history"
+  ]
+ },
+ "mwg:language-model:13": {
+  "fallback": [
+   "保住主要行為",
+   "退回雲端模型或明確關閉替代本機工作，釋放不再需要資源",
+   "Fall back to a cloud model or explicitly shut down alternative local work, freeing resources no longer needed"
+  ]
+ },
+ "mwg:agentic-javascript-tools:7": {
+  "fallback": [
+   "沒說",
+   "指南未交代不支援 WebMCP 時怎麼辦",
+   "The guide doesn't say what to do when WebMCP is unsupported"
+  ]
+ },
+ "mwg:agentic-javascript-tools:8": {
+  "fallback": [
+   "沒說",
+   "指南未交代不支援 WebMCP 時怎麼辦",
+   "The guide doesn't say what to do when WebMCP is unsupported"
+  ]
+ },
+ "mwg:autofill-address-form": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:autofill-highlight-inputs:4": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:autofill-payment-form": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:autofill-payment-form:4": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:autofill-payment-form:7": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:autofill-sign-in-form": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:autofill-sign-up-form": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:custom-select-picker-layouts:5": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:forms:6": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:forms:7": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:forms:9": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:forms:15": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:ime-safe-enter-submit": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:select-menu-interaction": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:sms-otp-form:2": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:sms-otp-form:3": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:client-side-encryption:4": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:digital-signatures:4": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:local-network-access:2": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:quick-sign-ins:3": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:secure-external-subresources": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:security": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:security:5": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:security:9": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:security:11": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ },
+ "mwg:accessible-error-announcement": {
+  "unlock": [
+   "（缺）",
+   ""
+  ]
+ }
+}

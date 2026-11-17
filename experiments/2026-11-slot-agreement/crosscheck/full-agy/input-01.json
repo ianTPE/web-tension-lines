@@ -1,0 +1,407 @@
+[
+ {
+  "key": "mwg:accordion",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/accordion.md",
+  "title": "需要個別標題時不要把 heading 塞進 summary",
+  "action": "用相鄰的 `<details>` 組手風琴；每一項需要自己的標題時，改用自訂 accordion",
+  "opponent": "在 `<summary>` 裡放 heading，JAWS 與 TalkBack 把 summary 當按鈕並丟掉裡面的標題，使用者無法用標題在項目間跳（引用：\"JAWS and TalkBack expose `summary` as a button and drop any heading inside it, so their users cannot move between items by heading.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accordion:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/accordion.md",
+  "title": "不用互斥 <details name>，避免內容跳出視野",
+  "action": "預設讓多個項目可同時展開，不使用 `<details name>` 的互斥行為",
+  "opponent": "互斥手風琴開一項就關另一項，內容位移出使用者的視野，對使用螢幕放大鏡的人影響很大（引用：\"They also can cause content to shift out of the user’s view which can cause significant problems for those using screen magnifiers.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accordion:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/accordion.md",
+  "title": "用 ::details-content 收合，保留頁內搜尋與動畫",
+  "action": "收合內容放在 `::details-content`，以 `content-visibility: hidden` 隱藏而非 `display: none`",
+  "opponent": "用 `display: none` 隱藏收合內容，頁內搜尋找不到、高度也無法動畫（引用：\"While closed it is hidden with `content-visibility: hidden`, not `display: none`, which is what keeps it findable and lets its size animate.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:app-menus",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/app-menus.md",
+  "title": "用錨點定位把選單黏在觸發鈕上",
+  "action": "選單列（File/Edit/View）的每個選單用 popover 搭配 CSS anchor positioning 定位在觸發鈕旁",
+  "opponent": "沒有 anchor positioning 時 popover 退回視窗置中，選單脫離觸發鈕，置中的子選單還會蓋住父選單（引用：\"Never ship that for a menu: it detaches the menu from its trigger, and a centered submenu covers its parent.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:breadcrumbs",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/breadcrumbs.md",
+  "title": "保留分隔符，讓麵包屑看起來是層級而不是同層",
+  "action": "用 `<nav>` + `<ol>` 建麵包屑，分隔符由 CSS 產生且對輔助技術隱藏",
+  "opponent": "做成膠囊或分段條卻拿掉分隔符，看起來像分頁或篩選器（同層項目），不像層級（引用：\"Pills, tags and a segmented bar without one look like tabs or filters (items on the same level), not a hierarchy.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:breadcrumbs:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/breadcrumbs.md",
+  "title": "用 border-shape 讓斜角段落的邊框與焦點框跟著形狀",
+  "action": "用 `corner-shape`／`border-shape` 畫斜角或箭頭形分段，邊框與焦點外框沿著形狀",
+  "opponent": "用 `clip-path` 切形狀會切掉邊框與焦點外框；強制色彩模式又移除背景，被切的段落失去輪廓（引用：\"`clip-path` clips borders and outlines, so under the fallback use a color/background change plus negative `outline-offset` for focus instead of an outside outline.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:card",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/card.md",
+  "title": "卡片內容多或有其他動作時，改用「延伸連結」，不要整張包在 `<a>` 裡",
+  "action": "整張卡片只有一個目的地且內容短，才用一個 `<a>` 包住 `<article>`；否則只讓標題裡的 `.card-link` 是連結，用 `::after` 加 `inset: 0` 把點擊範圍延伸到整張卡",
+  "opponent": "整張包在連結裡時，連結的可及名稱就是卡片的全部文字（引用：\"Because the link's accessible name is all of the card's text, keep the content short\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:card:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/card.md",
+  "title": "選擇卡片被選取時，不要改會影響版面的屬性",
+  "action": "`<label class=\"card\">` 內放勾選框或單選鈕，用 `:has(> :checked)` 只改透明邊框的顏色、`outline` 或 `box-shadow`",
+  "opponent": "選取時改 `border-width`、`padding`、`font-weight`，這張卡和旁邊的卡都會跳動（引用：\"Never change layout-affecting properties such as `border-width`, `padding`, or `font-weight` on selection, because the card and its neighbors jump\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:card:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/card.md",
+  "title": "延伸連結只能有一個，其他互動元素逐一提升層級",
+  "action": "每張卡只在一個連結上加 `.card-link`；其他 `a`、`button`、`input` 等元素依類型設 `position: relative; z-index: 1`，不要對整個容器設 `z-index`",
+  "opponent": "多個連結都延伸時最後一個蓋住整張卡；對整個容器設 `z-index` 則會攔下不產生任何動作的點擊（引用：\"each would stretch its own overlay and the last one would capture the whole card … Do NOT apply `z-index` to entire containers as that would make them capture pointer events that don't produce any action.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:card:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/card.md",
+  "title": "以卡片自己為容器查詢排版，不看視窗或格線父層",
+  "action": "卡片設 `container-type: inline-size`，用 `@container` 規則調整子元素；有媒體的卡片才用 `:has(> img)` 開側欄",
+  "opponent": "卡片的實際寬度取決於欄數、間距等，用父層訂的斷點很不準（引用：\"the card's actual width can depend on column count, gaps and so on, making parent-based breakpoints are noisy.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:carousel",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/carousel.md",
+  "title": "循環輪播不複製投影片，改用 order 暫停一張",
+  "action": "循環時用 `--current` 與 CSS `order` 把首或尾一張「停」到旁邊並設為 `inert`，不複製也不搬動投影片",
+  "opponent": "複製投影片或在 DOM 裡搬動來做無限循環，和框架衝突，輔助技術也會讀到重複內容（引用：\"Do not clone slides or move them in the DOM, which conflicts with frameworks and duplicates content for assistive technology.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:checkbox",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/checkbox.md",
+  "title": "用 `accent-color` 或 `appearance: none` 改核取方塊外觀，保留原生 `<input>`",
+  "action": "簡單換品牌色用 `accent-color`（保留原生繪製、鍵盤、驗證與系統焦點框）；要控制形狀、尺寸與狀態時，在 `<input type=\"checkbox\">` 上設 `appearance: none`，用 `::before` 加 `mask` 畫勾號與 `:indeterminate` 的橫線",
+  "opponent": "指南沒說舊做法哪裡壞，只說這兩種做法能保留原生行為或讓 `<input>` 仍是互動目標（引用：\"This removes the native visual styling while leaving the `<input>` as the interactive target.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:checkbox:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/checkbox.md",
+  "title": "Safari 的 `accent-color` 不一定保證勾號對比，要實測",
+  "action": "在 Safari 的淺色與深色配色下測試重要的 accent-color 組合，勾選與部分勾選狀態維持至少 3:1 對比",
+  "opponent": "Safari 可能固定用白（淺色）或黑（深色）勾號、改的是背後的強調色，不一定對每個顏色都有足夠對比（引用：\"This adjustment does not always provide sufficient contrast for every supplied color\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:checkbox:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/checkbox.md",
+  "title": "`appearance: none` 之後要自己給尺寸",
+  "action": "用相對單位設 `--checkbox-size`、`--checkbox-icon-size`，圖示比方框小",
+  "opponent": "`appearance: none` 連瀏覽器預設尺寸一起拿掉（引用：\"`appearance: none` removes the browser’s default dimensions.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:copy-button",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/copy-button.md",
+  "title": "回饋期間不要停用按鈕",
+  "action": "按下複製後顯示回饋，重複點擊時重設計時器與動畫，而不是把按鈕設為 disabled",
+  "opponent": "顯示回饋期間停用按鈕，鍵盤焦點掉出去，還宣告了誤導的「不可用」狀態（引用：\"DO NOT disable the button while showing feedback: copying is idempotent, and disabling drops keyboard focus, announces a misleading unavailable state\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:copy-button:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/copy-button.md",
+  "title": "重複的複製鈕用 opacity 隱藏",
+  "action": "頁面上大量重複的複製按鈕平時隱藏，hover 或聚焦時顯示，只用 `opacity` 藏",
+  "opponent": "用 `display: none` 或 `visibility: hidden` 藏按鈕，按鈕從 Tab 順序中消失，鍵盤使用者永遠到不了（引用：\"`display: none` and `visibility: hidden` remove the button from the tab order, so keyboard users could never reach it.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dark-mode-toggle:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/dark-mode-toggle.md",
+  "title": "儲存的配色用緊接在 `<meta>` 後面的同步內嵌腳本套用",
+  "action": "在 `<meta name=\"color-scheme\">` 後面放一段極小的內嵌 `<script>`（不是 module、不加 defer），從 `localStorage` 讀值寫回 meta",
+  "opponent": "晚一點才套用儲存的偏好，會先閃一下錯的配色（引用：\"To avoid a flash of the wrong scheme, apply the stored value in an inline script (NOT `type=module`, NOT `defer`) placed immediately after the `<meta>` element\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dark-mode-toggle:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/dark-mode-toggle.md",
+  "title": "只在儲存當下比對系統偏好，之後不要因為兩者一致就刪掉儲存值",
+  "action": "兩態切換的目標是「目前畫面的相反」；目標和系統偏好不同才存，相同就刪除儲存值；之後系統偏好變得和儲存值一樣時保留，不用 `matchMedia()` 自動清除",
+  "opponent": "很多人的系統會依時段自動切換，一致時就刪掉儲存值，使用者永遠無法固定配色；反過來存下與系統相同的值，又會在之後系統變更時悄悄釘死（引用：\"removing the stored value whenever the two happen to coincide would make it impossible to pin a scheme at all. … that would invisibly pin the scheme against future system changes.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dark-mode-toggle:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/dark-mode-toggle.md",
+  "title": "非顏色的分支不要只靠 JS 加的 `.dark` 類別",
+  "action": "字重、圖片來源等非顏色值，用 `prefers-color-scheme` 媒體查詢搭配 `:root:has(> head > meta[...][content=\"dark\"])` 選擇器分支",
+  "opponent": "JS 沒載入、系統預設又是深色時，只靠 `.dark` 類別的分支就會錯（引用：\"they will be incorrect if JS doesn't load and the OS default is dark.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dialog",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/dialog.md",
+  "title": "用原生 `<dialog>` 的 `showModal()`，不手寫焦點陷阱、inert 與 Esc",
+  "action": "阻斷式的確認、表單、登入用 `<dialog>` 以 `command=\"show-modal\"` 或 `showModal()` 開啟；不加 `role=\"dialog\"`、`aria-modal`、焦點陷阱、`inert` 切換或 Esc 處理",
+  "opponent": "指南只說自製浮層得手工重建這些行為，沒說重建版在哪個時刻出錯（引用：\"It provides the accessibility semantics, focus handling, top-layer rendering and `Esc` handling that custom overlays have to rebuild by hand.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dialog:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/dialog.md",
+  "title": "模態框的背景捲動用 `overscroll-behavior` 擋，不鎖 `<body>`",
+  "action": "`dialog:modal` 設 `overscroll-behavior: contain`；`dialog::backdrop` 設 `overflow: hidden` 加 `overscroll-behavior: contain`（細節見 `mwg:prevent-page-scroll-under-modal-dialog`）",
+  "opponent": "沒有這兩條，在背景上或對話框內捲動會捲到後面的頁面；用 `overflow: hidden` 或 `position: fixed` 鎖根元素則會拿掉捲軸、讓版面橫移（引用：\"without them, scrolling over the backdrop or inside the dialog scrolls the page behind it\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:dialog:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/dialog.md",
+  "title": "讓使用者邊開邊用頁面的面板用 `<dialog popover>`，不用 `showModal()`",
+  "action": "尋找列、檢視器、調色盤、撰寫窗格這類「開著也要繼續操作頁面」的對話框，用 `<dialog popover>`（`auto` 會點外面關閉、`manual` 不會），並放一顆可見的關閉鈕；選單、提示、懸停卡則用帶 `popover` 的語意元素，不用 `<dialog>`",
+  "opponent": "用 `showModal()` 開這類面板會擋住整個頁面（引用：\"**DON'T** use `showModal()`, which blocks the page.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dialog:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/dialog.md",
+  "title": "讀完 `returnValue` 就重設成空字串",
+  "action": "在 `close` 監聽裡讀 `dialog.returnValue` 判斷按了哪顆，讀完設 `dialog.returnValue = ''`，把空字串當成「沒選就關」",
+  "opponent": "Esc 與其他關閉要求不設值，瀏覽器對是否清掉上一次的值又不一致，舊值會漏到這一次（引用：\"browsers differ on whether they clear the previous one, so without the reset a stale value can leak.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dialog:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/dialog.md",
+  "title": "攔下關閉時，要讓使用者知道對話框為什麼還開著",
+  "action": "`cancel` 被 `preventDefault()` 時顯示一段可見訊息，並由接到焦點的控制項（例如「捨棄」）用 `aria-describedby` 指向它",
+  "opponent": "沒有這段描述時，焦點移到新按鈕只會唸出按鈕名稱（引用：\"Without it, focus moving to a new button announces only that button's name.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dialog:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/dialog.md",
+  "title": "出現確認訊息時，不要讓按鈕移到游標底下",
+  "action": "訊息空間預先保留（用 `visibility` 隱藏，不用 `display` 或 `hidden`）；破壞性按鈕加在現有按鈕不會移動的位置",
+  "opponent": "版面一變，第二下點在同一個位置就會按到「捨棄」，丟掉使用者的修改（引用：\"so a second click at the same spot cannot discard the user's changes.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dialog:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/dialog.md",
+  "title": "不要無條件在 `dialog` 上設 `display`",
+  "action": "版面用的 `display` 寫在 `dialog[open]` 上",
+  "opponent": "直接設在 `dialog` 會蓋掉關閉狀態（引用：\"It overrides the closed state. Scope it with `dialog[open]`.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dialog:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/dialog.md",
+  "title": "未存修改的保護寫在 `cancel` 裡，不能只靠 `closedby=\"none\"`",
+  "action": "表單有未存修改時設 `closedby=\"none\"`，同時在 `cancel` 監聽裡擋下並顯示確認；取消鈕用 `command=\"request-close\"` 或 `requestClose()`",
+  "opponent": "不支援 `closedby` 的瀏覽器會忽略 `closedby=\"none\"`，按 Esc 照樣觸發 `cancel` 並關閉對話框（引用：\"`closedby=\"none\"` is ignored the same way: `Esc` fires `cancel` and then closes the dialog.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:hovercard",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/hovercard.md",
+  "title": "用 `interestfor` 讓連結在 hover 與聚焦時都叫出預覽卡",
+  "action": "觸發連結加 `interestfor=\"卡片 id\"`，卡片設 `popover=\"hint\"`；用 `interest-delay` 調整開關延遲，已有卡片開著時以 `:root:has(:interest-source)` 把開啟延遲設成 0",
+  "opponent": "指南沒說舊做法哪裡壞，只說這樣能確保卡片在 hover 與聚焦時都出現（引用：\"This ensures the card appears on both hover and focus.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:hovercard:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/hovercard.md",
+  "title": "提示內容和觸發元素名稱相同時，什麼 ARIA 都不加",
+  "action": "比對正規化後的提示文字與觸發元素的可及名稱，相同就不加描述",
+  "opponent": "描述與名稱一樣時會被唸兩次（引用：\"A description identical to the name would be read twice.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:hovercard:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/hovercard.md",
+  "title": "會導覽或執行動作的觸發元素不加 `aria-expanded`",
+  "action": "觸發連結或有自己動作的按鈕，提示卡設 `role=\"tooltip\"`、觸發元素用 `aria-describedby`；只有「按下就是打開提示」的按鈕才用 `aria-expanded`",
+  "opponent": "觸發元素被唸成「已收合」會暗示按 Enter 會展開，但 Enter 其實是導覽或執行動作（引用：\"A trigger announced as \"collapsed\" suggests `Enter` would expand it, but `Enter` navigates or acts.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:hovercard:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/hovercard.md",
+  "title": "當作描述暴露的提示，只能放錯過也沒關係的內容",
+  "action": "懸停卡只放可從其他地方取得的補充資訊；使用者需要的內容放在 toggletip 或直接寫在頁面上",
+  "opponent": "不是每個讀屏都會在瀏覽時唸描述，NVDA 的瀏覽模式就刻意略過（引用：\"Not every screen reader reads descriptions when moving through the page (NVDA skips them in browse mode by design)\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:hovercard:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/hovercard.md",
+  "title": "ARIA 屬性在 DOM 解析完就一次接好，不要等 focus、interest 或 polyfill",
+  "action": "寫一小段腳本，在每個瀏覽器、載入 `interestfor` polyfill 之前、DOM 解析完就掃過所有 `[interestfor]` 觸發元素補上 ARIA，並提供給後來插入的內容重跑的函式",
+  "opponent": "讀屏的瀏覽模式在任何互動之前就要讀到這些屬性，等到 focus 或 interest 才接已經太晚；polyfill 又要到 `load` 才接，也不替純文字提示加 `role=\"tooltip\"`（引用：\"wiring them lazily on `focus` or `interest` is too late, and so is waiting for the polyfill\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:hovercard:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/hovercard.md",
+  "title": "同步 `aria-expanded` 要在 document 上以捕獲階段聽 `toggle`",
+  "action": "在 `document` 上掛一個 `capture: true` 的 `toggle` 監聽，依 popover 狀態更新所有指向它、由腳本管理的觸發元素；不從 `interest`／`loseinterest` 同步",
+  "opponent": "`toggle` 不冒泡，掛在 document 的一般監聽永遠不會觸發；而 popover 也可能被 Esc、點外面或別的觸發元素關掉（引用：\"`toggle` does not bubble. A bubbling listener on `document` never fires\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:hovercard:9",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/hovercard.md",
+  "title": "不用 polyfill 時，`inset: auto` 與 `margin: 0` 要包在 `@supports` 裡",
+  "action": "把 `inset: auto`、`margin: 0` 與 `position-area` 一起放進 `@supports (position-area: block-end)`，必要時寫 `@supports not (...)` 的固定底部條",
+  "opponent": "不支援的瀏覽器忽略 `position-area`，但 `inset: auto` 照樣蓋掉預設置中，popover 卡在 `(0, 0)` 或疊在觸發點上（引用：\"leaving the popover stranded at `(0, 0)` or overlapping its trigger.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:hovercard:10",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/hovercard.md",
+  "title": "`transition-behavior: allow-discrete` 獨立宣告在 `transition` 之後",
+  "action": "`transition` 列出 `opacity, transform, display, overlay`，再另起一行 `transition-behavior: allow-discrete`；進場值寫在 `@starting-style`，全部包在 `prefers-reduced-motion: no-preference` 裡",
+  "opponent": "把 `allow-discrete` 寫進簡寫，舊瀏覽器會忽略整條 transition（引用：\"Declare `transition-behavior: allow-discrete` as a separate property after `transition` rather than inside the `transition` shorthand so older browsers do not ignore the entire `transition` declaration.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:hovercard:11",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/hovercard.md",
+  "title": "預覽卡點下去後，用跨文件轉場把卡片變形成目的頁",
+  "action": "兩頁都 `@view-transition { navigation: auto; }`；只在 `[popover]:popover-open` 內給卡片、標題、圖片 `view-transition-name`，目的頁對應元素用同名；目的頁以 `<link rel=\"expect\" href=\"#main-content\" blocking=\"render\">` 等關鍵內容解析完才渲染",
+  "opponent": "目的頁不等內容就渲染時轉場會不穩、閃爍（引用：\"To ensure the transition is stable and doesn't flicker, the destination page should use `blocking=\"render\"` and `<link rel=\"expect\">`\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:menu",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/menu.md",
+  "title": "用 `focusgroup=\"menu\"` 加 `command=\"toggle-popover\"` 宣告彈出選單",
+  "action": "觸發鈕設 `commandfor` 與 `command=\"toggle-popover\"`，選單是緊接在後的 `popover=\"auto\"`，裡面巢一層 `<div focusgroup=\"menu nomemory\">`；不寫 `role=\"menu\"`／`menuitem`，由 focusgroup 推斷；子選單是放在父選單 focusgroup 內的另一個 `popover=\"auto\"`",
+  "opponent": "指南只要求不要在 focusgroup 裡再做一套 roving tabindex、明寫角色會擋住推斷，沒說手寫版在哪個時刻出錯（引用：\"Do not add a second roving-tabindex system inside a focusgroup.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:menu:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/menu.md",
+  "title": "子選單用錨點定位貼在父項目旁，不能退回視窗置中",
+  "action": "頂層選單 `position-area: block-end span-inline-end`、子選單 `position-area: inline-end span-block-end`，各帶 `position-try-fallbacks` 翻轉；隱式錨點來自 invoker，不寫 `anchor-name`；不支援時用 `@supports not` 加腳本計算位置",
+  "opponent": "沒有錨點定位時 popover 退回視窗置中，選單脫離觸發鈕，置中的子選單還蓋住父選單（引用：\"it detaches the menu from its trigger, and a centered submenu covers its parent.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:menu:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/menu.md",
+  "title": "窄螢幕的最後退路 `--below` 要允許子選單縮小",
+  "action": "`@position-try --below` 放在最後，內含 `min-inline-size: 0` 與 `max-inline-size: calc(100% - 1rem)`",
+  "opponent": "放不下的退路會被跳過；若沒有一個放得下，瀏覽器保留基本位置，寬了幾像素的子選單就靜靜蓋住自己的觸發項目（引用：\"a submenu that is a few pixels too wide silently covers its trigger.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:menu:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/menu.md",
+  "title": "右鍵選單與游標處選單用 `showPopover({ source })` 加零尺寸佔位錨點",
+  "action": "沒有觸發鈕的選單以 `showPopover({ source })` 開啟，`source` 給被右鍵的卡片或目前聚焦的元素；要開在某一點（游標、`@` 提及的輸入點）時，放一個緊接在選單前、零尺寸、`position: fixed` 的佔位元素，每次開啟時移到該點再當 `source`；選單用 `aria-label` 命名",
+  "opponent": "指南只說要用錨點定位、不要用 JS 座標，沒說 JS 座標在哪個時刻出錯（引用：\"Use CSS anchor positioning, not JavaScript coordinates.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:menu:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/menu.md",
+  "title": "子選單的「安全三角」用 CSS 畫，從游標離開的點延伸到子選單邊緣",
+  "action": "只在 `(hover: hover)` 時，於子選單觸發項目的 `pointerleave` 把游標位置寫成 `--pointer-x`／`--pointer-y` 並設 `data-bridge`；子選單的 `::before` 用 `clip-path: polygon()` 畫出從該點到子選單近側兩角的三角形（以 `sign()` 判斷左右），游標停下約 300ms、轉向或到達項目時移除",
+  "opponent": "靜態的 CSS 橋太窄，只有游標從父選單邊緣出發才有效；斜著移向子選單時會經過兄弟項目，把子選單關掉（引用：\"A static CSS bridge is too narrow: it only works when the pointer starts near the parent's edge.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:menu:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/menu.md",
+  "title": "開啟後移焦點要在 `toggle` 事件裡做，不在 `command` 裡",
+  "action": "鍵盤開啟時在 `toggle` 監聽裡把焦點移到第一個可用項目；`aria-expanded` 也只在 `toggle` 裡設",
+  "opponent": "`command` 事件在 `toggle-popover` 打開選單之前觸發，那時焦點移不進去（引用：\"The `command` event fires before `toggle-popover` opens the menu, so focus cannot move into the menu there.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:menu:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/menu.md",
+  "title": "勾選項目的勾號選擇器要至少和基本 `::before` 一樣特定",
+  "action": "`[focusgroup~=\"menu\"] button[aria-checked=\"true\"]::before { content: \"✓\" }`，特異度不低於保留圖示欄的基本規則",
+  "opponent": "特異度不夠時空的 `content` 勝出，勾號永遠不顯示（引用：\"or the empty content wins and the check mark never shows.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:menu:9",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/menu.md",
+  "title": "選單列對齊用固定寬的前導欄加 `margin-inline-start: auto`，不用 subgrid",
+  "action": "項目設 `display: flex`，`::before` 是固定寬度的圖示／勾號欄，快捷鍵或子選單指示放在 `margin-inline-start: auto` 的 `.hint`",
+  "opponent": "用 subgrid 時，多出來的行內子元素（例如徽章）會變成自己的格線項目，版面壞掉（引用：\"any extra inline child (a badge, for example) becomes its own grid item and breaks the layout.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:menu:10",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/menu.md",
+  "title": "選單開啟動畫要有 `@starting-style`",
+  "action": "開啟狀態裡寫 `@starting-style { opacity: 0; translate: ... }`；`display`、`overlay` 加入 transition，`transition-behavior: allow-discrete` 另起一行",
+  "opponent": "關閉的 popover 是 `display: none`，transition 不會從未渲染的狀態開始，沒有起始值時開啟直接跳出、只有關閉有動畫（引用：\"Without it the open snaps and only the close animates.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ }
+]

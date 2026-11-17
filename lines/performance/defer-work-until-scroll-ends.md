@@ -31,7 +31,7 @@ license: CC-BY-4.0（上游指南）
 ## 重活不要放在 scroll 回呼裡
 - 做法：`scroll` 回呼只做輕量的即時回饋，版面相依的更新與資料抓取移到 `scrollend`
 - 對手：捲動期間執行版面重算、分析 beacon、動態 DOM 更新，會塞滿主執行緒，造成掉幀與版面抖動（引用："Executing heavy tasks—such as layout recalculations, analytics data beacons tracking, or dynamic DOM updates—during scrolling can saturate the main thread, resulting in dropped frames and layout thrashing."）
-- 退路：保住主要行為——不支援時退回 `scroll` 加 `setTimeout` 防抖派發事件，仍能把重活移出 `scroll` 回呼
+- 退路：失去主要好處——退回 debounce 猜捲動結束，重活仍可能落在捲動途中
 - 解鎖：（缺）
 
 經過：每個 `scroll` 事件都去量版面、送 beacon，捲動變得一頓一頓。把這些搬到捲動結束之後，捲動本身就保持順暢。
@@ -43,4 +43,4 @@ license: CC-BY-4.0（上游指南）
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「失去主要好處」

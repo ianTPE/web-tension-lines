@@ -121,7 +121,7 @@ license: CC-BY-4.0（上游指南）
 ## 除錯工具用 annotations.debugging 與使用者工具分開
 - 做法：傾倒內部狀態、切 feature flag、填測試資料的工具設 `annotations.debugging: true`
 - 對手：（缺）指南只說標記能讓代理區分開發者工具與使用者任務，沒說混在一起的具體後果（引用："This lets agents tell developer-only tools apart from tools meant to act for the user."）
-- 退路：失去主要好處——不支援時工具根本註冊不了，代理分不出開發工具與使用者操作
+- 退路：沒說——指南未交代不支援 WebMCP 時怎麼辦
 - 解鎖：以前同一頁的開發工具與使用者操作混在一起，代理分不出；現在能用標記讓代理區分兩者
 
 經過：同一個頁面既有「送出訂單」也有「重置測試資料」，metadata 至少讓消費者知道後者是開發用途。標記預設為 false。
@@ -134,13 +134,13 @@ license: CC-BY-4.0（上游指南）
 - 槽判定：對手 缺／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：測試控制台可以讓頁內代理只列開發工具，一般助理則避開重置資料、切旗標這類操作。目前只有 Chromium 旗標預覽
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「沒說」
 
 %% line-start id="mwg:agentic-javascript-tools:8" %%
 ## getTools()／executeTool() 給頁內代理與測試，不是暴露工具的必要步驟
 - 做法：頁內助理、iframe 代理與自動化測試用 `getTools()` 探索、`executeTool()` 呼叫；監聽 `toolchange` 更新清單
 - 對手：（缺）指南只區分瀏覽器代理的 out-of-band 消費與頁內消費，沒說誤用時出了什麼事（引用："The `getTools()` and `executeTool()` methods exist specifically for consumers running inside the JavaScript environment"）
-- 退路：失去主要好處——不支援時這兩個方法不存在，頁內代理與自動化測試都無從探索或呼叫工具
+- 退路：沒說——指南未交代不支援 WebMCP 時怎麼辦
 - 解鎖：以前沒有不依賴外部模型的瀏覽器內測試途徑，也做不了嵌入式 copilot；現在頁內可用這兩個方法探索並呼叫工具
 
 經過：一般網站註冊後已由瀏覽器代理發現；這兩個方法用在嵌入式聊天 widget 或 Playwright、Vitest 這類同頁消費者。
@@ -153,7 +153,7 @@ license: CC-BY-4.0（上游指南）
 - 槽判定：對手 缺／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：工具可以有不依賴外部模型的瀏覽器內測試，也能做成嵌入式 copilot 直接操作目前頁面。目前只有 Chromium 旗標預覽
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「沒說」
 
 %% line-start id="mwg:agentic-javascript-tools:9" %%
 ## executeTool() 對舊 Chrome 保留 JSON 字串輸入退路

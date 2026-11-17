@@ -31,7 +31,7 @@ license: CC-BY-4.0（上游指南）
 ## 用 `per-line-all` 而不是 `per-line`，容器要有明確寬度
 - 做法：關鍵字寫 `per-line-all`；標題容器給定 `inline-size`，不要是 `fit-content`／`max-content` 或依內容決定寬度的 flex／grid 項目
 - 對手：`per-line` 會跳過最後一行與以強制換行結尾的行，每行一個區塊時什麼都不縮放；容器寬度依內容時 `text-fit` 也不起作用（引用："`per-line` skips the last line and any line ending in a forced break, so with one block per line it scales nothing."）
-- 退路：失去主要好處——不支援 `text-fit` 時退回腳本量測或流體字級，失去原生純 CSS 等寬縮放
+- 退路：保住主要行為——退回 JS 逐行量測縮放，不再跳過末行或強制換行
 - 解鎖：（缺）
 
 經過：照文件寫了 `text-fit`，畫面完全沒變，查半天才發現是關鍵字少了 `-all`，標題又放在一個 `fit-content` 的 flex 項目裡。
@@ -40,16 +40,16 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：新功能的副作用
 - 支援狀態：text-fit：Limited availability（Chrome 150, Edge 150）
-- 戰報：僵持（由支援狀態與退路推出）
+- 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「保住主要行為」
 
 %% line-start id="mwg:equal-width-text-lines:3" %%
 ## 行距用 flex／grid 的 `gap` 與 `text-box` 控制，不要靠 `em` 或 `line-height`
 - 做法：全部強制換行時，每行設 `text-box: trim-both cap alphabetic`，標題用 flex 或 grid 加 `gap` 排行距；有自由換行時不用 `text-box`，改由較小的 `line-height` 管
 - 對手：`text-fit` 不改計算後的 `font-size`，以 `em` 寫的間距不會跟著放大；用 `line-height` 時，間距又會隨每一行的字級變大（引用："IMPORTANT: Note that computed `font-size` is unchanged, so `em` spacing does not scale."）
-- 退路：保住主要行為——不支援 `text-box` 時保留小 `line-height` 仍可收緊行距，僅失去完全等距修剪
+- 退路：失去主要好處——退回較小 line-height，行距仍隨各行字級變大
 - 解鎖：（缺）
 
 經過：放大後的第二行和第三行之間空出一大塊，第一行和第二行卻擠在一起。
@@ -58,10 +58,10 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：版面依賴錯的量測
 - 支援狀態：text-box：Limited availability，Supported by: Chrome 133, Edge 133, Safari 18.2；Unsupported in: Firefox
-- 戰報：部分改善（由支援狀態與退路推出）
+- 戰報：僵持（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「失去主要好處」
 
 %% line-start id="mwg:equal-width-text-lines:4" %%
 ## 退路腳本先全部讀、再全部寫，不要讀寫交錯

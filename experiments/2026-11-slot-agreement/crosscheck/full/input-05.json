@@ -1,0 +1,407 @@
+[
+ {
+  "key": "mwg:customize-scrollbar-color-and-thickness",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/customize-scrollbar-color-and-thickness.md",
+  "title": "用標準的 `scrollbar-color` 換捲軸配色，拇指對軌道與底下背景都要有 3:1",
+  "action": "在捲動容器上設 `scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track)` 與 `scrollbar-width`，拇指與軌道顏色各放一個變數",
+  "opponent": "拇指對比不足時使用者看不到它、也看不出捲了多遠；macOS 覆蓋式捲軸的軌道透明，拇指得對容器背景也有對比（引用：\"so users can see the thumb and how far they've scrolled (WCAG 1.4.11 Non-text Contrast).\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:dark-mode",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/dark-mode.md",
+  "title": "在 `<head>` 放 `<meta name=\"color-scheme\">`，減少深色使用者載入時的白閃",
+  "action": "`<meta name=\"color-scheme\" content=\"light dark\">` 放在 `<head>`，讓瀏覽器在開始渲染前就知道支援哪些配色",
+  "opponent": "瀏覽器不知道頁面支援深色時，初始畫布是白的，載入時出現未上主題的閃光（引用：\"To help prevent a \"flash of un-themed content\" (FOUC), place a `<meta>` tag in your `<head>` to ensure the browser knows which themes you support before it even starts rendering.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dark-mode:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/dark-mode.md",
+  "title": "`color-scheme` 設在 `:root`，不要只設在 `body`",
+  "action": "`:root { color-scheme: light dark; }`",
+  "opponent": "瀏覽器看根元素決定整個視窗的主題；只設在 `body` 時，根捲軸與初始畫布背景可能仍是淺色（引用：\"If applied only to the `body`, these global UI surfaces may remain in light mode because the `body` does not control the window's rendering context.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dark-mode:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/dark-mode.md",
+  "title": "用 `light-dark()` 定義會自己切換的色彩 token",
+  "action": "原始色值各放一個自訂屬性，再用 `--color-brand: light-dark(var(--color-brand-light), var(--color-brand-dark))` 組成 token；`accent-color`、`scrollbar-color`、`::selection` 等也能用 `light-dark()`",
+  "opponent": "缺——指南只說 `light-dark()` 省掉重複的媒體查詢，沒說用媒體查詢在哪個時刻出錯",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:dark-mode:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/dark-mode.md",
+  "title": "JS 讀 `prefers-color-scheme` 時一定要聽 `change` 事件",
+  "action": "配色分支盡量放在 CSS；必須用 `matchMedia(\"(prefers-color-scheme: dark)\")` 時，同時處理它的 `change` 事件",
+  "opponent": "系統配色隨時可能改變，只讀一次 `.matches` 的程式會停在舊配色（引用：\"MUST also handle its `change` event as the system preference can change at any time.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dark-mode:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/dark-mode.md",
+  "title": "深淺色各用一張圖：`light-dark()` 直接接受圖片值",
+  "action": "`background-image: light-dark(url(hero-light.png), url(hero-dark.png))`；不支援時在 `:root` 定義 `--light-type`／`--dark-type`，用 `image-set()` 加 `type(\"image/do-not-use\")` 讓非作用中的選項被丟棄",
+  "opponent": "沒有圖片值時，每張圖都要自己的媒體查詢分支，手動切換開關也得逐一翻轉（引用：\"every image needs its own media query branch, and a manual toggle must flip each one.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:dark-mode:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/dark-mode.md",
+  "title": "`image-set()` 開關的作用中選項要給空值，不要寫 `type(\"\")`",
+  "action": "作用中的那一組自訂屬性設成空值（`--light-type: ;`），讓它成為沒有 `type()` 的普通選項；只有非作用中的設成不支援的 MIME 類型",
+  "opponent": "瀏覽器把空字串的 `type(\"\")` 視為不支援，所有選項一起被丟掉（引用：\"Browsers treat the empty string as unsupported and drop every option.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:equal-width-text-lines",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/equal-width-text-lines.md",
+  "title": "用 `text-fit` 讓海報式標題每一行自動撐滿寬度",
+  "action": "標題設 `text-fit: grow per-line-all 300%`，強制換行的每一行包成 `display: block; white-space: nowrap` 的 `<span>`；基礎 `font-size` 設成最小值，百分比當上限",
+  "opponent": "缺——指南只說瀏覽器在版面計算時縮放每一行，所以在調整大小、改文案、字型載入時都保持正確，沒說腳本量測在哪個時刻出錯",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:equal-width-text-lines:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/equal-width-text-lines.md",
+  "title": "用 `per-line-all` 而不是 `per-line`，容器要有明確寬度",
+  "action": "關鍵字寫 `per-line-all`；標題容器給定 `inline-size`，不要是 `fit-content`／`max-content` 或依內容決定寬度的 flex／grid 項目",
+  "opponent": "`per-line` 會跳過最後一行與以強制換行結尾的行，每行一個區塊時什麼都不縮放；容器寬度依內容時 `text-fit` 也不起作用（引用：\"`per-line` skips the last line and any line ending in a forced break, so with one block per line it scales nothing.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:equal-width-text-lines:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/equal-width-text-lines.md",
+  "title": "行距用 flex／grid 的 `gap` 與 `text-box` 控制，不要靠 `em` 或 `line-height`",
+  "action": "全部強制換行時，每行設 `text-box: trim-both cap alphabetic`，標題用 flex 或 grid 加 `gap` 排行距；有自由換行時不用 `text-box`，改由較小的 `line-height` 管",
+  "opponent": "`text-fit` 不改計算後的 `font-size`，以 `em` 寫的間距不會跟著放大；用 `line-height` 時，間距又會隨每一行的字級變大（引用：\"IMPORTANT: Note that computed `font-size` is unchanged, so `em` spacing does not scale.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:equal-width-text-lines:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/equal-width-text-lines.md",
+  "title": "退路腳本先全部讀、再全部寫，不要讀寫交錯",
+  "action": "先清掉舊的 `--text-fit-scale`，一次讀完所有行的 `offsetWidth` 與容器寬度，再一次寫入每行的縮放值；用 ResizeObserver 在尺寸改變與字型載入時重算",
+  "opponent": "在寫入迴圈裡讀 `lockup.clientWidth` 會每一行強制重排一次（引用：\"Interleaving them (e.g. reading lockup.clientWidth inside the write loop) forces one reflow per line.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:export-html-media-from-canvas",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/export-html-media-from-canvas.md",
+  "title": "讓瀏覽器自己把 HTML 畫進 canvas 再匯出，不用函式庫重畫 DOM",
+  "action": "把要匯出的 HTML 放進 `<canvas content=\"drawable\">`，用 `drawElementImage()` 畫出後，以 `toDataURL()`、`toBlob()`、`captureStream()` 匯出成圖片或影片",
+  "opponent": "舊做法靠肥大的第三方函式庫逐一解析 DOM 節點和 CSS 屬性、在 canvas 上重建一份仿製品，運算量大、容易出錯，而且常常不支援新的 CSS 排版功能（引用：\"This approach is computationally expensive, error-prone, and frequently fails to support modern CSS layout features.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:improve-text-layout-and-legibility",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/improve-text-layout-and-legibility.md",
+  "title": "標題用 `text-wrap: balance` 讓每行長度接近",
+  "action": "`h1`–`h6`、副標、引言設 `text-wrap: balance`",
+  "opponent": "缺——指南只說它讓文字盡量平均分配到各行、外觀更對稱，沒說預設換行在哪個時刻出問題",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:improve-text-layout-and-legibility:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/improve-text-layout-and-legibility.md",
+  "title": "內文用 `text-wrap: pretty` 擋掉段落最後一行只剩一個字",
+  "action": "`p`、`blockquote`、`li` 等可能有長文字的元素設 `text-wrap: pretty`",
+  "opponent": "預設的貪婪換行讓段落最後一行常常只剩一個單字（孤字）（引用：\"It is specifically designed to prevent \"orphans\" (single words on the last line of a paragraph) and create a more pleasing visual \"rag\" for long blocks of text.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:improve-text-layout-and-legibility:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/improve-text-layout-and-legibility.md",
+  "title": "`balance` 與 `pretty` 只套在需要的元素上，不要全域套用",
+  "action": "`balance` 只給短的多行元素，`pretty` 只給可能有三行以上的段落；不要寫 `* { text-wrap: balance; }`",
+  "opponent": "`balance` 的二分搜尋很耗運算，而且超過行數上限（Chromium 約 6 行、Firefox 約 10 行）就退回一般換行；`pretty` 也比預設貴（引用：\"The iterative \"binary search\" algorithm used by browsers is computationally expensive.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:improve-text-layout-and-legibility:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/improve-text-layout-and-legibility.md",
+  "title": "有邊框或底色的元素不要用 `text-wrap: balance`",
+  "action": "按鈕、標籤、有底色的標題框不套 `balance`",
+  "opponent": "`balance` 不改容器寬度，只改換行位置，容器尾端留下空白，有框的元素會看到一塊意外的空區（引用：\"Avoid elements that have visible boxes such as borders or backgrounds, as this can create unexpected visually empty areas in the layout.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:interactive-content-in-3d-scenes",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/interactive-content-in-3d-scenes.md",
+  "title": "把真 DOM 投影進 3D 場景，互動交還給瀏覽器",
+  "action": "把 `drawable` 的 HTML 元素複製成貼圖（WebGL `texElementSubImage2D()`、WebGPU `drawElementImageToTexture()`、Three.js `HTMLTexture`），再用 `canvas.updateElementGeometry()` 把元素的位置對到 3D 畫面上",
+  "opponent": "（缺）只說不必再寫複雜的 raycasting 或自訂事件處理，沒說手寫版在哪個情境出錯（引用：\"they retain full interactivity—allowing users to click buttons, select text, and trigger focus states natively without requiring complex raycasting or custom event handling\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:precise-text-alignment",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/precise-text-alignment.md",
+  "title": "用 `text-box: trim-both cap alphabetic` 修掉字型內建的上下留白",
+  "action": "在包含文字的元素上（它不繼承）設 `text-box: trim-both cap alphabetic`；只對齊頂端時用 `trim-start cap alphabetic`，兩個邊緣都要寫；用在標題、按鈕、標籤，不用在長篇內文",
+  "opponent": "字型的行高與上下伸部留白讓文字看起來比圖示高或低、按鈕上下內距不等、標題無法和旁邊圖片頂端切齊，只能靠負邊距的魔術數字（引用：\"Text appears visually lower or higher than an adjacent icon even when using `align-items: center`.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:shaped-cutouts",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/shaped-cutouts.md",
+  "title": "有文字的卡片把遮罩套在旁邊的裝飾元素上，不套在文字容器上",
+  "action": "卡片拆成不加遮罩的 `.card-body`（放文字）和空的 `.card-accent`（套 SVG `mask-image`，`maskContentUnits=\"objectBoundingBox\"`），兩者同底色拼成一張造型卡；父層用 `filter: drop-shadow()` 讓陰影沿合併後的輪廓走。沒有文字的頭像、插圖才直接遮罩，簡單缺口用 `radial-gradient` 遮罩",
+  "opponent": "直接對含文字的元素套遮罩可能把文字切掉（引用：\"Apply the mask to an adjacent element rather than the parent element containing text. This ensures that text doesn't get clipped and remains readable.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:soft-edge-content-fade",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/soft-edge-content-fade.md",
+  "title": "用 `mask-image` 漸層讓內容本身淡出，不再蓋一層半透明疊層",
+  "action": "在可捲動容器或要截斷的文字區塊上設 `mask-image: linear-gradient(to bottom, black 80%, transparent 100%)`，同時寫 `-webkit-mask-image`；上下都要淡出時用一條多停點漸層",
+  "opponent": "用半透明疊層假造淡出時，要先知道背景色，而且疊層會擋住文字選取與點擊（引用：\"it requires knowing the background color and may interfere with text selection unless `pointer-events: none` is used.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:typography",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/typography.md",
+  "title": "字級用 `rem`，不用 `px`",
+  "action": "`font-size` 用 `rem`（跟隨根字級），需要依情境縮放時用 `em` 或百分比",
+  "opponent": "`px` 字級不理會使用者在瀏覽器設定的字級偏好（引用：\"Prefer `rem` to honor the user's browser font-size preferences (root font size)\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:typography:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/typography.md",
+  "title": "有文字的元件不設固定高度，改用 `min-block-size`",
+  "action": "按鈕、徽章、分頁、卡片等含文字的元素不設 `height`／`block-size`，讓內容決定高度，需要最小值時用 `min-block-size`",
+  "opponent": "使用者加大行高、段距、字距與詞距時，固定高度的元件裡文字溢出或被裁掉（引用：\"so text doesn't overflow or get clipped when users increase text spacing to a line height of 1.5, spacing after paragraphs of 2em, letter spacing of 0.12em and word spacing of 0.16em\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:typography:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/typography.md",
+  "title": "避免兩端對齊；非用不可時配 `hyphens: auto` 並宣告 `lang`",
+  "action": "內文用 `text-align: start`（同時支援 LTR 與 RTL）；必須用 `text-align: justify` 時加 `hyphens: auto`，並確認文字有 `lang` 屬性（如 `<html lang=\"en\">`），否則不會斷字",
+  "opponent": "兩端對齊在字與字之間撐出過大的空白、讓文字更難讀（引用：\"Avoid `text-align: justify` as it can make text harder to read. If you must use it, combine it with `hyphens: auto` to avoid excessive whitespace between words.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:typography:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/typography.md",
+  "title": "長網址用 `overflow-wrap` 斷開，內文不用 `nowrap` 與固定寬度",
+  "action": "設 `overflow-wrap: break-word`（或 `anywhere`）容納長網址；內文避免 `white-space: nowrap` 與固定寬度，讓文字在 320 CSS px 寬時能重排",
+  "opponent": "不換行、固定寬度的內文在窄螢幕或放大時撐出容器，得橫向捲動（引用：\"let text reflow at a 320 CSS px viewport width without horizontal scrolling (WCAG 1.4.10 Reflow); avoid `white-space: nowrap` and fixed widths on running text.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:typography:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/typography.md",
+  "title": "流體字級用 `clamp()` 混合 `rem` 與 `vw`，上限不超過下限的 2.5 倍",
+  "action": "寫成 `font-size: clamp(2rem, 1rem + 5vw, 4rem)` 這類形式，最小與最大值用字型相對單位，最大值不超過最小值的 2.5 倍；不單獨用 `vw` 當字級",
+  "opponent": "視窗單位不隨使用者縮放變大，只用 `vw` 的字級在極端螢幕上太小或太大（引用：\"Viewport units don't grow when users zoom … it can scale text too small or too large on extreme screens.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:typography:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/typography.md",
+  "title": "標題用 `text-wrap: balance`，長篇內文用 `text-wrap: pretty`",
+  "action": "標題與類標題內容（例如 `<th>`）設 `text-wrap: balance`；段落、引文等長篇內文設 `text-wrap: pretty`",
+  "opponent": "缺——指南只說用來平衡標題、處理長篇內文，沒說預設換行在哪個時刻出問題",
+  "support": "不適用",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:typography:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/typography.md",
+  "title": "`balance`／`pretty` 只套在需要的元素，不套在 `*`",
+  "action": "刻意挑選要平衡或美化換行的元素，不寫 `* { text-wrap: balance; }`",
+  "opponent": "這兩種換行有效能成本，全域套用讓整頁都付代價（引用：\"**DO NOT** apply it on `*` as it does have a performance cost.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:typography:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/typography.md",
+  "title": "有背景或邊框的元素不用 `text-wrap: balance`",
+  "action": "按鈕、標籤、有背景色、邊框或陰影的標題框不加 `balance`",
+  "opponent": "`balance` 只改容器內的換行位置，不改容器寬度，可見的盒子尾端留下一塊空白（引用：\"it does not change the container's width, it only affects how text wraps *within* that width. This can leave empty space at the end of the container\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:visual-effects",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/visual-effects.md",
+  "title": "漸層與 `color-mix()` 明確寫 `in oklch` 或 `in oklab` 指定插值色彩空間",
+  "action": "漸層與 `color-mix()` 加上 `in oklch`（保住彩度，但色差大時較容易超出裝置色域）或 `in oklab`（端點在色域內時較容易留在色域內，但對色相時中段可能褪成灰）；除非有特定理由（例如做 sRGB 取色器），不用 `in srgb`",
+  "opponent": "缺——指南只說不要用 `in srgb`，沒說 sRGB 插值在哪個時刻出問題",
+  "support": "不適用",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:visual-effects:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/visual-effects.md",
+  "title": "用 `@supports` 設定的自訂屬性帶入插值空間，並保留非空的漸層前導",
+  "action": "`:root` 先把 `--in-oklab`、`--in-oklch` 設成空值，`@supports (linear-gradient(in oklab, white, black))` 成立時才填入 `in oklab`／`in oklch`，用成 `linear-gradient(to bottom var(--in-oklab), …)`；變數之外一定要有方向之類的非空前導；`color-mix()` 不需要這招",
+  "opponent": "部分 2024 年以前的瀏覽器不支援漸層插值色彩空間；變數為空時若沒有其他前導，舊瀏覽器直接判為語法錯誤（引用：\"make sure there is always a non-empty gradient preamble without it, otherwise it will be a syntax error in older browsers.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:visual-effects:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/visual-effects.md",
+  "title": "條紋、棋盤、圓點、圓餅用 CSS 漸層畫，不用 SVG 或外部圖檔",
+  "action": "用 `linear-gradient`／`repeating-linear-gradient`／`repeating-conic-gradient`／`radial-gradient` 加硬停點畫圖樣，顏色與尺寸接 CSS 變數與 `em`；第二個停點寫 `0` 讓漸層自動修正；用漸層畫圖表時另附語意資料表",
+  "opponent": "SVG 與外部圖檔拿不到周遭的 CSS 變數與長度，圖樣不能跟著主題色或字級變（引用：\"these can be more flexible and performant than SVGs or external images as they can have access to CSS variables and lengths from the surrounding context.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:visually-stable-font-fallbacks",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/visually-stable-font-fallbacks.md",
+  "title": "用 `font-size-adjust: from-font` 讓退路字型和網頁字型一樣大，換字時不跳",
+  "action": "在文字容器設 `font-size-adjust: from-font`，讓瀏覽器從首選網頁字型取出 x 高度比例套到退路字型；全大寫標題用 `cap-height from-font`、等寬字用 `ch-width`；也可直接寫數值；封鎖網頁字型驗證版面不動",
+  "opponent": "網頁字型載入後取代尺寸不同的退路字型，即使 `font-size` 相同也會造成版面位移，x 高度差太多時文字還難以辨讀（引用：\"This causes \"layout shift\" (Cumulative Layout Shift) and can make text illegible if the fallback's lowercase letters (x-height) are significantly different than the preferred font.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:visually-stable-mixed-fonts",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/visually-stable-mixed-fonts.md",
+  "title": "混排字型時用 `font-size-adjust` 以 x 高度對齊大小，不再只看 `font-size`",
+  "action": "在混用字型的容器（行內程式碼、換主題字型的區塊）設 `font-size-adjust: from-font`，子元素換字型時自動對齊外層字型的 x 高度；要對齊的字型不是祖先時（例如另一套主題），直接寫首選字型的比例數值，如 `font-size-adjust: 0.51`",
+  "opponent": "不同字型的 x 高度不同，同樣的 `font-size` 下一種看起來明顯比另一種小或大，可讀性變差並造成版面位移（引用：\"differences in \"x-height\" (the height of lowercase letters) can make one font appear much smaller or larger than the other font. This can lead to poor legibility and layout shifts.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:animated-select-picker",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/animated-select-picker.md",
+  "title": "用 appearance: base-select 加 @starting-style 讓原生下拉選單有開合動畫",
+  "action": "`<select>` 與 `::picker(select)` 設 `appearance: base-select`，對 picker 的 `opacity`、`height`、`display`、`overlay` 做過渡，配 `transition-behavior: allow-discrete` 與 `@starting-style`；箭頭用 `:open::picker-icon` 旋轉",
+  "opponent": "原生下拉選單的介面畫在頁面可控範圍之外，以前根本無法做動畫（引用：\"Previously, animating native select dropdowns was impossible because their UI was rendered outside the accessible viewport constraints.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:animated-select-picker:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/animated-select-picker.md",
+  "title": "allow-discrete 另寫一條 transition-behavior，不塞進 transition 簡寫",
+  "action": "`transition` 簡寫只寫屬性與時間，另外寫一條 `transition-behavior: allow-discrete`",
+  "opponent": "把 `allow-discrete` 寫進 `transition` 簡寫，舊瀏覽器會忽略整條 `transition` 宣告（引用：\"it will make older browsers ignore the entire `transition` declaration.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:animated-select-picker:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/animated-select-picker.md",
+  "title": "不要在 ::picker(select) 上設 overflow: hidden",
+  "action": "picker 做高度動畫時保持可捲動，不在 `::picker(select)` 加 `overflow: hidden`",
+  "opponent": "放大檢視或視窗很矮時選項放不下，picker 若不能捲動，超出的選項就到不了（引用：\"The picker must stay scrollable so that options that don't fit in the available space, for example at high zoom or in a short viewport, can still be reached.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:animated-select-picker:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/animated-select-picker.md",
+  "title": "減少動態偏好下關掉選單與箭頭動畫",
+  "action": "在 `@media (prefers-reduced-motion: reduce)` 裡把 `::picker(select)` 與 `::picker-icon` 的 transition 關掉",
+  "opponent": "選單縮放、淡入與箭頭旋轉會讓有動暈症的使用者不適（引用：\"Always wrap animation constraints in a `prefers-reduced-motion` media query to ensure accessible environments for those affected by motion sickness.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:animated-select-picker:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/animated-select-picker.md",
+  "title": "base-select 的觸發鈕要自行限制寬度",
+  "action": "開啟 `appearance: base-select` 後給 `<select>` 固定寬度，或用 flex／grid 約束尺寸",
+  "opponent": "`base-select` 移除瀏覽器依最長選項決定寬度的預設行為，選中內容改變時會造成版面位移（引用：\"Setting `appearance: base-select` removes the default browser behavior of sizing the select based on its longest option width. You may need to set a fixed width or use flex/grid constraints to prevent layout shifts.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-address-form",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-address-form.md",
+  "title": "每個欄位都給 autocomplete，地址拆行時用 address-line1／2 token",
+  "action": "每個 `<input>`、`<select>`、`<textarea>` 加上對應的 `autocomplete`；街道地址優先用一個 `autocomplete=\"street-address\"` 的 `<textarea>`，資料模型需要分行時改用 `address-line1`、`address-line2` token，只有第一行必填",
+  "opponent": "沒有 token 的欄位，瀏覽器不會自動填入，使用者得重打一次；把街道地址拆到沒有這些 token 的多個欄位，自動填入就失效（引用：\"Don't split the street address across inputs that lack these tokens\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-address-form:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-address-form.md",
+  "title": "姓名盡量用一個欄位，加上 autocomplete=\"name\"",
+  "action": "除非真的需要分開儲存名、姓、稱謂，否則只放一個姓名欄位，設 `autocomplete=\"name\"`",
+  "opponent": "（缺）只列出單一欄位的好處（較簡單、可以貼上、自動填入較簡單），沒直接說拆欄在哪個時刻出錯（引用：\"Using a single name input makes forms less complex, enables cut-and-paste, and makes autofill simpler.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-address-form:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-address-form.md",
+  "title": "驗證姓名與地址時改用 Unicode 字母比對，不要只收拉丁字母",
+  "action": "驗證用的正規表示式改用 Unicode 字母比對（例如 `\\p{L}`），並確認後端能安全處理 Unicode 的輸入與輸出",
+  "opponent": "只比對拉丁字母的正規表示式，會把名字或地址含非拉丁字元的使用者擋在外面（引用：\"Latin-only excludes users with names or addresses that include characters that aren't in the Latin alphabet.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-highlight-inputs",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-highlight-inputs.md",
+  "title": "用 :autofill 加一個非顏色的標示，不只靠瀏覽器的底色",
+  "action": "以 `input:autofill` 加至少一個不靠顏色的指示，例如較粗的內框 `box-shadow: inset 0 0 0 2px …`",
+  "opponent": "瀏覽器預設的自動填入標示只有顏色（引用：\"The browser's default highlight is color only.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-highlight-inputs:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-highlight-inputs.md",
+  "title": "自動填入樣式用到 outline 時，聚焦外框要在顏色以外也不同",
+  "action": "不移除焦點外框；若 autofill 樣式本身用了 `outline`，就給 `:autofill:focus-visible` 一個粗細、樣式或偏移不同的外框",
+  "opponent": "自動填入與聚焦都用外框、只差顏色時，看不出哪一欄正在聚焦（引用：\"give `:autofill:focus-visible` an outline that differs in more than color (e.g. thickness, style, or offset) so focus remains perceivable.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-highlight-inputs:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-highlight-inputs.md",
+  "title": "自動填入樣式不要改 border-width 或 padding",
+  "action": "`:autofill` 只改不影響版面的屬性（內陰影、邊框顏色），不動 `border-width`、`padding`",
+  "opponent": "自動填入狀態會隨使用者操作切換，改到影響版面的屬性，內容就會跟著位移（引用：\"the state toggles with user activity so that would shift content.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-highlight-inputs:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-highlight-inputs.md",
+  "title": "覆寫自動填入顏色時要保留焦點陰影與游標顏色",
+  "action": "優先保留瀏覽器底色；必須覆寫時用 `inset 0 0 0 100vmax` 陰影蓋背景、`-webkit-text-fill-color` 改文字，另設 `caret-color`，並把原本的焦點 `box-shadow` 重列在同一宣告",
+  "opponent": "瀏覽器以 `!important` 設定自動填入的背景與文字色，一般宣告壓不過；用陰影繞路又會取代原本的 `box-shadow` 焦點環（引用：\"All browsers also set `background-color`, `background-image`, and `color` on autofilled fields with `!important` in their user agent stylesheets, so overriding them relies on workarounds.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ }
+]

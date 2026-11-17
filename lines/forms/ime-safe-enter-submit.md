@@ -13,7 +13,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：在自訂的 Enter 送出 `keydown` 處理裡，`event.isComposing` 或 `event.keyCode === 229` 成立時直接 return，不呼叫 `form.requestSubmit()`；適用 `<textarea>` 與有自訂 Enter 處理的單行 `<input>`
 - 對手：用輸入法打中文、日文、韓文時，Enter 是用來確認選字的；script 一收到 Enter 就送出，訊息在還沒選完字時就送出去（引用："the user's message is sent while they are still converting characters, resulting in incomplete, fragmented, or incorrect messages."）
 - 退路：保住主要行為——Safari 上 `isComposing` 會提早重置，改用 `keyCode === 229` 或時間戳視窗仍擋得住選字時的送出
-- 解鎖：以前無法知道使用者正在用輸入法選字，Enter 一到就送出；現在能用 `isComposing` 或 `keyCode === 229` 判斷並等選字完成
+- 解鎖：（缺）
 
 經過：聊天室裡打「你好」，按 Enter 確認選字，訊息卻送出了一半的注音或假名。原生表單從 `<input>` 隱式送出時瀏覽器會自己避開，壞的是自訂的 keydown 處理。指南也提醒：把舊的 `keyCode === 13` 改寫成 `key === 'Enter'` 卻沒加這兩個檢查，反而會引入這個問題。
 %% line-end %%
@@ -22,9 +22,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：表單意外送出
 - 支援狀態：api.KeyboardEvent.isComposing：Limited（Supported by: Chrome 56 (Jan 2017), Edge 79 (Jan 2020), and Firefox 31 (Jul 2014). Unsupported in: Safari.）
 - 戰報：部分改善（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:ime-safe-enter-submit:2" %%
 ## 自訂 Enter 送出時呼叫 preventDefault()，避免送出兩次

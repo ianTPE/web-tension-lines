@@ -1,0 +1,434 @@
+[
+ {
+  "key": "mwg:2d-panning",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/2d-panning.md",
+  "title": "用 `scroll-axis-lock: none` 關掉二維平移的軸鎖定",
+  "action": "在建立二維捲動的元素本身（`overflow: auto`）設 `scroll-axis-lock: none`；它不繼承，設在外層包裝無效，巢狀的一維面板保留預設的 `auto`；一般文章、動態牆、一維清單維持 `auto`",
+  "opponent": "手勢一開始若明顯偏向某一軸，瀏覽器把捲動鎖在該軸、忽略垂直方向的位移，通常整個手勢都鎖著；地圖、放大的圖片、無限畫布、節點圖上斜向或 L 形的平移因此卡住（引用：\"the browser locks the scroll to that single horizontal or vertical axis and ignores perpendicular deltas—often for the remainder of the gesture.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:2d-panning:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/2d-panning.md",
+  "title": "二維平移區要擋住捲動串接與滑動換頁",
+  "action": "二維捲動容器加 `overscroll-behavior: none` 或 `contain`",
+  "opponent": "平移到邊界時捲動串接到父頁面，或觸發瀏覽器的左右滑動上一頁／下一頁、下拉重新整理（引用：\"so that reaching an edge does not chain scrolling to the parent page or trigger accidental browser overscroll navigations (such as horizontal back/forward swipe navigation or pull-to-refresh).\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:2d-panning:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/2d-panning.md",
+  "title": "平移改 `scrollLeft`／`scrollTop`，不要用 `transform`",
+  "action": "自己處理平移時，把位移加到 `scrollLeft` 與 `scrollTop`",
+  "opponent": "用 CSS `transform` 平移內容，元素不再是捲動容器，原生捲軸、邊界夾限、方向鍵捲動、`scroll` 事件、IntersectionObserver、scroll-driven animations 全部失效（引用：\"Translating the surface with `transform` stops the element from functioning as a scroll container\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:anchor-positioning-tab-underline:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/anchor-positioning-tab-underline.md",
+  "title": "要動畫的錨定元素別用 `position-area`",
+  "action": "底線用 inset 屬性加 `anchor()` 定位，不用 `position-area`",
+  "opponent": "`position-area` 無法過渡（引用：\"DO NOT use position-area, which can not be transitioned.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:anchor-positioning-tab-underline:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/anchor-positioning-tab-underline.md",
+  "title": "底線用 border 畫，不用背景或陰影",
+  "action": "底線用 `border-block-end` 畫",
+  "opponent": "用 `background` 或 `box-shadow` 畫底線，強制色彩模式會把兩者都移除，什麼指示都沒有（引用：\"forced colors mode removes both, leaving no indicator.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:animate-element-entry-exit:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/animate-element-entry-exit.md",
+  "title": "不要只靠 `CSS.supports()` 判斷能不能過渡 `display`",
+  "action": "建一個暫時的探針元素，設好 `transition: display 1s allow-discrete` 後改成 `display: none`，讀計算值是否仍為 `block` 來判斷；不支援時走 `data-closing` 退路",
+  "opponent": "Firefox 129+ 認得 `transition-behavior: allow-discrete`（`CSS.supports()` 回傳 true），實際上卻不過渡 `display`，元素離場時立刻消失（引用：\"Firefox 129+ parses `transition-behavior: allow-discrete` (`CSS.supports('transition-behavior', 'allow-discrete')` returns `true`) without actually transitioning the `display` property\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:animate-element-entry-exit:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/animate-element-entry-exit.md",
+  "title": "`allow-discrete` 不要寫進 `transition` 簡寫",
+  "action": "另寫一條 `transition-behavior: allow-discrete`，放在 `transition` 之後",
+  "opponent": "把 `allow-discrete` 寫進 `transition` 簡寫，舊瀏覽器會忽略整條 `transition` 宣告（引用：\"it will make older browsers ignore the entire `transition` declaration.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:animate-element-entry-exit:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/animate-element-entry-exit.md",
+  "title": "移除節點前先觸發離場，等動畫結束再 `remove()`",
+  "action": "先設 `element.hidden = true` 觸發離場，再用 `Promise.race` 等 `Promise.allSettled(getAnimations().map(a => a.finished))` 與 2 秒保險逾時，最後才 `element.remove()`",
+  "opponent": "`element.remove()` 立即生效，不會觸發 CSS 過渡（引用：\"Since `element.remove()` is instantaneous and doesn't trigger a CSS transition on its own\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:animate-to-from-top-layer",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/animate-to-from-top-layer.md",
+  "title": "用 `overlay` 與 `allow-discrete` 讓 dialog 與 popover 進出頂層都有動畫",
+  "action": "`dialog`、`[popover]` 的基礎狀態寫關閉時的值，`transition-property` 列入 `display` 與 `overlay`，另寫 `transition-behavior: allow-discrete`；在開啟狀態的選擇器裡（或之後）放 `@starting-style`；`::backdrop` 也一樣過渡；縮放只在 `prefers-reduced-motion: no-preference` 時套用",
+  "opponent": "頂層元素在 `display: none` 與可見之間切換，一直很難動畫；離場時沒過渡 `overlay`，元素會提早離開頂層，被其他元素或視窗裁掉（引用：\"This ensures the element stays in the top layer for the duration of the animation, preventing it from being clipped by other elements or the viewport prematurely.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:animate-to-from-top-layer:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/animate-to-from-top-layer.md",
+  "title": "不要只靠 `CSS.supports()` 判斷能不能過渡 `display`",
+  "action": "用暫時的探針元素實測 `display` 過渡是否生效，並同時檢查 `CSS.supports('overlay', 'auto')`；在需要時才延遲評估（探針需要 `document.body`）；不支援時改走 `data-closing` 退路，並把 `cancel` 事件（Esc、`closedby`）導到同一個關閉函式",
+  "opponent": "Firefox 129+ 認得 `transition-behavior: allow-discrete`（`CSS.supports()` 回傳 true），實際上不過渡 `display`，元素離場時立刻消失（引用：\"Firefox 129+ parses `transition-behavior: allow-discrete` (`CSS.supports('transition-behavior', 'allow-discrete')` returns `true`) without actually transitioning the `display` property\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:animate-to-from-top-layer:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/animate-to-from-top-layer.md",
+  "title": "`allow-discrete` 不要寫進 `transition` 簡寫",
+  "action": "另寫一條 `transition-behavior: allow-discrete`，放在 `transition` 之後",
+  "opponent": "把 `allow-discrete` 寫進 `transition` 簡寫，舊瀏覽器會忽略整條 `transition` 宣告（引用：\"it will make older browsers ignore the entire `transition` declaration.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:carousel-snap-highlights:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/carousel-snap-highlights.md",
+  "title": "吸附高亮不能拿來當「選取」",
+  "action": "吸附高亮只當視覺效果；不讓使用者靠捲動吸附來選擇，高亮外觀也不能暗示「作用中」或「已聚焦」，焦點框要和高亮分得開",
+  "opponent": "吸附狀態不在無障礙樹裡；容器內有互動元素時，焦點移入會帶動捲動、換掉吸附的項目，吸附到的不一定是聚焦的那個（引用：\"the snapped item is not exposed to the accessibility tree … This will likely be a source of confusion for users\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:carousel-snap-highlights:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/carousel-snap-highlights.md",
+  "title": "沒被標亮的項目也要保持足夠對比",
+  "action": "非吸附項目維持足夠對比，不用「灰階加低不透明度、吸附後才清楚」的做法",
+  "opponent": "沒被標亮的內容變得難以辨識，使用者也看不出還有其他內容可以往下看（引用：\"don't make the non-highlighted items in a gallery greyscale with a low opacity … to allow people to understand that there is more content that they can navigate to\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:consistent-cross-document-transitions",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/consistent-cross-document-transitions.md",
+  "title": "用 `blocking=\"render\"` 與 `<link rel=\"expect\">` 等新頁面就緒再轉場",
+  "action": "兩頁都寫 `@view-transition { navigation: auto; }`；新頁面 `<head>` 裡影響版面的腳本加 `blocking=\"render\"`，再用 `<link rel=\"expect\" href=\"#main-content\" blocking=\"render\">` 擋住繪製直到首屏元素被解析，可配 `media` 依視窗寬度選要等的元素",
+  "opponent": "新頁面的關鍵資源還沒好就開始轉場，動畫跑向不完整或沒樣式的畫面：元素變形到錯的位置、內容在動畫中重排、轉場結束後備用字型才換成網頁字型；形變目標還沒被解析時，形變退化成分開的淡出淡入（引用：\"elements morphing to wrong positions, content reflowing mid-animation, or fallback fonts flashing to web fonts after the transition completes\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:consistent-cross-document-transitions:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/consistent-cross-document-transitions.md",
+  "title": "`rel=\"expect\"` 不等圖片，轉場圖片要預載並給尺寸",
+  "action": "參與形變的圖片用 `<link rel=\"preload\" as=\"image\">` 預載（或預渲染目的頁），並寫 `width`/`height` 或 `aspect-ratio` 加佔位底色",
+  "opponent": "`<link rel=\"expect\">` 只等 DOM 元素被解析，不等圖片下載解碼，沒快取的 `<img>` 在新頁快照裡是一個空矩形（引用：\"an uncached `<img>` may be captured as an empty rectangle in the new-page snapshot\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:consistent-cross-document-transitions:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/consistent-cross-document-transitions.md",
+  "title": "只擋首屏關鍵資源，第三方載入器別加 `blocking=\"render\"`",
+  "action": "`blocking=\"render\"` 與 `rel=\"expect\"` 只用在影響首屏的資源與元素；分析、廣告、標籤管理器不加；擋繪製的腳本保持小而快",
+  "opponent": "擋太多會延後轉場；擋繪製總時間超過約 4 秒，瀏覽器整個跳過轉場，`viewTransition.ready` 以 `InvalidStateError` 拒絕；第三方的網路延遲也算進這個逾時（引用：\"Their network latency counts toward the transition timeout\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:consistent-cross-document-transitions:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/consistent-cross-document-transitions.md",
+  "title": "同一頁不能有重複的 `view-transition-name`",
+  "action": "每個 `view-transition-name` 在同一頁只給一個元素",
+  "opponent": "名稱重複時整個轉場被跳過（引用：\"Duplicate names cause the entire transition to be skipped.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:consistent-cross-document-transitions:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/consistent-cross-document-transitions.md",
+  "title": "`pagereveal` 動態指定的名稱要在轉場結束後移除",
+  "action": "依來源頁在 `pagereveal` 裡指定 `view-transition-name`，在 `viewTransition.finished` 之後清掉；監聽器要用 `blocking=\"render\"` 的腳本提早註冊",
+  "opponent": "沒清掉的暫時名稱干擾之後的導覽，也讓頁面進不了 bfcache；監聽器註冊太晚（例如 defer 腳本）時事件已經觸發過了（引用：\"Stale names interfere with subsequent navigations and prevent the page from entering the bfcache.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:cross-document-transitions",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/cross-document-transitions.md",
+  "title": "用 `@view-transition` 讓多頁網站換頁也有轉場",
+  "action": "兩頁共用的樣式表在 `prefers-reduced-motion: no-preference` 裡寫 `@view-transition { navigation: auto; }`，再用 `::view-transition-old(root)`／`::view-transition-new(root)` 自訂滑出滑入",
+  "opponent": "指南只說能做出平順、像 app 的換頁轉場，沒說一般換頁在哪個時刻出問題（引用：\"create smooth, app-like transitions between different pages of a Multi-Page Application (MPA)\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:cross-document-transitions:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/cross-document-transitions.md",
+  "title": "用轉場類型讓「返回」和「前進」方向相反",
+  "action": "頁面固定方向時在 `@view-transition` 寫 `types: previous`；要依來源決定時，在 `pagereveal` 裡用 `navigation.activation` 算出類型並 `e.viewTransition.types.add()`，再用 `:active-view-transition-type()` 套不同動畫",
+  "opponent": "所有換頁都用同一個效果時，回到首頁也和前往聯絡頁一樣從右邊進來，方向說不通（引用：\"When navigating back to the home page, it wouldn't make sense to have the same effect.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:custom-button-actions",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/custom-button-actions.md",
+  "title": "用 `command=\"--自訂指令\"` 宣告按鈕要對誰做什麼",
+  "action": "按鈕寫 `commandfor=\"目標id\"` 與 `command=\"--spin\"` 這類 `--` 開頭的自訂指令，目標元素上監聽 `command` 事件，依 `event.command` 從指令表找動作，用 `event.source` 回寫按鈕的 `aria-pressed`／`aria-expanded`",
+  "opponent": "指南只說能減少手動事件監聽、讓介面和實作脫鉤，沒說手接監聽在哪個時刻出問題（引用：\"This approach reduces the need for manual event listeners and decouples the UI from implementation details.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:custom-button-actions:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/custom-button-actions.md",
+  "title": "`command` 事件不冒泡，監聽器要掛在目標上",
+  "action": "`command` 監聽器直接掛在目標元素上；目標不固定時在祖先用 `{ capture: true }`；目標可能在 shadow root 裡時用 `event.composedPath()[0]`",
+  "opponent": "`command` 事件不冒泡，照一般事件委派掛在祖先上的監聽器收不到（引用：\"The `command` event does not bubble.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:declarative-dialog-popover-control",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/declarative-dialog-popover-control.md",
+  "title": "用 `command=\"show-modal\"`、`toggle-popover` 從 HTML 開關對話框",
+  "action": "`<button commandfor=\"id\" command=\"show-modal\">` 開模態 `<dialog>`、`command=\"close\"` 關閉；popover 用 `toggle-popover`，或分開用 `show-popover`／`hide-popover`",
+  "opponent": "指南只說可以移除脆弱的樣板程式、HTML 一解析完就能互動，沒說手寫監聽器在哪個時刻出問題（引用：\"removes brittle boilerplate code, ensures interactions are functional immediately upon HTML parsing\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:declarative-dialog-popover-control:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/declarative-dialog-popover-control.md",
+  "title": "同一顆按鈕別同時寫 `popovertarget` 和 `commandfor`",
+  "action": "控制同一個 popover 時只用 `popovertarget` 或 `commandfor` 其中一種",
+  "opponent": "兩個都寫會切換兩次，功能壞掉（引用：\"This will double-toggle it, breaking functionality.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:declarative-dialog-popover-control:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/declarative-dialog-popover-control.md",
+  "title": "從 popover 裡面關掉它時，把焦點還給觸發鈕",
+  "action": "用 popover 內的 `hide-popover` 按鈕關閉時，另寫腳本把焦點送回開啟它的按鈕",
+  "opponent": "關閉按鈕跟著被隱藏，焦點遺失（引用：\"will result in a loss of focus as the button will be hidden and won't retain focus\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:declarative-dialog-popover-control:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/declarative-dialog-popover-control.md",
+  "title": "popover polyfill 下別用 `popover` 屬性設值，`:popover-open` 要包 `:is()`",
+  "action": "polyfill 載入前用 `setAttribute()`／`removeAttribute()` 設 popover；樣式寫成 `[popover]:is(:popover-open, .\\:popover-open)`；polyfill 只在 `HTMLElement.prototype` 沒有 `popover` 時才載入",
+  "opponent": "polyfill 載好前用 IDL 屬性設值，元素不會被 polyfill 接手，還會永遠遮住 polyfill 加的存取子；單寫 `:popover-open` 時，不認得它的瀏覽器丟掉整條規則（引用：\"otherwise browsers that lack `:popover-open` discard the entire rule\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:directional-navigation-transitions",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/directional-navigation-transitions.md",
+  "title": "用帶類型的 view transition 讓 SPA 換頁有前進後退方向",
+  "action": "`document.startViewTransition({ update, types: [direction] })` 傳入 `forward`／`backward`，CSS 用 `html:active-view-transition-type(forward)::view-transition-old(root)` 套對應的 `transform` 滑動動畫，`::view-transition-group(root)` 用非線性緩動",
+  "opponent": "SPA 換畫面時內容直接被替換，沒有任何轉場（引用：\"By default, the content is simply replaced, without any transitions.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:directional-navigation-transitions:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/directional-navigation-transitions.md",
+  "title": "沒有 `startViewTransition` 時仍要直接更新 DOM",
+  "action": "導覽函式先檢查 `document.startViewTransition`，不存在就直接呼叫 `updateDOM()`",
+  "opponent": "不支援的瀏覽器裡 `document.startViewTransition` 是 `undefined`，沒做偵測就直接呼叫，畫面不會更新（引用：\"In unsupported browsers, `document.startViewTransition` will be `undefined`.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:drag-and-drop",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/drag-and-drop.md",
+  "title": "搬真的 DOM 節點，不用 CSS order 假裝重排",
+  "action": "拖放結束時用 `container.moveBefore(item, ref)` 一次搬動既有節點，讓視覺、鍵盤、閱讀順序一致",
+  "opponent": "用 CSS `order` 或 `flex-direction: *-reverse` 改變畫面順序，DOM 順序沒變，Tab 鍵與螢幕閱讀器仍照舊順序走（引用：\"Reorder the real children in the DOM (not via CSS `order` or `flex-direction: *-reverse`) so visual, keyboard, and reading order stay aligned.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:drag-and-drop:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/drag-and-drop.md",
+  "title": "拖曳途中只畫落點標記，放開才搬",
+  "action": "拖曳中保持原項目在原位、用 `::before`/`::after` 畫落點標記，`pointerup` 時才移動",
+  "opponent": "拖曳時即時重排，兄弟項目跟著位移，畫面抖動（引用：\"Don't reorder while the pointer moves: shifting siblings feel jittery.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:drag",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/drag.md",
+  "title": "記住抓取偏移並夾在視窗內，拖曳時元素不跳、不跑丟",
+  "action": "浮動面板用 `position: fixed`；只接受主按鍵，在 `pointerdown` 記下指標相對元素的偏移，`setPointerCapture()` 讓指標離開把手後仍持續拖曳；指標與方向鍵移動都經過同一個夾限函式，視窗或元素尺寸變了再夾一次",
+  "opponent": "沒記偏移時，從角落以外的地方抓起元素會跳一下；沒有夾限時元素可能被拖到看不到、拿不回來（引用：\"so the element does not jump when grabbed away from its corner … so the element stays reachable\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:drag:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/drag.md",
+  "title": "拖曳樣式只套在把手上，不套整個元素",
+  "action": "`cursor: grab`、`touch-action: none`、`-webkit-user-select: none` 與 `user-select: none` 只放在專用的拖曳把手上，把手用可聚焦、名稱有提到方向鍵的 `<button>`",
+  "opponent": "套在整個可拖曳元素上時，裡面的文字不能選、觸控手勢失去平常的行為；Safari 不認無前綴的 `user-select`（引用：\"so text outside it remains selectable and touch gestures retain their usual behavior\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:dynamic-sibling-animations",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/dynamic-sibling-animations.md",
+  "title": "用 `sibling-index()` 讓清單項目依序錯開進場",
+  "action": "`animation-delay: calc(sibling-index() * var(--stagger-time))`，每個項目依在父層中的位置延遲；減少動態偏好下關掉動畫；舊瀏覽器先寫一條用 JS 設的 `--sibling-index` 的宣告當退路",
+  "opponent": "指南只描述錯開動畫的效果，沒說舊做法（逐個 `:nth-child` 或 JS 設延遲）在哪個時刻出問題（引用：\"multiple ordered elements animate sequentially with a slight delay between each, rather than all animating at once\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:dynamic-sort",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/dynamic-sort.md",
+  "title": "搬既有節點排序，不用 innerHTML 重建",
+  "action": "使用者改變排序時，用 `moveBefore()` 把既有節點搬到新順序，並可包進 view transition 做動畫",
+  "opponent": "用 `innerHTML` 或整批重新 render 產生新節點，焦點、項目內捲動位置、圖片狀態全部丟失，view transition 也對不上（引用：\"Recreating nodes with `innerHTML` or a re-render that replaces them discards focus, scroll position inside items, and image state, and it breaks view transitions, which match old and new elements by identity.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:group-element-transitions",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/group-element-transitions.md",
+  "title": "用 `view-transition-class` 一次定義整組元素的轉場",
+  "action": "每個項目給唯一的 `view-transition-name`，再共用 `view-transition-class: list-item`；用 `::view-transition-group(.list-item)` 設時長與緩動，`::view-transition-new(.list-item):only-child`／`::view-transition-old(.list-item):only-child` 做新增與移除的進出場；DOM 更新包進 `document.startViewTransition()`",
+  "opponent": "指南只說沒有 class 時要為每個名稱各寫一次轉場邏輯，沒說重複在哪個時刻造成可觀察的問題（引用：\"define that logic once in CSS rather than repeating it for every unique `view-transition-name`\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:group-element-transitions:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/group-element-transitions.md",
+  "title": "轉場期間讓沒參與的元素仍可操作",
+  "action": "`::view-transition { pointer-events: none; }`，並在只轉場特定元素時設 `:root { view-transition-name: none; }` 關掉預設的 root 轉場",
+  "opponent": "轉場期間畫面是覆蓋在上面的快照，元素無法互動；root 轉場還會在兩張相同的整頁快照之間轉場，整頁都點不到（引用：\"during the transition, elements are not interactive\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:highlight-text-ranges",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/highlight-text-ranges.md",
+  "title": "用 CSS Custom Highlight API 標示文字，不動 DOM",
+  "action": "用 `TreeWalker` 收集文字節點，建立 `Range`，包成 `new Highlight(...ranges)`，以 `CSS.highlights.set(\"search-results\", h)` 註冊，再用 `::highlight(search-results)` 上色；重疊時用 `priority` 決定誰在上面",
+  "opponent": "退路把符合的文字包進 `<mark>` 會改動 DOM，要小心保住事件監聽器、別弄壞文件結構（引用：\"This modifies the DOM, so take care to preserve event listeners and avoid breaking the document structure.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:highlight-text-ranges:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/highlight-text-ranges.md",
+  "title": "有意義的標示用 `<mark>`，不用自訂高亮",
+  "action": "自訂高亮只用在搜尋結果、語法上色這類暫時的視覺效果；文字的標示本身有意義時用 `<mark>`；錯誤標示另加波浪底線、標籤或圖示",
+  "opponent": "自訂高亮純粹是外觀，不在無障礙樹裡，讀屏使用者感受不到標示傳達的意義（引用：\"Custom highlights are purely presentational and are not exposed to the accessibility tree.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:highlight-text-ranges:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/highlight-text-ranges.md",
+  "title": "註冊新高亮前先清掉舊的",
+  "action": "每次更新前 `CSS.highlights.clear()`，再 `set()` 新的高亮；文字節點清單快取起來，DOM 內容變了才重建",
+  "opponent": "沒清掉時，過期的範圍留在頁面上（引用：\"to avoid stale ranges persisting on the page\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:highlight-text-ranges:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/highlight-text-ranges.md",
+  "title": "`::highlight()` 只吃少數幾個屬性",
+  "action": "`::highlight()` 只用 `color`、`background-color`、`text-decoration`、`text-shadow`、`-webkit-text-stroke-*`、`-webkit-text-fill-color`",
+  "opponent": "`background-image`、`font-size`、`padding` 這類屬性寫了會被忽略（引用：\"Properties like `background-image`, `font-size`, or `padding` are ignored.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:interactive-content-reveal",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/interactive-content-reveal.md",
+  "title": "用 `@property` 註冊漸層停點，讓跟著游標的聚光燈平滑開合",
+  "action": "用 `@property` 把 `--inner-size`、`--outer-size` 註冊成 `<length-percentage>`，`mask-image: radial-gradient(circle at var(--mouse-x) var(--mouse-y), …)` 引用它們，只對尺寸做 `transition`；`pointermove` 只更新位置變數",
+  "opponent": "不支援 `@property` 的瀏覽器無法在 `radial-gradient` 裡內插數值，聚光燈只能在開與關之間跳（引用：\"the movement will jump between on and off states because they cannot interpolate values inside a `radial-gradient`\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:interactive-content-reveal:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/interactive-content-reveal.md",
+  "title": "聚光燈只當裝飾，不能擋住或藏起內容",
+  "action": "遮罩層設 `pointer-events: none`；底下的內容預設就完整可見、可用鍵盤到達，聚光燈只是給指標使用者的額外效果",
+  "opponent": "拿這個效果遮住或把關必要內容時，只用鍵盤或輔助技術的人拿不到內容；遮罩層也會擋住下面控制項的點擊（引用：\"Never use this effect to obscure or gate essential content from keyboard-only or assistive technology users.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:interest-triggered-tooltips",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/interest-triggered-tooltips.md",
+  "title": "用 `popover=\"hint\"` 加 `interestfor` 做不會關掉選單的工具提示",
+  "action": "提示用 `<div popover=\"hint\" id>`，觸發的 `<button>`／`<a>` 寫 `interestfor`；觸發元素自動成為隱式錨點，用 `position-area: block-start` 與 `position-try-fallbacks: flip-block` 定位；toggletip 另加 `popovertarget` 與 `popovertargetaction=\"show\"`",
+  "opponent": "用 `auto` popover 做提示時，懸停經過提示就會把已打開的選單關掉（引用：\"hovering across a toggletip must not close an open menu, which an `auto` popover would\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:interest-triggered-tooltips:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/interest-triggered-tooltips.md",
+  "title": "會自己做事的觸發元素不加 `aria-expanded`",
+  "action": "觸發元素按下後是導覽或執行動作（連結、有自己動作的按鈕）時，提示設 `role=\"tooltip\"`、觸發元素用 `aria-describedby`，不加 `aria-expanded`；只有按下就開提示的 toggletip 才用 `aria-expanded`，並由 popover 的 `toggle` 事件同步",
+  "opponent": "被唸成「已收合」的觸發元素讓人以為按 Enter 會展開，實際上 Enter 是導覽或執行動作（引用：\"A trigger announced as \"collapsed\" suggests `Enter` would expand it, but `Enter` navigates or acts.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:interest-triggered-tooltips:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/interest-triggered-tooltips.md",
+  "title": "提示和可及名稱相同時什麼都別加",
+  "action": "正規化空白後比對提示文字與觸發元素的可及名稱，相同就不加描述；觸發元素沒有名稱時才用 `aria-labelledby` 指向提示",
+  "opponent": "例如 `aria-label=\"Bold\"` 的圖示按鈕配上「Bold」提示，描述和名稱一樣會被唸兩次（引用：\"A description identical to the name would be read twice.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:interest-triggered-tooltips:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/interest-triggered-tooltips.md",
+  "title": "`toggle` 不冒泡，同步 `aria-expanded` 要用捕獲",
+  "action": "在 `document` 用單一捕獲監聽器接 popover 的 `toggle` 事件，同步所有指向該提示的觸發元素；以 popover 為準，不從 `interest`／`loseinterest` 同步",
+  "opponent": "`toggle` 不冒泡，掛在 `document` 的一般監聽器永遠不會觸發；popover 也可能被 Esc、點外面或其他觸發元素關掉（引用：\"A bubbling listener on `document` never fires; use the capture phase (or a listener per popover).\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:interest-triggered-tooltips:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/interest-triggered-tooltips.md",
+  "title": "不支援 `hint` 時，toggletip 要在 `beforetoggle` 改成 `auto`",
+  "action": "用探針元素設 `popover = \"hint\"` 再讀回判斷支援；不支援時在捕獲階段的 `beforetoggle` 裡，把要開啟的 toggletip 改成 `popover = \"auto\"`",
+  "opponent": "不支援 `hint` 的瀏覽器把它當成 `manual`：鍵盤聚焦開的提示，在指標懸停開另一個時可能還開著；用點擊開的 toggletip 沒有興趣可失去，永遠不會關（引用：\"so a `manual` fallback would never close\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:interest-triggered-tooltips:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/interest-triggered-tooltips.md",
+  "title": "不用錨點定位 polyfill 時，`inset: auto` 要包進 `@supports`",
+  "action": "不載 polyfill 時，`inset: auto`、`margin: 0` 與 `position-area` 一起包進 `@supports (position-area: block-end)`，或另給 `@supports not` 的底部固定列；用 polyfill 時每對觸發元素與提示要明確設 `anchor-name`／`position-anchor`，因為 polyfill 不支援隱式錨點",
+  "opponent": "無條件設 `inset: auto` 會蓋掉 popover 的預設置中，而 `position-area` 又被忽略，提示卡在左上角或蓋住觸發元素（引用：\"leaving the popover stranded at `(0, 0)` or overlapping its trigger\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ }
+]

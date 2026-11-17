@@ -12,7 +12,7 @@ license: CC-BY-4.0（上游指南）
 ## 用 appearance: base-select 加 @starting-style 讓原生下拉選單有開合動畫
 - 做法：`<select>` 與 `::picker(select)` 設 `appearance: base-select`，對 picker 的 `opacity`、`height`、`display`、`overlay` 做過渡，配 `transition-behavior: allow-discrete` 與 `@starting-style`；箭頭用 `:open::picker-icon` 旋轉
 - 對手：原生下拉選單的介面畫在頁面可控範圍之外，以前根本無法做動畫（引用："Previously, animating native select dropdowns was impossible because their UI was rendered outside the accessible viewport constraints."）
-- 退路：保住主要行為——退回作業系統的下拉選單，選擇功能照常，只是沒有動畫
+- 退路：失去主要好處——退回標準作業系統下拉選單，仍無法自訂開合動畫
 - 解鎖：以前原生下拉選單的介面畫在頁面外，根本沒辦法做動畫；現在 picker 像一般元素一樣可以過渡
 
 經過：想讓選單從觸發鈕淡入、長高，原生 `<select>` 做不到，只能整個換成 JS 套件。`base-select` 讓 picker 變成頁面上的一般元素，進出 top layer 的動畫用純 CSS 寫。指南同時要求用 `prefers-reduced-motion` 關掉動畫。
@@ -21,11 +21,11 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：尺寸動畫只能跳變
 - 支援狀態：Customizable <select>：Limited（Supported by: Chrome 135 (Apr 2025), Edge 135 (Apr 2025), and Safari 27 (Sep 2026). Unsupported in: Firefox.）
-- 戰報：部分改善（由支援狀態與退路推出）
+- 戰報：僵持（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：以前原生下拉選單一按就瞬間彈出，要動畫就得放棄原生元件 → 主題切換、語言選單這類小下拉可以保留原生 `<select>` 的表單行為，同時有和設計系統一致的展開動畫與旋轉箭頭。Firefox 退回系統選單
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「失去主要好處」
 
 %% line-start id="mwg:animated-select-picker:2" %%
 ## allow-discrete 另寫一條 transition-behavior，不塞進 transition 簡寫

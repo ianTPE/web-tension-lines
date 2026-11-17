@@ -1,0 +1,380 @@
+[
+ {
+  "key": "mwg:summarizer",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/summarizer.md",
+  "title": "用 Summarizer 在本機產生摘要，不把文章送上雲端",
+  "action": "以相同的 options 呼叫 `Summarizer.availability()` 與 `Summarizer.create()`（type：key-points／tldr／teaser／headline），用 `summarize()` 或 `summarizeStreaming()` 摘要長文",
+  "opponent": "改由遠端服務代為處理時，請求會被轉到雲端，本機隱私保證完全失效，還會產生伺服器端 API 費用（引用：\"This completely nullifies the on-device privacy guarantees of the native Built-in AI APIs and will incur server-side API usage costs.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:translator",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/translator.md",
+  "title": "用 Translator 在本機翻譯，不把文字送上雲端",
+  "action": "以相同的 `sourceLanguage`／`targetLanguage` 呼叫 `Translator.availability()` 與 `Translator.create()`，由使用者手勢觸發語言包下載，用 `translate()` 或 `translateStreaming()` 翻譯",
+  "opponent": "改由遠端服務處理時，本機隱私保證完全失效，也常產生伺服器端 API 費用（引用：\"Remote processing completely nullifies the on-device privacy guarantees of the native Built-in AI APIs and will often incur server-side API usage costs.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:agentic-forms",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-forms.md",
+  "title": "用 `toolname`／`tooldescription` 把一般 `<form>` 變成代理可呼叫的 WebMCP 工具",
+  "action": "在 `<form>` 加 `toolname` 與 `tooldescription`（說做什麼、何時用，不列欄位）；欄位說明預設取自 `<label>`，需要時用 `toolparamdescription` 補範例值，選項群組放在 `<fieldset>` 上；送出處理器檢查 `event.agentInvoked`，用 `event.respondWith(promise)` 把驗證錯誤或結果直接交回代理、不跳頁；Angular Signal Forms 改用框架提供的整合",
+  "opponent": "缺——指南只說瀏覽器會從表單欄位合成 JSON Schema 並處理代理互動，沒說沒有這些屬性時代理在哪個時刻出問題",
+  "support": "不適用",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:agentic-forms:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-forms.md",
+  "title": "不可逆、金流、對外發送與帳號設定的表單不加 `toolautosubmit`",
+  "action": "只在唯讀查詢（搜尋、篩選、查狀態）與低風險可復原的動作（加入購物車、套用折扣碼、存草稿）加 `toolautosubmit`；刪除、結帳、轉帳、寄信、發布、改密碼或權限的表單省略它",
+  "opponent": "有 `toolautosubmit` 時，代理可以不等使用者互動就送出表單（引用：\"`toolautosubmit`: (Optional) If present, the agent can submit the form without waiting for user interaction.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:agentic-forms:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-forms.md",
+  "title": "Angular Signal Forms 用 `experimentalWebMcpTool` 選項，不再加 `toolname`",
+  "action": "用 `@angular/forms/signals` 的 `form()` 建的表單，不加 `toolname`／`tooldescription`；改在 app providers 加 `provideExperimentalWebMcpForms()`，並把 `experimentalWebMcpTool: { name, description }` 傳給 `form()`，由 Angular 從 signal 模型建 schema 並接上驗證與送出",
+  "opponent": "兩種做法同時用，同一張表單被註冊兩次（引用：\"Using both approaches registers the same form twice.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:agentic-forms:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-forms.md",
+  "title": "欄位互相連動、自訂元件或多步驟的表單不用宣告式 API",
+  "action": "宣告式 API 只用在自成一體的標準表單；欄位選項或可見性依其他欄位變化、依賴 canvas 或富文字編輯器等不會自動序列化的元件、需要多次送出的精靈流程，改用命令式 API 或一般 DOM 互動",
+  "opponent": "合成出來的 schema 表達不了欄位間的相依；自訂元件的值不會自動序列化（引用：\"The synthesized schema cannot express these dependencies well.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:agentic-forms:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-forms.md",
+  "title": "`toolactivated`／`toolcancel` 先偵測該掛在 `document.modelContext` 還是 `window`",
+  "action": "監聽代理開始與取消執行工具的 `toolactivated`、`toolcancel` 事件時，先檢查 `document.modelContext` 上有沒有 `on<type>` 屬性，有就掛在它上面，否則掛在 `window`",
+  "opponent": "Chrome 156 起事件改在 `document.modelContext` 上派送，舊版在 `window`，只掛一邊會在另一種版本收不到（引用：\"Starting in Chrome 156, these events are dispatched on `document.modelContext`. Older versions dispatch them on `window`.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:agentic-forms:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-forms.md",
+  "title": "用 `:tool-form-active`／`:tool-submit-active` 標出代理正在操作的表單與待確認的送出鈕",
+  "action": "`form:tool-form-active` 標示代理正在使用的表單；`button:tool-submit-active` 標示省略 `toolautosubmit` 時、瀏覽器暫停等使用者檢查的送出按鈕（例如虛線外框加脈動動畫）",
+  "opponent": "缺——指南只說用這兩個虛擬類別在代理互動時標亮表單，沒說不標示時在哪個時刻出問題",
+  "support": "不適用",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:agentic-javascript-tools",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md",
+  "title": "用 registerTool() 依路由與使用者狀態註冊頁面工具",
+  "action": "用 `document.modelContext.registerTool()` 註冊名稱、描述、`inputSchema`、`execute()` 與 annotations；SPA 依目前路由和使用者狀態動態增刪工具",
+  "opponent": "（缺）指南只說命令式 API 適合需要動態增刪工具的 SPA，沒說固定宣告在哪個時刻出問題（引用：\"This is ideal for Single Page Applications (SPAs) where tools need to be added or removed based on the current route or user state.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:agentic-javascript-tools:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md",
+  "title": "跨框架工具要 exposedTo 與 fromOrigins 雙向授權",
+  "action": "提供者註冊時用 `exposedTo` 列出可發現、執行的來源；消費者用 `getTools({ fromOrigins: [...] })` 明確查詢提供者，所有來源限 HTTPS 或 localhost",
+  "opponent": "只有單邊授權時跨來源工具仍不可見；不是潛在可信來源會讓 `registerTool()` 以 `SecurityError` 拒絕（引用：\"Without `fromOrigins`, `getTools()` queries only same-origin documents.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:agentic-javascript-tools:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md",
+  "title": "inputSchema 的驗證與 default 都在 execute 裡處理",
+  "action": "在 `execute` 開頭檢查輸入型別、enum 與必要欄位，並在參數解構或函式內套用預設值",
+  "opponent": "瀏覽器不會依 `inputSchema` 驗證引數，也不會套用 `default`，只寫 schema 會讓錯誤輸入直接進入工具（引用：\"The browser does not validate arguments against `inputSchema` or apply `default` values, so do both in `execute`.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:agentic-javascript-tools:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md",
+  "title": "可修正的錯誤用結構化回傳值，不要 throw",
+  "action": "找不到項目、輸入錯誤、HTTP 失敗時回傳 `{ error, ...診斷資料 }`；只有執行被取消時重新拋出",
+  "opponent": "`execute` 拋錯或 Promise reject 時，代理只收到一般執行失敗，原始錯誤訊息不會轉交，無法自我修正或重試（引用：\"The error message is not forwarded to the agent.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:agentic-javascript-tools:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md",
+  "title": "註銷與執行各用 AbortSignal，避免孤兒請求寫回舊畫面",
+  "action": "註冊時傳 `signal` 供路由離開時 abort 註銷；每次 `execute(input, { signal })` 把執行訊號傳給 fetch／事件，計時器自行清除，並回復取消前的 UI 狀態",
+  "opponent": "abort 註冊訊號只會註銷工具，不會取消已在跑的工作；長任務不理會執行訊號時會繼續耗資源，並在代理離開後寫入過期資料（引用：\"Aborting the registration signal only unregisters the tool — it does not cancel executions that are already running.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:agentic-javascript-tools:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md",
+  "title": "consequentialHint 之外仍保留應用程式自己的確認",
+  "action": "訂票、轉帳、寄訊息、刪資料的工具標 `consequentialHint: true`，同時保留應用程式原有的確認 UI",
+  "opponent": "這個標記只是提示，不會自行阻止執行；不認得標記的舊瀏覽器完全不會要求確認（引用：\"It does not block execution on its own, and browsers that predate the hint will not prompt at all.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:agentic-javascript-tools:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md",
+  "title": "除錯工具用 annotations.debugging 與使用者工具分開",
+  "action": "傾倒內部狀態、切 feature flag、填測試資料的工具設 `annotations.debugging: true`",
+  "opponent": "（缺）指南只說標記能讓代理區分開發者工具與使用者任務，沒說混在一起的具體後果（引用：\"This lets agents tell developer-only tools apart from tools meant to act for the user.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:agentic-javascript-tools:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md",
+  "title": "getTools()／executeTool() 給頁內代理與測試，不是暴露工具的必要步驟",
+  "action": "頁內助理、iframe 代理與自動化測試用 `getTools()` 探索、`executeTool()` 呼叫；監聽 `toolchange` 更新清單",
+  "opponent": "（缺）指南只區分瀏覽器代理的 out-of-band 消費與頁內消費，沒說誤用時出了什麼事（引用：\"The `getTools()` and `executeTool()` methods exist specifically for consumers running inside the JavaScript environment\"）",
+  "support": "無瀏覽器支援",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:agentic-javascript-tools:9",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md",
+  "title": "executeTool() 對舊 Chrome 保留 JSON 字串輸入退路",
+  "action": "Chrome 155 起直接傳 plain object；遇到 \"Failed to parse input\" 才改用 `JSON.stringify(inputObject)`，其他錯誤照樣拋出",
+  "opponent": "舊版不接受 plain object，若把所有錯誤都當成格式問題重試，會掩蓋真正的執行或取消錯誤（引用：\"Since Chrome 155, `executeTool()` accepts a plain JavaScript object directly for `inputObject`, matching the input format your tool's `execute` callback receives.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:agentic-javascript-tools:10",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md",
+  "title": "React／Angular／Vue 用官方整合，不自己包工具生命週期",
+  "action": "React 用 `useWebMCP`、Angular 用 provider／declare 整合、Vue 用 `useWebMCP` composable；React／Vue 以 `enabled` 控制可用性，不把 hook 放在條件裡",
+  "opponent": "在元件裡直接呼叫 `registerTool()` 或自寫 wrapper，會重複處理功能偵測、AbortSignal 清理與元件／injector 生命週期（引用：\"Each integration already handles feature detection, `AbortSignal` cleanup, and scoping tools to the component or injector lifecycle.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:webmcp",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/webmcp.md",
+  "title": "用瀏覽器分頁當工具註冊表，不架後端 MCP transport",
+  "action": "在分頁內用命令式 `document.modelContext.registerTool()` 或宣告式表單屬性，把 client-side 功能暴露成結構化工具",
+  "opponent": "（缺）指南只說 WebMCP 全在瀏覽器分頁執行，沒說後端做法在哪個時刻出問題（引用：\"WebMCP runs entirely **client-side** in the browser tab. It is *not* a backend server, and it does *not* use HTTP, Server-Sent Events (SSE), or `stdio` transports.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:webmcp:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/webmcp.md",
+  "title": "schema 收原始輸入並寫清參數用途，降低代理猜錯",
+  "action": "參數直接收使用者原始輸入，不讓代理先做數學換算；每個參數給明確型別與用途，選項意義寫在自己的 description",
+  "opponent": "schema 結構或參數描述不清會增加代理幻覺，讓它猜出不符合工具預期的輸入（引用：\"Always provide clear descriptions for every parameter to minimize agent hallucinations.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:webmcp:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/webmcp.md",
+  "title": "回傳可重試錯誤，並等 UI 更新完才回應代理",
+  "action": "在程式碼驗證限制、回傳描述性錯誤與 rate-limit 處理；`execute` 等畫面狀態更新完成後才回傳結果",
+  "opponent": "太早回傳會讓工具結果和畫面狀態不一致，代理拿到成功時使用者還看不到對應更新（引用：\"Ensure the function returns *after* UI state updates for consistency.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:webmcp:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/webmcp.md",
+  "title": "高風險工具保留代理控制之外的人工確認",
+  "action": "刪除或不可逆動作不自動送出，UI 必須在代理控制之外要求使用者手動確認",
+  "opponent": "沒有外部防護時，代理可能直接執行破壞性或不可逆操作（引用：\"Avoid auto-submitting tools for destructive or irreversible actions (e.g., deleting data) unless the UI requires manual user confirmation outside the agent's control.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:webmcp:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/webmcp/webmcp.md",
+  "title": "資料變得比代理反應快時不要暴露即時工具",
+  "action": "高頻變動資料避免直接依賴代理操作，改用一般即時 UI 或明確刷新後再呼叫",
+  "opponent": "資料更新速度超過代理反應時，代理會拿過期脈絡判斷與執行（引用：\"If data changes faster than the agent can react, it may work with stale context.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:calculate-event-differentials",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/js/calculate-event-differentials.md",
+  "title": "用 ZonedDateTime 的 since()／until() 算時間差，不用 Date 毫秒相減",
+  "action": "兩端點都做成 `Temporal.ZonedDateTime`（指定 IANA 時區），用 `.since()`／`.until()` 搭配 `largestUnit`、`smallestUnit` 算出 `Temporal.Duration`；比較時長用 `Temporal.Duration.compare(d1, d2, { relativeTo })`，到期與否看 `.sign`",
+  "opponent": "缺——指南只說舊 `Date` 只記毫秒，讓跨月計算、日光節約轉換與單位進位「容易出錯」，以前得靠手算或外部函式庫，沒指出哪個具體情境算錯（引用：\"The legacy `Date` object only tracks epoch milliseconds, making calendar-month arithmetic, Daylight Saving Time (DST) transitions, and unit balancing error-prone.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:calculate-event-differentials:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/js/calculate-event-differentials.md",
+  "title": "用 Intl.DurationFormat 輸出在地化時長，不要手拼單位字串",
+  "action": "`duration.toLocaleString(locale, { style })` 或 `new Intl.DurationFormat(locale, { style: 'long' | 'short' | 'narrow' | 'digital' })`；`toString()` 只用在 ISO 8601 機器格式",
+  "opponent": "缺——指南只說不要手動內插 `${duration.years}y ${duration.months}m...`，沒說手拼版在哪個時刻出錯",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:capture-location-agnostic-data",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/js/capture-location-agnostic-data.md",
+  "title": "生日、鬧鐘這類日期用 Temporal.PlainDate／PlainTime，擋掉跨時區少一天",
+  "action": "純日期用 `Temporal.PlainDate.from()`、牆上時間用 `PlainTime`、兩者合起來用 `PlainDateTime`，直接讀 `.year`、`.month`、`.day`，比較用 `.equals()`；非得交給 `Date` 時經由 `Temporal.Instant` 明確指定時區",
+  "opponent": "`Date` 永遠代表一個瞬間並以觀看者的時區顯示，存成 `Date` 的「1990-01-01」在 UTC 以西的使用者看來是「1989-12-31」（引用：\"saving a date like `\"1990-01-01\"` can result in users west of UTC seeing `\"1989-12-31\"`\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:capture-location-agnostic-data:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/js/capture-location-agnostic-data.md",
+  "title": "信用卡到期、年度紀念日用 PlainYearMonth／PlainMonthDay，不要塞假的日",
+  "action": "年月用 `Temporal.PlainYearMonth`、月日用 `Temporal.PlainMonthDay`（物件建構時明確給 `calendar: 'iso8601'`）；要做運算時先 `.toPlainDate({ year })`；每月循環用 `.add({ months: 1 })` 搭配 `overflow: 'constrain'` 或 `'reject'`",
+  "opponent": "用 `Date` 表示只有月份的卡片到期日，得塞一個隨意的日子，造成溢位錯誤（引用：\"modeling partial dates (like a month-only card expiry) forces arbitrary placeholder days that cause overflow bugs.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:capture-location-agnostic-data:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/js/capture-location-agnostic-data.md",
+  "title": "時區用 IANA 名稱，不要用固定的 UTC 偏移",
+  "action": "時區一律用 `America/New_York` 這類 IANA 名稱識別",
+  "opponent": "偏移會隨日光節約與法規改變，「UTC-5」這種標籤一年中有一段時間是錯的（引用：\"Offsets change with daylight saving time and legislation, so labels like `\"UTC-5\"` become wrong for part of the year.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:coordinate-global-events",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/js/coordinate-global-events.md",
+  "title": "用 ZonedDateTime 的 disambiguation 偵測日光節約跳過或重複的時刻",
+  "action": "`Temporal.ZonedDateTime.from()` 建立有時區的時間；`disambiguation: 'reject'` 在時刻不存在或重複時丟 `RangeError` 以警告使用者，`'compatible'` 自動挑一個合理時間；`.withTimeZone()` 換算其他城市",
+  "opponent": "日光節約轉換時，某些時刻會被跳過或重複，舊 `Date` 很難安排這類跨時區事件（引用：\"especially around Daylight Saving Time (DST) transitions when hours can be skipped or repeated.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:sort-high-precision-timestamps",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/js/sort-high-precision-timestamps.md",
+  "title": "用 Temporal.Instant 解析奈秒時間戳，擋掉同一毫秒內的事件排序錯亂",
+  "action": "伺服器或日誌給的 ISO 8601 時間戳用 `Temporal.Instant.from()` 解析，`Temporal.Instant.compare()` 當排序比較函式，`.since()` 算間隔、`.equals()` 判斷相同",
+  "opponent": "`Date` 只存毫秒，`new Date()`／`Date.parse()` 會默默截掉毫秒以下的位數，同一毫秒內的不同事件撞在一起、排序不穩定（引用：\"parsing those strings with `new Date()` or `Date.parse()` silently truncates sub-millisecond digits, causing distinct events within the same millisecond to collide and sort in an unstable order.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:sort-high-precision-timestamps:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/js/sort-high-precision-timestamps.md",
+  "title": "間隔保持 Temporal.Duration 再格式化，不要轉成奈秒數字",
+  "action": "間隔維持 `Temporal.Duration`，用 `toLocaleString()` 顯示；不用 `duration.total('nanoseconds')` 轉成單一數字",
+  "opponent": "`total('nanoseconds')` 回傳 `Number`，超過約 104 天的間隔就超出 `Number.MAX_SAFE_INTEGER`，默默失去精度（引用：\"`duration.total('nanoseconds')` returns a `Number`, which exceeds `Number.MAX_SAFE_INTEGER` for spans longer than ~104 days and silently loses precision.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:support-global-calendar-systems",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/js/support-global-calendar-systems.md",
+  "title": "用 withCalendar() 讓日期直接以希伯來曆、伊斯蘭曆、農曆運算",
+  "action": "先用 `Intl.supportedValuesOf('calendar')` 確認環境支援，再以 `plainDate.withCalendar('hebrew')` 等轉換，依該曆法比較（`Temporal.PlainDate.compare()`）並用 `toLocaleString('en-u-ca-hebrew', { era: 'long', … })` 顯示",
+  "opponent": "缺——指南只說 `Date` 以預推格里曆為基礎，支援其他曆法「很有挑戰」，以前得靠複雜的第三方函式庫或手算，沒指出哪個具體情境出錯（引用：\"Developers previously had to rely on complex third-party libraries or manual calculations to support these systems.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:support-global-calendar-systems:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/js/support-global-calendar-systems.md",
+  "title": "用 monthsInYear、monthCode，不要假設一年 12 個月",
+  "action": "迴圈上限用 `monthsInYear`、每月天數用 `daysInMonth`；跨年識別同一個月用 `monthCode`；判斷最後一個月用 `date.month === date.monthsInYear`",
+  "opponent": "在陰陽合曆裡，閏年可能多出一整個閏月，不只多一天；寫死 12 個月或用數字月份跨年比對就會錯（引用：\"DO NOT assume `inLeapYear === true` implies the year is only one day longer. In lunisolar calendars, it may add a full leap month.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:content-first-noise-reduction",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/user-experience/content-first-noise-reduction.md",
+  "title": "用 `scroll-state(scrolled)` 在往下捲時藏起頂端列，往上捲立刻回來",
+  "action": "`html { container-type: scroll-state; }`，`@container scroll-state((scrolled: bottom) and (scrollable: top))` 時對 sticky 頂端列 `transform: translateY(-100%)`；底部分頁列同理往下滑出",
+  "opponent": "缺——指南只說頂端列在閱讀時應該讓開、往上一滑就回來，並強調不需腳本，沒說常駐列或腳本做法在哪個時刻出錯",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:content-first-noise-reduction:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/user-experience/content-first-noise-reduction.md",
+  "title": "收合的頂端列不要藏住鍵盤焦點，也不要蓋住頁內連結的目標",
+  "action": "`.top-bar:focus-within { transform: none; }` 讓含焦點的列保持可見；`:target { scroll-margin-top: 4rem; }` 至少等於列高",
+  "opponent": "列被收起時焦點仍可能在裡面；黏在頂端的列會蓋住頁內連結跳到的位置（引用：\"so in-page link targets don't land under the bar.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:content-first-noise-reduction:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/user-experience/content-first-noise-reduction.md",
+  "title": "收合條件加上 `(scrollable: top)`，按 Home 回到頂端時列一定出現",
+  "action": "查詢寫成 `scroll-state((scrolled: bottom) and (scrollable: top))`，只在上方還有內容時才收合",
+  "opponent": "Home 鍵這類跳躍不會更新 `scrolled`，單看方向時列在頁首仍維持收起（引用：\"shows the bar at the very top, even after jumps such as the Home key, which don't update \"scrolled\".\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:content-first-noise-reduction:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/user-experience/content-first-noise-reduction.md",
+  "title": "次要介面收進 `popover` 與抽屜，不放常駐工具列或自寫 JS 浮層",
+  "action": "選單、溢出動作、提示、懸停卡、導覽提示用 `popover` 加 `popovertarget`；選項多時用固定在一側的 popover 抽屜",
+  "opponent": "缺——指南只說用 popover 取代常駐工具列與自寫 JavaScript 浮層，沒說那些做法在哪個時刻出錯",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:content-first-noise-reduction:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/user-experience/content-first-noise-reduction.md",
+  "title": "開 popover 優先用 `popovertarget`；用 `commandfor` 時要偵測後才載 polyfill",
+  "action": "按鈕用 `popovertarget` 開關；若用 `commandfor` 與 `command=\"toggle-popover\"`，在 `'commandForElement' in HTMLButtonElement.prototype` 為 false 時動態載入 `invokers-polyfill`",
+  "opponent": "不支援 Invoker commands 的瀏覽器會忽略 `commandfor`，按鈕按了沒反應（引用：\"Browsers without invoker commands ignore `commandfor`, so the button does nothing there.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:form-factor-adaptation",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/user-experience/form-factor-adaptation.md",
+  "title": "元件版面用 container query，不用視窗寬度",
+  "action": "元件的版面改用 container query，media query 只用來查輸入裝置與使用者設定",
+  "opponent": "用視窗寬度的 media query 排元件，同一個元件放進側欄或窄欄時無法跟著調整（引用：\"Use container queries instead of viewport-width media queries for component layout, so a component adapts wherever it is placed.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:form-factor-adaptation:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/user-experience/form-factor-adaptation.md",
+  "title": "320px 寬度下文字與控制項都不能被切掉",
+  "action": "含文字的元素用 `min-block-size` 而不是固定高度，標題不用 ellipsis 截斷，父層不用 `overflow: hidden` 切控制項",
+  "opponent": "固定高度、標題截斷與父層裁切，在窄螢幕或放大文字時讓文字或按鈕被切掉（引用：\"DO NOT truncate headings with `text-overflow: ellipsis`, and do not clip controls with `overflow: hidden` on their parents.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:natural-interactions",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/user-experience/natural-interactions.md",
+  "title": "拿掉焦點框時一定要給同樣明顯的替代",
+  "action": "用 `:focus-visible` 顯示鍵盤焦點框，只在滑鼠點擊時不顯示",
+  "opponent": "`outline: none` 直接拿掉焦點框，鍵盤使用者看不到自己在哪（引用：\"DO NOT remove focus outlines (`outline: none` or `outline: 0`) without providing an equally visible replacement with at least a 3:1 contrast ratio against the page (WCAG 1.4.11).\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:natural-interactions:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/user-experience/natural-interactions.md",
+  "title": "選單可以 hover 開，但不能只靠 hover",
+  "action": "下拉選單用 `<button popovertarget>` 宣告式觸發，點擊、觸控、鍵盤都能開，`Esc` 關閉",
+  "opponent": "只在 hover 時開選單，鍵盤和觸控使用者打不開（引用：\"Menus and dropdowns may open on hover, but never only on hover: they also open on click, tap, and keyboard activation, stay open while the pointer moves onto them, and close with Esc (WCAG 2.1.1, 1.4.13).\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ }
+]

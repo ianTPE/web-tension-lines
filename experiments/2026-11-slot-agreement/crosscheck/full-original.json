@@ -1,0 +1,2828 @@
+{
+ "mwg:2d-panning": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回忽略（保留軸鎖定）或 JS 改 `scrollLeft`／`scrollTop`（進主執行緒且觸控無慣性）",
+  "unlock": "用 `scroll-axis-lock: none` 解除雙軸斜向平移的軸鎖定，同時保有原生合成器捲動與慣性",
+  "owner": "agy"
+ },
+ "mwg:2d-panning:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:2d-panning:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:anchor-positioning-tab-underline:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援錨點定位時以 `@supports` 退回靜態 `border-bottom`，不涉及過渡問題",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:anchor-positioning-tab-underline:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:animate-element-entry-exit:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——改以暫時探針實測 `display` 計算值，讓 Firefox 正確分流走 `data-closing` 離場退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:animate-element-entry-exit:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——拆開宣告後，舊瀏覽器仍保留透明度等一般屬性過渡而不整條丟棄",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:animate-element-entry-exit:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `display` 離場過渡的瀏覽器結合 `data-closing` 退路仍可等動畫結束再移除",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:animate-to-from-top-layer": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox／Safari 退回 `data-closing` 仍保進場與對話框離場動畫，僅 popover 輕點關閉無動畫",
+  "unlock": "用 `overlay` 與 `allow-discrete` 讓原生 `<dialog>` 與 `popover` 進出頂層都能做動畫而不被裁切",
+  "owner": "agy"
+ },
+ "mwg:animate-to-from-top-layer:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——改以 `overlay` 支援與探針實測分流，讓 Firefox／Safari 走 `data-closing` 保住離場動畫",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:animate-to-from-top-layer:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——拆開宣告後，舊瀏覽器仍保留透明度等一般屬性過渡而不整條丟棄",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:carousel-snap-highlights:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox 與 Safari 即便改用 `IntersectionObserver` 高亮，仍應維持不當選取與分開焦點框",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:carousel-snap-highlights:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:consistent-cross-document-transitions": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援的瀏覽器忽略規則並維持一般同源換頁，支援轉場者皆已原生支援阻擋繪製",
+  "unlock": "不用改成 SPA，多頁網站也能在首屏資源與 DOM 就緒後才平滑轉場，避免元素錯位與重排",
+  "owner": "agy"
+ },
+ "mwg:consistent-cross-document-transitions:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援跨文件轉場的瀏覽器退回一般換頁；預載與尺寸屬性可在解碼前保住版面佔位",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:consistent-cross-document-transitions:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——逾時或瀏覽器不支援時會跳過轉場並照常顯示頁面，不會卡死導覽",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:consistent-cross-document-transitions:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——名稱重複或不支援時僅跳過轉場動畫，頁面導覽功能仍正常運作",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:consistent-cross-document-transitions:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援跨文件轉場時略過 `pagereveal` 並照常換頁，結束後移除名稱才能保住 bfcache",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:cross-document-transitions": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援跨文件轉場的瀏覽器退回標準即時換頁，網站核心導覽功能不受影響",
+  "unlock": "純多頁網站不必改成 SPA，加上 CSS 就能做出像應用程式般可自訂的平滑換頁轉場",
+  "owner": "agy"
+ },
+ "mwg:cross-document-transitions:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——缺 Navigation API 時改用其他判斷或預設類型，不支援跨文件轉場則退回一般換頁",
+  "unlock": "多頁網站能依導覽來源與前進後退方向切換不同轉場動畫，讓返回與前進有合理方向",
+  "owner": "agy"
+ },
+ "mwg:custom-button-actions": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時可條件載入 invokers-polyfill 或改用 click 事件委派，按鈕動作照常運作",
+  "unlock": "直接在 HTML 按鈕宣告屬性就能對目標觸發自訂動作，減少手寫監聽並讓介面與實作脫鉤",
+  "owner": "agy"
+ },
+ "mwg:custom-button-actions:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——多目標時在祖先加 capture 監聽，不支援時靠 polyfill 或點擊委派仍可觸發",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:declarative-dialog-popover-control": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——舊瀏覽器條件載入 invokers 與 popover polyfill，開關對話框與彈出層照常可用",
+  "unlock": "不寫客製 JS 監聽，HTML 解析完按鈕就能宣告式開關對話框與彈出層並內建焦點與無障礙綁定",
+  "owner": "agy"
+ },
+ "mwg:declarative-dialog-popover-control:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——對同一個彈出層只擇一屬性並搭配 polyfill 退路，開關切換就能穩定不打架",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:declarative-dialog-popover-control:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——搭配 polyfill 與歸還焦點腳本，不論原生效力或補丁環境都能保住鍵盤導覽",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:declarative-dialog-popover-control:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——透過條件載入 polyfill、屬性操作與 `:is()` 雙選擇器，舊瀏覽器也能正常開關並套用樣式",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:directional-navigation-transitions": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不支援時直接呼叫 DOM 更新函式，畫面立即切換且功能完整但無方向動畫",
+  "unlock": "單頁應用不必依賴動畫函式庫，就能依前進或後退方向滑動換頁並強化視圖間的空間方向感",
+  "owner": "agy"
+ },
+ "mwg:directional-navigation-transitions:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——能力偵測缺失時略過轉場並直接執行 DOM 更新，確保舊瀏覽器照常換頁不卡死",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:drag-and-drop": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `moveBefore()` 時退回 `before()`／`append()` 仍能重排真實節點對齊順序，但會失去指標捕捉、焦點（需手動補回）與媒體、輸入值等節點內部狀態",
+  "unlock": "用 `moveBefore()` 原子移動既有節點時，能保留聚焦控制項、輸入值、捲動位置、媒體與自訂元件實例等內部狀態及指標捕捉不被重置",
+  "owner": "agy"
+ },
+ "mwg:drag-and-drop:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——指標事件與偽元素標記均已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:drag": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——指針與座標夾限皆屬既有能力，若無 JS 則讓元件留在預設位置照常顯示與操作",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:drag:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——加上 -webkit-user-select: none 前綴後，Safari 也能在拖曳時正常抑制選到文字",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:dynamic-sibling-animations": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不支援時用 JS 寫入 --sibling-index 並置於前條宣告，舊瀏覽器仍能錯開進場",
+  "unlock": "只寫純 CSS 就能讓清單或選單項目依序錯開進場，項目數量變動時也不必手動重算延遲",
+  "owner": "agy"
+ },
+ "mwg:dynamic-sort": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 缺 moveBefore() 改用 append()，順序正確但項目內焦點與狀態會重設",
+  "unlock": "不用重建 DOM 就能把既有項目直接搬到新順序，保住項目內焦點、iframe 與動畫狀態並接上轉場",
+  "owner": "agy"
+ },
+ "mwg:group-element-transitions": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 view-transition-class 時忽略該樣式，不支援轉場則直接更新 DOM 維持功能",
+  "unlock": "群組內多個元素共享同一套 CSS 轉場邏輯，不必為每個唯一名稱重複撰寫動畫規則",
+  "owner": "agy"
+ },
+ "mwg:group-element-transitions:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援轉場的瀏覽器直接更新 DOM，支援時關掉 root 轉場並停用快照指標即可互動",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:highlight-text-ranges": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不支援時維持可讀純文字，或當標示關鍵時改用 `<mark>` 包裹符合文字保住功能",
+  "unlock": "不用改動 DOM 結構或拆開文字節點，就能替任意文字範圍套用搜尋結果與語法上色等樣式",
+  "owner": "agy"
+ },
+ "mwg:highlight-text-ranges:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——語意標示本來就應採用所有瀏覽器皆支援的 `<mark>` 與輔助標記，無障礙樹一致保留",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:highlight-text-ranges:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 API 時不註冊任何高亮，退回純文字或重建 `<mark>` 皆不會有殘留範圍",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:highlight-text-ranges:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——只使用支援的文字色彩與裝飾屬性，若退回 `<mark>` 元素則各類盒模型樣式仍可使用",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:interactive-content-reveal": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——加 var() 預設值與前綴遮罩，舊版僅在開關間跳變或純靜態顯示，底層內容仍完整可用",
+  "unlock": "將漸層停點註冊為有型別的屬性後，只需少量座標更新腳本就能平滑開合跟著游標的聚光燈效果",
+  "owner": "agy"
+ },
+ "mwg:interactive-content-reveal:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——底層內容預設完整可見並以 pointer-events: none 讓出互動，所有裝置皆可到達",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:interest-triggered-tooltips": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——條件載入 interest／popover／錨點 polyfill，缺 hint 時於 beforetoggle 轉 auto 維持顯示關閉",
+  "unlock": "純用 HTML 屬性與 CSS 錨點就能做出不關掉既有選單的工具提示，懸停、聚焦與長按皆可觸發並自動避邊翻轉",
+  "owner": "agy"
+ },
+ "mwg:interest-triggered-tooltips:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——在載入 polyfill 前先執行統一的前置 ARIA 腳本，所有瀏覽器都能暴露正確角色與關聯",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:interest-triggered-tooltips:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——前置腳本在所有瀏覽器與 polyfill 環境皆先比對名稱，相同時不補 aria-describedby 免重複朗讀",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:interest-triggered-tooltips:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——在 document 用捕獲監聽同步 aria-expanded，原生與 polyfill 環境都能準確反映開關狀態",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:interest-triggered-tooltips:6": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——於捕獲階段 beforetoggle 將缺 hint 的 toggletip 轉成 auto，Safari 點擊後也能正常輕觸關閉",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:interest-triggered-tooltips:7": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——以 `@supports` 包住讓不支援者維持置中或底部列，或改載含明確錨點的 polyfill 照樣定位",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:light-dismiss-a-dialog": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測缺少 closedBy 時監聽點擊並比對對話框矩形座標，Safari 也能點背景關閉不誤關",
+  "unlock": "只寫 HTML 屬性就能替模態對話框啟用點背景與 Esc 關閉，不必自己寫點擊座標判斷來分辨邊距與遮罩",
+  "owner": "agy"
+ },
+ "mwg:light-dismiss-a-dialog:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——模態對話框的 Esc 關閉行為皆已支援，由內層元件聚焦時攔截 Esc 即可避免誤關",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:light-dismiss-a-dialog:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——點背景關閉原本只用於模態 dialog，不支援 closedby 的 Safari 亦由座標退路涵蓋",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:motion": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——裁切與外框繪製屬基礎 CSS 能力，改將焦點指示畫在未裁切的父層即可相容",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:motion:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——總覽僅指方向且本指南未列支援資料，具體轉場退路依各專篇處理",
+  "unlock": "能在複雜版面狀態大幅變化之間無縫建立過渡動畫，不必自己處理繁瑣的過場狀態",
+  "owner": "agy"
+ },
+ "mwg:motion:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——本指南未列支援資料，分開寫在簡寫之後即可避免舊瀏覽器丟掉整條過渡規則",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:motion:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——按鈕文字與 ARIA 屬性屬既有規範，照建議只保留切換標籤就能正確朗讀",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:motion:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——prefers-reduced-motion 屬既定做法，預設靜態只在偏好開啟時加動畫即安全",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:motion:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——本指南只給特性偵測，缺少時可退回 getAnimations() 依名稱或屬性查找",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:motion:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——getAnimations() 與短時透明度過渡屬基礎做法，無須依賴動畫事件即可收尾",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:move-dom-element-without-losing-state:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 退回 insertBefore() 時仍觸發既有連接與斷開生命週期回呼，狀態更新照常執行",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:parallax-scroll-effects": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不支援時用 IntersectionObserver 與 scroll 事件補上位移，純裝飾亦可漸進增強",
+  "unlock": "純 CSS 用 view-timeline 搭配 sibling-index() 做出多層捲動視差，不必依賴效能較差的捲動監聽器",
+  "owner": "agy"
+ },
+ "mwg:parallax-scroll-effects:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——加上 animation-range 條件排除半套支援瀏覽器，安全轉入 JS 視差退路或靜態呈現",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:parallax-scroll-effects:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——寫在簡寫之後避免時間軸被重設，不支援瀏覽器則交由 `@supports` 退路或 JS 補上",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:parallax-scroll-effects:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退路腳本先檢查減少動態偏好才設樣式，舊瀏覽器也能尊重無障礙設定且視差正常",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:persistent-top-layer-ui": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Safari 退回 insertBefore() 會先關閉頂層介面，對話框與 popover 須手動重開且全螢幕無法恢復",
+  "unlock": "不用中斷或關閉開著的對話框、popover 或全螢幕元素，就能原子搬動它們在 DOM 中的父層位置",
+  "owner": "agy"
+ },
+ "mwg:physics-based-easing": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——linear() 已廣泛支援，舊瀏覽器可先寫 ease-out 覆寫退路或於極需物理感時改用 JS 動畫庫",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:physics-based-easing:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——linear() 已廣泛支援，不套用在 opacity 上即可在所有瀏覽器避開超界閃爍",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:platform-controls-dismiss-dialog": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Safari 無法回應行動裝置返回鍵與手勢且無可靠退路，僅剩 Esc 與關閉鈕可關閉對話框",
+  "unlock": "已經用 showModal() 開啟的模態對話框不必額外寫手勢程式，就能回應行動裝置返回鍵與輔助技術關閉手勢",
+  "owner": "agy"
+ },
+ "mwg:prevent-page-scroll-under-modal-dialog": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Safari 僅在對話框內容可捲時生效，滑動背景或不溢出的框仍會捲到底頁，但不改壞版面",
+  "unlock": "只用兩條 CSS 宣告就能在模態對話框與遮罩層關住捲動，不必改動根元素 overflow 造成版面跳動或黏著失靈",
+  "owner": "agy"
+ },
+ "mwg:prevent-page-scroll-under-modal-dialog:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——直接當漸進增強套用而不寫偵測分支，各瀏覽器仍維持原生焦點鎖定與可捲內容圍堵",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:same-document-transitions:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援轉場的瀏覽器原本就直接更新 DOM，結束後清理名稱只保住支援環境後續轉場",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:same-document-transitions:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援轉場的分支同樣在 DOM 更新後移動焦點，舊瀏覽器的鍵盤與讀屏脈絡不丟失",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:same-document-transitions:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——尺寸與比例調整在無轉場時只是正常排版，不支援時直接切換視圖亦不變形",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scoped-component-transitions": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測 Element.prototype 無此方法時直接執行 DOM 更新，不阻擋整頁也不播動畫",
+  "unlock": "把轉場限制在單一元件子樹內，讓多個元件能同時轉場且不遮住固定標頭或阻擋頁面的其餘互動",
+  "owner": "agy"
+ },
+ "mwg:scoped-component-transitions:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援元件轉場時直接跑 DOM 更新回呼不會產生 promise 錯誤，支援時接住即安全",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scoped-component-transitions:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援元件轉場時本就無快照疊層，照一般 CSS overflow 規則正常裁切子內容",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scoped-component-transitions:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援元件轉場時直接立即更新 DOM，不存在內外層轉場互搶捕捉的問題",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scroll-completion-effects": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測回傳值非 Promise 時改聽 scrollend 搭空窗計時器，Firefox／Safari 也能等完捲動",
+  "unlock": "直接 await 原生捲動方法回傳的 Promise 就能準確接續後續效果，不必用 setTimeout 猜測捲動時間",
+  "owner": "agy"
+ },
+ "mwg:scroll-completion-effects:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——遞增操作 ID 的守衛同樣適用於 Firefox／Safari 的 Promise 退路函式，快速連點不會錯發",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scroll-completion-effects:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——preventScroll 為既有標準選項，不論走原生或退路 Promise 等待捲動後皆可直接套用",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scroll-completion-effects:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不另外包容器可維持正常整頁捲動與無障礙結構，Firefox／Safari 亦改走 scrollend 退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scroll-entry-exit-effects": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不支援時改用 IntersectionObserver 依交集比例更新樣式，純裝飾則可靜態呈現",
+  "unlock": "純 CSS 用 view() 時間軸與 animation-range，就能隨元素進出捲動視窗驅動進場與離場動畫",
+  "owner": "agy"
+ },
+ "mwg:scroll-entry-exit-effects:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——加上 animation-range 偵測即可過濾半套瀏覽器，安全切換到 IntersectionObserver 退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scroll-entry-exit-effects:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——寫在簡寫之後避免時間軸被重設，不支援瀏覽器則走 IntersectionObserver 退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scroll-snap-realtime-feedback": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不支援時改用 scroll 加 rAF 與距離計算模擬即時預告，搭 scrollend 與防抖定案",
+  "unlock": "捲動手勢還沒放開前就能由原生事件即時預告即將吸附的項目，不必等滑完停穩才同步介面",
+  "owner": "agy"
+ },
+ "mwg:scroll-snap-state-sync": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不支援時改用 IntersectionObserver 追蹤頂端標題，只差在捲動途中就會更新狀態",
+  "unlock": "在捲動容器停到新吸附目標時自動同步側欄目錄或頁碼高亮，不必寫複雜的偏移計算或觀察器",
+  "owner": "agy"
+ },
+ "mwg:scroll-snap-state-sync:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——aria-current 與導覽地標屬既有語意屬性，不論走原生事件或觀察器退路皆可同步標註",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scroll-snap-state-sync:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Scroll snap 已廣泛支援，一律改用 y proximity 即可在所有瀏覽器防止跳過長段落",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scroll-target-on-load": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不支援時在 DOMContentLoaded 用 scrollIntoView 即時定位，仍能停在目標項目",
+  "unlock": "只寫一行 CSS 就能在初次渲染時把容器捲到指定子項目，不必靠 JS 或網址片段處理中段起始位置",
+  "owner": "agy"
+ },
+ "mwg:scroll-target-on-load:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——鍵盤焦點本就須手動呼叫 focus() 移動，Firefox／Safari 的 JS 捲動退路一樣適用",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scroll-target-on-load:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——預先宣告媒體寬高比例屬基礎排版做法，原生與 DOMContentLoaded 退路皆不會被推走",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scroll-target-on-load:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——單一目標規則在原生與 querySelector JS 退路下結果一致，網址片段亦同樣優先",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scrollytelling": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不支援時用 IntersectionObserver 依可見比例更新變形樣式，純裝飾則可直接靜態顯示",
+  "unlock": "只用 CSS 具名 view-timeline 與 timeline-scope 跨分支連動，就能做出跟隨捲動進度的敘事動畫而不靠 JS",
+  "owner": "agy"
+ },
+ "mwg:scrollytelling:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——加上 animation-range 偵測即可排除半套瀏覽器，安全交給 IntersectionObserver 退路處理",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scrollytelling:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——寫在簡寫之後避免具名時間軸被重設，不支援時則由 `@supports` 轉走 JS 觀察器退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:scrollytelling:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——只有腳本加上類別時才先隱藏並尊重減少動態，腳本失敗或停用動畫時內容照樣完整可見",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:search-hidden-content": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——一般摺疊可用廣泛支援的 `<details>`；`until-found` 在 Safari 偵測缺失時展開全部內容維持可搜可讀",
+  "unlock": "隱藏折疊或自訂面板的內容仍能被「在頁面中尋找」與文字片段連結命中並自動展開同步介面狀態",
+  "owner": "agy"
+ },
+ "mwg:search-hidden-content:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 原本就走展開退路不會受隱藏樣式影響，支援瀏覽器不覆寫即能被搜尋命中",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:search-hidden-content:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——樣式移至內層 wrapper 在原生隱藏與 Safari 展開退路下都能呈現乾淨版面",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:search-hidden-content:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——原本就不將敏感資料放進前端頁面，原生與 Safari 展開退路下皆不會外露",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:sortable-table": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——搬動既有列與 aria-sort 屬廣泛能力，缺新版搬移／轉場／指令鈕時亦可照樣完成排序",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:sortable-table:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——依 data-type 以數值或 Intl.Collator 比對原始資料屬既有標準，所有瀏覽器皆可正確排序",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:spatial-navigation": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——方向鍵與 scrollIntoView 屬基礎事件處理，依是否找到候選再阻斷預設行為即可全面相容",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:spatial-navigation:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——getBoundingClientRect() 與 checkVisibility() 屬標準查詢，按鍵時即時重算幾何即可相容",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:spatial-navigation:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——ARIA 複合元件角色與 roving tabindex 屬既有規範，正確配對後各輔助技術皆可識別",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:spatial-navigation:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——composedPath() 與標準表單控制項選擇器皆屬既有規範，各瀏覽器都能判別真實按鍵目標",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-remove": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Scroll snap 與觀察器皆已廣泛支援，直接以水平捲動軌道取代手寫指標事件即可通用",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-remove:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——三欄軌道本身具有水平可捲動溢出，Safari 同樣能正常生效並擋住返回上一頁手勢",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-remove:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Scroll snap 已廣泛支援，一律改用 mandatory 即可在各瀏覽器避免動作列停在半開狀態",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-remove:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——原生動作按鈕屬基礎 HTML 規範，補齊後鍵盤、單點與語音控制皆可穩定觸發移除",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-remove:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——焦點控制與復原提示屬基礎互動規範，移除軌道 tabindex 即可避免各瀏覽器鍵盤誤刪",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-remove:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——inert 與 GestureEvent 偵測針對 Safari 慣性缺陷延後移除，其餘瀏覽器直接刪除即可",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-remove:7": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox／Safari 忽略此屬性改由 JS 設初始捲動，支援者加上類別閘門即不拉動整頁",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-remove:9": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——IntersectionObserver 與 MutationObserver 已廣泛支援，延遲接線與新增列追蹤可通用",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-remove:10": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——頁面預置 role=\"status\" 屬基礎無障礙實作，所有讀屏環境都能正常播報移除結果",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-remove:11": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——移除前先轉移焦點屬標準焦點管理，各瀏覽器都能保住鍵盤與讀屏位置不掉回頁首",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-remove:12": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——forced-colors 媒體查詢與遮罩於高對比模式生效，不涉及跨瀏覽器實驗能力缺口",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-reveal": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Scroll snap 已廣泛支援，以水平捲動容器取代主執行緒攔截手勢事件即可通用",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-reveal:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 忽略 chain 而維持預設 auto，滑開面板與串接外層捲動照常運作，僅仍會回彈",
+  "unlock": "在不截斷父層捲動串接的前提下，單獨消掉外層滑動容器在邊界產生的局部回彈效果",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-reveal:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Scroll snap 已廣泛支援，改設 x mandatory 即可在各瀏覽器防止動作面板停在半露狀態",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-reveal:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——可見觸發按鈕與 tabindex 管理屬基礎無障礙規範，鍵盤與輔助技術在所有環境皆可操作",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:swipe-to-reveal:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不支援時在 load 以 scrollTo instant 跳回內容欄，僅短暫仰賴 JS 定位而不捲動整頁",
+  "unlock": "純 CSS 就能讓含左側面板的滑動列於初次渲染時直接停在中間內容欄，不必在載入後寫 JS 捲回",
+  "owner": "agy"
+ },
+ "mwg:batch-analytics-events": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `visibilitychange` 搭 `keepalive`／`sendBeacon` 仍可防抖批次送出，改在頁面隱藏時送",
+  "unlock": "用 `fetchLater()` 的 `activateAfter` 讓瀏覽器把時間窗內的事件併成一筆送出，離開頁面也不掉",
+  "owner": "agy"
+ },
+ "mwg:batch-analytics-events:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `visibilitychange` 搭 `keepalive`／`sendBeacon` 仍適用佇列上限與錯誤保護",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:break-up-long-tasks": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 退回 `setTimeout` 仍能切段讓出主執行緒，讓程式不報錯且介面保持可互動",
+  "unlock": "在 async 長迴圈定期呼叫 `scheduler.yield()` 暫停，讓瀏覽器先處理使用者輸入與繪製再接續",
+  "owner": "agy"
+ },
+ "mwg:conditional-async-dependencies": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——舊版 Safari 照單一入口寫法可免退路；2021 年前瀏覽器改用 `async` 函式或 `.then()` 串接",
+  "unlock": "用 top-level `await` 把條件載入 polyfill 封裝在單一模組，讓下游模組等它載完才執行",
+  "owner": "agy"
+ },
+ "mwg:defer-rendering-heavy-content": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援時忽略此屬性並照常渲染全部內容，失去延後渲染的效能省時",
+  "unlock": "用 `content-visibility: auto` 讓首屏以下重區塊自動延後排版繪製，捲近才算",
+  "owner": "agy"
+ },
+ "mwg:defer-rendering-heavy-content:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時忽略 `content-visibility`，首屏照常立即渲染",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:defer-rendering-heavy-content:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `content-visibility` 時內容維持正常顯示與可搜尋，僅失去延後渲染",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:defer-work-until-scroll-ends": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援時退回 `scroll` 加 `setTimeout` 派發自訂事件，仍會因猜測而提前觸發",
+  "unlock": "監聽 `scrollend` 在捲動、轉場與手勢真正停妥時精準觸發回呼，不必再用計時器猜時機",
+  "owner": "agy"
+ },
+ "mwg:defer-work-until-scroll-ends:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時退回 `scroll` 加 `setTimeout` 防抖派發事件，仍能把重活移出 `scroll` 回呼",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:deliver-optimized-decorative-images": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`image-set()` 已 Widely（前一行寫單一圖檔可為極舊瀏覽器保底）",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:deliver-optimized-decorative-images:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`image-set()` 與 `<img>` 等替代做法均已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:deprioritize-background-fetches": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援時忽略該選項改用預設優先序，請求照送但無法讓路給關鍵資料",
+  "unlock": "在 `fetch()` 加上 `priority: 'low'`，讓非關鍵背景請求自動讓路給使用者正在等的資料",
+  "owner": "agy"
+ },
+ "mwg:detect-initial-visibility-state": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Firefox 與 Safari 退回 `document.visibilityState`，仍有競態漏判且時間精度低",
+  "unlock": "查 `visibility-state` 效能條目取得完整前景背景歷史，非同步腳本也不會漏判背景載入",
+  "owner": "agy"
+ },
+ "mwg:efficient-background-processing": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時退回 `IntersectionObserver` 加 `rootMargin` 仍可近似暫停工作，但失去渲染時機連動",
+  "unlock": "監聽 `contentvisibilityautostatechange` 緊貼渲染生命週期，元件被跳過渲染時自動暫停重活",
+  "owner": "agy"
+ },
+ "mwg:efficient-background-processing:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援此事件時退回 `IntersectionObserver` 偵測畫面進出，不涉及冒泡漏接",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:faster-spa-view-transitions": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時以 `@supports` 退回 `display: none` 仍能隱藏視圖，但切回得重算排版",
+  "unlock": "用 `content-visibility: hidden` 隱藏非作用中視圖並快取渲染狀態，切回時近乎瞬間顯示",
+  "owner": "agy"
+ },
+ "mwg:faster-spa-view-transitions:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時退回 `display: none` 仍應依路由規模淘汰舊視圖，避免 DOM 累積",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:flicker-free-client-side-ab-testing": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Firefox 退回 `opacity: 0` 防閃爍片段，仍犧牲漸進渲染並可能誤點隱藏內容",
+  "unlock": "用 `blocking=\"render\"` 讓實驗腳本在首次繪製前跑完卻不擋解析，免去防閃爍片段",
+  "owner": "agy"
+ },
+ "mwg:flicker-free-client-side-ab-testing:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox 忽略此屬性並退回有逾時控制的防閃爍或伺服器分流，不會無限卡死繪製",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:full-session-analytics": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox 與 Safari 退回 `visibilitychange` 搭 `keepalive`／`sendBeacon`，仍能送出且不傷 bfcache",
+  "unlock": "用 `fetchLater()` 一路更新造訪快照，由瀏覽器在離開頁面時可靠送出且不傷 bfcache",
+  "owner": "agy"
+ },
+ "mwg:full-session-analytics:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `visibilitychange` 搭 `keepalive`／`sendBeacon` 仍適用縮小 payload 與錯誤捕捉",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:identify-heavy-scripts": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox 與 Safari 會安全忽略此 API，多數效能改善機會仍可從 Chromium 實地資料看出",
+  "unlock": "用輕量的 Long Animation Frames API 在真實使用者端直接找出拖慢影格的沉重腳本",
+  "owner": "agy"
+ },
+ "mwg:identify-inp-causes": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援 Event Timing 的舊瀏覽器完全量不到 INP 與三段拆解時間",
+  "unlock": "用 Event Timing 把 INP 拆成輸入延遲、處理時間與呈現延遲，在實地找出互動變慢的真正階段",
+  "owner": "agy"
+ },
+ "mwg:identify-inp-causes:2": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回合併欄位或 Firefox／Safari 忽略 LoAF，都無法分開量測樣式重算與排版耗時",
+  "unlock": "用輕量的 LoAF 直接在實地分開量出樣式重算與排版耗時，不必開沉重的效能追蹤",
+  "owner": "agy"
+ },
+ "mwg:improve-next-page-load-performance": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Firefox 與 Safari 忽略規則並照常點擊載入，失去預取與預渲染加速",
+  "unlock": "用 `<script type=\"speculationrules\">` 宣告規則，讓瀏覽器在點擊前先預取或預渲染下一頁",
+  "owner": "agy"
+ },
+ "mwg:improve-next-page-load-performance:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox 與 Safari 忽略預載規則，不會在點擊前誤觸發狀態改變",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:interaction-paint-timing": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Firefox 與 Safari 僅保留傳統硬導覽指標，量不到互動後繪製與軟導覽 LCP",
+  "unlock": "用 `interaction-contentful-paint` 與 `soft-navigation` 量測非同步互動繪製與 SPA 換頁 LCP",
+  "owner": "agy"
+ },
+ "mwg:interaction-paint-timing:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox 與 Safari 依功能偵測跳過註冊觀察器，不會錯配或報出錯誤時間",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:interaction-paint-timing:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox 與 Safari 依功能偵測跳過觀察器，不受 50 筆緩衝限制影響",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:interactions-in-complex-layouts": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時以 `@supports` 退回 `contain: layout style paint`，仍能隔離整頁重排",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:lazy-load-video-and-audio:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox 與 Safari 忽略 `loading=\"lazy\"`，顯式寬高與 `controls` 仍可防位移並顯示播放器",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:lazy-load-video-and-audio:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox 與 Safari 忽略 `loading=\"lazy\"` 而照常急載，不依賴 `load` 等延遲媒體也不會出錯",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:lazy-load-video-and-audio:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——省略 `loading=\"lazy\"` 的首屏影片在所有瀏覽器皆正常急載，不會拖慢 LCP",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:optimize-image-priority:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `fetchpriority` 的瀏覽器自動忽略，一般圖片仍正常使用 `loading=\"lazy\"`",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:optimize-preload-priority": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援時忽略 `fetchpriority`，預載圖片仍沿用該類型的預設低優先序",
+  "unlock": "在 `<link rel=preload>` 加 `fetchpriority`，覆寫資源預設優先序讓關鍵圖提早下載",
+  "owner": "agy"
+ },
+ "mwg:optimize-script-priority:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時自動忽略 `fetchpriority`，控制標記數量不影響預設載入",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:out-of-order-html-streaming": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox 與 Safari 靠 `template-for-polyfill` 仍能補位替換，只失去免腳本原生支援",
+  "unlock": "用處理指令與 `<template for>` 在同條串流先出骨架、後補慢區塊，不必綁死由上往下順序",
+  "owner": "agy"
+ },
+ "mwg:out-of-order-html-streaming:2": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——尚無任何主流瀏覽器支援，只能靠 `html-setters-polyfill` 模擬而無原生效能",
+  "unlock": "用 `streamHTML()` 直接把 fetch 串流接進 DOM 邊收邊畫，不必等整包載完或手切分段",
+  "owner": "agy"
+ },
+ "mwg:out-of-order-html-streaming:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`aria-busy` 與 `aria-live` 均已 Widely，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:out-of-order-html-streaming:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——一般 DOM 焦點操作已 Widely，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:out-of-order-html-streaming:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`aspect-ratio` 等空間預留已 Widely，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:performance": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:performance:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:performance:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:performance:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用（不支援時另有 `setTimeout` 退路）",
+  "unlock": "用 `scheduler.yield()` 讓出主執行緒並把續行排在佇列前面，避免被後續任務拖慢",
+  "owner": "agy"
+ },
+ "mwg:performance:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:performance:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:performance:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:performance:9": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:performance:10": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:performance:11": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:resolution-optimized-pseudo-elements": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`image-set()` 已 Widely（前一行寫 `url()` 可為極舊瀏覽器保底）",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:schedule-tasks-by-priority": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 條件載入 `scheduler-polyfill` 仍能維持任務優先序，只須多載腳本",
+  "unlock": "用 `scheduler.postTask()` 將工作依急迫性分為三級排程，確保背景工作不卡住輸入",
+  "owner": "agy"
+ },
+ "mwg:adapt-scrollbar-to-contrast-preferences:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `::-webkit-scrollbar` 或系統預設捲軸仍可捲動，僅失去標準樣式控制",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:apply-webgl-shaders": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回把 HTML 用 CSS 疊在 canvas 上（或用 polyfill），失去對原生元件套用 shader 的效果",
+  "unlock": "能把高效能 WebGL shader 直接套在按鈕與輸入框等真元件上，同時保留原生無障礙、選字與 DOM 事件",
+  "owner": "agy"
+ },
+ "mwg:browser-ui-theming": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，多數樣式在舊瀏覽器會優雅降級",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:browser-ui-theming:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:browser-ui-theming:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:browser-ui-theming:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:color": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:color:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:complex-shapes": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——遮罩功能已 Widely，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:contrast-color": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `color(xyz)` 計算或描邊、陰影等方案，仍保文字可讀但較繁瑣或改動外觀",
+  "unlock": "只要將動態背景色變數傳進 `contrast-color()`，瀏覽器就自動選出高對比黑或白文字",
+  "owner": "agy"
+ },
+ "mwg:custom-text-decorations": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:custom-text-decorations:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:custom-text-decorations:3": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回預設 `auto` 仍保留底線與拉丁文避讓，但中日文筆畫仍會被壓過",
+  "unlock": "加上 `text-decoration-skip-ink: all` 讓中日文等表意文字的貼近基線底線也能自動避開筆畫",
+  "owner": "agy"
+ },
+ "mwg:custom-text-decorations:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用（未支援時保留正常底線、僅無懸停展開動畫）",
+  "unlock": "用 `text-decoration-inset` 調整起訖縮排，不必假造邊框就能做出原生底線的懸停展開動畫",
+  "owner": "agy"
+ },
+ "mwg:custom-text-decorations:5": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 `clip-path` 偽元素或直線，斜邊筆畫變細、切掉焦點框且失去曲線描邊",
+  "unlock": "用 `border-shape` 或 `corner-shape` 直接沿形狀描邊，不會像裁切一樣切掉焦點外框與陰影",
+  "owner": "agy"
+ },
+ "mwg:custom-text-decorations:6": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `padding-box` 遮罩或雙層漸層仍保中空漸層外框，僅失去單一屬性簡潔性",
+  "unlock": "只設 `background-clip: border-area` 就能畫出真正中空透出背景的漸層外框，不必另寫遮罩偽元素",
+  "owner": "agy"
+ },
+ "mwg:customize-scrollbar-color-and-thickness": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `::-webkit-scrollbar` 或原生捲軸仍可捲動，僅失去標準配色語法",
+  "unlock": "用標準 `scrollbar-color` 與 `scrollbar-width` 搭配變數，就能跨引擎客製捲軸顏色與粗細",
+  "owner": "agy"
+ },
+ "mwg:dark-mode": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`color-scheme` 已 Widely，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:dark-mode:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`color-scheme` 已 Widely，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:dark-mode:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回媒體查詢切換自訂屬性，仍能換色但得多寫一層分支",
+  "unlock": "用 `light-dark()` 把淺深雙色寫進同一個 token，依元素 `color-scheme` 自動切換",
+  "owner": "agy"
+ },
+ "mwg:dark-mode:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:dark-mode:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `image-set()` 開關或個別變數仍只載一圖，但子樹切換得手動翻轉",
+  "unlock": "在 `light-dark()` 裡直接放兩張圖片值，依元素 `color-scheme` 自動選圖下載",
+  "owner": "agy"
+ },
+ "mwg:dark-mode:6": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回每張圖寫各自媒體查詢變數仍可依主題換圖，僅較繁瑣",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:equal-width-text-lines": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 `ResizeObserver` 腳本量測或流體字級，失去純排版自動等寬與自由換行支援",
+  "unlock": "用 `text-fit` 讓瀏覽器在排版時自動縮放每行撐滿容器，調整大小或改文案仍保持對齊",
+  "owner": "agy"
+ },
+ "mwg:equal-width-text-lines:2": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援 `text-fit` 時退回腳本量測或流體字級，失去原生純 CSS 等寬縮放",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:equal-width-text-lines:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `text-box` 時保留小 `line-height` 仍可收緊行距，僅失去完全等距修剪",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:equal-width-text-lines:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:export-html-media-from-canvas": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 `html2canvas`、`dom-to-image`、`snapdom`、`rrweb` 等第三方函式庫（或顯示不支援警告），肥大、易錯且不支援現代 CSS 排版的問題又回來了",
+  "unlock": "由瀏覽器原生渲染引擎把真實 DOM 子樹精準畫進 canvas，能直接用 `toDataURL()`、`toBlob()`、`captureStream()` 高效率匯出像素級一致的圖片或影片串流",
+  "owner": "agy"
+ },
+ "mwg:improve-text-layout-and-legibility": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回瀏覽器預設換行，內文可讀但失去標題各行均分長度的對稱排版",
+  "unlock": "用 `text-wrap: balance` 讓標題各行長度自動分配接近，排版更對稱",
+  "owner": "agy"
+ },
+ "mwg:improve-text-layout-and-legibility:2": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Firefox 退回預設貪婪換行（或慢速 JS 函式庫），段尾孤字問題會回來",
+  "unlock": "用 `text-wrap: pretty` 自動最佳化段落尾端換行，擋掉最後一行只剩一個孤字",
+  "owner": "agy"
+ },
+ "mwg:improve-text-layout-and-legibility:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時退回預設快速換行，內容可讀且沒有額外排版效能開銷",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:improve-text-layout-and-legibility:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:interactive-content-in-3d-scenes": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回把 HTML 用 CSS 疊在 canvas 上或用 polyfill，失去將元素投影進 3D 場景的能力",
+  "unlock": "能把真實 DOM 投影進 WebGL／WebGPU／Three.js 3D 場景，不必手寫射線與事件即保留點擊、選字與焦點",
+  "owner": "agy"
+ },
+ "mwg:precise-text-alignment": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Firefox 忽略該屬性而維持預設行高留白，排版照常但失去像素級精準對齊",
+  "unlock": "用 `text-box` 將文字上下多餘行高留白修剪到字高與基線，不必靠負邊距即可精準對齊",
+  "owner": "agy"
+ },
+ "mwg:shaped-cutouts": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——遮罩功能已 Widely，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:soft-edge-content-fade": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——遮罩功能已 Widely，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:typography": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:typography:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:typography:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:typography:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:typography:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:typography:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不支援時退回一般換行",
+  "unlock": "用 `text-wrap: balance` 與 `pretty` 讓標題各行均衡、長篇段落自動美化斷行",
+  "owner": "agy"
+ },
+ "mwg:typography:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:typography:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:visual-effects": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，部分舊瀏覽器可搭配條件變數退回預設插值",
+  "unlock": "用 `in oklch` 或 `in oklab` 指定漸層與 `color-mix()` 插值色彩空間，依需求保彩度或保色域",
+  "owner": "agy"
+ },
+ "mwg:visual-effects:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:visual-effects:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必另設退路",
+  "unlock": "（缺）",
+  "owner": "agy"
+ },
+ "mwg:visually-stable-font-fallbacks": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `@font-face` 的 `size-adjust` 等描述子仍能穩定退路字型，但需逐一計算",
+  "unlock": "設 `font-size-adjust: from-font` 即可自動依首選字型比例縮放退路字型，消除換字位移",
+  "owner": "agy"
+ },
+ "mwg:visually-stable-mixed-fonts": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `@supports` 手動改字級行高與挑相近字型仍可穩定版面，但失去自動對齊",
+  "unlock": "用 `font-size-adjust` 依 x 高度自動或指定比例對齊混排字型，保持視覺大小一致",
+  "owner": "agy"
+ },
+ "mwg:animated-select-picker": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回作業系統的下拉選單，選擇功能照常，只是沒有動畫",
+  "unlock": "以前原生下拉選單的介面畫在頁面外，根本沒辦法做動畫；現在 picker 像一般元素一樣可以過渡",
+  "owner": "kilo"
+ },
+ "mwg:animated-select-picker:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——舊瀏覽器只丟掉 `transition-behavior` 那條，過渡照常，只是少了離場動畫",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:animated-select-picker:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時退回系統選單，本來就可捲動，放大後的選項還是選得到",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:animated-select-picker:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回系統選單本來就沒有動畫，選擇功能照常",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:animated-select-picker:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回系統選單會照最長選項自動量寬度，不會有版面位移",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-address-form": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`autocomplete` 早已 Widely，沒有需要退回去的狀態",
+  "unlock": "以前地址拆成自訂欄位、瀏覽器認不出來；現在給對應的 token 或用單一多行欄位，存好的地址就能整段帶入",
+  "owner": "kilo"
+ },
+ "mwg:autofill-address-form:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`autocomplete` 已 Widely，欄位怎麼切本來就是自己的選擇",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-address-form:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——正則的 Unicode 字母比對現代瀏覽器都支援，不必退路",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-highlight-inputs": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時保留瀏覽器預設底色，欄位照常自動填入，只是沒有非顏色標示",
+  "unlock": "以前只能忍受瀏覽器預設的顏色底；現在能用 `:autofill` 改掉自動填入欄位的外觀，並加上不靠顏色的指示",
+  "owner": "kilo"
+ },
+ "mwg:autofill-highlight-inputs:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回瀏覽器預設標示，焦點仍看得見，只是自動填入與聚焦的區分只剩顏色",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-highlight-inputs:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回瀏覽器預設標示，本來就沒有自動填入狀態造成的版面位移",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-highlight-inputs:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時保留瀏覽器預設底色，自動填入照常，只是改不成自己的配色",
+  "unlock": "以前改不動瀏覽器的自動填入底色；現在能用 inset 陰影蓋過去、用 `-webkit-text-fill-color` 改文字並另設游標色",
+  "owner": "kilo"
+ },
+ "mwg:autofill-payment-form": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`autocomplete` 早已 Widely，沒有需要退回去的狀態",
+  "unlock": "以前付款欄位沒有對應 token，瀏覽器帶不進資料；現在用 `cc-number`、`cc-name` 等 token 讓瀏覽器保管並自動填入，寄送與帳單地址也能用前綴分開",
+  "owner": "kilo"
+ },
+ "mwg:autofill-payment-form:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`autocomplete` 已 Widely，欄位怎麼切本來就是自己的選擇",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-payment-form:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——正則的 Unicode 字母比對現代瀏覽器都支援，不必退路",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-payment-form:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`inputmode` 已 Widely，數字鍵盤沒有退路問題",
+  "unlock": "以前要有數字鍵盤就得用 `type=\"number\"`，卻多出增減鈕、還會吃掉開頭的 0；現在文字欄位加 `inputmode=\"numeric\"` 就能只借鍵盤、不改值的語意",
+  "owner": "kilo"
+ },
+ "mwg:autofill-payment-form:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——純版面擺放，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-payment-form:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`inputmode` 已 Widely，要不要遮罩是表單自己的選擇",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-payment-form:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——單一欄位與拆格的差別是表單寫法，不涉及瀏覽器功能支援",
+  "unlock": "以前把卡號拆成一格四碼，瀏覽器不知道要把整組數字填到哪裡；現在用單一欄位就能被自動填入",
+  "owner": "kilo"
+ },
+ "mwg:autofill-payment-form:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——驗證規則是後端與表單自己的事，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-in-form": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`autocomplete` 早已 Widely，沒有需要退回去的狀態",
+  "unlock": "以前欄位名稱不固定或沒放進 form，密碼管理員存不進也填不回；現在用 `username`／`current-password` 搭配固定名稱就能存也能填",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-in-form:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——email 欄位本來就被瀏覽器關掉自動修正，少了支援的只是非 email 帳號多一道防護",
+  "unlock": "以前只能任瀏覽器把帳號改寫成別的字串；現在能對識別碼欄位明確關掉拼字檢查、自動修正與自動大寫",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-in-form:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`autocomplete` 已 Widely，欄位怎麼切本來就是自己的選擇",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-in-form:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——正則的 Unicode 字母比對現代瀏覽器都支援，不必退路",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-in-form:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——原生 form 一直是既有能力，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-in-form:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——要不要重複輸入是流程設計，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-in-form:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——版面配置是表單自己的安排，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-in-form:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——要不要攔截貼上是表單自己的選擇，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-up-form": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`autocomplete` 早已 Widely，沒有需要退回去的狀態",
+  "unlock": "以前註冊欄位沒標角色，瀏覽器存不進新帳密；現在標成 `username`／`new-password` 就能存，也能順帶產生強密碼建議",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-up-form:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——email 欄位本來就被瀏覽器關掉自動修正，少了支援的只是非 email 帳號多一道防護",
+  "unlock": "以前只能任瀏覽器把帳號改寫成別的字串；現在能對識別碼欄位明確關掉拼字檢查、自動修正與自動大寫",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-up-form:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`autocomplete` 已 Widely，欄位怎麼切本來就是自己的選擇",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-up-form:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——正則的 Unicode 字母比對現代瀏覽器都支援，不必退路",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-up-form:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——原生 form 一直是既有能力，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-up-form:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——要不要重複輸入是流程設計，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-up-form:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——版面配置是表單自己的安排，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:autofill-sign-up-form:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——要不要攔截貼上是表單自己的選擇，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:brand-consistent-forms": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回視覺隱藏原生 input 再自繪勾選框與滑桿，失去一行換色就保住原生狀態的好處",
+  "unlock": "以前原生勾選框只有瀏覽器的顏色，要品牌色就得整個自製；現在一行 `accent-color` 就能讓原生控制項換上品牌色",
+  "owner": "kilo"
+ },
+ "mwg:brand-consistent-forms:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時退回瀏覽器預設外觀，控制項照常看得見，只是沒有品牌色",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:branded-select-styling": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回作業系統的下拉選單，選單功能與表單送出照常，只是外觀不是品牌樣式",
+  "unlock": "以前品牌化下拉得用 JavaScript 重做；現在 `base-select` 讓外觀由 CSS 決定、行為仍是原生的",
+  "owner": "kilo"
+ },
+ "mwg:custom-select-picker-layouts": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回作業系統的下拉選單，選單功能與表單送出照常，只是選項只能直向排列",
+  "unlock": "以前原生下拉只能排成直向清單，要格狀或圖像化就得自己寫元件；現在 picker 能用 grid 排成卡片、行為仍是原生的",
+  "owner": "kilo"
+ },
+ "mwg:custom-select-picker-layouts:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時退回系統選單，本來就沒有選單版面可套",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:custom-select-picker-layouts:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時退回系統選單，觸發鈕照樣顯示選中的文字",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:custom-select-picker-layouts:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回系統選單會照最長選項自動量寬度，不會有版面位移",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:custom-select-picker-layouts:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回系統選單時本來就是直向清單，上下鍵的線性導覽照常",
+  "unlock": "現在能攔截左右方向鍵、用實際幾何量測把焦點送到最近選項，格狀排列也有方向鍵導覽",
+  "owner": "kilo"
+ },
+ "mwg:form-fields-automatically-fit-contents": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回固定的預設尺寸，超出內容只能在欄位裡捲動；要自動長高得靠 Grid 鏡像的複雜退路",
+  "unlock": "以前要讓欄位跟著內容長，得複製樣式、用 JS 同步文字到隱藏元素撐開容器；現在一個屬性就讓輸入框、文字區、下拉選單自己伸縮",
+  "owner": "kilo"
+ },
+ "mwg:form-fields-automatically-fit-contents:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回固定尺寸時本來就不會塌成 0 寬或無限延伸撐破版面",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:form-fields-automatically-fit-contents:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回固定尺寸時文字區本來就有固定寬度，不會突然縮窄",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:form-fields-automatically-fit-contents:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回固定尺寸時欄位本來就跟著容器拉伸，沒有不肯縮小的問題",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:forms": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`type` 是既有 HTML 行為，沒有退路問題",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:forms:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——送出方法是既有 HTML 行為，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:forms:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——依選項數挑控制項是既有 HTML 用法",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:forms:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——版面與 DOM 順序是作者自己的安排",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:forms:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——要不要自動送出是腳本自己的決定",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:forms:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`inputmode` 早已 Widely，數字鍵盤沒有退路問題",
+  "unlock": "以前要有數字鍵盤只能用 `type=\"number\"`，卻多出增減鈕、還會吃掉開頭的 0；現在文字欄位加 `inputmode=\"numeric\"` 就能只借鍵盤",
+  "owner": "kilo"
+ },
+ "mwg:forms:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——單一欄位或拆格是表單寫法，不涉及瀏覽器功能支援",
+  "unlock": "以前把卡號或驗證碼拆成多格，瀏覽器帶不進資料；現在單一欄位就能自動填入與整串貼上",
+  "owner": "kilo"
+ },
+ "mwg:forms:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——要不要攔截貼上是表單自己的選擇",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:forms:9": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——錯誤樣式用哪個偽類是既有 CSS 用法",
+  "unlock": "以前只有 `:invalid`，空欄位一開頁就被標成錯；現在能用 `:user-invalid` 在使用者互動後才標記",
+  "owner": "kilo"
+ },
+ "mwg:forms:10": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——送出鈕要不要停用是表單自己的行為",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:forms:11": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——驗證時機由腳本決定",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:forms:12": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——字級設定是既有 CSS，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:forms:13": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——視覺隱藏原生意法是既有 CSS 配方",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:forms:14": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——原生送出路徑是既有能力",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:forms:15": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——隱藏步驟可用既有的 `hidden`、`display: none` 或 `inert`",
+  "unlock": "現在能用 `inert` 一次把非作用中的步驟移出 Tab 順序與無障礙樹",
+  "owner": "kilo"
+ },
+ "mwg:forms:16": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——版面配置是作者自己的安排",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:ime-safe-enter-submit": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 上 `isComposing` 會提早重置，改用 `keyCode === 229` 或時間戳視窗仍擋得住選字時的送出",
+  "unlock": "以前無法知道使用者正在用輸入法選字，Enter 一到就送出；現在能用 `isComposing` 或 `keyCode === 229` 判斷並等選字完成",
+  "owner": "kilo"
+ },
+ "mwg:ime-safe-enter-submit:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`preventDefault()` 是既有 DOM 行為，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:required-field-feedback": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`:user-invalid` 已 Widely，不必退路",
+  "unlock": "以前只有 `:invalid`，空欄位一載入就被標錯；現在能用 `:user-invalid` 在使用者試過失敗後才標記",
+  "owner": "kilo"
+ },
+ "mwg:required-field-feedback:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`:user-invalid` 已 Widely，ARIA 同步是既有腳本寫法",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:required-field-feedback:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`:user-invalid` 已 Widely，錯誤訊息掛載的時機是腳本自己的事",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:required-field-feedback:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——live region 是既有 ARIA 機制，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:required-field-feedback:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`required` 與 `aria-hidden` 都是既有 HTML 行為",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:required-field-feedback:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`:user-invalid` 已 Widely，送出鈕要不要啟用是表單自己的行為",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:rich-media-picker": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回作業系統的下拉選單，選單功能與表單送出照常，只是選項只剩純文字",
+  "unlock": "以前原生 `<option>` 只能放純文字，要圖示加說明得改用沉重的自製元件；現在 option 能直接裝 HTML、行為仍是原生的",
+  "owner": "kilo"
+ },
+ "mwg:rich-media-picker:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回系統下拉時 option 只剩文字，補上銜接詞後讀起來仍然通順",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:rich-media-picker:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回系統下拉時本來就沒有 `aria-label` 可覆寫，選項文字照原樣呈現",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:rich-media-picker:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回系統下拉時選項裡的標記被剝掉，本來就不會出現可操作的內容",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:rich-media-picker:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回系統選單會照最長選項自動量寬度，不會有版面位移",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:select-menu-interaction": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`:user-invalid` 已 Widely，不必退路",
+  "unlock": "以前必選下拉一載入就被標準驗證標成無效；現在能用 `:user-invalid` 在使用者動過又沒選、或送出時才標錯",
+  "owner": "kilo"
+ },
+ "mwg:slider": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時改用 `calc()` 算比例、並由 JS 同步 min／max，填色照常，但比例不再由 CSS 直接讀屬性算出",
+  "unlock": "以前 min／max 只能寫死在樣式裡或靠 JS 同步，現在能直接從 `input` 的屬性讀出、再用 `progress()` 在 CSS 算出填色比例",
+  "owner": "kilo"
+ },
+ "mwg:slider:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——不涉及瀏覽器功能支援，各引擎各寫自己的前綴偽元素本來就是通行做法",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:sms-otp-form": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Firefox 沒有 WebOTP，只能退回手動輸入驗證碼，失去一鍵帶入並自動送出的便利",
+  "unlock": "以前收到簡訊要切出去抄碼；現在瀏覽器能辨識綁網域的簡訊格式，自動帶入驗證碼並一次點擊送出，仿冒網域也拿不到碼",
+  "owner": "kilo"
+ },
+ "mwg:sms-otp-form:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`inputmode` 早已 Widely，數字鍵盤沒有退路問題",
+  "unlock": "以前要有數字鍵盤只能用 `type=\"number\"`，卻多出增減鈕、還會吃掉開頭的 0；現在文字欄位加 `inputmode=\"numeric\"` 就能只借鍵盤",
+  "owner": "kilo"
+ },
+ "mwg:sms-otp-form:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——單一欄位或分格是表單寫法，不涉及瀏覽器功能支援",
+  "unlock": "以前把驗證碼拆成六格，瀏覽器帶不進碼、貼上也只進第一格；現在單一欄位就能自動帶入與整串貼上",
+  "owner": "kilo"
+ },
+ "mwg:sms-otp-form:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`requestSubmit()` 是既有 DOM 行為，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:sms-otp-form:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——純版面擺放，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:switch": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——其他瀏覽器得載 polyfill 自己補 role、開關外觀與拖曳，失去原生一行標記就完成的好處",
+  "unlock": "以前開關只能自己畫、表單送出與讀屏語意要自己補；現在加一個 `switch` 屬性就由瀏覽器畫出開關並保留原生送出與鍵盤語意",
+  "owner": "kilo"
+ },
+ "mwg:validate-input-after-interaction": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`:user-invalid` 已 Widely，不必退路",
+  "unlock": "以前只有 `:invalid`，一聚焦打字就整欄變紅；現在能用 `:user-invalid` 等使用者改過並離開才報錯",
+  "owner": "kilo"
+ },
+ "mwg:validate-input-after-interaction:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`:user-invalid` 已 Widely，清單要不要收合是版面寫法",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:validate-input-after-interaction:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`:user-invalid` 已 Widely，錯誤文字怎麼寫是內容決策",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:validate-input-after-interaction:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——純版面擺放，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:validate-input-after-interaction:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`:user-invalid` 已 Widely，fallback 怎麼包是 CSS 寫法",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:client-side-encryption": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 `X25519`＋`HKDF`＋`AES-GCM` 的古典金鑰交換，瀏覽器裡加密仍在，但失去抗量子這一段",
+  "unlock": "以前端對端加密要自己載密碼學函式庫、私鑰也得自己保管；現在 WebCrypto 能在瀏覽器裡做抗量子的信封加密，私鑰以不可匯出的 `CryptoKey` 留在本機",
+  "owner": "kilo"
+ },
+ "mwg:client-side-encryption:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`additionalData` 隨 WebCrypto 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:client-side-encryption:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——舊瀏覽器本來就只認 `'raw'`，退回舊格式時反而正確",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:client-side-encryption:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不到 `supports()` 時就直接走古典路徑，功能偵測仍然有效",
+  "unlock": "以前沒有同步的方法知道瀏覽器支不支援某個演算法，只能送出後用例外判斷；現在有靜態的 `SubtleCrypto.supports()` 直接回傳布林值",
+  "owner": "kilo"
+ },
+ "mwg:digital-signatures": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 `'Ed25519'`（或 `'ECDSA'`），瀏覽器裡簽章驗證照常，只是沒有抗量子強度",
+  "unlock": "以前要在瀏覽器裡簽章得帶密碼學函式庫或交給伺服器；現在 `crypto.subtle` 就能簽章與驗證，還有抗量子選項",
+  "owner": "kilo"
+ },
+ "mwg:digital-signatures:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回古典演算法時自己加帶長度前綴的 `context` 標頭，領域分隔照常有效",
+  "unlock": "以前簽章不帶用途標籤，同一把鑰簽的東西可以互相冒用；現在能用 `context` 把簽章綁在特定用途上",
+  "owner": "kilo"
+ },
+ "mwg:digital-signatures:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——舊瀏覽器本來就只認 `'raw'`，退回舊格式時反而正確",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:digital-signatures:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測不到 `supports()` 時就直接走古典路徑，功能偵測仍然有效",
+  "unlock": "以前沒有同步的方法知道瀏覽器支不支援某個簽章演算法，只能送出後用例外判斷；現在有靜態的 `SubtleCrypto.supports()` 直接回傳布林值",
+  "owner": "kilo"
+ },
+ "mwg:local-network-access": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援的瀏覽器沒有位址空間宣告，https 頁面對區網 http 端點仍被混合內容擋下，只能改連 https 端點",
+  "unlock": "以前 https 頁面連不到家裡的 http 裝置；現在瀏覽器先問過使用者就放行，還會確認主機名稱沒有解析到公網",
+  "owner": "kilo"
+ },
+ "mwg:local-network-access:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援的瀏覽器用 `try/catch` 把權限當成 `'prompt'`，一樣等使用者點擊才發請求",
+  "unlock": "以前無法先知道使用者是否已允許連區網；現在能查細分權限狀態，再決定要不要提示",
+  "owner": "kilo"
+ },
+ "mwg:local-network-access:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——只查新的細分權限名，舊瀏覽器認不得就當成 `'prompt'`，分頁不會崩潰",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:local-network-access:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援的瀏覽器沒有這組權限提示，WebSocket 仍照網址辨識，出錯照樣自己接",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:local-network-access:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援的瀏覽器沒有這兩項權限，跨來源 iframe 不需委派，也不會被這條規則擋下",
+  "unlock": "以前跨來源 iframe 完全連不到區網；現在外層頁面可以用 `allow` 與 `Permissions-Policy` 把權限委派給它",
+  "owner": "kilo"
+ },
+ "mwg:passkey-authentication": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時載 `webauthn-polyfills`，條件式中介與自動填入建議照樣可用",
+  "unlock": "以前登入要先輸入帳號才會出現通行金鑰；現在可發現憑證讓帳號欄位的自動填入直接列出通行金鑰，點一下就登入",
+  "owner": "kilo"
+ },
+ "mwg:passkey-authentication:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——`AbortController` 早已 Widely，中止背景請求再重新掛上，這個流程不受支援度影響",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:passkey-authentication:3": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Firefox 不支援 Signal API，背景同步直接略過，已刪的憑證仍留在密碼管理器裡",
+  "unlock": "以前伺服器刪掉憑證，密碼管理器裡還留著一個按了必定失敗的選項；現在伺服器回 404，瀏覽器能通知提供者把它清掉",
+  "owner": "kilo"
+ },
+ "mwg:passkey-authentication:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——這是伺服器端的流程設計，不受瀏覽器支援度影響",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:passkey-conditional-create": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援條件式建立時整段流程直接略過，使用者不會自動多出通行金鑰",
+  "unlock": "以前要推廣通行金鑰只能跳一個大對話框打斷使用者；現在能在密碼登入後默默建立，下次就多一個通行金鑰選項",
+  "owner": "kilo"
+ },
+ "mwg:passkey-conditional-create:2": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Firefox 不支援 Signal API，孤兒憑證清不掉，會留在通行金鑰提供者裡",
+  "unlock": "以前註冊失敗的憑證會變成孤兒留在提供者裡；現在伺服器驗證失敗當下就能通知提供者清掉",
+  "owner": "kilo"
+ },
+ "mwg:passkey-management": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Firefox 沒有 Signal API 也沒有 polyfill，背景同步只能略過，密碼管理器與伺服器仍然對不上",
+  "unlock": "以前在網站設定頁刪掉或改名通行金鑰，手機的密碼管理器不會跟著變；現在可以用 Signal API 把兩邊同步",
+  "owner": "kilo"
+ },
+ "mwg:passkey-management:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——沒有 Signal API 的瀏覽器本來就略過同步，不會送錯 RP ID；支援的瀏覽器用伺服器給的值就對得上",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:passkey-management:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——ID 不合法就自己跳過同步，頁面照常載入，失敗也只印警告不會中斷",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:passkey-reauthentication": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——這是伺服器端選項與驗證的流程設計，`allowCredentials` 與擁有者核對不受瀏覽器支援度影響",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:passkey-registration": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——排除清單是伺服器端選項的內容，瀏覽器缺新的 JSON 序列化時載 polyfill 即可，重複防護照常",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:passkey-registration:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——這是伺服器端驗證參數的對應，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:passkeys": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——RP ID 的規則屬 WebAuthn 的既有規範，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:passkeys:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——AAGUID 的性質屬既有規範，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:quick-sign-ins": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——Firefox、Safari 不支援即時模式，退回原本的登入頁流程，情境流失與流失率照舊",
+  "unlock": "以前點收藏或開始結帳就跳去登入頁，動作被打斷；現在能在原地呼叫帳號選擇器，一次點擊就完成登入與動作",
+  "owner": "kilo"
+ },
+ "mwg:quick-sign-ins:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援即時模式的瀏覽器本來就走條件式 UI 與一般模態按鈕，專門登入頁不受影響",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:quick-sign-ins:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時把能力視為 false，直接走原本的登入流程，不會跳出 QR code 對話框",
+  "unlock": "以前沒有同步的方法知道瀏覽器支不支援即時模式，只能看版本猜；現在 `getClientCapabilities()` 的 `immediateGet` 直接回傳",
+  "owner": "kilo"
+ },
+ "mwg:quick-sign-ins:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——這是選項內容的規則，沒有即時模式時本來就用非空的 `allowCredentials` 走一般流程",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:quick-sign-ins:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——焦點處理是頁面自己的腳本，不受瀏覽器支援度影響",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:restrict-outbound-connections": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 CSP 時只管得住 `fetch()`、子資源與表單送出，DNS 預取、預連線與 WebRTC 這些管道又漏出去",
+  "unlock": "以前 CSP 要分資源類型各寫指令，也管不到 DNS 預取、預連線與 WebRTC；現在一個網路層清單就管住所有對外連線",
+  "owner": "kilo"
+ },
+ "mwg:restrict-outbound-connections:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 Report-Only 觀察或退回 CSP，標頭寫錯也不會讓全站連線中斷",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:restrict-outbound-connections:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——CSP 的 `form-action`、`worker-src` 是既有指令，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:sanitize-untrusted-html": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 沒有原生 API 時才動態載入 DOMPurify，內容照樣清乾淨才進 DOM",
+  "unlock": "以前顯示使用者的 HTML 一定要帶一個清理函式庫；現在瀏覽器自己會清，而且不能被設定成放行 XSS",
+  "owner": "kilo"
+ },
+ "mwg:sanitize-untrusted-html:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退路用 DOMPurify 清理後同樣把節點搬進頁面，不序列化就不會有二次解析的風險",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:sanitize-untrusted-html:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回 DOMPurify 時用 `ALLOW_ARIA_ATTR: false` 等設定對齊輸出，兩邊結果一致",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:sanitize-untrusted-html:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退路傳 `RETURN_TRUSTED_TYPE: true` 並在 CSP 放行 `dompurify` 政策名稱，就不會被自家政策擋下",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:secure-external-subresources": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`integrity` 與 `referrerpolicy` 在 `<link>`／`<script>` 上早已 Widely，不必退路",
+  "unlock": "以前只能信任 CDN 網址上的內容有沒有被換掉；現在可以在建置時算好雜湊寫進標記，內容一變就被擋下",
+  "owner": "kilo"
+ },
+ "mwg:secure-external-subresources:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`crossorigin` 是既有 HTML 屬性，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:secure-external-subresources:3": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 `<link>` 與文件層政策時，樣式表本身還能驗雜湊，但 CSS 裡的字型與圖片驗不了",
+  "unlock": "以前 CSS 裡的 `@import`、字型與背景圖只能以 no-cors 抓取，無法驗雜湊；現在可在 `url()` 裡直接寫雜湊與跨來源模式",
+  "owner": "kilo"
+ },
+ "mwg:secure-external-subresources:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援的瀏覽器會丟掉整條含修飾子的宣告，前面的純 `url()` 仍會生效，字型照常載入",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:secure-external-subresources:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`referrerpolicy` 與 `Referrer-Policy` 早已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:security": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——CSP nonce 與 `'strict-dynamic'` 屬既有 CSP 機制，不涉及新功能支援",
+  "unlock": "以前 CSP 靠網域白名單防注入，白名單上的開放重新導向或 JSONP 就能繞過；現在每次請求的 nonce 讓信任只落在自己寫的 `<script>` 上",
+  "owner": "kilo"
+ },
+ "mwg:security:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——nonce 的產生與傳遞是伺服器端流程，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:security:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——本指南只列使用原則，Trusted Types 的支援資料見 `trusted-types` 指南",
+  "unlock": "以前 XSS 防線靠 grep 原始碼與人遵守，現在 Trusted Types 把同一條規則變成執行期的錯誤",
+  "owner": "kilo"
+ },
+ "mwg:security:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——HSTS 標頭與 `max-age` 是既有機制，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:security:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——cookie 屬性與前綴屬既有機制，不涉及新功能支援",
+  "unlock": "以前 cookie 被注入的腳本就能讀走，現在用 `__Host-` 前綴與 `HttpOnly` 讓腳本碰不到",
+  "owner": "kilo"
+ },
+ "mwg:security:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`Partitioned` 屬既有 cookie 屬性，指南未附新功能支援資料",
+  "unlock": "以前第三方 cookie 被封鎖，嵌在別人頁面裡的小工具就記不住使用者；現在分割 cookie 讓每個嵌入網站各有一份",
+  "owner": "kilo"
+ },
+ "mwg:security:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`frame-ancestors` 與 `X-Frame-Options` 屬既有機制，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:security:8": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 COOP＋COEP 的跨瀏覽器路徑，每個第三方子資源還是要對方送 CORP 才會載入",
+  "unlock": "以前要開跨來源隔離，頁面上每張第三方圖片都得對方加標頭，不配合就破圖；現在新政策改成載入但剝掉憑據",
+  "owner": "kilo"
+ },
+ "mwg:security:9": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Fetch Metadata 屬既有請求標頭，指南未附新功能支援資料",
+  "unlock": "以前跨站請求要查完帳號才擋，回應時間會洩漏資源存不存在；現在能靠請求標頭在驗證之前就擋掉",
+  "owner": "kilo"
+ },
+ "mwg:security:10": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——CORS 屬既有機制，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:security:11": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`Clear-Site-Data` 屬既有回應標頭，不涉及新功能支援",
+  "unlock": "以前登出只刪伺服器 session，瀏覽器的快取與儲存還留著已登入頁面；現在登出回應可以請瀏覽器一併清掉",
+  "owner": "kilo"
+ },
+ "mwg:security:12": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——SRI 的支援資料見 `secure-external-subresources` 指南，本指南只列使用原則",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:trusted-types": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——舊瀏覽器只能靠 tinyfill 讓程式不壞，sink 仍接受原始字串，瀏覽器不再替你擋漏網的寫入",
+  "unlock": "以前要靠 grep 與 code review 保證沒有原始字串進 `innerHTML`；現在危險 sink 只收政策產生的物件，漏網的寫入直接丟錯",
+  "owner": "kilo"
+ },
+ "mwg:trusted-types:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——先送 Report-Only 觀察再強制，這個流程在支援的瀏覽器照走，不支援的瀏覽器本來也沒有強制模式",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:trusted-types:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 Trusted Types 的瀏覽器本來就沒有跳脫政策，改用 `textContent` 或完整清理器一樣安全",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:validate-origins": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——沒有 `Origin` 物件時改用 URL 解析後比 `origin`，前綴冒充的問題一樣擋得住",
+  "unlock": "以前沒有結構化的來源物件，只能字串比對，前綴冒充與預設埠都會出錯；現在 `Origin.from()` 加 `isSameOrigin()` 直接比解析後的三元組",
+  "owner": "kilo"
+ },
+ "mwg:validate-origins:2": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回自己比對網域名稱，`.co.uk`、`.github.io` 這種多段公共後綴還是判錯",
+  "unlock": "以前要在前端自帶一份公共後綴清單才能判斷同站；現在 `isSameSite()` 直接用瀏覽器的公共後綴清單判斷",
+  "owner": "kilo"
+ },
+ "mwg:validate-origins:3": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——沒有 `Origin` 物件時只能看到字串 \"null\"，分不出是同一個沙箱還是另一個",
+  "unlock": "以前沙箱 iframe 的訊息都署名 \"null\"，無法分辨來源；現在可以把不透明來源釘住後比對",
+  "owner": "kilo"
+ },
+ "mwg:validate-origins:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——呼叫包在 try/catch 裡，失敗回 false，不支援的瀏覽器走自己的 URL 解析退路",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:verify-email-ownership": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援或信箱網域沒參與時，改回寄一次性驗證碼或魔法連結，使用者一樣要離開頁面抄碼",
+  "unlock": "以前驗證信箱一定要寄信、等信、抄碼，信箱供應商還看得到你在造訪哪個網站；現在瀏覽器直接出示證明，不寄信也不透露 relying party",
+  "owner": "kilo"
+ },
+ "mwg:verify-email-ownership:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——這是伺服器端流程設計，不受瀏覽器支援度影響；不支援時本來就走舊的驗證流程",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:verify-email-ownership:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——這是伺服器端驗證與 DNS 委派檢查，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:verify-email-ownership:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——這是伺服器端驗證流程的處理方式，不涉及瀏覽器功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——標題層級屬既有 HTML 語意，指南未附瀏覽器支援資料",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——展開觸發的寫法屬既有 HTML 與 ARIA 組合，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——清單標記屬既有 HTML 語意，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——表格元素與版面屬既有 HTML／CSS，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——skip link 屬既有 HTML 寫法，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——原生元素與 ARIA 屬既有機制，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——ARIA 角色套用屬既有規則，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`disabled` 與 `aria-disabled` 屬既有屬性，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:9": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`role=\"presentation\"` 屬既有 ARIA 角色，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:10": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`for`／`id` 關聯屬既有 HTML 寫法，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:11": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`title` 屬既有 HTML 屬性，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:12": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`placeholder` 與 `<label>` 屬既有 HTML 寫法，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:13": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——可及名稱的產生方式屬既有 ARIA 屬性，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:14": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`aria-describedby` 屬既有 ARIA 屬性，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:15": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`lang` 屬既有 HTML 屬性，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:16": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`<title>` 屬既有 HTML 元素，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:17": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——iframe 捲動屬既有行為，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:18": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`tabindex` 屬既有 HTML 屬性，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:19": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`touch-action` 屬既有 CSS 屬性，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:20": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`alt` 與 ARIA 圖片角色屬既有機制，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:21": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——live region 與 `inert` 都是既有 ARIA／HTML 機制，不涉及新功能支援",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessibility:22": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——原生 `<dialog>` 屬既有 HTML 元素，不涉及新功能支援",
+  "unlock": "以前做模態要自己寫焦點陷阱、設 inert、處理頂層與遮罩；現在原生 `<dialog>` 的 `.showModal()` 由瀏覽器一次處理",
+  "owner": "kilo"
+ },
+ "mwg:accessible-error-announcement": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`:user-invalid` 已 Widely（2023-11-02），不必退路",
+  "unlock": "以前只有 `:invalid`，空欄位一 Tab 進去就被判錯；現在有 `:user-invalid` 能分辨使用者是否真的互動過",
+  "owner": "kilo"
+ },
+ "mwg:accessible-error-announcement:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`aria-describedby` 屬既有 ARIA 屬性，指南未附支援資料",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessible-error-announcement:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——live region 屬既有 ARIA 機制，指南未附支援資料",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:accessible-generated-content": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回單值 `content` 時符號照樣顯示，但讀屏那邊仍會照唸，雜音又回來了",
+  "unlock": "以前 CSS 插入的內容沒辦法指定讀屏要念什麼，現在可以在 `content` 的替代文字參數裡宣告有意義的圖示念什麼、純裝飾的不念",
+  "owner": "kilo"
+ },
+ "mwg:accessible-generated-content:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回單值 `content` 時圖示照樣顯示但沒有替代文字，不會跟按鈕文字重複播報",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:respect-os-text-scale": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援的瀏覽器退回預設字級，系統字級設定照樣被忽略，只剩使用者手動縮放",
+  "unlock": "以前行動瀏覽器為了不撐破老網站一律忽略系統字級；現在頁面可用一個 meta 宣告「我的版面撐得住」，瀏覽器就把系統比例套到根字級",
+  "owner": "kilo"
+ },
+ "mwg:respect-os-text-scale:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`clamp()` 與 `rem` 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:respect-os-text-scale:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援的瀏覽器本來就不會套用文字縮放，寫死根字級只是維持原本的樣子",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-detection": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回雲端 API 或直接關掉功能，內容又得送出伺服器，隱私與成本的老問題回來",
+  "unlock": "以前判斷語言得送雲端或載大型函式庫，內容離開本機；現在瀏覽器本機就能判斷，資料不送到 Google 或第三方",
+  "owner": "kilo"
+ },
+ "mwg:language-model": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回雲端或本機 API，資料又離開瀏覽器，隱私與離線的好處沒了",
+  "unlock": "以前要在瀏覽器裡做推論只能自己載模型或呼叫雲端；現在 `LanguageModel` 能在裝置上跑，文字、圖片、音訊都能餵進去，離線也能用",
+  "owner": "kilo"
+ },
+ "mwg:language-model:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`textContent` 與清理器是既有機制，不必退路",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`aria-busy` 與 live region 是既有 ARIA 機制，不必退路",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:4": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回雲端 API 時本來就沒有模型要下載，手勢與下載這套規則整套不存在",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:5": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回雲端 API 時沒有本機模型可下載，進度條這段無從做起",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:6": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回雲端 API 時沒有下載鈕與停止鈕，焦點不會掉到無處",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:7": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回雲端 API 後輸出語言一樣要標 `lang`，這條規則照舊成立",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:8": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回雲端 API 時沒有本機 session 的 token 視窗可監看",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:9": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回雲端 API 後對話歷史一樣會留在瀏覽器儲存，個資風險照舊",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:10": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回雲端 API 時沒有本機的結構化輸出限制可用，得自己寫容錯解析",
+  "unlock": "以前要模型輸出可解析的 JSON，只能在提示詞裡求它配合再寫容錯解析器；現在直接給 JSON Schema 限制回應形狀",
+  "owner": "kilo"
+ },
+ "mwg:language-model:11": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回雲端 API 時沒有本機模型要暖機，冷啟動換成網路延遲",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:12": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回雲端 API 時沒有 session 與 clone 可以分支",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:13": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回雲端 API 時沒有本機 session 佔用裝置記憶體",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:14": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回雲端 API 後輸入太大一樣拖慢回應，只送必要輸入這條照舊",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:15": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回雲端 API 後一樣可能壓縮成高密度詞元，截斷規則照舊",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:16": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回雲端 API 後改寫一樣不能直接蓋掉唯一草稿",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:language-model:17": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——退回雲端 API 後重複輸入一樣在燒錢與拖慢回應，快取照舊要加",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:summarizer": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回雲端 API 或停用按鈕，內容又離開裝置，隱私保證與費用的問題回來",
+  "unlock": "以前要摘要就得把文章送上雲端；現在瀏覽器用內建模型在本機處理，資料不離開裝置，也沒有 API 帳單",
+  "owner": "kilo"
+ },
+ "mwg:translator": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回雲端 API 或停用按鈕，文字又離開裝置，隱私保證與費用的問題回來",
+  "unlock": "以前翻譯要把文字送上雲端；現在瀏覽器用內建模型在本機翻，資料不離開裝置，也沒有每字計費",
+  "owner": "kilo"
+ },
+ "mwg:agentic-forms": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——指南說這組屬性可以安全地用，不支援的瀏覽器會直接忽略 `tool*` 屬性",
+  "unlock": "以前要讓代理操作網站得另寫一套 API 或頁內腳本；現在一般 `<form>` 加兩個屬性，瀏覽器就把它描述成代理可呼叫的工具",
+  "owner": "kilo"
+ },
+ "mwg:agentic-forms:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——不支援的瀏覽器會忽略這些屬性，代理本來就無法代送，無從退路",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:agentic-forms:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——不支援的瀏覽器會忽略 `tool*` 屬性與框架整合，Angular 表單本身照常運作",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:agentic-forms:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——不支援的瀏覽器忽略 `tool*` 屬性，這些表單本來就走一般 DOM 互動",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:agentic-forms:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——不支援的瀏覽器不會派送這兩個事件，本來就沒有掛載的問題",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:agentic-forms:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——不支援的瀏覽器不會套用這兩個虛擬類別，樣式放著即可",
+  "unlock": "以前代理在背景填表單，使用者看不出它動了哪裡；現在可用虛擬類別標出代理正在用的表單與待確認的送出鈕",
+  "owner": "kilo"
+ },
+ "mwg:agentic-javascript-tools": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援時靠功能偵測跳過註冊，頁面照常但代理完全看不到這些工具",
+  "unlock": "以前要讓瀏覽器內助理操作頁面功能，得另架 MCP server 或做頁內橋接；現在頁面直接註冊工具，代理就能依目前路由與狀態操作",
+  "owner": "kilo"
+ },
+ "mwg:agentic-javascript-tools:2": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南只給整體的功能偵測退路，沒有針對跨來源授權說明",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:agentic-javascript-tools:3": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南只給整體的功能偵測退路，沒有針對輸入驗證說明",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:agentic-javascript-tools:4": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南只給整體的功能偵測退路，沒有針對錯誤回傳方式說明",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:agentic-javascript-tools:5": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南只給整體的功能偵測退路，沒有針對執行取消說明",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:agentic-javascript-tools:6": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不認得這個標記的舊瀏覽器不會提示，但應用程式自己的確認 UI 照舊擋著",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:agentic-javascript-tools:7": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援時工具根本註冊不了，代理分不出開發工具與使用者操作",
+  "unlock": "以前同一頁的開發工具與使用者操作混在一起，代理分不出；現在能用標記讓代理區分兩者",
+  "owner": "kilo"
+ },
+ "mwg:agentic-javascript-tools:8": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援時這兩個方法不存在，頁內代理與自動化測試都無從探索或呼叫工具",
+  "unlock": "以前沒有不依賴外部模型的瀏覽器內測試途徑，也做不了嵌入式 copilot；現在頁內可用這兩個方法探索並呼叫工具",
+  "owner": "kilo"
+ },
+ "mwg:agentic-javascript-tools:9": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——舊版 Chrome 不接受 plain object 時改成傳 JSON 字串，工具照樣能被呼叫",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:agentic-javascript-tools:10": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南只給整體的功能偵測退路，沒有針對框架整合說明",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:webmcp": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南只寫這是 Chromium 旗標預覽，沒有交代不支援時該怎麼辦",
+  "unlock": "以前要讓助理操作網站功能，得自己架 MCP server 或做頁內腳本橋接；現在網頁本身就是工具註冊表，頁面內就能把功能暴露成結構化工具",
+  "owner": "kilo"
+ },
+ "mwg:webmcp:2": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南只寫工具 schema 的寫法，沒有交代不支援 WebMCP 時怎麼辦",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:webmcp:3": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南只寫工具回傳的時機，沒有交代不支援 WebMCP 時怎麼辦",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:webmcp:4": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南只寫高風險動作的防護，沒有交代不支援 WebMCP 時怎麼辦",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:webmcp:5": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南只寫不該暴露即時工具的理由，沒有交代不支援 WebMCP 時怎麼辦",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:calculate-event-differentials": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 沒有原生 API 時動態載入 temporal-polyfill，時間差照樣算得出來",
+  "unlock": "以前算跨月與日光節約的時間差要手算或載 date-fns；現在用 Temporal 的時區感知運算，差值直接以曆法單位算",
+  "owner": "kilo"
+ },
+ "mwg:calculate-event-differentials:2": {
+  "fallback": "沒說",
+  "fallback_text": "沒說——指南只給 Temporal 的 polyfill 退路，沒有交代 `Intl.DurationFormat` 不支援時怎麼辦",
+  "unlock": "以前顯示時長要自己拼單位字串，換語系就得重寫；現在單位、順序與分隔符交給語系資料處理",
+  "owner": "kilo"
+ },
+ "mwg:capture-location-agnostic-data": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 沒有原生 API 時動態載入 temporal-polyfill，日期照樣不會跨時區少一天",
+  "unlock": "以前生日沒有「日曆上的那一天」這種值，只能挑一個午夜時刻代表，換時區就少一天；現在 `PlainDate` 就是那一天本身",
+  "owner": "kilo"
+ },
+ "mwg:capture-location-agnostic-data:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——polyfill 也有 `PlainYearMonth` 與 `PlainMonthDay`，假日與短月溢位照樣擋得住",
+  "unlock": "以前只有年月的到期日得塞一個隨意假日，一到短月就溢位；現在年月與月日各有專屬型別，假日根本不存在",
+  "owner": "kilo"
+ },
+ "mwg:capture-location-agnostic-data:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 用 polyfill 時仍可用 IANA 時區名稱，偏移照樣由時區資料庫決定",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:coordinate-global-events": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 沒有原生 API 時動態載入 temporal-polyfill，時刻不存在的警告照樣做得出來",
+  "unlock": "以前日光節約跳過或重複的時刻只能自己算風險；現在建立有時區的時間時可直接指定跳過時刻就丟錯",
+  "owner": "kilo"
+ },
+ "mwg:sort-high-precision-timestamps": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 沒有原生 API 時動態載入 temporal-polyfill，奈秒精度一樣保住",
+  "unlock": "以前時間戳只到毫秒，同一毫秒內的事件排序不穩；現在能解析奈秒並用專門的比較函式排序",
+  "owner": "kilo"
+ },
+ "mwg:sort-high-precision-timestamps:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——polyfill 同樣提供 Duration，間隔維持單位結構，不必轉成奈秒數字",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:support-global-calendar-systems": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Safari 沒有原生 API 時動態載入 temporal-polyfill，曆法換算照樣做得到",
+  "unlock": "以前要支援希伯來曆或農曆得載第三方曆法函式庫；現在日期帶著曆法識別碼，加減比較都依那套曆法",
+  "owner": "kilo"
+ },
+ "mwg:support-global-calendar-systems:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——polyfill 同樣提供 `monthsInYear` 與 `monthCode`，閏月照樣算得出來",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:content-first-noise-reduction": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時列維持精簡可見，或用 CSS.supports 偵測後改以輕量 scroll 監聽切換收合",
+  "unlock": "只靠 CSS scroll-state 容器查詢就能隨捲動方向自動收放頂端列，閱讀時騰出畫面且不需寫 JS",
+  "owner": "kilo"
+ },
+ "mwg:content-first-noise-reduction:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——:focus-within 與 scroll-margin-top 已普遍支援，不論純 CSS 或腳本退路皆可避免藏焦點與遮目標",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:content-first-noise-reduction:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——Firefox／Safari 不支援時列常駐或走看 scrollY 的腳本退路，按 Home 回頁首同樣顯示",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:content-first-noise-reduction:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測缺 popover 時條件載入 @oddbird/popover-polyfill 或手動 JS 退路，選單開關照常運作",
+  "unlock": "用原生 HTML popover 與 popovertarget 收納次要介面，免寫開關與層級 JS 即享頂層渲染與多種關閉",
+  "owner": "kilo"
+ },
+ "mwg:content-first-noise-reduction:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——優先改用 popovertarget，或偵測缺屬性時載入 invokers-polyfill，按鈕都能正常觸發開關",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:form-factor-adaptation": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Size container queries 已廣泛支援，直接用於元件排版即可隨所處容器寬度自適應",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:form-factor-adaptation:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——min-block-size 與折行規範皆已廣泛支援，不截斷標題即可在 320px 視窗完整顯示",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:natural-interactions": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——:focus-visible 與高對比焦點外框已廣泛支援，直接套用即可同時顧及美觀與鍵盤可及性",
+  "unlock": "（缺）",
+  "owner": "kilo"
+ },
+ "mwg:natural-interactions:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——偵測缺 popover 時條件載入 polyfill 或改用手動 JS 退路，點擊、觸控、鍵盤與 Esc 照常可用",
+  "unlock": "只用 HTML popovertarget 宣告就能讓選單內建點擊、觸控、鍵盤與 Esc 關閉行為而不必寫 JS",
+  "owner": "kilo"
+ }
+}

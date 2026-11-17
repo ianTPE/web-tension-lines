@@ -1,0 +1,416 @@
+[
+ {
+  "key": "mwg:ime-safe-enter-submit",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/ime-safe-enter-submit.md",
+  "title": "Enter 送出前先檢查 isComposing（加 keyCode 229），不在輸入法選字時送出",
+  "action": "在自訂的 Enter 送出 `keydown` 處理裡，`event.isComposing` 或 `event.keyCode === 229` 成立時直接 return，不呼叫 `form.requestSubmit()`；適用 `<textarea>` 與有自訂 Enter 處理的單行 `<input>`",
+  "opponent": "用輸入法打中文、日文、韓文時，Enter 是用來確認選字的；script 一收到 Enter 就送出，訊息在還沒選完字時就送出去（引用：\"the user's message is sent while they are still converting characters, resulting in incomplete, fragmented, or incorrect messages.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:ime-safe-enter-submit:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/ime-safe-enter-submit.md",
+  "title": "自訂 Enter 送出時呼叫 preventDefault()，避免送出兩次",
+  "action": "在 Enter 的 `keydown` 處理裡先呼叫 `event.preventDefault()`，再自行 `requestSubmit()`",
+  "opponent": "Enter 的預設動作在 `<textarea>` 會插入換行，在 `<form>` 裡的 `<input>` 會觸發瀏覽器的隱式送出，加上自己的送出就送了兩次（引用：\"in an `<input>` inside a `<form>` it triggers the browser's implicit submission, which would submit a second time.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:required-field-feedback",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/required-field-feedback.md",
+  "title": "用 :user-invalid 標示必填錯誤，頁面一載入不要就標紅",
+  "action": "欄位加 `required`，錯誤樣式與錯誤文字用 `:user-invalid` 觸發，並附上帶「Error」文字替代的圖示，不只靠顏色",
+  "opponent": "頁面一載入就把必填欄位標成錯誤狀態，會讓使用者困惑；欄位應該在使用者試過並失敗後才顯示無效（引用：\"Marking required fields with an error state immediately upon page load can be confusing.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:required-field-feedback:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/required-field-feedback.md",
+  "title": "aria-invalid 依 :user-invalid 同步，不要用 checkValidity()",
+  "action": "欄位起始設 `aria-invalid=\"false\"`，在 blur 或送出失敗時依 `el.matches(':user-invalid')` 改成 `\"true\"`",
+  "opponent": "拿 `checkValidity()` 判斷時，使用者只是 Tab 經過沒碰的欄位，它就已經是 false，輔助技術會提早被告知錯誤（引用：\"deriving it from `:user-invalid`, not `checkValidity()`, which is already false when a user tabs through an untouched field.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:required-field-feedback:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/required-field-feedback.md",
+  "title": "錯誤訊息只在欄位無效時才掛進 aria-describedby",
+  "action": "欄位用 `data-error` 指向錯誤訊息的 `id`，由腳本只在欄位無效時把它列進 `aria-describedby`",
+  "opponent": "在標記裡就引用錯誤訊息，隱藏的訊息從頁面載入起就會被讀出來（引用：\"A reference in the markup would read the hidden message from page load.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:required-field-feedback:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/required-field-feedback.md",
+  "title": "錯誤用全頁一個 polite live region 延遲播報",
+  "action": "欄位離開或改變時，把錯誤送進全頁共用的 polite live region，延遲到下一個欄位播報完；失敗送出後聚焦第一個無效欄位",
+  "opponent": "每則錯誤各自當 live region，只是被顯示而不是文字改變時，讀屏不一定會播；同時播報又會蓋過下一個欄位（引用：\"a live region that is shown, rather than changed, isn't announced reliably.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:required-field-feedback:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/required-field-feedback.md",
+  "title": "必填星號加 aria-hidden，避免重複播報",
+  "action": "視覺必填標記用 `<span aria-hidden=\"true\">*</span>`，在表單前解釋一次星號意義，欄位本身保留 `required`",
+  "opponent": "`required` 已讓讀屏播報必填，星號再進無障礙樹會多出無意義的「星號」或重複狀態（引用：\"wrap it in `<span aria-hidden=\"true\">*</span>`, because the `required` attribute already makes screen readers announce \"required\".\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:required-field-feedback:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/required-field-feedback.md",
+  "title": "送出鈕保持可按，讓瀏覽器揭示所有必填錯誤",
+  "action": "表單尚未有效時也保持送出鈕啟用；按下後由瀏覽器對空的必填欄位觸發 `:user-invalid` 並聚焦第一個錯誤",
+  "opponent": "停用送出鈕會讓使用者無法主動要求驗證，也看不到按下後應出現的錯誤與焦點導引（引用：\"Unlike `disabled` buttons, keep your submit button enabled. If the user clicks it, the browser will automatically trigger `:user-invalid` on all empty required fields and focus the first one.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:rich-media-picker",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/rich-media-picker.md",
+  "title": "用 appearance: base-select 讓 option 放圖示與說明，擋掉「只能純文字、只好自製下拉」",
+  "action": "`<select>` 與 `::picker(select)` 都設 `appearance: base-select`，在 `<option>` 裡放 SVG、圖片、標題與說明，按鈕內用 `<button><selectedcontent>` 自動映出選中內容",
+  "opponent": "原生 `<option>` 裡的標記會被瀏覽器剝掉，只剩純文字，想要圖示加說明的選項只能改用沉重的自製元件（引用：\"Prior to this API, the browser would strip tags from `<option>` tags and render only plain text.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:rich-media-picker:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/rich-media-picker.md",
+  "title": "option 文字要能獨立讀懂，擋掉退回時黏成一串的選項",
+  "action": "在 option 的標題後補上視覺隱藏的句點與「Responsibilities include:」這類銜接文字，讓整段文字脫離版面也通順",
+  "opponent": "不支援可自訂 select 的瀏覽器會把 option 內所有文字串成一行，失去視覺設計後意思走樣（引用：\"would be rendered as \"Frontend Developer React, Vue, CSS\", in a browser that doesn't support customizable selects.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:rich-media-picker:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/rich-media-picker.md",
+  "title": "不要在 option 上加 aria-label 覆寫文字",
+  "action": "不在 `<option>` 上用 `aria-label` 取代內容，而是讓 option 的完整文字本身就能獨立讀懂",
+  "opponent": "`aria-label` 會覆寫 option 的文字，沒寫進 label 的可見文字，讀屏使用者就聽不到；日後改了選項文字也容易漏改（引用：\"This will result in people missing visible text that hasn't been included in the `aria-label`.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:rich-media-picker:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/rich-media-picker.md",
+  "title": "不要在 option 裡放互動元素",
+  "action": "`<option>` 裡只放文字、圖示等靜態內容，不放連結、按鈕或帶互動語意的元素",
+  "opponent": "option 裡的互動元素與語意，讀屏使用者聽不到，因此不會知道那裡還有東西（引用：\"People using screen readers will not hear the announcements, and as a result, won't be able to determine that further information is present.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:rich-media-picker:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/rich-media-picker.md",
+  "title": "base-select 不再依最長選項定寬，要自己給寬度",
+  "action": "開啟 `appearance: base-select` 後，替 select 設固定寬度或用 flex／grid 限制尺寸",
+  "opponent": "`base-select` 拿掉了瀏覽器依最長選項決定 select 寬度的預設行為，選項一換寬度就跟著變，造成版面位移（引用：\"Setting `appearance: base-select` removes the default browser behavior of sizing the select based on its longest option width.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:select-menu-interaction",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/select-menu-interaction.md",
+  "title": "用 select:user-invalid 讓必選下拉等互動後才標錯",
+  "action": "`<select required>` 的第一個選項設 `value=\"\"` 並停用，錯誤框線與訊息用 `select:user-invalid` 觸發，成功用 `:user-valid`",
+  "opponent": "必選下拉的預設選項是空值時，標準驗證一載入就把欄位標成無效，製造視覺雜訊（引用：\"standard validation flags the field as invalid immediately if the default option has an empty value. This can create visual noise.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:slider",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/slider.md",
+  "title": "用 progress() 與 attr() 在 CSS 裡算出滑桿的填色比例",
+  "action": "在 `input[type=\"range\"]` 上用 `attr(min type(<number>))`、`attr(max …)` 讀屬性，`progress(var(--control-value), min, max)` 算出百分比，餵給 WebKit 軌道的漸層；Firefox 用 `::-moz-range-progress`",
+  "opponent": "WebKit／Blink 沒有對應「已填部分」的偽元素，要讓軌道已填和未填兩段不同色，只能自己同步數值（引用：\"WebKit/Blink do not provide an equivalent pseudo-element, so sync the live input value to `--control-value` on `input` events\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:slider:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/slider.md",
+  "title": "WebKit 與 Firefox 的滑桿偽元素分開寫，不要放同一個選擇器清單",
+  "action": "`::-webkit-slider-thumb` 與 `::-moz-range-thumb`（以及 track）各寫一個規則區塊",
+  "opponent": "把兩家前綴偽元素用逗號放在同一條規則，瀏覽器遇到不認得的那個會丟掉整條規則（引用：\"browsers drop the entire rule if an unrecognized vendor pseudo-element is encountered.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:sms-otp-form",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/sms-otp-form.md",
+  "title": "用 WebOTP 與綁網域的簡訊格式自動帶入驗證碼，擋掉切 app 抄碼",
+  "action": "單一 `<input autocomplete=\"one-time-code\" inputmode=\"numeric\">`，簡訊最後一行寫 `@網域 #驗證碼`，支援時用 `navigator.credentials.get({ otp: { transport: ['sms'] } })` 取碼並 `requestSubmit()`，以 `AbortController` 管理每個離開路徑",
+  "opponent": "使用者要在瀏覽器和簡訊 app 之間切換、記住或複製多位數驗證碼，增加摩擦與流失，還容易在仿冒網域上被釣魚（引用：\"Switching between a browser and an SMS messaging app to memorize or copy-paste a multi-digit code introduces user friction, increases drop-off rates, and leaves users vulnerable to phishing on spoofed domains.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:sms-otp-form:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/sms-otp-form.md",
+  "title": "驗證碼用 type=\"text\" 加 inputmode=\"numeric\"，不要用 type=\"number\"",
+  "action": "OTP 欄位用 `type=\"text\"` 配 `inputmode=\"numeric\"`、`pattern=\"\\d{6}\"`，不用 `type=\"number\"` 也不用 `type=\"tel\"`",
+  "opponent": "驗證碼是識別字串不是數量，`type=\"number\"` 會多出增減按鈕、可能吃掉開頭的 0，還會被滾輪意外改值（引用：\"Using `type=\"number\"` adds increment/decrement spinner buttons, can strip leading zeros, and allows accidental scroll-wheel value changes.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:sms-otp-form:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/sms-otp-form.md",
+  "title": "驗證碼用單一欄位，不要拆成六個格子",
+  "action": "只用一個 `<input>`，要分格的外觀就用等寬字型加 `letter-spacing`",
+  "opponent": "六個 `maxlength=\"1\"` 的分格輸入，在許多瀏覽器會讓 `autocomplete=\"one-time-code\"` 自動帶入失效，也妨礙貼上、讓讀屏導覽變複雜（引用：\"Multi-box OTP patterns (six separate `maxlength=\"1\"` inputs) break native `autocomplete=\"one-time-code\"` autofill in many browsers, hinder copy-pasting, and complicate screen reader navigation.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:sms-otp-form:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/sms-otp-form.md",
+  "title": "自動取碼後用 requestSubmit()，不要用 form.submit()",
+  "action": "WebOTP 取到碼、填進欄位後呼叫 `form.requestSubmit()`（或直接呼叫自己的驗證函式）",
+  "opponent": "`form.submit()` 會繞過 submit 事件監聽（`preventDefault()`／`fetch()` 處理）並跳過原生約束驗證（引用：\"`form.submit()` bypasses `submit` event listeners (`event.preventDefault()` / `fetch()` handlers) and skips native constraint validation.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:sms-otp-form:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/sms-otp-form.md",
+  "title": "格式提示放在欄位上方，擋掉被自動填入浮層和鍵盤蓋住",
+  "action": "可見 `<label>` 之外，格式說明（以 `aria-describedby` 連結）放在 `<input>` 的視覺上方",
+  "opponent": "提示放在欄位下方時，自動填入的浮層和行動裝置的虛擬鍵盤會把它蓋住（引用：\"place any format instructions (linked via `aria-describedby`) visually **above** the `<input>` so autofill popovers and mobile virtual keyboards never cover the instructions.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:switch",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/switch.md",
+  "title": "用 <input type=\"checkbox\" switch> 做原生開關",
+  "action": "在一般 checkbox 上加布林屬性 `switch`，配 `<label>`，用 `accent-color` 換色、`:focus-visible` 補焦點框；不支援時依 `'switch' in HTMLInputElement.prototype` 有條件載入 `input-switch-polyfill`",
+  "opponent": "缺——指南只說 `switch` 保住原生表單送出、鍵盤操作與讀屏語意，沒說自製開關在哪個時刻出錯",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:validate-input-after-interaction",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/validate-input-after-interaction.md",
+  "title": "用 :user-invalid 等使用者打完再報錯，擋掉邊打邊變紅",
+  "action": "用 `type=\"email\"`、`pattern`、`required` 宣告規則，錯誤樣式與錯誤文字用 `:user-invalid` 觸發，`:user-valid` 給成功提示",
+  "opponent": "使用者一聚焦開始打字就跳錯誤，例如 email 打到「user@gm」時技術上無效，標準 `:invalid` 立刻顯示錯誤狀態（引用：\"Standard `:invalid` styling results in an error state appearing immediately, frustrating the user.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:validate-input-after-interaction:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/validate-input-after-interaction.md",
+  "title": "規則清單滿足後用 visibility: hidden 隱藏，不要收掉空間",
+  "action": "`.field:has(input:user-valid) .rules-list { visibility: hidden; }`，保留清單佔的空間",
+  "opponent": "在 blur 時把規則清單收合，送出按鈕會在 mousedown 與 mouseup 之間移位，那次點擊就丟了（引用：\"collapsing the list on blur would move the submit button between mousedown and mouseup, and the click would be lost.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:validate-input-after-interaction:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/validate-input-after-interaction.md",
+  "title": "密碼要有自己的錯誤文字，不能只把規則清單變紅",
+  "action": "密碼欄位另給一段錯誤訊息（附帶「Error」文字替代的圖示），規則清單變色只當輔助",
+  "opponent": "只把規則清單染紅，沒說哪裡錯，讀屏也不會傳達顏色變化（引用：\"Turning the rules list red doesn't say what is wrong, and screen readers don't convey the color change.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:validate-input-after-interaction:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/validate-input-after-interaction.md",
+  "title": "格式提示與密碼規則放在欄位上方",
+  "action": "email 的格式提示、密碼的規則清單放在 `<input>` 上方，並用 `aria-describedby` 連結",
+  "opponent": "提示放在欄位下方，編輯時自動完成浮層或行動裝置鍵盤會把它蓋住（引用：\"Place format hints above the input so autocomplete popovers don't cover them during editing\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:validate-input-after-interaction:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/validate-input-after-interaction.md",
+  "title": "fallback 選擇器用 :is() 包起來，擋掉一個不認得就整條失效",
+  "action": "fallback CSS 寫成 `:is(:user-invalid, .user-invalid-fallback)`，不寫成一般的逗號選擇器清單",
+  "opponent": "一般選擇器清單裡只要有一個不支援的選擇器，整條規則都會被丟掉（引用：\"in a plain selector list, one unsupported selector drops the whole rule.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:client-side-encryption",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/client-side-encryption.md",
+  "title": "用 `encapsulateKey()`（MLKEM768-X25519）加 AEAD 在瀏覽器裡做抗量子的信封加密",
+  "action": "收件方用 `crypto.subtle.generateKey('MLKEM768-X25519', false, …)` 產生不可匯出的金鑰對並存進 IndexedDB、以 `'raw-public'` 匯出公鑰；寄件方對每則訊息呼叫 `encapsulateKey()` 取得一次性共享金鑰與密文膠囊，再用 `ChaCha20-Poly1305` 或 `AES-GCM` 加密，送出 `{ capsule, iv, ciphertext }`",
+  "opponent": "指南只說混合式 KEM 讓共享秘密在任一演算法成立時都保持安全，沒說只用古典金鑰交換在哪個時刻出問題（引用：\"it combines post-quantum ML-KEM (standardized in NIST FIPS 203) with classical `'X25519'` so the shared secret remains secure as long as either algorithm holds.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:client-side-encryption:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/client-side-encryption.md",
+  "title": "用 AEAD 的 `additionalData` 把未加密的中繼資料綁進驗證標籤",
+  "action": "加密時把紀錄 ID、收件者 ID、協定版本等不加密的中繼資料放進 `additionalData`；每次加密都用新的 12 位元組隨機 IV，不重用 `(iv, key)` 組合",
+  "opponent": "未綁定時，竄改密文旁邊的中繼資料不會被發現（引用：\"Bind unencrypted metadata (such as a record ID, recipient ID, or protocol version) to the authentication tag via `additionalData` so tampering with either the ciphertext or the metadata causes `decrypt()` to reject with `OperationError`.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:client-side-encryption:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/client-side-encryption.md",
+  "title": "新演算法不收 `'raw'`：明確寫 `'raw-public'`／`'raw-seed'`／`'raw-secret'`",
+  "action": "`MLKEM768-X25519`、`ML-KEM-*`、`ChaCha20-Poly1305` 的 `importKey()`／`exportKey()` 一律指定明確格式；匯入 KEM 私鑰只給 `['decapsulateKey']`；演算法名稱只用指南列出的三種",
+  "opponent": "沿用舊的 `'raw'` 格式，新演算法直接丟出 `NotSupportedError`（引用：\"Modern WebCrypto algorithms (…) **reject the legacy `'raw'` format** in `importKey()` and `exportKey()` with a `NotSupportedError`.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:client-side-encryption:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/client-side-encryption.md",
+  "title": "`SubtleCrypto.supports()` 要在建構子上呼叫，不是 `crypto.subtle`",
+  "action": "用 `globalThis.SubtleCrypto?.supports?.('encapsulateKey', 'MLKEM768-X25519', 'ChaCha20-Poly1305')` 偵測；探測 `'encrypt'`／`'decrypt'` 時要帶 `iv`",
+  "opponent": "在 `crypto.subtle` 上找 `supports`，拿到的是 `undefined`（引用：\"`globalThis.SubtleCrypto?.supports?.(…)` is a synchronous static method returning a boolean (`crypto.subtle.supports` is `undefined`).\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:digital-signatures",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/digital-signatures.md",
+  "title": "用 ML-DSA 在瀏覽器裡簽章與驗證，不必共用秘密金鑰",
+  "action": "`crypto.subtle.generateKey('ML-DSA-65', false, ['sign', 'verify'])` 產生金鑰對，以 `'raw-public'` 匯出公鑰給驗證方，`sign()`／`verify()` 處理訊息、權杖或發布檔清單；不支援時退回 `'Ed25519'`（或 `'ECDSA'` P-256）",
+  "opponent": "指南只說數位簽章保證資料完整性與簽署者真實性、而且不需要共用秘密金鑰，沒說其他做法在哪個時刻出問題（引用：\"Digital signatures guarantee data integrity and signer authenticity without requiring shared secret keys.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:digital-signatures:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/digital-signatures.md",
+  "title": "用 `context` 做領域分離，讓一個用途的簽章不能拿去別處重放",
+  "action": "`sign()`／`verify()` 傳 `{ name: 'ML-DSA-65', context }`（0～255 位元組，雙方必須完全相同）；退回 Ed25519／ECDSA 時，自己在資料前加上帶長度前綴的 context 標頭",
+  "opponent": "共用同一組金鑰時，為某個用途產生的簽章可以被拿到應用程式的其他部分重放；古典演算法還會默默忽略 `context` 屬性（引用：\"To prevent a signature created for one purpose from being replayed in another part of your application or protocol that shares the same key pair, bind the signature to a domain-separation `context`.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:digital-signatures:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/digital-signatures.md",
+  "title": "ML-DSA 不收 `'raw'`：公鑰用 `'raw-public'`、私鑰用 `'raw-seed'`",
+  "action": "ML-DSA 的匯入匯出指定 `'raw-public'`、`'raw-seed'`、`'spki'`、`'pkcs8'` 或 `'jwk'`；匯入公鑰只給 `['verify']`、私鑰只給 `['sign']`；不用 `'Dilithium'` 這類標準化前的名稱",
+  "opponent": "沿用舊的 `'raw'` 格式，ML-DSA 直接丟出 `NotSupportedError`（引用：\"`'ML-DSA-44'`, `'ML-DSA-65'`, and `'ML-DSA-87'` **reject the legacy `'raw'` format** in `importKey()` and `exportKey()` with a `NotSupportedError`.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:digital-signatures:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/digital-signatures.md",
+  "title": "`SubtleCrypto.supports()` 要在建構子上呼叫，不是 `crypto.subtle`",
+  "action": "用 `globalThis.SubtleCrypto?.supports?.('sign', 'ML-DSA-65')` 偵測，決定走 ML-DSA 或 Ed25519",
+  "opponent": "在 `crypto.subtle` 上找 `supports`，拿到的是 `undefined`（引用：\"`globalThis.SubtleCrypto?.supports?.('sign', 'ML-DSA-65')` is a synchronous static method returning a boolean (`crypto.subtle.supports` is `undefined`).\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:local-network-access",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/local-network-access.md",
+  "title": "用 `targetAddressSpace` 讓 https 頁面連到區網的 http 裝置",
+  "action": "對區網裝置（印表機、IoT hub、路由器）或本機輔助程式的 `fetch()`／`Request` 加 `targetAddressSpace: 'local'` 或 `'loopback'`；經使用者授予 `local-network`／`loopback-network` 權限後連線",
+  "opponent": "混合內容檢查在 DNS 解析之前就執行，https 頁面對區網 http 端點的請求會被當成混合內容擋下（引用：\"Mixed Content checks run *before* DNS resolution. Declaring `targetAddressSpace: 'local'` (…) informs the browser ahead of DNS resolution that an `http://` URL (…) targets a local/loopback endpoint and should be exempted from Mixed Content blocking once the user grants the permission.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:local-network-access:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/local-network-access.md",
+  "title": "區網請求等使用者點擊才發，不在載入時或 Service Worker 裡發",
+  "action": "先用 `navigator.permissions.query({ name: 'local-network' })` 查狀態：`granted` 就直接連；`prompt` 時先說明原因，由按鈕點擊觸發；`denied` 時顯示如何在網站設定重新開啟；頁面一律用 https",
+  "opponent": "從 Service Worker 或 Shared Worker 發出第一個需要授權的請求，沒有附屬的 Document，權限還沒給就立刻失敗；不安全的 http 頂層頁面則直接被拒（引用：\"never initiate the first permission-triggering request from a **Service Worker** or **Shared Worker** (which lack an attached `Document` and will immediately fail if permission is not already `'granted'`).\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:local-network-access:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/local-network-access.md",
+  "title": "不要查詢舊的 `'local-network-access'` 權限名：舊版 Chrome 會整個分頁崩潰",
+  "action": "只查詢細分的 `'local-network'`／`'loopback-network'`，包在 `try/catch` 裡，不認得時當成 `'prompt'`",
+  "opponent": "查詢合併的舊權限名，舊版 Chrome 的渲染程序直接崩潰，`try/catch` 也救不了（引用：\"In older Chrome versions this query crashes the renderer process, and `try / catch` cannot prevent it.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:local-network-access:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/local-network-access.md",
+  "title": "`WebSocket` 不吃 `{ targetAddressSpace }`，靠網址本身被辨認",
+  "action": "`new WebSocket(url, protocols)` 第二個參數只放子協定；用私有／回送 IP、`localhost` 或 `.local` 主機名讓瀏覽器從網址辨認；自訂 DNS 名稱的本機端點改用 `wss://`；`WebTransport` 也不傳 `targetAddressSpace`",
+  "opponent": "把 `{ targetAddressSpace }` 物件當第二個參數傳給 `WebSocket`，直接丟出 `SyntaxError`（引用：\"do **not** pass a `{ targetAddressSpace }` options object, which throws a `SyntaxError`.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:local-network-access:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/local-network-access.md",
+  "title": "跨來源 iframe 要連區網，得用 `allow` 與 `Permissions-Policy` 委派",
+  "action": "`<iframe allow=\"local-network; loopback-network\">`，並在**外層文件**的回應送 `Permissions-Policy: local-network=(self \"https://partner…\")`",
+  "opponent": "兩個權限的預設允許清單只有 `'self'`，嵌入的跨來源 iframe 無法發出區網或本機請求（引用：\"`local-network` and `loopback-network` have a default allowlist of `'self'`, blocking cross-origin `<iframe>` embeds from making local or loopback requests.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:passkey-authentication",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkey-authentication.md",
+  "title": "用條件式中介（`mediation: \"conditional\"`）讓通行金鑰出現在表單自動填入裡",
+  "action": "伺服器回傳 `allowCredentials: []` 的可發現憑證選項；欄位標 `autocomplete=\"username webauthn\"`；載入時用 `PublicKeyCredential.getClientCapabilities()` 確認 `conditionalGet`，再以 `mediation: \"conditional\"` 與 `AbortController` 呼叫 `navigator.credentials.get()`；另備一顆「用通行金鑰登入」按鈕",
+  "opponent": "指南只說可發現憑證讓使用者不必先輸入帳號、由通行金鑰提供者列出帳戶，沒說先輸入帳號的流程在哪個時刻出問題（引用：\"This requests discoverable credentials, meaning the user does not need to enter their username first; the passkey provider will present available accounts.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:passkey-authentication:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkey-authentication.md",
+  "title": "按鈕登入前先中止背景的條件式請求，避免兩個提示相撞",
+  "action": "按下「用通行金鑰登入」時先 `abort()` 掛著的條件式 `get()`、換一個新的 `AbortController`；按鈕流程被取消後重新掛回條件式自動填入；`NotAllowedError`、`AbortError` 視為預期例外",
+  "opponent": "背景的條件式請求還在時又發出明確的通行金鑰提示，兩者相撞（引用：\"Abort any pending Conditional Get call to prevent passkey prompt collisions\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:passkey-authentication:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkey-authentication.md",
+  "title": "伺服器找不到憑證時，用 `signalUnknownCredential()` 通知密碼管理器",
+  "action": "伺服器查無憑證 ID 時明確回 HTTP 404；用戶端只在 404 且尚未登入時呼叫 `PublicKeyCredential.signalUnknownCredential({ rpId: publicKey.rpId, credentialId: encoded.id })`，先做功能偵測",
+  "opponent": "指南只說 Signal API 用來讓密碼管理器與伺服器的憑證狀態保持同步，沒說不同步時在哪個時刻出問題（引用：\"The WebAuthn Signal API (`webauthn-signals`) is a progressive optimization used to keep password managers in sync with the server credential state.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:passkey-authentication:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkey-authentication.md",
+  "title": "使用者驗證等級存在伺服器工作階段，不從用戶端傳回",
+  "action": "產生選項時把 `userVerification` 等級寫進伺服器工作階段；驗證端點依工作階段裡的值決定是否 `requireUserVerification`",
+  "opponent": "從用戶端（例如查詢字串）傳回驗證等級，等於讓用戶端自己決定要不要驗生物特徵或 PIN（引用：\"The requested `userVerification` constraint level MUST be persisted inside the server session record at the options endpoint, rather than passed back from the client via query strings. This allows the verification endpoint to enforce strict matching constraints safely without risk of client manipulation.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:passkey-conditional-create",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkey-conditional-create.md",
+  "title": "密碼登入成功後用 `mediation: 'conditional'` 默默建立通行金鑰",
+  "action": "只在含密碼、所有驗證因素都通過的完整登入之後，先 `abort()` 自動填入的條件式 `get()`，確認 `capabilities.conditionalCreate`，再以 `mediation: 'conditional'` 呼叫 `navigator.credentials.create()`（`excludeCredentials` 填入既有憑證）；`InvalidStateError`、`NotAllowedError`、`AbortError` 一律靜默吞掉；伺服器只對這類請求放寬使用者在場（UP）檢查",
+  "opponent": "一般的建立流程會跳出顯眼的模態對話框打斷使用者（引用：\"This signals the browser to handle the passkey creation flow silently in the background or contextually without throwing obtrusive modal dialogs.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:passkey-conditional-create:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkey-conditional-create.md",
+  "title": "伺服器驗證失敗時用 `signalUnknownCredential()` 清掉孤兒憑證",
+  "action": "`create()` 成功但伺服器驗證回應不 OK 或網路失敗時，呼叫 `PublicKeyCredential.signalUnknownCredential({ rpId: publicKey.rp.id, credentialId: encodedResponse.id })`；伺服器選項必須帶 `rp.id`",
+  "opponent": "伺服器沒收下的憑證留在通行金鑰提供者裡成為孤兒（引用：\"invoke `PublicKeyCredential.signalUnknownCredential(…)` to prevent orphaned credentials from lingering in the passkey provider.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ }
+]

@@ -13,7 +13,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：在建置或發布時從已知正確的本機檔案算出 `sha384-` 摘要，寫進 `<script>`、`<link rel="stylesheet|preload|modulepreload">` 與 `fetch()` 的 `integrity`；外部資源用帶版本或內容定址的網址；同一網址可能回傳多種合法內容時列出多個摘要；會原地更新的第三方腳本不加 `integrity`，改用 CSP 或 iframe 沙箱
 - 對手：引用 `latest/` 這類會變動的網址，網站暴露在無聲的供應鏈變更下；在瀏覽器執行時抓遠端檔案自己算雜湊，等於相信遠端給的任何內容（引用："rather than mutable floating URLs (`latest/app.min.js`), which expose your site to silent supply-chain changes and break SRI as soon as the remote file updates."）
 - 退路：不需要——`integrity` 與 `referrerpolicy` 在 `<link>`／`<script>` 上早已 Widely，不必退路
-- 解鎖：以前只能信任 CDN 網址上的內容有沒有被換掉；現在可以在建置時算好雜湊寫進標記，內容一變就被擋下
+- 解鎖：（缺）
 
 經過：CDN 上的檔案被換掉，網站照樣載入執行。釘住版本、寫上雜湊，內容一變就被擋下。
 %% line-end %%
@@ -22,9 +22,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：內容遭竄改未察覺
 - 支援狀態：指南寫 `<link rel="stylesheet">` 的 subresource-integrity 與 referrer-policy "widely available across all browsers"，記 Widely
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:secure-external-subresources:2" %%
 ## 有 `integrity` 就一定要有 `crossorigin`，否則資源直接被擋
@@ -67,7 +67,7 @@ license: CC-BY-4.0（上游指南）
 ## `@font-face` 的 `src` 不要在同一個清單裡放未驗證的退路
 - 做法：用**分開的** `src:` 宣告做漸進增強：先寫純 `url()`，再寫只有 `cross-origin()`／`referrer-policy()` 的版本，最後寫含 `integrity()` 的版本
 - 對手：把驗證版與未驗證版寫在同一個逗號分隔的 `src` 裡，CDN 送來被竄改的字型時，驗證失敗被當成載入失敗，瀏覽器自動改用第二個未驗證的網址（引用："in a single `src` descriptor bypasses Subresource Integrity at runtime"）
-- 退路：保住主要行為——不支援的瀏覽器會丟掉整條含修飾子的宣告，前面的純 `url()` 仍會生效，字型照常載入
+- 退路：失去主要好處——退回純 url() 字型，竄改內容不會經 SRI 擋下
 - 解鎖：（缺）
 
 經過：為了相容多寫一個退路，結果退路成了後門：驗證一失敗，瀏覽器乖乖去載未驗證的同一個檔案。
@@ -76,10 +76,10 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：新功能的副作用
 - 支援狀態：同 mwg:secure-external-subresources:3，記 Limited
-- 戰報：部分改善（由支援狀態與退路推出）
+- 戰報：僵持（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「失去主要好處」
 
 %% line-start id="mwg:secure-external-subresources:5" %%
 ## 外部資源設 `referrerpolicy="no-referrer"`，文件層再設基準政策

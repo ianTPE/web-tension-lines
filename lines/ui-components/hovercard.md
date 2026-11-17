@@ -159,7 +159,7 @@ license: CC-BY-4.0（上游指南）
 ## 不用 polyfill 時，`inset: auto` 與 `margin: 0` 要包在 `@supports` 裡
 - 做法：把 `inset: auto`、`margin: 0` 與 `position-area` 一起放進 `@supports (position-area: block-end)`，必要時寫 `@supports not (...)` 的固定底部條
 - 對手：不支援的瀏覽器忽略 `position-area`，但 `inset: auto` 照樣蓋掉預設置中，popover 卡在 `(0, 0)` 或疊在觸發點上（引用："leaving the popover stranded at `(0, 0)` or overlapping its trigger."）
-- 退路：失去主要好處——不用 polyfill 時退回預設置中或固定底條，失去貼附觸發點
+- 退路：保住主要行為——包在 `@supports` 裡，不支援錨點定位時退回置中或底部固定條，不會卡在角落
 - 解鎖：（缺）
 
 經過：在舊瀏覽器裡，所有預覽卡都擠在畫面左上角。
@@ -171,7 +171,7 @@ license: CC-BY-4.0（上游指南）
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「保住主要行為」
 
 %% line-start id="mwg:hovercard:10" %%
 ## `transition-behavior: allow-discrete` 獨立宣告在 `transition` 之後

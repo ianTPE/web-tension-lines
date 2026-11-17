@@ -50,7 +50,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：呼叫即時模式前用 `PublicKeyCredential.getClientCapabilities()` 確認 `immediateGet`；不支援時直接當成 `NotAllowedError` 走原本的登入流程
 - 對手：不認得 `uiMode: 'immediate'` 的瀏覽器會忽略這個鍵，改跳出擋住畫面的通行金鑰與 QR code 對話框（引用："browsers that do not recognize `uiMode: 'immediate'` ignore the unknown dictionary key and open a blocking modal passkey and QR code dialog."）
 - 退路：保住主要行為——不支援時把能力視為 false，直接走原本的登入流程，不會跳出 QR code 對話框
-- 解鎖：以前沒有同步的方法知道瀏覽器支不支援即時模式，只能看版本猜；現在 `getClientCapabilities()` 的 `immediateGet` 直接回傳
+- 解鎖：（缺）
 
 經過：本來想「有就原地登入、沒有就算了」，在不支援的瀏覽器上卻變成「每個人都被一個 QR code 對話框打斷」。先問能力，再決定要不要呼叫。
 %% line-end %%
@@ -59,9 +59,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：功能偵測不可靠
 - 支援狀態：同 mwg:quick-sign-ins，記 Limited
 - 戰報：部分改善（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:quick-sign-ins:4" %%
 ## 重新驗證不要用即時模式，否則可能選到另一個帳號

@@ -13,7 +13,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：阻斷式的確認、表單、登入用 `<dialog>` 以 `command="show-modal"` 或 `showModal()` 開啟；不加 `role="dialog"`、`aria-modal`、焦點陷阱、`inert` 切換或 Esc 處理
 - 對手：指南只說自製浮層得手工重建這些行為，沒說重建版在哪個時刻出錯（引用："It provides the accessibility semantics, focus handling, top-layer rendering and `Esc` handling that custom overlays have to rebuild by hand."）
 - 退路：不需要——支援狀態不適用，不必退路
-- 解鎖：原生 `<dialog>` 內建模態語義、焦點管理、頂層與 Esc 關閉
+- 解鎖：（缺）
 
 經過：每個專案都有一份自己的 modal 元件，各自漏掉不同的東西。原生 dialog 把這一整包交給瀏覽器。
 %% line-end %%
@@ -22,9 +22,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：手寫焦點管理
 - 支援狀態：<dialog> 本身：指南未給支援資料，記 不適用
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:dialog:2" %%
 ## 模態框的背景捲動用 `overscroll-behavior` 擋，不鎖 `<body>`
@@ -50,7 +50,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：尋找列、檢視器、調色盤、撰寫窗格這類「開著也要繼續操作頁面」的對話框，用 `<dialog popover>`（`auto` 會點外面關閉、`manual` 不會），並放一顆可見的關閉鈕；選單、提示、懸停卡則用帶 `popover` 的語意元素，不用 `<dialog>`
 - 對手：用 `showModal()` 開這類面板會擋住整個頁面（引用："**DON'T** use `showModal()`, which blocks the page."）
 - 退路：保住主要行為——不支援 popover 時載入 polyfill，保留非模態頂層面板
-- 解鎖：`<dialog popover>` 可開在頂層，同時讓頁面保持可操作
+- 解鎖：（缺）
 
 經過：開了「尋找」想邊找邊點結果，結果頁面全被鎖住，只能先關掉對話框。
 %% line-end %%
@@ -59,9 +59,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：用錯原生控制項
 - 支援狀態：Popover：Baseline Newly available（2025-01-27 起）
 - 戰報：部分改善（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:dialog:4" %%
 ## 讀完 `returnValue` 就重設成空字串
@@ -140,7 +140,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：表單有未存修改時設 `closedby="none"`，同時在 `cancel` 監聽裡擋下並顯示確認；取消鈕用 `command="request-close"` 或 `requestClose()`
 - 對手：不支援 `closedby` 的瀏覽器會忽略 `closedby="none"`，按 Esc 照樣觸發 `cancel` 並關閉對話框（引用："`closedby="none"` is ignored the same way: `Esc` fires `cancel` and then closes the dialog."）
 - 退路：保住主要行為——不支援 `closedby` 時由 `cancel` 監聽攔下關閉，仍保護未存修改
-- 解鎖：`closedby` 可宣告關閉方式，`cancel` 可在關閉前加入確認
+- 解鎖：（缺）
 
 經過：在 Safari 填了一半的長表單，順手按了 Esc，全部消失。
 %% line-end %%
@@ -149,7 +149,7 @@ license: CC-BY-4.0（上游指南）
 - 對手組：新功能的副作用
 - 支援狀態：<dialog closedby>：Limited availability，Supported by: Chrome 134, Edge 134, Firefox 141；Unsupported in: Safari
 - 戰報：部分改善（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
 - 另有 3 個糾錯提醒未拆：不要依賴 `preventDefault()` 擋下沒有使用者啟用的連續 Esc；popover polyfill 的 `:popover-open` 要用 `:is()` 合併（同 `mwg:declarative-dialog-popover-control:4`）；Invoker Commands polyfill 只在偵測不到時載入
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺

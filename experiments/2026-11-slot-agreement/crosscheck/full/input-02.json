@@ -1,0 +1,425 @@
+[
+ {
+  "key": "mwg:light-dismiss-a-dialog",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/light-dismiss-a-dialog.md",
+  "title": "用 `closedby=\"any\"` 讓模態對話框點背景就關",
+  "action": "`<dialog closedby=\"any\">` 並以 `showModal()` 開啟；不支援時用退路腳本：只在 `event.target` 是 dialog 本身時，再比對點擊座標是否落在 dialog 的矩形外才 `close()`",
+  "opponent": "手寫點外面關閉時，點在 dialog 自己的背景或 padding 上，事件目標同樣是 dialog 本身，只看目標會把對話框誤關（引用：\"This distinguishes between a click on the backdrop vs a click on the dialog's background/padding.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:light-dismiss-a-dialog:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/light-dismiss-a-dialog.md",
+  "title": "對話框裡會用 Esc 的元件要自己攔住 Esc",
+  "action": "模態對話框裡有選單、combobox 這類用 Esc 的元件時，讓它們聚焦時自己處理 Esc",
+  "opponent": "元件想用 Esc 收起清單，結果整個對話框被意外關掉（引用：\"this may lead to the dialog being inadvertently closed\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:light-dismiss-a-dialog:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/light-dismiss-a-dialog.md",
+  "title": "`closedby` 只對 `showModal()` 開的對話框有用",
+  "action": "要點背景關閉時一律用 `showModal()` 開啟；非模態（`show()`）的對話框不依賴 `closedby`",
+  "opponent": "用 `show()` 開的非模態對話框沒有背景，不會觸發點外面關閉（引用：\"as they do not have a backdrop and won't trigger light-dismiss\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:motion",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/motion.md",
+  "title": "被裁切或遮罩的可聚焦元素，焦點框畫在父層",
+  "action": "用 `clip-path`、`mask-image` 做形狀揭露或淡出時，若元素可聚焦（例如 `tabindex=\"0\"` 的捲動容器），焦點指示畫在沒被裁切的父元素上",
+  "opponent": "`clip-path` 與 `mask-image` 也會裁掉元素自己的焦點外框（引用：\"Both also clip the element's own focus outline\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:motion:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/motion.md",
+  "title": "複雜版面狀態之間用 View Transitions 過渡",
+  "action": "版面在兩個狀態之間大幅改變時用 View Transitions 做動畫",
+  "opponent": "指南只說可以在複雜版面狀態之間無縫過渡，沒說不這麼做時出了什麼事（引用：\"Use **View Transitions** to animate between complex layout states seamlessly.\"）",
+  "support": "不適用",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:motion:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/motion.md",
+  "title": "`transition-behavior: allow-discrete` 寫在 `transition` 之後、分開寫",
+  "action": "`transition` 列出 `opacity`、`display`、`overlay`，另起一行寫 `transition-behavior: allow-discrete`",
+  "opponent": "寫進簡寫或寫在簡寫之前，會被簡寫重設，或在舊瀏覽器失效（引用：\"Separate after transition so the shorthand doesn't reset it or fail in older browsers\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:motion:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/motion.md",
+  "title": "暫停鈕的標籤會在 Pause／Play 間切換時，不再加 `aria-pressed`",
+  "action": "自動播放超過五秒的動態內容旁放一顆可用鍵盤操作的暫停 `<button>`；標籤已在 Pause 與 Play 間切換時，不加 `aria-pressed`",
+  "opponent": "標籤切換又加 `aria-pressed`，讀屏會唸出「已按下的 Play 按鈕」（引用：\"or screen readers announce a pressed \"Play\" button\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:motion:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/motion.md",
+  "title": "關掉動畫時元素仍要停在最終狀態",
+  "action": "減少動態時預設靜態、在 `no-preference` 裡才加動畫，並確認元素落在最終狀態",
+  "opponent": "動畫被關掉後元素停在起始值，內容被留在隱藏狀態（例如 `opacity: 0`），焦點與選取指示也不出現（引用：\"so content isn't left hidden (for example, at `opacity: 0`)\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:motion:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/motion.md",
+  "title": "從動畫事件拿 Animation 物件用 `event.animation`",
+  "action": "在 `animationstart`、`transitionend` 等事件裡直接用 `event.animation`；可用 `'animation' in AnimationEvent.prototype` 偵測",
+  "opponent": "用 `event.target.getAnimations()` 依名稱過濾時，WAAPI 動畫沒有名稱對不到、同名動畫分不出來，也分不出是元素還是偽元素上的動畫（引用：\"`event.target` always points to the originating DOM element, so it does not distinguish between animations running on the element itself versus one of its pseudo-elements\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:motion:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/motion.md",
+  "title": "減少動態時 `animationend` 不會來，別只等它",
+  "action": "等動畫結束才移除或隱藏元素的程式，在 `element.getAnimations()` 回傳空陣列時直接繼續，或保留一個短的 opacity 過渡",
+  "opponent": "動畫只在 `no-preference` 裡套用、設成 `none` 或零時長時，`animationend`／`transitionend` 永遠不觸發，等著它的移除或隱藏永遠不發生（引用：\"`animationend` and `transitionend` never fire\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:move-dom-element-without-losing-state:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/move-dom-element-without-losing-state.md",
+  "title": "自訂元素被 `moveBefore()` 搬動時要實作 `connectedMoveCallback()`",
+  "action": "自訂元素裡依位置更新狀態的邏輯放進 `connectedMoveCallback()`",
+  "opponent": "用 `moveBefore()` 搬自訂元素時，`connectedCallback` 與 `disconnectedCallback` 都不會觸發，寫在裡面的邏輯不會跑（引用：\"their `connectedCallback` and `disconnectedCallback` lifecycle methods will **not** be fired\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:parallax-scroll-effects",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/parallax-scroll-effects.md",
+  "title": "用 `view-timeline` 加 `sibling-index()` 做多層視差",
+  "action": "外層 `overflow: clip` 並設 `view-timeline: --wrapper`，各層 `animation: parallax linear both; animation-timeline: --wrapper;`，用 `translateY(calc(100px * sibling-index()))` 錯開位移，或用 `animation-range: entry 25% exit calc(100% / sibling-count() * sibling-index())` 錯開範圍",
+  "opponent": "指南只說原生實作比 scroll 監聽或 IntersectionObserver 退路更有效率，沒說退路在哪個時刻出問題（引用：\"In browsers with built-in support for scroll-driven animations, ALWAYS use the native CSS implementation as those are more performant.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:parallax-scroll-effects:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/parallax-scroll-effects.md",
+  "title": "偵測捲動驅動動畫時要加 `(animation-range: entry)`",
+  "action": "用 `@supports ((animation-timeline: view()) and (animation-range: entry))` 偵測",
+  "opponent": "只偵測 `animation-timeline` 會讓只有部分支援的瀏覽器通過（引用：\"The `(animation-range: entry)` check **MUST** be included here, to filter out browsers with only partial support.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:parallax-scroll-effects:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/parallax-scroll-effects.md",
+  "title": "`animation-timeline`、`animation-range` 寫在 `animation` 簡寫之後",
+  "action": "先寫 `animation` 簡寫，再寫 `animation-timeline` 與 `animation-range`",
+  "opponent": "簡寫寫在後面會把時間軸重設掉（引用：\"declare `animation-timeline` and `animation-range` *after* it to prevent the shorthand from resetting the timeline\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:parallax-scroll-effects:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/parallax-scroll-effects.md",
+  "title": "JS 視差退路要自己檢查減少動態偏好",
+  "action": "退路腳本先用 `matchMedia('(prefers-reduced-motion: reduce)')` 檢查，偏好減少動態時不執行",
+  "opponent": "CSS 的 `prefers-reduced-motion` 管不到腳本設的行內樣式，退路照樣讓各層移動（引用：\"The `prefers-reduced-motion` media query in the CSS doesn't affect the inline styles the script sets\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:persistent-top-layer-ui",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/persistent-top-layer-ui.md",
+  "title": "用 `moveBefore()` 搬動開著的對話框、popover、全螢幕元素而不關閉",
+  "action": "`newParent.moveBefore(dialogElement, null)` 搬動開啟中的 `<dialog>`、popover 或全螢幕元素；不支援時退回 `insertBefore()`，事先記下是否開著，搬完再 `showModal()`／`showPopover()`",
+  "opponent": "傳統搬法隱含先移除再插入，開著的模態、popover 與全螢幕元素會突然關閉（引用：\"This removal resets the state, causing open modals, popovers, and fullscreen elements to close abruptly.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:physics-based-easing",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/physics-based-easing.md",
+  "title": "用 `linear()` 多停點緩動做出彈簧與彈跳",
+  "action": "用工具把 JS 緩動函式或 SVG 路徑轉成 `linear(0, 0.016 0.5%, …, 1)`，存成 `--spring-easing` 之類的自訂屬性，套在 `transition`／`animation` 上並自己給時長",
+  "opponent": "`ease-in`、`cubic-bezier()` 只能畫簡單曲線，做不出彈跳或彈簧這類物理效果（引用：\"making it impossible to create complex physics-based effects like bounces or springs\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:physics-based-easing:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/physics-based-easing.md",
+  "title": "彈跳緩動不要套在 `opacity` 上",
+  "action": "會超出 0–1 的彈跳曲線只套在 `transform`／`scale` 這類屬性上，不套 `opacity`",
+  "opponent": "值超出 0 以下或 1 以上時，`opacity` 會出現刺眼的閃爍（引用：\"can cause visually jarring flickering if the value overshoots below 0 or above 1\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:platform-controls-dismiss-dialog",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/platform-controls-dismiss-dialog.md",
+  "title": "模態 `<dialog>` 回應返回鍵與返回手勢",
+  "action": "模態對話框用 `showModal()` 或 `command=\"show-modal\"` 開啟；不寫 `closedby` 時即等同 `closerequest`，要點背景也關閉時才設 `closedby=\"any\"`",
+  "opponent": "`<dialog>` 剛推出時只能用 Esc 關閉，行動裝置的返回鍵或返回手勢關不掉；自己實作返回手勢關閉也沒有好方法（引用：\"it could be dismissed with the <kbd>Esc</kbd> key, but not other platform controls such as a back button/gesture on mobile … There is no good way to implement close requests from mobile back button/gestures\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:prevent-page-scroll-under-modal-dialog",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/prevent-page-scroll-under-modal-dialog.md",
+  "title": "用 `overscroll-behavior: contain` 鎖住模態框後面的頁面，不再改 `<body>` 的 overflow",
+  "action": "在 `dialog:modal` 設 `overscroll-behavior: contain`；在 `dialog::backdrop` 設 `overflow: hidden` 讓它變成不可捲動的捲動容器，再設 `overscroll-behavior: contain`",
+  "opponent": "`showModal()` 只擋點擊和焦點，不擋捲動：在 backdrop 上滑或在對話框裡滑到底，後面的頁面照樣捲；舊解法在 `<html>`／`<body>` 設 `overflow: hidden` 或 `position: fixed`，又讓捲軸消失、版面橫移、捲動位置跳走（引用：\"Mutating root overflow removes the page scrollbar (causing horizontal layout shift), can reset or jump the page scroll position, and can break `position: sticky` elements\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:prevent-page-scroll-under-modal-dialog:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/prevent-page-scroll-under-modal-dialog.md",
+  "title": "不要用 `@supports` 偵測「不可捲動容器」的 overscroll 支援",
+  "action": "把對話框的捲動圍堵當成漸進增強，不用 `@supports (overscroll-behavior: contain)` 或 `CSS.supports()` 分支",
+  "opponent": "所有現代瀏覽器都認得這個屬性語法、偵測一律回傳 true，即使它們只在內容溢出時才執行（引用：\"All modern browsers support the `overscroll-behavior: contain` property syntax and return `true`, even if they only enforce it when content overflows.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:same-document-transitions:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/same-document-transitions.md",
+  "title": "同一個 `view-transition-name` 前後各只能有一個元素，轉場完要清掉",
+  "action": "確保轉場前後每個名稱只對應一個元素；用 `.selected` 臨時加上的名稱，在 `transition.finished` 之後移除",
+  "opponent": "同名元素有兩個以上時，DOM 直接更新、完全沒有轉場（引用：\"If there are 2 or more elements with a given `view-transition-name`, the DOM will be updated to the new state immediately, without a transition.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:same-document-transitions:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/same-document-transitions.md",
+  "title": "轉場不管焦點，切換視圖後要自己把焦點送到新標題",
+  "action": "在 DOM 更新後或 `transition.finished` 時，把焦點移到新視圖的標題或容器（加 `tabindex=\"-1\"`）；不支援轉場的分支也要做",
+  "opponent": "焦點留在轉場中被隱藏或移除的元素上就會被丟棄，鍵盤與輔助技術使用者失去位置（引用：\"If focus remains on an element that is hidden or removed during the transition, focus is abandoned, leaving keyboard and assistive technology users without context.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:same-document-transitions:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/same-document-transitions.md",
+  "title": "文字轉場用 `fit-content` 固定比例，避免快照被拉伸",
+  "action": "轉場的文字元素在新舊視圖都設 `width: fit-content`；比例會變的元素把 `::view-transition-old/new()` 設 `height: 100%`，必要時用 `object-fit`",
+  "opponent": "瀏覽器預設在一個會同時容納新舊快照的群組裡交叉淡化，群組被拉伸，快照跟著變形（引用：\"By default, the browser cross-fades the old and new snapshots within a group that stretches to fit both.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scoped-component-transitions",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scoped-component-transitions.md",
+  "title": "用 `element.startViewTransition()` 把轉場關在元件裡，不再蓋住整頁",
+  "action": "在元件根元素上呼叫 `element.startViewTransition()`，子項目用 `view-transition-name: match-element`；重複出現的元件容器加 `view-transition-scope: all`，讓名稱不外洩",
+  "opponent": "`document.startViewTransition()` 把 `::view-transition` 疊層掛在 `:root`，轉場期間整頁點不到、不能同時跑兩個轉場，還會蓋住 `position: fixed` 標頭與開著的 popover（引用：\"blocks pointer events on the rest of the page, prevents concurrent transitions, and obscures `position: fixed` headers or open `[popover]` elements\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:scoped-component-transitions:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scoped-component-transitions.md",
+  "title": "同一元件快速重複觸發轉場時，接住 `ready` 的 rejection",
+  "action": "每次 `element.startViewTransition()` 後加 `transition.ready.catch(() => {})`",
+  "opponent": "在同一個元素上再次呼叫會跳過進行中的轉場並讓 `ready` reject，沒接住就變成未處理的 promise 錯誤（引用：\"Re-triggering startViewTransition() on the same element skips the active transition and rejects `ready`.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scoped-component-transitions:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scoped-component-transitions.md",
+  "title": "會裁切溢出的範圍元素不要設 `view-transition-name: none`",
+  "action": "讓範圍元素保留瀏覽器預設的自我參與（`view-transition-name: root`），由 `::view-transition-group-children(root)` 自動套 `overflow: clip`",
+  "opponent": "退出自我參與就會關掉自動溢出裁切，轉場中的子項目會溢出元件邊界（引用：\"opting out of self-participation disables automatic overflow clipping.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scoped-component-transitions:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scoped-component-transitions.md",
+  "title": "外層轉場要搬動元件時，包一層有名稱的 wrapper 並把內層設成 `view-transition-scope: all`",
+  "action": "範圍元素外包一層 wrapper 並給它 `view-transition-name`，範圍元素加 `view-transition-scope: all`；或讓外層捕捉子項目時改用巢狀轉場群組並手動補 `overflow: clip`",
+  "opponent": "從父元件或 document 發起的外層轉場，會把範圍元素和裡面所有東西一起捕捉並動畫（引用：\"the outer transition will capture and animate the scope element and everything inside it.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scroll-completion-effects",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-completion-effects.md",
+  "title": "`await scrollIntoView()` 等捲動真的停下，不再用 `setTimeout` 猜時間",
+  "action": "把處理函式寫成 `async`，直接 `await element.scrollIntoView({ behavior: 'smooth' })`（或 `scrollTo()`、`scrollBy()`），之後才加高亮、啟動動畫或移動焦點",
+  "opponent": "用 `setTimeout()` 猜捲動時間，長距離捲動太早觸發、短距離太晚；包一層 `scrollend` promise 又在目標已在畫面內、根本沒捲動時永遠等不到（引用：\"fires too early on long scrolls and too late on short ones … `scrollend` does not fire when the target is already in view and no scrolling occurs\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:scroll-completion-effects:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-completion-effects.md",
+  "title": "被打斷的平滑捲動也會 resolve，用遞增 ID 擋掉過期的後續效果",
+  "action": "每次捲動前遞增一個操作 ID，`await` 之後若已不是最新 ID 就直接 return",
+  "opponent": "新的捲動打斷進行中的平滑捲動時，瀏覽器會讓所有等待中的 promise resolve 而不是 reject，舊的後續效果照樣執行（引用：\"the browser aborts the ongoing smooth scroll and **resolves** (does not reject) all pending scroll promises on that container.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scroll-completion-effects:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-completion-effects.md",
+  "title": "捲動完再聚焦時加 `{ preventScroll: true }`",
+  "action": "`await` 捲動之後呼叫 `focus({ preventScroll: true })`",
+  "opponent": "`focus()` 預設會自己再捲一次，和剛完成的捲動打架，畫面跳動（引用：\"so the browser does not jump or scroll a second time.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scroll-completion-effects:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-completion-effects.md",
+  "title": "Chrome 捲動根捲動器時 promise 會太早 resolve，不要為此多包捲動容器",
+  "action": "知道這個 bug 存在；巢狀捲動容器上的 `scrollIntoView()` 正常，但不要為了繞過 bug 把內容包進 `overflow-y: auto` 的 div",
+  "opponent": "Chrome 捲動的是文件根捲動器時，`scrollIntoView()` 回傳的 promise 太早 resolve（引用：\"Chrome has a bug where the `Promise` returned by `scrollIntoView()` resolves too early when it is the document's root scroller that is scrolling.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scroll-entry-exit-effects",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-entry-exit-effects.md",
+  "title": "用 `view()` 加 `animation-range: entry, exit` 做進場與離場效果",
+  "action": "進場與離場各寫一組 `@keyframes`（進場 fill `backwards`、離場 `forwards`），用 `animation-timeline: view()` 綁到元素自身的可見度，再以 `animation-range: entry, exit` 限定區段；也可在單一 `@keyframes` 裡用 `entry 0%`、`exit 100%` 這類範圍選擇器",
+  "opponent": "指南沒說舊做法哪裡壞，只說不支援時退路是 IntersectionObserver，而原生實作效能較好（引用：\"In browsers with built-in support for scroll-driven animations, ALWAYS use the native CSS implementation as those are more performant.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:scroll-entry-exit-effects:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-entry-exit-effects.md",
+  "title": "`@supports` 要同時檢查 `animation-range: entry`",
+  "action": "偵測寫成 `@supports ((animation-timeline: view()) and (animation-range: entry))`",
+  "opponent": "只偵測 `animation-timeline` 會放行只有部分支援的瀏覽器（引用：\"The `(animation-range: entry)` check **MUST** be included here, to filter out browsers with only partial support.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scroll-entry-exit-effects:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-entry-exit-effects.md",
+  "title": "`animation-timeline` 與 `animation-range` 寫在 `animation` 簡寫之後",
+  "action": "先寫 `animation` 簡寫，再寫 `animation-timeline`、`animation-range`",
+  "opponent": "簡寫寫在後面會把時間軸與區段重設掉（引用：\"declare `animation-timeline` and `animation-range` *after* it to prevent the shorthand from resetting them.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scroll-snap-realtime-feedback",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-snap-realtime-feedback.md",
+  "title": "用 `scrollsnapchanging` 在手指還沒放開時就標出即將吸附的項目",
+  "action": "在捲動容器上聽 `scrollsnapchanging`，用 `event.snapTargetInline`（或 `snapTargetBlock`）替對應縮圖加 `pending` 樣式；再聽 `scrollsnapchange` 在真正吸附後設成 `active` 並更新 `aria-current`",
+  "opponent": "傳統的捲動吸附只在手勢結束、元素停穩之後才有回饋（引用：\"Traditional scroll snap only provides feedback *after* the scroll gesture completes and the element settles.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:scroll-snap-state-sync",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-snap-state-sync.md",
+  "title": "用 `scrollsnapchange` 在捲動停到新段落時同步目錄高亮",
+  "action": "容器設 `scroll-snap-type`、段落標題設 `scroll-snap-align: start`，監聽 `scrollsnapchange`，以 `event.snapTargetBlock` 更新側欄目錄的作用中連結",
+  "opponent": "指南只說以前要寫複雜的 scroll 監聽、手算捲動偏移與 IntersectionObserver，沒說這些做法在哪個時刻出錯（引用：\"traditionally required complex scroll event listeners, manual calculations of scroll offsets, and intersection observers.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:scroll-snap-state-sync:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-snap-state-sync.md",
+  "title": "吸附事件只同步畫面，作用中狀態要另外用 `aria-current` 告訴輔助技術",
+  "action": "目錄連結作用中時設 `aria-current=\"true\"` 或 `\"location\"`，並把目錄包在有名稱的 `<nav>` 裡",
+  "opponent": "捲動吸附事件讓畫面同步，但不會自動把這些資訊暴露給程式（引用：\"it does not automatically expose that information programmatically.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scroll-snap-state-sync:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-snap-state-sync.md",
+  "title": "段落比畫面長時小心 `mandatory` 吸附",
+  "action": "長文的段落吸附用 `scroll-snap-type: y proximity`，不要隨手用 `mandatory`",
+  "opponent": "`mandatory` 會讓吸附點之間、比畫面還長的內容讀不到（引用：\"it can cause content in-between snap-points to become inaccessible when longer than the screen.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scroll-target-on-load",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-target-on-load.md",
+  "title": "用 `scroll-initial-target: nearest` 讓清單一開就停在指定項目",
+  "action": "在捲動容器裡要先露出的那個子元素設 `scroll-initial-target: nearest`（例如行事曆的今天、相簿的指定照片、動態牆的精選項目）",
+  "opponent": "以前靠 JS 的 `scrollIntoView()` 或網址片段 `#item-id`；指南只說兩者都有限制、不好做，沒說在哪個時刻出問題（引用：\"both of which have limitations and are tricky to implement.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:scroll-target-on-load:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-target-on-load.md",
+  "title": "`scroll-initial-target` 只動畫面，不動鍵盤焦點",
+  "action": "目標若也該是鍵盤使用者的起點，另外呼叫 `element.focus()`",
+  "opponent": "這個屬性只移動視覺上的捲動位置，鍵盤焦點留在原處（引用：\"This property only moves the **visual** viewport; it does not move the keyboard focus.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scroll-target-on-load:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-target-on-load.md",
+  "title": "初始目標前面的媒體要先給尺寸",
+  "action": "圖片與影片設 `aspect-ratio` 或固定的 `width`／`height`",
+  "opponent": "捲動位置在初次版面配置時計算，媒體載入後撐開高度，目標就被推離位置（引用：\"ensure images or videos have `aspect-ratio` or fixed `height`/`width` to prevent the target from shifting after the media loads.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scroll-target-on-load:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scroll-target-on-load.md",
+  "title": "網址片段與 `scroll-start` 會蓋過 `scroll-initial-target`，同一容器只設一個",
+  "action": "同一個捲動容器只給一個元素設 `scroll-initial-target`；記得網址片段與容器的 `scroll-start` 優先",
+  "opponent": "多個元素都設時瀏覽器只取 DOM 順序的第一個；網址帶片段時屬性被忽略（引用：\"A URL fragment (e.g., `example.com/#top`) and the container-level `scroll-start` property both take precedence over `scroll-initial-target`.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scrollytelling",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scrollytelling.md",
+  "title": "用具名 `view-timeline` 加 `timeline-scope`，讓一組段落驅動另一組元素的動畫",
+  "action": "在被追蹤的段落上設 `view-timeline: --tl-1 block` 等具名時間軸，在共同祖先（常用 `html`）設 `timeline-scope` 公開這些名稱，另一組被動畫的元素用 `animation-timeline: --tl-1` 綁上，再用 `animation-range` 精確指定區段",
+  "opponent": "指南沒說舊做法哪裡壞，只說可以不靠 JavaScript、動畫跟著捲動位置而不是時鐘走（引用：\"The animations are controlled by the scroll position, not a time-based clock, which ensures they are always in sync with the user's scroll.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:scrollytelling:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scrollytelling.md",
+  "title": "偵測要加 `animation-range: 0% 100%`，濾掉部分支援",
+  "action": "寫成 `@supports ((animation-timeline: scroll()) and (animation-range: 0% 100%))`",
+  "opponent": "只偵測 `animation-timeline` 會讓部分支援的瀏覽器通過（引用：\"The `(animation-range: 0% 100%)` check **MUST** be included here, to filter out browsers with only partial support.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scrollytelling:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scrollytelling.md",
+  "title": "`animation-timeline` 寫在 `animation` 簡寫之後",
+  "action": "先寫 `animation` 簡寫，再寫 `animation-timeline` 與 `animation-range`",
+  "opponent": "簡寫會把時間軸重設掉（引用：\"declare `animation-timeline` and `animation-range` *after* it to prevent the shorthand from resetting the timeline.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scrollytelling:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/scrollytelling.md",
+  "title": "退路腳本沒跑、或使用者要求減少動態時，內容必須保持可見",
+  "action": "退路的「先隱藏」樣式只掛在腳本加上的 `.scroll-fallback` 類別上；`prefers-reduced-motion: reduce` 時強制 `opacity: 1`、`transform: none`",
+  "opponent": "預設就把段落藏起來等動畫，腳本沒跑時內容永遠看不到（引用：\"The CSS only hides the sections once this class is set, so they stay visible if the script doesn't run\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ }
+]

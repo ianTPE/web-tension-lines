@@ -31,7 +31,7 @@ license: CC-BY-4.0（上游指南）
 ## 同一個 `view-transition-name` 前後各只能有一個元素，轉場完要清掉
 - 做法：確保轉場前後每個名稱只對應一個元素；用 `.selected` 臨時加上的名稱，在 `transition.finished` 之後移除
 - 對手：同名元素有兩個以上時，DOM 直接更新、完全沒有轉場（引用："If there are 2 or more elements with a given `view-transition-name`, the DOM will be updated to the new state immediately, without a transition."）
-- 退路：保住主要行為——不支援轉場的瀏覽器原本就直接更新 DOM，結束後清理名稱只保住支援環境後續轉場
+- 退路：失去主要好處——退回立即更新 DOM，仍完全沒有轉場
 - 解鎖：（缺）
 
 經過：第一次點進去有動畫，回到列表再點另一張就沒了——上一次留下的名稱還掛在舊項目上，跟新項目撞名。
@@ -43,7 +43,7 @@ license: CC-BY-4.0（上游指南）
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「失去主要好處」
 
 %% line-start id="mwg:same-document-transitions:3" %%
 ## 轉場不管焦點，切換視圖後要自己把焦點送到新標題

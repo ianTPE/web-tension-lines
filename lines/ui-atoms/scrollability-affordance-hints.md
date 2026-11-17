@@ -49,8 +49,8 @@ license: CC-BY-4.0（上游指南）
 ## 淡出寬度的自訂屬性要先註冊才能平滑變化
 - 做法：用 `@property` 把 `--fade-start`、`--fade-end` 註冊成 `<length>`、`inherits: false`、`initial-value: 0px`
 - 對手：沒註冊的自訂屬性不會內插，淡出帶的寬度會直接跳（引用："Unregistered custom properties do not interpolate, so the fades would jump."）
-- 退路：保住主要行為——不支援時改用背景陰影或 IntersectionObserver，保留邊緣提示
-- 解鎖：註冊長度型自訂屬性後，淡出寬度可隨捲動平滑內插
+- 退路：沒說——指南未交代不支援 `@property` 時怎麼處理淡出帶的寬度過渡
+- 解鎖：（缺）
 
 經過：關鍵影格裡改的是自訂屬性，瀏覽器不知道它是長度，就只能在 0 和 3rem 之間切換。
 %% line-end %%
@@ -59,9 +59,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：尺寸動畫只能跳變
 - 支援狀態：Scroll-driven animations：Newly（本指南未給 `@property` 支援資料）
 - 戰報：部分改善（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「沒說」、解鎖改為缺
 
 %% line-start id="mwg:scrollability-affordance-hints:4" %%
 ## 右到左內容要翻轉淡出的漸層方向

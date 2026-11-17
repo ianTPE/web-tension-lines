@@ -494,14 +494,14 @@
     {
      "id": "mwg:interaction-paint-timing:2",
      "feature": "interactionId 配對, entry.duration",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "糾錯",
      "level": "Limited"
     },
     {
      "id": "mwg:interaction-paint-timing:3",
      "feature": "PerformanceObserver 持續接收",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -592,7 +592,7 @@
     {
      "id": "mwg:secure-external-subresources:4",
      "feature": "分開的 @font-face src 宣告",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -732,7 +732,7 @@
     {
      "id": "mwg:interest-triggered-tooltips",
      "feature": "popover=\"hint\", interestfor, 隱式錨點",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -970,7 +970,7 @@
     {
      "id": "mwg:equal-width-text-lines:2",
      "feature": "per-line-all, 明確的 inline-size",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -1354,7 +1354,7 @@
     {
      "id": "mwg:autofill-highlight-inputs",
      "feature": ":autofill",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -1663,7 +1663,7 @@
     {
      "id": "mwg:equal-width-text-lines:3",
      "feature": "gap + text-box, 不靠 em／line-height",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -1705,7 +1705,7 @@
     {
      "id": "mwg:css-layout:14",
      "feature": "Grid lanes 尚未可用，先用多欄或接受 dense 的重排代價",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "無瀏覽器支援"
     }
@@ -1912,7 +1912,7 @@
     {
      "id": "mwg:interactive-content-in-3d-scenes",
      "feature": "texElementSubImage2D(), drawElementImageToTexture(), updateElementGeometry()",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -2277,7 +2277,7 @@
     {
      "id": "mwg:respect-os-text-scale:3",
      "feature": "<meta name=\"text-scale\">",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -2359,7 +2359,7 @@
     {
      "id": "mwg:language-model",
      "feature": "LanguageModel（Prompt API）",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -2432,7 +2432,7 @@
     {
      "id": "mwg:animate-to-intrinsic-sizes",
      "feature": "interpolate-size, calc-size()",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -2446,7 +2446,7 @@
     {
      "id": "mwg:animated-select-picker",
      "feature": "appearance: base-select, @starting-style, allow-discrete",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -3491,14 +3491,14 @@
     {
      "id": "mwg:rich-media-picker",
      "feature": "用 appearance: base-select 讓 option 放圖示與說明，擋掉「只能純文字、只好自製下拉」",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },
     {
      "id": "mwg:switch",
      "feature": "用 <input type=\"checkbox\" switch> 做原生開關",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -4210,14 +4210,14 @@
     {
      "id": "mwg:language-model:12",
      "feature": "不相干任務從乾淨 base session clone，不共用舊脈絡",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     },
     {
      "id": "mwg:language-model:13",
      "feature": "用完的 session 明確 destroy() 釋放裝置記憶體",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     }
@@ -4400,7 +4400,7 @@
     {
      "id": "mwg:language-model:11",
      "feature": "使用者意圖明確時先暖機，initialPrompts 在建立時給齊",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     }
@@ -4419,7 +4419,7 @@
     {
      "id": "mwg:out-of-order-html-streaming:2",
      "feature": "streamHTML(), setHTMLUnsafe()",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "無瀏覽器支援"
     },
@@ -4584,7 +4584,7 @@
     {
      "id": "mwg:language-model:4",
      "feature": "需要下載模型時由使用者手勢呼叫 create()",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
     }
@@ -4669,7 +4669,7 @@
     {
      "id": "mwg:local-network-access:5",
      "feature": "iframe allow, Permissions-Policy",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "糾錯",
      "level": "Limited"
     },
@@ -4852,14 +4852,14 @@
     {
      "id": "mwg:validate-origins:2",
      "feature": "isSameSite()",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
     {
      "id": "mwg:validate-origins:3",
      "feature": "Origin.from(event), new Origin()",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -5148,7 +5148,7 @@
     {
      "id": "mwg:2d-panning",
      "feature": "scroll-axis-lock: none",
-     "result": "僵持",
+     "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
     },
@@ -5183,7 +5183,7 @@
     {
      "id": "mwg:swipe-to-reveal:2",
      "feature": "overscroll-behavior: chain",
-     "result": "部分改善",
+     "result": "僵持",
      "kind": "新能力",
      "level": "Limited"
     },

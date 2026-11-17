@@ -31,7 +31,7 @@ license: CC-BY-4.0（上游指南）
 ## 用 `streamHTML()` 把 fetch 回應直接串流進 DOM，不等整包 JSON
 - 做法：用新的 HTML setter 家族（`setHTML()`、`streamHTML()`、`streamAppendHTML()` 等 24 個方法，含 Safe／Unsafe 版本），把 `fetch` 回應 `pipeTo(el.streamHTML())`，瀏覽器邊收邊渲染
 - 對手：指南只說可取代「等整包 JSON 回來再手動建 DOM」，沒說那樣做在哪個時刻出問題（引用："Stream large UI transitions in SPAs using `streamHTML()` instead of waiting for a full JSON payload and manual DOM construction."）
-- 退路：失去主要好處——尚無任何主流瀏覽器支援，只能靠 `html-setters-polyfill` 模擬而無原生效能
+- 退路：保住主要行為——退回 html-setters polyfill，失去原生串流 setter
 - 解鎖：用 `streamHTML()` 直接把 fetch 串流接進 DOM 邊收邊畫，不必等整包載完或手切分段
 
 經過：SPA 換頁時得等 JSON 全部到齊、再自己組 DOM。串流 setter 讓 HTML 一邊到一邊畫，但現在還只是 polyfill 撐起來的 API 形狀。
@@ -40,11 +40,11 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：內容要等JS才成形
 - 支援狀態：HTML setter methods／HTML streaming setters："not natively supported by any major browser yet."
-- 戰報：僵持（由支援狀態與退路推出）
+- 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：伺服器回傳 HTML 片段的「孤島式」頁面，點連結後新內容一段一段流進主區塊，不必寫 JSON API 加前端模板。目前沒有瀏覽器原生支援
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「保住主要行為」
 
 %% line-start id="mwg:out-of-order-html-streaming:3" %%
 ## live region 只包進度文字，不包整塊串流內容，也不用 `role="alert"`

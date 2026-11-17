@@ -13,7 +13,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：視覺用 `:user-invalid`，再用一小段 JS 在 `blur`／`change`／`input`／`invalid` 時檢查它，同步設定 `aria-invalid`；在那之前一律設成 `aria-invalid="false"`
 - 對手：只靠 `:invalid`，使用者一 Tab 進空的必填欄位，讀屏就唸「Invalid entry」，錯誤在還沒互動前就播出來（引用："screen readers might announce "Invalid entry" the moment a user tabs into a required field that is currently empty."）
 - 退路：不需要——`:user-invalid` 已 Widely（2023-11-02），不必退路
-- 解鎖：以前只有 `:invalid`，空欄位一 Tab 進去就被判錯；現在有 `:user-invalid` 能分辨使用者是否真的互動過
+- 解鎖：（缺）
 
 經過：`:user-invalid` 只管畫面，不會自動改 ARIA。指南還點出 Firefox 與 Safari 從頁面載入就把空的必填欄位暴露成 invalid，所以 `aria-invalid` 不能留空，要明確設成 `false`。這段橋接 JS 仍得自己寫，因為沒有「UserInvalidChanged」事件。
 %% line-end %%
@@ -22,9 +22,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：播報時機或可靠度出錯
 - 支援狀態：:user-valid／:user-invalid：Widely（2023-11-02）
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:accessible-error-announcement:2" %%
 ## 錯誤訊息只在出錯時才掛進 aria-describedby

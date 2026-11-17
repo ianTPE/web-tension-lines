@@ -32,7 +32,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：`@property --icon-start { syntax: "*"; inherits: false; }`（`--icon-end` 同理），在樣式查詢區塊內用 `--icon-start: inherit` 明確轉給偽元素；不支援 `@property` 時在查詢裡把子孫重設為 `initial`
 - 對手：沒註冊成不繼承，按鈕上設的圖示會一路繼承，每個子孫都畫出一個圖示（引用："without it, an icon set on a button would inherit into every descendant, and each of them would render the icon too."）
 - 退路：保住主要行為——不支援 `@property` 時在查詢中把子孫的圖示屬性重設為 `initial`
-- 解鎖：圖示指派可設成不繼承，只讓指定元素畫出圖示
+- 解鎖：（缺）
 
 經過：自訂屬性預設會繼承，這對 token 是好事，對「這個元素要有圖示」卻是災難：按鈕裡的 span 也以為自己要畫一個。
 %% line-end %%
@@ -41,9 +41,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：繼承範圍不符預期
 - 支援狀態：Registered custom properties：Newly
 - 戰報：部分改善（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:icons:3" %%
 ## 圖示 token 用根相對網址或 data URI

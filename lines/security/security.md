@@ -13,7 +13,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：CSP 的 `script-src` 用每次請求新產生的 nonce（靜態 HTML 改用腳本雜湊）加 `'strict-dynamic'` 與 `'report-sample'`，再搭配 `object-src 'none'`、`base-uri 'none'`、`frame-ancestors`；第三方分析腳本靠 `'strict-dynamic'` 載入自己的相依，不把它的網域加進白名單
 - 對手：以 `https:` 或 `script-src https://cdn.example.com` 這種網域白名單當主要防線，攻擊者可以透過白名單網域上的開放重新導向、JSONP 端點或相依注入繞過（引用："they are easily bypassed by open redirects, JSONP endpoints, and dependency injection on the allowed origin."）
 - 退路：不需要——CSP nonce 與 `'strict-dynamic'` 屬既有 CSP 機制，不涉及新功能支援
-- 解鎖：以前 CSP 靠網域白名單防注入，白名單上的開放重新導向或 JSONP 就能繞過；現在每次請求的 nonce 讓信任只落在自己寫的 `<script>` 上
+- 解鎖：（缺）
 
 經過：白名單看起來很嚴，實際上等於信任那個網域上的每一個端點。改成 nonce 之後，信任的是「這次回應裡我自己寫的那幾個 `<script>`」。
 %% line-end %%
@@ -22,9 +22,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：防線形同虛設
 - 支援狀態：CSP：指南未給瀏覽器支援資料，記 不適用
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:security:2" %%
 ## nonce 要在樣板裡發給自己的腳本，不要事後用正規表示式蓋章
@@ -85,7 +85,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：單一網域的第一方工作階段 cookie 命名為 `__Host-session`（必須 `Secure`、`Path=/`、不設 `Domain`），不適用時用 `__Secure-`；工作階段與驗證 cookie 設 `HttpOnly`，並明確設 `SameSite=Lax`
 - 對手：工作階段 cookie 沒有 `HttpOnly`，被注入的用戶端腳本讀得到（引用："Set `HttpOnly` (`httpOnly: true`) on session and authentication cookies so they cannot be read by injected client-side scripts"）
 - 退路：不需要——cookie 屬性與前綴屬既有機制，不涉及新功能支援
-- 解鎖：以前 cookie 被注入的腳本就能讀走，現在用 `__Host-` 前綴與 `HttpOnly` 讓腳本碰不到
+- 解鎖：（缺）
 
 經過：一旦頁面有 XSS，能讀 cookie 的腳本就能把登入狀態帶走。把 cookie 設成腳本碰不到，XSS 的損害就少一大塊。
 %% line-end %%
@@ -94,9 +94,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：敏感資料外露
 - 支援狀態：Cookie 屬性與前綴：指南未給瀏覽器支援資料，記 不適用
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:security:6" %%
 ## 會被嵌入第三方頁面的 app 改用分割 cookie
@@ -159,7 +159,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：伺服器檢查 `Sec-Fetch-Site`／`Sec-Fetch-Mode`／`Sec-Fetch-Dest`，對非導覽端點拒絕 `cross-site` 請求，而且在驗證與授權檢查之前就拒絕；回應加 `Vary: Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site`；有子網域放使用者內容時，允許清單去掉 `same-site`
 - 對手：在驗證之後才拒絕，回應時間會洩漏資源或工作階段是否存在；沒加 `Vary` 時，中間的 CDN 可能把快取的回應送給攻擊者（引用："Reject disallowed requests *before* authentication or authorization checks, so the response does not leak timing information about whether a resource or session exists."）
 - 退路：不需要——Fetch Metadata 屬既有請求標頭，指南未附新功能支援資料
-- 解鎖：以前跨站請求要查完帳號才擋，回應時間會洩漏資源存不存在；現在能靠請求標頭在驗證之前就擋掉
+- 解鎖：（缺）
 
 經過：跨站請求擋下來了，可是擋的時機若在查完帳號之後，攻擊者光看回應快慢就能推出東西存不存在。先擋再查，快取也要記得分開存。
 %% line-end %%
@@ -168,9 +168,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：敏感資料外露
 - 支援狀態：Fetch Metadata：指南未給瀏覽器支援資料（範例對沒有 `Sec-Fetch-Site` 的舊瀏覽器直接放行），記 不適用
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:security:10" %%
 ## 帶憑證的 CORS 要回傳具體來源，不能用 `*`
@@ -195,7 +195,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：登出端點回應 `Clear-Site-Data: "cookies", "storage", "cache"`，三個指令都要有
 - 對手：少了其中任何一個，工作階段 cookie、Web Storage 狀態或快取的已登入頁面就留在瀏覽器裡（引用："omitting any of these directives leaves active session cookies, Web Storage state, or cached authenticated pages behind."）
 - 退路：不需要——`Clear-Site-Data` 屬既有回應標頭，不涉及新功能支援
-- 解鎖：以前登出只刪伺服器 session，瀏覽器的快取與儲存還留著已登入頁面；現在登出回應可以請瀏覽器一併清掉
+- 解鎖：（缺）
 
 經過：登出按鈕按了，伺服器的 session 也刪了，但瀏覽器的快取裡還留著上一頁的帳戶資料。共用電腦的下一個人按上一頁就看得到。
 %% line-end %%
@@ -204,9 +204,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：敏感資料外露
 - 支援狀態：Clear-Site-Data：指南未給瀏覽器支援資料，記 不適用
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:security:12" %%
 ## SRI 只用在不可變、有版本的資源上

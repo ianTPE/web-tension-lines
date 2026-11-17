@@ -1,0 +1,206 @@
+{"key": "mwg:accordion", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，原生 <details> 與自訂 accordion 基礎結構均已廣泛支援，不需額外退路。", "unlock": "（缺）"}
+{"key": "mwg:accordion:2", "fallback": "保住主要行為", "fallback_text": "此寫法本來就不使用互斥的 <details name>（不支援 name 的瀏覽器也會維持多項可開），天然保住不位移的行為。", "unlock": "（缺）"}
+{"key": "mwg:accordion:3", "fallback": "保住主要行為", "fallback_text": "展開收合動畫屬漸進增強、無須退路，不支援時手風琴仍可正常開關，僅瞬間切換而失去平滑過渡。", "unlock": "讓 <details> 收合內容維持在頁內搜尋可及範圍，並能用 CSS 對收合高度做平滑轉場動畫。"}
+{"key": "mwg:app-menus", "fallback": "保住主要行為", "fallback_text": "不支援錨點定位時以 @supports not 改由腳本計算 left／top 貼齊觸發鈕（或載入 polyfill），仍不會置中蓋住父選單。", "unlock": "純 CSS 就能讓選單列與子選單的 popover 緊貼各自觸發鈕，並在溢出視窗時自動翻轉位置。"}
+{"key": "mwg:breadcrumbs", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，語意化 <nav>、<ol> 與 CSS content 分隔符皆已廣泛支援，不需退路。", "unlock": "（缺）"}
+{"key": "mwg:breadcrumbs:2", "fallback": "失去主要好處", "fallback_text": "border-shape 退回 clip-path（仍會裁掉邊框與外框，高對比改回方框），corner-shape 則退回帶分隔符的矩形分段。", "unlock": "用純 CSS 畫出斜角或凹口箭頭麵包屑分段，讓邊框與焦點外框沿著非矩形輪廓繪製而不被裁切。"}
+{"key": "mwg:card", "fallback": "不需要", "fallback_text": "支援狀態為不適用，這是依互動需求選擇整卡連結或 ::after 延伸連結的寫法，無須瀏覽器退路。", "unlock": "（缺）"}
+{"key": "mwg:card:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，這是選取狀態避免改動版面屬性的 CSS 規範，無須瀏覽器退路。", "unlock": "（缺）"}
+{"key": "mwg:card:4", "fallback": "不需要", "fallback_text": "支援狀態為不適用，這是控制延伸連結與互動子元素堆疊層級的 CSS 寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:card:5", "fallback": "不需要", "fallback_text": "支援狀態為不適用，以卡片為尺寸查詢容器（container queries）已廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:carousel", "fallback": "失去主要好處", "fallback_text": "用 @supports 包住停靠規則，不支援 sibling-index() 時退回有限長度輪播並在頭尾停用切換鈕，雖可瀏覽但失去無限循環。", "unlock": "不複製 DOM 或移動節點也能靠 CSS order 與 inert 做出無縫無限循環輪播，避免衝突與讀屏重複朗讀。"}
+{"key": "mwg:checkbox", "fallback": "保住主要行為", "fallback_text": "不支援 accent-color 的瀏覽器會忽略並沿用系統預設色彩（mask 與 appearance: none 則已 Widely），僅失去品牌上色。", "unlock": "不改動原生 <input> 互動與無障礙，就能視需求以 accent-color 換品牌色或以 mask 全客製核取方塊外觀。"}
+{"key": "mwg:checkbox:2", "fallback": "保住主要行為", "fallback_text": "不支援 accent-color 的瀏覽器直接沿用系統預設控制項配色（原有對比無虞），受 Safari 影響者則依規範實測選色即可。", "unlock": "（缺）"}
+{"key": "mwg:checkbox:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，appearance: none 移除預設外觀後顯式指定相對尺寸屬標準 CSS 做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:copy-button", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，不將複製按鈕設為 disabled 屬基本互動與無障礙規範，無須瀏覽器退路。", "unlock": "（缺）"}
+{"key": "mwg:copy-button:3", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，用 opacity 隱藏按鈕保留鍵盤可及性屬廣泛支援做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:dark-mode-toggle:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，同步內嵌 script 讀取 localStorage 屬基礎瀏覽器機制，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:dark-mode-toggle:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，這是決定何時寫入或刪除 localStorage 偏好的狀態邏輯，無須瀏覽器退路。", "unlock": "（缺）"}
+{"key": "mwg:dark-mode-toggle:4", "fallback": "不需要", "fallback_text": "支援狀態為不適用，媒體查詢與 :has() 選擇器均已廣泛支援，無須額外退路。", "unlock": "（缺）"}
+{"key": "mwg:dialog", "fallback": "不需要", "fallback_text": "支援狀態為不適用，原生 <dialog> 與 showModal() 已廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:dialog:2", "fallback": "失去主要好處", "fallback_text": "把捲動限制當漸進增強、切勿用 overflow: hidden 鎖根元素；不強制執行的瀏覽器在遮罩上滑動時仍會捲到後方頁面。", "unlock": "不必用 overflow: hidden 或 position: fixed 鎖死根元素造成版面跳動，純 CSS 就能阻擋模態對話框背後的頁面捲動。"}
+{"key": "mwg:dialog:3", "fallback": "保住主要行為", "fallback_text": "不支援 Popover API 時可條件載入 @oddbird/popover-polyfill（搭配 .\\:popover-open），非模態對話框仍不阻斷頁面。", "unlock": "（缺）"}
+{"key": "mwg:dialog:4", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在 close 事件讀取並重設 dialog.returnValue 屬標準 DOM 操作，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:dialog:5", "fallback": "不需要", "fallback_text": "支援狀態為不適用，顯示說明訊息並以 aria-describedby 關聯屬基本 ARIA 用法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:dialog:6", "fallback": "不需要", "fallback_text": "支援狀態為不適用，預留訊息空間避免確認時按鈕位移屬基本排版技巧，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:dialog:7", "fallback": "不需要", "fallback_text": "支援狀態為不適用，用 dialog[open] 限縮 display 屬標準 CSS 選擇器規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:dialog:8", "fallback": "保住主要行為", "fallback_text": "不支援 closedby 時瀏覽器會忽略 closedby=\"none\"，但寫在 cancel 監聽裡的未存修改保護仍可攔截關閉（command 可載入 polyfill）。", "unlock": "（缺）"}
+{"key": "mwg:hovercard", "fallback": "保住主要行為", "fallback_text": "不支援 Interest Invokers 時可條件載入 interestfor polyfill 並搭配類別與 CSS 變數寫法，仍能兼顧 hover 與聚焦觸發。", "unlock": "僅靠 HTML 屬性 interestfor 與 CSS interest-delay，就能宣告式觸發兼顧滑鼠懸停與鍵盤聚焦的延遲預覽卡。"}
+{"key": "mwg:hovercard:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，避免重複提示文字與觸發名稱屬基本無障礙規則，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:hovercard:4", "fallback": "不需要", "fallback_text": "支援狀態為不適用，依觸發元素是否為單純開提示選擇 aria-describedby 或 aria-expanded 屬 ARIA 規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:hovercard:5", "fallback": "不需要", "fallback_text": "支援狀態為不適用，只在懸停卡放補充性資訊屬內容無障礙設計原則，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:hovercard:6", "fallback": "保住主要行為", "fallback_text": "這段補寫 ARIA 的腳本原本就在所有瀏覽器解析 DOM 後優先執行，搭配條件載入的 interestfor polyfill 即可完整運作。", "unlock": "（缺）"}
+{"key": "mwg:hovercard:7", "fallback": "保住主要行為", "fallback_text": "不支援 Popover API 時可條件載入 @oddbird/popover-polyfill，捕獲階段的 toggle 監聽仍可同步更新 aria-expanded。", "unlock": "（缺）"}
+{"key": "mwg:hovercard:9", "fallback": "保住主要行為", "fallback_text": "包進 @supports 後不支援錨點定位會退回預設置中或底部固定條，不會卡在角落；若亦缺 Popover 可條件載入 polyfill。", "unlock": "（缺）"}
+{"key": "mwg:hovercard:10", "fallback": "不需要", "fallback_text": "支援狀態為不適用，把 allow-discrete 寫在 transition 之後本就是相容舊瀏覽器的寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:hovercard:11", "fallback": "保住主要行為", "fallback_text": "跨文件 View Transition 屬漸進增強，不支援的瀏覽器會安全忽略相關宣告並維持標準連結導覽，僅失去變形動畫。", "unlock": "點擊預覽卡連結時可用跨文件轉場直接把卡片內容變形成目的頁面，不必做成單頁式架構。"}
+{"key": "mwg:menu", "fallback": "保住主要行為", "fallback_text": "不支援 focusgroup、Popover 或 invoker 時指南皆提供 JS 鍵盤監聽／role 補寫與條件載入 polyfill，選單操作與語意仍完整保留。", "unlock": "只靠 focusgroup=\"menu\" 與 commandfor 等 HTML 屬性，就能獲得瀏覽器內建方向鍵選單巡覽與語意角色推斷。"}
+{"key": "mwg:menu:2", "fallback": "保住主要行為", "fallback_text": "不支援錨點定位時以 @supports not 搭配腳本計算並夾限 left／top（或載入 polyfill），不會脫離觸發鈕或蓋住父選單。", "unlock": "不寫額外 anchor-name 也不手算座標，純 CSS 就能讓主選單與子選單貼緊觸發項並在溢出時自動翻轉。"}
+{"key": "mwg:menu:3", "fallback": "保住主要行為", "fallback_text": "當錨點定位不支援時整體選單退回腳本計算位置與視窗邊界夾限（由 @supports not 控制），同樣能避開蓋住觸發項目。", "unlock": "（缺）"}
+{"key": "mwg:menu:4", "fallback": "保住主要行為", "fallback_text": "不支援 showPopover({ source }) 隱式錨點時改由腳本配發 anchor-name／position-anchor（或改用腳本座標），右鍵與游標選單仍可用。", "unlock": "右鍵或游標處開啟的選單不必手算翻轉與邊界，靠 showPopover({ source }) 配零尺寸佔位元素就能套用 CSS 錨點定位。"}
+{"key": "mwg:menu:5", "fallback": "保住主要行為", "fallback_text": "不支援 sign() 時在 @supports not 中改用大倍率 clamp() 決定側邊與偏移，安全三角照常運作，只失去 sign() 寫法簡潔度。", "unlock": "（缺）"}
+{"key": "mwg:menu:6", "fallback": "保住主要行為", "fallback_text": "不支援 invoker 或 Popover 時分別以 click 監聽與 @oddbird/popover-polyfill 補齊，在 toggle 裡移焦與同步狀態仍可運作。", "unlock": "（缺）"}
+{"key": "mwg:menu:8", "fallback": "不需要", "fallback_text": "支援狀態為不適用，提高選擇器特異度以顯示勾選符號屬基礎 CSS 規則，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:menu:9", "fallback": "不需要", "fallback_text": "支援狀態為不適用，以 Flexbox 搭固定寬前導欄與 margin-inline-start: auto 均已廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:menu:10", "fallback": "不需要", "fallback_text": "支援狀態為不適用，使用 @starting-style 提供起始動畫值並拆出 allow-discrete 屬樣式動畫寫法，無須額外退路。", "unlock": "（缺）"}
+{"key": "mwg:navbar", "fallback": "保住主要行為", "fallback_text": "量測寬度本身已廣泛支援；不支援 Popover 可條件載入 @oddbird/popover-polyfill、缺錨點定位則採固定位置或 JS 計算座標，單樹導覽列仍可運作。", "unlock": "不用寫死寬度斷點，同一棵導覽樹能依連結數、翻譯長度或字體大小自動決定內嵌展開或收進原生 popover。"}
+{"key": "mwg:navbar:2", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，使用 button 搭配 aria-expanded 與 aria-controls 屬廣泛支援的無障礙標準做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:navigation-drawer", "fallback": "保住主要行為", "fallback_text": "捲動吸附與 dialog 已 Widely（手指仍直接拖曳抽屜）；不支援捲動時間軸與 @property 時改由 JS scroll 監聽寫入暗度，僅失去純 CSS 漸變。", "unlock": "以原生捲動吸附與捲動時間軸讓手指直接拖曳控制抽屜位置與背景暗度，不靠 JS 指標事件與補間動畫。"}
+{"key": "mwg:navigation-drawer:3", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，scrollTo、IntersectionObserver 與 dialog.close() 皆已廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:navigation-drawer:4", "fallback": "保住主要行為", "fallback_text": "以 @supports 包住後不支援動畫時間軸的瀏覽器不會套用 keyframes，改走 JS scroll 監聽寫入 --drawer-backdrop，背景仍正常漸變且不會全暗。", "unlock": "（缺）"}
+{"key": "mwg:navigation-drawer:6", "fallback": "不需要", "fallback_text": "支援狀態為不適用，小視窗動態單位（svh）已獲廣泛支援，無須瀏覽器退路。", "unlock": "（缺）"}
+{"key": "mwg:navigation-drawer:7", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，popover=\"manual\" 與指南中的無 popover 替代寫法皆已覆蓋，無須額外退路。", "unlock": "（缺）"}
+{"key": "mwg:navigation-drawer:8", "fallback": "不需要", "fallback_text": "支援狀態為不適用，依元件是否兼當側欄選擇元素並動態切換 role 屬標準語意寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:navigation-drawer:9", "fallback": "保住主要行為", "fallback_text": "不支援 scroll-initial-target 時先即時捲到關閉位置並等兩個 rAF 再平滑捲開，抽屜一樣有滑入動畫，只多這段 JS 退路。", "unlock": "不必靠 JS 先瞬間捲動並等待兩幀，純 CSS 的 scroll-initial-target 就能讓抽屜進頂層時直接停在關閉位置準備滑入。"}
+{"key": "mwg:persistent-app-tours", "fallback": "保住主要行為", "fallback_text": "可條件載入 @oddbird/popover-polyfill 保住手動關閉不消失，並依需求載入錨點定位 polyfill 或用 @supports 置中／置底，導覽提示仍可運作。", "unlock": "讓非模態應用程式導覽提示常駐在頂層並固定貼齊對應功能旁，使用者操作頁面時不會因點外部而被收掉。"}
+{"key": "mwg:persistent-app-tours:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，控制導覽提示的焦點移入與歸還時機屬標準 DOM 與無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:persistent-app-tours:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，使提示內容脫離視覺指示仍能獨立讀懂屬無障礙文案原則，無須瀏覽器退路。", "unlock": "（缺）"}
+{"key": "mwg:persistent-app-tours:4", "fallback": "不需要", "fallback_text": "支援狀態為不適用，避免非模態提示遮住聚焦元素屬 WCAG 2.4.11 互動規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:persistent-toast-notifications", "fallback": "保住主要行為", "fallback_text": "不支援 Popover API 時可條件載入 @oddbird/popover-polyfill 並配合 .\\:popover-open，手動關閉與多則並存行為仍完整保留。", "unlock": "利用 popover=\"manual\" 讓多則 toast 通知在頂層安全並存，使用者點擊頁面其他處時不會被誤關。"}
+{"key": "mwg:persistent-toast-notifications:2", "fallback": "保住主要行為", "fallback_text": "不支援 ariaNotify() 時改用頁面載入時就預置且帶說明文字的 aria-live 容器寫入通知，讀屏仍可播報，只多出預置 DOM 節點。", "unlock": "不需在 DOM 預先維護隱藏的 aria-live 區域與說明文字，直接呼叫 ariaNotify() 即時向螢幕閱讀器播報通知。"}
+{"key": "mwg:persistent-toast-notifications:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，控制 toast 留存策略與焦點暫停倒數屬互動與無障礙設計規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:persistent-toast-notifications:4", "fallback": "不需要", "fallback_text": "支援狀態為不適用，避免焦點轉移與模態對話框開啟期間發送 toast 屬通知排程規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:persistent-toast-notifications:5", "fallback": "不需要", "fallback_text": "支援狀態為不適用，把 allow-discrete 寫在 transition 之後且可改用 JS 類別切換動畫，無須額外退路。", "unlock": "（缺）"}
+{"key": "mwg:progress-ring:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在 forced-colors 模式使用系統色重畫屬高對比無障礙寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:progress-ring:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，搭配 aria-hidden 與 aria-valuetext 屬標準 ARIA 語意寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:progress-ring:4", "fallback": "保住主要行為", "fallback_text": "不支援 @property 時圓環可退為直接跳值（基本功能照常），若必要亦可偵測後用 requestAnimationFrame 內插保住平滑轉動。", "unlock": "（缺）"}
+{"key": "mwg:progress", "fallback": "不需要", "fallback_text": "支援狀態為不適用，區分安全屬性與 appearance: none 整套客製屬既有 CSS 規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:progress:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，以 inline-size 容器搭配 translate 與 cqi 移動填色條屬標準 CSS 做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:progress:4", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在減少動態偏好下調整 CSS 變數拉長週期屬標準無障礙寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:progress:5", "fallback": "保住主要行為", "fallback_text": "不支援 revert-rule 時未設變數的狀態會退成 animation-name: revert-rule（0 秒無作用，只要無同名動畫即無害），進度條仍正常運作。", "unlock": "讓偽元素只在動畫變數有設定時才套用動畫、未設定時保留上層規則，提升元件狀態樣式的可組合性。"}
+{"key": "mwg:progress:6", "fallback": "不需要", "fallback_text": "支援狀態為不適用，用 role=\"status\" 播報完成而不把焦點移到 <progress> 屬標準無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:progress:7", "fallback": "不需要", "fallback_text": "支援狀態為不適用，用 hidden 或 aria-hidden 隱藏載入中區塊屬標準 ARIA 與 HTML 寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:scrollspy", "fallback": "保住主要行為", "fallback_text": "偵測不支援 scroll-target-group 時改用 IntersectionObserver 切換 .target-current 與 aria-current，目錄高亮仍照常，僅多這段 JS。", "unlock": "不寫 JS IntersectionObserver 也能僅靠 CSS scroll-target-group 與 :target-current 自動標出目前捲動到的章節。"}
+{"key": "mwg:scrollspy:2", "fallback": "保住主要行為", "fallback_text": "不支援 scroll-target-group 與 :target-current 時，改由指南的 IntersectionObserver 退路同步更新 aria-current 屬性，讀屏一樣能取得目前章節。", "unlock": "（缺）"}
+{"key": "mwg:scrollspy:3", "fallback": "保住主要行為", "fallback_text": "此寫法以 :is() 容錯包裹原生虛擬類別與退路類別，不支援 :target-current 時舊瀏覽器仍會套用 IntersectionObserver 切換的 .target-current。", "unlock": "（缺）"}
+{"key": "mwg:spinner:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在 forced-colors 模式以 forced-color-adjust: none 搭系統色重畫屬高對比無障礙寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:spinner:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在 prefers-reduced-motion 下調整 CSS 變數放慢轉速屬標準無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:stack-drill-down", "fallback": "保住主要行為", "fallback_text": "不支援 scrollsnapchange 時可用 IntersectionObserver（threshold: 1）加 MutationObserver 呼叫同一個切換函式，原生滑動吸附與手勢控制仍在。", "unlock": "靠原生捲動吸附與 scrollsnapchange 讓手指直接拖曳驅動逐層深入退回動畫與狀態同步，不需 JS 指標或補間動畫。"}
+{"key": "mwg:stack-drill-down:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，將位移套在吸附目標內層元素以免干擾吸附幾何屬結構規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:stack-drill-down:3", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，HTML inert 屬性已獲廣泛支援，無須瀏覽器退路。", "unlock": "（缺）"}
+{"key": "mwg:stack-drill-down:4", "fallback": "不需要", "fallback_text": "支援狀態為不適用，History API（pushState、history.go、popstate）已廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:stack-drill-down:5", "fallback": "不需要", "fallback_text": "支援狀態為不適用，focus({ preventScroll: true }) 已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:stack-drill-down:6", "fallback": "不需要", "fallback_text": "支援狀態為不適用，換頁後妥善設定或還原焦點屬基本無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:stack-drill-down:7", "fallback": "不需要", "fallback_text": "支援狀態為不適用，更新 document.title 與為返回鈕命名屬標準無障礙與瀏覽歷史規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:stack-drill-down:8", "fallback": "不需要", "fallback_text": "支援狀態為不適用，依跳轉方向與步數決定 scrollTo 行為屬基礎 JS 控制邏輯，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:stack-drill-down:9", "fallback": "不需要", "fallback_text": "支援狀態為不適用，把 scroll-behavior: smooth 收進 prefers-reduced-motion 媒體查詢屬標準無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:stack-drill-down:10", "fallback": "不需要", "fallback_text": "支援狀態為不適用，使用原生 <a href> 並放行修飾鍵點擊屬基礎 HTML 與路由處理寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:stack-drill-down:11", "fallback": "保住主要行為", "fallback_text": "以 @supports 包住後不支援捲動驅動動畫的瀏覽器不會套用 keyframes，畫面僅直接切換吸附點而不致永遠停在位移狀態（需要時亦可另用 scroll 監聽）。", "unlock": "（缺）"}
+{"key": "mwg:stack-drill-down:12", "fallback": "保住主要行為", "fallback_text": "以 @supports 包住後不支援時仍可正常滑動切換畫面（只無視差陰影動畫）；若必要亦可退回 JS scroll 監聽，但會失去合成層流暢度。", "unlock": "免用 JS scroll 監聽，只靠 CSS view(inline) 時間軸就能讓視差、變暗與陰影在合成層跟著手指滑動演出。"}
+{"key": "mwg:stack-drill-down:13", "fallback": "不需要", "fallback_text": "支援狀態為不適用，滑回後即時修剪 DOM 並快取網址重建屬標準 DOM 管理做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:stack-drill-down:14", "fallback": "不需要", "fallback_text": "支援狀態為不適用，設置 overscroll-behavior-x: none 控制單軸捲動邊界屬標準 CSS 做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:stack-drill-down:15", "fallback": "不需要", "fallback_text": "支援狀態為不適用，動態視窗單位 dvh 已獲廣泛支援，無須瀏覽器退路。", "unlock": "（缺）"}
+{"key": "mwg:tabs", "fallback": "保住主要行為", "fallback_text": "不支援 focusgroup 時條件載入 @microsoft/focusgroup-polyfill（隱藏項加 focusgroup=\"none\"），角色與方向鍵巡覽照常運作。", "unlock": "只需在 tablist 加上 focusgroup 屬性，就能免寫 roving tabindex 腳本而自動取得角色與方向鍵巡覽。"}
+{"key": "mwg:tabs:2", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，偽元素 border 與 aria-selected 選擇器已廣泛支援，強制色彩下亦能保留選中線，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:tabs:3", "fallback": "保住主要行為", "fallback_text": "單列水平捲動與溢位選單本體不致折成多列；若不支援捲動淡出則退回 IntersectionObserver 類別提示，不支援 interpolate-size 則直接切換寬度。", "unlock": "讓過多標籤維持單列而不致折成多行亂序，依情境用邊緣淡出提示捲動、溢位選單或縮窄非作用中標籤。"}
+{"key": "mwg:toolbar", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，使用 aria-disabled=\"true\" 保持控制項可聚焦與方向鍵可達屬廣泛支援寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:toolbar:2", "fallback": "保住主要行為", "fallback_text": "不支援 focusgroup 時改裝 JS roving tabindex 退路（含水平／垂直方向鍵與 RTL 反轉），單一 Tab 停點仍完整運作。", "unlock": "免寫 roving tabindex 腳本，只在容器加 focusgroup=\"toolbar wrap\" 就能讓工具列維持單一 Tab 停點與方向鍵巡覽。"}
+{"key": "mwg:animate-to-intrinsic-sizes", "fallback": "失去主要好處", "fallback_text": "當作漸進增強並在 calc-size() 前留關鍵字退路，不支援的瀏覽器版面與開關仍可用，但會直接跳到目標尺寸、失去過渡動畫。", "unlock": "只加一行 interpolate-size: allow-keywords 就能讓 CSS 原生對 height: auto 等固有尺寸做平滑展開與收合動畫。"}
+{"key": "mwg:atrule-support-conditionals", "fallback": "保住主要行為", "fallback_text": "不支援 @supports at-rule() 時改用屬性／選擇器偵測、@property 空白技、style 查詢恆真式或 JS CSSStyleSheet 測試，仍可完成特性偵測。", "unlock": "能在純 CSS @supports 裡直接依 at-rule 名稱偵測瀏覽器是否支援該語法並條件套用規則。"}
+{"key": "mwg:calculate-with-intrinsic-sizes:2", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，收合時加上 visibility: hidden 與 transition 屬廣泛支援的無障礙做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:child-state-based-styling", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，CSS :has() 選擇器已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:content-based-styling", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，CSS :has() 與 :not() 選擇器組合已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:css-layout", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，使用 display: block 等外部顯示值屬基礎 CSS，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:css-layout:2", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，CSS aspect-ratio 已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:css-layout:3", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，flex-wrap: wrap 與 min-inline-size: 0 已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:css-layout:5", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在對齊關鍵字前加上 safe 以防窄容器裁切焦點內容屬標準 CSS 做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:css-layout:6", "fallback": "不需要", "fallback_text": "支援狀態為不適用，維持 DOM 與視覺順序一致以確保鍵盤焦點流向正確屬無障礙原則，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:css-layout:7", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，CSS Subgrid 已獲廣泛支援，無須額外退路。", "unlock": "（缺）"}
+{"key": "mwg:css-layout:8", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，單軸 subgrid 搭配另一軸自動軌道皆已廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:css-layout:9", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，容器尺寸查詢已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:css-layout:11", "fallback": "不需要", "fallback_text": "支援狀態為不適用，overflow: clip 與 overflow: auto 皆已廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:css-layout:12", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，百分比與動態視窗單位 dvw／svw 皆已廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:css-layout:13", "fallback": "不需要", "fallback_text": "支援狀態為不適用，為自動重複軌道容器設定明確寬度屬基礎 Grid 排版規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:css-layout:14", "fallback": "保住主要行為", "fallback_text": "現階段本身即先退回 multi-column 或 grid-auto-flow: dense 緊密排列不同高度項目，只在 @supports 內增強 masonry，各帶流向或順序代價。", "unlock": "（缺）"}
+{"key": "mwg:css", "fallback": "不需要", "fallback_text": "支援狀態為不適用，使用 :not() 排除狀態而避免後規蓋寫屬基礎 CSS 做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:css:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，這是避免 :not() 後代選擇器在巢狀結構選錯目標的界定範圍做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:css:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，限制樣式 reset 選擇器範圍而非套在萬用字元 * 上屬 CSS 架構規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:design-token-reactivity", "fallback": "失去主要好處", "fallback_text": "退回使用 :where([data-density=...]) 屬性選擇器後雖可切換外觀，但同特異度導致巢狀密度區塊仍會被出現順序蓋掉。", "unlock": "用純 CSS 自訂屬性傳遞語意層級設計 token 並在後代元件查詢，支援任意巢狀覆寫而不受出現順序影響。"}
+{"key": "mwg:dynamic-sibling-styling", "fallback": "保住主要行為", "fallback_text": "偵測不支援 sibling-index() 時改由 JS 寫入 --sibling-index 與 --sibling-count 變數並以 @supports 分流，動態計算照常運作。", "unlock": "免寫 :nth-child 迴圈或 JS 注入索引，純 CSS 就能依兄弟數量與序位動態算出色相、扇形或圓周排列。"}
+{"key": "mwg:fluid-scaling", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，容器尺寸查詢與 cqi／cqb 單位皆已廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:fluid-scaling:2", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，clamp() 與縮放比例無障礙規範均已廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:individual-transform-properties", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，獨立變換屬性 translate／rotate／scale 已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:individual-transform-properties:2", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，先宣告恆等變換屬性以避免 hover 時新建堆疊脈絡已廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:overflow-clipping-control", "fallback": "失去主要好處", "fallback_text": "改用 @supports 包住並以 overflow: hidden 作為基底時子元素陰影會被切斷，改用 visible 則失去裁切邊界，無法同時兼顧。", "unlock": "不需多包一層 wrapper 加負邊距，純 CSS 就能讓容器裁切內容同時保留安全留白使子元素陰影畫出界外。"}
+{"key": "mwg:overflow-clipping-control:2", "fallback": "失去主要好處", "fallback_text": "退回基底的 overflow: hidden 後仍可維持大致邊界，但無法依 content-box 自動裁出貼齊內距邊緣的同心內圓角。", "unlock": "免手算 padding 的 calc()，設 overflow-clip-margin: content-box 就能讓內層媒體與頁尾自動沿內容框切出同心內圓角。"}
+{"key": "mwg:reduce-style-repetition", "fallback": "保住主要行為", "fallback_text": "呼叫處前先寫靜態預設值（或於多瀏覽器需求改用 Sass 等預處理器展開函式），樣式與排版仍可用，僅失去原生執行期 CSS 函式。", "unlock": "不需預處理器，原生 CSS 就能把帶預設值與型別、甚至結合 @media 的樣式運算封裝成可重用 @function。"}
+{"key": "mwg:responsive-design", "fallback": "不需要", "fallback_text": "支援狀態為不適用，動態視窗單位 dvh／dvw 已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:responsive-design:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，CSS aspect-ratio 已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:responsive-design:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，clamp() 搭配混合單位與縮放倍數限制屬廣泛支援的響應式排版規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:selector-atrule-combinations", "fallback": "保住主要行為", "fallback_text": "關鍵分支改回在各條件下重複撰寫規則、非關鍵分支則用基底樣式加 @container 覆寫，所有狀態仍正確呈現只失去零重複寫法。", "unlock": "把媒體查詢與選擇器條件先存成自訂屬性再由 style query 讀取，跨條件樣式規則只寫一份不必兩邊重複。"}
+{"key": "mwg:size-aware-styling", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，尺寸容器查詢（container queries）已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:style-parent-with-has", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，:has() 與 :user-invalid 偽類均已廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:style-parent-with-has:2", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，在 JS 事件同步 aria-invalid 屬標準表單無障礙寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:style-parent-with-has:3", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，僅在無效時將錯誤訊息掛入 aria-describedby 屬標準 ARIA 做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:style-parent-with-has:4", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，全頁共用 polite live region 播報表單錯誤屬標準無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:usage-aware-component-variations", "fallback": "失去主要好處", "fallback_text": "退回以 :where(.featured) .button 等後代選擇器做基底雖能變換樣式，但仍把兩端耦合在 DOM 結構且無法穿透 shadow DOM。", "unlock": "讓情境容器與元件樣式兩端解耦而不必寫死對方類別，且情境旗標還能跨過 shadow DOM 邊界驅動元件變體。"}
+{"key": "mwg:accessible-web-components:2", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，Shadow DOM delegatesFocus 與 connectedCallback 設定屬廣泛支援規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:accessible-web-components:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在 connectedCallback 而非建構式設定 tabIndex 屬 Custom Elements 基本規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:custom-elements:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，確保 connectedCallback 冪等並在 disconnectedCallback 清理資源屬標準生命週期規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:custom-elements:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在呼叫 customElements.define() 前備齊類別屬性與回呼屬標準 Custom Elements 規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:custom-elements:4", "fallback": "不需要", "fallback_text": "支援狀態為不適用，用 super()、slotchange 與 attributeChangedCallback 處理升級時序屬標準元件規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:custom-elements:5", "fallback": "不需要", "fallback_text": "支援狀態為不適用，以延遲 opacity 動畫局部防閃爍並確保失敗時能現身屬漸進防禦寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:form-associated-custom-elements", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，Form-Associated Custom Elements 與 ElementInternals 已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:form-associated-custom-elements:2", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，只在 formDisabledCallback 內停用內部控制項而非設宿主 disabled 屬標準規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:form-associated-custom-elements:3", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，避免以 ElementInternals 覆蓋使用端透過 label 給予的名稱屬標準 ARIA 規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:html", "fallback": "不需要", "fallback_text": "支援狀態為不適用，使用原生 <dialog> 與 popover 處理模態與非模態覆蓋層屬標準 HTML 規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:html:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，HTML inert 屬性已獲廣泛支援，無須瀏覽器退路。", "unlock": "（缺）"}
+{"key": "mwg:html:4", "fallback": "不需要", "fallback_text": "支援狀態為不適用，避免任意啟用 preventScroll 以免焦點停在畫面外屬基本無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:html:5", "fallback": "不需要", "fallback_text": "支援狀態為不適用，替可捲動 <pre> 補上 tabindex=\"0\" 與命名 region 屬標準鍵盤可及性規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:html:6", "fallback": "不需要", "fallback_text": "支援狀態為不適用，避免用鍵盤無法觸發的 title 屬性當提示屬基本無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:html:7", "fallback": "不需要", "fallback_text": "支援狀態為不適用，依是否位於首屏選擇 fetchpriority=\"high\" 或 loading=\"lazy\" 屬既有資源載入優化，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:html:8", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在 img 與 video 補齊 width／height 屬性屬標準防版面位移規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:html:9", "fallback": "不需要", "fallback_text": "支援狀態為不適用，替登入與表單欄位填寫具體 autocomplete token 屬標準表單規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:prerendering-custom-elements", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，Declarative Shadow DOM 已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:prerendering-custom-elements:2", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，先檢查既有 this.shadowRoot 再水合屬 Declarative Shadow DOM 標準做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:shadow-dom", "fallback": "不需要", "fallback_text": "支援狀態為不適用，Constructable Stylesheets 與 adoptedStyleSheets 已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:shadow-dom:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，透過 slotchange 與 assignedElements() 偵測插槽內容屬標準 Shadow DOM 做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:styling-web-components", "fallback": "保住主要行為", "fallback_text": "此寫法本就改用可跨所有瀏覽器的繼承 CSS 自訂屬性取代不跨瀏覽器的 :host-context()，天然不需要為後者準備退路。", "unlock": "（缺）"}
+{"key": "mwg:styling-web-components:2", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，在 :host 上使用私有別名保留預設值屬標準 CSS 自訂屬性規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:styling-web-components:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在被包住的原生表單控制項設 font: inherit 屬基礎 CSS 寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:styling-web-components:4", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，::part() 與自訂屬性均已廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:styling-web-components:6", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，給予 :host 區塊顯示並套用容器尺寸查詢已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:web-components", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在自訂元件內包住原生語意元素屬基礎架構規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:web-components:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，以 open 模式建立 shadow root 屬既有標準 API 用法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:web-components:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，避開 Safari 不實作的 is=\"…\" 而改採自主元件包裝屬跨瀏覽器相容做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:carousel-slide-effects", "fallback": "保住主要行為", "fallback_text": "純裝飾時可用 @supports 略過；否則改用 Web Animations API 暫停動畫搭配 JS scroll 監聽寫入 currentTime，僅降低效能且部分效果難重現。", "unlock": "只用 CSS view(inline) 時間軸就能讓投影片隨捲動位置在合成層自動縮放淡出，免寫 JS scroll 監聽與動畫同步。"}
+{"key": "mwg:carousel-slide-effects:2", "fallback": "保住主要行為", "fallback_text": "不支援 animation-timeline 與 animation-range 時可依裝飾需求在 @supports 外略過，或改用 WAAPI 搭 scroll 監聽退路，輪播仍正常運作。", "unlock": "（缺）"}
+{"key": "mwg:carousel-slide-effects:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，無可聚焦內容的捲動容器加上 tabindex=\"0\" 與名稱屬基本鍵盤無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:component-specific-light-dark-theme:2", "fallback": "保住主要行為", "fallback_text": "不支援 light-dark() 時本就退回以 @media (prefers-color-scheme: dark) 與分離變數定義顏色，不會出現 light-dark() 計算值鎖單色繼承的問題。", "unlock": "（缺）"}
+{"key": "mwg:component-specific-light-dark-theme:3", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，僅在具有獨立背景的元素覆寫 color-scheme 屬避免對比錯亂的設計規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:component-specific-light-dark-theme:4", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，透過 URL 參數或 postMessage 明確傳遞配色給 iframe 本就是因應 Safari 差異的跨瀏覽器做法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:icons", "fallback": "保住主要行為", "fallback_text": "不支援容器樣式查詢時改用 .icon-start／.icon-end 類別搭 image-set()，不支援 @property 則在查詢內把子孫重設為 initial，mask 換色照常運作。", "unlock": "把圖示做成 CSS 設計 token，不改 HTML 就能靠串接與狀態覆寫切圖示，並由祖先變數統一控色與尺寸。"}
+{"key": "mwg:icons:2", "fallback": "保住主要行為", "fallback_text": "不支援 @property 時在樣式查詢裡把後代 --icon-start／--icon-end 重設為 initial（若樣式查詢也不支援則改用類別退路），仍不會誤傳給子孫。", "unlock": "（缺）"}
+{"key": "mwg:icons:3", "fallback": "保住主要行為", "fallback_text": "指南指出根相對網址與 data URI 本就比註冊相對網址簡單且處處有效，不支援 @property 時改用該寫法（若全套引擎亦缺則改用類別退路）即無路徑錯解析問題。", "unlock": "（缺）"}
+{"key": "mwg:icons:4", "fallback": "不需要", "fallback_text": "支援狀態為不適用，替圖示偽元素設 flex: none 避免遭擠壓屬基礎 Flexbox 規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:icons:5", "fallback": "不需要", "fallback_text": "支援狀態為不適用，替 mask 圖示設 forced-color-adjust: none 屬高對比無障礙寫法，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:icons:6", "fallback": "不需要", "fallback_text": "支援狀態為不適用，正確處理同源與本頁內嵌 SVG <use> 屬標準 SVG 規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:position-aware-tooltips", "fallback": "保住主要行為", "fallback_text": "無法偵測翻轉後位置時用 @supports (container-type: anchored) 把箭頭藏起以免指錯方向，tooltip 本體仍可顯示與翻轉，僅失去箭頭。", "unlock": "純 CSS 用 @container anchored() 查詢提示卡套用了哪個翻轉備案，自動將指向箭頭與圓角調整到正確那一側。"}
+{"key": "mwg:pull-to-reveal", "fallback": "保住主要行為", "fallback_text": "不支援 scroll-initial-target 時於 DOMContentLoaded 偵測並對目標呼叫 scrollIntoView({ behavior: 'instant', block: 'start' })，初始捲藏效果仍在。", "unlock": "免用 JS scrollIntoView() 或網址雜湊，純 CSS 就能讓頁面一開始停在主內容、把搜尋列預先捲藏在上方。"}
+{"key": "mwg:pull-to-reveal:2", "fallback": "保住主要行為", "fallback_text": "scroll-initial-target 不支援時可走 scrollIntoView() 退路，而主內容手動呼叫 element.focus() 本身跨瀏覽器皆照常運作。", "unlock": "（缺）"}
+{"key": "mwg:pull-to-reveal:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，替下拉動作保留可見且符合尺寸的可點按鈕屬 WCAG 2.5.1 無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:responsive-table", "fallback": "不需要", "fallback_text": "支援狀態為不適用，sticky 表頭與容器尺寸查詢卡片堆疊皆已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:responsive-table:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，替可捲動表格容器補上 tabindex=\"0\" 與 role=\"region\" 屬標準鍵盤無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:responsive-table:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，僅替非文字的 CSS content 注入欄名提供替代文字屬標準無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:scroll-position-aware-elements", "fallback": "保住主要行為", "fallback_text": "可搭配 @supports 讓按鈕維持常駐可見，或於頂端放 0 尺寸哨兵改用 IntersectionObserver 切換 .scrolled 類別，動態顯隱功能仍在。", "unlock": "免寫 JS 監聽或觀察器，純 CSS scroll-state 查詢就能依容器捲動位置自動顯示或隱藏「回到頂端」等浮動按鈕。"}
+{"key": "mwg:scroll-position-aware-elements:2", "fallback": "保住主要行為", "fallback_text": "這正是維持基本可用性的 @supports 分流退路，不支援 scroll-state 的瀏覽器會保留按鈕可見，不致永遠隱形（亦可接 IntersectionObserver）。", "unlock": "（缺）"}
+{"key": "mwg:scroll-position-aware-elements:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在主內容底部預留足夠間距避免末段被浮動按鈕遮蓋屬基礎排版規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:scrollability-affordance-hints", "fallback": "保住主要行為", "fallback_text": "陰影可退回捲動動畫或純色 background-attachment，淡出（有捲軸時可略過）與任意背景陰影則可改用 IntersectionObserver 切換類別。", "unlock": "免加額外標記元素也不必寫 scroll 監聽，純 CSS 就能依捲動狀態顯示邊緣陰影或遮罩淡出提示「還有內容」。"}
+{"key": "mwg:scrollability-affordance-hints:2", "fallback": "保住主要行為", "fallback_text": "不支援捲動驅動動畫時可退回 IntersectionObserver 切換 .more-start／.more-end，仍沿用不裁切外框的雙帶遮罩與 scroll-padding，焦點框照樣不被遮。", "unlock": "（缺）"}
+{"key": "mwg:scrollability-affordance-hints:3", "fallback": "沒說", "fallback_text": "指南僅提示未以 @property 註冊會導致寬度跳變，並未交代不支援 @property 時如何處理淡出帶寬度過渡。", "unlock": "（缺）"}
+{"key": "mwg:shrinking-header-on-scroll", "fallback": "保住主要行為", "fallback_text": "偵測不支援 scroll() 與 animation-range 時改掛 window scroll 監聽器依捲動距離計算並更新標頭高度，縮放效果照常但失去合成層效能。", "unlock": "免寫 JS scroll 監聽，純 CSS scroll(block root) 時間軸與像素 animation-range 就能讓固定標頭隨捲動同步縮小。"}
+{"key": "mwg:shrinking-header-on-scroll:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，預留 scroll-padding-top 與內容頂部 padding 避免標頭遮住內容與焦點屬無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:shrinking-header-on-scroll:3", "fallback": "保住主要行為", "fallback_text": "不支援捲動驅動動畫時走 fixed 標頭加 JS scroll 監聽像素距離的退路（或用 @supports 略過），同樣不會因百分比重算而位移。", "unlock": "（缺）"}
+{"key": "mwg:shrinking-header-on-scroll:4", "fallback": "保住主要行為", "fallback_text": "不支援捲動驅動動畫時在 @supports 外不套動畫並改由 JS scroll 監聽計算標頭高度（純裝飾可略過），標頭縮小仍可用。", "unlock": "（缺）"}
+{"key": "mwg:single-line-overflow", "fallback": "不需要", "fallback_text": "支援狀態為 Widely，保留全文於 DOM 並用 text-overflow: ellipsis 等 CSS 視覺截斷已獲廣泛支援，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:single-line-overflow:2", "fallback": "保住主要行為", "fallback_text": "不支援捲動時間軸與樣式查詢時改用 ResizeObserver 比較 scrollWidth 與 clientWidth 切換 .truncated 類別（展開寬度亦可用固定長度取代 interpolate-size），懸停與聚焦揭示全文照常運作。", "unlock": "不靠鍵盤與觸控碰不到的 title 屬性，純 CSS 捲動時間軸搭樣式查詢就能偵測截斷並在 hover 與聚焦時捲動揭示全文。"}
+{"key": "mwg:state-aware-sticky-headers", "fallback": "保住主要行為", "fallback_text": "支援滾動漸進增強時標頭仍維持 sticky（或用 @supports 限縮黏住），若視覺切換為必要則改用 IntersectionObserver 切換 .is-stuck 類別。", "unlock": "免寫 JS scroll 監聽或觀察器，純 CSS scroll-state(stuck) 就能在 sticky 標頭黏住時自動變換樣式。"}
+{"key": "mwg:state-aware-sticky-headers:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，設定 scroll-padding-top 不小於黏住標頭高度以防遮住聚焦元件屬無障礙規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:viewport-aware-dropdowns", "fallback": "保住主要行為", "fallback_text": "不支援時可條件載入 @oddbird/css-anchor-positioning 與 popover polyfill 並改用顯式 anchor-name 與 inset anchor() 維持貼齊翻轉，或用 @supports 退回置中／置底。", "unlock": "免用 Popper.js 或 Floating UI 等 JS 函式庫，純 CSS 錨點定位與 try-fallbacks 就能讓面板貼齊觸發鈕並在撞邊時自動翻轉。"}
+{"key": "mwg:viewport-aware-dropdowns:3", "fallback": "保住主要行為", "fallback_text": "這本就是替不支援原生錨點定位的瀏覽器保留 polyfill 作用的寫法（僅當原生支援缺失時載入並改用顯式 anchor()），確保退路照常生效。", "unlock": "（缺）"}
+{"key": "mwg:viewport-aware-dropdowns:4", "fallback": "不需要", "fallback_text": "支援狀態為不適用，未實作完整鍵盤合約時避免誤加 role=\"menu\" 與 aria-haspopup 屬無障礙語意規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:install-web-app", "fallback": "失去主要好處", "fallback_text": "<install> 只能退回安裝說明連結、navigator.install() 退回 beforeinstallprompt（或隱藏按鈕改走瀏覽器介面），只能裝當前網站而無法安裝目錄裡的其他 app。", "unlock": "在頁面內提供顯式 PWA 安裝入口，甚至能在應用程式目錄頁中直接替其他跨來源 web app 發起安裝。"}
+{"key": "mwg:cpp-on-the-web:2", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在線性記憶體一次處理整塊緩衝區屬 Wasm 介面設計最佳實務，無須瀏覽器退路。", "unlock": "（缺）"}
+{"key": "mwg:cpp-on-the-web:3", "fallback": "不需要", "fallback_text": "支援狀態為不適用，在可能擴容的 Wasm 呼叫後重新取得 HEAPU8 視圖屬安全存取線性記憶體規範，無須退路。", "unlock": "（缺）"}
+{"key": "mwg:cpp-on-the-web:4", "fallback": "不需要", "fallback_text": "支援狀態為不適用，將耗時 Wasm 計算移出主執行緒（Worker、-pthread 或主迴圈讓出）屬執行架構規範，無須新 API 退路。", "unlock": "（缺）"}
+{"key": "mwg:cpp-on-the-web:5", "fallback": "不需要", "fallback_text": "支援狀態為不適用，調整 Emscripten 堆疊大小、避免深遞迴與開關 -sASSERTIONS 屬建置與除錯規範，無須退路。", "unlock": "（缺）"}

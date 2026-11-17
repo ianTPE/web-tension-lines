@@ -12,7 +12,7 @@ license: CC-BY-4.0（上游指南）
 ## 用 `scroll-axis-lock: none` 關掉二維平移的軸鎖定
 - 做法：在建立二維捲動的元素本身（`overflow: auto`）設 `scroll-axis-lock: none`；它不繼承，設在外層包裝無效，巢狀的一維面板保留預設的 `auto`；一般文章、動態牆、一維清單維持 `auto`
 - 對手：手勢一開始若明顯偏向某一軸，瀏覽器把捲動鎖在該軸、忽略垂直方向的位移，通常整個手勢都鎖著；地圖、放大的圖片、無限畫布、節點圖上斜向或 L 形的平移因此卡住（引用："the browser locks the scroll to that single horizontal or vertical axis and ignores perpendicular deltas—often for the remainder of the gesture."）
-- 退路：失去主要好處——退回忽略（保留軸鎖定）或 JS 改 `scrollLeft`／`scrollTop`（進主執行緒且觸控無慣性）
+- 退路：保住主要行為——退回 wheel／pointermove 更新捲動，失去原生慣性與合成器捲動
 - 解鎖：用 `scroll-axis-lock: none` 解除雙軸斜向平移的軸鎖定，同時保有原生合成器捲動與慣性
 
 經過：鎖軸是為了讀文章時不會往旁邊飄，放到地圖上卻變成：想往右下拖，畫面只肯往右。以前只能自己寫平移引擎，現在一個屬性就能告訴瀏覽器這裡是二維的。
@@ -21,11 +21,11 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：原生捲動手勢不合用途
 - 支援狀態：scroll-axis-lock：Limited availability。Supported by: Chrome 153。Unsupported in: Edge, Firefox, Safari
-- 戰報：僵持（由支援狀態與退路推出）
+- 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：以前要自由斜向平移就得放棄原生捲動、自寫拖曳引擎 → 現在白板、心智圖、大型試算表、平面圖檢視器可以直接用原生捲動容器做二維平移，捲軸、鍵盤、慣性都是瀏覽器的。目前僅 Chrome 153
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「保住主要行為」
 
 %% line-start id="mwg:2d-panning:2" %%
 ## 二維平移區要擋住捲動串接與滑動換頁

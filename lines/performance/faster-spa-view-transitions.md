@@ -12,7 +12,7 @@ license: CC-BY-4.0（上游指南）
 ## 用 content-visibility: hidden 快取非作用中的視圖，切回來不必重算
 - 做法：SPA 裡非作用中的視圖加 `content-visibility: hidden`（可搭 `position: absolute` 不佔版面），切換時移除；以 `@supports not (content-visibility: hidden)` 退回 `display: none`
 - 對手：切換視圖時銷毀舊視圖或用 `display: none` 隱藏，使用者切回來時瀏覽器都得重建或重算整份排版與繪製（引用："Both approaches require the browser to recreate or recalculate the full layout and paint when the user returns to that view."）
-- 退路：保住主要行為——不支援時以 `@supports` 退回 `display: none` 仍能隱藏視圖，但切回得重算排版
+- 退路：失去主要好處——退回 display:none，切回視圖仍須重算排版與繪製
 - 解鎖：用 `content-visibility: hidden` 隱藏非作用中視圖並快取渲染狀態，切回時近乎瞬間顯示
 
 經過：在幾個分頁間來回切，每次都從零排版。改成隱藏但保留快取，CPU 幾乎不花在看不到的視圖上，切回時直接沿用。代價是記憶體，見下一條。
@@ -25,7 +25,7 @@ license: CC-BY-4.0（上游指南）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：三到五個分頁的工具（編輯／預覽／設定、或多個儀表板頁）可以做到切換零等待，捲動位置和展開狀態都留著，不必引入框架的 keep-alive 機制
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「失去主要好處」
 
 %% line-start id="mwg:faster-spa-view-transitions:2" %%
 ## 快取每個視圖會吃光記憶體，動態路由要有淘汰策略

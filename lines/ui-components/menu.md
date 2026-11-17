@@ -88,7 +88,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：只在 `(hover: hover)` 時，於子選單觸發項目的 `pointerleave` 把游標位置寫成 `--pointer-x`／`--pointer-y` 並設 `data-bridge`；子選單的 `::before` 用 `clip-path: polygon()` 畫出從該點到子選單近側兩角的三角形（以 `sign()` 判斷左右），游標停下約 300ms、轉向或到達項目時移除
 - 對手：靜態的 CSS 橋太窄，只有游標從父選單邊緣出發才有效；斜著移向子選單時會經過兄弟項目，把子選單關掉（引用："A static CSS bridge is too narrow: it only works when the pointer starts near the parent's edge."）
 - 退路：保住主要行為——不支援 `sign()` 時改用 `clamp()` 計算三角形邊緣與頂點
-- 解鎖：CSS 可畫出從游標離開點到子選單邊緣的安全三角
+- 解鎖：（缺）
 
 經過：滑鼠從「匯出」斜斜往右下移到「PDF」，途中掃過「重新命名」，子選單就收掉了。三角形擋在路徑上，兄弟項目收不到那次 hover。
 %% line-end %%
@@ -97,9 +97,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：動作被意外觸發
 - 支援狀態：abs() 與 sign()：Baseline Newly available（2025-06-26 起）
 - 戰報：部分改善（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:menu:6" %%
 ## 開啟後移焦點要在 `toggle` 事件裡做，不在 `command` 裡

@@ -1,0 +1,425 @@
+[
+ {
+  "key": "mwg:navbar",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/navbar.md",
+  "title": "不寫死斷點，量測放不放得下才收合",
+  "action": "用同一棵 `<nav>` 樹；script 比較 `scrollWidth` 與 `clientWidth`，放不下時才收進原生 popover",
+  "opponent": "寫死的斷點：加一個連結、換一種語言、放大文字，導覽列就在錯的寬度擠爆或過早收合（引用：\"There is no hard-coded breakpoint. Script collapses the navigation only when the inline row (brand, actions and every link) does not fit, so adding a link, a translation or larger text moves the point automatically.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:navbar:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/navbar.md",
+  "title": "子選單用 button + aria-expanded，不用 details/summary",
+  "action": "巢狀導覽的觸發用 `<button aria-expanded aria-controls>`，緊接子選單清單",
+  "opponent": "用 `<details>`/`<summary>` 做子選單，`summary` 該對應 button 角色卻沒有被一致實作（引用：\"DO NOT use `<details>` and `<summary>`: `<summary>` should map to a `button` role, but has not been consistently implemented\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:navigation-drawer",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md",
+  "title": "抽屜用捲動吸附開關、背景暗度綁在捲動時間軸上",
+  "action": "模態 `<dialog>` 裡放一個水平捲動容器（抽屜寬度一欄＋整個視窗寬的空白欄），`scroll-snap-type: x mandatory` 讓它只停在開或關；用 `scroll-timeline` 加 `timeline-scope` 把 `--drawer-backdrop`（以 `@property` 註冊為 number）綁到捲動位置，`::backdrop` 的不透明度跟著變；IntersectionObserver 觀察抽屜，完全離開時才 `close()`",
+  "opponent": "用 JS 驅動 `transform` 動畫時，抽屜位置由補間決定、不是手指（引用：\"the scroll mechanism gives the user direct control of the panel's position (their finger drives it, not a tween)\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:navigation-drawer:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md",
+  "title": "關閉時先捲回去，等觀察器看到抽屜完全離開才 `close()`",
+  "action": "`closeDrawer()` 只捲到空白欄；IntersectionObserver 在可見比例低於門檻時才呼叫 `drawer.close()`；Esc 的 `cancel` 也 `preventDefault()` 後改走滑出",
+  "opponent": "直接呼叫 `close()` 會在動畫途中把元素移出頂層，看不到關閉動畫（引用：\"doing so would remove the element from the top layer mid-animation and the close animation would not be visible.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:navigation-drawer:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md",
+  "title": "捲動驅動的背景動畫整塊包在 `@supports (animation-timeline: scroll())`",
+  "action": "`@keyframes`、`@property`、`animation-timeline` 都放進 `@supports` 區塊",
+  "opponent": "不支援的瀏覽器仍會解析 keyframes 並套用 `0%` 的值，背景永遠全暗（引用：\"would apply the animation's `0%` value (--drawer-backdrop: 1) at all times, leaving the backdrop permanently opaque.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:navigation-drawer:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md",
+  "title": "抽屜高度用 `svh`，不用 `vh` 或 `dvh`",
+  "action": "抽屜內容設 `height: 100svh`",
+  "opponent": "iOS Safari 的網址列在滑動途中縮放，`vh`／`dvh` 讓抽屜高度跟著跳（引用：\"so the sheet height does not jump when the iOS Safari address bar resizes mid-swipe.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:navigation-drawer:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md",
+  "title": "會兼當側欄的抽屜用 `popover=\"manual\"`，不用 `auto` 或 `hint`",
+  "action": "一般元素加 `role=\"dialog\"` 與 `popover=\"manual\"`，並自己做 inert、`aria-modal`、焦點還原與 Esc",
+  "opponent": "`auto`、`hint` 內建的點外面關閉會在滑動途中觸發（引用：\"their built-in light-dismiss would also fire mid-swipe.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:navigation-drawer:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md",
+  "title": "寬螢幕會變成常駐側欄的抽屜不要用 `<dialog>`",
+  "action": "要兼當側欄時改用一般元素加 `role=\"dialog\"`，在側欄狀態時用 `matchMedia()` 拿掉 role",
+  "opponent": "`<dialog>` 永遠被當成對話框暴露，但側欄不是對話框（引用：\"A `<dialog>` element does not work here, since it is always exposed as a dialog, but a sidebar is not one.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:navigation-drawer:9",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/navigation-drawer.md",
+  "title": "用 `scroll-initial-target` 讓抽屜一進頂層就停在關閉位置，再滑進來",
+  "action": "空白欄的 `::after` 設 `scroll-initial-target: nearest`，`showModal()` 後再 `scrollTo({ left: 0 })` 滑進來；不支援時先即時捲到關閉位置、等兩個 `requestAnimationFrame` 再捲回",
+  "opponent": "沒有初始位置時，抽屜一出現就在開啟位置，沒有滑入動畫；退路只等一個 rAF 時，第二次 `scrollTo` 會把第一次取消（引用：\"Without this, the drawer would appear instantly in the open position with no slide-in animation.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:persistent-app-tours",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/persistent-app-tours.md",
+  "title": "用 `popover=\"manual\"` 加錨點定位做導覽提示，擋掉使用者一點頁面就關掉",
+  "action": "導覽步驟用 `<dialog popover=\"manual\" aria-labelledby>`，以 `anchor-name`／`position-anchor`／`position-area` 綁在要介紹的功能旁邊；內放 `popovertargetaction=\"hide\"` 的「知道了」按鈕",
+  "opponent": "auto popover 只要使用者點頁面其他地方就會關閉，導覽在使用者試用功能時被意外收掉（引用：\"Unlike auto popovers, manual popovers do not close when the user clicks elsewhere on the page.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:persistent-app-tours:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/persistent-app-tours.md",
+  "title": "打開導覽時把焦點移進去、關閉時送回對應控制項，但不要在頁面載入時搶焦點",
+  "action": "`showPopover()` 後對提示內的按鈕呼叫 `focus()`；關閉後把焦點移到被介紹的控制項；提示在 DOM 中放在該控制項正前方",
+  "opponent": "非模態提示開了焦點卻沒進去，鍵盤與讀屏使用者察覺不到；反過來在載入時搶焦點，又會把帶著目的而來的使用者拉離原本要做的事（引用：\"Focus must not be moved to these popovers on page load. This is to both prevent confusion from hijacking focus.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:persistent-app-tours:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/persistent-app-tours.md",
+  "title": "導覽內容要能獨立讀懂，不要寫「新功能，點這裡」",
+  "action": "每個提示以標題開頭，文字說清楚功能是什麼、能做什麼，例如「新的聊天功能：開始聊天，與成員一起審閱項目」",
+  "opponent": "「點這裡」依賴視覺上指向的東西，看不到畫面的人拿不到，若外面被設成 `inert` 更是完全碰不到（引用：\"relies heavily on visual information that people may not have, or may not be able to access (particularly if the content outside the popover is `inert`)\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:persistent-app-tours:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/persistent-app-tours.md",
+  "title": "非模態導覽提示不要蓋住正在取得焦點的控制項",
+  "action": "鍵盤焦點移到被提示擋住的元素時，調整提示的位置，或在提示已不相關時關掉它",
+  "opponent": "非模態 popover 可能蓋住取得焦點的控制項，違反 WCAG 2.4.11（引用：\"Use of non-modal popovers may result in controls being obscured when they receive focus\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:persistent-toast-notifications",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/persistent-toast-notifications.md",
+  "title": "用 `popover=\"manual\"` 做 toast，擋掉使用者一操作頁面就把通知關掉",
+  "action": "每則 toast 是 `popover=\"manual\"`，加進同一個 `role=\"region\" aria-label=\"Notifications\"` 容器；內有 `popovertargetaction=\"hide\"` 的關閉鈕，可用 Tab 到達但出現時不搶焦點",
+  "opponent": "toast 不該像選單那樣在使用者操作頁面其他地方時關閉；auto popover 的點外面關閉會把它收掉，也不能多則並存（引用：\"Unlike menus, they should not close when a user interacts with other parts of the page.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:persistent-toast-notifications:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/persistent-toast-notifications.md",
+  "title": "用 `ariaNotify()` 播報 toast，擋掉讀屏使用者根本不知道有通知",
+  "action": "toast 顯示時呼叫 `ariaNotify()`，只唸 toast 的可見文字、不唸控制項名稱；若有關閉以外的動作，結尾加「Actions available」；不支援時改用載入時就存在的 `aria-live` 容器，前面放一段說明文字",
+  "opponent": "看不到畫面的讀屏使用者不會知道 toast 出現了（引用：\"This ensures that people using screen readers, who cannot see the screen, are aware of the presence of toast messages\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:persistent-toast-notifications:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/persistent-toast-notifications.md",
+  "title": "Toast 預設不自動消失；會自動消失的，焦點在裡面時要暫停",
+  "action": "優先做成要手動關閉的 toast；若採逾時消失，先檢查焦點是否在 toast 的控制項上，在的話等焦點離開再關；toast 裡的資訊要在別處也查得到",
+  "opponent": "會自動消失的 toast 讓資訊跟著消失，使用者還在讀或正要按裡面的按鈕時就不見了（引用：\"If the user is focused on a control inside the toast, pause dismissal until focus has left the toast.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:persistent-toast-notifications:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/persistent-toast-notifications.md",
+  "title": "有焦點轉移或模態對話框開著時不要跳 toast",
+  "action": "同時要轉移焦點的情境不發 toast；模態對話框開著時先壓住通知，等對話框關閉再顯示；也不要把 toast 放進模態對話框裡",
+  "opponent": "焦點轉移會蓋掉 toast 的播報，使用者漏掉訊息；模態開著時背景的 toast 也很可能被錯過（引用：\"The focus redirection may cancel out the toast announcements, resulting in people missing information.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:persistent-toast-notifications:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/persistent-toast-notifications.md",
+  "title": "`transition-behavior: allow-discrete` 寫成獨立宣告，不寫進 `transition` 簡寫",
+  "action": "`transition` 之後另起一行 `transition-behavior: allow-discrete`，讓 toast 進出頂層有動畫；另提供 `prefers-reduced-motion` 的無動畫版本",
+  "opponent": "寫進簡寫時，舊瀏覽器會忽略整條 `transition` 宣告（引用：\"to animate entry and exit from the Top Layer without older browsers ignoring the `transition` declaration.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:progress-ring:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/progress-ring.md",
+  "title": "強制色彩模式下用 `forced-color-adjust: none` 加系統色重畫圓環",
+  "action": "`@media (forced-colors: active)` 裡設 `forced-color-adjust: none`，填色改 `CanvasText`、軌道改 `Canvas`",
+  "opponent": "強制色彩模式會移除背景漸層，圓環整個消失（引用：\"Forced colors mode removes background gradients, so in `@media (forced-colors: active)`, opt the ring out with `forced-color-adjust: none` and draw it with system colors, or the ring disappears.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:progress-ring:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/progress-ring.md",
+  "title": "中心數字對輔助技術隱藏，改用 `aria-valuetext` 提供同樣的文字",
+  "action": "中心內容加 `aria-hidden=\"true\"`；若中心顯示的是「3 / 5 個檔案」這類格式，每次更新時把同樣文字寫進 `<progress>` 的 `aria-valuetext`",
+  "opponent": "`<progress>` 已經暴露數值，中心文字不藏起來會被唸兩次；反之若只藏不補，讀屏只拿到數字（引用：\"The `<progress>` element already exposes its value, so screen readers would otherwise announce it twice.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:progress-ring:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/progress-ring.md",
+  "title": "用 `@property` 註冊 `--value` 讓圓環平滑轉動，預設 0 秒、沒有減少動態偏好才加長",
+  "action": "`@property --value { syntax: '<number>'; ... }`，`transition: --value 0s`，在 `prefers-reduced-motion: no-preference` 下改成 0.4s",
+  "opponent": "沒有註冊時圓環直接跳到新值，沒有過渡（引用：\"If `@property` is not supported, the ring will jump to the new value instantly instead of transitioning smoothly.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:progress",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/progress.md",
+  "title": "原生 `<progress>` 要嘛只用安全屬性，要嘛 `appearance: none` 整套重做，別半調子",
+  "action": "用原生 `<progress>`（`max`、`value`、`<label for>`）；輕度樣式只用 `accent-color`、`inline-size`、`writing-mode`、`opacity`、`filter` 這類；需要更多時 `appearance: none`、`border: 0 solid`、`overflow: clip`，軌道畫在元素本身，填色畫在 `::-webkit-progress-value`／`::-moz-progress-bar`",
+  "opponent": "`border-radius`、`background`、`border` 這類屬性會默默關掉預設的進度條樣式（引用：\"Certain properties (e.g. `border-radius`, `background`, `border`) will silently disable the default progress bar styling.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:progress:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/progress.md",
+  "title": "不確定進度的滑塊用 `translate` 配 `cqi` 移動，不用 margin 或 `scale`",
+  "action": "`progress` 設 `container-type: inline-size`；keyframes 用真的 `inline-size` 定長度、`translate: -100%` 到 `100cqi` 移動，`from, to` 加 `margin-right: auto`；RTL 在 `:dir(rtl)` 反轉動畫",
+  "opponent": "用 margin 移動在 RTL 會壞：Firefox 只看實體左邊距，滑塊根本不動；Chromium／WebKit 的 margin 超過軌道時左邊距被忽略，滑塊跳到邊緣；用 `scale` 改長度又會扭曲填色上的圖樣（引用：\"Firefox positions the indeterminate fill using only its physical left margin, so `margin-inline-start` has no effect in RTL and the fill never moves.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:progress:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/progress.md",
+  "title": "減少動態時把不確定進度的動畫放慢，不要 `animation: none`",
+  "action": "在 `prefers-reduced-motion: reduce` 下把 `--progress-bar-indeterminate-animation-duration` 拉長到 10s",
+  "opponent": "不確定狀態的填色只靠動畫存在，關掉動畫後在 Chromium 留下寬度為零的填色（引用：\"Never disable the indeterminate animation (`animation: none` leaves a zero-width fill in Chromium).\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:progress:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/progress.md",
+  "title": "用 `revert-rule` 讓動畫變數沒設定時不覆蓋任何東西",
+  "action": "偽元素上寫 `animation: var(--progress-bar-animation, revert-rule)`，只有設了變數（例如不確定狀態或決定狀態的閃光效果）才覆蓋動畫",
+  "opponent": "缺——指南只說這樣「最大化可組合性」，沒說不用 `revert-rule` 時在哪個時刻出錯",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:progress:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/progress.md",
+  "title": "背景任務完成用 `role=\"status\"` 播報，不要把焦點移到 `<progress>`",
+  "action": "不在 `<progress>` 上設 `tabindex` 或呼叫 `.focus()`；完成時更新一個 polite 的狀態元素",
+  "opponent": "`<progress>` 不可互動，把焦點移過去會打亂鍵盤使用者（引用：\"it is non-interactive and moving focus to it disrupts keyboard users.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:progress:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/progress.md",
+  "title": "載入中的區塊直接用 `hidden` 藏起來，不要在無名 `<div>` 上掛 `aria-busy` 加 `aria-describedby`",
+  "action": "區域內容還沒準備好時用 `hidden` 或 `aria-hidden=\"true\"` 藏起來，進度本身交給有標籤的 `<progress>`",
+  "opponent": "`aria-busy` 的讀屏支援不一致，沒有角色也沒有名稱的 `<div>` 上的 `aria-describedby` 會被輔助技術忽略（引用：\"`aria-busy` has inconsistent screen reader support, and `aria-describedby` on an unnamed `<div>` without a role is ignored by assistive technologies.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scrollspy",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/scrollspy.md",
+  "title": "用 `scroll-target-group` 與 `:target-current` 讓目錄自己標出目前章節",
+  "action": "導覽容器設 `scroll-target-group: auto`，連結用 `href=\"#id\"` 指向各章節，`nav a:target-current` 標出目前在畫面中的那一節",
+  "opponent": "缺——指南只說傳統做法需要 JavaScript 與 `IntersectionObserver`，沒說那種做法在哪個時刻出錯",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:scrollspy:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/scrollspy.md",
+  "title": "`:target-current` 只管外觀，捲動停下時用 `aria-current` 同步給讀屏",
+  "action": "支援時，載入後與每次 `scrollend` 找出 `nav a:target-current`，把它設 `aria-current=\"true\"`、其他設 `false`",
+  "opponent": "`:target-current` 只改視覺，這個狀態不會暴露給螢幕閱讀器（引用：\"While `:target-current` handles the visual aspect, this is not exposed to screen readers.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:scrollspy:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/scrollspy.md",
+  "title": "原生虛擬類別與退路類別用 `:is()` 合併，不要用逗號並列",
+  "action": "寫 `nav a:is(:target-current, .target-current)`，退路腳本切換 `.target-current` 類別",
+  "opponent": "寫成 `nav a:target-current, nav a.target-current` 時，舊瀏覽器不認得虛擬類別，整條規則失效，退路類別也一起失效（引用：\"the unrecognized pseudoselector invalidates the entire rule in older browsers.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:spinner:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/spinner.md",
+  "title": "強制色彩模式下用 `forced-color-adjust: none` 加系統色重畫轉圈",
+  "action": "`@media (forced-colors: active)` 裡設 `forced-color-adjust: none`，`--spinner-color: CanvasText`、`--track-color: Canvas`",
+  "opponent": "強制色彩模式移除背景漸層，轉圈整個消失（引用：\"Forced colors mode removes background gradients, so in `@media (forced-colors: active)`, opt the spinner out with `forced-color-adjust: none` and draw it with system colors, or the spinner disappears.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:spinner:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/spinner.md",
+  "title": "減少動態時把轉圈放慢、拿掉伸縮，不要完全停住",
+  "action": "`prefers-reduced-motion: reduce` 下，在同一個選擇器裡把內部的 `--_used-spinner-duration` 設成 6s、清空 `--progress-dash-animation`、固定 `--arc-end`",
+  "opponent": "完全停止動畫後，使用者看不出處理還在進行（引用：\"Slow down the animation significantly rather than stopping it entirely, so the user still knows that the process is active.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:stack-drill-down",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "用捲動吸附做逐層深入的堆疊，`scrollsnapchange` 統一處理所有「換頁」",
+  "action": "水平 `scroll-snap-type: x mandatory` 容器，每個畫面是一個吸附點（`scroll-snap-stop: always`）；深入時 `pushState`、加入新畫面、捲過去；`scrollsnapchange` 的 `snapTargetInline` 當作「目前畫面變了」的唯一來源，更新 `inert`、焦點、歷史紀錄並修剪畫面；不支援時用 IntersectionObserver（`threshold: 1`）呼叫同一個函式",
+  "opponent": "用 JS 驅動 `transform` 動畫時，畫面位置由補間決定、不是手指（引用：\"the snap mechanism gives the user direct gestural control of the panel's position (their finger drives it, not a tween)\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:stack-drill-down:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "位移效果套在吸附目標的子元素上，不套在吸附目標本身",
+  "action": "`.Stack-view` 只負責吸附，視差的 `transform` 套在內層 `.Stack-viewContent`",
+  "opponent": "吸附目標上的 transform 會回饋到捲動容器的吸附幾何，手勢途中畫面亂跳（引用：\"A transform on the snap target feeds back into the scroll container's snap geometry and the scroller will glitch mid-gesture.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:stack-drill-down:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "除了目前畫面，堆疊裡其他畫面都加 `inert`",
+  "action": "在 `scrollsnapchange` 處理函式裡，對目前畫面以外的每一層 `toggleAttribute('inert', true)`",
+  "opponent": "藏在視差後面的畫面仍可被 Tab 與讀屏走到，明眼人看不出來（引用：\"Without this, focus and screen-reader navigation leak into views hidden behind the parallax — invisible to sighted users but a severe accessibility failure.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:stack-drill-down:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "讓瀏覽器的返回鍵和畫面同步：滑回時 `history.go()`、深層連結補一個根項目、`popstate` 裡不 `pushState`",
+  "action": "每次深入 `pushState({depth})`；滑回後若目前畫面的深度與 `currentDepth` 不符，呼叫 `history.go(差值)`；從深層連結進來時，返回鈕改成 `pushState` 一個根項目並在左側插入根畫面；`popstate` 處理函式只捲動、不推新項目",
+  "opponent": "滑回後不同步歷史，下一次系統返回會把使用者帶到意料之外的地方；深層連結上直接 `history.back()` 會離開整個 app；在 `popstate` 裡 `pushState` 則讓返回鍵失效（引用：\"Without this, a subsequent OS Back returns the user somewhere unexpected because the browser's history cursor is out of sync with what's on screen.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:stack-drill-down:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "在捲動吸附容器裡還原焦點一律加 `preventScroll: true`",
+  "action": "還原到原本點擊的連結、或聚焦新畫面的返回鈕時，呼叫 `.focus({ preventScroll: true })`",
+  "opponent": "預設會把焦點目標捲進畫面，和吸附容器打架，使用者停在兩層之間（引用：\"The default `preventScroll: false` makes the browser scroll the focus target into view, which fights the snap container and can land the user mid-snap.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:stack-drill-down:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "每次換畫面都確保焦點落在新畫面裡，沒有目標就聚焦內容容器",
+  "action": "優先還原到使用者點過的連結，其次是返回鈕；回到根畫面又沒有可還原的連結時，聚焦設了 `tabindex=\"-1\"` 的 `.Stack-viewContent`；只在焦點原本就在堆疊裡時才移動",
+  "opponent": "焦點留在被移除或 `inert` 的畫面裡，會掉回 `<body>`，鍵盤與讀屏使用者從頁首重來（引用：\"Focus left in a removed or `inert` view falls to `<body>`.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:stack-drill-down:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "每層都更新 `document.title`，返回鈕以要回去的那層命名",
+  "action": "換畫面時把標題設成「目前畫面 | 應用名」，根畫面只用應用名；返回鈕的 `aria-label` 設成「Back to 上一層標題」",
+  "opponent": "每次深入都多一筆歷史，標題不變時歷史清單、分頁與讀屏分不出這些項目；只寫「Back」又讓讀屏使用者不知道自己在哪（引用：\"Each drill-down adds a history entry, and the title is what the browser's history list, the tab and screen readers use to tell those entries apart.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:stack-drill-down:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "多步跳轉與往前的 `popstate` 用 `behavior: 'instant'`",
+  "action": "`popstate` 時比較目標位置與目前位置；跨越超過一層或向右（前進）時用 `'instant'`，單步返回才用 `'auto'`",
+  "opponent": "多步跳轉若平滑捲動，每經過一個吸附點都觸發 `scrollsnapchange`，做 N 輪 inert／焦點／歷史處理；iOS Safari 又會把邊緣滑動誤當成前進，播出使用者沒要求的深入動畫（引用：\"Multi-step jumps would otherwise fire `scrollsnapchange` at every intermediate snap and do N rounds of inert/focus/history work.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:stack-drill-down:9",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "平滑捲動交給 CSS 的 `scroll-behavior`，JS 一律傳 `behavior: 'auto'`",
+  "action": "`scroll-behavior: smooth` 只寫在 `@media (prefers-reduced-motion: no-preference)` 裡，`scrollTo`／`scrollBy` 傳 `'auto'` 讓它照 CSS 走",
+  "opponent": "在 JS 寫死 `behavior: 'smooth'` 會繞過使用者的減少動態設定（引用：\"Hard-coding `behavior: 'smooth'` bypasses the user's setting.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:stack-drill-down:10",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "深入的觸發點用真的 `<a href>`，並放行修飾鍵點擊",
+  "action": "畫面裡用 `<a href>` 指向各層網址；點擊攔截時遇到 meta／ctrl／shift 或非左鍵就不攔，讓瀏覽器開新分頁",
+  "opponent": "用 `<button onclick>` 或 `<div>` 會失去懸停預覽網址、分享、中鍵開新分頁、讀屏角色與 SEO（引用：\"Real anchors get URL preview on hover, shareability, middle-click, screen-reader role, and SEO for free.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:stack-drill-down:11",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "捲動驅動的視差整塊包在 `@supports (animation-timeline: view())`",
+  "action": "`animation-timeline: view(inline)`、`animation-range` 與 `@keyframes` 都放在 `@supports` 區塊內",
+  "opponent": "不支援的瀏覽器仍會解析 keyframes，把 `to` 狀態當成靜態樣式套用，每個畫面都永遠處於位移狀態（引用：\"Browsers without scroll-driven animations still parse the @keyframes and would apply the `to` state as a static style, leaving every view permanently transformed.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:stack-drill-down:12",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "視差、變暗與陰影用 `view(inline)` 時間軸跟著手指走，不用 `scroll` 監聽",
+  "action": "`.Stack-viewContent` 設 `animation-timeline: view(inline)`，離場階段（`exit 0% exit 100%`）播視差＋變暗，深入的畫面另加左緣陰影",
+  "opponent": "JS 的 `scroll` 監聽跑在主執行緒，手勢中會明顯掉幀（引用：\"a JS scroll listener runs on the main thread and will visibly drop frames during the gesture.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:stack-drill-down:13",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "滑回後把後面已經離開的畫面從 DOM 移除，只留網址以便重建",
+  "action": "`scrollsnapchange` 時移除目前畫面右邊的所有畫面，`entriesByDepth` 只保留它們的網址路徑，前進時再重建",
+  "opponent": "長時間來回深入會累積幾十個脫離的子樹（引用：\"A long drill-down session can otherwise accumulate dozens of detached subtrees.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:stack-drill-down:14",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "堆疊容器設 `overscroll-behavior-x: none`，滑回手勢不要連到瀏覽器的上一頁",
+  "action": "`.Stack { overscroll-behavior-x: none; }`",
+  "opponent": "滑回手勢到底後會串到瀏覽器自己的返回手勢（iOS、部分 Android）或頁面的垂直捲動（引用：\"Prevent the swipe-back gesture from chaining into the browser's own history-back gesture (iOS, some Android) or the page's vertical scroll.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:stack-drill-down:15",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md",
+  "title": "堆疊高度用 `100dvh`",
+  "action": "`.Stack { height: 100dvh; }`，跟著行動裝置網址列顯示或隱藏變化",
+  "opponent": "`svh` 在網址列動畫時會裁切，`vh` 會滲到網址列底下（引用：\"svh would clip during the address bar animation; vh leaks under it.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ }
+]

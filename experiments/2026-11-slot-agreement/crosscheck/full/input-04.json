@@ -1,0 +1,452 @@
+[
+ {
+  "key": "mwg:full-session-analytics",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/full-session-analytics.md",
+  "title": "用 fetchLater() 取代 unload 裡的追蹤像素，整段造訪的資料離開時由瀏覽器送出",
+  "action": "資料一有就呼叫 `fetchLater()` 排程；狀態更新時用 `AbortController` 取消前一個，再以完整的最新快照重新排程；離開或關分頁時由瀏覽器送出最後一次排程的內容；不支援時用指南附的 polyfill（內部用 `fetch` keepalive 或 `sendBeacon()`）",
+  "opponent": "在 `unload` 監聽器裡建立 `<img>` 像素的舊技巧極不可靠（行動裝置尤其），還會讓頁面失去 bfcache 資格（引用：\"Older technique like creating an `<img>` pixel in an `unload` event listener are notoriously unreliably (especially on mobile) and can negatively impact performance (by making pages ineligible for bfcache).\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:full-session-analytics:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/full-session-analytics.md",
+  "title": "fetchLater() 有每來源約 64KB 的配額，要縮小 payload 並包 try/catch",
+  "action": "把 payload 縮到最小，`fetchLater()` 呼叫包在 `try/catch` 裡處理配額錯誤；body 不用 `ReadableStream`",
+  "opponent": "超過配額時 `fetchLater()` 會丟錯；用 `ReadableStream` 當 body 也會出錯（引用：\"DO NOT use a `ReadableStream` object for the request body, as that will error.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:identify-heavy-scripts",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/identify-heavy-scripts.md",
+  "title": "用 Long Animation Frames 在實際使用者端找出最拖時間的腳本",
+  "action": "以 `PerformanceObserver` 觀察 `long-animation-frame`（`buffered: true`），累積每個條目的 `scripts`，依 `sourceURL` 分組加總 `duration`，排出最重的腳本（含第三方聊天、影片、分析腳本）並送到分析服務",
+  "opponent": "實驗室資料只重現一小部分真實使用情境，與實地資料差很多，讓效能差、尤其互動慢的根因很難找到；改用 JS Self-Profiling API 則執行負擔較高（引用：\"field data is often very different to lab data, which only replicates a small subset of real user scenarios.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:identify-inp-causes",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/identify-inp-causes.md",
+  "title": "用 Event Timing 把 INP 拆成三段，先分清是哪一段慢",
+  "action": "用 `web-vitals/attribution` 的 `onINP()` 取得最慢互動的 `inputDelay`、`processingDuration`、`presentationDelay` 與互動目標，送回分析服務",
+  "opponent": "互動慢與否取決於使用者操作、裝置與網路，實驗室資料只重現一小部分真實情境，很難診斷；不拆分就容易直接跳去改互動處理程式（引用：\"Lab data only replicates a small subset of real user scenarios so measuring the causes of slow INP in the field is essential.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:identify-inp-causes:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/identify-inp-causes.md",
+  "title": "用 LoAF 分開樣式重算與排版的時間，取代沉重的 JS Self-Profiling",
+  "action": "從 LoAF 讀 `forcedStyleDuration`／`forcedLayoutDuration`（腳本內強制同步）與 `styleDuration`／`layoutDuration`（影格渲染階段），分開送回；不支援分開欄位時退回合併的 `forcedStyleAndLayoutDuration`、`totalStyleAndLayoutDuration`",
+  "opponent": "用 JS Self-Profiling API 做完整效能追蹤太重，本身就可能造成效能問題（引用：\"A full performance trace using the JS Self-Profiling API is a heavyweight solution that is liable to cause performance problems.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:improve-next-page-load-performance",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/improve-next-page-load-performance.md",
+  "title": "用 Speculation Rules 在使用者點下去之前先預取或預渲染下一頁",
+  "action": "在 `<script type=\"speculationrules\">` 寫 `prefetch`／`prerender` 規則，優先用 `where` 的 document rule 以 `href_matches`／`selector_matches` 選連結，配合 `eagerness`（`immediate`／`eager`／`moderate`／`conservative`），可加 `tag` 讓伺服器從 `Sec-Speculation-Tags` 辨識",
+  "opponent": "缺——指南只說在使用者造訪前先開始載入下一頁是改善載入效能最有效的方法之一，沒說不這麼做時具體出了什麼事",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:improve-next-page-load-performance:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/improve-next-page-load-performance.md",
+  "title": "不要預載會改變狀態的網址，動態頁面小心過期內容",
+  "action": "document rule 裡用 `not` 排除 `/logout`、`add-to-cart` 這類網址、後台路徑與標了 `.do-not-prerender` 或 `rel~=nofollow` 的連結；內容常變的動態頁面慎用 prerender 與高 eagerness",
+  "opponent": "預載會觸發狀態改變的網址；動態頁面預載的內容可能已經過期（引用：\"DO NOT speculate URLs that likely trigger state changes, like `/logout` or `/add-to-cart`, and explicitly exclude them from your speculation rules if they are likely to be included in document rules.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:interaction-paint-timing",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/interaction-paint-timing.md",
+  "title": "用 interaction-contentful-paint 與 soft-navigation 量到互動之後非同步出現的內容",
+  "action": "以 `PerformanceObserver` 觀察 `interaction-contentful-paint` 與 `soft-navigation`（`buffered: true`），把 fetch 之後才畫出的內容、SPA 換路由後的 LCP 歸回觸發它的那次互動；或用 `web-vitals` v6 的 `{ reportSoftNavs: true }`",
+  "opponent": "LCP 在使用者第一次互動後就停止；INP 只量到下一個影格，`fetch()` 完成後才渲染的內容與 SPA 路由切換都量不到；只監看網址變化又會多報不是換路由的變化（引用：\"Just monitoring URL updates can over report URL changes that are not linked to route changes (for example, anchor link changes, multiple \"redirects\" for a single route change).\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:interaction-paint-timing:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/interaction-paint-timing.md",
+  "title": "軟導覽的繪製要用 interactionId 配對，時間要用 duration",
+  "action": "收到 `soft-navigation` 時先呼叫 `getLargestInteractionContentfulPaint()` 當初始 LCP；之後的 `interaction-contentful-paint` 用 `interactionId` 配對，不用 `navigationId`；回報時用 `entry.duration`，不直接報 `presentationTime`",
+  "opponent": "先渲染再 `history.pushState()` 的 app，早期的繪製條目帶的是前一個 `navigationId`，用它配對會漏掉；所有時間戳都從最初硬導覽的時間原點起算，不是從軟導覽開始（引用：\"If the application painted content *before* updating the URL (for example, rendering a view and then calling `history.pushState()`), those early `interaction-contentful-paint` entries were emitted before the `soft-navigation` entry and still carry the *previous* `navigationId`.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:interaction-paint-timing:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/interaction-paint-timing.md",
+  "title": "長時間開著的 SPA 不能靠 getEntriesByType('soft-navigation')",
+  "action": "用 `PerformanceObserver` 持續接收 `soft-navigation` 條目，不靠事後查詢 `performance.getEntriesByType('soft-navigation')`",
+  "opponent": "瀏覽器的緩衝區只保留前 50 筆軟導覽條目（引用：\"DO NOT rely on `performance.getEntriesByType('soft-navigation')` to monitor long-lived single-page applications, as the browser's buffer is limited to the first 50 soft navigation entries.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:interactions-in-complex-layouts",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/interactions-in-complex-layouts.md",
+  "title": "用 content-visibility: auto 的 containment 把一欄的變動關在那一欄裡",
+  "action": "對看板的每一欄、大型資料格的各區塊這類自成一體的版面單位加 `content-visibility: auto` 與 `contain-intrinsic-size`；不支援時以 `@supports not` 退回 `contain: layout style paint`",
+  "opponent": "在複雜版面裡改動一個項目（拖一張卡、改一格），會引發連鎖的樣式與排版計算，迫使整頁重排，造成掉幀與高 INP（引用：\"performing a minor change to a single item—such as dragging a card or editing a cell—can trigger a chain reaction of style and layout calculations that forces the browser to reflow the entire page.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:lazy-load-video-and-audio:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/lazy-load-video-and-audio.md",
+  "title": "延遲載入的 video 要寫寬高、audio 要有 controls，否則永遠不載入",
+  "action": "`<video loading=\"lazy\">` 一律寫整數的 `width`、`height`；`<audio loading=\"lazy\">` 一律加 `controls`",
+  "opponent": "沒有 `controls` 的音訊元素沒有可見的盒子，碰不到視窗，永遠不載入也不自動播放；沒寫尺寸的影片預設 300×150，可能碰不到視窗而永遠不載入，或載入時造成版面位移（引用：\"an `<audio loading=\"lazy\">` element without `controls` cannot visibly intersect the viewport and will never load or autoplay.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:lazy-load-video-and-audio:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/lazy-load-video-and-audio.md",
+  "title": "window 的 load 事件不等延遲載入的媒體",
+  "action": "不用 `window` 的 `load` 事件判斷延遲載入的 `<video>`／`<audio>` 是否已載入",
+  "opponent": "`load` 事件只看急載的媒體，延遲載入的媒體就算一開始就在視窗內也不算（引用：\"The `load` event fires based only on eager-loaded media, even if a `loading=\"lazy\"` media element is initially inside the visual viewport.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:lazy-load-video-and-audio:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/lazy-load-video-and-audio.md",
+  "title": "首屏與 LCP 影片不要加 loading=\"lazy\"",
+  "action": "首屏的英雄影片省略 `loading` 屬性（預設急載），只對首屏以下的媒體加 `loading=\"lazy\"`",
+  "opponent": "對首屏或 LCP 影片加 `loading=\"lazy\"`，海報圖與影片資料的抓取都被延後（引用：\"DO NOT apply `loading=\"lazy\"` to above-the-fold or Largest Contentful Paint (LCP) `<video>` elements, as it delays fetching both the `poster` image and video data.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:optimize-image-priority:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/optimize-image-priority.md",
+  "title": "fetchpriority 標錯對象：high 太多、low 給了首屏以下的 lazy 圖",
+  "action": "`fetchpriority=\"high\"` 最多給 1～2 張關鍵圖，且不與 `loading=\"lazy\"` 並用；首屏以下的一般圖片只用 `loading=\"lazy\"`，不加 `fetchpriority=\"low\"`；LCP 圖不加 `loading=\"lazy\"`",
+  "opponent": "`high` 給太多張會互搶網路、稀釋提升效果；首屏以下的 lazy 圖若再標 `low`，使用者捲到時它們不會以正常優先序載入（引用：\"Only use `fetchpriority=\"high\"` on at most 1-2 critical images to avoid network contention and diluting the priority boost.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:optimize-preload-priority",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/optimize-preload-priority.md",
+  "title": "用 <link rel=preload fetchpriority=\"high\"> 讓預載的關鍵圖片不再以低優先序排隊",
+  "action": "對瀏覽器不會及早發現、但畫面必需的圖片（影片海報、CSS 背景裡的英雄圖）用 `<link rel=\"preload\" as=\"image\" fetchpriority=\"high\">`；次要字型、背景影片的預載用 `fetchpriority=\"low\"`",
+  "opponent": "預載沿用該資源類型的預設優先序，圖片的預設是低優先（引用：\"However, preloads inherit the default priority for the resource type and for images in particular this is low.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:optimize-script-priority:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/optimize-script-priority.md",
+  "title": "`fetchpriority=\"high\"` 給太多支腳本，大家又一起搶",
+  "action": "`fetchpriority=\"high\"` 最多只給 1～2 支關鍵腳本；不要每個 `<script>` 都標，只在已知瀏覽器預設不理想時才改",
+  "opponent": "high 標太多會造成網路互搶、稀釋提升效果（引用：\"Only use `fetchpriority=\"high\"` on at most 1-2 critical scripts to avoid network contention and diluting the priority boost.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:out-of-order-html-streaming",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/out-of-order-html-streaming.md",
+  "title": "用 `<?start>`／`<?marker>` 與 `<template for>` 先送骨架、晚到的內容在同一條串流裡補位",
+  "action": "在文件前段放處理指令 `<?marker name>` 或 `<?start name>…<?end>`（中間放載入中的替代內容），伺服器之後在同一條回應串流裡送出 `<template for=\"name\">`，瀏覽器自動替換；先串流首屏關鍵內容，留言、廣告、相關內容等昂貴區塊放佔位",
+  "opponent": "指南只說這是傳統「由上往下」線性處理 HTML 的替代方案，沒說線性處理在哪個時刻出問題（引用：\"an alternative to the traditional \"top-to-bottom\" linear processing of HTML\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:out-of-order-html-streaming:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/out-of-order-html-streaming.md",
+  "title": "用 `streamHTML()` 把 fetch 回應直接串流進 DOM，不等整包 JSON",
+  "action": "用新的 HTML setter 家族（`setHTML()`、`streamHTML()`、`streamAppendHTML()` 等 24 個方法，含 Safe／Unsafe 版本），把 `fetch` 回應 `pipeTo(el.streamHTML())`，瀏覽器邊收邊渲染",
+  "opponent": "指南只說可取代「等整包 JSON 回來再手動建 DOM」，沒說那樣做在哪個時刻出問題（引用：\"Stream large UI transitions in SPAs using `streamHTML()` instead of waiting for a full JSON payload and manual DOM construction.\"）",
+  "support": "無瀏覽器支援",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:out-of-order-html-streaming:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/out-of-order-html-streaming.md",
+  "title": "進度通知不要放進 `aria-busy=\"true\"` 的面板裡",
+  "action": "在要更新的容器上設 `aria-busy=\"true\"`、載完改回 `false`；live region 通知放在這些面板之外",
+  "opponent": "通知放進 `aria-busy=\"true\"` 的面板裡，讀屏要等全部內容載完才唸（引用：\"Do not nest the live region-based notification inside panels with `aria-busy=\"true\"`, as this will prevent screen readers announcing the live region until after all of the content has been loaded.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:out-of-order-html-streaming:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/out-of-order-html-streaming.md",
+  "title": "佔位被替換時，焦點不能跟著消失",
+  "action": "替換含有目前焦點元素的佔位時保住焦點；載入期間與載入完成時焦點都留在原處，不要移到新內容（SPA 換頁例外：串流完成後移到新內容開頭）",
+  "opponent": "佔位裡若有目前焦點的元素，被替換時焦點會遺失（引用：\"make sure that focus is not lost if a placeholder containing the active element is replaced.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:out-of-order-html-streaming:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/out-of-order-html-streaming.md",
+  "title": "佔位要先留好尺寸，內容補上時才不會推擠版面",
+  "action": "佔位給穩定尺寸；最終尺寸未知時用骨架畫面或 CSS `aspect-ratio` 預留空間",
+  "opponent": "佔位沒有尺寸，內容補上時版面突然位移（引用：\"Always provide stable dimensions for placeholders. If the final content size is unknown, use skeleton screens or CSS `aspect-ratio` to reserve space and prevent jarring shifts.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:performance",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/performance.md",
+  "title": "用 `async`/`defer`、內嵌關鍵 CSS 擋掉卡住渲染的 `@import` 與 head 裡的大腳本",
+  "action": "首屏需要的 CSS 內嵌進 `<head>`、其餘延後；非關鍵腳本一律 `async` 或 `defer`（`type=\"module\"` 預設延後）；用 `<link media>` 切分樣式表；第三方腳本加 `defer` 放到頁尾",
+  "opponent": "CSS 裡的 `@import` 造成循序請求鏈、延後 CSSOM；head 裡的大型非關鍵腳本讓 DOM 建構停下來等它下載、解析、執行（引用：\"This halts DOM construction until the script is downloaded, parsed, and executed.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:performance:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/performance.md",
+  "title": "LCP 圖片寫在原始 HTML 裡、不延遲載入，別讓 JS 或 CSS 當唯一來源",
+  "action": "LCP 圖片用 `<img>`（或 `<link rel=\"preload\" as=\"image\">`）直接出現在原始 HTML，加 `fetchpriority=\"high\"`；首屏圖片不加 `loading=\"lazy\"`；不要用 JS 載入器渲染 hero 區塊",
+  "opponent": "對 LCP 圖片加 `loading=\"lazy\"` 會刻意延後到排版完成才抓；用 JS 渲染 hero 形成 HTML→JS→執行→圖片請求的長鏈（引用：\"This purposefully delays the fetch until layout calculation is complete, severely degrading LCP.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:performance:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/performance.md",
+  "title": "優先序是零和的：high 和預載給太多就互相抵銷",
+  "action": "`fetchpriority=\"high\"` 只給 LCP 圖片；字型預設已是高優先，不加 high；不要預載所有字型",
+  "opponent": "提升太多資源造成網路互搶、讓提升失效；預載所有字型餓死其他關鍵資源（引用：\"Prioritization is a zero-sum mechanism. Elevating too many resources creates network contention and negates the benefit.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:performance:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/performance.md",
+  "title": "用 `scheduler.yield()` 讓出主執行緒，續行排在佇列前面而不是最後",
+  "action": "超過 50ms 的 JS 切塊，用 `scheduler.yield()` 讓出主執行緒（不支援時退回包在 Promise 裡的 `setTimeout`）；超過 250ms 的工作移到 Web Worker",
+  "opponent": "只靠 `setTimeout(..., 0)` 讓出，續行會被排到任務佇列最後，前面有其他任務時要等很久（引用：\"Standard `setTimeout` places continuations at the *back* of the task queue, potentially causing long delays if other tasks are pending.\"）",
+  "support": "不適用",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:performance:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/performance.md",
+  "title": "`will-change` 只在需要時加，不要全域撒",
+  "action": "`will-change: transform` 只在真的要動畫時（例如 `:hover`）加在單一元素上；小而簡單的頁面也不要套 `content-visibility: auto`",
+  "opponent": "對大量元素無差別加 `will-change`，耗掉過多顯示記憶體，造成 GPU 當掉或渲染變慢（引用：\"Indiscriminately applying `will-change: transform` to multiple elements consumes excessive VRAM, causing GPU crashes or sluggish rendering.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:performance:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/performance.md",
+  "title": "圖片與影片寫上 `width`／`height`，載入前就預留空間",
+  "action": "`<img>`、`<video>` 寫明確的 `width` 與 `height`（HTML 屬性或 CSS 皆可），讓瀏覽器立刻算出長寬比",
+  "opponent": "延遲載入的圖片沒有尺寸，載入時造成版面位移（引用：\"Failing to specify width/height on lazy loaded images causes layout shifts.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:performance:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/performance.md",
+  "title": "用了 `srcset` 就要寫 `sizes`，否則手機抓桌機大圖",
+  "action": "響應式圖片用 `srcset` 加 `sizes`；用 `<picture>` 依序提供 AVIF／WebP／JPEG",
+  "opponent": "有 `srcset` 沒有 `sizes`，瀏覽器假設圖片占滿視窗寬，下載最大的那張（引用：\"Without `sizes`, the browser assumes `100vw` and downloads the largest available image.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:performance:9",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/performance.md",
+  "title": "用動態 `import()` 切分程式，不要整包 `app.js`",
+  "action": "路由與重型 UI 函式庫用動態 `import()` 切開；打包設定把第三方套件與應用邏輯分塊",
+  "opponent": "單一巨大的 `app.js` 拉長初始畫面的解析時間與記憶體用量（引用：\"DON'T ship a single, enormous `app.js` bundle: It increases parse time and memory consumption for initial views.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:performance:10",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/performance.md",
+  "title": "Service Worker 快取要分策略、要版本化、要設上限",
+  "action": "帶雜湊的靜態資源用 CacheFirst、可略舊的 API 用 StaleWhileRevalidate、HTML 用 NetworkFirst；設定過期與容量上限；不透明回應不要用 CacheFirst 大量快取；資源更新時一定換雜湊／版本",
+  "opponent": "不更新資源雜湊或版本，使用者被困在無止盡的快取循環；盲目快取不透明回應大量耗用配額且靜默失敗（引用：\"Failing to update asset hashes/versions will trap users in infinite cache loops.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:performance:11",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/performance.md",
+  "title": "非敏感頁面別用 `Cache-Control: no-store`，否則失去 bfcache",
+  "action": "`no-store` 只留給真正私密的資料；只是需要最新內容的頁面改用 `no-cache` 或 `max-age=0`",
+  "opponent": "`no-store` 讓瀏覽器不能把頁面放進上一頁／下一頁快取，感知速度明顯變慢（引用：\"This directive prevents the browser from storing the page in the **Back-Forward Cache (bfcache)**, leading to significantly slower perceived performance.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:resolution-optimized-pseudo-elements",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/resolution-optimized-pseudo-elements.md",
+  "title": "在 `::before`／`::after` 裡用 `image-set()` 讓瀏覽器挑格式與解析度",
+  "action": "裝飾圖示放在偽元素的 `content` 或 `background-image`，用 `image-set()` 列出 AVIF／WebP／PNG 與 1x／2x，格式由最佳化到最不佳化排序；前面先寫一行一般的 `url()` 當舊瀏覽器的退路",
+  "opponent": "指南只說這樣不必為裝飾圖示多加 DOM 節點、瀏覽器能挑最適合裝置的圖，沒說單一 `url()` 或額外節點在哪個時刻出問題（引用：\"allows you to add decorative icons or structural graphics without cluttering your HTML with extra DOM nodes.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:schedule-tasks-by-priority",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/schedule-tasks-by-priority.md",
+  "title": "用 `scheduler.postTask()` 把工作分成 user-blocking／user-visible／background 三級",
+  "action": "輸入處理、關鍵渲染用 `priority: 'user-blocking'`；可見但不擋操作的內容用預設的 `user-visible`；分析、預取用 `background`；不支援時條件載入 `scheduler-polyfill`",
+  "opponent": "指南只說目前畫面的工作比送分析、預取資源重要，要讓瀏覽器對使用者輸入保持回應，沒說不分優先序時在哪個時刻出問題（引用：\"Completing tasks for the current view is more important than sending analytics or prefetching assets.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:adapt-scrollbar-to-contrast-preferences:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/adapt-scrollbar-to-contrast-preferences.md",
+  "title": "macOS 上 `scrollbar-color` 要搭 `scrollbar-width` 才會生效，拇指也不能靠軌道顏色才看得見",
+  "action": "自訂顏色時一併設 `scrollbar-width`（`thin` 或 `auto`）；要顯示軌道底色再加 `scrollbar-gutter: stable`；拇指顏色要能在透明軌道上單獨辨識",
+  "opponent": "macOS 使用覆蓋式捲軸，預設忽略 `scrollbar-color` 與 `::-webkit-scrollbar`；即使生效，軌道預設透明、只在滑過時出現（引用：\"On macOS, `scrollbar-color` (standard) and `::-webkit-scrollbar` (legacy) properties are ignored by default because macOS uses native \"overlay\" scrollbars.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:apply-webgl-shaders",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/apply-webgl-shaders.md",
+  "title": "shader 直接套在可互動的 HTML 上",
+  "action": "把 `drawable` 的 HTML 元素用 `texElementSubImage2D()` 上傳成 WebGL 貼圖，套 fragment／vertex shader，再用 `canvas.updateElementGeometry()` 讓點擊位置和畫出來的像素對齊",
+  "opponent": "（缺）只說套了 shader 之後仍保有原生的可及性、文字選取與 DOM 事件，沒說以前的做法是什麼、壞在哪（引用：\"This enables applying high-performance fragment and vertex shaders natively to fully interactive UI components, such as buttons, input fields, and rich text, while retaining native accessibility, text selection, and DOM event handling.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:browser-ui-theming",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/browser-ui-theming.md",
+  "title": "先用 CSS 掛鉤客製瀏覽器內建介面，確定不夠用才重做",
+  "action": "用 `::selection`、`accent-color`、`color-scheme`、`scrollbar-color`、`::placeholder`、`field-sizing: content`、`appearance: base-select` 加 `::picker(select)`、`label:has(:checked)`、`::file-selector-button`、滑桿的軌道與拇指偽元素等，替表單控制項、捲軸、選取文字換外觀",
+  "opponent": "重做內建介面會失去瀏覽器免費提供的語意、鍵盤操作、輸入法與輔助技術整合（引用：\"most notably losing accessible semantics, keyboard handling, IME, and AT integration that the native UI provides for free.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:browser-ui-theming:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/browser-ui-theming.md",
+  "title": "`user-select: none` 只用在介面外框，不要套在內容文字上",
+  "action": "只在拖曳把手、工具列、重複的按鈕文字上設 `user-select: none`",
+  "opponent": "套在內容文字上會破壞複製貼上、翻譯工具與輔助技術的「從這裡開始朗讀」（引用：\"breaks copy-paste, translation tools, and AT \"read from here\" gestures.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:browser-ui-theming:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/browser-ui-theming.md",
+  "title": "`scrollbar-width` 維持 `auto`，除非另有可及的捲動方式",
+  "action": "不把 `scrollbar-width` 設成 `thin` 或 `none`，除非提供其他可及的捲動控制",
+  "opponent": "`thin` 雖然還有拇指，但目標太小，有些使用者操作不了（引用：\"Although `scrollbar-width: thin` does provide a thumb, the target size of the thumb will be too small for some users to operate.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:browser-ui-theming:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/browser-ui-theming.md",
+  "title": "驗證樣式用 `:user-invalid`／`:user-valid`，並排除範圍滑桿",
+  "action": "用 `:user-invalid`／`:user-valid` 取代 `:invalid`／`:valid`；廣泛套用時寫成 `input:not(input[type=\"range\"]):user-valid`",
+  "opponent": "`:invalid` 一載入就把空白的必填欄位標成錯誤；不排除滑桿時，調整滑桿也會套上欄位的驗證邊框或底色（引用：\"avoiding the hostile default of flagging required-empty fields as errors on page load.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:color",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/color.md",
+  "title": "邊框、分隔線與狀態不要只靠背景圖、陰影或 `border-image`，強制色彩下會消失",
+  "action": "在 `@media (forced-colors: active)` 裡為色彩 token 定義系統色退路，用 `outline` 或 `border` 配 `CanvasText`、`LinkText`、`Highlight` 等關鍵字表達邊界與狀態；`forced-color-adjust: none` 只留給顏色本身就是資訊的地方（語法上色、色票），而且要自己給一組合格的文字與背景色",
+  "opponent": "強制色彩模式會覆蓋作者顏色、移除 `box-shadow` 與漸層背景，`border-image` 與 `url()` 背景可能消失或保留原色而失去對比（引用：\"In forced colors they disappear or keep their own colors, which may not contrast with the system colors (and they often disappear in print too).\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:color:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/color.md",
+  "title": "動態產生深淺色不要只改 oklch 的亮度，改用 `color-mix()` 或兩者混用",
+  "action": "先找現成的設計 token；真要動態產生時用 `color-mix(in oklab, …, white/black)`，或把亮度調整（不超過 30%）和 `color-mix()` 混合使用",
+  "opponent": "瀏覽器還沒實作色域映射，直接改 `oklch`／`oklab` 的亮度得到的顏色無法預期（引用：\"browsers do not yet implement gamut mapping, so the resulting color is unpredictable.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:complex-shapes",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/complex-shapes.md",
+  "title": "筆刷、有機紋理這類形狀用 `mask-image`，不用只有硬邊的 `clip-path`",
+  "action": "`mask-image` 指向帶透明度的 PNG／SVG、CSS 漸層，或頁內 SVG 的 `<mask>`（`maskContentUnits=\"objectBoundingBox\"` 讓遮罩隨元素縮放），並同時寫 `-webkit-mask-*`；SVG 遮罩預設看亮度，要看透明度時設 `mask-type: alpha`",
+  "opponent": "`clip-path` 只能切出幾何或向量形狀，做不出半透明、柔邊與複雜紋理（引用：\"it supports semi-transparency, allowing for soft edges and complex textures that are difficult or impossible to achieve with `clip-path`.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:contrast-color",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/contrast-color.md",
+  "title": "用 `contrast-color()` 依背景色自動選黑或白文字，擋掉換主題後字看不見",
+  "action": "`color: contrast-color(var(--badge-bg))`，背景與文字共用同一個變數；主題、使用者自訂色都只改那個變數；不支援時用相對色彩語法在 `xyz-d65` 空間以亮度門檻 0.17913 算出黑或白",
+  "opponent": "背景是動態的，卻為每個狀態寫死文字顏色，文字色和背景就會對不上（引用：\"Hard-code a separate text color for each interaction state when the background is dynamic. Doing so reintroduces the very mismatch `contrast-color()` exists to prevent.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:custom-text-decorations",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/custom-text-decorations.md",
+  "title": "底線、上線、刪除線用原生 `text-decoration`，不用邊框、背景漸層或偽元素假造",
+  "action": "`:where(.decorated)` 裡用 `text-decoration` 簡寫設線型、樣式、顏色與 `max(1px, 0.08em)` 的粗細，`text-underline-offset: 0.2em` 調距離；懸停時換 `text-decoration-color` 與粗細",
+  "opponent": "用邊框、背景漸層或偽元素假造的線，不會跟著文字換行、不會隨字型度量調整、不會避開下伸部、也不會繼承到巢狀元素（引用：\"A native decoration follows the text across wrapped lines, tracks the font's metrics, skips glyph descenders, and inherits through nested elements, so none of that needs to be reimplemented.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:custom-text-decorations:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/custom-text-decorations.md",
+  "title": "有裝飾線的連結用真的 `<a href>`，不用 `javascript:void(0)`",
+  "action": "連結指向實際目的地，開新分頁加 `target=\"_blank\" rel=\"noopener\"`；不是連結的底線文字要做得不像連結",
+  "opponent": "`href=\"javascript:void(0)\"` 加腳本處理會失去中鍵、複製連結與讀屏行為（引用：\"A real link keeps middle-click, copy-link, and screen reader behavior.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:custom-text-decorations:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/custom-text-decorations.md",
+  "title": "中文、日文的底線用 `text-decoration-skip-ink: all` 避開筆畫",
+  "action": "底線靠近基線、會碰到表意文字時，或混合文字需要一致外觀時，設 `text-decoration-skip-ink: all`；拉丁文維持預設 `auto` 不寫；很粗或刻意裝飾的線用 `none`",
+  "opponent": "預設的 `auto` 只在多數文字系統避開筆畫，日文、中文這類不在其中，底線直接壓過字（引用：\"all: also skip ink in scripts where auto does not, such as Japanese or Chinese.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:custom-text-decorations:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/custom-text-decorations.md",
+  "title": "用 `text-decoration-inset` 做懸停時長出來的底線",
+  "action": "`text-decoration-inset: 0 100%` 把底線尾端內縮到長度為零，懸停與 `:focus-visible` 時過渡回 `0 0`；只在 `prefers-reduced-motion: no-preference` 裡隱藏與動畫，其他情況底線一直顯示；也可用正負值縮短或延長線段兩端",
+  "opponent": "以往這種效果靠邊框或背景漸層假造，失去原生裝飾線跟著換行、避開筆畫等行為（引用：\"To reveal an underline on hover without a border or background gradient, trim the end by 100% and transition it back to 0\"）",
+  "support": "不適用",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:custom-text-decorations:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/custom-text-decorations.md",
+  "title": "波浪線、箭頭標籤這類形狀用 `border-shape`，只改角落用 `corner-shape`",
+  "action": "偽元素加 `border-shape: shape(…)` 畫出波浪底線，再用 `clip-path` 過渡做「畫出來」的動畫；標籤的尖角外框用 `border-shape: polygon(…)`；只要斜角、內凹、缺角時用 `corner-shape` 配 `border-radius`",
+  "opponent": "不支援時要用 `evenodd` 的 `clip-path` 在偽元素上切出外框環，斜邊的筆畫會變細；而 `clip-path` 也會切掉焦點外框與陰影（引用：\"`clip-path` also clips focus rings and `box-shadow`.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:custom-text-decorations:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/visual-design/custom-text-decorations.md",
+  "title": "漸層外框、中間透明，用 `background-clip: border-area`",
+  "action": "透明邊框配 `linear-gradient(…) border-box` 背景，再設 `background-clip: border-area` 讓背景只畫在邊框範圍；放在 `@supports` 裡",
+  "opponent": "不支援時宣告被忽略，背景畫滿整個邊框盒，填滿了文字底下而不只是外框（引用：\"the background paints under the whole border box, filling the text instead of only its outline.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ }
+]

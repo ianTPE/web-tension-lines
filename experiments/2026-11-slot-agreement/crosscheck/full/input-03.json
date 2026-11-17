@@ -1,0 +1,407 @@
+[
+ {
+  "key": "mwg:search-hidden-content",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/search-hidden-content.md",
+  "title": "用 `<details>` 或 `hidden=\"until-found\"` 藏內容，頁內搜尋仍找得到",
+  "action": "一般摺疊優先用 `<details>`；控制鈕在 DOM 別處、要完全自訂樣式或不打算再收起時，用 `hidden=\"until-found\"`，並在 `beforematch` 事件裡同步相關狀態（例如設 `aria-expanded=\"true\"`、收起其他面板）",
+  "opponent": "用 `display: none` 或 `visibility: hidden` 藏起來的內容，讀屏與「在頁面中尋找」都完全碰不到（引用：\"they also make that content completely inaccessible to screen readers and browser features like \"Find in page\".\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:search-hidden-content:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/search-hidden-content.md",
+  "title": "不要在 `hidden=\"until-found\"` 元素上再設 `display` 或 `visibility`",
+  "action": "隱藏完全交給 `hidden=\"until-found\"`，不另外寫 `display: none`、`visibility: hidden` 等樣式",
+  "opponent": "這些樣式會破壞原生行為，內容永遠從搜尋索引消失（引用：\"This breaks the native functionality and permanently hides the content from the search index.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:search-hidden-content:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/search-hidden-content.md",
+  "title": "邊框、內距、背景放在內層 wrapper，不放在 until-found 元素本身",
+  "action": "把框線、padding、背景套在子層 wrapper",
+  "opponent": "直接套在 `hidden=\"until-found\"` 元素上，隱藏時會留下版面位移或視覺殘影（引用：\"This prevents unintended layout shifts or visual remnants while the element is hidden.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:search-hidden-content:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/search-hidden-content.md",
+  "title": "敏感或不相關的資料不要用 `hidden=\"until-found\"` 藏",
+  "action": "敏感資訊、內部資料 token、不該被搜到的內容不放在 until-found 區塊裡",
+  "opponent": "until-found 的內容會被頁內搜尋找到並展開（引用：\"**DO NOT** use `hidden=\"until-found\"` for sensitive information, internal data tokens, or irrelevant data that should not be exposed via search.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:sortable-table",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/sortable-table.md",
+  "title": "排序時搬 <tr>，不重建 tbody",
+  "action": "點擊欄位標題的 `<button>` 後，在 `<tbody>` 內搬動既有 `<tr>`，用 `aria-sort` 標出目前排序欄",
+  "opponent": "排序時用 `innerHTML` 或重新 render 重建 `<tbody>`，焦點與列內狀態丟失、view transition 失效（引用：\"DO NOT re-render the `<tbody>` or `<table>` on sort; it discards focus and state and breaks view transitions.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:sortable-table:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/sortable-table.md",
+  "title": "依欄位型別比對，不比格式化後的字串",
+  "action": "用 `data-type` 宣告每欄型別，數字與日期依原始值比較",
+  "opponent": "直接比對畫面上格式化過的字串，數字與日期排出錯誤順序（引用：\"DO NOT sort formatted strings when the underlying values are numbers or dates.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:spatial-navigation",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/spatial-navigation.md",
+  "title": "方向上沒有候選項目時不要 `preventDefault()`，讓瀏覽器照常捲動",
+  "action": "只在複合元件裡攔方向鍵；找到候選項目才 `preventDefault()`、移動 roving tabindex 並 `scrollIntoView({ block: 'nearest', inline: 'nearest' })`；找不到就直接 return；有修飾鍵、事件已被處理、或目標本身會用方向鍵（可編輯欄位、滑桿）時都不攔",
+  "opponent": "無條件攔截方向鍵，會讓瀏覽器原生的捲動失效、破壞可及性（引用：\"Overriding arrow keys unconditionally breaks accessibility (WCAG 1.4.10).\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:spatial-navigation:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/spatial-navigation.md",
+  "title": "依每次按鍵當下的實際幾何選下一個焦點，不靠索引或 DOM 順序",
+  "action": "按鍵時讀目前元素與候選元素的 `getBoundingClientRect()`（不快取），以邊緣判斷方向、優先選垂直軸有重疊的，否則以 `gap + w * 垂直偏移` 計分；候選只取通過 `checkVisibility()` 的元素",
+  "opponent": "不對稱、會換行或格狀的版面裡，用索引對應會選錯；隱藏元素的矩形可能是 `(0, 0)` 的零尺寸，變成意外的上、左目標（引用：\"In asymmetrical, wrapped, or grid layouts, index-based mapping fails. … Hidden elements can have a zero-sized rect at `(0, 0)` and must not become accidental `up` or `left` targets.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:spatial-navigation:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/spatial-navigation.md",
+  "title": "roving tabindex 要搭配複合元件角色，光有 tabindex 讀屏不認",
+  "action": "依用途給容器與項目 `grid`／`gridcell`、`tablist`、`listbox`／`option`、`tree`、`treegrid` 或 `combobox` 等角色",
+  "opponent": "只有 tabindex、沒有對應角色時，roving tabindex 在讀屏上不成立（引用：\"Roving tabindex only works with screen readers when the container and items have appropriate composite-widget roles and states (e.g. grid/gridcell, listbox/option); tabindex alone isn't enough.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:spatial-navigation:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/spatial-navigation.md",
+  "title": "判斷按鍵來源用 `composedPath()[0]`，不要只看 `e.target`",
+  "action": "以 `e.composedPath()[0]` 取最內層目標，再用 `:read-write, select, input[type=\"range\"], [role=\"slider\"]` 判斷它是否自己要用方向鍵",
+  "opponent": "`e.target` 可能被重定向成 shadow host，看不出真正收到按鍵的是裡面的輸入框（引用：\"Use `e.composedPath()[0]` rather than only `e.target`, because `e.target` can be retargeted to a shadow host.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-remove",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md",
+  "title": "用捲動吸附加 IntersectionObserver 做滑動移除，不手寫指標事件",
+  "action": "每列是一條三欄（左空白、內容、右空白）的水平 `scroll-snap-type: x mandatory` 軌道；以軌道為 root 的 IntersectionObserver 觀察內容，可見比例低於 `activateThreshold` 時放大圖示、低於 `commitThreshold` 時立刻提交並開始收合動畫",
+  "opponent": "用 `pointerdown`／`pointermove`／`pointerup` 自己驅動 transform，會失去原生捲動免費提供的慣性、回彈與鍵盤捲動（引用：\"You'll lose the momentum, snap-back, and keyboard scrolling that native scrolling gives you for free.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-remove:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md",
+  "title": "軌道設 `overscroll-behavior-x: none`，擋掉滑過頭觸發上一頁",
+  "action": "在每列的水平捲動軌道上設 `overscroll-behavior-x: none`",
+  "opponent": "沒有它時，滑過頭會觸發 iOS／Android 瀏覽器的返回上一頁手勢（引用：\"Without it, an over-swipe can trigger the browser's back-navigation gesture on iOS/Android.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-remove:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md",
+  "title": "吸附用 `mandatory`，不用 `proximity`",
+  "action": "軌道設 `scroll-snap-type: x mandatory`",
+  "opponent": "`proximity` 讓列可以停在一半，動作底色露出半截（引用：\"With `proximity`, the row can rest partially scrolled, leaving the action background half-visible.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-remove:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md",
+  "title": "每個滑動動作都要有可見按鈕當替代",
+  "action": "每列放一顆至少 24×24 CSS px、名稱含項目名的原生按鈕，按下時走和滑動同一個 `commit` 函式",
+  "opponent": "滑動無法用鍵盤、單擊或讀屏完成，只能滑的功能違反路徑型手勢準則（引用：\"functionality must not be available solely through swiping gestures.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-remove:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md",
+  "title": "列裡有按鈕時不要讓軌道可聚焦，並提供復原",
+  "action": "已經有動作按鈕的列不在軌道上加 `tabindex`；移除後考慮顯示復原提示",
+  "opponent": "軌道可聚焦時，按方向鍵捲動軌道就會直接提交動作、沒有任何確認；滑動本身也很容易誤觸（引用：\"arrow keys on a focused track commit the action with no confirmation. … the gesture is fast and easy to trigger by accident.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-remove:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md",
+  "title": "Safari 慣性還在跑時移除節點，下一列會自己捲走",
+  "action": "偵測 `GestureEvent`（Safari 專有）時，先把列設 `inert`，延後幾秒才真正 `remove()`",
+  "opponent": "Safari 的捲動鎖定 bug：手勢慣性還沒結束就移除節點，補上來的下一列繼承了捲動，立刻把自己捲出畫面（引用：\"causes the next item (which slides up into this one's place) to inherit the scroll and immediately scroll itself off-screen.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-remove:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md",
+  "title": "`scroll-initial-target` 要等軌道真的變成捲動容器才套用",
+  "action": "把內容的 `scroll-initial-target: nearest` 包在 `.is-initialized` 選擇器裡，JS 接好之後才生效",
+  "opponent": "軌道還不是捲動容器時，這個屬性會往上找最近的可捲動祖先（通常是整頁），改掉頁面的初始捲動位置（引用：\"would let the property walk up to the nearest scrollable ancestor (typically the document) and shift the page's initial scroll position\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-remove:9",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md",
+  "title": "每列在進入畫面時才初始化，後來加入的列用 MutationObserver 接上",
+  "action": "外層 IntersectionObserver 在列第一次進入畫面時才 `setupItem()`，離開時暫停內層觀察；`<ul>` 上的 MutationObserver 把新增的列交給外層觀察器",
+  "opponent": "頁面載入時就全部接好，會在列還沒渲染時讀到為 0 的 `clientWidth`；之後加入的列則根本沒被接上（引用：\"`setupItem` reads layout-dependent values like `clientWidth`, which return 0 until the item is rendered … Without it, items appended after page load won't get wired up.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-remove:10",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md",
+  "title": "移除結果寫進頁面上原本就有的 `role=\"status\"`",
+  "action": "頁面一開始就放一個空的 `role=\"status\"`，移除時寫入「Item One removed」",
+  "opponent": "一列消失本身不會被播報；而讀屏只播報「變動前就存在」的 live region（引用：\"A row disappearing isn't announced … screen readers only announce changes to live regions that existed before the change.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-remove:11",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md",
+  "title": "移除聚焦中的列之前，先把焦點移到下一列",
+  "action": "移除前若焦點在列內，移到下一列（或上一列、清單標題），並保持同一種元素（軌道對軌道、按鈕對按鈕）",
+  "opponent": "移除或 inert 掉含焦點的列，焦點會掉回 `<body>`（引用：\"Removing or inerting the row drops focus to <body> if focus is inside it\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-remove:12",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-remove.md",
+  "title": "強制色彩模式下改用 `CanvasText` 加遮罩畫動作圖示",
+  "action": "`@media (forced-colors: active)` 時設 `forced-color-adjust: none`，背景用 `CanvasText`、以圖示當 `mask`",
+  "opponent": "強制色彩把動作底色換成 `Canvas`，白色圖示就看不見了（引用：\"Forced colors replaces the action background with Canvas, which hides the white icon.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-reveal",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-reveal.md",
+  "title": "用捲動吸附做滑開動作列，不攔 wheel、touchmove、pointermove",
+  "action": "外層 `.SwipeReveal` 是兩欄 grid（`100% max-content`）的水平捲動容器，`scroll-snap-type: x mandatory`，內容吸附 `start`、動作面板吸附 `end`",
+  "opponent": "在主執行緒攔截手勢事件自己平移內容，會擋住合成器驅動的捲動、破壞原生慣性、拖慢反應（引用：\"Main-thread gesture interception blocks compositor-driven scrolling, breaks native scroll momentum, and degrades responsiveness.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-reveal:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-reveal.md",
+  "title": "外層滑動容器設 `overscroll-behavior: chain`：照樣串接捲動，但不回彈",
+  "action": "外層 `.SwipeReveal` 設 `overscroll-behavior: chain`；內層可捲動的內容窗格保留預設 `auto`",
+  "opponent": "預設的 `auto` 會讓外層包裝在邊界回彈、選單跟著彈；`contain`、`none` 又會把捲動困住，傳不到外面的頁面（引用：\"avoid on the outer swipe wrapper where it causes the menu to bounce\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:swipe-to-reveal:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-reveal.md",
+  "title": "滑開面板用 `mandatory` 吸附，不用 `proximity`",
+  "action": "外層設 `scroll-snap-type: x mandatory`",
+  "opponent": "`proximity` 下輕輕一滑，動作按鈕或側選單會停在半露狀態（引用：\"With `proximity`, a light swipe can leave the action buttons or side menu partially exposed at rest.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-reveal:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-reveal.md",
+  "title": "滑開才看得到的動作，要有觸發按鈕可以打開",
+  "action": "內容裡放一顆名稱含項目名的觸發按鈕（`aria-expanded`），按下時捲動到面板、把面板按鈕的 `tabindex` 改成 0；再按一次反向操作",
+  "opponent": "只能靠滑動取得的功能，違反路徑型手勢準則（引用：\"functionality must not be available solely through swiping gestures.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:swipe-to-reveal:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-behaviors/swipe-to-reveal.md",
+  "title": "左側面板用 `scroll-initial-target` 讓列一開始停在內容欄",
+  "action": "左右兩側都有面板（`max-content 100% max-content`）時，把前導面板放在內容前面，內容設 `scroll-initial-target: nearest`",
+  "opponent": "不支援的瀏覽器從捲動位置 0 開始渲染，左側面板一開始就露在外面（引用：\"browsers that do not support `scroll-initial-target: nearest` will initially render at scroll offset `0` with the leading panel exposed.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:batch-analytics-events",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/batch-analytics-events.md",
+  "title": "用 fetchLater() 的 activateAfter 把一段時間內的事件併成一個 beacon",
+  "action": "有分析資料就呼叫 `fetchLater(url, { body, activateAfter, signal })`；時間窗內又有新事件時，以 `AbortController` 取消前一個請求、帶著整個佇列重新排程；`result.activated` 為真時清空佇列",
+  "opponent": "缺——指南說這是在即時更新與減少 beacon 之間的最佳做法，且使用者在逾時前離開也能可靠送出，但沒說舊做法在哪個時刻出問題",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:batch-analytics-events:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/batch-analytics-events.md",
+  "title": "fetchLater() 有配額，要限制批次大小並包 try/catch",
+  "action": "設定佇列上限（例如 100 筆）以免超過每個來源約 64KB 的配額，呼叫包在 `try/catch` 裡；body 不用 `ReadableStream`",
+  "opponent": "批次太大會超出 `fetchLater()` 的配額而丟出錯誤；用 `ReadableStream` 當 body 也會出錯（引用：\"DO check to ensure you do not batch too many events together and exceed the `fetchLater()` quota (currently roughly 64KB per origin).\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:break-up-long-tasks",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/break-up-long-tasks.md",
+  "title": "用 scheduler.yield() 把長迴圈切段，讓點擊不必等迴圈跑完",
+  "action": "在 async 的長迴圈裡設 50ms 的時間預算，超過就 `await scheduler.yield()` 把主執行緒還給瀏覽器，再重設預算繼續處理",
+  "opponent": "大量運算或長迴圈占住主執行緒，事件處理被延後，INP 變差（引用：\"Heavy computations or long loops can block the main thread, delaying event handlers and causing poor Interaction to Next Paint (INP) responsiveness.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:conditional-async-dependencies",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/conditional-async-dependencies.md",
+  "title": "用 top-level await 只在缺功能時載入 polyfill，並讓下游模組等它載完",
+  "action": "在一個獨立模組裡做功能偵測（例如檢查 `'popover' in HTMLElement.prototype`），缺的時候 `await import()` polyfill；入口模組靜態 import 這個模組後才使用該功能",
+  "opponent": "缺——指南只說這樣能把條件載入封裝在單一模組、讓下游在相依載完前不執行，沒說舊做法在哪個時刻出問題",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:defer-rendering-heavy-content",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/defer-rendering-heavy-content.md",
+  "title": "用 content-visibility: auto 讓首屏以下的重區塊等捲近了才排版繪製",
+  "action": "對確定在首屏以下、內部 DOM 很深的大區塊（無限捲動的卡片、留言串、頁尾重區）加 `content-visibility: auto`",
+  "opponent": "內容很多的頁面（無限捲動、複雜儀表板、長文）初次渲染很慢、互動遲鈍（引用：\"Web pages with extensive content—such as infinite scrolls, complex dashboards, or dense articles can suffer from slow initial rendering and sluggish interactions.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:defer-rendering-heavy-content:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/defer-rendering-heavy-content.md",
+  "title": "首屏內的元素不要加 content-visibility: auto",
+  "action": "只對初始視窗以外的區塊套 `content-visibility: auto`，首屏內的元素不套",
+  "opponent": "套在首屏元素上，瀏覽器得先判斷可見範圍才渲染，反而拖慢關鍵的頁面載入（引用：\"Doing so forces the browser to evaluate visibility boundaries before rendering, which paradoxically delays critical page load performance.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:defer-rendering-heavy-content:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/defer-rendering-heavy-content.md",
+  "title": "content-visibility 可能把內容移出無障礙樹與頁內搜尋",
+  "action": "需要在隱藏時仍能被搜尋到的內容改用 `hidden=\"until-found\"`，不用 `content-visibility: hidden`；用了 `content-visibility: auto` 時只用鍵盤實際走一遍，確認畫面外的節點仍能依序到達",
+  "opponent": "`content-visibility: hidden` 把元素與子元素排除在無障礙樹與頁內搜尋之外；`auto` 在某些輔助技術設定下，畫面外的節點也可能在焦點移進去之前都不在無障礙樹或循序導覽裡（引用：\"In certain assistive technology configurations, off-screen nodes utilizing `content-visibility: auto` may be excluded from the accessibility tree or sequential navigation routes until focus is forcibly moved inside them.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:defer-work-until-scroll-ends",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/defer-work-until-scroll-ends.md",
+  "title": "用 scrollend 取代 debounce 猜「捲完了沒」",
+  "action": "在捲動容器或 document 上監聽 `scrollend`，把抓新內容、版面重算、分析 beacon 放進這個回呼",
+  "opponent": "用 `setTimeout` 對 `scroll` 做 debounce 來猜捲動何時結束，不可靠，可能在使用者還在捲的時候就觸發（引用：\"However, these debounced functions are notoriously unreliable. They may trigger while the user’s is still scrolling.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:defer-work-until-scroll-ends:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/defer-work-until-scroll-ends.md",
+  "title": "重活不要放在 scroll 回呼裡",
+  "action": "`scroll` 回呼只做輕量的即時回饋，版面相依的更新與資料抓取移到 `scrollend`",
+  "opponent": "捲動期間執行版面重算、分析 beacon、動態 DOM 更新，會塞滿主執行緒，造成掉幀與版面抖動（引用：\"Executing heavy tasks—such as layout recalculations, analytics data beacons tracking, or dynamic DOM updates—during scrolling can saturate the main thread, resulting in dropped frames and layout thrashing.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:deliver-optimized-decorative-images",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/deliver-optimized-decorative-images.md",
+  "title": "用 image-set() 讓 CSS 背景圖也能依格式與解析度挑最小的檔",
+  "action": "在 `background-image`、`mask-image`、`content` 用 `image-set()` 列出 AVIF／WebP／JPEG 各自的 `1x`、`2x`，由最佳化程度高的格式排到低",
+  "opponent": "缺——指南只說這能改善感知效能、瀏覽器會挑最小的合用圖，沒說只寫單一 `url()` 在哪個時刻出問題",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:deliver-optimized-decorative-images:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/deliver-optimized-decorative-images.md",
+  "title": "可能成為 LCP 的大圖不要只放在 CSS 的 image-set() 裡",
+  "action": "英雄橫幅這類 LCP 候選圖改用 HTML 的 `<img>` 或 `<picture>`，或另外用帶 `media` 的 `<link rel=preload>` 預載",
+  "opponent": "CSS 裡 `image-set()` 引用的圖片，瀏覽器的預載掃描器找不到，載入被大幅延後、拖累 LCP（引用：\"images referenced in CSS via image-set() are not discoverable by the browser's preload scanner. This can significantly delay image loading and harm LCP.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:deprioritize-background-fetches",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/deprioritize-background-fetches.md",
+  "title": "用 fetch() 的 priority: 'low' 讓分析與預取讓路給使用者要的資料",
+  "action": "對分析、記錄、背景同步、預取「以後可能用到」的資料，在 `fetch()` 選項加 `priority: 'low'`；對使用者體驗關鍵的請求不加",
+  "opponent": "同時發出的多個請求搶同一段頻寬，使用者觸發的關鍵請求因此變慢（引用：\"When a page performs multiple simultaneous network requests, they often compete for the same bandwidth.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:detect-initial-visibility-state",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/detect-initial-visibility-state.md",
+  "title": "用 visibility-state 效能條目判斷頁面是不是在背景分頁裡載入",
+  "action": "讀 `performance.getEntriesByType('visibility-state')`，第一筆是 `hidden` 就代表頁面在背景載入，並用第一筆 `hidden` 的 `startTime` 當進入背景的時間，把這類頁面從效能分析中濾掉",
+  "opponent": "在腳本執行時才讀 `document.visibilityState` 有競態：頁面在背景開啟、腳本載完前被切到前景，讀到的是 `visible`，誤判成前景載入（引用：\"When your script finally runs, `document.visibilityState` will synchronously read as `'visible'`, and you will incorrectly assume the page was loaded in the foreground, completely missing its initial hidden state.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:efficient-background-processing",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/efficient-background-processing.md",
+  "title": "用 contentvisibilityautostatechange 在元件不被渲染時暫停動畫與輪詢",
+  "action": "對重元件設 `content-visibility: auto` 與 `contain-intrinsic-size`，監聽 `contentvisibilityautostatechange`：`event.skipped` 為真時停掉 canvas 動畫、WebGL 渲染、高頻 WebSocket 輪詢，否則恢復",
+  "opponent": "缺——指南只說要在元件沒被渲染時暫停重工作以節省系統資源與電量，沒說工作照跑時具體出了什麼事",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:efficient-background-processing:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/efficient-background-processing.md",
+  "title": "contentvisibilityautostatechange 在部分實作不冒泡，委派要用 capture",
+  "action": "把監聽器直接掛在設了 `content-visibility: auto` 的元素上；要在父層委派時加 `{ capture: true }`",
+  "opponent": "這個事件在部分瀏覽器實作中不冒泡，掛在父層的一般監聽器收不到（引用：\"The `contentvisibilityautostatechange` event does not bubble in some browser implementations.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:faster-spa-view-transitions",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/faster-spa-view-transitions.md",
+  "title": "用 content-visibility: hidden 快取非作用中的視圖，切回來不必重算",
+  "action": "SPA 裡非作用中的視圖加 `content-visibility: hidden`（可搭 `position: absolute` 不佔版面），切換時移除；以 `@supports not (content-visibility: hidden)` 退回 `display: none`",
+  "opponent": "切換視圖時銷毀舊視圖或用 `display: none` 隱藏，使用者切回來時瀏覽器都得重建或重算整份排版與繪製（引用：\"Both approaches require the browser to recreate or recalculate the full layout and paint when the user returns to that view.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:faster-spa-view-transitions:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/faster-spa-view-transitions.md",
+  "title": "快取每個視圖會吃光記憶體，動態路由要有淘汰策略",
+  "action": "只在視圖數量少而固定時全部快取；動態產生大量報表或路由的 app 實作 LRU 之類的淘汰策略，到記憶體門檻就銷毀舊視圖",
+  "opponent": "無條件快取每個視圖，最後造成嚴重的記憶體膨脹，低階裝置上可能讓瀏覽器當掉（引用：\"Doing so will eventually cause severe memory bloat and may crash the browser on low-end devices.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:flicker-free-client-side-ab-testing",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/flicker-free-client-side-ab-testing.md",
+  "title": "用 blocking=\"render\" 讓實驗腳本在第一次繪製前跑完，取代整頁隱藏的防閃爍片段",
+  "action": "把實驗腳本放在 `<head>`，加 `async`（外部檔）或 `type=\"module\"`（內嵌）再加 `blocking=\"render\"`；動態插入的變體樣式表也加 `blocking=\"render\"`；變體用 `<html>` 上的 data 屬性切換",
+  "opponent": "腳本在頁面開始建構後才改 DOM，使用者先看到原版再閃成變體；傳統防閃爍片段用 `opacity: 0` 把整頁藏到腳本跑完或約 4 秒逾時，犧牲漸進渲染、讓人誤點看不見的內容（引用：\"This approach sacrifices progressive rendering, allows accidental clicks on invisible content, and introduces unnecessary paint cycles.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:flicker-free-client-side-ab-testing:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/performance/flicker-free-client-side-ab-testing.md",
+  "title": "render-blocking 腳本慢或 CDN 掛掉，整頁就不會繪製",
+  "action": "render-blocking 的腳本只放套用變體的小 stub（例如執行時間 100ms 以內），追蹤與分析另外用 `async`／`defer` 載入；分析等不影響畫面的腳本不加 `blocking=\"render\"`；效能關鍵頁考慮改在伺服器端分流",
+  "opponent": "渲染會一直等到腳本執行完，大或慢的腳本直接延後第一次繪製；第三方 CDN 故障時可能整頁不渲染，而且開發者沒有可控的逾時（引用：\"If the experiment SDK is hosted on a third-party CDN, a CDN outage could block rendering entirely.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ }
+]

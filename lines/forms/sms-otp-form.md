@@ -32,7 +32,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：OTP 欄位用 `type="text"` 配 `inputmode="numeric"`、`pattern="\d{6}"`，不用 `type="number"` 也不用 `type="tel"`
 - 對手：驗證碼是識別字串不是數量，`type="number"` 會多出增減按鈕、可能吃掉開頭的 0，還會被滾輪意外改值（引用："Using `type="number"` adds increment/decrement spinner buttons, can strip leading zeros, and allows accidental scroll-wheel value changes."）
 - 退路：不需要——`inputmode` 早已 Widely，數字鍵盤沒有退路問題
-- 解鎖：以前要有數字鍵盤只能用 `type="number"`，卻多出增減鈕、還會吃掉開頭的 0；現在文字欄位加 `inputmode="numeric"` 就能只借鍵盤
+- 解鎖：（缺）
 
 經過：為了在手機上叫出數字鍵盤而用 `type="number"`，結果 `012345` 變成 `12345`，捲動頁面時滑鼠滾過欄位還會把碼改掉。改用文字欄位加 `inputmode`，鍵盤一樣，值不會被當成數字處理。
 %% line-end %%
@@ -41,16 +41,16 @@ license: CC-BY-4.0（上游指南）
 - 對手組：用錯原生控制項
 - 支援狀態：inputmode：Widely（2021-12-07）
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:sms-otp-form:3" %%
 ## 驗證碼用單一欄位，不要拆成六個格子
 - 做法：只用一個 `<input>`，要分格的外觀就用等寬字型加 `letter-spacing`
 - 對手：六個 `maxlength="1"` 的分格輸入，在許多瀏覽器會讓 `autocomplete="one-time-code"` 自動帶入失效，也妨礙貼上、讓讀屏導覽變複雜（引用："Multi-box OTP patterns (six separate `maxlength="1"` inputs) break native `autocomplete="one-time-code"` autofill in many browsers, hinder copy-pasting, and complicate screen reader navigation."）
 - 退路：不需要——單一欄位或分格是表單寫法，不涉及瀏覽器功能支援
-- 解鎖：以前把驗證碼拆成六格，瀏覽器帶不進碼、貼上也只進第一格；現在單一欄位就能自動帶入與整串貼上
+- 解鎖：（缺）
 
 經過：設計稿畫了六個方格，實作成六個輸入框，系統跳出的驗證碼建議卻填不進去，貼上也只進第一格。換成一個欄位加字距，看起來一樣，自動帶入和貼上都恢復。
 %% line-end %%
@@ -59,9 +59,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：自動填入失效
 - 支援狀態：inputmode：Widely（2021-12-07）；指南未附 `autocomplete="one-time-code"` 的支援資料
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:sms-otp-form:4" %%
 ## 自動取碼後用 requestSubmit()，不要用 form.submit()

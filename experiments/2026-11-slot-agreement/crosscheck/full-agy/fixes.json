@@ -1,0 +1,12 @@
+{
+ "mwg:hovercard:9": {"fallback": ["保住主要行為", "包在 `@supports` 裡，不支援錨點定位時退回置中或底部固定條，不會卡在角落", "Wrapped in `@supports`; without anchor positioning it falls back to a centered or bottom-fixed bar instead of getting stuck in a corner"]},
+ "mwg:animate-to-intrinsic-sizes": {"fallback": ["失去主要好處", "不支援時版面與開關照常，但直接跳到目標尺寸，失去過渡動畫", "Without support the layout and toggle still work, but it jumps straight to the target size and the transition is lost"]},
+ "mwg:css-layout:14": {"fallback": ["保住主要行為", "先用 multi-column 或 `grid-auto-flow: dense` 緊密排列，只在 `@supports` 內加上 masonry", "Start with multi-column or `grid-auto-flow: dense` packing and add masonry only inside `@supports`"]},
+ "mwg:scrollability-affordance-hints:3": {"fallback": ["沒說", "指南未交代不支援 `@property` 時怎麼處理淡出帶的寬度過渡", "The guide doesn't say how to handle the fade band's width transition without `@property`"], "unlock": ["（缺）", ""]},
+ "mwg:dialog": {"unlock": ["（缺）", ""]},
+ "mwg:dialog:3": {"unlock": ["（缺）", ""]},
+ "mwg:dialog:8": {"unlock": ["（缺）", ""]},
+ "mwg:menu:5": {"unlock": ["（缺）", ""]},
+ "mwg:icons:2": {"unlock": ["（缺）", ""]},
+ "mwg:install-web-app": {"unlock": ["在 app 目錄或啟動頁，用 `<install>` 或 `navigator.install()` 直接替其他 web app 發起安裝", "From an app directory or launcher page, use `<install>` or `navigator.install()` to start installing another web app directly"]}
+}

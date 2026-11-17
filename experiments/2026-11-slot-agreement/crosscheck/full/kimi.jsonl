@@ -1,0 +1,471 @@
+{"key":"mwg:2d-panning","fallback":"保住主要行為","fallback_text":"退回 wheel／pointermove 更新捲動，失去原生慣性與合成器捲動","unlock":"可讓地圖與畫布在單一手勢中自由斜向或轉彎平移"}
+{"key":"mwg:2d-panning:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:2d-panning:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:anchor-positioning-tab-underline:2","fallback":"保住主要行為","fallback_text":"退回作用中分頁的 border-bottom，失去底線動畫","unlock":"（缺）"}
+{"key":"mwg:anchor-positioning-tab-underline:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:animate-element-entry-exit:2","fallback":"保住主要行為","fallback_text":"退回 data-closing 與延遲隱藏，失去原生 display 離場過渡","unlock":"（缺）"}
+{"key":"mwg:animate-element-entry-exit:3","fallback":"保住主要行為","fallback_text":"退回 data-closing 延遲隱藏，保住其他過渡並補上離場","unlock":"（缺）"}
+{"key":"mwg:animate-element-entry-exit:4","fallback":"保住主要行為","fallback_text":"退回 data-closing 與 JS 等待動畫，再隱藏或移除節點","unlock":"（缺）"}
+{"key":"mwg:animate-to-from-top-layer","fallback":"保住主要行為","fallback_text":"退回 data-closing 延後關閉，部分 popover 離場仍會即時","unlock":"可讓 dialog 與 popover 進出頂層時保有完整過渡"}
+{"key":"mwg:animate-to-from-top-layer:2","fallback":"保住主要行為","fallback_text":"退回 data-closing 延後關閉，避開直接消失與過早離開頂層","unlock":"（缺）"}
+{"key":"mwg:animate-to-from-top-layer:3","fallback":"保住主要行為","fallback_text":"退回 data-closing 延後關閉，保住其他過渡並補上離場","unlock":"（缺）"}
+{"key":"mwg:carousel-snap-highlights:2","fallback":"保住主要行為","fallback_text":"退回無高亮或 IntersectionObserver，選取語意仍另用控制項","unlock":"（缺）"}
+{"key":"mwg:carousel-snap-highlights:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:consistent-cross-document-transitions","fallback":"保住主要行為","fallback_text":"退回標準即時導覽，失去跨頁轉場但不會拍到半成品","unlock":"可等新頁關鍵 DOM 與樣式穩定後再開始跨頁轉場"}
+{"key":"mwg:consistent-cross-document-transitions:2","fallback":"保住主要行為","fallback_text":"退回標準即時導覽，不再產生空白圖片的轉場快照","unlock":"（缺）"}
+{"key":"mwg:consistent-cross-document-transitions:3","fallback":"保住主要行為","fallback_text":"退回標準即時導覽，失去轉場但不再有阻擋逾時","unlock":"（缺）"}
+{"key":"mwg:consistent-cross-document-transitions:4","fallback":"保住主要行為","fallback_text":"退回標準即時導覽，失去會被重複名稱破壞的轉場","unlock":"（缺）"}
+{"key":"mwg:consistent-cross-document-transitions:5","fallback":"保住主要行為","fallback_text":"退回標準即時導覽，失去動態命名轉場","unlock":"（缺）"}
+{"key":"mwg:cross-document-transitions","fallback":"保住主要行為","fallback_text":"退回標準即時換頁，網站核心導覽不受影響","unlock":"多頁網站可用 CSS 讓同源換頁交叉淡入淡出"}
+{"key":"mwg:cross-document-transitions:2","fallback":"保住主要行為","fallback_text":"退回替代類型或標準即時導覽，失去方向感知動畫","unlock":"可依前進或返回套用方向相反的換頁動畫"}
+{"key":"mwg:custom-button-actions","fallback":"保住主要行為","fallback_text":"退回 invokers polyfill 或事件委派，需自行管理 ARIA 狀態","unlock":"可從 HTML 指令宣告自訂按鈕動作並共用事件處理"}
+{"key":"mwg:custom-button-actions:2","fallback":"保住主要行為","fallback_text":"退回 invokers polyfill 或手動委派，仍由目標監聽指令","unlock":"（缺）"}
+{"key":"mwg:declarative-dialog-popover-control","fallback":"保住主要行為","fallback_text":"退回 invokers 與 popover polyfill，需自行同步 ARIA","unlock":"可從 HTML 按鈕直接開關 dialog 與 popover"}
+{"key":"mwg:declarative-dialog-popover-control:2","fallback":"保住主要行為","fallback_text":"退回 invokers 與 popover polyfill，避免雙重切換","unlock":"（缺）"}
+{"key":"mwg:declarative-dialog-popover-control:3","fallback":"保住主要行為","fallback_text":"退回 polyfill 加焦點還原腳本，關閉後仍可繼續操作","unlock":"（缺）"}
+{"key":"mwg:declarative-dialog-popover-control:4","fallback":"保住主要行為","fallback_text":"退回 invokers 與 popover polyfill，需自行同步 ARIA","unlock":"（缺）"}
+{"key":"mwg:directional-navigation-transitions","fallback":"失去主要好處","fallback_text":"退回立即更新 DOM，畫面仍沒有方向性轉場","unlock":"可依 SPA 前進後退方向播放相反的滑動轉場"}
+{"key":"mwg:directional-navigation-transitions:2","fallback":"保住主要行為","fallback_text":"退回直接 updateDOM()，導覽仍更新但沒有動畫","unlock":"（缺）"}
+{"key":"mwg:drag-and-drop","fallback":"保住主要行為","fallback_text":"退回 before() 搬既有節點，需補回指標捕獲與焦點","unlock":"可原子搬動既有項目，讓拖放重排保留內部狀態"}
+{"key":"mwg:drag-and-drop:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:drag","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:drag:2","fallback":"保住主要行為","fallback_text":"加寫 -webkit-user-select，把手外仍可選字與捲動","unlock":"（缺）"}
+{"key":"mwg:dynamic-sibling-animations","fallback":"保住主要行為","fallback_text":"退回 JS 設定 --sibling-index，仍需逐項寫入索引","unlock":"可依元素在父層的位置自動產生錯開動畫延遲"}
+{"key":"mwg:dynamic-sort","fallback":"失去主要好處","fallback_text":"退回 append() 搬節點，焦點與 iframe 等狀態仍可能丟失","unlock":"排序時可搬動既有節點並保留焦點與媒體等狀態"}
+{"key":"mwg:group-element-transitions","fallback":"保住主要行為","fallback_text":"退回立即更新或基礎轉場，失去共用 class 的整組動畫","unlock":"可用共用 class 一次設計整組項目的轉場與進出場"}
+{"key":"mwg:group-element-transitions:2","fallback":"保住主要行為","fallback_text":"退回立即更新 DOM，沒有快照覆層也不會擋住操作","unlock":"（缺）"}
+{"key":"mwg:highlight-text-ranges","fallback":"失去主要好處","fallback_text":"退回 <mark> 包住文字，仍須改 DOM 並保護監聽器與結構","unlock":"可不改 DOM 就為任意文字範圍上色與疊加高亮"}
+{"key":"mwg:highlight-text-ranges:2","fallback":"保住主要行為","fallback_text":"退回 <mark> 語義標示，失去不改 DOM 的純視覺高亮","unlock":"（缺）"}
+{"key":"mwg:highlight-text-ranges:3","fallback":"保住主要行為","fallback_text":"退回 <mark> 或無高亮，不再留下舊的 Highlight 範圍","unlock":"（缺）"}
+{"key":"mwg:highlight-text-ranges:4","fallback":"保住主要行為","fallback_text":"退回 <mark> 或無高亮，避開 ::highlight 的屬性限制","unlock":"（缺）"}
+{"key":"mwg:interactive-content-reveal","fallback":"失去主要好處","fallback_text":"退回未註冊變數的遮罩，聚光燈仍在但開合會跳","unlock":"可讓跟著指標的漸層遮罩尺寸平滑過渡"}
+{"key":"mwg:interactive-content-reveal:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:interest-triggered-tooltips","fallback":"失去主要好處","fallback_text":"退回 popover=auto，開提示仍可能關掉已開選單","unlock":"可讓 hover 提示獨立開關，不關閉其他選單或對話框"}
+{"key":"mwg:interest-triggered-tooltips:2","fallback":"保住主要行為","fallback_text":"退回 polyfill 與 ARIA 腳本，仍可避免錯誤的展開暗示","unlock":"（缺）"}
+{"key":"mwg:interest-triggered-tooltips:3","fallback":"保住主要行為","fallback_text":"退回 polyfill 與名稱比對腳本，仍避免重複播報","unlock":"（缺）"}
+{"key":"mwg:interest-triggered-tooltips:5","fallback":"保住主要行為","fallback_text":"退回 polyfill 與捕獲監聽器，仍可同步提示狀態","unlock":"（缺）"}
+{"key":"mwg:interest-triggered-tooltips:6","fallback":"保住主要行為","fallback_text":"退回 popover=auto，提示可關閉但失去 hint 共存行為","unlock":"（缺）"}
+{"key":"mwg:interest-triggered-tooltips:7","fallback":"保住主要行為","fallback_text":"退回預設置中或固定底列，失去貼近觸發元素的定位","unlock":"（缺）"}
+{"key":"mwg:light-dismiss-a-dialog","fallback":"保住主要行為","fallback_text":"退回點擊座標比對腳本，失去宣告式輕關閉","unlock":"可用 closedby=any 宣告模態對話框點背景關閉"}
+{"key":"mwg:light-dismiss-a-dialog:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:light-dismiss-a-dialog:3","fallback":"保住主要行為","fallback_text":"退回點擊座標腳本，仍只對 showModal() 對話框啟用","unlock":"（缺）"}
+{"key":"mwg:motion","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:motion:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"可讓複雜版面狀態以 View Transitions 無縫過渡"}
+{"key":"mwg:motion:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:motion:5","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:motion:6","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:motion:7","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:motion:8","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:move-dom-element-without-losing-state:2","fallback":"保住主要行為","fallback_text":"退回 insertBefore()，改走傳統連接與斷開生命週期","unlock":"（缺）"}
+{"key":"mwg:parallax-scroll-effects","fallback":"保住主要行為","fallback_text":"退回 IntersectionObserver 與捲動監聽，失去原生 CSS 效能","unlock":"可用 CSS 依捲動同步多層不同速度的視差"}
+{"key":"mwg:parallax-scroll-effects:2","fallback":"保住主要行為","fallback_text":"退回完整偵測後啟用 JS 視差，濾掉部分支援瀏覽器","unlock":"（缺）"}
+{"key":"mwg:parallax-scroll-effects:3","fallback":"保住主要行為","fallback_text":"退回正確偵測與 JS 視差，避免簡寫重設時間軸","unlock":"（缺）"}
+{"key":"mwg:parallax-scroll-effects:4","fallback":"保住主要行為","fallback_text":"退回腳另行檢查減少動態偏好，必要時不啟用視差","unlock":"（缺）"}
+{"key":"mwg:persistent-top-layer-ui","fallback":"失去主要好處","fallback_text":"退回 insertBefore() 後重新開啟，仍會先關閉並中斷狀態","unlock":"搬動開啟中的頂層元素時可不關閉、不打斷使用者"}
+{"key":"mwg:physics-based-easing","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:physics-based-easing:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:platform-controls-dismiss-dialog","fallback":"失去主要好處","fallback_text":"退回 Esc 與其他關閉控制項，行動返回手勢仍無法關閉","unlock":"模態 dialog 可直接回應行動裝置返回鍵與返回手勢"}
+{"key":"mwg:prevent-page-scroll-under-modal-dialog","fallback":"失去主要好處","fallback_text":"退回部分捲動圍堵，非溢出對話框與 backdrop 仍會捲背景","unlock":"可用純 CSS 擋住模態框 backdrop 與邊界的背景捲動"}
+{"key":"mwg:prevent-page-scroll-under-modal-dialog:2","fallback":"保住主要行為","fallback_text":"退回漸進增強，不偵測也不切換舊式 root 鎖捲動","unlock":"（缺）"}
+{"key":"mwg:same-document-transitions:2","fallback":"失去主要好處","fallback_text":"退回立即更新 DOM，仍完全沒有轉場","unlock":"（缺）"}
+{"key":"mwg:same-document-transitions:3","fallback":"保住主要行為","fallback_text":"退回立即更新並手動路由焦點，仍可保留操作位置","unlock":"（缺）"}
+{"key":"mwg:same-document-transitions:4","fallback":"保住主要行為","fallback_text":"退回立即更新 DOM，沒有快照也不再被拉伸","unlock":"（缺）"}
+{"key":"mwg:scoped-component-transitions","fallback":"保住主要行為","fallback_text":"退回立即更新 DOM，失去元件動畫但不再遮蓋整頁","unlock":"可只轉場元件子樹，讓其他元件並行且頁面保持互動"}
+{"key":"mwg:scoped-component-transitions:3","fallback":"保住主要行為","fallback_text":"退回立即更新 DOM，不再產生可 reject 的轉場 Promise","unlock":"（缺）"}
+{"key":"mwg:scoped-component-transitions:4","fallback":"保住主要行為","fallback_text":"退回立即更新 DOM，沒有轉場子項目溢出問題","unlock":"（缺）"}
+{"key":"mwg:scoped-component-transitions:5","fallback":"保住主要行為","fallback_text":"退回立即更新 DOM，失去外層與內層的轉場組合","unlock":"（缺）"}
+{"key":"mwg:scroll-completion-effects","fallback":"保住主要行為","fallback_text":"退回 scrollend 加怠速 timeout，仍需自行處理無捲動情況","unlock":"可直接 await 程式捲動完成，再執行高亮、動畫或聚焦"}
+{"key":"mwg:scroll-completion-effects:2","fallback":"保住主要行為","fallback_text":"退回 scrollend 加 timeout 與操作 ID，仍會擋掉過期效果","unlock":"（缺）"}
+{"key":"mwg:scroll-completion-effects:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:scroll-completion-effects:4","fallback":"保住主要行為","fallback_text":"退回 scrollend 加 timeout，不依賴原生 Promise 完成時機","unlock":"（缺）"}
+{"key":"mwg:scroll-entry-exit-effects","fallback":"保住主要行為","fallback_text":"退回 IntersectionObserver 更新樣式，失去原生 CSS 效能","unlock":"可用 CSS 依元素進出視窗的進度播放進場與離場"}
+{"key":"mwg:scroll-entry-exit-effects:2","fallback":"保住主要行為","fallback_text":"退回完整偵測後啟用 IntersectionObserver，濾掉部分支援","unlock":"（缺）"}
+{"key":"mwg:scroll-entry-exit-effects:3","fallback":"保住主要行為","fallback_text":"退回正確偵測與 IntersectionObserver，避免時間軸被重設","unlock":"（缺）"}
+{"key":"mwg:scroll-snap-realtime-feedback","fallback":"保住主要行為","fallback_text":"退回 scroll 與 requestAnimationFrame，仍能即時預測最近項目","unlock":"可在捲動手勢途中就標亮瀏覽器預測的吸附目標"}
+{"key":"mwg:scroll-snap-state-sync","fallback":"保住主要行為","fallback_text":"退回 IntersectionObserver，捲動中即更新而非停穩後才同步","unlock":"可用原生吸附事件在停穩時同步目錄作用中項目"}
+{"key":"mwg:scroll-snap-state-sync:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:scroll-snap-state-sync:3","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:scroll-target-on-load","fallback":"保住主要行為","fallback_text":"退回 DOMContentLoaded 後 scrollIntoView()，失去純 CSS 設定","unlock":"可只用 CSS 讓捲動容器初次顯示就停在指定項目"}
+{"key":"mwg:scroll-target-on-load:2","fallback":"保住主要行為","fallback_text":"退回 scrollIntoView() 並另設 focus()，視覺與鍵盤起點可分開","unlock":"（缺）"}
+{"key":"mwg:scroll-target-on-load:3","fallback":"保住主要行為","fallback_text":"退回 scrollIntoView() 並保留媒體尺寸，避免目標再被推移","unlock":"（缺）"}
+{"key":"mwg:scroll-target-on-load:4","fallback":"保住主要行為","fallback_text":"退回 JS 選定單一目標並捲動，失去原生優先序規則","unlock":"（缺）"}
+{"key":"mwg:scrollytelling","fallback":"保住主要行為","fallback_text":"退回 IntersectionObserver 驅動行內樣式，失去純 CSS 實作","unlock":"可讓一組段落的捲動進度驅動另一組元素動畫"}
+{"key":"mwg:scrollytelling:2","fallback":"保住主要行為","fallback_text":"退回完整偵測後啟用 IntersectionObserver，濾掉部分支援","unlock":"（缺）"}
+{"key":"mwg:scrollytelling:3","fallback":"保住主要行為","fallback_text":"退回正確偵測與 JS 動畫，避免簡寫重設時間軸","unlock":"（缺）"}
+{"key":"mwg:scrollytelling:4","fallback":"保住主要行為","fallback_text":"退回腳本啟用後才隱藏的樣式，失敗時內容仍可見","unlock":"（缺）"}
+{"key":"mwg:search-hidden-content","fallback":"保住主要行為","fallback_text":"退回展開全部內容或線性列出，失去摺疊收納","unlock":"可讓視覺上收起的內容仍被頁內搜尋找到並自動展開"}
+{"key":"mwg:search-hidden-content:2","fallback":"保住主要行為","fallback_text":"退回移除 hidden 並展開內容，不再從搜尋中永久消失","unlock":"（缺）"}
+{"key":"mwg:search-hidden-content:3","fallback":"保住主要行為","fallback_text":"退回全部展開並線性排列，不再有隱藏時的視覺殘影","unlock":"（缺）"}
+{"key":"mwg:search-hidden-content:4","fallback":"保住主要行為","fallback_text":"退回展開一般內容，敏感資料本就不放入此區塊","unlock":"（缺）"}
+{"key":"mwg:sortable-table","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:sortable-table:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:spatial-navigation","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:spatial-navigation:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:spatial-navigation:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:spatial-navigation:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:swipe-to-remove","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:swipe-to-remove:2","fallback":"保住主要行為","fallback_text":"此軌道始終可水平捲動，現有 overscroll 實作已能圍堵手勢","unlock":"（缺）"}
+{"key":"mwg:swipe-to-remove:3","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:swipe-to-remove:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:swipe-to-remove:5","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:swipe-to-remove:6","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:swipe-to-remove:7","fallback":"保住主要行為","fallback_text":"退回初始化後程式捲動軌道，不再改動整頁初始位置","unlock":"（缺）"}
+{"key":"mwg:swipe-to-remove:9","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:swipe-to-remove:10","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:swipe-to-remove:11","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:swipe-to-remove:12","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:swipe-to-reveal","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:swipe-to-reveal:2","fallback":"失去主要好處","fallback_text":"退回 overscroll-behavior:auto，串接保留但選單邊界回彈","unlock":"可讓滑開容器把多餘捲動交給父層且自身不回彈"}
+{"key":"mwg:swipe-to-reveal:3","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:swipe-to-reveal:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:swipe-to-reveal:5","fallback":"保住主要行為","fallback_text":"退回載入時 scrollTo() 到內容，失去原生初始定位","unlock":"可讓含左側面板的滑開列初始直接停在內容欄"}
+{"key":"mwg:batch-analytics-events","fallback":"保住主要行為","fallback_text":"退回 fetchLater polyfill，在頁面轉為 hidden 時提前送出","unlock":"可把時間窗內的分析事件併成離頁時仍可靠送出的 beacon"}
+{"key":"mwg:batch-analytics-events:2","fallback":"保住主要行為","fallback_text":"退回 fetchLater polyfill，仍須限制批次並捕捉配額錯誤","unlock":"（缺）"}
+{"key":"mwg:break-up-long-tasks","fallback":"保住主要行為","fallback_text":"退回 setTimeout 分段讓出主執行緒，失去原生排程語意","unlock":"可把長工作分段並讓瀏覽器穿插處理輸入與繪製"}
+{"key":"mwg:conditional-async-dependencies","fallback":"保住主要行為","fallback_text":"退回 async 函式或 Promise 鏈，仍可依條件依序載入","unlock":"可只在瀏覽器缺功能時載入 polyfill，再啟動下游模組"}
+{"key":"mwg:defer-rendering-heavy-content","fallback":"失去主要好處","fallback_text":"退回正常排版繪製，初載仍承擔所有重區塊成本","unlock":"可讓首屏外重區塊接近視窗時才排版與繪製"}
+{"key":"mwg:defer-rendering-heavy-content:3","fallback":"保住主要行為","fallback_text":"退回正常渲染，失去延遲載入但也不增加首屏判斷","unlock":"（缺）"}
+{"key":"mwg:defer-rendering-heavy-content:5","fallback":"保住主要行為","fallback_text":"退回正常渲染全部內容，不再從無障礙樹或搜尋排除","unlock":"（缺）"}
+{"key":"mwg:defer-work-until-scroll-ends","fallback":"失去主要好處","fallback_text":"退回 setTimeout debounce，仍可能在使用者捲動中觸發","unlock":"可在捲動與觸控手勢真正停穩後執行延後工作"}
+{"key":"mwg:defer-work-until-scroll-ends:2","fallback":"失去主要好處","fallback_text":"退回 debounce 猜捲動結束，重活仍可能落在捲動途中","unlock":"（缺）"}
+{"key":"mwg:deliver-optimized-decorative-images","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:deliver-optimized-decorative-images:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:deprioritize-background-fetches","fallback":"失去主要好處","fallback_text":"退回預設請求優先序，背景請求仍與關鍵資料搶頻寬","unlock":"可把分析與預取請求降權，讓關鍵資料先取得頻寬"}
+{"key":"mwg:detect-initial-visibility-state","fallback":"失去主要好處","fallback_text":"退回 document.visibilityState，仍會把背景開啟誤判為前景","unlock":"可從效能時間軸還原頁面初始是否在背景載入"}
+{"key":"mwg:efficient-background-processing","fallback":"保住主要行為","fallback_text":"退回 IntersectionObserver 近似暫停，無法對齊預渲染時機","unlock":"可在元件停止渲染時同步暫停動畫、WebGL 與輪詢"}
+{"key":"mwg:efficient-background-processing:2","fallback":"保住主要行為","fallback_text":"退回 IntersectionObserver，不再依賴不冒泡的狀態事件","unlock":"（缺）"}
+{"key":"mwg:faster-spa-view-transitions","fallback":"失去主要好處","fallback_text":"退回 display:none，切回視圖仍須重算排版與繪製","unlock":"可快取非作用中視圖的渲染狀態，切回時近乎即時"}
+{"key":"mwg:faster-spa-view-transitions:2","fallback":"保住主要行為","fallback_text":"退回 display:none 與同一淘汰策略，失去快取但仍控記憶體","unlock":"（缺）"}
+{"key":"mwg:flicker-free-client-side-ab-testing","fallback":"失去主要好處","fallback_text":"退回 opacity 防閃爍片段，仍犧牲漸進渲染並可誤點","unlock":"可讓實驗變體在第一次繪製前就緒，不必先藏整頁"}
+{"key":"mwg:flicker-free-client-side-ab-testing:2","fallback":"保住主要行為","fallback_text":"退回帶逾時的防閃爍片段，避免 CDN 故障一直擋繪製","unlock":"（缺）"}
+{"key":"mwg:full-session-analytics","fallback":"保住主要行為","fallback_text":"退回 fetchLater polyfill，以 keepalive 或 sendBeacon 在 hidden 時送出","unlock":"可持續更新整段造訪快照，離頁時由瀏覽器可靠送出"}
+{"key":"mwg:full-session-analytics:2","fallback":"保住主要行為","fallback_text":"退回 fetchLater polyfill，仍須縮小 payload 並捕捉錯誤","unlock":"（缺）"}
+{"key":"mwg:identify-heavy-scripts","fallback":"失去主要好處","fallback_text":"不支援時沒有 LoAF 資料，仍難從實地找出重腳本","unlock":"可在真實使用者端依 sourceURL 彙整長影格腳本成本"}
+{"key":"mwg:identify-inp-causes","fallback":"失去主要好處","fallback_text":"不支援 Event Timing 時無法量 INP，仍難拆分互動延遲","unlock":"可把 INP 拆成輸入延遲、處理與呈現三段定位根因"}
+{"key":"mwg:identify-inp-causes:2","fallback":"保住主要行為","fallback_text":"退回合併的樣式與排版時間，失去兩者分開歸因","unlock":"可用輕量 LoAF 分開量測樣式重算與排版成本"}
+{"key":"mwg:improve-next-page-load-performance","fallback":"保住主要行為","fallback_text":"退回點擊後正常載入，失去預取或預渲染加速","unlock":"可在使用者點擊前依規則預取或預渲染下一頁"}
+{"key":"mwg:improve-next-page-load-performance:2","fallback":"保住主要行為","fallback_text":"不支援時忽略規則，不會預載危險網址或過期頁面","unlock":"（缺）"}
+{"key":"mwg:interaction-paint-timing","fallback":"失去主要好處","fallback_text":"退回標準硬導覽指標，互動後與 SPA 繪製仍量不到","unlock":"可把非同步內容繪製與 SPA 軟導覽歸回觸發互動"}
+{"key":"mwg:interaction-paint-timing:2","fallback":"失去主要好處","fallback_text":"不支援時沒有軟導覽條目可配對，主要量測做不到","unlock":"（缺）"}
+{"key":"mwg:interaction-paint-timing:3","fallback":"失去主要好處","fallback_text":"不支援時無法持續觀察軟導覽，主要量測做不到","unlock":"（缺）"}
+{"key":"mwg:interactions-in-complex-layouts","fallback":"保住主要行為","fallback_text":"退回 contain:layout style paint，仍可隔離整頁重排","unlock":"（缺）"}
+{"key":"mwg:lazy-load-video-and-audio:2","fallback":"保住主要行為","fallback_text":"退回 IntersectionObserver，仍靠寬高與 controls 保有交會盒子","unlock":"（缺）"}
+{"key":"mwg:lazy-load-video-and-audio:3","fallback":"保住主要行為","fallback_text":"退回標準或觀察器載入，仍不以 window load 判斷媒體就緒","unlock":"（缺）"}
+{"key":"mwg:lazy-load-video-and-audio:4","fallback":"保住主要行為","fallback_text":"不支援時忽略 lazy，首屏影片仍立即抓取海報與資料","unlock":"（缺）"}
+{"key":"mwg:optimize-image-priority:2","fallback":"保住主要行為","fallback_text":"不支援時忽略 fetchpriority，不會稀釋 high 或壓低 lazy 圖","unlock":"（缺）"}
+{"key":"mwg:optimize-preload-priority","fallback":"失去主要好處","fallback_text":"退回資源類型預設優先序，關鍵圖片預載仍是低優先","unlock":"可提升關鍵預載圖片並降低次要資源的優先序"}
+{"key":"mwg:optimize-script-priority:2","fallback":"保住主要行為","fallback_text":"不支援時忽略所有 high 標記，不會稀釋優先提升","unlock":"（缺）"}
+{"key":"mwg:out-of-order-html-streaming","fallback":"保住主要行為","fallback_text":"退回 template-for polyfill，沿用相同標記補位","unlock":"可在同一條 HTML 串流中先送骨架、之後補上晚到內容"}
+{"key":"mwg:out-of-order-html-streaming:2","fallback":"保住主要行為","fallback_text":"退回 html-setters polyfill，失去原生串流 setter","unlock":"可把 fetch 回應直接串流進 DOM，免去整包 JSON 與手動建 DOM"}
+{"key":"mwg:out-of-order-html-streaming:4","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:out-of-order-html-streaming:5","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:out-of-order-html-streaming:6","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:performance","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:performance:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:performance:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:performance:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"可讓長工作的續行優先回到主執行緒，而非排到一般 timer 後"}
+{"key":"mwg:performance:6","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:performance:7","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:performance:8","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:performance:9","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:performance:10","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:performance:11","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:resolution-optimized-pseudo-elements","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:schedule-tasks-by-priority","fallback":"保住主要行為","fallback_text":"退回 scheduler-polyfill，失去原生工作排程","unlock":"可用三種優先級排程工作，讓輸入與關鍵渲染先處理"}
+{"key":"mwg:adapt-scrollbar-to-contrast-preferences:2","fallback":"保住主要行為","fallback_text":"退回 ::-webkit-scrollbar，仍須 scrollbar-width 與可見拇指","unlock":"（缺）"}
+{"key":"mwg:apply-webgl-shaders","fallback":"保住主要行為","fallback_text":"退回 CSS 覆疊或 polyfill，失去原生 HTML-in-Canvas 貼圖","unlock":"可對可互動 HTML 套 WebGL shader，並保留無障礙與文字選取"}
+{"key":"mwg:browser-ui-theming","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:browser-ui-theming:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:browser-ui-theming:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:browser-ui-theming:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:color","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:color:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:complex-shapes","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:contrast-color","fallback":"保住主要行為","fallback_text":"退回相對色彩語法計算黑白文字，失去單一函式的簡潔","unlock":"可讓瀏覽器依動態背景自動選黑色或白色文字"}
+{"key":"mwg:custom-text-decorations","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:custom-text-decorations:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:custom-text-decorations:3","fallback":"失去主要好處","fallback_text":"退回 auto，中文與日文底線仍可能壓過筆畫","unlock":"可讓中文與日文的裝飾線也主動避開文字筆畫"}
+{"key":"mwg:custom-text-decorations:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"可縮放原生底線兩端，做出跟著文字換行的懸停揭露"}
+{"key":"mwg:custom-text-decorations:5","fallback":"失去主要好處","fallback_text":"退回 evenodd clip-path，斜邊變細且焦點框與陰影會被裁","unlock":"可用 border-shape 直接畫出自訂外框與波浪裝飾線"}
+{"key":"mwg:custom-text-decorations:6","fallback":"保住主要行為","fallback_text":"退回雙層背景或遮罩偽元素，需額外模擬透明內層","unlock":"可讓漸層只畫在邊框範圍，文字下方保持透明"}
+{"key":"mwg:customize-scrollbar-color-and-thickness","fallback":"保住主要行為","fallback_text":"退回 ::-webkit-scrollbar 配色，失去標準屬性但仍可保對比","unlock":"可用標準 CSS 屬性分別設定捲軸拇指與軌道配色"}
+{"key":"mwg:dark-mode","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:dark-mode:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:dark-mode:3","fallback":"保住主要行為","fallback_text":"退回 prefers-color-scheme 媒體查詢，需重複設定色彩變數","unlock":"可用單一 light-dark() 色值讓色彩 token 跟隨配色"}
+{"key":"mwg:dark-mode:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:dark-mode:5","fallback":"保住主要行為","fallback_text":"退回 image-set() 開關，子樹配色與手動切換須另翻變數","unlock":"可讓 background-image 直接用 light-dark() 選深淺色圖片"}
+{"key":"mwg:dark-mode:6","fallback":"保住主要行為","fallback_text":"退回 image-set() 並以空值保留作用中選項，避免全部丟棄","unlock":"（缺）"}
+{"key":"mwg:equal-width-text-lines","fallback":"保住主要行為","fallback_text":"退回 JS 量測或 fitty，自由換行只能漸進增強","unlock":"可讓海報標題的每一行在版面配置時自動撐滿容器"}
+{"key":"mwg:equal-width-text-lines:2","fallback":"保住主要行為","fallback_text":"退回 JS 逐行量測縮放，不再跳過末行或強制換行","unlock":"（缺）"}
+{"key":"mwg:equal-width-text-lines:3","fallback":"失去主要好處","fallback_text":"退回較小 line-height，行距仍隨各行字級變大","unlock":"（缺）"}
+{"key":"mwg:equal-width-text-lines:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:export-html-media-from-canvas","fallback":"失去主要好處","fallback_text":"退回 html2canvas 等函式庫，仍須重畫 DOM 且易誤差","unlock":"可由瀏覽器把真 HTML 像素匯出成圖片或影片"}
+{"key":"mwg:improve-text-layout-and-legibility","fallback":"保住主要行為","fallback_text":"退回預設換行，內容仍可讀但失去平衡行長","unlock":"可讓短標題自動分配成長度接近的多行"}
+{"key":"mwg:improve-text-layout-and-legibility:2","fallback":"失去主要好處","fallback_text":"退回預設貪婪換行，段落末行仍可能只剩孤字","unlock":"可用較精細的換行避免段落最後一行只剩單字"}
+{"key":"mwg:improve-text-layout-and-legibility:3","fallback":"保住主要行為","fallback_text":"不支援時使用一般換行，不再付平衡與美化演算法成本","unlock":"（缺）"}
+{"key":"mwg:improve-text-layout-and-legibility:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:interactive-content-in-3d-scenes","fallback":"保住主要行為","fallback_text":"退回 CSS 覆疊或 polyfill，失去原生 3D 貼圖與幾何同步","unlock":"可把可點擊、可選字的真 DOM 投影進 3D 場景"}
+{"key":"mwg:precise-text-alignment","fallback":"失去主要好處","fallback_text":"退回預設字型留白，圖示對齊與等距內距仍不精確","unlock":"可依 cap height 與基線裁掉文字框的內建上下留白"}
+{"key":"mwg:shaped-cutouts","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:soft-edge-content-fade","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:typography","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:typography:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:typography:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:typography:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:typography:5","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:typography:6","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"可分別用 balance 與 pretty 改善標題及長文的換行"}
+{"key":"mwg:typography:7","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:typography:8","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:visual-effects","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"可在漸層與混色中指定 OKLCH 或 OKLab 插值空間"}
+{"key":"mwg:visual-effects:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:visual-effects:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:visually-stable-font-fallbacks","fallback":"保住主要行為","fallback_text":"退回 size-adjust 等 @font-face 描述符，需手動計算比例","unlock":"可從首選字型自動取比例，讓退路字型換入時尺寸一致"}
+{"key":"mwg:visually-stable-mixed-fonts","fallback":"保住主要行為","fallback_text":"退回手動字級與行高或相近字型，失去自動對齊 x 高度","unlock":"可讓混排或換主題的字型依 x 高度自動對齊視覺大小"}
+{"key":"mwg:animated-select-picker","fallback":"失去主要好處","fallback_text":"退回標準作業系統下拉選單，仍無法自訂開合動畫","unlock":"可把原生 select picker 變成可設定進出場動畫的元素"}
+{"key":"mwg:animated-select-picker:2","fallback":"失去主要好處","fallback_text":"退回標準下拉選單，自訂 picker 的過渡仍做不到","unlock":"（缺）"}
+{"key":"mwg:animated-select-picker:3","fallback":"保住主要行為","fallback_text":"退回原生可捲動選單，放大或矮視窗仍能到達選項","unlock":"（缺）"}
+{"key":"mwg:animated-select-picker:4","fallback":"保住主要行為","fallback_text":"退回無自訂動畫的原生選單，不再造成縮放與旋轉不適","unlock":"（缺）"}
+{"key":"mwg:animated-select-picker:5","fallback":"保住主要行為","fallback_text":"退回依最長選項定寬的原生選單，避免內容改變時位移","unlock":"（缺）"}
+{"key":"mwg:autofill-address-form","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-address-form:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-address-form:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-highlight-inputs","fallback":"失去主要好處","fallback_text":"退回預設底色或 :-webkit-autofill，Firefox 一般欄位仍只有顏色","unlock":"（缺）"}
+{"key":"mwg:autofill-highlight-inputs:2","fallback":"保住主要行為","fallback_text":"退回預設底色與焦點外框，不再共用僅色彩不同的外框","unlock":"（缺）"}
+{"key":"mwg:autofill-highlight-inputs:3","fallback":"保住主要行為","fallback_text":"不支援時保留預設樣式，不會隨填入狀態改變版面","unlock":"（缺）"}
+{"key":"mwg:autofill-highlight-inputs:4","fallback":"保住主要行為","fallback_text":"退回預設自動填入色彩，失去自訂但不再覆蓋焦點陰影","unlock":"（缺）"}
+{"key":"mwg:autofill-payment-form","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-payment-form:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-payment-form:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-payment-form:4","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-payment-form:5","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-payment-form:6","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-payment-form:7","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-payment-form:8","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-in-form","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-in-form:2","fallback":"沒說","fallback_text":"指南未交代不支援 autocorrect 時怎麼辦","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-in-form:3","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-in-form:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-in-form:5","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-in-form:6","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-in-form:7","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-in-form:8","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-up-form","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-up-form:2","fallback":"沒說","fallback_text":"指南未交代不支援 autocorrect 時怎麼辦","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-up-form:3","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-up-form:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-up-form:5","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-up-form:6","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-up-form:7","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:autofill-sign-up-form:8","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:brand-consistent-forms","fallback":"失去主要好處","fallback_text":"退回自製 visually-hidden 控制項，仍需補齊狀態與可及性","unlock":"可用一行 accent-color 讓原生勾選框與單選鈕套品牌色"}
+{"key":"mwg:brand-consistent-forms:2","fallback":"保住主要行為","fallback_text":"退回自製勾號與控制項，需自行確保各狀態對比","unlock":"（缺）"}
+{"key":"mwg:branded-select-styling","fallback":"保住主要行為","fallback_text":"退回標準原生下拉選單，失去品牌外觀但保留可及性","unlock":"可用 CSS 設計原生 select 的觸發鈕、選單、箭頭與勾號"}
+{"key":"mwg:custom-select-picker-layouts","fallback":"保住主要行為","fallback_text":"退回原生文字清單，選擇功能仍在但失去卡片格","unlock":"可用 Grid 把原生 select 選項排成圖片或卡片格"}
+{"key":"mwg:custom-select-picker-layouts:2","fallback":"保住主要行為","fallback_text":"退回原生選單，不會讓自訂 picker 在關閉時露出","unlock":"（缺）"}
+{"key":"mwg:custom-select-picker-layouts:3","fallback":"保住主要行為","fallback_text":"退回純文字原生選項，失去觸發鈕的豐富內容","unlock":"（缺）"}
+{"key":"mwg:custom-select-picker-layouts:4","fallback":"保住主要行為","fallback_text":"退回依最長選項定寬的原生選單，避免選中時位移","unlock":"（缺）"}
+{"key":"mwg:custom-select-picker-layouts:5","fallback":"保住主要行為","fallback_text":"退回原生線性清單，方向鍵仍能依序走完所有選項","unlock":"（缺）"}
+{"key":"mwg:form-fields-automatically-fit-contents","fallback":"失去主要好處","fallback_text":"退回固定尺寸與內部捲動，或另用複雜 Grid 鏡像文字區","unlock":"可讓 input、textarea 與 select 依內容自動伸縮"}
+{"key":"mwg:form-fields-automatically-fit-contents:2","fallback":"保住主要行為","fallback_text":"退回固定尺寸欄位，不會縮成零或無限撐破版面","unlock":"（缺）"}
+{"key":"mwg:form-fields-automatically-fit-contents:3","fallback":"保住主要行為","fallback_text":"退回固定寬高文字區，不會因首個輸入字突然縮窄","unlock":"（缺）"}
+{"key":"mwg:form-fields-automatically-fit-contents:4","fallback":"保住主要行為","fallback_text":"退回固定尺寸欄位，不再因容器拉伸而妨礙內容縮放","unlock":"（缺）"}
+{"key":"mwg:forms","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:5","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:6","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:7","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:8","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:9","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:10","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:11","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:12","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:13","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:14","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:15","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:forms:16","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:ime-safe-enter-submit","fallback":"保住主要行為","fallback_text":"退回 keyCode 229 或時間窗檢查，仍會擋住選字確認的 Enter","unlock":"（缺）"}
+{"key":"mwg:ime-safe-enter-submit:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:required-field-feedback","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:required-field-feedback:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:required-field-feedback:3","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:required-field-feedback:4","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:required-field-feedback:5","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:required-field-feedback:6","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:rich-media-picker","fallback":"失去主要好處","fallback_text":"退回純文字原生選項，圖示與說明版面仍做不到","unlock":"可在原生 option 放圖片、SVG 與說明並保留表單整合"}
+{"key":"mwg:rich-media-picker:2","fallback":"保住主要行為","fallback_text":"退回純文字選項，以隱藏標點與銜接文字保住意思","unlock":"（缺）"}
+{"key":"mwg:rich-media-picker:3","fallback":"保住主要行為","fallback_text":"退回完整可讀的純文字，不以 aria-label 遮住內容","unlock":"（缺）"}
+{"key":"mwg:rich-media-picker:4","fallback":"保住主要行為","fallback_text":"退回不含互動元素的原生文字選項，避免隱藏語意","unlock":"（缺）"}
+{"key":"mwg:rich-media-picker:5","fallback":"保住主要行為","fallback_text":"退回依最長選項定寬的原生選單，避免選中時位移","unlock":"（缺）"}
+{"key":"mwg:select-menu-interaction","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:slider","fallback":"保住主要行為","fallback_text":"退回 calc() 與 JS 同步 min／max，仍需更新目前值","unlock":"可用 progress() 與 typed attr() 直接從屬性算滑桿填色比例"}
+{"key":"mwg:slider:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:sms-otp-form","fallback":"失去主要好處","fallback_text":"退回鍵盤自動填入或手動輸入，仍可能要切 app 抄碼","unlock":"可驗證簡訊網域後自動帶入驗證碼並送出"}
+{"key":"mwg:sms-otp-form:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:sms-otp-form:3","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:sms-otp-form:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:sms-otp-form:5","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:switch","fallback":"保住主要行為","fallback_text":"退回 input-switch-polyfill，補上角色、外觀與拖曳操作","unlock":"可用一個 switch 屬性讓原生 checkbox 呈現開關語意與外觀"}
+{"key":"mwg:validate-input-after-interaction","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:validate-input-after-interaction:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:validate-input-after-interaction:3","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:validate-input-after-interaction:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:validate-input-after-interaction:5","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:client-side-encryption","fallback":"失去主要好處","fallback_text":"退回 X25519／ECDH 加 AES-GCM，失去抗量子保護","unlock":"可在瀏覽器以混合 KEM 與 AEAD 建立抗量子信封加密"}
+{"key":"mwg:client-side-encryption:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:client-side-encryption:3","fallback":"保住主要行為","fallback_text":"退回古典演算法與 raw 格式，避開新演算法格式錯誤","unlock":"（缺）"}
+{"key":"mwg:client-side-encryption:4","fallback":"保住主要行為","fallback_text":"偵測缺失或 false 時退回古典加密，避免呼叫 undefined","unlock":"（缺）"}
+{"key":"mwg:digital-signatures","fallback":"失去主要好處","fallback_text":"退回 Ed25519 或 ECDSA，失去後量子簽章保護","unlock":"可在瀏覽器以 ML-DSA 產生與驗證後量子簽章"}
+{"key":"mwg:digital-signatures:2","fallback":"保住主要行為","fallback_text":"退回古典簽章並在資料前加長度前綴 context，仍防重放","unlock":"可用簽章 context 防止同一金鑰的簽章跨用途重放"}
+{"key":"mwg:digital-signatures:3","fallback":"保住主要行為","fallback_text":"退回古典演算法與 raw 格式，避開 ML-DSA 格式錯誤","unlock":"（缺）"}
+{"key":"mwg:digital-signatures:4","fallback":"保住主要行為","fallback_text":"偵測缺失或 false 時退回 Ed25519，避免呼叫 undefined","unlock":"（缺）"}
+{"key":"mwg:local-network-access","fallback":"失去主要好處","fallback_text":"不支援時仍受混合內容阻擋，只能捕捉錯誤並提示","unlock":"可宣告本機位址空間，在授權後讓 HTTPS 頁連 HTTP 區網裝置"}
+{"key":"mwg:local-network-access:2","fallback":"保住主要行為","fallback_text":"退回錯誤處理與使用者點擊，仍不從 Worker 發首次請求","unlock":"（缺）"}
+{"key":"mwg:local-network-access:3","fallback":"保住主要行為","fallback_text":"退回查詢細分權限並捕捉錯誤，避開舊名稱造成的崩潰","unlock":"（缺）"}
+{"key":"mwg:local-network-access:4","fallback":"保住主要行為","fallback_text":"退回由網址辨識或 wss://，不傳會丟錯的選項物件","unlock":"（缺）"}
+{"key":"mwg:local-network-access:5","fallback":"失去主要好處","fallback_text":"跨來源 iframe 仍無法委派區網權限，只能處理連線失敗","unlock":"（缺）"}
+{"key":"mwg:passkey-authentication","fallback":"保住主要行為","fallback_text":"退回明確的通行金鑰按鈕，失去表單自動填入建議","unlock":"可讓可用通行金鑰出現在登入欄位的自動填入中"}
+{"key":"mwg:passkey-authentication:2","fallback":"保住主要行為","fallback_text":"沒有條件式請求時只用明確按鈕，不會有兩個提示相撞","unlock":"（缺）"}
+{"key":"mwg:passkey-authentication:3","fallback":"失去主要好處","fallback_text":"不支援時跳過 Signal，密碼管理器與伺服器仍不同步","unlock":"可在伺服器查無憑證時通知密碼管理器清除項目"}
+{"key":"mwg:passkey-authentication:4","fallback":"保住主要行為","fallback_text":"退回 webauthn-polyfills 偵測能力，伺服器工作階段規則不變","unlock":"（缺）"}
+{"key":"mwg:passkey-conditional-create","fallback":"失去主要好處","fallback_text":"不支援時不建立通行金鑰，失去登入後默默升級","unlock":"可在完整密碼登入後不跳模態窗就建立通行金鑰"}
+{"key":"mwg:passkey-conditional-create:2","fallback":"失去主要好處","fallback_text":"不支援 Signal 時跳過清理，失敗註冊仍留下孤兒憑證","unlock":"可在伺服器拒收新憑證時清除提供者中的孤兒"}
+{"key":"mwg:passkey-management","fallback":"失去主要好處","fallback_text":"退回伺服器管理並跳過 Signal，保管庫仍不會同步","unlock":"可把憑證清單與帳號名稱變更同步到密碼管理器"}
+{"key":"mwg:passkey-management:2","fallback":"保住主要行為","fallback_text":"不支援時跳過同步，不會把錯誤 RP ID 送給密碼管理器","unlock":"（缺）"}
+{"key":"mwg:passkey-management:3","fallback":"保住主要行為","fallback_text":"不支援時跳過 Signal 呼叫，不會因假 ID 丟出 TypeError","unlock":"（缺）"}
+{"key":"mwg:passkey-reauthentication","fallback":"保住主要行為","fallback_text":"退回 webauthn-polyfills 處理 JSON，仍限定目前使用者憑證","unlock":"（缺）"}
+{"key":"mwg:passkey-registration","fallback":"保住主要行為","fallback_text":"不支援通行金鑰時退回密碼流程，不會重複註冊憑證","unlock":"（缺）"}
+{"key":"mwg:passkey-registration:2","fallback":"保住主要行為","fallback_text":"退回密碼流程，不會發生偏好與要求不一致的註冊失敗","unlock":"（缺）"}
+{"key":"mwg:passkeys","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:passkeys:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:quick-sign-ins","fallback":"失去主要好處","fallback_text":"退回一般登入頁或內嵌表單，仍會中斷原本的操作情境","unlock":"可在點擊當下用本機憑證登入並直接完成原動作"}
+{"key":"mwg:quick-sign-ins:2","fallback":"保住主要行為","fallback_text":"退回條件式 UI 與一般模態按鈕，保留跨裝置登入路徑","unlock":"（缺）"}
+{"key":"mwg:quick-sign-ins:3","fallback":"保住主要行為","fallback_text":"不支援時直接走一般登入，避免忽略參數後跳出模態窗","unlock":"（缺）"}
+{"key":"mwg:quick-sign-ins:4","fallback":"保住主要行為","fallback_text":"退回帶非空 allowCredentials 的一般驗證，避免選到其他帳號","unlock":"（缺）"}
+{"key":"mwg:quick-sign-ins:5","fallback":"保住主要行為","fallback_text":"退回內嵌表單或登入頁，仍手動恢復焦點與播報狀態","unlock":"（缺）"}
+{"key":"mwg:restrict-outbound-connections","fallback":"失去主要好處","fallback_text":"退回分項 CSP，dns-prefetch、preconnect 與 WebRTC 仍管不到","unlock":"可用單一網路層清單限制文件與 Worker 的所有對外連線"}
+{"key":"mwg:restrict-outbound-connections:2","fallback":"保住主要行為","fallback_text":"不支援時標頭被忽略並由 CSP 限制，不會失效即全擋","unlock":"（缺）"}
+{"key":"mwg:restrict-outbound-connections:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:sanitize-untrusted-html","fallback":"保住主要行為","fallback_text":"退回條件載入 DOMPurify，仍會移除腳本與事件處理器","unlock":"可用原生 setHTML 一次解析、清理並插入不可信 HTML"}
+{"key":"mwg:sanitize-untrusted-html:2","fallback":"保住主要行為","fallback_text":"退回 DOMPurify 清理後 innerHTML，需依賴函式庫處理 mXSS","unlock":"（缺）"}
+{"key":"mwg:sanitize-untrusted-html:3","fallback":"保住主要行為","fallback_text":"退回 DOMPurify 並對齊內容與屬性設定，避免輸出分歧","unlock":"（缺）"}
+{"key":"mwg:sanitize-untrusted-html:4","fallback":"保住主要行為","fallback_text":"退回 DOMPurify 的 TrustedHTML 模式，避免強制頁面丟例外","unlock":"（缺）"}
+{"key":"mwg:secure-external-subresources","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:secure-external-subresources:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:secure-external-subresources:3","fallback":"失去主要好處","fallback_text":"退回純 url() 或 HTML link，部分 CSS 資源仍無法驗證雜湊","unlock":"可在 CSS url() 直接指定 CORS、Referer 政策與 SRI 雜湊"}
+{"key":"mwg:secure-external-subresources:4","fallback":"失去主要好處","fallback_text":"退回純 url() 字型，竄改內容不會經 SRI 擋下","unlock":"（缺）"}
+{"key":"mwg:secure-external-subresources:5","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:security","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:security:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:security:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:security:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:security:5","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:security:6","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"可讓第三方 iframe 以 Partitioned cookie 保有分割的嵌入狀態"}
+{"key":"mwg:security:7","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:security:8","fallback":"失去主要好處","fallback_text":"退回 COOP 加 COEP require-corp，子資源仍須逐一送 CORP","unlock":"可用 Document-Isolation-Policy 以 credentialless 方式取得跨來源隔離"}
+{"key":"mwg:security:9","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:security:10","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:security:11","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:security:12","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:trusted-types","fallback":"失去主要好處","fallback_text":"退回 tinyfill，清理仍跑但 sink 不再強制拒收字串","unlock":"可用 CSP 讓危險 DOM sink 只接受授權政策產生的物件"}
+{"key":"mwg:trusted-types:2","fallback":"保住主要行為","fallback_text":"不支援時無強制檢查，tinyfill 讓程式與清理繼續運作","unlock":"（缺）"}
+{"key":"mwg:trusted-types:3","fallback":"保住主要行為","fallback_text":"退回 tinyfill 執行完整清理或純文字寫入，不靠跳脫當清理","unlock":"（缺）"}
+{"key":"mwg:validate-origins","fallback":"保住主要行為","fallback_text":"退回 new URL() 比對正規化 origin，仍可擋前綴假冒","unlock":"可用瀏覽器 Origin API 正規化並嚴格比對 scheme、host、port"}
+{"key":"mwg:validate-origins:2","fallback":"保住主要行為","fallback_text":"退回私有網域規則或 Public Suffix List 函式庫，並比對 scheme","unlock":"可用瀏覽器內建 Public Suffix List 做含 scheme 的同站判斷"}
+{"key":"mwg:validate-origins:3","fallback":"保住主要行為","fallback_text":"退回 event.source 或 MessageChannel，不再比對 null 字串","unlock":"可分辨並釘住序列化後同為 null 的不同沙箱來源"}
+{"key":"mwg:validate-origins:4","fallback":"保住主要行為","fallback_text":"退回 new URL() 與 try/catch，無效或合成輸入仍回 false","unlock":"（缺）"}
+{"key":"mwg:verify-email-ownership","fallback":"失去主要好處","fallback_text":"退回傳統驗證信，仍須離頁等信並向供應商揭露造訪","unlock":"可不寄驗證信，以瀏覽器中介的加密權杖確認信箱擁有權"}
+{"key":"mwg:verify-email-ownership:2","fallback":"保住主要行為","fallback_text":"退回傳統 OTP 或魔法連結，沒有 EVT nonce 可重放","unlock":"（缺）"}
+{"key":"mwg:verify-email-ownership:3","fallback":"保住主要行為","fallback_text":"退回傳統信箱驗證，不依賴可繞過的用戶端權杖檢查","unlock":"（缺）"}
+{"key":"mwg:verify-email-ownership:4","fallback":"保住主要行為","fallback_text":"退回傳統信箱驗證，不會遇到多把 JWKS 金鑰的錯誤","unlock":"（缺）"}
+{"key":"mwg:accessibility","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:5","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:6","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:7","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:8","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:9","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:10","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:11","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:12","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:13","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:14","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:15","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:16","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:17","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:18","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:19","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:20","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:21","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessibility:22","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessible-error-announcement","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessible-error-announcement:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessible-error-announcement:3","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:accessible-generated-content","fallback":"失去主要好處","fallback_text":"退回單一 content 值，裝飾符號仍會被讀屏播報","unlock":"可在 CSS content 以斜線提供替代文字或讓裝飾符號不播報"}
+{"key":"mwg:accessible-generated-content:2","fallback":"保住主要行為","fallback_text":"退回單一 content 值，不重複文字但會失去圖示標籤","unlock":"（缺）"}
+{"key":"mwg:respect-os-text-scale","fallback":"失去主要好處","fallback_text":"退回預設字級與手動縮放，系統大字級設定仍不生效","unlock":"可讓 rem／em 版面自動跟隨作業系統的文字縮放"}
+{"key":"mwg:respect-os-text-scale:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:respect-os-text-scale:3","fallback":"失去主要好處","fallback_text":"退回預設字級與手動縮放，根字級仍不跟系統偏好","unlock":"（缺）"}
+{"key":"mwg:language-detection","fallback":"保住主要行為","fallback_text":"退回伺服器或雲端偵測，失去本機隱私與離線能力","unlock":"可在瀏覽器本機判定文字語言並回傳排序信心分數"}
+{"key":"mwg:language-model","fallback":"保住主要行為","fallback_text":"退回雲端 API 或 Transformers.js，失去內建模型部署便利","unlock":"可在瀏覽器以 Gemini Nano 處理文字、圖片與音訊提示"}
+{"key":"mwg:language-model:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:language-model:3","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:language-model:4","fallback":"保住主要行為","fallback_text":"退回雲端或替代本機模型，不再觸發內建模型下載手勢錯誤","unlock":"（缺）"}
+{"key":"mwg:language-model:5","fallback":"保住主要行為","fallback_text":"退回替代推論並以一般進度 UI 顯示等待與完成","unlock":"（缺）"}
+{"key":"mwg:language-model:6","fallback":"保住主要行為","fallback_text":"退回替代推論，隱藏控制項時仍須手動恢復焦點","unlock":"（缺）"}
+{"key":"mwg:language-model:7","fallback":"保住主要行為","fallback_text":"退回替代模型，輸出元素仍依實際語言設 lang","unlock":"（缺）"}
+{"key":"mwg:language-model:8","fallback":"保住主要行為","fallback_text":"退回替代模型的上下文管理，避免繼承過長的本地歷史","unlock":"（缺）"}
+{"key":"mwg:language-model:9","fallback":"保住主要行為","fallback_text":"退回替代模型，持久化歷史前仍須處理個資","unlock":"（缺）"}
+{"key":"mwg:language-model:10","fallback":"失去主要好處","fallback_text":"退回其他模型 API，失去原生 JSON Schema 輸出約束","unlock":"可用 JSON Schema 讓模型直接輸出可解析的結構化資料"}
+{"key":"mwg:language-model:11","fallback":"保住主要行為","fallback_text":"退回替代模型，仍可在意圖明確時提前準備請求與指示","unlock":"（缺）"}
+{"key":"mwg:language-model:12","fallback":"保住主要行為","fallback_text":"退回替代模型的乾淨請求，不帶入無關任務歷史","unlock":"（缺）"}
+{"key":"mwg:language-model:13","fallback":"保住主要行為","fallback_text":"退回雲端模型或明確關閉替代本機工作，釋放不再需要資源","unlock":"（缺）"}
+{"key":"mwg:language-model:14","fallback":"保住主要行為","fallback_text":"退回替代模型，仍須刪除無關輸入以控制延遲","unlock":"（缺）"}
+{"key":"mwg:language-model:15","fallback":"保住主要行為","fallback_text":"退回替代模型並由程式截斷，避免硬性字數限制扭曲輸出","unlock":"（缺）"}
+{"key":"mwg:language-model:16","fallback":"保住主要行為","fallback_text":"退回替代模型，UI 仍保留版本、比較與復原","unlock":"（缺）"}
+{"key":"mwg:language-model:17","fallback":"保住主要行為","fallback_text":"退回替代模型，仍以本機快取避免重複推論","unlock":"（缺）"}
+{"key":"mwg:summarizer","fallback":"失去主要好處","fallback_text":"退回遠端摘要或 polyfill，本機隱私保證消失且產生費用","unlock":"可在裝置本機產生重點、TL;DR、預告或標題摘要"}
+{"key":"mwg:translator","fallback":"失去主要好處","fallback_text":"退回遠端翻譯或 polyfill，本機隱私保證消失且可能產生費用","unlock":"可在裝置本機以指定語言對翻譯文字或串流內容"}
+{"key":"mwg:agentic-forms","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"可把標準 HTML 表單宣告成代理可探索與呼叫的工具"}
+{"key":"mwg:agentic-forms:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:agentic-forms:3","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:agentic-forms:4","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:agentic-forms:5","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:agentic-forms:6","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"可用 CSS 標亮代理正在操作的表單與待確認送出鈕"}
+{"key":"mwg:agentic-javascript-tools","fallback":"沒說","fallback_text":"指南只說先偵測，未交代不支援時怎麼辦","unlock":"可依 SPA 路由與使用者狀態動態註冊或註銷代理工具"}
+{"key":"mwg:agentic-javascript-tools:2","fallback":"沒說","fallback_text":"指南未交代不支援 WebMCP 時怎麼辦","unlock":"（缺）"}
+{"key":"mwg:agentic-javascript-tools:3","fallback":"沒說","fallback_text":"指南未交代不支援 WebMCP 時怎麼辦","unlock":"（缺）"}
+{"key":"mwg:agentic-javascript-tools:4","fallback":"沒說","fallback_text":"指南未交代不支援 WebMCP 時怎麼辦","unlock":"（缺）"}
+{"key":"mwg:agentic-javascript-tools:5","fallback":"沒說","fallback_text":"指南未交代不支援 WebMCP 時怎麼辦","unlock":"（缺）"}
+{"key":"mwg:agentic-javascript-tools:6","fallback":"沒說","fallback_text":"指南未交代不支援 WebMCP 時怎麼辦","unlock":"（缺）"}
+{"key":"mwg:agentic-javascript-tools:7","fallback":"沒說","fallback_text":"指南未交代不支援 WebMCP 時怎麼辦","unlock":"可用 annotations.debugging 讓代理區分除錯工具與使用者任務"}
+{"key":"mwg:agentic-javascript-tools:8","fallback":"沒說","fallback_text":"指南未交代不支援 WebMCP 時怎麼辦","unlock":"可讓頁內助理與測試直接探索並呼叫註冊工具"}
+{"key":"mwg:agentic-javascript-tools:9","fallback":"沒說","fallback_text":"舊 Chrome 的 JSON 輸入退路不等同整個 API 的退路","unlock":"（缺）"}
+{"key":"mwg:agentic-javascript-tools:10","fallback":"沒說","fallback_text":"指南未交代不支援 WebMCP 時怎麼辦","unlock":"（缺）"}
+{"key":"mwg:webmcp","fallback":"沒說","fallback_text":"指南未交代不支援 WebMCP 時怎麼辦","unlock":"可把分頁內功能註冊成供瀏覽器代理發現的結構化工具"}
+{"key":"mwg:webmcp:2","fallback":"沒說","fallback_text":"指南未交代不支援 WebMCP 時怎麼辦","unlock":"（缺）"}
+{"key":"mwg:webmcp:3","fallback":"沒說","fallback_text":"指南未交代不支援 WebMCP 時怎麼辦","unlock":"（缺）"}
+{"key":"mwg:webmcp:4","fallback":"沒說","fallback_text":"指南未交代不支援 WebMCP 時怎麼辦","unlock":"（缺）"}
+{"key":"mwg:webmcp:5","fallback":"沒說","fallback_text":"指南未交代不支援 WebMCP 時怎麼辦","unlock":"（缺）"}
+{"key":"mwg:calculate-event-differentials","fallback":"保住主要行為","fallback_text":"退回 temporal-polyfill，失去原生 API 但保留日曆與時區運算","unlock":"可按时区与日历单位计算事件差并比较时长"}
+{"key":"mwg:calculate-event-differentials:2","fallback":"沒說","fallback_text":"指南未交代不支援 Intl.DurationFormat 時怎麼辦","unlock":"可把 Temporal.Duration 依 locale 與格式輸出在地化時長"}
+{"key":"mwg:capture-location-agnostic-data","fallback":"保住主要行為","fallback_text":"退回 temporal-polyfill，仍以 Plain 類型避免時區漂移","unlock":"可用 Plain 類型保存不隨觀看者時區漂移的日期與時間"}
+{"key":"mwg:capture-location-agnostic-data:2","fallback":"保住主要行為","fallback_text":"退回 temporal-polyfill，仍以部分日期類型避免假日與溢位","unlock":"可用 PlainYearMonth 與 PlainMonthDay 表示缺少年或日的資料"}
+{"key":"mwg:capture-location-agnostic-data:3","fallback":"保住主要行為","fallback_text":"退回 temporal-polyfill，仍以 IANA 名稱處理日光節約與法規","unlock":"（缺）"}
+{"key":"mwg:coordinate-global-events","fallback":"保住主要行為","fallback_text":"退回 temporal-polyfill，仍可拒絕或化解 DST 歧義","unlock":"可偵測或自動化解 DST 跳過與重複的時刻"}
+{"key":"mwg:sort-high-precision-timestamps","fallback":"保住主要行為","fallback_text":"退回 temporal-polyfill，仍保留奈秒解析與排序","unlock":"可保留外部奈秒時間戳並穩定排序同毫秒事件"}
+{"key":"mwg:sort-high-precision-timestamps:2","fallback":"保住主要行為","fallback_text":"退回 temporal-polyfill，仍以 Duration 保存長間隔精度","unlock":"（缺）"}
+{"key":"mwg:support-global-calendar-systems","fallback":"保住主要行為","fallback_text":"退回 temporal-polyfill，失去原生曆法但保留運算與格式化","unlock":"可用希伯來、伊斯蘭等曆法進行日期運算與格式化"}
+{"key":"mwg:support-global-calendar-systems:2","fallback":"保住主要行為","fallback_text":"退回 temporal-polyfill，仍以 monthCode 與 monthsInYear 處理閏月","unlock":"（缺）"}
+{"key":"mwg:content-first-noise-reduction","fallback":"保住主要行為","fallback_text":"退回常駐列或小型捲動腳本，失去純 CSS 方向查詢","unlock":"可用 CSS 依捲動方向收合頂端列並在上捲時還原"}
+{"key":"mwg:content-first-noise-reduction:2","fallback":"不需要","fallback_text":"支援狀態不適用，不必退路","unlock":"（缺）"}
+{"key":"mwg:content-first-noise-reduction:3","fallback":"保住主要行為","fallback_text":"退回捲動腳本並在接近頂端時顯示，Home 跳躍仍會還原","unlock":"（缺）"}
+{"key":"mwg:content-first-noise-reduction:4","fallback":"保住主要行為","fallback_text":"退回 popover polyfill 或手動浮層，失去原生頂層與輕關閉","unlock":"可用原生 popover 把次要介面收進可輕關閉的頂層"}
+{"key":"mwg:content-first-noise-reduction:5","fallback":"保住主要行為","fallback_text":"退回 popovertarget 或條件載入 invokers-polyfill，按鈕仍可用","unlock":"（缺）"}
+{"key":"mwg:form-factor-adaptation","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:form-factor-adaptation:2","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:natural-interactions","fallback":"不需要","fallback_text":"功能已 Widely，不必退路","unlock":"（缺）"}
+{"key":"mwg:natural-interactions:2","fallback":"保住主要行為","fallback_text":"退回 popover polyfill 或手動浮層，仍提供點擊、觸控與鍵盤","unlock":"可用 popovertarget 讓選單以點擊、觸控與鍵盤開關"}

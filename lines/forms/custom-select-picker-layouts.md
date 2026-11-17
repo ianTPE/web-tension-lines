@@ -86,7 +86,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：攔截左右方向鍵，用 `getBoundingClientRect()` 找 pressed direction 最近的選項；保留上下鍵的線性導覽，不把 picker 改成 `role="grid"`
 - 對手：原生 `<select>` 只處理上下鍵，格狀 picker 裡左右鍵沒有作用；若只補二維方向而拿掉線性順序，讀屏使用者可能走不完所有選項（引用："A native `<select>` only handles linear Up/Down arrow navigation, so Left/Right do nothing in the open picker and Up/Down still navigate items sequentially, regardless of rows and columns."）
 - 退路：保住主要行為——退回系統選單時本來就是直向清單，上下鍵的線性導覽照常
-- 解鎖：現在能攔截左右方向鍵、用實際幾何量測把焦點送到最近選項，格狀排列也有方向鍵導覽
+- 解鎖：（缺）
 
 經過：視覺上是兩欄色票，鍵盤左右卻完全沒反應。幾何量測比解析 `grid-template-columns` 字串可靠，也能處理 subgrid、RTL 與不規則排列。
 %% line-end %%
@@ -95,6 +95,6 @@ license: CC-BY-4.0（上游指南）
 - 對手組：自製控制項丟掉原生行為
 - 支援狀態：Customizable <select>：Limited
 - 戰報：部分改善（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺

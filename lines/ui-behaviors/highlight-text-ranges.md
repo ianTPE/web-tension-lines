@@ -12,7 +12,7 @@ license: CC-BY-4.0（上游指南）
 ## 用 CSS Custom Highlight API 標示文字，不動 DOM
 - 做法：用 `TreeWalker` 收集文字節點，建立 `Range`，包成 `new Highlight(...ranges)`，以 `CSS.highlights.set("search-results", h)` 註冊，再用 `::highlight(search-results)` 上色；重疊時用 `priority` 決定誰在上面
 - 對手：退路把符合的文字包進 `<mark>` 會改動 DOM，要小心保住事件監聽器、別弄壞文件結構（引用："This modifies the DOM, so take care to preserve event listeners and avoid breaking the document structure."）
-- 退路：保住主要行為——偵測不支援時維持可讀純文字，或當標示關鍵時改用 `<mark>` 包裹符合文字保住功能
+- 退路：失去主要好處——退回 <mark> 包住文字，仍須改 DOM 並保護監聽器與結構
 - 解鎖：不用改動 DOM 結構或拆開文字節點，就能替任意文字範圍套用搜尋結果與語法上色等樣式
 
 經過：頁內搜尋、語法上色、協作游標以前都要把文字切開包元素，切一次就可能把別人掛的監聽器和結構弄掉。現在範圍只是一份登記，樣式由瀏覽器畫上去。
@@ -25,7 +25,7 @@ license: CC-BY-4.0（上游指南）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：以前標示文字要拆 DOM → 現在筆記 app 的站內搜尋、程式碼區塊的即時語法上色、多人協作的他人選取範圍，可以疊在框架渲染的內容上而不打架
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「失去主要好處」
 
 %% line-start id="mwg:highlight-text-ranges:2" %%
 ## 有意義的標示用 `<mark>`，不用自訂高亮

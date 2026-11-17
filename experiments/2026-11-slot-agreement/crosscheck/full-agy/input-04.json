@@ -1,0 +1,416 @@
+[
+ {
+  "key": "mwg:custom-elements:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/custom-elements.md",
+  "title": "connectedCallback 要能重跑，teardown 寫在 disconnectedCallback",
+  "action": "`connectedCallback` 的 setup 寫成冪等；全域監聽、計時器、observer 在 `disconnectedCallback` 移除，但不當成永久銷毀",
+  "opponent": "`connectedCallback` 每次插入都會觸發，搬動元素就再跑一次；不在 disconnect 時清掉全域監聽與計時器就會洩漏（引用：\"It fires on every insertion, so moving the element re-runs it.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:custom-elements:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/custom-elements.md",
+  "title": "生命週期回呼與 observedAttributes 要在 define() 之前就寫好",
+  "action": "`static observedAttributes` 與所有生命週期方法在呼叫 `customElements.define()` 前就放在類別上",
+  "opponent": "`define()` 只在註冊時讀一次這些設定，之後才加上的回呼或屬性清單會被默默忽略，`attributeChangedCallback` 永遠不觸發（引用：\"`attributeChangedCallback` never fires unless `observedAttributes` was already present at `define()` time.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:custom-elements:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/custom-elements.md",
+  "title": "升級時屬性可能已在、子節點可能還沒到，用 slotchange 與 attributeChangedCallback 補",
+  "action": "constructor 先呼叫 `super()`；在 `connectedCallback` 讀既有屬性同步初始狀態；用 `slotchange` 監看子節點、`attributeChangedCallback` 監看屬性，不忽略之後的觸發",
+  "opponent": "元素可能在類別註冊前就已在 DOM 裡，升級時屬性和子節點早就存在；反過來，長清單的子節點在 `connectedCallback` 時可能還沒解析完（引用：\"the HTML parser can yield mid-parse of long child lists, so the callback sometimes runs before every child is attached.\"）；在 `super()` 之前碰 `this` 會丟 `ReferenceError`",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:custom-elements:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/custom-elements.md",
+  "title": "用延遲的 opacity 動畫隱藏未定義元素，不要用 visibility: hidden 硬藏",
+  "action": "`my-element:not(:defined)` 設 `opacity: 0` 並加一個 2 秒後轉為不透明的動畫；只對需要的元素或子樹（`:has(:not(:defined))`）設，不對整個 `body`",
+  "opponent": "硬藏未升級的元素時，腳本一旦沒載入或載得慢，內容就永遠看不到；把守衛設在整個 `body`，一個不重要的小工具就會拖住整頁繪製（引用：\"so a failed or slow script never hides content for good.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:form-associated-custom-elements",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/form-associated-custom-elements.md",
+  "title": "用 formAssociated 與 ElementInternals 讓自訂控制項自己送值，不要藏一個 input",
+  "action": "類別加 `static formAssociated = true`，用 `setFormValue()` 送值、`setValidity()` 接上原生驗證，並實作 `formResetCallback`、`formDisabledCallback`、`formStateRestoreCallback`",
+  "opponent": "缺——指南只說不要退回隱藏的 `<input>`，列出 FACE 的好處（自己送值、參與驗證、反映表單狀態），沒說隱藏 input 在哪個時刻出錯",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:form-associated-custom-elements:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/form-associated-custom-elements.md",
+  "title": "formDisabledCallback 只停用內部控制項，不要設宿主的 disabled",
+  "action": "在 `formDisabledCallback(disabled)` 裡停用 shadow 內的按鈕（或移出 Tab 順序並忽略輸入），宿主本身不碰",
+  "opponent": "在回呼裡替宿主加上 `disabled` 屬性，祖先 `<fieldset>` 重新啟用時宿主仍卡著自己的 `disabled`，永遠停用（引用：\"Do NOT toggle `disabled` on `this`, or a `<fieldset disabled>` toggle will leave the host permanently stuck with its own `disabled` attribute.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:form-associated-custom-elements:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/form-associated-custom-elements.md",
+  "title": "不要用 ElementInternals 直接給可及名稱",
+  "action": "處理互動或作為群組的自訂元素用 `ElementInternals` 設角色（例如 `role = 'group'`）與狀態，但除非元素自帶可見標籤，不透過它設可及名稱",
+  "opponent": "用 `ElementInternals` 設名稱，可能蓋掉使用端給的名稱，例如用 `<label for>` 標示的名稱（引用：\"this would likely override any accessible name set when using the custom element, such as by labelling the element using a HTML label's `for` attribute.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:html",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/html.md",
+  "title": "用 <dialog> 的 showModal() 與 closedby=\"any\" 做模態框，不自己寫焦點陷阱與關閉",
+  "action": "模態覆蓋層用 `<dialog>` 加 `.showModal()`，`closedby=\"any\"` 開啟點背景關閉，`<form method=\"dialog\">` 關閉並回傳 `returnValue`，`::backdrop` 畫背景；非模態的選單與提示用 `popover`",
+  "opponent": "缺——指南只說 `<dialog>` 會自動困住焦點、暗化背景、支援 Esc，`closedby=\"any\"` 不必自訂 JS，沒說手寫版在哪個時刻出錯；只提醒需要焦點陷阱時別用 `show()`",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:html:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/html.md",
+  "title": "用 inert 把整塊隱藏區域移出 Tab 順序與無障礙樹",
+  "action": "畫面外的選單、自訂抽屜打開時的背景頁面加全域 `inert` 屬性，再用 CSS（例如 `opacity: 0.5`）表示不可操作",
+  "opponent": "缺——指南只說 `inert` 會把這些區域移出 Tab 流程與無障礙樹，沒說留著不處理時具體發生什麼",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:html:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/html.md",
+  "title": "不要隨手用 focus({ preventScroll: true })",
+  "action": "移動焦點時不加 `preventScroll`，除非做過可用性驗證；被聚焦的元素要確保不被其他東西擋住",
+  "opponent": "`preventScroll` 可能讓被聚焦的元素停在畫面外（引用：\"it can hide the focused element off-screen.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:html:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/html.md",
+  "title": "可捲動的程式碼區塊加 tabindex=\"0\" 與 role=\"region\"",
+  "action": "`<pre><code>` 會捲動時，`<pre>` 加 `tabindex=\"0\"`、`role=\"region\"`，並以 `aria-labelledby` 或 `aria-label` 命名",
+  "opponent": "可捲動的程式碼區塊不在 Tab 順序裡時，鍵盤使用者到不了它，也就無法捲動看到被截掉的內容（引用：\"adding `tabindex=\"0\"` to the `<pre>` element if it becomes scrollable, allowing keyboard users to reach the content.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:html:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/html.md",
+  "title": "不要用 title 屬性做提示",
+  "action": "提示改用可由鍵盤觸發、讀屏能一致播報的提示模式，不用 `title`",
+  "opponent": "`title` 產生的提示無法用鍵盤取得（引用：\"DON'T use the `title` attribute to create tooltip effects, as these cannot be accessed using a keyboard.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:html:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/html.md",
+  "title": "首屏主圖不要 loading=\"lazy\"，改給 fetchpriority=\"high\"",
+  "action": "LCP 元素（主視覺圖）加 `fetchpriority=\"high\"`，CSS 背景主圖用 `<link rel=\"preload\" as=\"image\" fetchpriority=\"high\">`；`loading=\"lazy\"` 只給畫面外的圖片與 iframe",
+  "opponent": "對首屏或主視覺圖片加 `loading=\"lazy\"` 會延後 LCP（引用：\"DON'T apply `loading=\"lazy\"` to above-the-fold or hero images. This delays LCP.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:html:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/html.md",
+  "title": "img 與 video 都寫 width 與 height",
+  "action": "所有 `<img>`、`<video>` 標上 `width` 與 `height` 屬性，`<picture>` 的 `<source>` 也可各自標尺寸",
+  "opponent": "沒有尺寸時載入後才撐開，造成版面位移（引用：\"DO specify `width` and `height` on all `<img>` tags to preserve aspect ratio and prevent Layout Shifts (CLS).\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:html:9",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/html.md",
+  "title": "登入、地址、付款欄位不要用 autocomplete=\"off\"，改給具體 token",
+  "action": "憑證、地址、付款、聯絡欄位寫 `autocomplete=\"email\"`、`\"street-address\"`、`\"cc-number\"` 等具體值，並和 `type`、`inputmode` 對齊",
+  "opponent": "在這些欄位寫 `autocomplete=\"off\"`，瀏覽器與密碼管理器本來就會刻意忽略它（引用：\"Browsers and password managers ignore it there by design.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:prerendering-custom-elements",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/prerendering-custom-elements.md",
+  "title": "用 Declarative Shadow DOM 從伺服器送出 shadow tree，擋掉等 JS 才有樣式的閃爍",
+  "action": "宿主的第一個子節點放 `<template shadowrootmode=\"open\">`，元件 CSS 寫在模板內的 `<style>` 或 `<link>`，解析器直接掛上 shadow root",
+  "opponent": "shadow tree 靠腳本建立時，元件在 JS 執行前沒有結構也沒有樣式，出現未樣式化內容的閃爍（FOUC）；樣式若放在另外由腳本載入的樣式表，第一次繪製也一樣沒樣式（引用：\"DSD renders correctly on first paint only if styles ship inside the declarative template.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:prerendering-custom-elements:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/prerendering-custom-elements.md",
+  "title": "hydrate 時沿用伺服器的 shadow root，不要重新渲染",
+  "action": "constructor 先檢查 `this.shadowRoot`，已存在就沿用，只在沒有時才 `attachShadow()`；行為直接掛在現有標記上",
+  "opponent": "升級時重新渲染 shadow tree，會丟掉伺服器送來的 DOM 並造成閃爍（引用：\"do NOT re-render; that would discard the server's DOM and flash.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:shadow-dom",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/shadow-dom.md",
+  "title": "大量實例共用一份 adoptedStyleSheets，不要每個實例各帶一份 <style>",
+  "action": "模組層建立一個 `CSSStyleSheet` 並 `replaceSync()`，每個實例的 shadow root 以 `adoptedStyleSheets = [sheet]` 共用",
+  "opponent": "模板裡的 `<style>` 每個實例複製一份，數量一大就把 DOM 撐肥；改用 `<link>` 則多一個請求並有未樣式化閃爍的風險（引用：\"Duplicated per instance; bloats the DOM at scale.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:shadow-dom:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/shadow-dom.md",
+  "title": "用 slotchange 與 assignedElements() 判斷 slot 有沒有內容",
+  "action": "監聽 slot 的 `slotchange`，用 `assignedElements()` 取得實際分配到的元素，再決定例如是否切換 `has-header`",
+  "opponent": "元素之間的空白文字節點也會被分配到預設 slot，所以預設 slot 幾乎從不真的是空的；升級時 Light DOM 子節點在 `connectedCallback` 可能還不存在（引用：\"Text nodes between elements (including pure whitespace) are assigned to the default slot, so a default slot is rarely truly \"empty.\"\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:styling-web-components",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/styling-web-components.md",
+  "title": "用繼承的自訂屬性做主題，不要用 :host-context()",
+  "action": "使用端在祖先上設 `--card-bg` 這類自訂屬性，元件內以 `var(--card-bg, white)` 讀取，取代 `:host-context([theme=\"dark\"])`",
+  "opponent": "`:host-context()` 只有 Chromium 支援，Firefox 與 Safari 已拒絕實作，CSSWG 也傾向不再發展（引用：\"Firefox and Safari have declined to ship it and the CSSWG is leaning toward not developing it further — treat it as a Chromium-only dead end\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:styling-web-components:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/styling-web-components.md",
+  "title": "公開的自訂屬性不要在 :host 上設值，用私有別名放預設",
+  "action": "`:host` 上只定義私有別名 `--_card-bg: var(--card-bg, white)`，內部一律用 `--_card-bg`，公開的 `--card-bg` 保持未設定",
+  "opponent": "在 `:host` 上定義的自訂屬性，只能被直接指定宿主元素的規則覆寫，祖先上設的值傳不進來（引用：\"A custom property *defined* on `:host` can only be overridden by rules targeting the host element specifically.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:styling-web-components:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/styling-web-components.md",
+  "title": "包住原生控制項時設 font: inherit",
+  "action": "shadow tree 內被包住的 `<button>`、`<input>`、`<select>` 設 `font: inherit`（通常再加 `color: inherit`）",
+  "opponent": "表單控制項的 `font` 來自 UA 樣式表、不繼承，被包住的控制項會顯示系統字型而不是頁面字型，這是最常見的遺漏（引用：\"The wrapped control therefore renders in the platform font, not the page font, until you set `font: inherit`\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:styling-web-components:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/styling-web-components.md",
+  "title": ":host 的樣式不會傳到內部控制項，用 ::part 或自訂屬性轉交",
+  "action": "內部控制項標上 `part=\"submit\"` 讓使用端以 `my-card::part(submit)` 自由設樣式，或用一組自訂屬性傳固定的值；巢狀元件以 `exportparts` 往上轉出",
+  "opponent": "在 `:host` 上設 `background`、`border`、`padding` 只會作用在宿主的盒子，不會層疊進被包住的元素（引用：\"Setting `background`/`border`/`padding` on `:host` styles the host box, not the control inside it.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:styling-web-components:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/styling-web-components.md",
+  "title": "元件要用 container query 時，先給 :host 一個區塊盒",
+  "action": "`:host { display: block; container-type: inline-size; }`，再用 `@container` 依元件自己的寬度調整版面",
+  "opponent": "自訂元素預設 `display: inline`，尺寸 containment 不作用在 inline 或 contents 元素上，容器查詢就失效（引用：\"custom elements default to `display: inline` and size containment does not apply to `inline` or `contents` elements\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:web-components",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/web-components.md",
+  "title": "包住真正的 <button>，不要重做原生語意",
+  "action": "只有需要封裝狀態、可腳本化的 API 或原生元素做不到的行為時才寫自訂元素；需要包裝時，把真正的 `<button>` 包在裡面，而不是用 `<my-button>` 重做焦點、啟動與 ARIA",
+  "opponent": "缺——指南說重做原生語意是最常見的誤用、只有沿用原生元素才能免費繼承可及性，但沒說重做版在哪個時刻出錯",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:web-components:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/web-components.md",
+  "title": "shadow root 用 open 模式",
+  "action": "`attachShadow({ mode: 'open' })`，宣告式則用 `shadowrootmode=\"open\"`",
+  "opponent": "`mode: 'closed'` 會讓頁面腳本、測試工具與會走訪 shadow tree 的自動無障礙檢查器都拿不到 `element.shadowRoot`（引用：\"`mode: 'closed'` hides `element.shadowRoot` from page scripts, test harnesses, and automated accessibility checkers that walk shadow trees.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:web-components:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/html/web-components.md",
+  "title": "不要用自訂內建元素（is=\"…\"）",
+  "action": "不用 `extends HTMLButtonElement` 加 `is=\"…\"`，改用自主自訂元素包住原生元素",
+  "opponent": "Safari 已永久拒絕實作自訂內建元素（引用：\"Avoid *customized built-in elements* (`extends HTMLButtonElement` with `is=\"…\"`); Safari has permanently declined to ship them.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:carousel-slide-effects",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/carousel-slide-effects.md",
+  "title": "用 `view()` 時間軸讓投影片隨捲動位置縮放、淡出",
+  "action": "每張投影片套一段 0%→50%→100% 的關鍵影格（例如 `scale` 0.5→1→0.5），`animation-timeline: view(inline)`（或具名的 `view-timeline`）讓動畫進度跟著投影片穿過捲動區的位置走；外層包 `prefers-reduced-motion: no-preference` 與 `@supports`，可搭配 scroll snap 停在正中",
+  "opponent": "指南只說原生實作比 scroll 監聽器加 Web Animations 的退路更有效率，而且退路不一定能重現每種效果，沒說舊做法在哪個時刻出問題（引用：\"In browsers with built-in support for scroll-driven animations, ALWAYS use the native CSS implementation as those are more performant.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:carousel-slide-effects:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/carousel-slide-effects.md",
+  "title": "`animation-timeline` 要寫在 `animation` 簡寫之後",
+  "action": "先寫 `animation` 簡寫，再寫 `animation-timeline` 與 `animation-range`",
+  "opponent": "簡寫寫在後面會把時間軸重設掉（引用：\"declare `animation-timeline` and `animation-range` *after* it to prevent the shorthand from resetting the timeline.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:carousel-slide-effects:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/carousel-slide-effects.md",
+  "title": "沒有可聚焦內容的捲動容器要自己能取得焦點",
+  "action": "投影片裡沒有可聚焦元素時，捲動容器加 `tabindex=\"0\"` 與可及名稱；`<ul>` 本身有 list 角色可以直接命名，`<div>` 要加 `role=\"region\"` 之類支援命名的角色",
+  "opponent": "不是每個瀏覽器都讓捲動容器可以用鍵盤聚焦，鍵盤使用者就捲不動投影片（引用：\"because not every browser makes a scroll container keyboard-focusable.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:component-specific-light-dark-theme:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/component-specific-light-dark-theme.md",
+  "title": "改了 `color-scheme` 的元素要重新指定繼承的顏色屬性",
+  "action": "在設 `color-scheme` 的元素上重新寫一次 `color`、`accent-color` 等繼承的顏色屬性（就算是同一個 token）；設計 token 不要用 `@property` 註冊成 `<color>`；這類元素上不要對顏色屬性用 `inherit`",
+  "opponent": "`light-dark()` 在計算值階段就解析，繼承下去的只有其中一個顏色；元件改成深色，子樹的 `accent-color` 仍是淺色那一個（引用：\"any inherited `<color>` properties set to a `light-dark()` color will only pass down one of the two colors to their descendants\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:component-specific-light-dark-theme:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/component-specific-light-dark-theme.md",
+  "title": "不要在沒有背景的元素上設 `color-scheme`",
+  "action": "只在自己有背景、能建立獨立視覺脈絡的複雜區塊上覆寫 `color-scheme`",
+  "opponent": "在沒有背景的元素上設 `color-scheme`，背景與文字顏色來自不同配色，文字讀不出來（引用：\"Do not set `color-scheme` on elements without a background, as that risks mixing background and text color pairs from different color-schemes, resulting in unreadable text.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:component-specific-light-dark-theme:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/component-specific-light-dark-theme.md",
+  "title": "Safari 不把嵌入端的配色傳進 iframe，要明確傳遞",
+  "action": "兩邊都能控制時，用網址參數（`?theme=dark`）或 `postMessage()` 把父頁的配色傳給 iframe，iframe 依此在 `<html>` 設 class 或 `color-scheme`；只控制被嵌入頁時，在嵌入 API 提供明確的主題參數並寫進文件",
+  "opponent": "Safari 不依嵌入端的 `color-scheme` 渲染 iframe，iframe 裡的 `prefers-color-scheme` 仍照系統設定（引用：\"Safari does not, and resolves `prefers-color-scheme` to the system setting even inside iframes.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:icons",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/icons.md",
+  "title": "把圖示當成 CSS 自訂屬性，由串接決定顯示哪一個",
+  "action": "每個圖示是一個存著圖像的自訂屬性（`--icon-trash`），元素設 `--icon-start`／`--icon-end` 就顯示；`@container style(--icon-start)` 偵測有值時在 `::before` 以 `mask` 加 `currentColor` 畫出；狀態切換只是覆寫屬性（`[aria-expanded=\"true\"]` 換成另一個圖示）；大小、顏色、間距由可繼承的 `--icon-style-*` 從祖先統一調整",
+  "opponent": "用 `<img>` 加 CSS filter 替圖示改色，filter 無法可靠地套用任意 CSS 顏色值，改色麻煩又死板（引用：\"Filters can't reliably apply an arbitrary CSS color value to the image, so recoloring is cumbersome and inflexible.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:icons:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/icons.md",
+  "title": "圖示屬性要註冊成不繼承",
+  "action": "`@property --icon-start { syntax: \"*\"; inherits: false; }`（`--icon-end` 同理），在樣式查詢區塊內用 `--icon-start: inherit` 明確轉給偽元素；不支援 `@property` 時在查詢裡把子孫重設為 `initial`",
+  "opponent": "沒註冊成不繼承，按鈕上設的圖示會一路繼承，每個子孫都畫出一個圖示（引用：\"without it, an icon set on a button would inherit into every descendant, and each of them would render the icon too.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:icons:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/icons.md",
+  "title": "圖示 token 用根相對網址或 data URI",
+  "action": "圖示 token 的網址用根相對路徑（`url(\"/icons/trash.svg\")`）或 data URI；非用相對網址不可時，以 `<url>` 開頭的語法註冊、在 `:root` 宣告實際網址；圖示多時用 `CSS.registerProperty` 批次註冊",
+  "opponent": "透過自訂屬性使用相對網址，可能相對於「使用」它的樣式表而非「定義」它的樣式表解析，兩者在不同目錄時指到錯的檔案；把網址放在註冊屬性的 `initial-value` 只在 Firefox 有效（引用：\"If those stylesheets are in different directories, the URL may resolve to the wrong file.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:icons:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/icons.md",
+  "title": "圖示偽元素加 `flex: none`，不讓長標籤把它擠掉",
+  "action": "畫圖示的 `::before`／`::after` 設 `flex: none`",
+  "opponent": "空的偽元素最小尺寸是 0，在 flex 按鈕裡標籤一長，圖示最先被壓縮，甚至縮到不見（引用：\"inside a flex button it is the first thing to shrink when the label is long, potentially to nothing.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:icons:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/icons.md",
+  "title": "用 mask 畫的圖示要加 `forced-color-adjust: none`",
+  "action": "畫圖示的偽元素設 `forced-color-adjust: none`，填色用 `currentColor`",
+  "opponent": "強制色彩模式會取代 `background-color`，用 mask 畫的圖示整個消失（引用：\"In forced-colors mode the browser otherwise replaces `background-color`, making a masked icon disappear.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:icons:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/icons.md",
+  "title": "SVG 第一次內嵌，之後用 `<use href=\"#id\">` 重複引用",
+  "action": "圖示第一次出現時內嵌 SVG，之後同頁用 `<use href=\"#id\">` 引用；外部 sprite（`<use href=\"/icons.svg#id\">`）只留給跨多頁共用、且同源的圖示；`viewBox` 放在 `<symbol>` 上；內嵌 sprite 的 symbol id 加命名空間",
+  "opponent": "`<use>` 的外部參照只限同源，跨來源的 sprite 會靜默失敗（引用：\"External references are same-origin only; cross-origin sprites fail silently.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:position-aware-tooltips",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/position-aware-tooltips.md",
+  "title": "用 anchored container queries 讓箭頭跟著翻轉",
+  "action": "tooltip 用 popover 加 `popovertarget`（自動建立隱式錨點），設 `position-try-fallbacks: flip-block` 與 `container-type: anchored`；在 `@container anchored(fallback: flip-block)` 裡改內層元素 `::before` 箭頭的方向與位置；要改外框本身的圓角、間距時多包一層內層元素",
+  "opponent": "tooltip 預設在錨點上方、箭頭朝下；捲動後翻到下方時，箭頭指錯方向，也在錯的一側（引用：\"If the user scrolls and the tooltip flips to appear *below* the anchor, the arrow is now pointing the wrong way and is on the wrong side of the tooltip.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:pull-to-reveal",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/pull-to-reveal.md",
+  "title": "用 `scroll-initial-target` 讓搜尋列一載入就藏在上方",
+  "action": "搜尋列放在捲動容器的第一個，主內容緊接在後並設 `scroll-initial-target: nearest`；容器 `scroll-snap-type: y mandatory`，兩者都 `scroll-snap-align: start`，讓搜尋列不是全露就是全藏",
+  "opponent": "以前靠 `scrollIntoView()` 或網址片段 `#content-id` 達成，指南只說兩者「有限制、不好做」，沒說在哪個時刻出問題（引用：\"both of which have limitations and are tricky to implement.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:pull-to-reveal:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/pull-to-reveal.md",
+  "title": "`scroll-initial-target` 不會移動鍵盤焦點",
+  "action": "目標若應該是鍵盤使用者的起點，自己呼叫 `element.focus()`",
+  "opponent": "這個屬性只移動視覺上的捲動位置，不移動鍵盤焦點（引用：\"This property only moves the **visual** viewport; it does not move the keyboard focus.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:pull-to-reveal:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/pull-to-reveal.md",
+  "title": "每個下拉動作都要有一顆可見的按鈕",
+  "action": "替每個下拉顯示的動作提供可見的按鈕（或選單項目），單擊或按 Enter 就完成同一件事；至少 24×24 CSS 像素，並以作用的對象命名",
+  "opponent": "只能靠下拉手勢叫出的功能，不符合 WCAG 2.5.1 對路徑型手勢的要求（引用：\"give every pull to reveal action a visible button (or menu item) that performs the same action with a single click or the Enter key, as WCAG 2.5.1 Pointer Gestures requires for path-based gestures.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:responsive-table",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/responsive-table.md",
+  "title": "用 sticky 表頭加容器查詢的堆疊版面，讓大表格在窄處仍可讀",
+  "action": "用語意 `<table>`；`thead` 與列標題 `tbody th` 設 `position: sticky`（明確 z-index、有底色）；包裝層 `container-type: inline-size`，`@container (width < 600px)` 時改成卡片式堆疊，隱藏 `thead`，用 `::before` 與 CSS 變數把欄名注入每一格；長文字維持單行並用截斷技巧",
+  "opponent": "大型資料表在小螢幕上欄位溢出，或被壓縮到無法辨讀（引用：\"Large data tables often become unreadable on small screens as columns overflow or shrink beyond legibility.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:responsive-table:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/responsive-table.md",
+  "title": "可捲動的表格包裝層要能用鍵盤聚焦",
+  "action": "包裝層加 `tabindex=\"0\"`、`role=\"region\"`，並用 `aria-labelledby` 指向表格的 `<caption>`（或用 `aria-label`）",
+  "opponent": "表格包裝層可以捲動但取不到焦點，只用鍵盤的人無法穩定地捲動表格（引用：\"Add a `tabindex=\"0\"` attribute to the container, to ensure that people using only a keyboard can consistently scroll the table.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:responsive-table:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/ui-atoms/responsive-table.md",
+  "title": "注入的欄名只對非文字內容提供替代文字",
+  "action": "堆疊版面用 `content: var(--label-2) \": \"` 注入欄名；只有非文字內容才在 `/` 後提供可及名稱",
+  "opponent": "對文字內容也提供替代文字，讀屏會把文字和可及名稱都唸一次（引用：\"Only provide alternative text for non-text content, otherwise this may result in both the text content and accessible name being announced by screen readers.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ }
+]

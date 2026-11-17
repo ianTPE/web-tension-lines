@@ -1,0 +1,434 @@
+[
+ {
+  "key": "mwg:passkey-management",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkey-management.md",
+  "title": "用 `signalAllAcceptedCredentials()` 與 `signalCurrentUserDetails()` 讓密碼管理器跟上伺服器",
+  "action": "管理頁載入時與刪除憑證後呼叫 `signalAllAcceptedCredentials({ rpId, userId, allAcceptedCredentialIds })`；使用者改帳號名稱或顯示名稱後呼叫 `signalCurrentUserDetails()`；單純改通行金鑰暱稱只改伺服器；每列顯示 AAGUID 對應的提供者名稱與圖示、建立與最後使用日期",
+  "opponent": "指南只說 Signal API 讓使用者同步的保管庫與後端資料庫保持一致，沒說不同步時在哪個時刻出問題（引用：\"The Signal API lets the application communicate credential states to password managers, keeping the user's synced vaults and your backend database in lockstep.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:passkey-management:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkey-management.md",
+  "title": "Signal API 的 `rpId` 用伺服器給的，不要用 `window.location.hostname`",
+  "action": "列表與帳號更新端點回傳伺服器設定的 `rpId`，用戶端呼叫 Signal API 時直接使用",
+  "opponent": "憑證註冊在上層網域或透過 Related Origin Requests 共用時，`window.location.hostname` 對不上，同步默默送錯 RP ID 或丟出 `SecurityError`（引用：\"`window.location.hostname` will not match the credential's RP ID, causing password manager synchronization to silently target the wrong RP ID or throw a `SecurityError`.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:passkey-management:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkey-management.md",
+  "title": "傳給 Signal API 的 ID 必須是合法的 Base64URL，失敗只 `console.warn`",
+  "action": "所有 `userId` 與憑證 ID（包括原型資料與模擬後端）都存成不帶補位的 Base64URL；呼叫前先驗格式、不合法就跳過；Signal API 呼叫包在 `try/catch`，失敗用 `console.warn` 而非 `console.error`",
+  "opponent": "傳入 `'passkey-1'` 這類人類可讀的假 ID，頁面一載入就丟 `TypeError`；被動同步失敗印成 `console.error`，讓 Lighthouse 的 `errors-in-console` 判定失敗（引用：\"Passing arbitrary human-readable placeholder or mock IDs (…) throws `TypeError: Invalid base64url string for allAcceptedCredentialIds` on page load.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:passkey-reauthentication",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkey-reauthentication.md",
+  "title": "重新驗證時把 `allowCredentials` 限定為目前使用者的憑證，伺服器再核對擁有者",
+  "action": "敏感操作（改密碼、轉帳）前的重新驗證，伺服器在 `allowCredentials` 填入已登入使用者的所有憑證 ID（含 `transports`）；驗證端點確認回傳的憑證屬於目前使用者（`storedCredential.passkeyUserId === req.user.id`），不是就拒絕",
+  "opponent": "`allowCredentials` 留空或省略會退回可發現憑證，違反工作階段安全；回傳的可能是另一個使用者的有效通行金鑰（引用：\"Leaving this empty or omitting it regresses to discoverable credentials, violating session safety.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:passkey-registration",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkey-registration.md",
+  "title": "用 `excludeCredentials` 擋掉同一提供者上的重複通行金鑰",
+  "action": "產生建立選項時把使用者既有的憑證 ID（含 `transports`）放進 `excludeCredentials`；用戶端把 `InvalidStateError` 當成「已有通行金鑰」並告知使用者",
+  "opponent": "沒有排除清單時，同一個通行金鑰提供者帳戶上會註冊出重複的憑證（引用：\"This prevents the authenticator from registering duplicate credentials on the same passkey provider account.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:passkey-registration:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkey-registration.md",
+  "title": "`userVerification: \"preferred\"` 時，伺服器驗證要設 `requireUserVerification: false`",
+  "action": "建立選項用 `\"preferred\"` 時，伺服器端驗證函式庫設 `requireUserVerification: false`；但仍要求使用者在場（UP）旗標為 `true`",
+  "opponent": "選項說「偏好」驗證、伺服器卻「要求」驗證，沒開螢幕鎖的驗證器註冊時會被誤判失敗（引用：\"Otherwise, authenticators that register without user verification (e.g., screen locks disabled) will trigger spurious server verification failures.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:passkeys",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkeys.md",
+  "title": "RP ID 由伺服器決定並傳給用戶端，不在用戶端從網址推",
+  "action": "伺服器選項裡的 RP ID 必須等於目前來源的網域，或是它合法的可註冊上層網域，或經 `/.well-known/webauthn` 授權；用戶端（包括呼叫 Signal API 時）一律讀 `publicKey.rp.id`／`publicKey.rpId` 或後端回應",
+  "opponent": "RP ID 對不上時用戶端丟出 `SecurityError`；從 `window.location.hostname` 推出來的值對不上上層網域或相關來源的設定（引用：\"Mismatches result in `SecurityError` exceptions on the client side.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:passkeys:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/passkeys.md",
+  "title": "AAGUID 只用來顯示提供者名稱與圖示，不拿來做安全判斷",
+  "action": "AAGUID 只用於 UX 提示（在管理列表顯示是哪個通行金鑰提供者），不用於任何密碼學安全或存取控制決策",
+  "opponent": "平台通行金鑰的 AAGUID 沒有密碼學證明，可以被使用者代理改動或模擬（引用：\"Platform passkeys do not currently provide cryptographic attestation for their AAGUIDs, meaning it can be altered or simulated by user agents.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:quick-sign-ins",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/quick-sign-ins.md",
+  "title": "用 `uiMode: 'immediate'` 在原地登入，不把使用者送去登入頁",
+  "action": "在「登入」連結、「前往結帳」、收藏／按讚、文章付費牆這類點擊處理器裡，呼叫 `navigator.credentials.get({ password: true, publicKey, uiMode: 'immediate' })`（不帶 `signal`、不帶 `allowCredentials`）；依 `cred.type` 分流到通行金鑰或密碼驗證；拿到 `NotAllowedError` 時退回一般登入流程並保留回到原動作的路徑",
+  "opponent": "使用者點了「登入」、開始結帳、收藏或碰到付費牆時被導去專門的登入頁，失去當下情境、流失率上升（引用：\"Navigating an unauthenticated user to a dedicated sign-in page when they click a \"Sign in\" link, start checkout, save an item to favorites, or reach an article paywall causes context loss and increases user drop-off.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:quick-sign-ins:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/quick-sign-ins.md",
+  "title": "專門的登入頁不要用即時模式，否則按鈕按了沒反應",
+  "action": "最終的登入頁改用條件式 UI（`mediation: 'conditional'` 配 `autocomplete=\"username webauthn\"`）加一般的模態 `get()` 按鈕；即時模式只放在離開目前頁面「之前」的那一刻",
+  "opponent": "會到專門登入頁的人多半裝置上沒有本機憑證、或要用手機掃 QR code 或硬體金鑰，而即時模式關掉這些選項、沒有本機憑證就立刻丟 `NotAllowedError`（引用：\"using it on a dedicated sign-in page traps the user in a dead end where clicking the button does nothing.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:quick-sign-ins:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/quick-sign-ins.md",
+  "title": "一定要先查 `capabilities.immediateGet`，不能看瀏覽器版本猜",
+  "action": "呼叫即時模式前用 `PublicKeyCredential.getClientCapabilities()` 確認 `immediateGet`；不支援時直接當成 `NotAllowedError` 走原本的登入流程",
+  "opponent": "不認得 `uiMode: 'immediate'` 的瀏覽器會忽略這個鍵，改跳出擋住畫面的通行金鑰與 QR code 對話框（引用：\"browsers that do not recognize `uiMode: 'immediate'` ignore the unknown dictionary key and open a blocking modal passkey and QR code dialog.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:quick-sign-ins:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/quick-sign-ins.md",
+  "title": "重新驗證不要用即時模式，否則可能選到另一個帳號",
+  "action": "改密碼、改地址、編輯付款方式、新增通行金鑰之前的重新驗證，照 `passkey-reauthentication` 用非空的 `allowCredentials`",
+  "opponent": "即時模式拒絕非空的 `allowCredentials`，省略它又會讓使用者在不知情中選到目前登入者以外的帳號（引用：\"omitting `allowCredentials` would let the user inadvertently select a different account than the one currently signed in.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:quick-sign-ins:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/quick-sign-ins.md",
+  "title": "原地登入後藏起登入按鈕時，把焦點還給原本的動作按鈕",
+  "action": "原地登入完成、或退回表單送出後隱藏登入觸發點時，把焦點移回原本的動作控制項（或頁首仍存在的已登入控制項），並在 `role=\"status\"` 播報已登入；顯示退回用的內嵌表單時，焦點移到第一個欄位",
+  "opponent": "登入觸發點或內嵌表單被隱藏，鍵盤焦點掉回 `document.body`（引用：\"restore focus to the originating action control (…) so keyboard focus does not drop to `document.body`\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:restrict-outbound-connections",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/restrict-outbound-connections.md",
+  "title": "用 `Connection-Allowlist` 一條清單管住所有對外連線，連 CSP 管不到的管道也算",
+  "action": "在文件與 worker 腳本的回應送 `Connection-Allowlist: (response-origin \"https://api.example.com\" …); report-to=…`，配 `Reporting-Endpoints` 與 `Vary: Sec-Fetch-Dest`；Dedicated／Shared Worker 給相同清單，Service Worker 給所有受控文件的聯集；可同時送 `-Report-Only` 試更嚴的清單",
+  "opponent": "CSP 要分資源類型各寫指令，而且管不到 `dns-prefetch`、`preconnect`、WebRTC 這類預測性或非 Fetch 的管道，被入侵的頁面腳本還能透過 `worker.postMessage()` 把資料送出去（引用：\"does not govern speculative or non-Fetch network channels such as `<link rel=\"dns-prefetch\">`, `<link rel=\"preconnect\">`, or WebRTC\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:restrict-outbound-connections:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/restrict-outbound-connections.md",
+  "title": "清單語法寫錯或忘了預設值，合法連線也全被擋",
+  "action": "標頭寫成 RFC 9651 Inner List `(...)`、項目以空白分隔、`response-origin` 與參數不加引號；只到來源的樣式去掉結尾斜線或寫 `/*`；`ws(s)://` 改寫成 `http(s)://`；把外部導覽目標（OAuth、金流）列進清單；需要時加 `; redirects=allow`、`; webrtc=allow`；用戶端 `fetch` 包 `try/catch` 顯示被擋狀態",
+  "opponent": "非空的標頭解析失敗時，瀏覽器以空清單「失效即關閉」，擋掉所有對外連線；`new URL()` 補上的結尾斜線讓樣式只符合根路徑；預設連同源的 3xx 重新導向都擋（引用：\"the browser fails closed with an empty allowlist and blocks **all** outbound network connections.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:restrict-outbound-connections:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/restrict-outbound-connections.md",
+  "title": "退回 CSP 時要明寫 `form-action` 與 `worker-src 'self'`",
+  "action": "不支援 `Connection-Allowlist` 的瀏覽器搭配 CSP：明寫 `form-action`、`worker-src 'self'`（不含 `blob:`），`connect-src` 列出 `wss://` 來源",
+  "opponent": "`default-src` 不會套用到 `<form action>`；沒限制 `worker-src`，受限頁面可以開 `blob:` SharedWorker 繞過文件層的限制（引用：\"Include `worker-src 'self'` (excluding `blob:`) so restricted pages cannot spawn `blob:` SharedWorkers to bypass document-level restrictions.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:sanitize-untrusted-html",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/sanitize-untrusted-html.md",
+  "title": "用原生 `setHTML()` 一步完成解析、清理與插入",
+  "action": "使用者產生的 HTML 用 `element.setHTML(html)` 插入（預設清理器移除腳本、事件處理器與白名單外的元素和屬性）；需要更嚴時傳 `new Sanitizer({ elements, attributes, replaceWithChildrenElements })`；不插入只解析時用 `Document.parseHTML()`；不支援時才動態載入 DOMPurify",
+  "opponent": "使用者產生的 HTML 裡的 `<script>` 標籤與 `on*` 屬性，在進入 DOM 時就會執行（引用：\"The native **Sanitizer API** provides a built-in, browser-optimized way to strip dangerous content (like `<script>` tags or `on*` attributes) before it reaches the DOM.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:sanitize-untrusted-html:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/sanitize-untrusted-html.md",
+  "title": "清理後直接搬節點，不要序列化成字串再塞回 `innerHTML`",
+  "action": "`Document.parseHTML()` 的結果用 `replaceChildren(...doc.body.childNodes)` 搬進頁面",
+  "opponent": "把清理過的節點序列化成字串、再用 `innerHTML` 重新解析，可能重新引入突變型 XSS（引用：\"Move the resulting nodes into the page rather than serializing them to a string and re-parsing it with `innerHTML`, which can reintroduce mutation XSS (mXSS).\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:sanitize-untrusted-html:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/sanitize-untrusted-html.md",
+  "title": "自訂清理器會連內容一起刪，DOMPurify 退路的預設又不一樣",
+  "action": "想保留文字的外層元素列進 `replaceWithChildrenElements`；DOMPurify 退路設 `ALLOW_ARIA_ATTR: false`、`ALLOW_DATA_ATTR: false`、`KEEP_CONTENT: false` 並允許 `#text`；需要對齊退路的設定不用 `replaceWithChildrenElements`",
+  "opponent": "不在 `elements` 裡的元素連同內容一起被刪；DOMPurify 預設卻保留 `aria-*`、`data-*` 與被刪元素的文字，兩條路徑輸出不一致（引用：\"Elements that are not in `elements` are removed **together with their content**.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:sanitize-untrusted-html:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/sanitize-untrusted-html.md",
+  "title": "強制 Trusted Types 時，DOMPurify 退路要回傳 TrustedHTML",
+  "action": "退路呼叫 `DOMPurify.sanitize()` 時傳 `RETURN_TRUSTED_TYPE: true`，並在 `trusted-types` CSP 指令允許 `dompurify` 政策名稱",
+  "opponent": "頁面強制 Trusted Types 時，把字串指派給 `innerHTML` 會丟出例外（引用：\"If the page enforces Trusted Types (`require-trusted-types-for 'script'`), assigning a string to `innerHTML` throws.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:secure-external-subresources",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/secure-external-subresources.md",
+  "title": "外部腳本與樣式表加 `integrity`，並釘在不可變的版本網址",
+  "action": "在建置或發布時從已知正確的本機檔案算出 `sha384-` 摘要，寫進 `<script>`、`<link rel=\"stylesheet|preload|modulepreload\">` 與 `fetch()` 的 `integrity`；外部資源用帶版本或內容定址的網址；同一網址可能回傳多種合法內容時列出多個摘要；會原地更新的第三方腳本不加 `integrity`，改用 CSP 或 iframe 沙箱",
+  "opponent": "引用 `latest/` 這類會變動的網址，網站暴露在無聲的供應鏈變更下；在瀏覽器執行時抓遠端檔案自己算雜湊，等於相信遠端給的任何內容（引用：\"rather than mutable floating URLs (`latest/app.min.js`), which expose your site to silent supply-chain changes and break SRI as soon as the remote file updates.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:secure-external-subresources:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/secure-external-subresources.md",
+  "title": "有 `integrity` 就一定要有 `crossorigin`，否則資源直接被擋",
+  "action": "跨來源資源設 `integrity` 時同時設 `crossorigin=\"anonymous\"`（或 `use-credentials`），並確認伺服器回 CORS 標頭",
+  "opponent": "少了 `crossorigin`，瀏覽器以 `no-cors` 模式抓取，拿到無法驗證雜湊的不透明回應，於是擋下資源（引用：\"Omitting `crossorigin` causes the browser to fetch the resource in `no-cors` mode (producing an opaque response that cannot be hash-verified) and block the resource.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:secure-external-subresources:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/secure-external-subresources.md",
+  "title": "用 CSS `url()` 的 `integrity()`／`cross-origin()`／`referrer-policy()` 驗證樣式表裡載的資源",
+  "action": "`@import`、`@font-face src`、`background-image`、`mask-image` 等的 `url(\"…\")` 內加 `cross-origin(anonymous) referrer-policy(no-referrer) integrity(\"sha384-…\")`；網址要加引號、每種修飾子只寫一次",
+  "opponent": "`background-image`、`content`、`border-image-source`、`@import` 預設用 `no-cors` 抓取，拿到的不透明回應無法驗證雜湊（引用：\"`background-image`, `content`, `border-image-source`, and `@import` default to `no-cors` mode (producing an opaque response that cannot be hash-verified)\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:secure-external-subresources:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/secure-external-subresources.md",
+  "title": "`@font-face` 的 `src` 不要在同一個清單裡放未驗證的退路",
+  "action": "用**分開的** `src:` 宣告做漸進增強：先寫純 `url()`，再寫只有 `cross-origin()`／`referrer-policy()` 的版本，最後寫含 `integrity()` 的版本",
+  "opponent": "把驗證版與未驗證版寫在同一個逗號分隔的 `src` 裡，CDN 送來被竄改的字型時，驗證失敗被當成載入失敗，瀏覽器自動改用第二個未驗證的網址（引用：\"in a single `src` descriptor bypasses Subresource Integrity at runtime\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:secure-external-subresources:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/secure-external-subresources.md",
+  "title": "外部資源設 `referrerpolicy=\"no-referrer\"`，文件層再設基準政策",
+  "action": "文件送 `Referrer-Policy: strict-origin-when-cross-origin`（或 `<meta name=\"referrer\">`）當基準；第三方 CDN 的 `<script>`、`<link>` 加 `referrerpolicy=\"no-referrer\"`，`fetch()` 傳 `referrerPolicy`",
+  "opponent": "請求第三方主機時，`Referer` 標頭把來源或路徑資訊洩漏出去（引用：\"Overrides the document referrer policy to prevent leaking any origin or path information in the `Referer` request header to the third-party host.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:security",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/security.md",
+  "title": "用 nonce 加 `'strict-dynamic'` 取代腳本網域白名單",
+  "action": "CSP 的 `script-src` 用每次請求新產生的 nonce（靜態 HTML 改用腳本雜湊）加 `'strict-dynamic'` 與 `'report-sample'`，再搭配 `object-src 'none'`、`base-uri 'none'`、`frame-ancestors`；第三方分析腳本靠 `'strict-dynamic'` 載入自己的相依，不把它的網域加進白名單",
+  "opponent": "以 `https:` 或 `script-src https://cdn.example.com` 這種網域白名單當主要防線，攻擊者可以透過白名單網域上的開放重新導向、JSONP 端點或相依注入繞過（引用：\"they are easily bypassed by open redirects, JSONP endpoints, and dependency injection on the allowed origin.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:security:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/security.md",
+  "title": "nonce 要在樣板裡發給自己的腳本，不要事後用正規表示式蓋章",
+  "action": "在伺服器或 SSR middleware 每次請求用 `crypto.getRandomValues()` 產生 nonce，同時放進 `Content-Security-Policy` 標頭並傳入樣板的渲染脈絡，只有樣板裡開發者寫的 `<script>` 拿到 nonce",
+  "opponent": "對已經渲染好的 HTML 用正規表示式替每個 `<script>` 補上 nonce，分不出哪個是開發者寫的、哪個是反射或儲存型注入塞進來的，等於替攻擊者的腳本授權（引用：\"authorizing attacker-injected scripts under `script-src 'nonce-...'`.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:security:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/security.md",
+  "title": "不讓不可信字串進危險 sink，並用 Trusted Types 在執行期把關",
+  "action": "設定文字用 `textContent`／`innerText`；插入不可信 HTML 用 `setHTML()`；以 `document.createElement` 或 DOMParser 建元素，不串接 HTML 字串；CSP 加 `require-trusted-types-for 'script'`，必要的 sink 寫入走具名的 `trustedTypes.createPolicy()`，不建立原樣回傳輸入的 pass-through 政策",
+  "opponent": "把不可信或未清理的輸入用 `innerHTML`、`setHTMLUnsafe` 寫進 DOM，形成 DOM XSS；直接回傳輸入的 pass-through 政策則讓 Trusted Types 的保護失效（引用：\"**DO NOT**: Use `innerHTML` or `setHTMLUnsafe` with untrusted or unsanitized input.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:security:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/security.md",
+  "title": "HSTS 的 max-age 從短的開始逐步拉長",
+  "action": "送 `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload` 強制 HTTPS；正式上線時先用約 300 秒的 `max-age`，確認無誤再逐步加到一年",
+  "opponent": "一開始就送很長的 `max-age`，若設定有誤，網站在每個見過這個標頭的瀏覽器裡都打不開，直到快取過期（引用：\"A misconfigured HSTS with a long max-age can render the site permanently inaccessible until the cache expires in every browser that saw it.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:security:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/security.md",
+  "title": "工作階段 cookie 用 `__Host-` 前綴加 `HttpOnly`",
+  "action": "單一網域的第一方工作階段 cookie 命名為 `__Host-session`（必須 `Secure`、`Path=/`、不設 `Domain`），不適用時用 `__Secure-`；工作階段與驗證 cookie 設 `HttpOnly`，並明確設 `SameSite=Lax`",
+  "opponent": "工作階段 cookie 沒有 `HttpOnly`，被注入的用戶端腳本讀得到（引用：\"Set `HttpOnly` (`httpOnly: true`) on session and authentication cookies so they cannot be read by injected client-side scripts\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:security:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/security.md",
+  "title": "會被嵌入第三方頁面的 app 改用分割 cookie",
+  "action": "應用程式會以 iframe 嵌入第三方情境時，cookie 設 `SameSite=None; Secure; Partitioned`",
+  "opponent": "依賴未分割的 `SameSite=None` cookie，這類 cookie 正因防追蹤而被系統性封鎖（引用：\"Rely on unpartitioned `SameSite=None` — these are being systematically blocked for tracking prevention.\"）",
+  "support": "不適用",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:security:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/security.md",
+  "title": "依嵌入需求選 `frame-ancestors` 層級，跨來源夥伴就別再送 X-Frame-Options",
+  "action": "不需嵌入時送 `frame-ancestors 'none'` 加 `X-Frame-Options: DENY`；只有同源嵌入時用 `'self'` 加 `SAMEORIGIN`；要讓特定跨來源夥伴嵌入時只用 `frame-ancestors 'self' https://trusted-partner.com`，省略 `X-Frame-Options`",
+  "opponent": "需要跨來源嵌入時還送 `X-Frame-Options: DENY` 或 `SAMEORIGIN`，只看 XFO 不看 `frame-ancestors` 的用戶端會把嵌入擋掉（引用：\"`DENY` or `SAMEORIGIN` would block the embed in any client that evaluates `X-Frame-Options` without `frame-ancestors`\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:security:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/security.md",
+  "title": "用 `Document-Isolation-Policy` 取得跨來源隔離，不必替每個子資源補 CORP",
+  "action": "只有需要 `SharedArrayBuffer`（例如 WebAssembly 多執行緒）才做跨來源隔離；Chromium 環境優先送 `Document-Isolation-Policy: isolate-and-credentialless`，對非 CORS 的跨來源資源剝掉憑證而不是擋下；需要擋下時改用 `isolate-and-require-corp`",
+  "opponent": "跨瀏覽器的做法（`COOP: same-origin` 加 `COEP: require-corp`）要求每個嵌入的子資源都送 CORP 標頭，否則瀏覽器不載入（引用：\"Every embedded subresource (images, styles, external media) MUST serve an explicit `Cross-Origin-Resource-Policy` header or the browser will prevent it from loading.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:security:9",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/security.md",
+  "title": "用 Fetch Metadata 在驗證之前拒絕跨站請求",
+  "action": "伺服器檢查 `Sec-Fetch-Site`／`Sec-Fetch-Mode`／`Sec-Fetch-Dest`，對非導覽端點拒絕 `cross-site` 請求，而且在驗證與授權檢查之前就拒絕；回應加 `Vary: Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site`；有子網域放使用者內容時，允許清單去掉 `same-site`",
+  "opponent": "在驗證之後才拒絕，回應時間會洩漏資源或工作階段是否存在；沒加 `Vary` 時，中間的 CDN 可能把快取的回應送給攻擊者（引用：\"Reject disallowed requests *before* authentication or authorization checks, so the response does not leak timing information about whether a resource or session exists.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:security:10",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/security.md",
+  "title": "帶憑證的 CORS 要回傳具體來源，不能用 `*`",
+  "action": "伺服器驗證 `Origin` 請求標頭，把 `Access-Control-Allow-Origin` 動態設成該來源；先處理 `OPTIONS` 預檢",
+  "opponent": "需要 `Access-Control-Allow-Credentials: true` 時把 `Access-Control-Allow-Origin` 設成 `*`，瀏覽器拒絕這個回應（引用：\"Use wildcard `*` for `Access-Control-Allow-Origin` if `Access-Control-Allow-Credentials: true` is required — the browser will reject the response.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:security:11",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/security.md",
+  "title": "登出時送完整的 `Clear-Site-Data`",
+  "action": "登出端點回應 `Clear-Site-Data: \"cookies\", \"storage\", \"cache\"`，三個指令都要有",
+  "opponent": "少了其中任何一個，工作階段 cookie、Web Storage 狀態或快取的已登入頁面就留在瀏覽器裡（引用：\"omitting any of these directives leaves active session cookies, Web Storage state, or cached authenticated pages behind.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:security:12",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/security.md",
+  "title": "SRI 只用在不可變、有版本的資源上",
+  "action": "第三方腳本與樣式表用 `integrity`（偏好 `sha384`、`sha512` 或 `sha256`）加 `crossorigin=\"anonymous\"`，CDN 要送 `Access-Control-Allow-Origin`；只對固定版本的網址這樣做",
+  "opponent": "對會靜默更新、沒有版本的資源加 SRI，一更新雜湊就對不上，腳本執行失敗（引用：\"Use SRI for dynamic or unversioned assets — silent updates will cause script execution to fail.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:trusted-types",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/trusted-types.md",
+  "title": "用 Trusted Types 讓危險 sink 只收政策產生的物件",
+  "action": "用 `trustedTypes.createPolicy()` 定義清理政策（交給 DOMPurify 或應用程式的跳脫規則），寫入 `innerHTML`、`document.write()`、`<script src>`、`Worker()` 等 sink 前先轉成 `TrustedHTML`／`TrustedScriptURL`；以 CSP `require-trusted-types-for 'script'` 強制，`trusted-types` 指令限定可建立的政策名稱",
+  "opponent": "這些 DOM API 預設接受原始字串，字串裡若有來自不可信來源的惡意腳本就會被執行（引用：\"If a string contains malicious script from an untrusted source, it can be executed.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:trusted-types:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/trusted-types.md",
+  "title": "先 Report-Only 收違規，歸零再強制 Trusted Types",
+  "action": "先確認框架與第三方函式庫會產生 `TrustedHTML`／`TrustedScript`；先送 `Content-Security-Policy-Report-Only: require-trusted-types-for 'script'`，必要時註冊暫時的 `default` 政策，在 `createHTML` 裡記錄仍在傳字串的位置；違規報告歸零後才換成強制的 `Content-Security-Policy`",
+  "opponent": "還有 sink 寫入沒改完，或框架、第三方函式庫不產生 Trusted Type 時就直接強制，應用程式會壞（引用：\"it carries a risk of site breakage if every sink write hasn't been migrated.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:trusted-types:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/trusted-types.md",
+  "title": "字元跳脫不是 HTML 清理器",
+  "action": "只需要純文字時用 `element.textContent`（它不是 Trusted Types sink）；要接受標記或屬性時用完整的清理器（DOMPurify 或 `element.setHTML()`）；不把跳脫政策 `escapePolicy.createHTML()` 的輸出再插進另一個 HTML 樣板",
+  "opponent": "把字元層級跳脫後的字串插進沒加引號的屬性或 `href` 這類網址屬性，`javascript:` 網址不會被實體跳脫中和（引用：\"a URL attribute (`<a href=\"${escaped}\">`, where `javascript:` URLs are not neutralized by entity escaping)\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:validate-origins",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/validate-origins.md",
+  "title": "用 `Origin.from()` 加 `isSameOrigin()` 取代字串前綴比對",
+  "action": "處理跨視窗 `postMessage` 指令、決定是否附帶憑證這類特權操作時，用 `Origin.from()` 把兩邊都轉成 `Origin` 物件（可以直接傳 MessageEvent、`<a>`、URL），再用 `isSameOrigin()` 比對 scheme、host、port；呼叫包在 try/catch，無效網址與 \"null\" 一律回 false",
+  "opponent": "`startsWith()` 前綴比對會被 `https://app.example.com.attacker.example` 繞過；帶路徑或明寫預設埠的完整網址，又跟字串比對不相等（引用：\"Checking `url.startsWith('https://app.example.com')` is bypassed by `'https://app.example.com.attacker.example'`.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:validate-origins:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/validate-origins.md",
+  "title": "用 `isSameSite()` 判斷跨子網域的轉址與連結",
+  "action": "驗證登入後的 `?returnTo=` 轉址目標、把連結分成站內站外時，用 `Origin.from()` 轉成來源後呼叫 `isSameSite()`，做含 scheme 的同站比對",
+  "opponent": "把主機名稱用 `.` 切開判斷同站，遇到 `.co.uk`、`.github.io` 這類多段公共後綴就判錯，也忽略 http 與 https 的差異（引用：\"Splitting hostnames on `.` to check same-site relationships fails on multi-label public suffixes (such as `.co.uk` or shared hosting domains like `.github.io`) and ignores scheme mismatches (`http:` vs. `https:`).\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:validate-origins:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/validate-origins.md",
+  "title": "用 `Origin.from(event)` 分辨不同的沙箱 iframe",
+  "action": "接收沙箱 iframe（`sandbox=\"allow-scripts\"`）的訊息時，用 `Origin.from(event)` 取出底層的不透明來源，在初始化時由預期的 iframe 釘住一次，之後用 `isSameOrigin()` 比對；釘住前用 `new Origin()` 當誰都不符合的哨兵；轉址目標若 `origin.opaque` 為 true 就拒絕",
+  "opponent": "沙箱 iframe 與 `data:` 網址的 `event.origin` 都序列化成字串 \"null\"，直接用 `===` 比會把兩個不相干的不透明來源當成同一個（引用：\"Comparing two serialized runtime origins with `originA === originB` falsely equates two unrelated opaque contexts (`\"null\" === \"null\"`).\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:validate-origins:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/validate-origins.md",
+  "title": "`Origin` API 兩邊都要是 `Origin` 物件，呼叫要包 try/catch",
+  "action": "比對前兩邊都先 `Origin.from()`；取目前環境的來源用 `Origin.from(self)`；測試裡合成的 `MessageEvent` 退回解析 `event.origin`；對執行期輸入的呼叫全部包在 try/catch，失敗回 false",
+  "opponent": "把原始字串傳給 `isSameOrigin()`、把 `Location`／`Document` 傳給 `Origin.from()`，或在單元測試裡用 `new MessageEvent()` 合成事件，都會丟出 `TypeError`（引用：\"passing a raw string throws a `TypeError`.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:verify-email-ownership",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/verify-email-ownership.md",
+  "title": "用 `autocomplete=\"email-verification-token\"` 不寄信就確認信箱擁有權",
+  "action": "在同一個 `<form>` 裡放 `autocomplete=\"email\"` 的信箱欄位，和帶伺服器端 nonce 的隱藏欄位 `autocomplete=\"email-verification-token\"`；瀏覽器查信箱網域的 DNS 記錄、向信箱供應商取得 Email Verification Token，綁定來源與 nonce 後填入送出；後端驗證成功就跳過一次性驗證碼或魔法連結",
+  "opponent": "傳統做法寄一次性驗證碼或魔法連結，使用者得離開頁面、等信、抄碼，造成流失與釣魚風險，信箱供應商還會知道使用者在造訪哪個網站（引用：\"This forces users to leave your page, wait for email delivery, and copy codes—introducing friction, drop-off, and phishing risk, while also revealing to the email provider which relying party (RP) the user is visiting.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:verify-email-ownership:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/verify-email-ownership.md",
+  "title": "驗證 nonce 存在伺服器端、只用一次",
+  "action": "每次渲染表單都在伺服器產生至少 128 位元的 nonce，存在以 `HttpOnly`、`Secure`、`SameSite=Lax` 工作階段 cookie 為鍵的伺服器端狀態；頁面送 `Cache-Control: no-store`；收到 POST 時原子地讀取並刪除 nonce",
+  "opponent": "把預期的 nonce 直接放在用戶端 cookie，攻擊者可以把 cookie 和權杖一起重放（引用：\"never store the expected `nonce` value directly inside a client cookie where an attacker could replay both the cookie and token\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:verify-email-ownership:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/verify-email-ownership.md",
+  "title": "權杖只在伺服器用現成函式庫驗證，先確認 DNS 委派再信任 `iss`",
+  "action": "用 `@sd-jwt/core`、`jose` 這類 SD-JWT／JOSE 函式庫解析 `EVT~KB-JWT`；信任 `iss` 前先查 `_email-verification.<domain>` 的 DNS TXT 委派，並確認 `.well-known/email-verification` 回傳的 issuer 相符；驗 EVT 簽章、KB-JWT 的 nonce、aud、時效與演算法允許清單",
+  "opponent": "在用戶端 JavaScript 驗證權杖，檢查可以被輕易繞過或偽造，對依賴方沒有任何信任保證（引用：\"client-side checks can be trivially bypassed or forged and provide zero trust guarantee to the relying party.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:verify-email-ownership:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/security/verify-email-ownership.md",
+  "title": "EVT 沒有 `kid` 時逐把試驗供應商的金鑰",
+  "action": "`jwtVerify` 接到 `ERR_JWKS_MULTIPLE_MATCHING_KEYS` 時，用 `for await` 走過錯誤物件給出的每把候選金鑰逐一驗證；KB-JWT 的演算法在過渡期把 `Ed25519` 與 `EdDSA` 視為相同",
+  "opponent": "Gmail 等供應商的 EVT 標頭省略 `kid`，JWKS 裡有多把金鑰時 `jose` 直接丟出錯誤（引用：\"When `kid` is absent and the JWKS contains multiple keys, `jose` throws `ERR_JWKS_MULTIPLE_MATCHING_KEYS`\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ }
+]

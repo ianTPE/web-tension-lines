@@ -13,7 +13,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：每個 `<input>`、`<select>`、`<textarea>` 加上對應的 `autocomplete`；街道地址優先用一個 `autocomplete="street-address"` 的 `<textarea>`，資料模型需要分行時改用 `address-line1`、`address-line2` token，只有第一行必填
 - 對手：沒有 token 的欄位，瀏覽器不會自動填入，使用者得重打一次；把街道地址拆到沒有這些 token 的多個欄位，自動填入就失效（引用："Don't split the street address across inputs that lack these tokens"）
 - 退路：不需要——`autocomplete` 早已 Widely，沒有需要退回去的狀態
-- 解鎖：以前地址拆成自訂欄位、瀏覽器認不出來；現在給對應的 token 或用單一多行欄位，存好的地址就能整段帶入
+- 解鎖：（缺）
 
 經過：地址表單是最常被自動填入的表單之一，卻常拆成「地址 1」「地址 2」「門牌」等自訂欄位，瀏覽器認不出來就整段留白。給每一欄正確的 token，或乾脆用一個多行欄位，存好的地址一次帶入。
 %% line-end %%
@@ -22,9 +22,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：自動填入失效
 - 支援狀態：html.elements.input.autocomplete：Widely（2015-07-29）
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:autofill-address-form:2" %%
 ## 姓名盡量用一個欄位，加上 autocomplete="name"

@@ -1,0 +1,434 @@
+[
+ {
+  "key": "mwg:accessibility",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "每頁只放一個 h1，讓讀屏找得到主標題",
+  "action": "頁面主標題只用一個 `<h1>`，其餘標題依層級用 `<h2>`–`<h6>`（對話框內的主標題例外）",
+  "opponent": "一頁放了好幾個 `<h1>`，螢幕閱讀器使用者分不出哪一個才是主標題（引用：\"Having more than one `<h1>` element on a page makes it difficult for screen reader users to identify the actual main heading.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "需要當標題的展開鈕，不要把 heading 塞進 summary",
+  "action": "標題要兼當展開觸發時，改用 heading 包住 button 的 ARIA 手風琴／disclosure，不用 `<details>`／`<summary>`",
+  "opponent": "部分瀏覽器把 `<summary>` 當按鈕暴露，連帶拿掉子元素的所有角色，裡面的標題就消失了（引用：\"Some browsers still expose this element as a button, which removes all roles from its children including headings.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "清單標記只給真正的清單",
+  "action": "`<ul>`／`<ol>` 只用在重複、連續的項目；段落文字不要包成清單",
+  "opponent": "把分開的段落標成清單，讀屏每次都唸出清單資訊，使用者聽到混亂又多餘的內容（引用：\"screen readers will announce list information when they encounter lists, therefore leading to a screen reader hearing potentially confusing and redundant information about the related content.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "視覺版面不要用 table，資料表也要控制複雜度",
+  "action": "視覺排版用 Grid／Flexbox；真正的資料表用 `<table>`、`<caption>`、`scope`，跨欄列與巢狀表過多時拆成小表",
+  "opponent": "排版用 table 會讓讀屏播報多餘結構並影響閱讀與焦點順序；過複雜表格則讓使用者迷失（引用：\"Screen readers will announce redundant information about the layout, which may be confusing for screen reader users\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "重複導覽前提供 skip link，但不要堆一堆",
+  "action": "主要重複內容前放一個或少量 skip links，目標用 `tabindex=\"-1\"`；只有一個首頁連結的共用區不必加",
+  "opponent": "沒有 skip link 時鍵盤使用者每頁都要走過重複導覽；太多 skip links 又增加 Tab 停靠點，造成挫折（引用：\"Multiple unnecessary skip links add to the number of Tab stops to a page, which causes frustration for people who use the keyboard alone for navigation.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "用原生 button，不用 div role=\"button\" 自己補行為",
+  "action": "按鈕用 `<button>`，必填用 `required`，只有 HTML 沒有對應功能時才補 ARIA",
+  "opponent": "`<div role=\"button\">` 只有角色外觀，鍵盤與啟動行為都要自己重建；原生元素已內建（引用：\"Native HTML elements and attributes already have the correct role and behavior, including keyboard support, built-in by default.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "互動 ARIA 角色不要蓋掉結構元素的角色",
+  "action": "清單中的按鈕寫成 `<li><span role=\"button\">…</span></li>`，不把 `<li>` 本身改成 button",
+  "opponent": "把互動角色放到 `<li>` 等結構元素上會破壞清單語意（引用：\"Use `<li><span role=\"button\">Button in a list</span></li>`, not `<li role=\"button\">Button in a list</li>`, to avoid breaking the container list semantics.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "要讓使用者找到停用原因時用 aria-disabled，不用 disabled",
+  "action": "工具列按鈕或連結需要可聚焦時用 `aria-disabled=\"true\"` 並在 JS 擋下啟動；真的要移出 Tab 才用 `disabled`",
+  "opponent": "`disabled` 會把元素完全移出焦點順序，`tabindex=\"0\"` 也救不回，使用者無法靠近了解它已停用（引用：\"`disabled` removes the element from the focus order entirely (and `tabindex=\"0\"` won't bring it back)\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:9",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "互動元素不要用 role=\"presentation\" 拿掉語意",
+  "action": "互動元素保留按鈕、連結等原生角色，不用 `role=\"presentation\"`／`none`",
+  "opponent": "元素仍會被讀屏碰到，角色與狀態卻被剝掉，使用者聽到內容卻不知道它能做什麼（引用：\"The element will still be exposed to assistive technologies and announced by screen readers, but its role and any state information will not be\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:10",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "label 用 for／id 明確連到控制項",
+  "action": "`<label for>` 對上控制項 `id`，不只依賴把 input 包在 label 裡",
+  "opponent": "部分語音辨識等輔助技術即使接受包覆寫法，仍要求明確 for／id 關係；明確關聯也提供較大的點擊目標（引用：\"some assistive technologies, particularly voice recognition software, require the `for`/`id` relationship to be explicitly set\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:11",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "不用 title 當控制項名稱",
+  "action": "名稱用 `<label>`、可見文字或適當 ARIA；`title` 只保留給 iframe 這類標準用途",
+  "opponent": "`title` 只在滑鼠 hover 顯示，任何瀏覽器都無法用鍵盤取得（引用：\"The value of this attribute is only displayed on mouse hover, and cannot be displayed or otherwise accessed using the keyboard in any browser.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:12",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "placeholder 只當提示，不當標籤",
+  "action": "欄位保留可見 `<label>`，placeholder 只放範例或補充提示",
+  "opponent": "輸入一開始 placeholder 就消失，使用者失去欄位用途線索；其低對比也難以辨讀（引用：\"it disappears as soon as the user enters text into the field, meaning that there is no longer a visual cue as to what the field represents.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:13",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "同樣是 Edit 的按鈕用可及名稱分出對象",
+  "action": "用視覺隱藏文字、`aria-label` 或 `aria-labelledby` 補成「Edit name」「Edit address」，並保留可見的 Edit 文字",
+  "opponent": "讀屏只聽到一排「Edit, button」，不知道每個按鈕會修改什麼（引用：\"screen reader users may only hear \"Edit, button\".\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:14",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "標籤保持精簡，說明與狀態不要重複塞進去",
+  "action": "額外指示與錯誤用 `aria-describedby`；ARIA 已提供的狀態與元素角色不寫進 label",
+  "opponent": "冗長標籤讓讀屏使用者困惑；重複狀態或角色會唸出「Primary navigation, navigation」這類贅詞（引用：\"Verbose labels confuse and frustrate people who use screen readers.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:15",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "頁面與局部語言變化都用 lang 標正確",
+  "action": "`<html>` 設主要語言，外語詞句的父元素另設對應 `lang`",
+  "opponent": "lang 與實際內容不符時，讀屏與文字轉語音會唸成無法理解的內容（引用：\"This causes screen readers and other text-to-speech software to announce the content in a non-understandable manner.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:16",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "每頁給獨特且前置重點的 title，SPA 換頁也更新",
+  "action": "`<title>` 寫成「Page Topic | Site Name」，不同頁不重複；SPA 路由或完成狀態改變時同步更新",
+  "opponent": "空白、重複或含糊的 title 讓多分頁無法分辨，必須進頁讀內容才知道自己在哪（引用：\"In such cases, pages are indistinguishable without reviewing the actual page content itself.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:17",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "iframe 不要關捲動，放大後才到得了全部內容",
+  "action": "保留 iframe 捲動，不用 `scrolling=\"no\"` 或 `overflow: hidden`，並給描述性 `title`",
+  "opponent": "使用者放大頁面或文字後，溢出內容需要捲動才能到達，關掉就被困住（引用：\"Users who zoom in or enlarge text need to scroll to reach content that overflows.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:18",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "不用正數 tabindex，焦點順序交給 DOM",
+  "action": "移除 `tabindex=\"1\"` 等正數；原生控制項不加多餘 `tabindex=\"0\"`，靜態與隱藏內容不放進 Tab",
+  "opponent": "正數 tabindex 會強造一套與頁面預期順序無關的 Tab 路徑（引用：\"doing so imposes a tab order on the page that bears no resemblance to the intended or expected tab order.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:19",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "自訂手勢不要用 touch-action: none 鎖死整塊捲動",
+  "action": "只限制手勢真正需要的軸，水平滑動用 `pan-y`、垂直滑動用 `pan-x`；繪圖 canvas 才考慮 `none`",
+  "opponent": "`touch-action: none` 會停用元素上的頁面捲動，使用者在該區域無法正常上下頁（引用：\"This disables page scrolling through the element.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:20",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "圖片與 SVG 的替代文字依用途提供或留空",
+  "action": "有意義圖片寫功能導向 `alt`，非裝飾 SVG 用 `role=\"img\"` 加 `<title>`／`aria-label`；裝飾圖片用 `alt=\"\"`、裝飾 SVG 用 `aria-hidden=\"true\"`",
+  "opponent": "缺少替代文字時讀屏以圖名等內容代替；裝飾圖沒隱藏則會多唸無關內容（引用：\"Do apply `alt=\"\"` to decorative visuals: This prevents screen readers from announcing them.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:21",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "live region 控制數量與時機，inert 內容不要送播報",
+  "action": "全頁各用一個 polite／assertive 區域，頻繁更新 debounce、碰撞時稍延遲；對話框或區塊 inert 時先協調播報狀態",
+  "opponent": "太多或高頻 live regions 會變成讀屏 spam；訊息送進 inert DOM 則可能不播，或從使用者到不了的地方播出（引用：\"queued or debounced messages will be unannounced — or announced from DOM the user can't reach.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessibility:22",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessibility.md",
+  "title": "模態用原生 dialog.showModal()，自訂覆層才裝 inert 與焦點",
+  "action": "模態用 `<dialog>` 加 `.showModal()`；不能用時才給外部內容 `inert`、覆層 `role=\"dialog\"` 並移入焦點",
+  "opponent": "（缺）指南只說手寫焦點陷阱、外部隱藏、頂層與遮罩容易出錯，沒指出單一失敗案例（引用：\"all of which are error prone and require heavy JavaScript event tracking to maintain.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessible-error-announcement",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessible-error-announcement.md",
+  "title": "讓 aria-invalid 跟著 :user-invalid 同步，不在還沒填之前就喊錯",
+  "action": "視覺用 `:user-invalid`，再用一小段 JS 在 `blur`／`change`／`input`／`invalid` 時檢查它，同步設定 `aria-invalid`；在那之前一律設成 `aria-invalid=\"false\"`",
+  "opponent": "只靠 `:invalid`，使用者一 Tab 進空的必填欄位，讀屏就唸「Invalid entry」，錯誤在還沒互動前就播出來（引用：\"screen readers might announce \"Invalid entry\" the moment a user tabs into a required field that is currently empty.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessible-error-announcement:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessible-error-announcement.md",
+  "title": "錯誤訊息只在出錯時才掛進 aria-describedby",
+  "action": "欄位用 `data-error` 指向錯誤訊息的 id，由 script 只在欄位無效時把它加進 `aria-describedby`",
+  "opponent": "在標記裡就把錯誤訊息掛上 `aria-describedby`，被引用的文字即使隱藏也會被唸，使用者還沒互動就聽到錯誤（引用：\"text that `aria-describedby` references is announced even when it's hidden, so the error would be read out before the user has interacted.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessible-error-announcement:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessible-error-announcement.md",
+  "title": "整頁共用一個 polite live region 播錯誤，不讓每則錯誤自己當 live region",
+  "action": "頁面放一個 `aria-live=\"polite\"` 的區塊，欄位離開或變更後延遲約 500ms 寫入「標籤：錯誤」；送出失敗時把焦點移到第一個無效欄位",
+  "opponent": "把每則錯誤訊息做成 live region，它是「被顯示」而不是「內容改變」，讀屏不一定會播（引用：\"a live region that is shown, rather than changed, isn't announced reliably.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:accessible-generated-content",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessible-generated-content.md",
+  "title": "用 content 的替代文字參數讓裝飾符號閉嘴",
+  "action": "在 `content` 用 `/` 加替代文字：裝飾文字寫 `content: \" →\" / \"\";`，有意義的圖示寫 `content: url(icon.svg) / \"Save\";`",
+  "opponent": "沒有 `/` 語法時，`::after` 插入的裝飾符號會被讀屏照唸（引用：\"Fallback: render the glyph in browsers without `/` support (screen readers there will still announce it)\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:accessible-generated-content:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/accessible-generated-content.md",
+  "title": "DOM 裡已經有的字，不要再寫進 content 的替代文字",
+  "action": "替代文字參數只在文字和主要值不同、且 DOM 裡還沒有時使用",
+  "opponent": "按鈕文字是「Save」，又在 `::before` 的圖示寫 `/ \"Save\"`，讀屏唸成「Save save」（引用：\"A screen reader would read it out as \"Save save\".\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:respect-os-text-scale",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/respect-os-text-scale.md",
+  "title": "用 meta text-scale 讓頁面跟著系統字級放大",
+  "action": "在 `<head>` 放 `<meta name=\"text-scale\" content=\"scale\">`，字級、間距用 `rem`／`em`，行高用無單位值",
+  "opponent": "使用者在 iOS／Android 設定了大字級，行動瀏覽器預設不理會，頁面字級不變（引用：\"By default, mobile browsers ignore these OS-level accessibility settings to prevent legacy, fixed-pixel websites from breaking visually.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:respect-os-text-scale:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/respect-os-text-scale.md",
+  "title": "流體字級要帶 rem 成分，不能只用 vw",
+  "action": "流體字級寫成 `clamp(2rem, 1.25rem + 2vw, 4rem)`，讓字級同時有字型相對與視窗相對的部分",
+  "opponent": "只用 `font-size: 5vw`，字級不會完整回應使用者的文字縮放（引用：\"The font size does not respond fully to user text scaling\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:respect-os-text-scale:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/accessibility/respect-os-text-scale.md",
+  "title": "開了 text-scale 就不要在 html 上寫死 font-size",
+  "action": "根字級交給瀏覽器，不在 `:root`／`html` 宣告任何 `font-size`（絕對、相對、計算值都不行）",
+  "opponent": "在 `html` 寫 `font-size: 16px`，可能讓瀏覽器無法套用文字縮放（引用：\"This can prevent the browser from applying text scaling\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-detection",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-detection.md",
+  "title": "在瀏覽器裡用 LanguageDetector 判斷文字語言",
+  "action": "先用 `LanguageDetector.availability()` 檢查，再由使用者手勢觸發 `LanguageDetector.create()`，用 `detect()` 取得依信心分數排序的語言清單",
+  "opponent": "（缺）只說可以減少對大型外部函式庫或昂貴伺服器呼叫的依賴，沒說舊做法在哪個時刻出問題（引用：\"it enhances user privacy and reduces the need for heavy external libraries or costly server-side calls.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:language-model",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "用 Prompt API 在瀏覽器內跑 Gemini Nano",
+  "action": "用 `LanguageModel.availability()` 檢查，由使用者手勢觸發 `LanguageModel.create()` 下載模型，再用 `prompt()`／`promptStreaming()` 處理文字、圖片、音訊輸入",
+  "opponent": "（缺）只列出本機執行的好處（隱私、降低伺服器成本、可離線），沒說舊做法在哪個時刻出問題（引用：\"This built-in AI approach ensures user privacy, reduces server costs, and enables offline functionality.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:language-model:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "模型輸出一律用 textContent，不塞進 innerHTML",
+  "action": "把模型回應寫進 `textContent`；需要有限的 HTML 時，對**完整**輸出跑 Sanitizer API 或 DOMPurify",
+  "opponent": "模型輸出不可信，可能夾帶注入的標記，直接設 `innerHTML` 會變成 XSS（引用：\"Model output is untrusted and can contain injected markup. Always use `textContent` or a sanitizer.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "串流輸出時設 aria-busy，讓讀屏唸完整回應而不是每一塊",
+  "action": "輸出容器是從頁面載入就存在的 polite live region，串流期間設 `aria-busy=\"true\"`，結束後設回 `false`；串流中不移動焦點",
+  "opponent": "沒有 `aria-busy` 時，live region 會把每個串流片段都唸出來（引用：\"so assistive technologies announce the complete response rather than each chunk\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "需要下載模型時由使用者手勢呼叫 create()",
+  "action": "`availability()` 為 downloadable／downloading 時，在按鈕等事件處理中呼叫 `LanguageModel.create()`，不要在頁面載入時呼叫",
+  "opponent": "下載模型的 `create()` 需要使用者手勢，頁面載入時呼叫會以 `NotAllowedError` 拒絕（引用：\"Call it from an event listener, not on page load, or it rejects with a `NotAllowedError`.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "模型下載顯示可及進度與完成狀態",
+  "action": "用有名字的 `<progress>` 顯示 `downloadprogress`，完成時更新 polite live region，不只寫 console",
+  "opponent": "大型模型下載沒有可見進度時，UI 看起來像凍結（引用：\"Inform the user while the model downloads so the UI doesn't appear frozen.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "下載或停止鈕消失前把焦點移到合理目標",
+  "action": "下載鈕在聚焦狀態被隱藏時，焦點移到帶 `tabindex=\"-1\"` 的狀態文字；停止生成鈕隱藏時移回原本啟動控制項",
+  "opponent": "目前聚焦的按鈕被隱藏後，鍵盤使用者失去所在位置（引用：\"If the button that starts the download is hidden while it has focus, move focus to the download's status text\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "輸出語言不同時在輸出元素設 lang",
+  "action": "模型輸出元素依 `expectedOutputs` 的語言設 `lang`，不沿用頁面預設語言",
+  "opponent": "輸出語言和頁面不同時，讀屏會用錯誤語言規則發音（引用：\"If the output language differs from the page language, set `lang` on the output element to the language declared in `expectedOutputs`, so screen readers pronounce it correctly\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "監看 context 用量，避免舊訊息被靜默丟棄",
+  "action": "用 `contextUsage`／`contextWindow` 監看 token，必要時開新 session 或只保留所需脈絡",
+  "opponent": "session 超過 token 上限時，最舊的訊息（system prompt 除外）會被丟掉，後續回答失去早期依據（引用：\"If the window overflows, the oldest messages (except the system prompt) are dropped.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:9",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "對話歷史存 localStorage 前先處理個資風險",
+  "action": "用 `initialPrompts` 還原歷史前，評估是否該持久化、去除個資或改用其他儲存方式",
+  "opponent": "`localStorage` 未加密且持久，對話中的個人資料會留在裝置上（引用：\"`localStorage` is unencrypted and persistent. Stored conversation history may include user PII\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:10",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "用 responseConstraint 的 JSON Schema 擋掉閒聊與解析失敗",
+  "action": "把 JSON Schema 以 plain object 傳給 `responseConstraint`，需要時用 `prefix: true` 引導開頭",
+  "opponent": "只叫模型「只輸出 JSON」仍可能夾帶開場白，讓 parser 壞掉，還得補複雜後處理（引用：\"Models might include conversational filler that breaks your parser.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:language-model:11",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "使用者意圖明確時先暖機，initialPrompts 在建立時給齊",
+  "action": "使用者進入 AI 工作區或和周圍 UI 互動時先建立 session；`initialPrompts` 準備好再一次傳入 `create()`",
+  "opponent": "等按下 Generate 才載入模型會有冷啟動延遲；system instructions 放到第一次 prompt 也要在最後一刻才處理，增加延遲（引用：\"This leads to a cold start delay, because the model must first load into memory and prepare its execution pipeline.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:12",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "不相干任務從乾淨 base session clone，不共用舊脈絡",
+  "action": "base session 只放 system instructions，新任務用 `clone()` 分支；不要重用含無關歷史的 session 或 clone",
+  "opponent": "同一 session 的先前互動會干擾目前任務，clone 也會繼承所有無關歷史（引用：\"Both patterns can cause unrelated previous context to interfere with your current task.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:13",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "用完的 session 明確 destroy() 釋放裝置記憶體",
+  "action": "clone 任務完成就 destroy，不再需要新 clone 時也 destroy base session",
+  "opponent": "多個大型 session 同時保留會持續占用記憶體；垃圾回收比明確釋放來得慢（引用：\"Each session consumes memory, which creates unnecessary resource usage and might become a problem.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:14",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "只送任務所需輸入，避免大資料讓本機模型像壞掉",
+  "action": "移除無關 metadata、HTML 與大清單，大資料改成短摘要加少量相關項目",
+  "opponent": "輸入越大延遲越明顯，在許多裝置上會讓 AI 功能看起來像沒有回應（引用：\"Latency grows significantly with input size, which can make the AI feature seem broken on many devices.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:15",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "不用 maxLength 逼模型縮短，生成後由程式截斷",
+  "action": "讓模型自然生成，再由 client-side 邏輯依 UI 需要截斷，不在 structured output schema 寫嚴格字元上限",
+  "opponent": "超過上限時模型可能改用外語或 emoji 高密度壓縮，輸出變成無意義內容（引用：\"the model might switch to high-density tokens like foreign languages or emoji to compress meaning, resulting in nonsensical output.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:16",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "AI 改寫保留版本、比較與復原，不覆蓋唯一草稿",
+  "action": "提供 stepper／歷史、快速 undo 與版本比較，使用者能回到先前草稿或喜歡的 AI 結果",
+  "opponent": "直接覆蓋會讓使用者失去原本草稿或較好的上一版，無法回頭（引用：\"Don't: Overwrite the user's previous draft, or an AI result they might have liked without a way to go back, revert, or compare versions.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:language-model:17",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/built-in-ai/language-model.md",
+  "title": "重複輸入用本機快取，不重新跑相同推論",
+  "action": "以 `sessionStorage`／`IndexedDB` 快取正規化輸入或圖片 hash，設合理 TTL，必要時背景更新並允許手動重跑",
+  "opponent": "使用者在相同搜尋或資料間來回時重跑推論，浪費本機運算並拖慢回應（引用：\"Don't: Re-run the same inference for a repeated search query or identical data input where variability isn't desirable\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ }
+]

@@ -13,7 +13,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：卡號、持卡人、到期日、安全碼分別用 `autocomplete="cc-number"`、`cc-name`、`cc-exp`、`cc-csc`；帳單地址預設同寄送地址，欄位用 `shipping`／`billing` 前綴區分（例如 `billing address-line1`）
 - 對手：沒有 autocomplete 時，使用者可能把卡片資料抄在紙上或用不安全的方式存起來（引用："Without autocomplete, users may keep a physical record of payment card details or store them insecurely."）
 - 退路：不需要——`autocomplete` 早已 Widely，沒有需要退回去的狀態
-- 解鎖：以前付款欄位沒有對應 token，瀏覽器帶不進資料；現在用 `cc-number`、`cc-name` 等 token 讓瀏覽器保管並自動填入，寄送與帳單地址也能用前綴分開
+- 解鎖：（缺）
 
 經過：每次結帳都要從錢包掏卡、抄十六位數字，於是有人乾脆把卡號存在記事本裡。帶對 token 後由瀏覽器保管、自動帶入；寄送與帳單兩組地址靠前綴分開，不會互相填錯。
 %% line-end %%
@@ -22,9 +22,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：自動填入失效
 - 支援狀態：本指南未列 autocomplete 支援資料（autofill-address-form 指南記為 Widely 2015-07-29）；同指南列出 enterkeyhint、Email/telephone/URL input types、inputmode 皆 Widely
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:autofill-payment-form:2" %%
 ## 姓名盡量用一個欄位，加上 autocomplete="name"
@@ -67,7 +67,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：卡號用 `type="text"`、`inputmode="numeric"`、`autocomplete="cc-number"`，允許空格並設合理長度與 pattern
 - 對手：`type="number"` 會增加增減鈕並去掉開頭的 0，把卡號當成會參與算術的數量（引用："DO NOT use type="number" — it adds increment/decrement controls and strips leading zeros"）
 - 退路：不需要——`inputmode` 已 Widely，數字鍵盤沒有退路問題
-- 解鎖：以前要有數字鍵盤就得用 `type="number"`，卻多出增減鈕、還會吃掉開頭的 0；現在文字欄位加 `inputmode="numeric"` 就能只借鍵盤、不改值的語意
+- 解鎖：（缺）
 
 經過：為了數字鍵盤選了 number，卻同時得到不需要的微調按鈕與數值正規化。文字欄位只借用鍵盤，不改變值的語意。
 %% line-end %%
@@ -76,9 +76,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：用錯原生控制項
 - 支援狀態：inputmode：Widely（2021-12-07）
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:autofill-payment-form:5" %%
 ## 付款格式提示放在欄位上方
@@ -121,7 +121,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：卡號、電話號碼各用單一 `<input>`，需要分組外觀時用樣式呈現，不切成多個欄位
 - 對手：拆成多格會讓瀏覽器無法自動填入，也增加輸入與驗證的負擔（引用："For payment card and phone numbers use a single input: don't split the number into parts. That makes it easier for users to enter data, makes validation simpler, and enables browsers to autofill."）
 - 退路：不需要——單一欄位與拆格的差別是表單寫法，不涉及瀏覽器功能支援
-- 解鎖：以前把卡號拆成一格四碼，瀏覽器不知道要把整組數字填到哪裡；現在用單一欄位就能被自動填入
+- 解鎖：（缺）
 
 經過：每四碼一格看起來像實體卡片，瀏覽器卻不知道要把完整卡號分到哪裡。保留一個資料入口，外觀另外處理。
 %% line-end %%
@@ -130,9 +130,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：自動填入失效
 - 支援狀態：不適用（指南未附此做法的支援資料）
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:autofill-payment-form:8" %%
 ## 卡號 pattern 允許不同長度與空格

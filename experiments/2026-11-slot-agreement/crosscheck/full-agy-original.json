@@ -1,0 +1,1238 @@
+{
+ "mwg:accordion": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`<details>` 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:accordion:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `name` 時多項會保持開啟，仍是可用的非互斥手風琴",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:accordion:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `interpolate-size` 時立即開合，只失去高度動畫",
+  "unlock": "收合內容以 `content-visibility: hidden` 隱藏後仍可頁內搜尋，高度也能動畫",
+  "owner": "kimi"
+ },
+ "mwg:app-menus": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援錨點定位時改用腳本定位，選單仍黏在觸發鈕旁",
+  "unlock": "popover 可用錨點定位直接黏在觸發鈕或子選單旁",
+  "owner": "kimi"
+ },
+ "mwg:breadcrumbs": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——HTML 列表與 CSS 分隔符已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:breadcrumbs:2": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 `clip-path`，邊框與焦點外框不再跟著形狀",
+  "unlock": "`border-shape` 讓不規則形狀的邊框與焦點外框沿形狀呈現",
+  "owner": "kimi"
+ },
+ "mwg:card": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:card:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:card:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:card:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:carousel": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援 `sibling-index()` 時改為有限輪播，末端按鈕停用",
+  "unlock": "用 CSS `order` 暫停首尾投影片即可循環，不必複製或搬動 DOM",
+  "owner": "kimi"
+ },
+ "mwg:checkbox": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `accent-color` 時用預設控制項顏色，只失去品牌色",
+  "unlock": "原生核取方塊可直接換品牌色，或自訂形狀、尺寸與狀態圖示",
+  "owner": "kimi"
+ },
+ "mwg:checkbox:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `accent-color` 時用預設顏色，核取方塊仍可操作",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:checkbox:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:copy-button": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Clipboard API 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:copy-button:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——CSS opacity 與 hover 媒體查詢已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:dark-mode-toggle:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:dark-mode-toggle:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:dark-mode-toggle:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:dialog": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "原生 `<dialog>` 內建模態語義、焦點管理、頂層與 Esc 關閉",
+  "owner": "kimi"
+ },
+ "mwg:dialog:2": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援時背景仍會捲動，失去捲動 containment",
+  "unlock": "模態對話框可用純 CSS 阻止背景捲動，不必鎖根元素",
+  "owner": "kimi"
+ },
+ "mwg:dialog:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 popover 時載入 polyfill，保留非模態頂層面板",
+  "unlock": "`<dialog popover>` 可開在頂層，同時讓頁面保持可操作",
+  "owner": "kimi"
+ },
+ "mwg:dialog:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:dialog:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:dialog:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:dialog:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:dialog:8": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `closedby` 時由 `cancel` 監聽攔下關閉，仍保護未存修改",
+  "unlock": "`closedby` 可宣告關閉方式，`cancel` 可在關閉前加入確認",
+  "owner": "kimi"
+ },
+ "mwg:hovercard": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時載入 `interestfor` polyfill，保留 hover 與聚焦預覽",
+  "unlock": "`interestfor` 可讓同一張預覽卡隨 hover 或鍵盤焦點開啟",
+  "owner": "kimi"
+ },
+ "mwg:hovercard:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:hovercard:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:hovercard:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:hovercard:6": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時載入 polyfill，ARIA 仍在 DOM 解析後立即接好",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:hovercard:7": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 popover 時載入 polyfill，仍以捕獲階段的 toggle 同步狀態",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:hovercard:9": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不用 polyfill 時退回預設置中或固定底條，失去貼附觸發點",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:hovercard:10": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:hovercard:11": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——不支援時退回一般換頁，失去卡片變形成目的頁的動畫",
+  "unlock": "預覽卡與目的頁的同名元素可做跨文件變形轉場",
+  "owner": "kimi"
+ },
+ "mwg:menu": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時以腳本補上開合、方向鍵與角色，保留選單行為",
+  "unlock": "選單可用屬性宣告開合、方向鍵移動與角色，不必全部手寫",
+  "owner": "kimi"
+ },
+ "mwg:menu:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援錨點定位時改用腳本計算位置，選單仍貼在觸發項旁",
+  "unlock": "CSS 錨點定位可讓巢狀選單貼在觸發項旁並自動翻邊",
+  "owner": "kimi"
+ },
+ "mwg:menu:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援錨點定位時改用腳本定位，避免子選單蓋住觸發項",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:menu:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——舊實作改用明確 `anchor-name` 與 `position-anchor` 綁定選單",
+  "unlock": "零尺寸元素可充當游標或輸入點的錨，讓選單沿用 CSS 定位與翻邊",
+  "owner": "kimi"
+ },
+ "mwg:menu:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `sign()` 時改用 `clamp()` 計算三角形邊緣與頂點",
+  "unlock": "CSS 可畫出從游標離開點到子選單邊緣的安全三角",
+  "owner": "kimi"
+ },
+ "mwg:menu:6": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 Invoker Commands 時用 click 監聽開合，仍由 toggle 移焦點",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:menu:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:menu:9": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:menu:10": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:navbar": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 popover 時載入 polyfill，保留收合導覽與開合行為",
+  "unlock": "量測實際寬度即可在放不下時收合成 popover，不必寫死斷點",
+  "owner": "kimi"
+ },
+ "mwg:navbar:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——原生 button 與 ARIA 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:navigation-drawer": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援捲動時間軸時用 scroll 監聽更新暗度，保留同步淡化",
+  "unlock": "原生捲動吸附可控制抽屜開合，背景暗度也能跟著拖動位置變化",
+  "owner": "kimi"
+ },
+ "mwg:navigation-drawer:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:navigation-drawer:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時以 `@supports` 停用 CSS 動畫，改用 scroll 監聽更新暗度",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:navigation-drawer:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:navigation-drawer:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:navigation-drawer:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:navigation-drawer:9": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時先即時捲到關閉位置，等兩幀再滑入",
+  "unlock": "`scroll-initial-target` 可讓抽屜進入頂層時已停在畫面外",
+  "owner": "kimi"
+ },
+ "mwg:persistent-app-tours": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時分別載入 popover 與錨點定位 polyfill，維持持續貼附提示",
+  "unlock": "manual popover 結合錨點定位，可讓導覽提示持續貼在功能旁",
+  "owner": "kimi"
+ },
+ "mwg:persistent-app-tours:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:persistent-app-tours:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:persistent-app-tours:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:persistent-toast-notifications": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 popover 時載入 polyfill，保留手動關閉與多則並存",
+  "unlock": "manual popover 可讓多則通知並存，操作頁面時不會被關掉",
+  "owner": "kimi"
+ },
+ "mwg:persistent-toast-notifications:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時改用頁面載入即存在的 aria-live 容器播報",
+  "unlock": "`ariaNotify()` 可直接播報通知文字，不必預留 live region",
+  "owner": "kimi"
+ },
+ "mwg:persistent-toast-notifications:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:persistent-toast-notifications:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:persistent-toast-notifications:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:progress-ring:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:progress-ring:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:progress-ring:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `@property` 時直接跳到新值，失去平滑過渡",
+  "unlock": "註冊數值型自訂屬性後，進度值變更可平滑過渡",
+  "owner": "kimi"
+ },
+ "mwg:progress": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:progress:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:progress:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:progress:5": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `revert-rule` 時，未設變數仍是無害的無動畫狀態",
+  "unlock": "動畫掛鉤可用 `revert-rule` 只在有設值時覆蓋預設動畫",
+  "owner": "kimi"
+ },
+ "mwg:progress:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:progress:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:scrollspy": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時改用 IntersectionObserver 與退路類別，保留章節高亮",
+  "unlock": "目錄可用 CSS 自動標出畫面中的章節，不必用 JavaScript 觀察各節",
+  "owner": "kimi"
+ },
+ "mwg:scrollspy:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時改用 IntersectionObserver 與退路類別，保留章節高亮",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:scrollspy:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時改用 IntersectionObserver 與退路類別，保留章節高亮",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:spinner:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:spinner:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `scrollsnapchange` 時用 IntersectionObserver 呼叫同一處理函式",
+  "unlock": "原生捲動吸附可做可滑回的堆疊導覽，並以吸附事件統一更新狀態",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:9": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:10": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:11": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時以 `@supports` 停用視差，畫面直接切換到吸附點",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:12": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時停用視差與變暗，只保留直接切換吸附畫面",
+  "unlock": "視差、變暗與陰影可直接綁在 `view()` 時間軸，跟著手勢進度變化",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:13": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:14": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:stack-drill-down:15": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:tabs": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時載入 `@microsoft/focusgroup-polyfill`，保留 tablist 角色與方向鍵移動",
+  "unlock": "不必手寫 roving tabindex 或 activedescendant，`focusgroup` 會自動設定 tablist 與 tab 角色",
+  "owner": "kimi"
+ },
+ "mwg:tabs:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——偽元素 border 與 `aria-selected` 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:tabs:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援捲動動畫時改用陰影或 IntersectionObserver 提示，不支援 `interpolate-size` 時立即縮放，分頁仍可單列捲動",
+  "unlock": "捲動驅動動畫可讓分頁列邊緣淡出隨捲動位置增減，內容放得下時自動消失",
+  "owner": "kimi"
+ },
+ "mwg:toolbar": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`aria-disabled` 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:toolbar:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時用 roving-tabindex 腳本，保留方向鍵與單一 Tab 停點",
+  "unlock": "`focusgroup` 讓瀏覽器原生處理工具列的方向鍵與 roving tab stop",
+  "owner": "kimi"
+ },
+ "mwg:animate-to-intrinsic-sizes": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時直接跳到目標尺寸，失去平滑過渡",
+  "unlock": "固定長度與 `auto` 等固有尺寸關鍵字之間可原生過渡",
+  "owner": "kimi"
+ },
+ "mwg:atrule-support-conditionals": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——改用屬性、選擇器或 JS 偵測，保留條件分支但寫法較繞",
+  "unlock": "CSS 可直接依某個 at-rule 是否受支援來套用規則",
+  "owner": "kimi"
+ },
+ "mwg:calculate-with-intrinsic-sizes:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`visibility` 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:child-state-based-styling": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`:has()` 已 Widely，不必退路",
+  "unlock": "容器可用純 CSS 回應子元素的勾選、焦點或驗證狀態",
+  "owner": "kimi"
+ },
+ "mwg:content-based-styling": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`:has()` 已 Widely，不必退路",
+  "unlock": "容器可直接依子內容有無切換 CSS 版面，不必注入修飾 class",
+  "owner": "kimi"
+ },
+ "mwg:css-layout": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:css-layout:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:css-layout:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:css-layout:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:css-layout:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:css-layout:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——subgrid 已 Widely，不必退路",
+  "unlock": "卡片內層可繼承外層 grid 軌道，讓標題與 CTA 跨卡片對齊",
+  "owner": "kimi"
+ },
+ "mwg:css-layout:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:css-layout:9": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:css-layout:11": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:css-layout:12": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:css-layout:13": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:css-layout:14": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——改用多欄或 dense grid 緊密排列，失去原生 grid lanes 模型",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:css": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:css:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:css:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:design-token-reactivity": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 `data-*` 選擇器，巢狀 token 無法正確覆寫",
+  "unlock": "高階設計 token 可寫成自訂屬性，由後代用 style query 回應",
+  "owner": "kimi"
+ },
+ "mwg:dynamic-sibling-styling": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時用 JS 注入序號與總數自訂屬性，保留動態樣式",
+  "unlock": "CSS 可直接取得兄弟序號與總數，項目增減時自動重算樣式",
+  "owner": "kimi"
+ },
+ "mwg:fluid-scaling": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——容器查詢單位已 Widely，不必退路",
+  "unlock": "字級與間距可直接依元件容器尺寸流體縮放，不必跟著視窗",
+  "owner": "kimi"
+ },
+ "mwg:fluid-scaling:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`clamp()` 與容器單位已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:individual-transform-properties": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——個別 transform 屬性已 Widely，不必退路",
+  "unlock": "位移、旋轉與縮放可各自覆寫和動畫，不必重寫整串 transform",
+  "owner": "kimi"
+ },
+ "mwg:individual-transform-properties:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——個別 transform 屬性已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:overflow-clipping-control": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 `overflow: hidden`，維持裁切但陰影仍在邊界被切掉",
+  "unlock": "裁切邊界可向外留出固定距離，讓陰影溢出而不改變版面幾何",
+  "owner": "kimi"
+ },
+ "mwg:overflow-clipping-control:2": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 `overflow: hidden`，失去自動同心的內層圓角",
+  "unlock": "內層內容可沿 content-box 的圓角裁切，不必手算 padding",
+  "owner": "kimi"
+ },
+ "mwg:reduce-style-repetition": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——先寫固定值或改用預處理器，失去瀏覽器端的參數化函式",
+  "unlock": "CSS 可定義帶型別與預設值的自訂函式，並依媒體條件回傳不同結果",
+  "owner": "kimi"
+ },
+ "mwg:responsive-design": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:responsive-design:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:responsive-design:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:selector-atrule-combinations": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——關鍵分支退回各狀態重複規則，失去條件與樣式解耦",
+  "unlock": "跨類型條件可先存成自訂屬性，再用 style query 共用一組規則",
+  "owner": "kimi"
+ },
+ "mwg:size-aware-styling": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——尺寸容器查詢已 Widely，不必退路",
+  "unlock": "元件可依容器寬度切換版面，不必為各放置位置寫 media query",
+  "owner": "kimi"
+ },
+ "mwg:style-parent-with-has": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`:has()` 與 `:user-invalid` 已 Widely，不必退路",
+  "unlock": "欄位群組可用純 CSS 依內部欄位的無效狀態改變外觀",
+  "owner": "kimi"
+ },
+ "mwg:style-parent-with-has:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——相關原生狀態與 ARIA 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:style-parent-with-has:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——相關原生狀態與 ARIA 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:style-parent-with-has:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——相關原生狀態與 ARIA 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:usage-aware-component-variations": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回後代選擇器，保留情境樣式但恢復結構耦合",
+  "unlock": "元件可用 style query 回應祖先的語意旗標，不必綁定雙方選擇器",
+  "owner": "kimi"
+ },
+ "mwg:accessible-web-components:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:accessible-web-components:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:custom-elements:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:custom-elements:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:custom-elements:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:custom-elements:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:form-associated-custom-elements": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Form-Associated Custom Elements 已 Widely，不必退路",
+  "unlock": "自訂控制項可原生送值、驗證，並回應表單重設、停用與狀態還原",
+  "owner": "kimi"
+ },
+ "mwg:form-associated-custom-elements:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Form-Associated Custom Elements 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:form-associated-custom-elements:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Form-Associated Custom Elements 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:html": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:html:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:html:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:html:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:html:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:html:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:html:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:html:9": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:prerendering-custom-elements": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Declarative Shadow DOM 已 Widely，不必退路",
+  "unlock": "伺服器可用 HTML 直接送出 shadow tree，第一次繪製已有結構與樣式",
+  "owner": "kimi"
+ },
+ "mwg:prerendering-custom-elements:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Declarative Shadow DOM 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:shadow-dom": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:shadow-dom:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:styling-web-components": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——改用繼承的自訂屬性傳入主題，保留跨 shadow 的主題設定",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:styling-web-components:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:styling-web-components:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:styling-web-components:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:styling-web-components:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態為 Widely 或不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:web-components": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:web-components:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:web-components:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:carousel-slide-effects": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 scroll 監聽加 Web Animations，保留效果但失去原生效能",
+  "unlock": "投影片可用 `view()` 時間軸隨穿過捲動區的位置連續縮放或淡出",
+  "owner": "kimi"
+ },
+ "mwg:carousel-slide-effects:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時用 scroll 監聽與 Web Animations 重現效果",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:carousel-slide-effects:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:component-specific-light-dark-theme:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `light-dark()` 時用 media query 切 token，並重設元件顏色",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:component-specific-light-dark-theme:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`color-scheme` 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:component-specific-light-dark-theme:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——`color-scheme` 已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:icons": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 style query 時用 class 或元件選擇器掛上圖示",
+  "unlock": "圖示可做成參與串接的 CSS token，依選擇器或狀態自動切換",
+  "owner": "kimi"
+ },
+ "mwg:icons:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 `@property` 時在查詢中把子孫的圖示屬性重設為 `initial`",
+  "unlock": "圖示指派可設成不繼承，只讓指定元素畫出圖示",
+  "owner": "kimi"
+ },
+ "mwg:icons:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——改用根相對網址或 data URI，保留圖示 token 的正確解析",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:icons:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:icons:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:icons:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:position-aware-tooltips": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援 anchored 查詢時隱藏箭頭，tooltip 仍可翻邊",
+  "unlock": "CSS 可查詢實際套用的錨點退路，讓箭頭方向跟著翻轉",
+  "owner": "kimi"
+ },
+ "mwg:pull-to-reveal": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時用 `scrollIntoView()` 即時捲到主內容",
+  "unlock": "捲動容器可在初次渲染時直接停在主內容，把上方控制項藏起來",
+  "owner": "kimi"
+ },
+ "mwg:pull-to-reveal:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時用 `scrollIntoView()` 並自行設定鍵盤焦點",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:pull-to-reveal:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:responsive-table": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:responsive-table:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:responsive-table:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:scroll-position-aware-elements": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時用 IntersectionObserver 觀察頂端哨兵，保留動態顯示",
+  "unlock": "浮動控制項可用純 CSS 在容器離開頂端後顯示",
+  "owner": "kimi"
+ },
+ "mwg:scroll-position-aware-elements:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時讓按鈕一律可見，失去依捲動位置切換",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:scroll-position-aware-elements:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:scrollability-affordance-hints": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時改用背景陰影或 IntersectionObserver，保留邊緣提示",
+  "unlock": "CSS 可在仍有內容的方向顯示陰影或淡出，到達邊界時自動消失",
+  "owner": "kimi"
+ },
+ "mwg:scrollability-affordance-hints:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時改用背景陰影或 IntersectionObserver，保留邊緣提示",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:scrollability-affordance-hints:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時改用背景陰影或 IntersectionObserver，保留邊緣提示",
+  "unlock": "註冊長度型自訂屬性後，淡出寬度可隨捲動平滑內插",
+  "owner": "kimi"
+ },
+ "mwg:shrinking-header-on-scroll": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 scroll 監聽更新高度，保留縮放但失去原生效能優勢",
+  "unlock": "標頭高度可在指定捲動距離內由 CSS 平滑縮放",
+  "owner": "kimi"
+ },
+ "mwg:shrinking-header-on-scroll:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:shrinking-header-on-scroll:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時用 scroll 監聽更新標頭，保留縮放效果",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:shrinking-header-on-scroll:4": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時用 scroll 監聽更新標頭，保留縮放效果",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:single-line-overflow": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——mask 與容器查詢已 Widely，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:single-line-overflow:2": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時用 ResizeObserver 切換截斷 class，保留提示與捲動顯示",
+  "unlock": "截斷文字可在 hover 或聚焦時用純 CSS 捲動顯示全文",
+  "owner": "kimi"
+ },
+ "mwg:state-aware-sticky-headers": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時維持 sticky 但不變樣，必要時用 IntersectionObserver 補",
+  "unlock": "sticky 標頭可用純 CSS 在黏住時改變背景、陰影或尺寸",
+  "owner": "kimi"
+ },
+ "mwg:state-aware-sticky-headers:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:viewport-aware-dropdowns": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——改用錨點 polyfill 或預設置中，失去原生自動翻邊",
+  "unlock": "面板可用 CSS 列出多個位置退路，溢出視窗時自動翻邊",
+  "owner": "kimi"
+ },
+ "mwg:viewport-aware-dropdowns:3": {
+  "fallback": "保住主要行為",
+  "fallback_text": "保住主要行為——不支援時載入錨點 polyfill，以明確錨點與 inset 規則定位",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:viewport-aware-dropdowns:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:install-web-app": {
+  "fallback": "失去主要好處",
+  "fallback_text": "失去主要好處——退回 `beforeinstallprompt` 或瀏覽器安裝入口，只能安裝目前 app",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:cpp-on-the-web:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:cpp-on-the-web:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:cpp-on-the-web:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ },
+ "mwg:cpp-on-the-web:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——支援狀態不適用，不必退路",
+  "unlock": "（缺）",
+  "owner": "kimi"
+ }
+}

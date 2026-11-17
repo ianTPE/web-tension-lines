@@ -103,7 +103,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：識別用數字字串用 `type="text"` 與 `inputmode="numeric"`，不用 `type="number"`
 - 對手：`type="number"` 帶來捲動與增減鈕問題，還會移除開頭的 0（引用："DON'T use `type="number"` for credit cards, ZIP codes, or one-time passcodes (causes UI scroll issues and removes leading zeros)."）
 - 退路：不需要——`inputmode` 早已 Widely，數字鍵盤沒有退路問題
-- 解鎖：以前要有數字鍵盤只能用 `type="number"`，卻多出增減鈕、還會吃掉開頭的 0；現在文字欄位加 `inputmode="numeric"` 就能只借鍵盤
+- 解鎖：（缺）
 
 經過：郵遞區號與驗證碼是識別碼，不是要做加減的數量。
 %% line-end %%
@@ -112,16 +112,16 @@ license: CC-BY-4.0（上游指南）
 - 對手組：用錯原生控制項
 - 支援狀態：不適用
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:forms:7" %%
 ## 單一值不要拆成自動跳格的多欄位
 - 做法：OTP、電話、卡號用單一文字欄位；分格外觀用 CSS 呈現，不用多個自動跳格 input
 - 對手：多格自動跳格妨礙自動填入、貼上與無障礙操作（引用："DON'T split a single value (such as a 6-digit OTP, phone number, or credit card) across multiple `<input>` boxes that auto-advance focus on keypress."）
 - 退路：不需要——單一欄位或拆格是表單寫法，不涉及瀏覽器功能支援
-- 解鎖：以前把卡號或驗證碼拆成多格，瀏覽器帶不進資料；現在單一欄位就能自動填入與整串貼上
+- 解鎖：（缺）
 
 經過：視覺上的六格不代表資料上要有六個控制項。
 %% line-end %%
@@ -130,9 +130,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：自動填入失效
 - 支援狀態：不適用
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:forms:8" %%
 ## 驗證欄位不要擋貼上或關 autocomplete
@@ -157,7 +157,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：錯誤樣式由 `:user-invalid` 觸發，原生 required 等限制仍保留
 - 對手：只用 `:invalid` 會讓空的必填欄位在使用者互動前就被標成錯（引用："DON'T use the raw `:invalid` CSS pseudo-class alone for error styling to ensure empty required fields are not marked as invalid before the user interacts with the form."）
 - 退路：不需要——錯誤樣式用哪個偽類是既有 CSS 用法
-- 解鎖：以前只有 `:invalid`，空欄位一開頁就被標成錯；現在能用 `:user-invalid` 在使用者互動後才標記
+- 解鎖：（缺）
 
 經過：頁面剛打開就整片紅，會讓還沒填的人以為自己已經做錯。
 %% line-end %%
@@ -166,9 +166,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：播報時機或可靠度出錯
 - 支援狀態：不適用
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:forms:10" %%
 ## 不要停用送出鈕來阻止驗證
@@ -265,7 +265,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：非目前步驟用 `hidden`、`display: none` 或 `inert` 隱藏；切換時把焦點移到新步驟標題或第一欄
 - 對手：舊步驟仍在 Tab 順序與無障礙樹裡，使用者會走進看不到或不該操作的欄位（引用："DON'T leave inactive wizard steps in the keyboard `Tab` order or accessibility tree"）
 - 退路：不需要——隱藏步驟可用既有的 `hidden`、`display: none` 或 `inert`
-- 解鎖：現在能用 `inert` 一次把非作用中的步驟移出 Tab 順序與無障礙樹
+- 解鎖：（缺）
 
 經過：畫面已是付款步驟，Tab 卻回到隱藏的帳號欄位，使用者無法判斷自己身在何處。
 %% line-end %%
@@ -274,9 +274,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：視覺隱藏卻仍可觸及
 - 支援狀態：不適用
 - 戰報：勝（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:forms:16" %%
 ## 多步驟表單避免手機鍵盤遮住欄位與按鈕

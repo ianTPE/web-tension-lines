@@ -68,7 +68,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：用 `globalThis.SubtleCrypto?.supports?.('encapsulateKey', 'MLKEM768-X25519', 'ChaCha20-Poly1305')` 偵測；探測 `'encrypt'`／`'decrypt'` 時要帶 `iv`
 - 對手：在 `crypto.subtle` 上找 `supports`，拿到的是 `undefined`（引用："`globalThis.SubtleCrypto?.supports?.(…)` is a synchronous static method returning a boolean (`crypto.subtle.supports` is `undefined`)."）
 - 退路：保住主要行為——偵測不到 `supports()` 時就直接走古典路徑，功能偵測仍然有效
-- 解鎖：以前沒有同步的方法知道瀏覽器支不支援某個演算法，只能送出後用例外判斷；現在有靜態的 `SubtleCrypto.supports()` 直接回傳布林值
+- 解鎖：（缺）
 
 經過：偵測寫在錯的物件上，永遠判定不支援，支援的瀏覽器也被送去走古典路徑。
 %% line-end %%
@@ -77,6 +77,6 @@ license: CC-BY-4.0（上游指南）
 - 對手組：功能偵測不可靠
 - 支援狀態：同 mwg:client-side-encryption，記 Newly
 - 戰報：部分改善（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺

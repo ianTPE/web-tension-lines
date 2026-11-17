@@ -32,7 +32,7 @@ license: CC-BY-4.0（上游指南）
 - 做法：先用 `navigator.permissions.query({ name: 'local-network' })` 查狀態：`granted` 就直接連；`prompt` 時先說明原因，由按鈕點擊觸發；`denied` 時顯示如何在網站設定重新開啟；頁面一律用 https
 - 對手：從 Service Worker 或 Shared Worker 發出第一個需要授權的請求，沒有附屬的 Document，權限還沒給就立刻失敗；不安全的 http 頂層頁面則直接被拒（引用："never initiate the first permission-triggering request from a **Service Worker** or **Shared Worker** (which lack an attached `Document` and will immediately fail if permission is not already `'granted'`)."）
 - 退路：保住主要行為——不支援的瀏覽器用 `try/catch` 把權限當成 `'prompt'`，一樣等使用者點擊才發請求
-- 解鎖：以前無法先知道使用者是否已允許連區網；現在能查細分權限狀態，再決定要不要提示
+- 解鎖：（缺）
 
 經過：一載入就去連區網，使用者還不知道為什麼就看到權限提示；放在 worker 裡更慘，連提示都沒有就失敗。改成先查狀態、讓使用者按按鈕，再發請求。
 %% line-end %%
@@ -41,9 +41,9 @@ license: CC-BY-4.0（上游指南）
 - 對手組：權限請求不看時機
 - 支援狀態：同 mwg:local-network-access，記 Limited
 - 戰報：部分改善（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
 
 %% line-start id="mwg:local-network-access:3" %%
 ## 不要查詢舊的 `'local-network-access'` 權限名：舊版 Chrome 會整個分頁崩潰
@@ -85,8 +85,8 @@ license: CC-BY-4.0（上游指南）
 ## 跨來源 iframe 要連區網，得用 `allow` 與 `Permissions-Policy` 委派
 - 做法：`<iframe allow="local-network; loopback-network">`，並在**外層文件**的回應送 `Permissions-Policy: local-network=(self "https://partner…")`
 - 對手：兩個權限的預設允許清單只有 `'self'`，嵌入的跨來源 iframe 無法發出區網或本機請求（引用："`local-network` and `loopback-network` have a default allowlist of `'self'`, blocking cross-origin `<iframe>` embeds from making local or loopback requests."）
-- 退路：保住主要行為——不支援的瀏覽器沒有這兩項權限，跨來源 iframe 不需委派，也不會被這條規則擋下
-- 解鎖：以前跨來源 iframe 完全連不到區網；現在外層頁面可以用 `allow` 與 `Permissions-Policy` 把權限委派給它
+- 退路：沒說——指南未交代不支援時怎麼辦
+- 解鎖：（缺）
 
 經過：合作夥伴的裝置設定頁嵌在 iframe 裡，連不到使用者的裝置。由外層頁面明確授權，iframe 才拿得到權限。
 %% line-end %%
@@ -94,8 +94,8 @@ license: CC-BY-4.0（上游指南）
 ### 細節（不索引）
 - 對手組：合法連線被安全規則擋下
 - 支援狀態：同 mwg:local-network-access，記 Limited
-- 戰報：部分改善（由支援狀態與退路推出）
-- 槽判定：對手 有／解鎖 有
+- 戰報：僵持（由支援狀態與退路推出）
+- 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
 - 另有 1 個糾錯提醒未拆（不要再新增已棄用的 Private Network Access 預檢標頭）
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「沒說」、解鎖改為缺

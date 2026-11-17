@@ -1,0 +1,470 @@
+[
+ {
+  "key": "mwg:autofill-payment-form",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-payment-form.md",
+  "title": "付款欄位給 cc-* autocomplete，帳單地址加 billing 前綴",
+  "action": "卡號、持卡人、到期日、安全碼分別用 `autocomplete=\"cc-number\"`、`cc-name`、`cc-exp`、`cc-csc`；帳單地址預設同寄送地址，欄位用 `shipping`／`billing` 前綴區分（例如 `billing address-line1`）",
+  "opponent": "沒有 autocomplete 時，使用者可能把卡片資料抄在紙上或用不安全的方式存起來（引用：\"Without autocomplete, users may keep a physical record of payment card details or store them insecurely.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-payment-form:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-payment-form.md",
+  "title": "姓名盡量用一個欄位，加上 autocomplete=\"name\"",
+  "action": "除非真的需要分開儲存名、姓、稱謂，否則只放一個姓名欄位，設 `autocomplete=\"name\"`",
+  "opponent": "（缺）只列出單一欄位的好處，沒直接說拆欄在哪個時刻出錯（引用：\"Using a single name input makes forms less complex, enables cut-and-paste, and makes autofill simpler.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-payment-form:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-payment-form.md",
+  "title": "驗證姓名時改用 Unicode 字母比對，不要只收拉丁字母",
+  "action": "驗證用的正規表示式改用 Unicode 字母比對，例如持卡人欄位的 `pattern=\"[\\p{L} \\-\\.]+\"`，並確認後端能安全處理 Unicode",
+  "opponent": "只比對拉丁字母的正規表示式，會把名字或地址含非拉丁字元的使用者擋在外面（引用：\"Latin-only excludes users with names or addresses that include characters that aren't in the Latin alphabet.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-payment-form:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-payment-form.md",
+  "title": "卡號用文字欄位加數字鍵盤，不用 type=\"number\"",
+  "action": "卡號用 `type=\"text\"`、`inputmode=\"numeric\"`、`autocomplete=\"cc-number\"`，允許空格並設合理長度與 pattern",
+  "opponent": "`type=\"number\"` 會增加增減鈕並去掉開頭的 0，把卡號當成會參與算術的數量（引用：\"DO NOT use type=\"number\" — it adds increment/decrement controls and strips leading zeros\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-payment-form:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-payment-form.md",
+  "title": "付款格式提示放在欄位上方",
+  "action": "到期日等格式提示放在可見的欄位上方，用 `aria-describedby` 連結；placeholder 只當額外線索",
+  "opponent": "欄位下方的提示會被手機鍵盤或自動填入浮層遮住；只靠 placeholder 時一開始輸入就消失（引用：\"Hints that sit below an input are easily hidden by the mobile keyboard or by the autofill popover at the moment the user needs them.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-payment-form:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-payment-form.md",
+  "title": "安全碼不要遮罩，讓使用者送出前檢查數字",
+  "action": "卡片安全碼用 `type=\"text\"`、`inputmode=\"numeric\"`、`autocomplete=\"cc-csc\"`，不用 `type=\"password\"`",
+  "opponent": "遮住的三四位安全碼無法檢查，打錯一位要等付款被拒才發現；遮罩對印在卡片上的數字也增加不了多少保護（引用：\"Users can't check a masked three- or four-digit code for typos, so a mistyped digit isn't caught until the payment is declined\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-payment-form:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-payment-form.md",
+  "title": "卡號與電話各用一個欄位，不拆成多格",
+  "action": "卡號、電話號碼各用單一 `<input>`，需要分組外觀時用樣式呈現，不切成多個欄位",
+  "opponent": "拆成多格會讓瀏覽器無法自動填入，也增加輸入與驗證的負擔（引用：\"For payment card and phone numbers use a single input: don't split the number into parts. That makes it easier for users to enter data, makes validation simpler, and enables browsers to autofill.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-payment-form:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-payment-form.md",
+  "title": "卡號 pattern 允許不同長度與空格",
+  "action": "驗證卡號接受實際發卡範圍的長度與使用者輸入的空格，後端處理前再移除空格",
+  "opponent": "pattern 寫死單一長度會拒絕合法卡片；不允許空格則把實體卡上的分組格式判成錯誤，打斷結帳（引用：\"Allow users to include spaces when they're entering a new payment card number, since this is how numbers are displayed on physical cards.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-in-form",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-in-form.md",
+  "title": "登入欄位用 username／current-password，讓密碼管理員存得下也填得回",
+  "action": "email 欄位用 `autocomplete=\"username\"`、密碼欄位用 `autocomplete=\"current-password\"`；欄位的 `name`／`id` 固定不隨機，放在有送出鈕的 `<form>` 裡",
+  "opponent": "沒有 autocomplete 時，使用者比較可能把登入資料抄在紙上，或用不安全的方式存在裝置上；`name`／`id` 每次載入都隨機產生、或不在 `<form>` 裡時，瀏覽器不會把資料存起來（引用：\"Without autocomplete, users may be more likely to keep a physical record of sign-in details, or store sign-in data insecurely on their device.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-in-form:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-in-form.md",
+  "title": "帳號與 email 欄位關掉拼字檢查與自動修正",
+  "action": "帳號、email 欄位加 `spellcheck=\"false\"`；非 email 的帳號欄位另外關掉 `autocorrect` 與 `autocapitalize`（`type=\"email\"` 已自動關閉）",
+  "opponent": "帳號是識別碼不是文章，瀏覽器會把它「改正」成與帳戶對不上的字串（引用：\"Add `spellcheck=\"false\"` so the browser does not rewrite them into something the account does not match.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-in-form:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-in-form.md",
+  "title": "姓名盡量用一個欄位，加上 autocomplete=\"name\"",
+  "action": "除非真的需要分開儲存名、姓、稱謂，否則只放一個姓名欄位，設 `autocomplete=\"name\"`",
+  "opponent": "（缺）只列出單一欄位的好處，沒直接說拆欄在哪個時刻出錯（引用：\"Using a single name input makes forms less complex, enables cut-and-paste, and makes autofill simpler.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-in-form:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-in-form.md",
+  "title": "姓名驗證改用 Unicode 字母，不只收拉丁字母",
+  "action": "姓名驗證改用 Unicode 字母比對，並確認後端能安全處理 Unicode 輸入與輸出",
+  "opponent": "只比對拉丁字母會把名字或地址含其他文字的使用者擋在外面（引用：\"Latin-only excludes users with names or addresses that include characters that aren't in the Latin alphabet.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-in-form:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-in-form.md",
+  "title": "登入資料放在真正的 form 裡，不靠 div 加 JS 才能送",
+  "action": "帳號密碼放進帶送出鈕的 `<form>`，保留原生送出能力，再依需要增強成 JavaScript 流程",
+  "opponent": "只用 `<div>` 並完全靠 JavaScript 送出時，JS 失敗就無法登入，也失去內建的輔助技術與舊瀏覽器行為（引用：\"can still work even if JavaScript fails.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-in-form:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-in-form.md",
+  "title": "登入不要求輸入兩次 email 或密碼",
+  "action": "帳密各輸入一次，提供顯示密碼與重設密碼管道，不另加確認欄位",
+  "opponent": "重複輸入對所有人都增加工作並提高放棄率，對能自動填入或使用強密碼建議的人尤其沒有意義（引用：\"causes extra work for all users, and increases abandonment rates.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-in-form:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-in-form.md",
+  "title": "登入欄位與送出鈕放在手機鍵盤遮不到的位置",
+  "action": "登入頁上方只放 email／電話、密碼與登入鈕，其他內容移到下方",
+  "opponent": "手機鍵盤可能蓋住表單或部分遮住登入鈕，使用者還沒弄清狀況就放棄（引用：\"mobile keyboards may cover your form or, worse, partially obstruct the Sign in button. Users may give up before realizing what has happened.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-in-form:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-in-form.md",
+  "title": "密碼欄位允許貼上",
+  "action": "不攔截密碼欄位的 paste 事件，配合密碼管理員與顯示密碼功能",
+  "opponent": "禁止貼上會促使使用者選好記、可能更容易被破的密碼；使用者要貼上時才發現被擋，也避不開剪貼簿風險（引用：\"Disallowing password pasting annoys users, encourages passwords that are memorable (and therefore may be easier to compromise)\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-up-form",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-up-form.md",
+  "title": "註冊欄位用 username／new-password，讓瀏覽器存下新帳密",
+  "action": "每個欄位加對應的 `autocomplete`，email 欄位用 `autocomplete=\"username\"`、密碼欄位用 `autocomplete=\"new-password\"`；欄位的 `name`／`id` 固定，放在有送出鈕的 `<form>` 裡",
+  "opponent": "沒有 autocomplete 時，使用者比較可能把註冊資料抄在紙上，或用不安全的方式存在裝置上（引用：\"Without autocomplete, users may be more likely to keep a physical record of sign-up details, or store sign-up data insecurely on their device.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-up-form:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-up-form.md",
+  "title": "帳號與 email 欄位關掉拼字檢查與自動修正",
+  "action": "帳號、email 欄位加 `spellcheck=\"false\"`；非 email 的帳號欄位另外關掉 `autocorrect` 與 `autocapitalize`（`type=\"email\"` 已自動關閉）",
+  "opponent": "帳號是識別碼不是文章，瀏覽器會把它「改正」成與帳戶對不上的字串（引用：\"Add `spellcheck=\"false\"` so the browser does not rewrite them into something the account does not match.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-up-form:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-up-form.md",
+  "title": "姓名盡量用一個欄位，加上 autocomplete=\"name\"",
+  "action": "除非真的需要分開儲存名、姓、稱謂，否則只放一個姓名欄位，設 `autocomplete=\"name\"`",
+  "opponent": "（缺）只列出單一欄位的好處，沒直接說拆欄在哪個時刻出錯（引用：\"Using a single name input makes forms less complex, enables cut-and-paste, and makes autofill simpler.\"）",
+  "support": "Widely",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-up-form:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-up-form.md",
+  "title": "姓名驗證改用 Unicode 字母，不只收拉丁字母",
+  "action": "姓名驗證改用 Unicode 字母比對，並確認後端能安全處理 Unicode 輸入與輸出",
+  "opponent": "只比對拉丁字母會把名字或地址含其他文字的使用者擋在外面（引用：\"Latin-only excludes users with names or addresses that include characters that aren't in the Latin alphabet.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-up-form:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-up-form.md",
+  "title": "註冊資料放在真正的 form 裡，不靠 div 加 JS 才能送",
+  "action": "註冊欄位放進帶送出鈕的 `<form>`，保留原生送出能力，再依需要增強成 JavaScript 流程",
+  "opponent": "只用 `<div>` 並完全靠 JavaScript 送出時，JS 失敗就無法註冊，也失去內建的輔助技術與舊瀏覽器行為（引用：\"can still work even if JavaScript fails.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-up-form:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-up-form.md",
+  "title": "註冊不要求輸入兩次 email 或密碼",
+  "action": "帳密各輸入一次，提供顯示密碼、email 確認與重設密碼管道，不另加確認欄位",
+  "opponent": "重複輸入對所有人都增加工作並提高放棄率，對能自動填入或使用強密碼建議的人尤其沒有意義（引用：\"causes extra work for all users, and increases abandonment rates.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-up-form:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-up-form.md",
+  "title": "註冊欄位與送出鈕放在手機鍵盤遮不到的位置",
+  "action": "註冊頁上方只放 email／電話、密碼與註冊鈕，其他內容移到下方",
+  "opponent": "手機鍵盤可能蓋住表單或部分遮住註冊鈕，使用者還沒弄清狀況就放棄（引用：\"mobile keyboards may cover your form or, worse, partially obstruct the Sign up button. Users may give up before realizing what has happened.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:autofill-sign-up-form:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/autofill-sign-up-form.md",
+  "title": "密碼欄位允許貼上",
+  "action": "不攔截密碼欄位的 paste 事件，配合 `new-password`、密碼管理員與顯示密碼功能",
+  "opponent": "禁止貼上會促使使用者選好記、可能更容易被破的密碼；使用者要貼上時才發現被擋，也避不開剪貼簿風險（引用：\"Disallowing password pasting annoys users, encourages passwords that are memorable (and therefore may be easier to compromise)\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:brand-consistent-forms",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/brand-consistent-forms.md",
+  "title": "用 accent-color 一行換品牌色，不必重做勾選框與單選鈕",
+  "action": "在 `body` 或表單容器設 `accent-color: var(--brand-color)`，讓 checkbox、radio、range、progress 套上品牌色；搭配 `color-scheme` 支援深色模式",
+  "opponent": "從零自製控制項費時，而且很容易出現可及性問題或漏掉狀態，例如勾選框的 indeterminate 狀態（引用：\"Building custom controls is time-consuming and can easily lead to accessibility issues or missing states (like the indeterminate state for checkboxes).\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:brand-consistent-forms:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/brand-consistent-forms.md",
+  "title": "accent-color 自己挑對比夠的顏色，不要信任瀏覽器自動反色",
+  "action": "選與背景至少 3:1 對比的品牌色，並在深色模式改用較亮的色值，搭配 `color-scheme: light dark`",
+  "opponent": "Safari（WebKit bug 244233）與 Android Chrome（Chromium bug 343503163）可能沒有把勾號反色，顏色與背景對比不足時控制項變得看不見或難以辨識（引用：\"can fail to invert checkmark colors, leading to invisible or hard-to-see controls when using colors that lack sufficient contrast against the background\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:branded-select-styling",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/branded-select-styling.md",
+  "title": "用 appearance: base-select 做品牌下拉選單，不用 JS 從零重做",
+  "action": "`<select>` 與 `::picker(select)` 設 `appearance: base-select`，用內含 `<selectedcontent>` 的 `<button>` 當觸發鈕，再以 `::picker(select)`、`::picker-icon`、`option::checkmark` 分別設計選單、箭頭與勾號",
+  "opponent": "以前要做完全品牌化的下拉選單，得用 JavaScript 從零重做，常常弄壞可及性、鍵盤操作與原生表單整合（引用：\"Previously, achieving a fully branded select required rebuilding the control from scratch with JavaScript, which often broke accessibility, keyboard navigation, and native form integration.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:custom-select-picker-layouts",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/custom-select-picker-layouts.md",
+  "title": "用 base-select 加 grid 把原生下拉選單排成卡片格",
+  "action": "`<select>` 與 `::picker(select)` 設 `appearance: base-select`，在 `select:open::picker(select)` 上用 `display: grid` 排欄，`<option>` 裡放圖片或 SVG 做成卡片，用 `option:checked` 與 `::checkmark` 標示選中項",
+  "opponent": "（缺）只說可以擺脫傳統的直向清單、不必寫自訂 JS，沒說直向清單或自訂 JS 在哪個時刻出錯（引用：\"break away from the traditional stacked vertical list and create a rich visual experience without custom JS.\"）",
+  "support": "Limited",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:custom-select-picker-layouts:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/custom-select-picker-layouts.md",
+  "title": "picker 的版面樣式只掛在 :open 上",
+  "action": "`display: grid` 等版面樣式寫在 `select:open::picker(select)`，不直接寫在 `select::picker(select)`",
+  "opponent": "直接對 `select::picker(select)` 設 `display`，選單關著時 picker 也會顯示出來（引用：\"If you style `select::picker(select)`, it will make the picker visible even when the select is closed!\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:custom-select-picker-layouts:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/custom-select-picker-layouts.md",
+  "title": "<selectedcontent> 一定要包在 <button> 裡",
+  "action": "要在觸發鈕顯示選中項的豐富內容時，把 `<selectedcontent>` 放在 `<select>` 內的 `<button>` 裡",
+  "opponent": "`<selectedcontent>` 沒有被 `<button>` 包住時，只會變成 picker 裡的一般內容（引用：\"the `<selectedcontent>` will just become part of the picker, like any other content element.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:custom-select-picker-layouts:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/custom-select-picker-layouts.md",
+  "title": "base-select 的觸發鈕要自行限制寬度",
+  "action": "開啟 `appearance: base-select` 後給 `<select>` 固定寬度，或用 flex／grid 約束尺寸",
+  "opponent": "`base-select` 移除依最長選項決定寬度的預設行為，選中內容改變時會造成版面位移（引用：\"Setting `appearance: base-select` removes the default browser behavior of sizing the select based on its longest option width. You may need to set a fixed width or use flex/grid constraints to prevent layout shifts.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:custom-select-picker-layouts:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/custom-select-picker-layouts.md",
+  "title": "格狀選單用實際幾何補左右鍵，上下鍵仍走完整清單",
+  "action": "攔截左右方向鍵，用 `getBoundingClientRect()` 找 pressed direction 最近的選項；保留上下鍵的線性導覽，不把 picker 改成 `role=\"grid\"`",
+  "opponent": "原生 `<select>` 只處理上下鍵，格狀 picker 裡左右鍵沒有作用；若只補二維方向而拿掉線性順序，讀屏使用者可能走不完所有選項（引用：\"A native `<select>` only handles linear Up/Down arrow navigation, so Left/Right do nothing in the open picker and Up/Down still navigate items sequentially, regardless of rows and columns.\"）",
+  "support": "Limited",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:form-fields-automatically-fit-contents",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/form-fields-automatically-fit-contents.md",
+  "title": "用 field-sizing: content 讓輸入框、文字區、下拉選單隨內容伸縮",
+  "action": "在 `<input>`、`<textarea>`、`<select>` 上設 `field-sizing: content`，並把全域樣式繼承來的 `width`／`height` 重設為 `auto`",
+  "opponent": "表單控制項預設是固定尺寸，不管使用者輸入或選了多少內容都不變，超出的內容只能在欄位裡捲動；要在舊瀏覽器做到自動長高，得用隱藏偽元素即時鏡像輸入內容的 Grid 技巧（引用：\"Their sizes remain constant, regardless of the amount of content the user enters or selects.\"）",
+  "support": "Newly",
+  "kind": "新能力"
+ },
+ {
+  "key": "mwg:form-fields-automatically-fit-contents:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/form-fields-automatically-fit-contents.md",
+  "title": "自動寬度的欄位要同時設最小與最大寬度",
+  "action": "用 `field-sizing: content` 的文字輸入框設 `min-inline-size`（例如 `15ch`）與 `max-inline-size`（例如 `50ch`）；`<select>` 也設 `max-inline-size`",
+  "opponent": "沒有最小寬度時，空欄位縮成寬度 0、點不到；沒有最大寬度時，欄位無限延伸，撐破頁面版面（引用：\"A minimum size prevents the input from collapsing to a width of zero when empty (making it unclickable), and a maximum size ensures it doesn't expand indefinitely and break the page layout.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:form-fields-automatically-fit-contents:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/form-fields-automatically-fit-contents.md",
+  "title": "自動長高的 textarea 要給固定寬度",
+  "action": "`<textarea>` 用 `field-sizing: content` 時設明確寬度（`width: 50ch` 或 `100%`），只讓高度跟著內容長，另設 `min-block-size: 3lh`、`max-block-size: 10lh`",
+  "opponent": "文字區允許水平自動伸縮時，有長 placeholder 的欄位在使用者打下第一個字時會突然縮窄（引用：\"a textarea with a long placeholder will abruptly shrink horizontally when the user types a single character\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:form-fields-automatically-fit-contents:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/form-fields-automatically-fit-contents.md",
+  "title": "Grid／Flexbox 裡的自動尺寸欄位要取消預設拉伸",
+  "action": "`field-sizing: content` 的欄位在 Grid／Flexbox 容器裡設 `align-self: start` 或 `justify-self: start`",
+  "opponent": "Grid 與 Flexbox 常把子元素拉伸填滿可用空間，欄位因此不肯隨內容縮小（引用：\"Grid and Flexbox layouts often implicitly stretch their children to fill available space.\"）",
+  "support": "Newly",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "次要按鈕明確寫 type=\"button\"，不讓它預設送出表單",
+  "action": "表單裡的次要或輔助按鈕（顯示密碼、加一列、清除）明確設 `type=\"button\"`；主要送出鈕維持 `type=\"submit\"`",
+  "opponent": "`<form>` 裡的 `<button>` 預設是 `type=\"submit\"`，沒寫 type 的輔助按鈕一按就送出表單（引用：\"explicitly set `type=\"button\"` on secondary or helper buttons so they don't default to type=\"submit\".\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:2",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "敏感資料用 POST 送，不用 GET",
+  "action": "送出敏感資料或會改變狀態的表單用 `method=\"POST\"`；只有搜尋這類冪等請求用 `GET`",
+  "opponent": "用 `GET` 送敏感資料，資料會出現在瀏覽紀錄與伺服器日誌裡（引用：\"DON'T use `GET` for sensitive data (it exposes data in history/logs).\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:3",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "單一的是／否選項用 checkbox，不用 radio",
+  "action": "依選項數挑控制項：單一的二元開關用 `<input type=\"checkbox\">`，2–5 個互斥選項用 radio，6 個以上才用 `<select>`，大量或動態清單用 `<datalist>`",
+  "opponent": "單一的 radio 一旦選了就取消不掉（引用：\"Can be checked and unchecked with space unlike a radio button, which gets stuck once checked.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:4",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "不用 CSS 改變表單的視覺順序",
+  "action": "表單控制項的畫面順序與 DOM、鍵盤 Tab 順序保持一致，不用 CSS 重排",
+  "opponent": "視覺順序被 CSS 改變後，鍵盤仍按 DOM 順序移動，焦點在畫面上亂跳（引用：\"DON'T use CSS to visually reorder form controls away from their DOM/keyboard `Tab` order.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:5",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "改選項不要自動送出表單",
+  "action": "select、radio、checkbox 改變後仍由使用者明確送出，不在 change 時自動提交",
+  "opponent": "使用者只是改一個選項，頁面就送出或切換脈絡，失去檢查與繼續填寫的機會（引用：\"DON'T auto-submit a form when a user changes `<select>`, radio buttons, or checkbox without an explicit submit action.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:6",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "卡號、郵遞區號、OTP 用文字欄位加 inputmode",
+  "action": "識別用數字字串用 `type=\"text\"` 與 `inputmode=\"numeric\"`，不用 `type=\"number\"`",
+  "opponent": "`type=\"number\"` 帶來捲動與增減鈕問題，還會移除開頭的 0（引用：\"DON'T use `type=\"number\"` for credit cards, ZIP codes, or one-time passcodes (causes UI scroll issues and removes leading zeros).\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:7",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "單一值不要拆成自動跳格的多欄位",
+  "action": "OTP、電話、卡號用單一文字欄位；分格外觀用 CSS 呈現，不用多個自動跳格 input",
+  "opponent": "多格自動跳格妨礙自動填入、貼上與無障礙操作（引用：\"DON'T split a single value (such as a 6-digit OTP, phone number, or credit card) across multiple `<input>` boxes that auto-advance focus on keypress.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:8",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "驗證欄位不要擋貼上或關 autocomplete",
+  "action": "密碼、驗證碼與其他身分驗證欄位允許貼上並保留正確 autocomplete token",
+  "opponent": "密碼管理員與系統驗證碼建議被擋住，使用者只能手打長秘密（引用：\"DON'T block copy-and-paste (`paste` events) or disable `autocomplete` on passwords, verification codes, or other authentication fields.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:9",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "錯誤樣式用 :user-invalid，不單用 :invalid",
+  "action": "錯誤樣式由 `:user-invalid` 觸發，原生 required 等限制仍保留",
+  "opponent": "只用 `:invalid` 會讓空的必填欄位在使用者互動前就被標成錯（引用：\"DON'T use the raw `:invalid` CSS pseudo-class alone for error styling to ensure empty required fields are not marked as invalid before the user interacts with the form.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:10",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "不要停用送出鈕來阻止驗證",
+  "action": "送出鈕保持可按，讓使用者送出後看到錯誤；只有有效送出後才暫停以避免雙重提交",
+  "opponent": "停用送出鈕讓使用者無法觸發驗證，也不知道哪些欄位需要修正（引用：\"DON'T disable submit buttons to block validation; let users submit and highlight errors.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:11",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "不要每打一個字就驗證並播報錯誤",
+  "action": "在 submit 或 blur 時驗證；input 時只清除已修正的錯誤，不逐字觸發 aria-live",
+  "opponent": "使用者還在輸入就不斷看到錯誤、聽到播報，形成干擾（引用：\"DON'T trigger validation errors or `aria-live` error announcements on every keystroke while the user is typing\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:12",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "表單字級至少 1rem，避免 iOS 自動放大",
+  "action": "控制項設 `font: inherit` 與 `font-size: max(1rem, 1em)`，保持至少 16px",
+  "opponent": "欄位字級太小會觸發 iOS 聚焦時自動縮放，打斷表單版面（引用：\"staying at least `1rem`(16px) to prevent iOS zoom.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:13",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "視覺隱藏控制項不用 display: none",
+  "action": "自訂 checkbox／radio 的原生輸入用 1px、`clip-path: inset(50%)` 的 visually-hidden 配方，不用 `display: none`",
+  "opponent": "`display: none` 會把輸入移出無障礙樹，讀屏找不到真正的控制項（引用：\"NOT `display: none`, which removes them from the accessibility tree.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:14",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "AJAX 表單保留 JS 失敗時的伺服器退路",
+  "action": "原生 form 先能送往伺服器，再用 `preventDefault()` 與 fetch 增強；JS 失敗時仍接受一般提交",
+  "opponent": "唯一提交路徑依賴 JS 時，腳本失敗會讓整張表單不能送（引用：\"DON'T block page submission if JS fails; ensure server-side fallback.\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:15",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "非作用中的精靈步驟移出 Tab 與無障礙樹",
+  "action": "非目前步驟用 `hidden`、`display: none` 或 `inert` 隱藏；切換時把焦點移到新步驟標題或第一欄",
+  "opponent": "舊步驟仍在 Tab 順序與無障礙樹裡，使用者會走進看不到或不該操作的欄位（引用：\"DON'T leave inactive wizard steps in the keyboard `Tab` order or accessibility tree\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ },
+ {
+  "key": "mwg:forms:16",
+  "upstream": ".cache/upstream/skills/modern-web-guidance/guides/forms/forms.md",
+  "title": "多步驟表單避免手機鍵盤遮住欄位與按鈕",
+  "action": "聚焦欄位與主要按鈕安排在視窗上半部，或用 `scroll-padding` 保留鍵盤空間",
+  "opponent": "虛擬鍵盤升起後遮住正在輸入的欄位或下一步按鈕（引用：\"design layouts so that the mobile keyboard does not obscure inputs or buttons\"）",
+  "support": "不適用",
+  "kind": "糾錯"
+ }
+]
