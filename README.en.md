@@ -2,7 +2,7 @@
 
 [繁體中文](README.md) · **English**
 
-**Browse online: https://iantpe.github.io/web-tension-lines/en/** (searchable, filterable, expandable; [Chinese version](https://iantpe.github.io/web-tension-lines/), [weekly notes, Chinese only](https://iantpe.github.io/web-tension-lines/weekly/))
+**[Browse online](https://iantpe.github.io/web-tension-lines/en/)** (searchable, filterable, expandable; [Chinese version](https://iantpe.github.io/web-tension-lines/), [weekly notes, Chinese only](https://iantpe.github.io/web-tension-lines/weekly/))
 
 Every week this repo checks [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance) for new guides and breaks each one into **problem lines** using four slots: who acts / action + object / what blocks it / outcome. The result is not a feature list. It records *which new technique defeats which old problem*, and then asks *what becomes buildable once that problem is gone*, as a source of ideas for new applications.
 
