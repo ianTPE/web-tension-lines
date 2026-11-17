@@ -1,5 +1,5 @@
 {
- "total": 689,
+ "total": 746,
  "updated": "2026-11-17",
  "groups": [
   {
@@ -91,6 +91,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:accessibility:11",
+     "feature": "不用 title 當控制項名稱",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -107,6 +114,20 @@
     {
      "id": "mwg:spatial-navigation:2",
      "feature": "getBoundingClientRect() 即時幾何, checkVisibility()",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:forms:4",
+     "feature": "不用 CSS 改變表單的視覺順序",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:css-layout:6",
+     "feature": "不用 order、*-reverse、dense 改變互動內容的視覺順序",
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
@@ -246,6 +267,13 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:language-model:16",
+     "feature": "AI 改寫保留版本、比較與復原，不覆蓋唯一草稿",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -332,6 +360,20 @@
     {
      "id": "mwg:hovercard:3",
      "feature": "提示與名稱相同時不加 ARIA",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:forms:11",
+     "feature": "不要每打一個字就驗證並播報錯誤",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:14",
+     "feature": "標籤保持精簡，說明與狀態不要重複塞進去",
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
@@ -952,6 +994,13 @@
      "result": "僵持",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:language-model:15",
+     "feature": "不用 maxLength 逼模型縮短，生成後由程式截斷",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -1178,6 +1227,27 @@
     {
      "id": "mwg:browser-ui-theming:3",
      "feature": "scrollbar-width: auto",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:forms:10",
+     "feature": "不要停用送出鈕來阻止驗證",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:8",
+     "feature": "要讓使用者找到停用原因時用 aria-disabled，不用 disabled",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:17",
+     "feature": "iframe 不要關捲動，放大後才到得了全部內容",
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
@@ -1455,6 +1525,13 @@
      "result": "僵持",
      "kind": "新能力",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:language-model:5",
+     "feature": "模型下載顯示可及進度與完成狀態",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -1471,6 +1548,13 @@
     {
      "id": "mwg:progress-ring:3",
      "feature": "中心內容 aria-hidden, aria-valuetext",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:20",
+     "feature": "圖片與 SVG 的替代文字依用途提供或留空",
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
@@ -1596,6 +1680,34 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:css-layout:7",
+     "feature": "用 subgrid 對齊不同卡片裡的標題、 metadata 與 CTA",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:css-layout:9",
+     "feature": "container-type: size 要同時給容器明確高度",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:css-layout:13",
+     "feature": "repeat(auto-fit／auto-fill) 前容器要有明確寬度",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:css-layout:14",
+     "feature": "Grid lanes 尚未可用，先用多欄或接受 dense 的重排代價",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "無瀏覽器支援"
     }
    ]
   },
@@ -1647,6 +1759,34 @@
     {
      "id": "mwg:progress:6",
      "feature": "role=status, 不聚焦 <progress>",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:language-model:6",
+     "feature": "下載或停止鈕消失前把焦點移到合理目標",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:accessibility:5",
+     "feature": "重複導覽前提供 skip link，但不要堆一堆",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:18",
+     "feature": "不用正數 tabindex，焦點順序交給 DOM",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:22",
+     "feature": "模態用原生 dialog.showModal()，自訂覆層才裝 inert 與焦點",
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
@@ -1704,6 +1844,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:css-layout:4",
+     "feature": "用 flex-wrap: balance 避免最後一列只剩一個孤兒項目",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
     }
    ]
   },
@@ -1847,6 +1994,69 @@
     {
      "id": "mwg:stack-drill-down:7",
      "feature": "document.title, 返回鈕以上一層命名",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:language-model:7",
+     "feature": "輸出語言不同時在輸出元素設 lang",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:accessibility:4",
+     "feature": "視覺版面不要用 table，資料表也要控制複雜度",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:7",
+     "feature": "互動 ARIA 角色不要蓋掉結構元素的角色",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:9",
+     "feature": "互動元素不要用 role=\"presentation\" 拿掉語意",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:10",
+     "feature": "label 用 for／id 明確連到控制項",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:12",
+     "feature": "placeholder 只當提示，不當標籤",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:13",
+     "feature": "同樣是 Edit 的按鈕用可及名稱分出對象",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:15",
+     "feature": "頁面與局部語言變化都用 lang 標正確",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:16",
+     "feature": "每頁給獨特且前置重點的 title，SPA 換頁也更新",
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
@@ -2030,6 +2240,20 @@
      "result": "僵持",
      "kind": "糾錯",
      "level": "無瀏覽器支援"
+    },
+    {
+     "id": "mwg:forms:9",
+     "feature": "錯誤樣式用 :user-invalid，不單用 :invalid",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:21",
+     "feature": "live region 控制數量與時機，inert 內容不要送播報",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -2370,6 +2594,20 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:forms:13",
+     "feature": "視覺隱藏控制項不用 display: none",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:forms:15",
+     "feature": "非作用中的精靈步驟移出 Tab 與無障礙樹",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -2700,6 +2938,34 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:forms:12",
+     "feature": "表單字級至少 1rem，避免 iOS 自動放大",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:css-layout:8",
+     "feature": "子項目數量不固定時 subgrid 只沿一個軸",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:css-layout:10",
+     "feature": "用 scrollbar-gutter: stable 先留捲軸位置",
+     "result": "部分改善",
+     "kind": "新能力",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:css-layout:12",
+     "feature": "全寬版面不用 100vw，避免捲軸寬造成水平溢出",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "Widely"
     }
    ]
   },
@@ -2888,6 +3154,20 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:css-layout:5",
+     "feature": "置中對齊加 safe，窄容器不裁掉焦點內容",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:css-layout:11",
+     "feature": "只要裁切用 overflow: clip，不要 hidden 或永遠顯示捲軸",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -3005,6 +3285,20 @@
     {
      "id": "mwg:autofill-payment-form:7",
      "feature": "卡號與電話各用一個欄位，不拆成多格",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:forms:7",
+     "feature": "單一值不要拆成自動跳格的多欄位",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:forms:8",
+     "feature": "驗證欄位不要擋貼上或關 autocomplete",
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
@@ -3132,6 +3426,13 @@
      "result": "僵持",
      "kind": "糾錯",
      "level": "無瀏覽器支援"
+    },
+    {
+     "id": "mwg:language-model:10",
+     "feature": "用 responseConstraint 的 JSON Schema 擋掉閒聊與解析失敗",
+     "result": "僵持",
+     "kind": "新能力",
+     "level": "Limited"
     }
    ]
   },
@@ -3312,6 +3613,20 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:forms:14",
+     "feature": "AJAX 表單保留 JS 失敗時的伺服器退路",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:accessibility:6",
+     "feature": "用原生 button，不用 div role=\"button\" 自己補行為",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -3383,6 +3698,13 @@
      "id": "mwg:agentic-forms:2",
      "feature": "不可逆、金流、對外發送與帳號設定的表單不加 `toolautosubmit`",
      "result": "僵持",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:forms:5",
+     "feature": "改選項不要自動送出表單",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     }
@@ -3488,6 +3810,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:language-model:9",
+     "feature": "對話歷史存 localStorage 前先處理個資風險",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -3521,6 +3850,13 @@
      "result": "部分改善",
      "kind": "糾錯",
      "level": "Newly"
+    },
+    {
+     "id": "mwg:forms:6",
+     "feature": "卡號、郵遞區號、OTP 用文字欄位加 inputmode",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -3582,6 +3918,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:language-model:14",
+     "feature": "只送任務所需輸入，避免大資料讓本機模型像壞掉",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -3856,6 +4199,27 @@
      "result": "僵持",
      "kind": "糾錯",
      "level": "無瀏覽器支援"
+    },
+    {
+     "id": "mwg:language-model:8",
+     "feature": "監看 context 用量，避免舊訊息被靜默丟棄",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:language-model:12",
+     "feature": "不相干任務從乾淨 base session clone，不共用舊脈絡",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:language-model:13",
+     "feature": "用完的 session 明確 destroy() 釋放裝置記憶體",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -4032,6 +4396,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:language-model:11",
+     "feature": "使用者意圖明確時先暖機，initialPrompts 在建立時給齊",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -4157,6 +4528,13 @@
      "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
+    },
+    {
+     "id": "mwg:language-model:17",
+     "feature": "重複輸入用本機快取，不重新跑相同推論",
+     "result": "僵持",
+     "kind": "糾錯",
+     "level": "Limited"
     }
    ]
   },
@@ -4200,6 +4578,13 @@
      "id": "mwg:local-network-access:2",
      "feature": "permissions.query(), 使用者手勢觸發",
      "result": "部分改善",
+     "kind": "糾錯",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:language-model:4",
+     "feature": "需要下載模型時由使用者手勢呼叫 create()",
+     "result": "僵持",
      "kind": "糾錯",
      "level": "Limited"
     }
@@ -4815,6 +5200,13 @@
      "result": "部分改善",
      "kind": "新能力",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:accessibility:19",
+     "feature": "自訂手勢不要用 touch-action: none 鎖死整塊捲動",
+     "result": "勝",
+     "kind": "糾錯",
+     "level": "不適用"
     }
    ]
   },
@@ -4971,6 +5363,13 @@
      "id": "mwg:persistent-app-tours:4",
      "feature": "調整提示位置或關閉提示",
      "result": "缺",
+     "kind": "糾錯",
+     "level": "不適用"
+    },
+    {
+     "id": "mwg:forms:16",
+     "feature": "多步驟表單避免手機鍵盤遮住欄位與按鈕",
+     "result": "勝",
      "kind": "糾錯",
      "level": "不適用"
     }

@@ -688,3 +688,60 @@
 2026-11-17,v1.0.0,webmcp,mwg:webmcp:3,回傳可重試錯誤，並等 UI 更新完才回應代理,生命週期假設錯,太早回傳會讓工具結果和畫面狀態不一致，代理拿到成功時使用者還看不到對應更新,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,webmcp,mwg:webmcp:4,高風險工具保留代理控制之外的人工確認,動作被意外觸發,沒有外部防護時，代理可能直接執行破壞性或不可逆操作,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,webmcp,mwg:webmcp:5,資料變得比代理反應快時不要暴露即時工具,生命週期假設錯,資料更新速度超過代理反應時，代理會拿過期脈絡判斷與執行,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,forms,mwg:forms:4,不用 CSS 改變表單的視覺順序,視覺順序與DOM順序脫鉤,視覺順序被 CSS 改變後，鍵盤仍按 DOM 順序移動，焦點在畫面上亂跳,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,forms,mwg:forms:5,改選項不要自動送出表單,表單意外送出,使用者只是改一個選項，頁面就送出或切換脈絡，失去檢查與繼續填寫的機會,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,forms,mwg:forms:6,卡號、郵遞區號、OTP 用文字欄位加 inputmode,用錯原生控制項,"`type=""number""` 帶來捲動與增減鈕問題，還會移除開頭的 0",勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,forms,mwg:forms:7,單一值不要拆成自動跳格的多欄位,自動填入失效,多格自動跳格妨礙自動填入、貼上與無障礙操作,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,forms,mwg:forms:8,驗證欄位不要擋貼上或關 autocomplete,自動填入失效,密碼管理員與系統驗證碼建議被擋住，使用者只能手打長秘密,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,forms,mwg:forms:9,錯誤樣式用 :user-invalid，不單用 :invalid,播報時機或可靠度出錯,只用 `:invalid` 會讓空的必填欄位在使用者互動前就被標成錯,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,forms,mwg:forms:10,不要停用送出鈕來阻止驗證,隱藏或停用把人擋在外面,停用送出鈕讓使用者無法觸發驗證，也不知道哪些欄位需要修正,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,forms,mwg:forms:11,不要每打一個字就驗證並播報錯誤,播報過量,使用者還在輸入就不斷看到錯誤、聽到播報，形成干擾,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,forms,mwg:forms:12,表單字級至少 1rem，避免 iOS 自動放大,版面意外溢出或位移,欄位字級太小會觸發 iOS 聚焦時自動縮放，打斷表單版面,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,forms,mwg:forms:13,視覺隱藏控制項不用 display: none,視覺隱藏卻仍可觸及,`display: none` 會把輸入移出無障礙樹，讀屏找不到真正的控制項,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,forms,mwg:forms:14,AJAX 表單保留 JS 失敗時的伺服器退路,自製控制項丟掉原生行為,唯一提交路徑依賴 JS 時，腳本失敗會讓整張表單不能送,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,forms,mwg:forms:15,非作用中的精靈步驟移出 Tab 與無障礙樹,視覺隱藏卻仍可觸及,舊步驟仍在 Tab 順序與無障礙樹裡，使用者會走進看不到或不該操作的欄位,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,forms,mwg:forms:16,多步驟表單避免手機鍵盤遮住欄位與按鈕,浮層遮住說明,虛擬鍵盤升起後遮住正在輸入的欄位或下一步按鈕,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,css-layout,mwg:css-layout:4,用 flex-wrap: balance 避免最後一列只剩一個孤兒項目,版面擠壓破壞可讀性,一般換行只決定何時折列，最後一列可能只剩一個項目，視覺重量不均,僵持,Limited,宣稱,有,新能力,標籤牆、導覽列、篩選晶片不必依寬度手調每列數量，就能讓最後一列不孤單。目前僅 Chromium，其他瀏覽器退回一般 wrap,有效
+2026-11-17,v1.0.0,css-layout,mwg:css-layout:5,置中對齊加 safe，窄容器不裁掉焦點內容,裁切切掉不該切的,容器比內容窄時，普通置中會把可聚焦內容切掉,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,css-layout,mwg:css-layout:6,不用 order、*-reverse、dense 改變互動內容的視覺順序,視覺順序與DOM順序脫鉤,這些功能只改視覺順序，DOM 仍驅動 Tab，鍵盤焦點與畫面位置對不上,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,css-layout,mwg:css-layout:7,用 subgrid 對齊不同卡片裡的標題、 metadata 與 CTA,版面依賴錯的量測,卡片內容長短不一時，各卡的標題、metadata 與行動鈕形成參差不齊的邊緣,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,css-layout,mwg:css-layout:8,子項目數量不固定時 subgrid 只沿一個軸,版面意外溢出或位移,兩軸都 subgrid 時，多出的項目會全部落在最後一條軌道,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,css-layout,mwg:css-layout:9,container-type: size 要同時給容器明確高度,版面依賴錯的量測,size containment 會忽略子元素的內在尺寸，沒給高度時容器與後代會塌陷,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,css-layout,mwg:css-layout:10,用 scrollbar-gutter: stable 先留捲軸位置,版面意外溢出或位移,內容變多才出現捲軸時，可用寬度突然改變，整個版面跟著位移,部分改善,Newly,宣稱,有,新能力,即時更新的清單、聊天紀錄、篩選結果可以在捲軸出現時保持卡片與欄寬不動，不必先寫死捲軸永遠顯示。目前為 Newly,有效
+2026-11-17,v1.0.0,css-layout,mwg:css-layout:11,只要裁切用 overflow: clip，不要 hidden 或永遠顯示捲軸,裁切切掉不該切的,`hidden` 仍建立可被程式捲動的容器；`scroll` 則在沒有溢出時也強制出現捲軸,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,css-layout,mwg:css-layout:12,全寬版面不用 100vw，避免捲軸寬造成水平溢出,版面意外溢出或位移,`100vw` 不扣捲軸寬，桌面出現捲軸時內容就比可見區域寬,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,css-layout,mwg:css-layout:13,repeat(auto-fit／auto-fill) 前容器要有明確寬度,版面依賴錯的量測,容器沒有寬度可分配時，軌道數量會變得不可預測,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,css-layout,mwg:css-layout:14,Grid lanes 尚未可用，先用多欄或接受 dense 的重排代價,版面依賴錯的量測,不同高度項目要緊密排列時，一般 grid 留空洞；grid lanes 卻尚無主要瀏覽器原生支援,僵持,無瀏覽器支援,宣稱,有,新能力,原生 masonry 若普及，相簿、卡片牆、新聞首頁可兼顧緊密排列與 grid 軌道模型；目前只能以多欄或 dense 退回,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:4,需要下載模型時由使用者手勢呼叫 create(),權限請求不看時機,下載模型的 `create()` 需要使用者手勢，頁面載入時呼叫會以 `NotAllowedError` 拒絕,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:5,模型下載顯示可及進度與完成狀態,焦點或狀態指示消失,大型模型下載沒有可見進度時，UI 看起來像凍結,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:6,下載或停止鈕消失前把焦點移到合理目標,手寫焦點管理,目前聚焦的按鈕被隱藏後，鍵盤使用者失去所在位置,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:7,輸出語言不同時在輸出元素設 lang,語意結構失真,輸出語言和頁面不同時，讀屏會用錯誤語言規則發音,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:8,監看 context 用量，避免舊訊息被靜默丟棄,生命週期假設錯,session 超過 token 上限時，最舊的訊息（system prompt 除外）會被丟掉，後續回答失去早期依據,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:9,對話歷史存 localStorage 前先處理個資風險,敏感資料外露,`localStorage` 未加密且持久，對話中的個人資料會留在裝置上,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:10,用 responseConstraint 的 JSON Schema 擋掉閒聊與解析失敗,表單假設錯的資料格式,只叫模型「只輸出 JSON」仍可能夾帶開場白，讓 parser 壞掉，還得補複雜後處理,僵持,Limited,宣稱,有,新能力,情緒分類、表單自動填入、資料抽取可直接接 `JSON.parse()` 進入應用程式流程，不必再寫容錯解析器。目前僅 Chrome 148,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:11,使用者意圖明確時先暖機，initialPrompts 在建立時給齊,載入優先序錯置,等按下 Generate 才載入模型會有冷啟動延遲；system instructions 放到第一次 prompt 也要在最後一刻才處理，增加延遲,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:12,不相干任務從乾淨 base session clone，不共用舊脈絡,生命週期假設錯,同一 session 的先前互動會干擾目前任務，clone 也會繼承所有無關歷史,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:13,用完的 session 明確 destroy() 釋放裝置記憶體,生命週期假設錯,多個大型 session 同時保留會持續占用記憶體；垃圾回收比明確釋放來得慢,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:14,只送任務所需輸入，避免大資料讓本機模型像壞掉,主執行緒被重活卡住,輸入越大延遲越明顯，在許多裝置上會讓 AI 功能看起來像沒有回應,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:15,不用 maxLength 逼模型縮短，生成後由程式截斷,新功能的副作用,超過上限時模型可能改用外語或 emoji 高密度壓縮，輸出變成無意義內容,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:16,AI 改寫保留版本、比較與復原，不覆蓋唯一草稿,重建DOM丟狀態,直接覆蓋會讓使用者失去原本草稿或較好的上一版，無法回頭,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,language-model,mwg:language-model:17,重複輸入用本機快取，不重新跑相同推論,快取策略錯置,使用者在相同搜尋或資料間來回時重跑推論，浪費本機運算並拖慢回應,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:4,視覺版面不要用 table，資料表也要控制複雜度,語意結構失真,排版用 table 會讓讀屏播報多餘結構並影響閱讀與焦點順序；過複雜表格則讓使用者迷失,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:5,重複導覽前提供 skip link，但不要堆一堆,手寫焦點管理,沒有 skip link 時鍵盤使用者每頁都要走過重複導覽；太多 skip links 又增加 Tab 停靠點，造成挫折,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:6,"用原生 button，不用 div role=""button"" 自己補行為",自製控制項丟掉原生行為,"`<div role=""button"">` 只有角色外觀，鍵盤與啟動行為都要自己重建；原生元素已內建",勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:7,互動 ARIA 角色不要蓋掉結構元素的角色,語意結構失真,把互動角色放到 `<li>` 等結構元素上會破壞清單語意,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:8,要讓使用者找到停用原因時用 aria-disabled，不用 disabled,隱藏或停用把人擋在外面,"`disabled` 會把元素完全移出焦點順序，`tabindex=""0""` 也救不回，使用者無法靠近了解它已停用",勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:9,"互動元素不要用 role=""presentation"" 拿掉語意",語意結構失真,元素仍會被讀屏碰到，角色與狀態卻被剝掉，使用者聽到內容卻不知道它能做什麼,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:10,label 用 for／id 明確連到控制項,語意結構失真,部分語音辨識等輔助技術即使接受包覆寫法，仍要求明確 for／id 關係；明確關聯也提供較大的點擊目標,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:11,不用 title 當控制項名稱,只能 hover 才看得到,`title` 只在滑鼠 hover 顯示，任何瀏覽器都無法用鍵盤取得,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:12,placeholder 只當提示，不當標籤,語意結構失真,輸入一開始 placeholder 就消失，使用者失去欄位用途線索；其低對比也難以辨讀,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:13,同樣是 Edit 的按鈕用可及名稱分出對象,語意結構失真,"讀屏只聽到一排「Edit, button」，不知道每個按鈕會修改什麼",勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:14,標籤保持精簡，說明與狀態不要重複塞進去,播報過量,"冗長標籤讓讀屏使用者困惑；重複狀態或角色會唸出「Primary navigation, navigation」這類贅詞",勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:15,頁面與局部語言變化都用 lang 標正確,語意結構失真,lang 與實際內容不符時，讀屏與文字轉語音會唸成無法理解的內容,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:16,每頁給獨特且前置重點的 title，SPA 換頁也更新,語意結構失真,空白、重複或含糊的 title 讓多分頁無法分辨，必須進頁讀內容才知道自己在哪,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:17,iframe 不要關捲動，放大後才到得了全部內容,隱藏或停用把人擋在外面,使用者放大頁面或文字後，溢出內容需要捲動才能到達，關掉就被困住,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:18,不用正數 tabindex，焦點順序交給 DOM,手寫焦點管理,正數 tabindex 會強造一套與頁面預期順序無關的 Tab 路徑,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:19,自訂手勢不要用 touch-action: none 鎖死整塊捲動,原生捲動手勢不合用途,`touch-action: none` 會停用元素上的頁面捲動，使用者在該區域無法正常上下頁,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:20,圖片與 SVG 的替代文字依用途提供或留空,重複內容干擾輔助技術,缺少替代文字時讀屏以圖名等內容代替；裝飾圖沒隱藏則會多唸無關內容,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:21,live region 控制數量與時機，inert 內容不要送播報,播報時機或可靠度出錯,太多或高頻 live regions 會變成讀屏 spam；訊息送進 inert DOM 則可能不播，或從使用者到不了的地方播出,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,accessibility,mwg:accessibility:22,模態用原生 dialog.showModal()，自訂覆層才裝 inert 與焦點,手寫焦點管理,缺——指南只說手寫焦點陷阱、外部隱藏、頂層與遮罩容易出錯，沒指出單一失敗案例,勝,不適用,宣稱,缺,糾錯,,有效

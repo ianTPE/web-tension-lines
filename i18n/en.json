@@ -6515,6 +6515,519 @@
       "story": "Dynamic registration and aborts manage tool lifetime, not changing data.",
       "unlock": "",
       "support": "No native browser support."
+    },
+    "mwg:forms:4": {
+      "title": "Do not visually reorder form controls with CSS",
+      "action": "Keep visual, DOM, and keyboard Tab order aligned.",
+      "blocker": "CSS reordering makes keyboard focus jump around a different visual order. (quote: \"DON'T use CSS to visually reorder form controls away from their DOM/keyboard `Tab` order.\")",
+      "outcome": "Focus follows the order users see.",
+      "story": "Tab order must match the visible form sequence.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:forms:5": {
+      "title": "Do not auto-submit when an option changes",
+      "action": "Require an explicit submit action after select, radio, or checkbox changes.",
+      "blocker": "Changing an option submits or shifts context before the user can review. (quote: \"DON'T auto-submit a form when a user changes `<select>`, radio buttons, or checkbox without an explicit submit action.\")",
+      "outcome": "Submission occurs only through deliberate action.",
+      "story": "Arrow-key browsing must not unexpectedly submit the form.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:forms:6": {
+      "title": "Use text and inputmode for numeric identifiers",
+      "action": "Use type=\"text\" and inputmode=\"numeric\" for card numbers, ZIP codes, and OTPs.",
+      "blocker": "Number inputs cause scroll and spinner issues and remove leading zeros. (quote: \"DON'T use `type=\"number\"` for credit cards, ZIP codes, or one-time passcodes (causes UI scroll issues and removes leading zeros).\")",
+      "outcome": "Mobile retains a numeric keyboard without changing the identifier string.",
+      "story": "These values are identifiers, not quantities.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:forms:7": {
+      "title": "Keep a single value in one field instead of auto-advancing boxes",
+      "action": "Use one text input for OTPs, phone numbers, and cards; style the single field as segments if desired.",
+      "blocker": "Auto-advancing multi-box inputs hinder autofill, paste, and accessibility. (quote: \"DON'T split a single value (such as a 6-digit OTP, phone number, or credit card) across multiple `<input>` boxes that auto-advance focus on keypress.\")",
+      "outcome": "The complete value can be pasted, autofilled, and validated in one control.",
+      "story": "Visual segments do not require separate data controls.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:forms:8": {
+      "title": "Allow paste and autocomplete on authentication fields",
+      "action": "Keep paste enabled and assign correct autocomplete tokens to passwords, codes, and authentication fields.",
+      "blocker": "Blocking these features prevents password managers and system code suggestions from working. (quote: \"DON'T block copy-and-paste (`paste` events) or disable `autocomplete` on passwords, verification codes, or other authentication fields.\")",
+      "outcome": "Password managers, paste, and autofill work normally.",
+      "story": "Security fields especially benefit from password managers.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:forms:9": {
+      "title": "Use :user-invalid instead of raw :invalid for error styling",
+      "action": "Keep native constraints but trigger visual errors with :user-invalid.",
+      "blocker": "Raw :invalid marks empty required fields as errors before interaction. (quote: \"DON'T use the raw `:invalid` CSS pseudo-class alone for error styling to ensure empty required fields are not marked as invalid before the user interacts with the form.\")",
+      "outcome": "Errors wait for interaction or submission.",
+      "story": "A newly opened form should not start covered in errors.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:forms:10": {
+      "title": "Do not disable submit to block validation",
+      "action": "Keep submit enabled to reveal errors; disable only after valid submission to prevent duplicates.",
+      "blocker": "Disabled submit prevents users from triggering validation and learning what to fix. (quote: \"DON'T disable submit buttons to block validation; let users submit and highlight errors.\")",
+      "outcome": "Submission exposes errors and valid submissions remain protected from duplicates.",
+      "story": "A disabled button gives no explanation.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:forms:11": {
+      "title": "Do not validate and announce errors on every keystroke",
+      "action": "Validate on submit or blur and clear resolved errors on input without per-keystroke live announcements.",
+      "blocker": "Per-keystroke errors and announcements interrupt users while they are still typing. (quote: \"DON'T trigger validation errors or `aria-live` error announcements on every keystroke while the user is typing\")",
+      "outcome": "Errors appear at appropriate times and clear when fixed.",
+      "story": "Intermediate values during typing are often necessarily invalid.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:forms:12": {
+      "title": "Use at least 1rem form text to prevent iOS zoom",
+      "action": "Set font:inherit and font-size:max(1rem,1em) on controls.",
+      "blocker": "Small control text triggers automatic iOS zoom on focus and disrupts layout. (quote: \"staying at least `1rem`(16px) to prevent iOS zoom.\")",
+      "outcome": "Focusing a field no longer zooms the whole page.",
+      "story": "The keyboard and submit controls stay in view.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:forms:13": {
+      "title": "Hide native controls visually without display:none",
+      "action": "Use the clipped 1px visually-hidden recipe for custom checkbox and radio inputs.",
+      "blocker": "display:none removes the real control from the accessibility tree. (quote: \"NOT `display: none`, which removes them from the accessibility tree.\")",
+      "outcome": "The control stays semantic, focusable, and labelled while visually hidden.",
+      "story": "Custom visuals still operate a real native input.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:forms:14": {
+      "title": "Keep a server fallback for AJAX forms",
+      "action": "Make native form submission work first, then enhance with preventDefault() and fetch.",
+      "blocker": "A JavaScript-only submission path makes the form unusable when scripts fail. (quote: \"DON'T block page submission if JS fails; ensure server-side fallback.\")",
+      "outcome": "The form works with or without JavaScript.",
+      "story": "Progressive enhancement starts with a working native path.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:forms:15": {
+      "title": "Remove inactive wizard steps from Tab and the accessibility tree",
+      "action": "Hide inactive steps with hidden, display:none, or inert and move focus to the new step.",
+      "blocker": "Inactive controls remain reachable even though users cannot see or should not use them. (quote: \"DON'T leave inactive wizard steps in the keyboard `Tab` order or accessibility tree\")",
+      "outcome": "Keyboard and screen-reader users encounter only the current step.",
+      "story": "Focus must follow the visible wizard state.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:forms:16": {
+      "title": "Keep wizard inputs and buttons clear of the mobile keyboard",
+      "action": "Place focused controls and primary buttons in the upper viewport or use scroll-padding.",
+      "blocker": "The virtual keyboard can obscure active inputs and navigation buttons. (quote: \"design layouts so that the mobile keyboard does not obscure inputs or buttons\")",
+      "outcome": "Input and navigation remain visible while typing.",
+      "story": "Users need not dismiss the keyboard to find the next step.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:css-layout:4": {
+      "title": "Use flex-wrap: balance to avoid an orphaned final row",
+      "action": "Layer flex-wrap: balance after wrap on compact items.",
+      "blocker": "Normal wrapping can leave one item alone on the final row. (quote: \"distribute items evenly across lines and prevent a single orphaned item on the final row\")",
+      "outcome": "Only Chrome and Edge 150 redistribute rows; others retain ordinary wrapping.",
+      "story": "Supported browsers balance row counts without manual breakpoints.",
+      "unlock": "flex-wrap: balance: Limited; Chrome/Edge 150.",
+      "support": "Tag clouds, filters, and navigation can avoid orphan items without width-specific tuning, currently Chromium-only."
+    },
+    "mwg:css-layout:5": {
+      "title": "Use safe alignment to avoid clipping focusable content",
+      "action": "Use safe center and related safe positional alignment.",
+      "blocker": "Ordinary centering can clip focusable content when the container is narrower than its contents. (quote: \"Prefix positional alignment with `safe` (e.g., `align-items: safe center`) so focusable content isn't clipped when the container is narrower than its content.\")",
+      "outcome": "Content avoids unsafe clipping when space runs out.",
+      "story": "Safe alignment chooses a reachable direction instead of clipping one side.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:css-layout:6": {
+      "title": "Do not reorder interactive content with order, reverse, or dense",
+      "action": "Keep interactive DOM order aligned with the intended visual and reading order.",
+      "blocker": "These features change only visual order while DOM continues to drive sequential focus. (quote: \"They change visual order only; the DOM order still drives sequential focus, so keyboard tab flow won't match what the user sees.\")",
+      "outcome": "Tab order matches the visible item sequence.",
+      "story": "Dense grid and reverse flex create the same focus-order mismatch.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:css-layout:7": {
+      "title": "Align card internals across siblings with subgrid",
+      "action": "Span card rows and inherit parent tracks with subgrid, retaining ordinary row declarations as fallback.",
+      "blocker": "Different content lengths create ragged title, metadata, and CTA edges across cards. (quote: \"Subgrid lets a nested grid inherit its parent's tracks so grandchildren align across siblings.\")",
+      "outcome": "Internal elements align across cards; older browsers use ordinary rows.",
+      "story": "The parent defines shared tracks while content stays inside each card.",
+      "unlock": "",
+      "support": "Subgrid: Widely since 2023-09-15."
+    },
+    "mwg:css-layout:8": {
+      "title": "Use subgrid on only one axis when child counts vary",
+      "action": "Use subgrid on one axis and implicit tracks on the other for variable children.",
+      "blocker": "With subgrid on both axes, extra children land in the last track. (quote: \"Don't apply subgrid to both axes when the child count is variable. Extras land in the last track\")",
+      "outcome": "The fixed axis stays aligned while the variable axis accepts new tracks.",
+      "story": "Variable tags and actions need an implicit axis.",
+      "unlock": "",
+      "support": "Subgrid: Widely."
+    },
+    "mwg:css-layout:9": {
+      "title": "Give container-type: size an explicit block size",
+      "action": "Set block-size when querying both axes; use inline-size for width-only queries.",
+      "blocker": "Size containment ignores content size, so descendants collapse without a definite height. (quote: \"without one, descendants collapse because size containment forces the container to ignore its content.\")",
+      "outcome": "Two-axis queries work without collapsing content.",
+      "story": "Do not constrain the block axis when only width matters.",
+      "unlock": "",
+      "support": "Container queries: Widely."
+    },
+    "mwg:css-layout:10": {
+      "title": "Reserve scrollbar space with scrollbar-gutter: stable",
+      "action": "Use stable gutter with overflow:auto on containers that may grow scrollbars.",
+      "blocker": "A newly appearing scrollbar reduces available width and shifts layout. (quote: \"Use `scrollbar-gutter: stable` to reserve space for scrollbars and prevent layout shifts when content grows.\")",
+      "outcome": "Width remains stable before and after scrollbars appear; support is Newly.",
+      "story": "Live lists no longer reflow when they become scrollable.",
+      "unlock": "scrollbar-gutter: Newly since 2024-12-11.",
+      "support": "Live lists, chats, and results can preserve card widths as scrollbars appear."
+    },
+    "mwg:css-layout:11": {
+      "title": "Use overflow: clip for clipping instead of hidden or scroll",
+      "action": "Use clip for pure clipping and auto only when scrolling is needed.",
+      "blocker": "hidden still creates a programmatically scrollable container, while scroll forces bars without overflow. (quote: \"`hidden` establishes a scroll container that can be programmatically scrolled.\")",
+      "outcome": "Clipping no longer adds hidden scroll state and bars appear only when needed.",
+      "story": "Hidden is not equivalent to non-scrollable.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:css-layout:12": {
+      "title": "Avoid 100vw for full-width layouts",
+      "action": "Use 100% or appropriate dynamic/small viewport units instead.",
+      "blocker": "100vw ignores scrollbar width and causes horizontal overflow. (quote: \"it ignores scrollbar width and causes horizontal overflow.\")",
+      "outcome": "Width follows the actual available space.",
+      "story": "Desktop scrollbar width must not become extra content width.",
+      "unlock": "",
+      "support": "Viewport units: Widely."
+    },
+    "mwg:css-layout:13": {
+      "title": "Give auto-fit and auto-fill containers a definite inline size",
+      "action": "Set inline-size before repeating automatic tracks, avoiding unsized inline-grid and flex items.",
+      "blocker": "Without a width to divide, track counts become unpredictable. (quote: \"inside `display: inline-grid` or an unsized flex item, the container has no width to divide, making track counts unpredictable.\")",
+      "outcome": "The browser can calculate track counts deterministically.",
+      "story": "Automatic repetition needs container width and a track-size argument.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:css-layout:14": {
+      "title": "Use multi-column or dense fallback until grid lanes ships",
+      "action": "Use multi-column for fragments and dense grid for cards, treating masonry only as detected enhancement.",
+      "blocker": "Tight varied-height layouts leave gaps in ordinary grid, but grid lanes has no native browser support. (quote: \"Grid lanes is not natively supported by any major browser yet.\")",
+      "outcome": "Current fallbacks remain necessary; dense may reorder visuals away from DOM order.",
+      "story": "Experimental masonry syntax cannot be a production requirement.",
+      "unlock": "Grid lanes: no browser support.",
+      "support": "Native masonry could eventually combine tight packing with grid tracks; current sites need fallbacks."
+    },
+    "mwg:language-model:4": {
+      "title": "Call create() from a user gesture when model download is required",
+      "action": "Call LanguageModel.create() inside a button or other user event when availability requires downloading.",
+      "blocker": "Calling create() on page load for a download rejects with NotAllowedError. (quote: \"Call it from an event listener, not on page load, or it rejects with a `NotAllowedError`.\")",
+      "outcome": "Model download starts only from a user gesture.",
+      "story": "Check availability first and require explicit activation for downloads.",
+      "unlock": "",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:language-model:5": {
+      "title": "Show accessible model download progress and completion",
+      "action": "Use a named progress element for downloadprogress and a polite live region for completion, not only the console.",
+      "blocker": "A large model download without visible progress makes the UI appear frozen. (quote: \"Inform the user while the model downloads so the UI doesn't appear frozen.\")",
+      "outcome": "Users can see ongoing progress and hear completion.",
+      "story": "A 22 GB download needs visible and audible status.",
+      "unlock": "",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:language-model:6": {
+      "title": "Move focus before hiding download or stop controls",
+      "action": "Move focus to status text or the initiating control before hiding the currently focused button.",
+      "blocker": "Hiding the focused button leaves keyboard users without a location. (quote: \"If the button that starts the download is hidden while it has focus, move focus to the download's status text\")",
+      "outcome": "Focus has a meaningful destination after the state change.",
+      "story": "Button-state changes must include focus management.",
+      "unlock": "",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:language-model:7": {
+      "title": "Set lang on model output when its language differs",
+      "action": "Mark output with the language declared in expectedOutputs.",
+      "blocker": "Screen readers use the wrong pronunciation when output and page languages differ. (quote: \"If the output language differs from the page language, set `lang` on the output element to the language declared in `expectedOutputs`, so screen readers pronounce it correctly\")",
+      "outcome": "Assistive technology uses the correct output language.",
+      "story": "Each generated section needs appropriate language metadata.",
+      "unlock": "",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:language-model:8": {
+      "title": "Monitor context usage before old messages are dropped",
+      "action": "Track contextUsage and contextWindow and start fresh or summarize before overflow.",
+      "blocker": "Overflow drops the oldest non-system messages, removing earlier evidence from later answers. (quote: \"If the window overflows, the oldest messages (except the system prompt) are dropped.\")",
+      "outcome": "Developers can manage context before silent loss.",
+      "story": "Long conversations are not unlimited memory.",
+      "unlock": "",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:language-model:9": {
+      "title": "Review PII risk before storing chat history in localStorage",
+      "action": "Avoid or sanitize persistent history and consider alternative storage before restoring initialPrompts.",
+      "blocker": "localStorage is unencrypted and persistent, so stored conversations can retain PII. (quote: \"`localStorage` is unencrypted and persistent. Stored conversation history may include user PII\")",
+      "outcome": "The guide advises privacy review but supplies no encryption or cleanup mechanism.",
+      "story": "On-device inference does not remove storage privacy risks.",
+      "unlock": "",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:language-model:10": {
+      "title": "Use responseConstraint JSON Schema to prevent chatter and parse failures",
+      "action": "Pass a plain-object JSON Schema through responseConstraint and optionally prefix the response.",
+      "blocker": "Natural-language-only JSON instructions can include filler that breaks parsers. (quote: \"Models might include conversational filler that breaks your parser.\")",
+      "outcome": "The guide says output becomes immediately parseable valid JSON.",
+      "story": "Structured responses can flow directly into JSON.parse().",
+      "unlock": "Classification, form filling, and extraction can consume JSON directly without tolerant parsing, currently Chrome 148 only.",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:language-model:11": {
+      "title": "Pre-warm after intent is clear and provide initialPrompts at creation",
+      "action": "Create the session when the user enters the AI workflow and pass complete initialPrompts to create().",
+      "blocker": "Waiting for Generate causes cold-start delay, and first-prompt system instructions add last-minute processing. (quote: \"This leads to a cold start delay, because the model must first load into memory and prepare its execution pipeline.\")",
+      "outcome": "Preparation overlaps the user's own setup time.",
+      "story": "Pre-warming follows intent; initialPrompts cannot be supplied later.",
+      "unlock": "",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:language-model:12": {
+      "title": "Clone unrelated tasks from a clean base session",
+      "action": "Keep only system instructions in a base session and clone it for independent tasks.",
+      "blocker": "Reusing or cloning sessions with unrelated history lets old context interfere with the current task. (quote: \"Both patterns can cause unrelated previous context to interfere with your current task.\")",
+      "outcome": "Each task inherits only necessary context while saving system-prompt parsing.",
+      "story": "A clean baseline avoids cross-task contamination.",
+      "unlock": "",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:language-model:13": {
+      "title": "Destroy unused sessions to release device memory",
+      "action": "Destroy finished clones and destroy the base when no more clones are needed.",
+      "blocker": "Multiple large sessions consume memory unnecessarily, and garbage collection is slower than explicit release. (quote: \"Each session consumes memory, which creates unnecessary resource usage and might become a problem.\")",
+      "outcome": "Unused model memory is released earlier.",
+      "story": "Sessions are large device resources, not ordinary lightweight objects.",
+      "unlock": "",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:language-model:14": {
+      "title": "Send only task-relevant input to avoid device latency",
+      "action": "Strip irrelevant metadata, HTML, and lists; replace large datasets with summaries and selected items.",
+      "blocker": "Latency grows with input size until the AI feature appears broken on many devices. (quote: \"Latency grows significantly with input size, which can make the AI feature seem broken on many devices.\")",
+      "outcome": "Smaller inputs reduce waiting, within device limits.",
+      "story": "Input design is part of on-device inference performance.",
+      "unlock": "",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:language-model:15": {
+      "title": "Truncate after generation instead of enforcing maxLength",
+      "action": "Let the model respond naturally and truncate in client-side UI logic.",
+      "blocker": "Strict limits can make the model switch to foreign languages or emoji and produce nonsensical compression. (quote: \"the model might switch to high-density tokens like foreign languages or emoji to compress meaning, resulting in nonsensical output.\")",
+      "outcome": "UI length is controlled without inducing language changes or gibberish.",
+      "story": "A character limit can change the model's output strategy rather than simply truncate it.",
+      "unlock": "",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:language-model:16": {
+      "title": "Keep AI edit history, comparison, and undo",
+      "action": "Provide version navigation, quick undo, and comparison instead of overwriting the only draft.",
+      "blocker": "Overwriting destroys the previous draft or a preferred AI result without a way back. (quote: \"Don't: Overwrite the user's previous draft, or an AI result they might have liked without a way to go back, revert, or compare versions.\")",
+      "outcome": "Every version remains available for comparison and restoration.",
+      "story": "Generation should add a candidate version, not replace the document irreversibly.",
+      "unlock": "",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:language-model:17": {
+      "title": "Cache repeated local inference inputs",
+      "action": "Cache normalized inputs or image hashes in sessionStorage or IndexedDB with TTL, background refresh, and manual rerun.",
+      "blocker": "Repeating identical inference wastes local compute and slows responses. (quote: \"Don't: Re-run the same inference for a repeated search query or identical data input where variability isn't desirable\")",
+      "outcome": "Repeated results return quickly while fresh inference remains available.",
+      "story": "Normalization improves hits and TTL prevents indefinite reuse.",
+      "unlock": "",
+      "support": "LanguageModel: Limited; Chrome 148 only."
+    },
+    "mwg:accessibility:4": {
+      "title": "Use CSS for layout and keep data tables navigable",
+      "action": "Use Grid or Flexbox for layout and semantic, reasonably simple tables for data.",
+      "blocker": "Layout tables add redundant screen-reader structure and affect reading and focus order; complex tables disorient users. (quote: \"Screen readers will announce redundant information about the layout, which may be confusing for screen reader users\")",
+      "outcome": "CSS handles layout while table semantics describe only data.",
+      "story": "Split tables when spanning, nesting, and expandable rows become difficult to navigate.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:5": {
+      "title": "Provide a small number of skip links for repeated content",
+      "action": "Add one or a few skip links with programmatically focusable targets only where repeated blocks warrant them.",
+      "blocker": "Missing links force repeated navigation, while too many links add frustrating Tab stops. (quote: \"Multiple unnecessary skip links add to the number of Tab stops to a page, which causes frustration for people who use the keyboard alone for navigation.\")",
+      "outcome": "Users bypass major repeated blocks without excessive extra stops.",
+      "story": "Skip targets and preceding important content need careful placement.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:6": {
+      "title": "Use native buttons instead of div role=button",
+      "action": "Use button and required natively, adding ARIA only where HTML lacks the feature.",
+      "blocker": "A div with button role requires hand-built keyboard and activation behavior already supplied by native elements. (quote: \"Native HTML elements and attributes already have the correct role and behavior, including keyboard support, built-in by default.\")",
+      "outcome": "Platform behavior supplies role, keyboard support, and activation.",
+      "story": "ARIA does not add behavior and should not duplicate native semantics.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:7": {
+      "title": "Do not override structural elements with interactive ARIA roles",
+      "action": "Place button role on an inner span rather than the li itself.",
+      "blocker": "Interactive roles on structural elements destroy container semantics such as lists. (quote: \"Use `<li><span role=\"button\">Button in a list</span></li>`, not `<li role=\"button\">Button in a list</li>`, to avoid breaking the container list semantics.\")",
+      "outcome": "The outer list item retains structure while the inner control owns interaction.",
+      "story": "Structure and interaction should be expressed at separate levels.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:8": {
+      "title": "Use aria-disabled when users need to discover why a control is disabled",
+      "action": "Keep controls focusable with aria-disabled and block activation in JS; use disabled only when removing Tab access is intended.",
+      "blocker": "disabled removes elements from focus order entirely, preventing users from landing on them and learning their state. (quote: \"`disabled` removes the element from the focus order entirely (and `tabindex=\"0\"` won't bring it back)\")",
+      "outcome": "Users can focus and hear the disabled state while activation remains blocked.",
+      "story": "aria-disabled communicates state but does not prevent events by itself.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:9": {
+      "title": "Do not remove interactive semantics with presentation roles",
+      "action": "Preserve native button and link roles instead of presentation or none.",
+      "blocker": "The element remains exposed but loses role and state, leaving users unable to understand its action. (quote: \"The element will still be exposed to assistive technologies and announced by screen readers, but its role and any state information will not be\")",
+      "outcome": "Interactive elements retain both role and state.",
+      "story": "Presentation removes semantics rather than hiding the element.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:10": {
+      "title": "Associate labels explicitly with for and id",
+      "action": "Match label for to the control id instead of relying only on nesting.",
+      "blocker": "Some voice-recognition tools require explicit for/id even when equivalent nesting is supported. (quote: \"some assistive technologies, particularly voice recognition software, require the `for`/`id` relationship to be explicitly set\")",
+      "outcome": "Labels activate their controls and work with voice and other assistive tools.",
+      "story": "Visible proximity alone does not guarantee a programmatic relationship.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:11": {
+      "title": "Do not use title as a control accessible name",
+      "action": "Use labels, visible text, or appropriate ARIA instead of title, except for standard iframe naming.",
+      "blocker": "title appears only on mouse hover and cannot be accessed by keyboard. (quote: \"The value of this attribute is only displayed on mouse hover, and cannot be displayed or otherwise accessed using the keyboard in any browser.\")",
+      "outcome": "Control names no longer depend on mouse use.",
+      "story": "Keyboard focus does not reveal title-only explanations.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:12": {
+      "title": "Use placeholder only as a hint, not the label",
+      "action": "Keep a visible label and use placeholder for examples or supplemental hints.",
+      "blocker": "Placeholder disappears during entry and its low contrast removes a persistent cue. (quote: \"it disappears as soon as the user enters text into the field, meaning that there is no longer a visual cue as to what the field represents.\")",
+      "outcome": "The label remains visible and associated before and after entry.",
+      "story": "Users should not have to infer a field from their own input.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:13": {
+      "title": "Disambiguate identical Edit buttons in their accessible names",
+      "action": "Add visually hidden text, aria-label, or aria-labelledby to identify each edit target while retaining visible Edit text.",
+      "blocker": "Screen readers hear only a series of identical Edit buttons without their targets. (quote: \"screen reader users may only hear \"Edit, button\".\")",
+      "outcome": "Controls with different effects become distinguishable and voice-addressable.",
+      "story": "Visual context is not always included in the accessible name.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:14": {
+      "title": "Keep labels concise and move descriptions and repeated state out",
+      "action": "Use aria-describedby for supplemental content and avoid repeating ARIA state or role in labels.",
+      "blocker": "Verbose labels frustrate users and duplicated state or role produces redundant announcements. (quote: \"Verbose labels confuse and frustrate people who use screen readers.\")",
+      "outcome": "Users hear a concise name and control type before optional description.",
+      "story": "Required, expanded, and checked states belong to native or ARIA attributes.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:15": {
+      "title": "Mark page and inline language changes with lang",
+      "action": "Set the main language on html and the correct lang on containers for foreign passages.",
+      "blocker": "Mismatched lang makes screen readers and text-to-speech output unintelligible. (quote: \"This causes screen readers and other text-to-speech software to announce the content in a non-understandable manner.\")",
+      "outcome": "Each passage uses the correct speech rules.",
+      "story": "A foreign sentence needs local metadata, not a page-wide language change.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:16": {
+      "title": "Give every page a unique front-loaded title and update it in SPAs",
+      "action": "Use Page Topic | Site Name, avoid duplicates, and update title on route and completion changes.",
+      "blocker": "Empty, duplicate, or vague titles make pages indistinguishable without reading their content. (quote: \"In such cases, pages are indistinguishable without reviewing the actual page content itself.\")",
+      "outcome": "Browser tabs and screen-reader introductions identify the current page.",
+      "story": "SPA titles must follow application state rather than remain on the previous view.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:17": {
+      "title": "Keep iframe scrolling available for zoomed content",
+      "action": "Avoid scrolling=no and overflow:hidden and provide a descriptive iframe title.",
+      "blocker": "Users who zoom need scrolling to reach overflowing iframe content. (quote: \"Users who zoom in or enlarge text need to scroll to reach content that overflows.\")",
+      "outcome": "All iframe content remains reachable after enlargement.",
+      "story": "Embedded content must not be clipped for visual neatness.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:18": {
+      "title": "Avoid positive tabindex and let DOM determine focus order",
+      "action": "Remove positive tabindex, avoid redundant tabindex=0 on native controls, and keep static or hidden content out of Tab.",
+      "blocker": "Positive tabindex imposes a sequence unrelated to the intended page order. (quote: \"doing so imposes a tab order on the page that bears no resemblance to the intended or expected tab order.\")",
+      "outcome": "Focus follows DOM and native behavior in reading order.",
+      "story": "Promoting one control with positive tabindex disrupts the entire page sequence.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:19": {
+      "title": "Avoid touch-action:none for custom gestures",
+      "action": "Restrict only the required axis with pan-x or pan-y, reserving none for surfaces such as drawing canvases.",
+      "blocker": "touch-action:none disables page scrolling through the element. (quote: \"This disables page scrolling through the element.\")",
+      "outcome": "Custom gestures work while native scrolling remains on the other axis.",
+      "story": "Horizontal swiping should not disable vertical page scrolling.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:20": {
+      "title": "Provide or suppress image and SVG alternatives according to purpose",
+      "action": "Use meaningful alt or SVG names for informative visuals and empty alt or aria-hidden for decorative ones.",
+      "blocker": "Missing alternatives lose meaning, while exposed decorative visuals create irrelevant announcements. (quote: \"Do apply `alt=\"\"` to decorative visuals: This prevents screen readers from announcing them.\")",
+      "outcome": "Informative visuals gain descriptions and decoration stays silent.",
+      "story": "Describe function such as Search rather than appearance such as magnifying glass.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:21": {
+      "title": "Centralize and coordinate live-region announcements",
+      "action": "Use one polite and one assertive region, debounce frequent updates, and coordinate messages with inert state.",
+      "blocker": "Noisy regions spam users, while messages in inert DOM may be missed or announced from unreachable content. (quote: \"queued or debounced messages will be unannounced — or announced from DOM the user can't reach.\")",
+      "outcome": "Important updates are audible without duplication or stale-region speech.",
+      "story": "Use progress for busy states and assertive only for critical interruptions.",
+      "unlock": "",
+      "support": "No support data; N/A."
+    },
+    "mwg:accessibility:22": {
+      "title": "Use dialog.showModal() for modals and inert only for custom overlays",
+      "action": "Use native modal dialog; otherwise make outside content inert, assign dialog role, and move focus into the overlay.",
+      "blocker": "The guide calls hand-written traps and overlay management error-prone without a concrete failure. (quote: \"all of which are error prone and require heavy JavaScript event tracking to maintain.\")",
+      "outcome": "Native modality makes outside content unfocusable and removes it from the accessibility tree without a focus trap.",
+      "story": "A custom overlay must not sit inside its own inert ancestor.",
+      "unlock": "",
+      "support": "No support data; N/A."
     }
   }
 }

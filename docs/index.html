@@ -60,7 +60,7 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 </style></head><body><main>
 <p class="switch"><b>繁體中文</b> · <a href="en/">English</a> · <a href="weekly/">週記</a></p>
 <h1>Web 張力線</h1>
-<p class="lead">把 <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a> 的新指南拆成問題線：誰在做、做了什麼、被什麼擋、做完之後擋住的東西退了沒。找靈感時看<b>新能力</b>那幾條的「解鎖」。共 689 條線（新能力 195 條），處理到上游 v1.0.0。<a href="https://github.com/ianTPE/web-tension-lines">repo</a></p>
+<p class="lead">把 <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a> 的新指南拆成問題線：誰在做、做了什麼、被什麼擋、做完之後擋住的東西退了沒。找靈感時看<b>新能力</b>那幾條的「解鎖」。共 746 條線（新能力 199 條），處理到上游 v1.0.0。<a href="https://github.com/ianTPE/web-tension-lines">repo</a></p>
 <div class="bar">
 <input type="search" id="q" placeholder="搜尋：功能名、對手、指南…（Ctrl+F 也找得到摺起來的內容）" aria-label="搜尋問題線">
 <div class="row"><span class="lbl">類型</span><button type="button" class="chip" aria-pressed="true" data-f="kind" data-v="">全部</button><button type="button" class="chip" aria-pressed="false" data-f="kind" data-v="新能力">新能力</button><button type="button" class="chip" aria-pressed="false" data-f="kind" data-v="糾錯">糾錯</button></div>
@@ -89,6 +89,139 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>&lt;ul&gt;</code>／<code>&lt;ol&gt;</code> 只用在重複、連續的項目；段落文字不要包成清單</dd><dt>被什麼擋</dt><dd>把分開的段落標成清單，讀屏每次都唸出清單資訊，使用者聽到混亂又多餘的內容（引用："screen readers will announce list information when they encounter lists, therefore leading to a screen reader hearing potentially confusing and redundant information about the related content."）</dd><dt>戰報</dt><dd>勝——不是清單就不會被唸成清單（官方宣稱）</dd></dl><p class="story">清單標記會讓讀屏先報「清單，N 項」，所以用錯地方就變成噪音。同一節還提到核取方塊與單選鈕本身就會報數量，再包一層清單會重複播報。</p>
 <p class="support"><b>支援</b> 不適用（指南全篇沒有瀏覽器支援資料）</p>
 <p class="links"><code>mwg:accessibility:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--4" data-kind="糾錯" data-result="勝" data-group="語意結構失真" data-guide="無障礙程式設計準則">
+<summary><span class="t">視覺版面不要用 table，資料表也要控制複雜度</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 語意結構失真</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>內容作者與開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>視覺排版用 Grid／Flexbox；真正的資料表用 <code>&lt;table&gt;</code>、<code>&lt;caption&gt;</code>、<code>scope</code>，跨欄列與巢狀表過多時拆成小表</dd><dt>被什麼擋</dt><dd>排版用 table 會讓讀屏播報多餘結構並影響閱讀與焦點順序；過複雜表格則讓使用者迷失（引用："Screen readers will announce redundant information about the layout, which may be confusing for screen reader users"）</dd><dt>戰報</dt><dd>勝——CSS 負責版面，語意表格只描述資料且容易導覽（官方宣稱）</dd></dl><p class="story">表格語意會改變讀屏的移動方式，不只是外觀不同。需要合併儲存格、巢狀與展開列時，也要評估是否該拆成幾個較簡單的表。</p>
+<p class="support"><b>支援</b> 不適用（指南全篇沒有瀏覽器支援資料）</p>
+<p class="links"><code>mwg:accessibility:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--5" data-kind="糾錯" data-result="勝" data-group="手寫焦點管理" data-guide="無障礙程式設計準則">
+<summary><span class="t">重複導覽前提供 skip link，但不要堆一堆</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 手寫焦點管理</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>主要重複內容前放一個或少量 skip links，目標用 <code>tabindex="-1"</code>；只有一個首頁連結的共用區不必加</dd><dt>被什麼擋</dt><dd>沒有 skip link 時鍵盤使用者每頁都要走過重複導覽；太多 skip links 又增加 Tab 停靠點，造成挫折（引用："Multiple unnecessary skip links add to the number of Tab stops to a page, which causes frustration for people who use the keyboard alone for navigation."）</dd><dt>戰報</dt><dd>勝——主要重複區可一跳越過，額外 Tab 次數維持少量（官方宣稱）</dd></dl><p class="story">skip link 的目標要能被程式聚焦，放大鏡才會跟過去。目標前若還有重要內容，也要避免被一併跳掉。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--6" data-kind="糾錯" data-result="勝" data-group="自製控制項丟掉原生行為" data-guide="無障礙程式設計準則">
+<summary><span class="t">用原生 button，不用 div role="button" 自己補行為</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 自製控制項丟掉原生行為</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>按鈕用 <code>&lt;button&gt;</code>，必填用 <code>required</code>，只有 HTML 沒有對應功能時才補 ARIA</dd><dt>被什麼擋</dt><dd><code>&lt;div role="button"&gt;</code> 只有角色外觀，鍵盤與啟動行為都要自己重建；原生元素已內建（引用："Native HTML elements and attributes already have the correct role and behavior, including keyboard support, built-in by default."）</dd><dt>戰報</dt><dd>勝——角色、鍵盤與啟動由平台提供，不必額外 JavaScript（官方宣稱）</dd></dl><p class="story">ARIA 不會自動帶來行為。<code>&lt;button&gt;</code> 已有 role，<code>required</code> 已表達 aria-required，不要再寫一份重複屬性。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:6</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--7" data-kind="糾錯" data-result="勝" data-group="語意結構失真" data-guide="無障礙程式設計準則">
+<summary><span class="t">互動 ARIA 角色不要蓋掉結構元素的角色</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 語意結構失真</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>清單中的按鈕寫成 <code>&lt;li&gt;&lt;span role="button"&gt;…&lt;/span&gt;&lt;/li&gt;</code>，不把 <code>&lt;li&gt;</code> 本身改成 button</dd><dt>被什麼擋</dt><dd>把互動角色放到 <code>&lt;li&gt;</code> 等結構元素上會破壞清單語意（引用："Use <code>&lt;li&gt;&lt;span role="button"&gt;Button in a list&lt;/span&gt;&lt;/li&gt;</code>, not <code>&lt;li role="button"&gt;Button in a list&lt;/li&gt;</code>, to avoid breaking the container list semantics."）</dd><dt>戰報</dt><dd>勝——外層仍是清單項目，內層才承擔按鈕角色（官方宣稱）</dd></dl><p class="story">結構與互動要分層表達；tree view 這類本來就定義角色相容的 pattern 是例外。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:7</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--8" data-kind="糾錯" data-result="勝" data-group="隱藏或停用把人擋在外面" data-guide="無障礙程式設計準則">
+<summary><span class="t">要讓使用者找到停用原因時用 aria-disabled，不用 disabled</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 隱藏或停用把人擋在外面</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>工具列按鈕或連結需要可聚焦時用 <code>aria-disabled="true"</code> 並在 JS 擋下啟動；真的要移出 Tab 才用 <code>disabled</code></dd><dt>被什麼擋</dt><dd><code>disabled</code> 會把元素完全移出焦點順序，<code>tabindex="0"</code> 也救不回，使用者無法靠近了解它已停用（引用："<code>disabled</code> removes the element from the focus order entirely (and <code>tabindex="0"</code> won't bring it back)"）</dd><dt>戰報</dt><dd>勝——使用者能聚焦並聽到停用狀態，實際啟動仍被阻止（官方宣稱）</dd></dl><p class="story">aria-disabled 只負責播報，不會自己停用事件；兩種 disabled 的焦點行為要明確選擇。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:8</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--9" data-kind="糾錯" data-result="勝" data-group="語意結構失真" data-guide="無障礙程式設計準則">
+<summary><span class="t">互動元素不要用 role="presentation" 拿掉語意</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 語意結構失真</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>互動元素保留按鈕、連結等原生角色，不用 <code>role="presentation"</code>／<code>none</code></dd><dt>被什麼擋</dt><dd>元素仍會被讀屏碰到，角色與狀態卻被剝掉，使用者聽到內容卻不知道它能做什麼（引用："The element will still be exposed to assistive technologies and announced by screen readers, but its role and any state information will not be"）</dd><dt>戰報</dt><dd>勝——可操作的元素同時保有角色與狀態（官方宣稱）</dd></dl><p class="story">presentation 不是隱藏元素，只是拿掉語意；可聚焦元素因此更容易讓人困惑。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:9</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--10" data-kind="糾錯" data-result="勝" data-group="語意結構失真" data-guide="無障礙程式設計準則">
+<summary><span class="t">label 用 for／id 明確連到控制項</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 語意結構失真</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>內容作者與開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>&lt;label for&gt;</code> 對上控制項 <code>id</code>，不只依賴把 input 包在 label 裡</dd><dt>被什麼擋</dt><dd>部分語音辨識等輔助技術即使接受包覆寫法，仍要求明確 for／id 關係；明確關聯也提供較大的點擊目標（引用："some assistive technologies, particularly voice recognition software, require the <code>for</code>/<code>id</code> relationship to be explicitly set"）</dd><dt>戰報</dt><dd>勝——標籤可啟動對應控制項，語音與其他輔助技術也能辨識（官方宣稱）</dd></dl><p class="story">可見文字放附近不代表程式一定知道它屬於誰。原生 naming mechanism 先於 aria-label。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:10</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--11" data-kind="糾錯" data-result="勝" data-group="只能 hover 才看得到" data-guide="無障礙程式設計準則">
+<summary><span class="t">不用 title 當控制項名稱</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 只能 hover 才看得到</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>名稱用 <code>&lt;label&gt;</code>、可見文字或適當 ARIA；<code>title</code> 只保留給 iframe 這類標準用途</dd><dt>被什麼擋</dt><dd><code>title</code> 只在滑鼠 hover 顯示，任何瀏覽器都無法用鍵盤取得（引用："The value of this attribute is only displayed on mouse hover, and cannot be displayed or otherwise accessed using the keyboard in any browser."）</dd><dt>戰報</dt><dd>勝——控制項名稱不依賴滑鼠，鍵盤與讀屏也能取得（官方宣稱）</dd></dl><p class="story">圖示按鈕只放 title，鍵盤聚焦時不會出現那個提示，可及名稱也不可靠。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:11</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--12" data-kind="糾錯" data-result="勝" data-group="語意結構失真" data-guide="無障礙程式設計準則">
+<summary><span class="t">placeholder 只當提示，不當標籤</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 語意結構失真</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>內容作者與開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>欄位保留可見 <code>&lt;label&gt;</code>，placeholder 只放範例或補充提示</dd><dt>被什麼擋</dt><dd>輸入一開始 placeholder 就消失，使用者失去欄位用途線索；其低對比也難以辨讀（引用："it disappears as soon as the user enters text into the field, meaning that there is no longer a visual cue as to what the field represents."）</dd><dt>戰報</dt><dd>勝——輸入前後都有持續可見、可程式關聯的標籤（官方宣稱）</dd></dl><p class="story">使用者填到一半回頭看欄位，不能只剩自己輸入的值來猜這格是什麼。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:12</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--13" data-kind="糾錯" data-result="勝" data-group="語意結構失真" data-guide="無障礙程式設計準則">
+<summary><span class="t">同樣是 Edit 的按鈕用可及名稱分出對象</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 語意結構失真</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>內容作者與開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用視覺隱藏文字、<code>aria-label</code> 或 <code>aria-labelledby</code> 補成「Edit name」「Edit address」，並保留可見的 Edit 文字</dd><dt>被什麼擋</dt><dd>讀屏只聽到一排「Edit, button」，不知道每個按鈕會修改什麼（引用："screen reader users may only hear "Edit, button"."）</dd><dt>戰報</dt><dd>勝——不同效果的控制在名稱上可分，語音也能指定目標（官方宣稱）</dd></dl><p class="story">周圍版面給視覺使用者的線索，不一定會跟著控制項一起被讀出。不同目的地的同名連結也一樣要補年份等差異。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:13</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--14" data-kind="糾錯" data-result="勝" data-group="播報過量" data-guide="無障礙程式設計準則">
+<summary><span class="t">標籤保持精簡，說明與狀態不要重複塞進去</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 播報過量</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>內容作者與開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>額外指示與錯誤用 <code>aria-describedby</code>；ARIA 已提供的狀態與元素角色不寫進 label</dd><dt>被什麼擋</dt><dd>冗長標籤讓讀屏使用者困惑；重複狀態或角色會唸出「Primary navigation, navigation」這類贅詞（引用："Verbose labels confuse and frustrate people who use screen readers."）</dd><dt>戰報</dt><dd>勝——先聽到簡短名稱與控制項類型，再決定是否聽額外描述（官方宣稱）</dd></dl><p class="story">required、expanded、checked 等狀態交給原生屬性或 ARIA，不要再寫「必填的…按鈕按鈕」。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:14</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--15" data-kind="糾錯" data-result="勝" data-group="語意結構失真" data-guide="無障礙程式設計準則">
+<summary><span class="t">頁面與局部語言變化都用 lang 標正確</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 語意結構失真</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>內容作者與開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>&lt;html&gt;</code> 設主要語言，外語詞句的父元素另設對應 <code>lang</code></dd><dt>被什麼擋</dt><dd>lang 與實際內容不符時，讀屏與文字轉語音會唸成無法理解的內容（引用："This causes screen readers and other text-to-speech software to announce the content in a non-understandable manner."）</dd><dt>戰報</dt><dd>勝——每段文字都用正確的語音規則播報（官方宣稱）</dd></dl><p class="story">英文頁面夾一句德文時，整頁語言不必改，但那句德文要標 <code>lang="de"</code>。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:15</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--16" data-kind="糾錯" data-result="勝" data-group="語意結構失真" data-guide="無障礙程式設計準則">
+<summary><span class="t">每頁給獨特且前置重點的 title，SPA 換頁也更新</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 語意結構失真</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>內容作者與開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>&lt;title&gt;</code> 寫成「Page Topic | Site Name」，不同頁不重複；SPA 路由或完成狀態改變時同步更新</dd><dt>被什麼擋</dt><dd>空白、重複或含糊的 title 讓多分頁無法分辨，必須進頁讀內容才知道自己在哪（引用："In such cases, pages are indistinguishable without reviewing the actual page content itself."）</dd><dt>戰報</dt><dd>勝——瀏覽器分頁與讀屏開場都能指出目前頁面用途（官方宣稱）</dd></dl><p class="story">聯絡表單送出成功後，title 也應從 Contact Us 變成 Thank you，而不是一直停在上一個狀態。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:16</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--17" data-kind="糾錯" data-result="勝" data-group="隱藏或停用把人擋在外面" data-guide="無障礙程式設計準則">
+<summary><span class="t">iframe 不要關捲動，放大後才到得了全部內容</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 隱藏或停用把人擋在外面</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>保留 iframe 捲動，不用 <code>scrolling="no"</code> 或 <code>overflow: hidden</code>，並給描述性 <code>title</code></dd><dt>被什麼擋</dt><dd>使用者放大頁面或文字後，溢出內容需要捲動才能到達，關掉就被困住（引用："Users who zoom in or enlarge text need to scroll to reach content that overflows."）</dd><dt>戰報</dt><dd>勝——放大後仍能捲到 iframe 的全部內容（官方宣稱）</dd></dl><p class="story">巢入的表單或地圖在小框裡溢出時，不能為了外觀整齊把多出的部分藏死。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:17</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--18" data-kind="糾錯" data-result="勝" data-group="手寫焦點管理" data-guide="無障礙程式設計準則">
+<summary><span class="t">不用正數 tabindex，焦點順序交給 DOM</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 手寫焦點管理</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>移除 <code>tabindex="1"</code> 等正數；原生控制項不加多餘 <code>tabindex="0"</code>，靜態與隱藏內容不放進 Tab</dd><dt>被什麼擋</dt><dd>正數 tabindex 會強造一套與頁面預期順序無關的 Tab 路徑（引用："doing so imposes a tab order on the page that bears no resemblance to the intended or expected tab order."）</dd><dt>戰報</dt><dd>勝——焦點依 DOM 與原生行為前進，和閱讀順序一致（官方宣稱）</dd></dl><p class="story">為了讓某顆按鈕先被走到而設正數，結果所有原生控制項都被排到它後面，整頁順序失控。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:18</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--19" data-kind="糾錯" data-result="勝" data-group="原生捲動手勢不合用途" data-guide="無障礙程式設計準則">
+<summary><span class="t">自訂手勢不要用 touch-action: none 鎖死整塊捲動</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 原生捲動手勢不合用途</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>只限制手勢真正需要的軸，水平滑動用 <code>pan-y</code>、垂直滑動用 <code>pan-x</code>；繪圖 canvas 才考慮 <code>none</code></dd><dt>被什麼擋</dt><dd><code>touch-action: none</code> 會停用元素上的頁面捲動，使用者在該區域無法正常上下頁（引用："This disables page scrolling through the element."）</dd><dt>戰報</dt><dd>勝——自訂手勢運作時，另一軸的原生捲動仍保留（官方宣稱）</dd></dl><p class="story">橫向卡片滑動不該連整頁垂直捲動都鎖掉。限制範圍愈小，副作用愈少。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:19</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--20" data-kind="糾錯" data-result="勝" data-group="重複內容干擾輔助技術" data-guide="無障礙程式設計準則">
+<summary><span class="t">圖片與 SVG 的替代文字依用途提供或留空</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 重複內容干擾輔助技術</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>內容作者與開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>有意義圖片寫功能導向 <code>alt</code>，非裝飾 SVG 用 <code>role="img"</code> 加 <code>&lt;title&gt;</code>／<code>aria-label</code>；裝飾圖片用 <code>alt=""</code>、裝飾 SVG 用 <code>aria-hidden="true"</code></dd><dt>被什麼擋</dt><dd>缺少替代文字時讀屏以圖名等內容代替；裝飾圖沒隱藏則會多唸無關內容（引用："Do apply <code>alt=""</code> to decorative visuals: This prevents screen readers from announcing them."）</dd><dt>戰報</dt><dd>勝——有意義內容被正確描述，純裝飾不再造成噪音（官方宣稱）</dd></dl><p class="story">搜尋按鈕的放大鏡寫「Search」而不是「Magnifying glass」。分隔線與純裝飾 icon 則不必進入播報。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:20</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--21" data-kind="糾錯" data-result="勝" data-group="播報時機或可靠度出錯" data-guide="無障礙程式設計準則">
+<summary><span class="t">live region 控制數量與時機，inert 內容不要送播報</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 播報時機或可靠度出錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>全頁各用一個 polite／assertive 區域，頻繁更新 debounce、碰撞時稍延遲；對話框或區塊 inert 時先協調播報狀態</dd><dt>被什麼擋</dt><dd>太多或高頻 live regions 會變成讀屏 spam；訊息送進 inert DOM 則可能不播，或從使用者到不了的地方播出（引用："queued or debounced messages will be unannounced — or announced from DOM the user can't reach."）</dd><dt>戰報</dt><dd>勝——重要更新能被聽到，不重複、不互相覆蓋，也不從失效區域發出（官方宣稱）</dd></dl><p class="story">Loading 這類過場通常用 progress，而不是反覆播報。assertive 只留給資料遺失、逾時等必須立即打斷的情況。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:21</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--accessibility--22" data-kind="糾錯" data-result="勝" data-group="手寫焦點管理" data-guide="無障礙程式設計準則">
+<summary><span class="t">模態用原生 dialog.showModal()，自訂覆層才裝 inert 與焦點</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">無障礙程式設計準則 · 手寫焦點管理</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>模態用 <code>&lt;dialog&gt;</code> 加 <code>.showModal()</code>；不能用時才給外部內容 <code>inert</code>、覆層 <code>role="dialog"</code> 並移入焦點</dd><dt>被什麼擋</dt><dd>（缺）指南只說手寫焦點陷阱、外部隱藏、頂層與遮罩容易出錯，沒指出單一失敗案例（引用："all of which are error prone and require heavy JavaScript event tracking to maintain."）</dd><dt>戰報</dt><dd>勝——原生模態讓外部內容不可聚焦、不在無障礙樹，不必再寫 focus trap（官方宣稱）</dd></dl><p class="story">原生 dialog 不必額外攔 Tab；仍可到瀏覽器 chrome。自訂覆層不能把 overlay 放在被設 inert 的祖先裡。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:accessibility:22</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/accessibility/accessibility.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/accessibility/accessibility.md">線檔</a> · v1.0.0</p></div></details>
 <details class="line" id="mwg--accessible-error-announcement" data-kind="糾錯" data-result="勝" data-group="播報時機或可靠度出錯" data-guide="無障礙的表單錯誤播報">
 <summary><span class="t">讓 aria-invalid 跟著 :user-invalid 同步，不在還沒填之前就喊錯</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
@@ -173,6 +306,104 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>輸出容器是從頁面載入就存在的 polite live region，串流期間設 <code>aria-busy="true"</code>，結束後設回 <code>false</code>；串流中不移動焦點</dd><dt>被什麼擋</dt><dd>沒有 <code>aria-busy</code> 時，live region 會把每個串流片段都唸出來（引用："so assistive technologies announce the complete response rather than each chunk"）</dd><dt>戰報</dt><dd>勝——輔助科技等串流結束才播報完整回應（官方宣稱）</dd></dl><p class="story">打字機效果對視覺使用者是回饋，對讀屏使用者卻是斷斷續續的碎片。輸出語言和頁面不同時，還必須在輸出元素設 <code>lang</code>，讀屏才會用對的發音。</p>
 <p class="support"><b>支援</b> —（aria-busy／live region 指南未給支援資料）</p>
 <p class="links"><code>mwg:language-model:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--4" data-kind="糾錯" data-result="僵持" data-group="權限請求不看時機" data-guide="語言模型（Prompt API）">
+<summary><span class="t">需要下載模型時由使用者手勢呼叫 create()</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 權限請求不看時機</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>availability()</code> 為 downloadable／downloading 時，在按鈕等事件處理中呼叫 <code>LanguageModel.create()</code>，不要在頁面載入時呼叫</dd><dt>被什麼擋</dt><dd>下載模型的 <code>create()</code> 需要使用者手勢，頁面載入時呼叫會以 <code>NotAllowedError</code> 拒絕（引用："Call it from an event listener, not on page load, or it rejects with a <code>NotAllowedError</code>."）</dd><dt>戰報</dt><dd>僵持——手勢內才能開始下載；LanguageModel 只有 Chrome 148 支援（官方宣稱）</dd></dl><p class="story">模型已可用時能直接建 session；需要下載時則要由使用者明確啟動，並先檢查裝置是否 unavailable。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited（Chrome 148）</p>
+<p class="links"><code>mwg:language-model:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--5" data-kind="糾錯" data-result="僵持" data-group="焦點或狀態指示消失" data-guide="語言模型（Prompt API）">
+<summary><span class="t">模型下載顯示可及進度與完成狀態</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 焦點或狀態指示消失</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用有名字的 <code>&lt;progress&gt;</code> 顯示 <code>downloadprogress</code>，完成時更新 polite live region，不只寫 console</dd><dt>被什麼擋</dt><dd>大型模型下載沒有可見進度時，UI 看起來像凍結（引用："Inform the user while the model downloads so the UI doesn't appear frozen."）</dd><dt>戰報</dt><dd>僵持——使用者看得到下載仍在進行及何時完成；LanguageModel 只有 Chrome 148（官方宣稱）</dd></dl><p class="story">下載需要 22 GB 空間，等待不該只剩一顆沒有反應的按鈕。進度條要有可及名稱，完成訊息也要能被讀屏聽到。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited</p>
+<p class="links"><code>mwg:language-model:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--6" data-kind="糾錯" data-result="僵持" data-group="手寫焦點管理" data-guide="語言模型（Prompt API）">
+<summary><span class="t">下載或停止鈕消失前把焦點移到合理目標</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 手寫焦點管理</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>下載鈕在聚焦狀態被隱藏時，焦點移到帶 <code>tabindex="-1"</code> 的狀態文字；停止生成鈕隱藏時移回原本啟動控制項</dd><dt>被什麼擋</dt><dd>目前聚焦的按鈕被隱藏後，鍵盤使用者失去所在位置（引用："If the button that starts the download is hidden while it has focus, move focus to the download's status text"）</dd><dt>戰報</dt><dd>僵持——狀態改變後焦點有明確落點；LanguageModel 只有 Chrome 148（官方宣稱）</dd></dl><p class="story">下載開始或生成結束常會改變可用按鈕，不能只是刪掉目前焦點元素。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited</p>
+<p class="links"><code>mwg:language-model:6</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--7" data-kind="糾錯" data-result="僵持" data-group="語意結構失真" data-guide="語言模型（Prompt API）">
+<summary><span class="t">輸出語言不同時在輸出元素設 lang</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 語意結構失真</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>模型輸出元素依 <code>expectedOutputs</code> 的語言設 <code>lang</code>，不沿用頁面預設語言</dd><dt>被什麼擋</dt><dd>輸出語言和頁面不同時，讀屏會用錯誤語言規則發音（引用："If the output language differs from the page language, set <code>lang</code> on the output element to the language declared in <code>expectedOutputs</code>, so screen readers pronounce it correctly"）</dd><dt>戰報</dt><dd>僵持——輔助技術依正確語言播報輸出；LanguageModel 只有 Chrome 148（官方宣稱）</dd></dl><p class="story">中文頁面叫模型輸出英文、日文或西班牙文時，每一段都要把語言標起來。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited</p>
+<p class="links"><code>mwg:language-model:7</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--8" data-kind="糾錯" data-result="僵持" data-group="生命週期假設錯" data-guide="語言模型（Prompt API）">
+<summary><span class="t">監看 context 用量，避免舊訊息被靜默丟棄</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 生命週期假設錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 <code>contextUsage</code>／<code>contextWindow</code> 監看 token，必要時開新 session 或只保留所需脈絡</dd><dt>被什麼擋</dt><dd>session 超過 token 上限時，最舊的訊息（system prompt 除外）會被丟掉，後續回答失去早期依據（引用："If the window overflows, the oldest messages (except the system prompt) are dropped."）</dd><dt>戰報</dt><dd>僵持——開發者能主動管理脈絡，但 LanguageModel 只有 Chrome 148（官方宣稱）</dd></dl><p class="story">長對話不是無限記憶。重要資訊要在溢出前整理，不能假設模型永遠記得第一輪內容。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited</p>
+<p class="links"><code>mwg:language-model:8</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--9" data-kind="糾錯" data-result="僵持" data-group="敏感資料外露" data-guide="語言模型（Prompt API）">
+<summary><span class="t">對話歷史存 localStorage 前先處理個資風險</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 敏感資料外露</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 <code>initialPrompts</code> 還原歷史前，評估是否該持久化、去除個資或改用其他儲存方式</dd><dt>被什麼擋</dt><dd><code>localStorage</code> 未加密且持久，對話中的個人資料會留在裝置上（引用："<code>localStorage</code> is unencrypted and persistent. Stored conversation history may include user PII"）</dd><dt>戰報</dt><dd>僵持——指南只要求考慮隱私，沒有提供加密或清除機制；LanguageModel 只有 Chrome 148（官方宣稱）</dd></dl><p class="story">本機模型不代表資料保存就沒有風險。還原 session 的便利性要和歷史內容的敏感度一起判斷。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited</p>
+<p class="links"><code>mwg:language-model:9</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--10" data-kind="新能力" data-result="僵持" data-group="表單假設錯的資料格式" data-guide="語言模型（Prompt API）">
+<summary><span class="t">用 responseConstraint 的 JSON Schema 擋掉閒聊與解析失敗</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 表單假設錯的資料格式</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>情緒分類、表單自動填入、資料抽取可直接接 <code>JSON.parse()</code> 進入應用程式流程，不必再寫容錯解析器。目前僅 Chrome 148</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>把 JSON Schema 以 plain object 傳給 <code>responseConstraint</code>，需要時用 <code>prefix: true</code> 引導開頭</dd><dt>被什麼擋</dt><dd>只叫模型「只輸出 JSON」仍可能夾帶開場白，讓 parser 壞掉，還得補複雜後處理（引用："Models might include conversational filler that breaks your parser."）</dd><dt>戰報</dt><dd>僵持——指南宣稱輸出會是可立即解析的有效 JSON；LanguageModel 只有 Chrome 148（官方宣稱）</dd></dl><p class="story">分類、欄位抽取這類功能需要的是資料，不是聊天文字。schema 直接限制回應形狀，不要先 JSON.stringify schema。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited</p>
+<p class="links"><code>mwg:language-model:10</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--11" data-kind="糾錯" data-result="僵持" data-group="載入優先序錯置" data-guide="語言模型（Prompt API）">
+<summary><span class="t">使用者意圖明確時先暖機，initialPrompts 在建立時給齊</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 載入優先序錯置</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>使用者進入 AI 工作區或和周圍 UI 互動時先建立 session；<code>initialPrompts</code> 準備好再一次傳入 <code>create()</code></dd><dt>被什麼擋</dt><dd>等按下 Generate 才載入模型會有冷啟動延遲；system instructions 放到第一次 prompt 也要在最後一刻才處理，增加延遲（引用："This leads to a cold start delay, because the model must first load into memory and prepare its execution pipeline."）</dd><dt>戰報</dt><dd>僵持——準備工作在使用者整理輸入時完成，第一次回應不必再付完整冷啟動；LanguageModel 只有 Chrome 148（官方宣稱）</dd></dl><p class="story">暖機不是頁面一載入就下載模型，而是意圖已明確時提前準備。<code>initialPrompts</code> 只能在建立時設定，不能暖機後才補。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited</p>
+<p class="links"><code>mwg:language-model:11</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--12" data-kind="糾錯" data-result="僵持" data-group="生命週期假設錯" data-guide="語言模型（Prompt API）">
+<summary><span class="t">不相干任務從乾淨 base session clone，不共用舊脈絡</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 生命週期假設錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>base session 只放 system instructions，新任務用 <code>clone()</code> 分支；不要重用含無關歷史的 session 或 clone</dd><dt>被什麼擋</dt><dd>同一 session 的先前互動會干擾目前任務，clone 也會繼承所有無關歷史（引用："Both patterns can cause unrelated previous context to interfere with your current task."）</dd><dt>戰報</dt><dd>僵持——各任務只帶所需脈絡，還能省掉重複解析 system instructions；LanguageModel 只有 Chrome 148（官方宣稱）</dd></dl><p class="story">昨天翻譯用的 session 今天拿來分類，舊語言與指令可能影響結果。乾淨基底既省初始化，也避免串味。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited</p>
+<p class="links"><code>mwg:language-model:12</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--13" data-kind="糾錯" data-result="僵持" data-group="生命週期假設錯" data-guide="語言模型（Prompt API）">
+<summary><span class="t">用完的 session 明確 destroy() 釋放裝置記憶體</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 生命週期假設錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>clone 任務完成就 destroy，不再需要新 clone 時也 destroy base session</dd><dt>被什麼擋</dt><dd>多個大型 session 同時保留會持續占用記憶體；垃圾回收比明確釋放來得慢（引用："Each session consumes memory, which creates unnecessary resource usage and might become a problem."）</dd><dt>戰報</dt><dd>僵持——不再使用的模型記憶體可提早釋放；LanguageModel 只有 Chrome 148（官方宣稱）</dd></dl><p class="story">session 與 clone 是裝置上的大型資源，不只是普通 JS 物件。保留 base 的唯一理由是之後還要分支。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited</p>
+<p class="links"><code>mwg:language-model:13</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--14" data-kind="糾錯" data-result="僵持" data-group="主執行緒被重活卡住" data-guide="語言模型（Prompt API）">
+<summary><span class="t">只送任務所需輸入，避免大資料讓本機模型像壞掉</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 主執行緒被重活卡住</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>移除無關 metadata、HTML 與大清單，大資料改成短摘要加少量相關項目</dd><dt>被什麼擋</dt><dd>輸入越大延遲越明顯，在許多裝置上會讓 AI 功能看起來像沒有回應（引用："Latency grows significantly with input size, which can make the AI feature seem broken on many devices."）</dd><dt>戰報</dt><dd>僵持——縮小輸入可減少等待；LanguageModel 只有 Chrome 148，裝置能力差異仍在（官方宣稱）</dd></dl><p class="story">整份文件與所有欄位都丟進去，不一定比精選內容更有效。輸入設計也是本機推論的效能設計。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited</p>
+<p class="links"><code>mwg:language-model:14</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--15" data-kind="糾錯" data-result="僵持" data-group="新功能的副作用" data-guide="語言模型（Prompt API）">
+<summary><span class="t">不用 maxLength 逼模型縮短，生成後由程式截斷</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 新功能的副作用</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>讓模型自然生成，再由 client-side 邏輯依 UI 需要截斷，不在 structured output schema 寫嚴格字元上限</dd><dt>被什麼擋</dt><dd>超過上限時模型可能改用外語或 emoji 高密度壓縮，輸出變成無意義內容（引用："the model might switch to high-density tokens like foreign languages or emoji to compress meaning, resulting in nonsensical output."）</dd><dt>戰報</dt><dd>僵持——UI 長度受到控制，又不誘使模型改變語言或亂碼；LanguageModel 只有 Chrome 148（官方宣稱）</dd></dl><p class="story">125 字元限制不是單純截斷指令，模型會自己想辦法塞進去，結果可能更短卻不可讀。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited</p>
+<p class="links"><code>mwg:language-model:15</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--16" data-kind="糾錯" data-result="僵持" data-group="重建DOM丟狀態" data-guide="語言模型（Prompt API）">
+<summary><span class="t">AI 改寫保留版本、比較與復原，不覆蓋唯一草稿</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 重建DOM丟狀態</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>提供 stepper／歷史、快速 undo 與版本比較，使用者能回到先前草稿或喜歡的 AI 結果</dd><dt>被什麼擋</dt><dd>直接覆蓋會讓使用者失去原本草稿或較好的上一版，無法回頭（引用："Don't: Overwrite the user's previous draft, or an AI result they might have liked without a way to go back, revert, or compare versions."）</dd><dt>戰報</dt><dd>僵持——不同版本都可再取得與比較；LanguageModel 只有 Chrome 148（官方宣稱）</dd></dl><p class="story">生成式修改不是一次取代文件，而是增加一個候選版本。使用者能探索結果而不用擔心失去原作。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited</p>
+<p class="links"><code>mwg:language-model:16</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--language-model--17" data-kind="糾錯" data-result="僵持" data-group="快取策略錯置" data-guide="語言模型（Prompt API）">
+<summary><span class="t">重複輸入用本機快取，不重新跑相同推論</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">語言模型（Prompt API） · 快取策略錯置</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>以 <code>sessionStorage</code>／<code>IndexedDB</code> 快取正規化輸入或圖片 hash，設合理 TTL，必要時背景更新並允許手動重跑</dd><dt>被什麼擋</dt><dd>使用者在相同搜尋或資料間來回時重跑推論，浪費本機運算並拖慢回應（引用："Don't: Re-run the same inference for a repeated search query or identical data input where variability isn't desirable"）</dd><dt>戰報</dt><dd>僵持——重複結果可立即返回，仍保留取得新推論的入口；LanguageModel 只有 Chrome 148（官方宣稱）</dd></dl><p class="story">輸入先 trim、英文小寫正規化以提高命中，圖片則用 hash。快取不是永久真理，TTL 與手動刷新都要留。</p>
+<p class="support"><b>支援</b> LanguageModel：Limited</p>
+<p class="links"><code>mwg:language-model:17</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/built-in-ai/language-model.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/built-in-ai/language-model.md">線檔</a> · v1.0.0</p></div></details>
 <details class="line" id="mwg--summarizer" data-kind="新能力" data-result="僵持" data-group="得送雲端或載大型函式庫" data-guide="摘要器（Summarizer API）">
 <summary><span class="t">用 Summarizer 在本機產生摘要，不把文章送上雲端</span>
 <span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
@@ -257,6 +488,83 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>只要有溢出的可能，flex 容器就設 <code>flex-wrap: wrap</code>；含長網址、程式碼的項目另設 <code>min-inline-size: 0</code></dd><dt>被什麼擋</dt><dd><code>nowrap</code> 又沒有 <code>overflow: auto/hidden</code>，窄視窗下項目會溢出容器（引用："<code>nowrap</code> without <code>overflow: auto/hidden</code> will spill on narrow viewports."）</dd><dt>戰報</dt><dd>勝——換行後項目留在容器內（官方宣稱）</dd></dl><p class="story">桌面寬度下看起來好好的一列按鈕，到手機上就衝出畫面。指南另外建議在 <code>wrap</code> 後面疊一行 <code>flex-wrap: balance</code> 讓各列平均、避免最後一列只剩一個孤兒項目，但那是 Limited 的新功能，不在這條線的範圍。</p>
 <p class="support"><b>支援</b> —（flex-wrap: wrap 指南未給支援資料；同節的 flex-wrap: balance 為 Limited，Chrome 150、Edge 150）</p>
 <p class="links"><code>mwg:css-layout:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/css/css-layout.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/css/css-layout.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--css-layout--4" data-kind="新能力" data-result="僵持" data-group="版面擠壓破壞可讀性" data-guide="CSS 版面與響應式設計">
+<summary><span class="t">用 flex-wrap: balance 避免最後一列只剩一個孤兒項目</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">Limited</span></span>
+<span class="meta">CSS 版面與響應式設計 · 版面擠壓破壞可讀性</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>標籤牆、導覽列、篩選晶片不必依寬度手調每列數量，就能讓最後一列不孤單。目前僅 Chromium，其他瀏覽器退回一般 wrap</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>標籤雲、篩選 pills、按鈕群等緊湊項目先設 <code>flex-wrap: wrap</code>，再疊 <code>flex-wrap: balance</code></dd><dt>被什麼擋</dt><dd>一般換行只決定何時折列，最後一列可能只剩一個項目，視覺重量不均（引用："distribute items evenly across lines and prevent a single orphaned item on the final row"）</dd><dt>戰報</dt><dd>僵持——只有 Chrome／Edge 150 支援；Firefox、Safari 退回 <code>wrap</code>，項目可用但各列仍不平均（官方宣稱）</dd></dl><p class="story">九個標籤變成五、三、一三列，最後那個像被丟下。支援的瀏覽器會重新分配各列數量，不支援時保留一般換行。</p>
+<p class="support"><b>支援</b> flex-wrap: balance：Limited（Chrome 150、Edge 150；Firefox、Safari 不支援）</p>
+<p class="links"><code>mwg:css-layout:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/css/css-layout.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/css/css-layout.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--css-layout--5" data-kind="糾錯" data-result="勝" data-group="裁切切掉不該切的" data-guide="CSS 版面與響應式設計">
+<summary><span class="t">置中對齊加 safe，窄容器不裁掉焦點內容</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">CSS 版面與響應式設計 · 裁切切掉不該切的</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>位置對齊寫成 <code>align-items: safe center</code> 等 safe alignment</dd><dt>被什麼擋</dt><dd>容器比內容窄時，普通置中會把可聚焦內容切掉（引用："Prefix positional alignment with <code>safe</code> (e.g., <code>align-items: safe center</code>) so focusable content isn't clipped when the container is narrower than its content."）</dd><dt>戰報</dt><dd>勝——空間不足時內容不再為了置中而被裁切（官方宣稱）</dd></dl><p class="story">置中的長按鈕在窄視窗突出兩側，其中一側可能完全無法捲到。safe 讓對齊在放不下時改往安全方向。</p>
+<p class="support"><b>支援</b> 不適用（本指南未附 safe alignment 支援資料）</p>
+<p class="links"><code>mwg:css-layout:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/css/css-layout.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/css/css-layout.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--css-layout--6" data-kind="糾錯" data-result="勝" data-group="視覺順序與DOM順序脫鉤" data-guide="CSS 版面與響應式設計">
+<summary><span class="t">不用 order、*-reverse、dense 改變互動內容的視覺順序</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">CSS 版面與響應式設計 · 視覺順序與DOM順序脫鉤</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>互動項目在 DOM 就排成實際閱讀順序，不用 <code>order</code>、<code>flex-direction: *-reverse</code> 或 <code>grid-auto-flow: dense</code> 重排</dd><dt>被什麼擋</dt><dd>這些功能只改視覺順序，DOM 仍驅動 Tab，鍵盤焦點與畫面位置對不上（引用："They change visual order only; the DOM order still drives sequential focus, so keyboard tab flow won't match what the user sees."）</dd><dt>戰報</dt><dd>勝——Tab 順序與看到的項目順序一致（官方宣稱）</dd></dl><p class="story">grid 的 dense 會為了填空把項目前移；flex 的 reverse 也一樣。非互動的純視覺排列與鍵盤操作要分開判斷。</p>
+<p class="support"><b>支援</b> 不適用（本指南未附這些屬性的支援資料）</p>
+<p class="links"><code>mwg:css-layout:6</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/css/css-layout.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/css/css-layout.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--css-layout--7" data-kind="糾錯" data-result="勝" data-group="版面依賴錯的量測" data-guide="CSS 版面與響應式設計">
+<summary><span class="t">用 subgrid 對齊不同卡片裡的標題、 metadata 與 CTA</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
+<span class="meta">CSS 版面與響應式設計 · 版面依賴錯的量測</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>卡片以 <code>grid-row: span 2</code> 跨軌，內層 <code>grid-template-rows: subgrid</code> 繼承外層軌道，前面保留一般 rows 宣告作退路</dd><dt>被什麼擋</dt><dd>卡片內容長短不一時，各卡的標題、metadata 與行動鈕形成參差不齊的邊緣（引用："Subgrid lets a nested grid inherit its parent's tracks so grandchildren align across siblings."）</dd><dt>戰報</dt><dd>勝——Subgrid 已 Widely，跨卡片的內部元素沿同一軌道對齊；舊瀏覽器沿用一般 rows（官方宣稱）</dd></dl><p class="story">一張卡片標題特別長，不該把其他卡的 CTA 也跟著推高或錯開。外層決定共同節拍，內容仍留在各卡片裡。</p>
+<p class="support"><b>支援</b> Subgrid：Widely（2023-09-15）</p>
+<p class="links"><code>mwg:css-layout:7</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/css/css-layout.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/css/css-layout.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--css-layout--8" data-kind="糾錯" data-result="勝" data-group="版面意外溢出或位移" data-guide="CSS 版面與響應式設計">
+<summary><span class="t">子項目數量不固定時 subgrid 只沿一個軸</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
+<span class="meta">CSS 版面與響應式設計 · 版面意外溢出或位移</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>子項目數量會變時只在一軸用 subgrid，另一軸用 <code>grid-auto-rows</code>／<code>grid-auto-columns</code></dd><dt>被什麼擋</dt><dd>兩軸都 subgrid 時，多出的項目會全部落在最後一條軌道（引用："Don't apply subgrid to both axes when the child count is variable. Extras land in the last track"）</dd><dt>戰報</dt><dd>勝——固定軸保持對齊，變動軸由 implicit tracks 正常容納新增項目（官方宣稱）</dd></dl><p class="story">卡片有固定欄位時可兩軸共用；會多出一串 tags 或 actions 時，另一軸必須讓瀏覽器自行增加軌道。</p>
+<p class="support"><b>支援</b> Subgrid：Widely（2023-09-15）</p>
+<p class="links"><code>mwg:css-layout:8</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/css/css-layout.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/css/css-layout.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--css-layout--9" data-kind="糾錯" data-result="勝" data-group="版面依賴錯的量測" data-guide="CSS 版面與響應式設計">
+<summary><span class="t">container-type: size 要同時給容器明確高度</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
+<span class="meta">CSS 版面與響應式設計 · 版面依賴錯的量測</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>需要查詢兩軸時用 <code>container-type: size</code> 並給容器明確 <code>block-size</code>；只查寬度用 <code>inline-size</code></dd><dt>被什麼擋</dt><dd>size containment 會忽略子元素的內在尺寸，沒給高度時容器與後代會塌陷（引用："without one, descendants collapse because size containment forces the container to ignore its content."）</dd><dt>戰報</dt><dd>勝——容器有明確高度後，雙軸查詢生效且內容不消失（官方宣稱）</dd></dl><p class="story">以為容器會像平時一樣由內容撐高，宣告 size 後卻變成 0。只關心寬度時不要多鎖高度軸。</p>
+<p class="support"><b>支援</b> Container queries (size)：Widely（2023-02-14）</p>
+<p class="links"><code>mwg:css-layout:9</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/css/css-layout.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/css/css-layout.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--css-layout--10" data-kind="新能力" data-result="部分改善" data-group="版面意外溢出或位移" data-guide="CSS 版面與響應式設計">
+<summary><span class="t">用 scrollbar-gutter: stable 先留捲軸位置</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-部分改善">部分改善</span><span class="b lv">Newly</span></span>
+<span class="meta">CSS 版面與響應式設計 · 版面意外溢出或位移</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>即時更新的清單、聊天紀錄、篩選結果可以在捲軸出現時保持卡片與欄寬不動，不必先寫死捲軸永遠顯示。目前為 Newly</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>可能長出捲軸的容器設 <code>scrollbar-gutter: stable</code>，捲動需求用 <code>overflow: auto</code></dd><dt>被什麼擋</dt><dd>內容變多才出現捲軸時，可用寬度突然改變，整個版面跟著位移（引用："Use <code>scrollbar-gutter: stable</code> to reserve space for scrollbars and prevent layout shifts when content grows."）</dd><dt>戰報</dt><dd>部分改善——捲軸出現前後寬度一致；scrollbar-gutter 為 Newly（官方宣稱）</dd></dl><p class="story">清單從十筆變十一筆，捲軸占掉十幾像素，所有卡片突然換行。先留 gutter 就不會跳。</p>
+<p class="support"><b>支援</b> scrollbar-gutter：Newly（2024-12-11）</p>
+<p class="links"><code>mwg:css-layout:10</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/css/css-layout.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/css/css-layout.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--css-layout--11" data-kind="糾錯" data-result="勝" data-group="裁切切掉不該切的" data-guide="CSS 版面與響應式設計">
+<summary><span class="t">只要裁切用 overflow: clip，不要 hidden 或永遠顯示捲軸</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">CSS 版面與響應式設計 · 裁切切掉不該切的</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>單純裁切用 <code>overflow: clip</code>；需要時才用 <code>auto</code> 出捲軸，不用 <code>hidden</code> 或無條件 <code>scroll</code></dd><dt>被什麼擋</dt><dd><code>hidden</code> 仍建立可被程式捲動的容器；<code>scroll</code> 則在沒有溢出時也強制出現捲軸（引用："<code>hidden</code> establishes a scroll container that can be programmatically scrolled."）</dd><dt>戰報</dt><dd>勝——裁切不再附帶隱藏捲動狀態，捲軸也只在真的需要時出現（官方宣稱）</dd></dl><p class="story">以為 hidden 等於完全不可捲，腳本卻還能改變它的捲動位置。clip 才不建立 scroll container。</p>
+<p class="support"><b>支援</b> 不適用（本指南未附 overflow 各值的支援資料）</p>
+<p class="links"><code>mwg:css-layout:11</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/css/css-layout.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/css/css-layout.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--css-layout--12" data-kind="糾錯" data-result="勝" data-group="版面意外溢出或位移" data-guide="CSS 版面與響應式設計">
+<summary><span class="t">全寬版面不用 100vw，避免捲軸寬造成水平溢出</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">Widely</span></span>
+<span class="meta">CSS 版面與響應式設計 · 版面意外溢出或位移</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>全寬用 <code>100%</code>；需要視窗單位時依情境用 <code>100dvw</code>／<code>100svw</code></dd><dt>被什麼擋</dt><dd><code>100vw</code> 不扣捲軸寬，桌面出現捲軸時內容就比可見區域寬（引用："it ignores scrollbar width and causes horizontal overflow."）</dd><dt>戰報</dt><dd>勝——寬度依實際可用空間計算，不再多出水平捲動（官方宣稱）</dd></dl><p class="story">桌面瀏覽器的傳統捲軸一直占位，100vw 卻把它也算進內容寬，於是頁面左右多出一小段。</p>
+<p class="support"><b>支援</b> Small, large, and dynamic viewport units：Widely（2022-12-05）</p>
+<p class="links"><code>mwg:css-layout:12</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/css/css-layout.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/css/css-layout.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--css-layout--13" data-kind="糾錯" data-result="勝" data-group="版面依賴錯的量測" data-guide="CSS 版面與響應式設計">
+<summary><span class="t">repeat(auto-fit／auto-fill) 前容器要有明確寬度</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">CSS 版面與響應式設計 · 版面依賴錯的量測</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>自動重複軌道的容器設明確 <code>inline-size</code>，避免在 <code>inline-grid</code> 或未設寬 flex item 上直接用</dd><dt>被什麼擋</dt><dd>容器沒有寬度可分配時，軌道數量會變得不可預測（引用："inside <code>display: inline-grid</code> or an unsized flex item, the container has no width to divide, making track counts unpredictable."）</dd><dt>戰報</dt><dd>勝——容器有確定寬度後，瀏覽器能穩定計算每列軌道數（官方宣稱）</dd></dl><p class="story">repeat 的次數不是看卡片內容，而是看容器寬與 repeat 尺寸參數；容器本身沒寬就無從計算。</p>
+<p class="support"><b>支援</b> 不適用（本指南未附 repeat() 的支援資料）</p>
+<p class="links"><code>mwg:css-layout:13</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/css/css-layout.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/css/css-layout.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--css-layout--14" data-kind="新能力" data-result="僵持" data-group="版面依賴錯的量測" data-guide="CSS 版面與響應式設計">
+<summary><span class="t">Grid lanes 尚未可用，先用多欄或接受 dense 的重排代價</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">CSS 版面與響應式設計 · 版面依賴錯的量測</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>原生 masonry 若普及，相簿、卡片牆、新聞首頁可兼顧緊密排列與 grid 軌道模型；目前只能以多欄或 dense 退回</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>文件片段用 multi-column；卡片用 <code>grid-auto-flow: dense</code> 並接受視覺／DOM 順序差異；masonry 只在 <code>@supports</code> 中當增強</dd><dt>被什麼擋</dt><dd>不同高度項目要緊密排列時，一般 grid 留空洞；grid lanes 卻尚無主要瀏覽器原生支援（引用："Grid lanes is not natively supported by any major browser yet."）</dd><dt>戰報</dt><dd>僵持——目前只能用多欄或 dense 退路；dense 會讓視覺順序不同於 DOM，原生 masonry 不能當硬性依賴（官方宣稱）</dd></dl><p class="story">規格名稱是 <code>display: grid-lanes</code>，早期實驗用 <code>grid-template-rows: masonry</code>。現在做相簿或瀑布流，不能把實驗語法當唯一出路。</p>
+<p class="support"><b>支援</b> Grid lanes：無瀏覽器支援</p>
+<p class="links"><code>mwg:css-layout:14</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/css/css-layout.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/css/css-layout.md">線檔</a> · v1.0.0</p></div></details>
 <details class="line" id="mwg--css" data-kind="糾錯" data-result="勝" data-group="層疊覆蓋不符意圖" data-guide="CSS 現代架構">
 <summary><span class="t">用 :not() 排除，不用後面的規則蓋回去</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
@@ -768,6 +1076,97 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 <div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>依選項數挑控制項：單一的二元開關用 <code>&lt;input type="checkbox"&gt;</code>，2–5 個互斥選項用 radio，6 個以上才用 <code>&lt;select&gt;</code>，大量或動態清單用 <code>&lt;datalist&gt;</code></dd><dt>被什麼擋</dt><dd>單一的 radio 一旦選了就取消不掉（引用："Can be checked and unchecked with space unlike a radio button, which gets stuck once checked."）</dd><dt>戰報</dt><dd>勝——checkbox 可以用空白鍵勾選與取消，狀態可逆（官方宣稱）</dd></dl><p class="story">「訂閱電子報」做成單一 radio，使用者點了之後反悔，卻沒有辦法取消。選錯控制項，行為就跟著錯。指南用一張選項數對照表，把每種情境對應到合適的原生元素。</p>
 <p class="support"><b>支援</b> 不適用（指南全篇沒有瀏覽器支援資料）</p>
 <p class="links"><code>mwg:forms:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--forms--4" data-kind="糾錯" data-result="勝" data-group="視覺順序與DOM順序脫鉤" data-guide="表單">
+<summary><span class="t">不用 CSS 改變表單的視覺順序</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">表單 · 視覺順序與DOM順序脫鉤</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>表單控制項的畫面順序與 DOM、鍵盤 Tab 順序保持一致，不用 CSS 重排</dd><dt>被什麼擋</dt><dd>視覺順序被 CSS 改變後，鍵盤仍按 DOM 順序移動，焦點在畫面上亂跳（引用："DON'T use CSS to visually reorder form controls away from their DOM/keyboard <code>Tab</code> order."）</dd><dt>戰報</dt><dd>勝——焦點移動順序與看到的表單順序一致（官方宣稱）</dd></dl><p class="story">左到右看到的欄位，Tab 卻先跳到另一列，使用者會不知道自己正在填哪一格。</p>
+<p class="support"><b>支援</b> 不適用（指南全篇沒有瀏覽器支援資料）</p>
+<p class="links"><code>mwg:forms:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--forms--5" data-kind="糾錯" data-result="勝" data-group="表單意外送出" data-guide="表單">
+<summary><span class="t">改選項不要自動送出表單</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">表單 · 表單意外送出</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>select、radio、checkbox 改變後仍由使用者明確送出，不在 change 時自動提交</dd><dt>被什麼擋</dt><dd>使用者只是改一個選項，頁面就送出或切換脈絡，失去檢查與繼續填寫的機會（引用："DON'T auto-submit a form when a user changes <code>&lt;select&gt;</code>, radio buttons, or checkbox without an explicit submit action."）</dd><dt>戰報</dt><dd>勝——送出行為只由明確動作觸發（官方宣稱）</dd></dl><p class="story">選到一半頁面突然跳走，尤其鍵盤用方向鍵瀏覽選項時更容易誤觸。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:forms:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--forms--6" data-kind="糾錯" data-result="勝" data-group="用錯原生控制項" data-guide="表單">
+<summary><span class="t">卡號、郵遞區號、OTP 用文字欄位加 inputmode</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">表單 · 用錯原生控制項</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>識別用數字字串用 <code>type="text"</code> 與 <code>inputmode="numeric"</code>，不用 <code>type="number"</code></dd><dt>被什麼擋</dt><dd><code>type="number"</code> 帶來捲動與增減鈕問題，還會移除開頭的 0（引用："DON'T use <code>type="number"</code> for credit cards, ZIP codes, or one-time passcodes (causes UI scroll issues and removes leading zeros)."）</dd><dt>戰報</dt><dd>勝——行動裝置仍有數字鍵盤，原始字串不變（官方宣稱）</dd></dl><p class="story">郵遞區號與驗證碼是識別碼，不是要做加減的數量。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:forms:6</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--forms--7" data-kind="糾錯" data-result="勝" data-group="自動填入失效" data-guide="表單">
+<summary><span class="t">單一值不要拆成自動跳格的多欄位</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">表單 · 自動填入失效</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>OTP、電話、卡號用單一文字欄位；分格外觀用 CSS 呈現，不用多個自動跳格 input</dd><dt>被什麼擋</dt><dd>多格自動跳格妨礙自動填入、貼上與無障礙操作（引用："DON'T split a single value (such as a 6-digit OTP, phone number, or credit card) across multiple <code>&lt;input&gt;</code> boxes that auto-advance focus on keypress."）</dd><dt>戰報</dt><dd>勝——完整值可在單一欄位貼上、自動填入與驗證（官方宣稱）</dd></dl><p class="story">視覺上的六格不代表資料上要有六個控制項。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:forms:7</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--forms--8" data-kind="糾錯" data-result="勝" data-group="自動填入失效" data-guide="表單">
+<summary><span class="t">驗證欄位不要擋貼上或關 autocomplete</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">表單 · 自動填入失效</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>密碼、驗證碼與其他身分驗證欄位允許貼上並保留正確 autocomplete token</dd><dt>被什麼擋</dt><dd>密碼管理員與系統驗證碼建議被擋住，使用者只能手打長秘密（引用："DON'T block copy-and-paste (<code>paste</code> events) or disable <code>autocomplete</code> on passwords, verification codes, or other authentication fields."）</dd><dt>戰報</dt><dd>勝——密碼管理員、貼上與自動填入能正常工作（官方宣稱）</dd></dl><p class="story">安全欄位尤其需要密碼管理員，禁止貼上只會逼使用者改用容易記的弱密碼。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:forms:8</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--forms--9" data-kind="糾錯" data-result="勝" data-group="播報時機或可靠度出錯" data-guide="表單">
+<summary><span class="t">錯誤樣式用 :user-invalid，不單用 :invalid</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">表單 · 播報時機或可靠度出錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>錯誤樣式由 <code>:user-invalid</code> 觸發，原生 required 等限制仍保留</dd><dt>被什麼擋</dt><dd>只用 <code>:invalid</code> 會讓空的必填欄位在使用者互動前就被標成錯（引用："DON'T use the raw <code>:invalid</code> CSS pseudo-class alone for error styling to ensure empty required fields are not marked as invalid before the user interacts with the form."）</dd><dt>戰報</dt><dd>勝——錯誤等到使用者互動或嘗試送出後才出現（官方宣稱）</dd></dl><p class="story">頁面剛打開就整片紅，會讓還沒填的人以為自己已經做錯。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:forms:9</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--forms--10" data-kind="糾錯" data-result="勝" data-group="隱藏或停用把人擋在外面" data-guide="表單">
+<summary><span class="t">不要停用送出鈕來阻止驗證</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">表單 · 隱藏或停用把人擋在外面</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>送出鈕保持可按，讓使用者送出後看到錯誤；只有有效送出後才暫停以避免雙重提交</dd><dt>被什麼擋</dt><dd>停用送出鈕讓使用者無法觸發驗證，也不知道哪些欄位需要修正（引用："DON'T disable submit buttons to block validation; let users submit and highlight errors."）</dd><dt>戰報</dt><dd>勝——按下送出會標出錯誤，有效提交則避免重複（官方宣稱）</dd></dl><p class="story">灰色按鈕只說不能送，沒說原因；讓原生驗證把問題指出來。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:forms:10</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--forms--11" data-kind="糾錯" data-result="勝" data-group="播報過量" data-guide="表單">
+<summary><span class="t">不要每打一個字就驗證並播報錯誤</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">表單 · 播報過量</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在 submit 或 blur 時驗證；input 時只清除已修正的錯誤，不逐字觸發 aria-live</dd><dt>被什麼擋</dt><dd>使用者還在輸入就不斷看到錯誤、聽到播報，形成干擾（引用："DON'T trigger validation errors or <code>aria-live</code> error announcements on every keystroke while the user is typing"）</dd><dt>戰報</dt><dd>勝——錯誤在適當時機出現，修正時即時消退（官方宣稱）</dd></dl><p class="story">email 還沒打完一定是無效格式，逐字檢查只是在懲罰正常輸入過程。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:forms:11</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--forms--12" data-kind="糾錯" data-result="勝" data-group="版面意外溢出或位移" data-guide="表單">
+<summary><span class="t">表單字級至少 1rem，避免 iOS 自動放大</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">表單 · 版面意外溢出或位移</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>控制項設 <code>font: inherit</code> 與 <code>font-size: max(1rem, 1em)</code>，保持至少 16px</dd><dt>被什麼擋</dt><dd>欄位字級太小會觸發 iOS 聚焦時自動縮放，打斷表單版面（引用："staying at least <code>1rem</code>(16px) to prevent iOS zoom."）</dd><dt>戰報</dt><dd>勝——聚焦欄位不再被系統突然放大，文字也跟著容器縮放（官方宣稱）</dd></dl><p class="story">手機上點一個小字輸入框，整頁突然放大，送出鈕與其他欄位因此跑出畫面。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:forms:12</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--forms--13" data-kind="糾錯" data-result="勝" data-group="視覺隱藏卻仍可觸及" data-guide="表單">
+<summary><span class="t">視覺隱藏控制項不用 display: none</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">表單 · 視覺隱藏卻仍可觸及</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>自訂 checkbox／radio 的原生輸入用 1px、<code>clip-path: inset(50%)</code> 的 visually-hidden 配方，不用 <code>display: none</code></dd><dt>被什麼擋</dt><dd><code>display: none</code> 會把輸入移出無障礙樹，讀屏找不到真正的控制項（引用："NOT <code>display: none</code>, which removes them from the accessibility tree."）</dd><dt>戰報</dt><dd>勝——控制項視覺上消失，語意、焦點與標籤仍保留（官方宣稱）</dd></dl><p class="story">畫面上是自訂方框，鍵盤與讀屏仍操作背後的原生 input。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:forms:13</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--forms--14" data-kind="糾錯" data-result="勝" data-group="自製控制項丟掉原生行為" data-guide="表單">
+<summary><span class="t">AJAX 表單保留 JS 失敗時的伺服器退路</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">表單 · 自製控制項丟掉原生行為</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>原生 form 先能送往伺服器，再用 <code>preventDefault()</code> 與 fetch 增強；JS 失敗時仍接受一般提交</dd><dt>被什麼擋</dt><dd>唯一提交路徑依賴 JS 時，腳本失敗會讓整張表單不能送（引用："DON'T block page submission if JS fails; ensure server-side fallback."）</dd><dt>戰報</dt><dd>勝——有 JS 時走 AJAX，沒有 JS 時仍能完成表單（官方宣稱）</dd></dl><p class="story">漸進增強不是保留兩套功能，而是先讓原生路徑可用，再加上較好的體驗。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:forms:14</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--forms--15" data-kind="糾錯" data-result="勝" data-group="視覺隱藏卻仍可觸及" data-guide="表單">
+<summary><span class="t">非作用中的精靈步驟移出 Tab 與無障礙樹</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">表單 · 視覺隱藏卻仍可觸及</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>非目前步驟用 <code>hidden</code>、<code>display: none</code> 或 <code>inert</code> 隱藏；切換時把焦點移到新步驟標題或第一欄</dd><dt>被什麼擋</dt><dd>舊步驟仍在 Tab 順序與無障礙樹裡，使用者會走進看不到或不該操作的欄位（引用："DON'T leave inactive wizard steps in the keyboard <code>Tab</code> order or accessibility tree"）</dd><dt>戰報</dt><dd>勝——鍵盤與讀屏只接觸目前步驟，焦點也跟著新內容（官方宣稱）</dd></dl><p class="story">畫面已是付款步驟，Tab 卻回到隱藏的帳號欄位，使用者無法判斷自己身在何處。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:forms:15</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--forms--16" data-kind="糾錯" data-result="勝" data-group="浮層遮住說明" data-guide="表單">
+<summary><span class="t">多步驟表單避免手機鍵盤遮住欄位與按鈕</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-勝">勝</span><span class="b lv">不適用</span></span>
+<span class="meta">表單 · 浮層遮住說明</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>聚焦欄位與主要按鈕安排在視窗上半部，或用 <code>scroll-padding</code> 保留鍵盤空間</dd><dt>被什麼擋</dt><dd>虛擬鍵盤升起後遮住正在輸入的欄位或下一步按鈕（引用："design layouts so that the mobile keyboard does not obscure inputs or buttons"）</dd><dt>戰報</dt><dd>勝——輸入與前進動作在鍵盤出現時仍看得到（官方宣稱）</dd></dl><p class="story">填完一欄找不到下一步，使用者只能關掉鍵盤或盲目捲動。</p>
+<p class="support"><b>支援</b> 不適用</p>
+<p class="links"><code>mwg:forms:16</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/forms/forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/forms/forms.md">線檔</a> · v1.0.0</p></div></details>
 <details class="line" id="mwg--ime-safe-enter-submit" data-kind="糾錯" data-result="部分改善" data-group="表單意外送出" data-guide="不打斷輸入法的 Enter 送出">
 <summary><span class="t">Enter 送出前先檢查 isComposing（加 keyCode 229），不在輸入法選字時送出</span>
 <span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-部分改善">部分改善</span><span class="b lv">Limited</span></span>

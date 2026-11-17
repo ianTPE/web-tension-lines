@@ -59,4 +59,192 @@ license: CC-BY-4.0（上游指南）
 - 類型：糾錯
 - 變更紀錄：2026-11-16（v1.0.0）回溯拆出
 
-另有十餘條未拆（清單式指南），例如：`flex-wrap: balance` 防止最後一列孤兒項目（Limited）、`order`／`*-reverse`／`grid-auto-flow: dense` 讓 Tab 順序和畫面不符、`100vw` 忽略捲軸寬造成水平溢出、`container-type: size` 沒給高度時子元素塌陷、`overflow: hidden` 建立可被程式捲動的容器、grid lanes（masonry）尚無瀏覽器支援。
+%% line-start id="mwg:css-layout:4" %%
+## 用 flex-wrap: balance 避免最後一列只剩一個孤兒項目
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：標籤雲、篩選 pills、按鈕群等緊湊項目先設 `flex-wrap: wrap`，再疊 `flex-wrap: balance`
+- 被什麼擋：一般換行只決定何時折列，最後一列可能只剩一個項目，視覺重量不均（引用："distribute items evenly across lines and prevent a single orphaned item on the final row"）
+- 戰報：僵持——只有 Chrome／Edge 150 支援；Firefox、Safari 退回 `wrap`，項目可用但各列仍不平均（官方宣稱）
+
+經過：九個標籤變成五、三、一三列，最後那個像被丟下。支援的瀏覽器會重新分配各列數量，不支援時保留一般換行。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：版面擠壓破壞可讀性
+- 支援狀態：flex-wrap: balance：Limited（Chrome 150、Edge 150；Firefox、Safari 不支援）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：新能力
+- 解鎖（發想，非指南原文）：標籤牆、導覽列、篩選晶片不必依寬度手調每列數量，就能讓最後一列不孤單。目前僅 Chromium，其他瀏覽器退回一般 wrap
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:css-layout:5" %%
+## 置中對齊加 safe，窄容器不裁掉焦點內容
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：位置對齊寫成 `align-items: safe center` 等 safe alignment
+- 被什麼擋：容器比內容窄時，普通置中會把可聚焦內容切掉（引用："Prefix positional alignment with `safe` (e.g., `align-items: safe center`) so focusable content isn't clipped when the container is narrower than its content."）
+- 戰報：勝——空間不足時內容不再為了置中而被裁切（官方宣稱）
+
+經過：置中的長按鈕在窄視窗突出兩側，其中一側可能完全無法捲到。safe 讓對齊在放不下時改往安全方向。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：裁切切掉不該切的
+- 支援狀態：不適用（本指南未附 safe alignment 支援資料）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:css-layout:6" %%
+## 不用 order、*-reverse、dense 改變互動內容的視覺順序
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：互動項目在 DOM 就排成實際閱讀順序，不用 `order`、`flex-direction: *-reverse` 或 `grid-auto-flow: dense` 重排
+- 被什麼擋：這些功能只改視覺順序，DOM 仍驅動 Tab，鍵盤焦點與畫面位置對不上（引用："They change visual order only; the DOM order still drives sequential focus, so keyboard tab flow won't match what the user sees."）
+- 戰報：勝——Tab 順序與看到的項目順序一致（官方宣稱）
+
+經過：grid 的 dense 會為了填空把項目前移；flex 的 reverse 也一樣。非互動的純視覺排列與鍵盤操作要分開判斷。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：視覺順序與DOM順序脫鉤
+- 支援狀態：不適用（本指南未附這些屬性的支援資料）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:css-layout:7" %%
+## 用 subgrid 對齊不同卡片裡的標題、 metadata 與 CTA
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：卡片以 `grid-row: span 2` 跨軌，內層 `grid-template-rows: subgrid` 繼承外層軌道，前面保留一般 rows 宣告作退路
+- 被什麼擋：卡片內容長短不一時，各卡的標題、metadata 與行動鈕形成參差不齊的邊緣（引用："Subgrid lets a nested grid inherit its parent's tracks so grandchildren align across siblings."）
+- 戰報：勝——Subgrid 已 Widely，跨卡片的內部元素沿同一軌道對齊；舊瀏覽器沿用一般 rows（官方宣稱）
+
+經過：一張卡片標題特別長，不該把其他卡的 CTA 也跟著推高或錯開。外層決定共同節拍，內容仍留在各卡片裡。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：版面依賴錯的量測
+- 支援狀態：Subgrid：Widely（2023-09-15）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:css-layout:8" %%
+## 子項目數量不固定時 subgrid 只沿一個軸
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：子項目數量會變時只在一軸用 subgrid，另一軸用 `grid-auto-rows`／`grid-auto-columns`
+- 被什麼擋：兩軸都 subgrid 時，多出的項目會全部落在最後一條軌道（引用："Don't apply subgrid to both axes when the child count is variable. Extras land in the last track"）
+- 戰報：勝——固定軸保持對齊，變動軸由 implicit tracks 正常容納新增項目（官方宣稱）
+
+經過：卡片有固定欄位時可兩軸共用；會多出一串 tags 或 actions 時，另一軸必須讓瀏覽器自行增加軌道。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：版面意外溢出或位移
+- 支援狀態：Subgrid：Widely（2023-09-15）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:css-layout:9" %%
+## container-type: size 要同時給容器明確高度
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：需要查詢兩軸時用 `container-type: size` 並給容器明確 `block-size`；只查寬度用 `inline-size`
+- 被什麼擋：size containment 會忽略子元素的內在尺寸，沒給高度時容器與後代會塌陷（引用："without one, descendants collapse because size containment forces the container to ignore its content."）
+- 戰報：勝——容器有明確高度後，雙軸查詢生效且內容不消失（官方宣稱）
+
+經過：以為容器會像平時一樣由內容撐高，宣告 size 後卻變成 0。只關心寬度時不要多鎖高度軸。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：版面依賴錯的量測
+- 支援狀態：Container queries (size)：Widely（2023-02-14）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:css-layout:10" %%
+## 用 scrollbar-gutter: stable 先留捲軸位置
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：可能長出捲軸的容器設 `scrollbar-gutter: stable`，捲動需求用 `overflow: auto`
+- 被什麼擋：內容變多才出現捲軸時，可用寬度突然改變，整個版面跟著位移（引用："Use `scrollbar-gutter: stable` to reserve space for scrollbars and prevent layout shifts when content grows."）
+- 戰報：部分改善——捲軸出現前後寬度一致；scrollbar-gutter 為 Newly（官方宣稱）
+
+經過：清單從十筆變十一筆，捲軸占掉十幾像素，所有卡片突然換行。先留 gutter 就不會跳。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：版面意外溢出或位移
+- 支援狀態：scrollbar-gutter：Newly（2024-12-11）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：新能力
+- 解鎖（發想，非指南原文）：即時更新的清單、聊天紀錄、篩選結果可以在捲軸出現時保持卡片與欄寬不動，不必先寫死捲軸永遠顯示。目前為 Newly
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:css-layout:11" %%
+## 只要裁切用 overflow: clip，不要 hidden 或永遠顯示捲軸
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：單純裁切用 `overflow: clip`；需要時才用 `auto` 出捲軸，不用 `hidden` 或無條件 `scroll`
+- 被什麼擋：`hidden` 仍建立可被程式捲動的容器；`scroll` 則在沒有溢出時也強制出現捲軸（引用："`hidden` establishes a scroll container that can be programmatically scrolled."）
+- 戰報：勝——裁切不再附帶隱藏捲動狀態，捲軸也只在真的需要時出現（官方宣稱）
+
+經過：以為 hidden 等於完全不可捲，腳本卻還能改變它的捲動位置。clip 才不建立 scroll container。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：裁切切掉不該切的
+- 支援狀態：不適用（本指南未附 overflow 各值的支援資料）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:css-layout:12" %%
+## 全寬版面不用 100vw，避免捲軸寬造成水平溢出
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：全寬用 `100%`；需要視窗單位時依情境用 `100dvw`／`100svw`
+- 被什麼擋：`100vw` 不扣捲軸寬，桌面出現捲軸時內容就比可見區域寬（引用："it ignores scrollbar width and causes horizontal overflow."）
+- 戰報：勝——寬度依實際可用空間計算，不再多出水平捲動（官方宣稱）
+
+經過：桌面瀏覽器的傳統捲軸一直占位，100vw 卻把它也算進內容寬，於是頁面左右多出一小段。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：版面意外溢出或位移
+- 支援狀態：Small, large, and dynamic viewport units：Widely（2022-12-05）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:css-layout:13" %%
+## repeat(auto-fit／auto-fill) 前容器要有明確寬度
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：自動重複軌道的容器設明確 `inline-size`，避免在 `inline-grid` 或未設寬 flex item 上直接用
+- 被什麼擋：容器沒有寬度可分配時，軌道數量會變得不可預測（引用："inside `display: inline-grid` or an unsized flex item, the container has no width to divide, making track counts unpredictable."）
+- 戰報：勝——容器有確定寬度後，瀏覽器能穩定計算每列軌道數（官方宣稱）
+
+經過：repeat 的次數不是看卡片內容，而是看容器寬與 repeat 尺寸參數；容器本身沒寬就無從計算。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：版面依賴錯的量測
+- 支援狀態：不適用（本指南未附 repeat() 的支援資料）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
+
+%% line-start id="mwg:css-layout:14" %%
+## Grid lanes 尚未可用，先用多欄或接受 dense 的重排代價
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：文件片段用 multi-column；卡片用 `grid-auto-flow: dense` 並接受視覺／DOM 順序差異；masonry 只在 `@supports` 中當增強
+- 被什麼擋：不同高度項目要緊密排列時，一般 grid 留空洞；grid lanes 卻尚無主要瀏覽器原生支援（引用："Grid lanes is not natively supported by any major browser yet."）
+- 戰報：僵持——目前只能用多欄或 dense 退路；dense 會讓視覺順序不同於 DOM，原生 masonry 不能當硬性依賴（官方宣稱）
+
+經過：規格名稱是 `display: grid-lanes`，早期實驗用 `grid-template-rows: masonry`。現在做相簿或瀑布流，不能把實驗語法當唯一出路。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：版面依賴錯的量測
+- 支援狀態：Grid lanes：無瀏覽器支援
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：新能力
+- 解鎖（發想，非指南原文）：原生 masonry 若普及，相簿、卡片牆、新聞首頁可兼顧緊密排列與 grid 軌道模型；目前只能以多欄或 dense 退回
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏
