@@ -567,3 +567,83 @@
 2026-11-17,v1.0.0,navigation-drawer,mwg:navigation-drawer:7,popover=manual,動作被意外觸發,auto 或 hint 內建的點外面關閉在滑動途中觸發，抽屜被誤關,勝,Widely,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,navigation-drawer,mwg:navigation-drawer:8,"role=dialog 一般元素, 側欄狀態拿掉 role",語意結構失真,<dialog> 永遠被當成對話框暴露，兼當側欄時讀屏也唸對話框,勝,不適用,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,navigation-drawer,mwg:navigation-drawer:9,scroll-initial-target: nearest（關閉位置）,尺寸動畫只能跳變,沒有初始捲動位置時抽屜一出現就在開啟位置，沒有滑入動畫,僵持,Limited,宣稱,有,新能力,底部面板、側欄、可拉出的評論區都能在進場前就停在畫面外，開啟只要一次捲動，不必先捲一次再等兩幀。目前僅 Chromium,有效
+2026-11-17,v1.0.0,persistent-app-tours,mwg:persistent-app-tours,"popover=""manual"", anchor-name, position-area",動作被意外觸發,auto popover 一點頁面其他地方就關閉，導覽在使用者試用功能時被收掉,部分改善,Newly,宣稱,有,新能力,「新功能小提示」可以宣告式貼在按鈕旁、讓使用者邊看邊操作，各提示彼此獨立，走到那一區時才看,有效
+2026-11-17,v1.0.0,persistent-app-tours,mwg:persistent-app-tours:2,"showPopover() 後 focus(), 關閉時送回控制項",手寫焦點管理,焦點沒進非模態提示時鍵盤與讀屏察覺不到；載入時搶焦點又打斷使用者原本的目的,缺,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,persistent-app-tours,mwg:persistent-app-tours:3,提示內容可獨立理解並以標題開頭,隱藏或停用把人擋在外面,「點這裡」依賴視覺指向，外面設成 inert 時更完全碰不到,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,persistent-app-tours,mwg:persistent-app-tours:4,調整提示位置或關閉提示,浮層遮住說明,非模態 popover 蓋住正在取得焦點的控制項,缺,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,persistent-toast-notifications,mwg:persistent-toast-notifications,"popover=""manual"", role=region 容器",動作被意外觸發,auto popover 的點外面關閉讓使用者一操作頁面就收掉 toast，也無法多則並存,部分改善,Newly,宣稱,有,新能力,上傳完成、新訊息、同步結果可以在頂層並存，固定出現在同一個具名區域，讀屏使用者也找得到,有效
+2026-11-17,v1.0.0,persistent-toast-notifications,mwg:persistent-toast-notifications:2,"ariaNotify(), aria-live 退路",播報時機或可靠度出錯,看不到畫面的讀屏使用者不知道 toast 出現了,部分改善,Newly,宣稱,有,新能力,「已複製」「已加入購物車」「連線恢復」這類短暫狀態一行程式直接唸，不必在 DOM 預埋隱藏容器,有效
+2026-11-17,v1.0.0,persistent-toast-notifications,mwg:persistent-toast-notifications:3,預設手動關閉、焦點在內時暫停逾時,隱藏或停用把人擋在外面,自動消失的 toast 在使用者還在讀或正要按裡面的按鈕時就不見,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,persistent-toast-notifications,mwg:persistent-toast-notifications:4,焦點轉移或模態開著時延後 toast,播報時機或可靠度出錯,焦點轉移蓋掉 toast 的播報；模態開著時背景通知被錯過,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,persistent-toast-notifications,mwg:persistent-toast-notifications:5,獨立的 transition-behavior 宣告,新功能的副作用,allow-discrete 寫進 transition 簡寫，舊瀏覽器忽略整條 transition,部分改善,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,progress,mwg:progress,"<progress>, appearance: none, 廠商偽元素",簡寫或屬性連動重設,border-radius、background、border 會默默關掉預設的進度條樣式,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,progress,mwg:progress:2,-webkit-／-moz- 偽元素分開寫,不認得的語法讓整條規則失效,兩家偽元素併在同一選擇器清單，整條規則無效，:is() 也救不了,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,progress,mwg:progress:3,"translate + cqi, :dir(rtl) 反轉動畫",版面依賴錯的量測,用 margin 移動時 RTL 下 Firefox 滑塊不動、Chromium／WebKit 跳到邊緣；scale 扭曲填色圖樣,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,progress,mwg:progress:4,減少動態時放慢不確定動畫,焦點或狀態指示消失,animation: none 在 Chromium 留下寬度為零的填色,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,progress,mwg:progress:5,"var(--progress-bar-animation, revert-rule)",層疊覆蓋不符意圖,指南只說這樣能最大化可組合性，沒說不用 revert-rule 時在哪個時刻出錯,部分改善,Newly,宣稱,缺,新能力,設計系統元件可以開放任意自訂屬性當掛鉤，沒用到的掛鉤完全不影響預設樣式,有效
+2026-11-17,v1.0.0,progress,mwg:progress:6,"role=status, 不聚焦 <progress>",手寫焦點管理,焦點被移到不可互動的 <progress>，打亂鍵盤使用者,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,progress,mwg:progress:7,hidden／aria-hidden 取代 aria-busy,播報時機或可靠度出錯,aria-busy 讀屏支援不一致，無名 div 上的 aria-describedby 被輔助技術忽略,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,progress-ring,mwg:progress-ring,"<progress>, conic-gradient(), attr(value type(<number>)), background-clip: border-area",自製控制項丟掉原生行為,指南只說優於只用 SVG 加 ARIA 的做法，沒說 SVG 做法在哪個時刻出錯,部分改善,Limited,宣稱,缺,新能力,配額圓環、課程完成度、上傳小圓圈都是一行 HTML，數值寫在屬性上由 CSS 自己讀。Firefox 缺 border-area、Safari 缺 typed attr()，要 mask 與 MutationObserver 補,有效
+2026-11-17,v1.0.0,progress-ring,mwg:progress-ring:2,"forced-color-adjust: none, CanvasText／Canvas",焦點或狀態指示消失,強制色彩模式移除背景漸層，圓環整個消失,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,progress-ring,mwg:progress-ring:3,"中心內容 aria-hidden, aria-valuetext",重複內容干擾輔助技術,中心文字不藏會被唸兩次；只藏不補時讀屏只拿到數字,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,progress-ring,mwg:progress-ring:4,"@property --value, 減少動態預設 0s",尺寸動畫只能跳變,沒註冊時圓環直接跳到新值，沒有過渡,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scrollspy,mwg:scrollspy,"scroll-target-group: auto, :target-current",捲動連動效果靠JS監聽,指南只說傳統做法需要 JS 與 IntersectionObserver，沒說那種做法在哪個時刻出錯,僵持,Limited,宣稱,缺,新能力,文件站、單頁產品介紹、長篇報導的章節導覽可以宣告式跟著讀者位置亮起，不必為每一節掛觀察器。目前僅 Chromium,有效
+2026-11-17,v1.0.0,scrollspy,mwg:scrollspy:2,scrollend 時同步 aria-current,播報時機或可靠度出錯,:target-current 只改視覺，目前章節的狀態不暴露給讀屏,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,scrollspy,mwg:scrollspy:3,":is(:target-current, .target-current)",不認得的語法讓整條規則失效,逗號並列時舊瀏覽器不認得虛擬類別，整條規則連同退路類別一起失效,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,spinner,mwg:spinner,"無 value 的 <progress>, conic-gradient(), background-clip: border-area, @property initial-value 開關",自製控制項丟掉原生行為,指南只說原生 <progress> 確保讀屏正確播報，沒說自製轉圈在哪個時刻出錯,部分改善,Limited,宣稱,缺,新能力,用 @property 的 initial-value 當開關，裝飾動畫在 CSS 裡自動分級；按鈕內小轉圈、整頁載入圈都是可播報的進度元素。Firefox 缺 border-area，要 mask 補,有效
+2026-11-17,v1.0.0,spinner,mwg:spinner:2,"forced-color-adjust: none, 系統色",焦點或狀態指示消失,強制色彩模式移除背景漸層，轉圈整個消失,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,spinner,mwg:spinner:3,減少動態時放慢、拿掉伸縮,焦點或狀態指示消失,完全停止動畫後看不出處理還在進行,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down,"scroll-snap-type, scrollsnapchange, snapTargetInline, pushState",自製控制項丟掉原生行為,JS 驅動 transform 動畫時畫面位置由補間決定、不是手指,部分改善,Limited,宣稱,有,新能力,郵件串、檔案夾瀏覽、設定子頁、相簿詳情都能用捲動容器做出可滑回、可分享網址、支援系統返回鍵的堆疊導覽。scrollsnapchange 僅 Chromium，其他用 IntersectionObserver 補,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:2,位移套在吸附目標的子元素,互動中畫面抖動,吸附目標上的 transform 回饋到吸附幾何，手勢途中畫面亂跳,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:3,非目前畫面加 inert,視覺隱藏卻仍可觸及,藏在視差後的畫面仍可被 Tab 與讀屏走到,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:4,"history.go() 同步, 深層連結補根項目, popstate 不 pushState",平台慣用操作沒有作用,滑回後歷史不同步，系統返回跳到意外位置；深層連結上 history.back() 直接離開 app,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:5,"focus({ preventScroll: true })",互動中畫面抖動,還原焦點時的預設捲動和吸附容器打架，停在兩層之間,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:6,焦點退到 tabindex=-1 的內容容器,隱藏或停用把人擋在外面,焦點留在被移除或 inert 的畫面裡，掉回 body,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:7,"document.title, 返回鈕以上一層命名",語意結構失真,標題不變時歷史清單、分頁與讀屏分不出各層；只寫 Back 不知道會回到哪,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:8,behavior: 'instant'（多步與前進）,工作花在看不到的地方,多步平滑捲動在每個吸附點觸發 scrollsnapchange，做 N 輪處理；iOS 誤判前進時播出深入動畫,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:9,"CSS scroll-behavior, JS 傳 behavior: 'auto'",忽略使用者設定,JS 寫死 behavior: 'smooth' 繞過減少動態設定,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:10,"<a href>, 放行修飾鍵點擊",自製控制項丟掉原生行為,用 button onclick 或 div 失去懸停預覽、分享、中鍵、讀屏角色與 SEO,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:11,@supports (animation-timeline: view()),新功能的副作用,不支援時仍解析 keyframes，把 to 狀態當靜態樣式，每個畫面永遠位移,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:12,"animation-timeline: view(inline), animation-range",捲動連動效果靠JS監聽,JS scroll 監聽跑在主執行緒，手勢中明顯掉幀,部分改善,Newly,宣稱,有,新能力,設定子頁、商品詳情、聊天串的水平分頁轉場可以直接綁在拖動進度上，拖一半停住效果也停在一半,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:13,修剪滑過的畫面只留網址,工作花在看不到的地方,長時間來回深入累積幾十個脫離的子樹,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:14,overscroll-behavior-x: none,動作被意外觸發,滑回手勢到底後串到瀏覽器的返回手勢或頁面垂直捲動,部分改善,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,stack-drill-down,mwg:stack-drill-down:15,height: 100dvh,版面意外溢出或位移,svh 在網址列動畫時裁切，vh 滲到網址列底下,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,content-first-noise-reduction,mwg:content-first-noise-reduction,"container-type: scroll-state, scroll-state(scrolled: bottom)",捲動連動效果靠JS監聽,指南只說頂端列在閱讀時應讓開且不需腳本，沒說常駐列或腳本做法在哪個時刻出錯,僵持,Limited,宣稱,缺,新能力,新聞站頂端列、閱讀器工具列、手機底部分頁列可以用一條容器查詢依捲動方向收放。目前僅 Chromium,有效
+2026-11-17,v1.0.0,content-first-noise-reduction,mwg:content-first-noise-reduction:2,":focus-within 保持顯示, scroll-margin-top",焦點或狀態指示消失,收起的列裡仍可能有焦點；黏在頂端的列蓋住頁內連結的目標,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,content-first-noise-reduction,mwg:content-first-noise-reduction:3,scroll-state(scrollable: top),隱藏或停用把人擋在外面,Home 鍵跳躍不更新 scrolled，回到頁首時列仍收起,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,content-first-noise-reduction,mwg:content-first-noise-reduction:4,"popover, popovertarget",每顆按鈕手接JS,指南只說用 popover 取代常駐工具列與自寫 JS 浮層，沒說那些做法在哪個時刻出錯,部分改善,Newly,宣稱,缺,新能力,部落格、文件站可以把作者資訊、分享、相關連結收進 HTML 宣告的浮層，主欄只留文章，不必自寫開關與 Esc,有效
+2026-11-17,v1.0.0,content-first-noise-reduction,mwg:content-first-noise-reduction:5,"popovertarget, 偵測後才載 invokers-polyfill",新功能的副作用,不支援 Invoker commands 的瀏覽器忽略 commandfor，按鈕按了沒反應,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,adapt-scrollbar-to-contrast-preferences,mwg:adapt-scrollbar-to-contrast-preferences,"prefers-contrast: more, scrollbar-color",忽略使用者設定,指南只說高對比使用者期待強烈的前後景分隔，沒說低對比捲軸在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,程式碼編輯器、聊天側欄、資料表的捲軸可以跟主題同色，使用者要求高對比時自動換成黑白,有效
+2026-11-17,v1.0.0,adapt-scrollbar-to-contrast-preferences,mwg:adapt-scrollbar-to-contrast-preferences:2,"scrollbar-width, scrollbar-gutter: stable",新功能的副作用,macOS 覆蓋式捲軸預設忽略 scrollbar-color，軌道預設透明,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,adapt-scrollbar-to-contrast-preferences,mwg:adapt-scrollbar-to-contrast-preferences:3,不過渡 scrollbar-color,互動中畫面抖動,WebKit bug 讓 scrollbar-color 每次變化時捲軸閃爍,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,browser-ui-theming,mwg:browser-ui-theming,"accent-color, color-scheme, scrollbar-color, ::selection, field-sizing, appearance: base-select",自製控制項丟掉原生行為,重做內建介面失去語意、鍵盤操作、輸入法與輔助技術整合,部分改善,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,browser-ui-theming,mwg:browser-ui-theming:2,user-select: none 只用在介面外框,隱藏或停用把人擋在外面,套在內容文字上破壞複製貼上、翻譯工具與「從這裡朗讀」,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,browser-ui-theming,mwg:browser-ui-theming:3,scrollbar-width: auto,隱藏或停用把人擋在外面,thin 的拇指目標太小，部分使用者操作不了,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,browser-ui-theming,mwg:browser-ui-theming:4,":user-invalid／:user-valid, 排除 range",播報時機或可靠度出錯,:invalid 一載入就把空的必填欄位標錯；調滑桿也被套上驗證邊框,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,color,mwg:color,"forced-colors 系統色, outline/border 表達邊界",焦點或狀態指示消失,強制色彩移除陰影與漸層，border-image 與 url() 背景消失或失去對比，邊界與狀態跟著不見,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,color,mwg:color:2,"color-mix(in oklab), 亮度調整不超過 30%",新功能的副作用,瀏覽器未實作色域映射，直接改 oklch 亮度得到的顏色無法預期,部分改善,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,complex-shapes,mwg:complex-shapes,"mask-image, SVG <mask>, mask-type",裁切只有硬邊,clip-path 只能切幾何或向量形狀，做不出半透明、柔邊與複雜紋理,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,contrast-color,mwg:contrast-color,"contrast-color(), color(from … xyz-d65) 退路",主題配色對不上,背景是動態的卻為各狀態寫死文字色，文字和背景對不上,部分改善,Newly,宣稱,有,新能力,專案標籤、看板欄位、行事曆分類、使用者自訂主題可以開放任意顏色，文字自動選黑或白,有效
+2026-11-17,v1.0.0,customize-scrollbar-color-and-thickness,mwg:customize-scrollbar-color-and-thickness,"scrollbar-color, scrollbar-width",焦點或狀態指示消失,拇指對比不足時看不到也看不出捲了多遠；macOS 軌道透明時拇指和背景同色,部分改善,Newly,宣稱,有,新能力,聊天側欄、程式碼面板、深色儀表板的捲軸兩行標準 CSS 就配進主題，變數一換全站跟著換,有效
+2026-11-17,v1.0.0,custom-text-decorations,mwg:custom-text-decorations,"text-decoration, text-underline-offset, :where()",手工重現瀏覽器渲染,邊框或背景漸層假造的線不跟換行、不隨字型度量、不避下伸部、不繼承,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,custom-text-decorations,mwg:custom-text-decorations:2,真的 <a href> 取代 javascript:void(0),自製控制項丟掉原生行為,javascript:void(0) 加腳本失去中鍵、複製連結與讀屏行為,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,custom-text-decorations,mwg:custom-text-decorations:3,text-decoration-skip-ink: all,版面擠壓破壞可讀性,預設 auto 不在中日文避開筆畫，底線直接壓過字,部分改善,Newly,宣稱,有,新能力,中文部落格、日文文件、中英混排介面可以用貼近文字的細底線，筆畫處自動斷開,有效
+2026-11-17,v1.0.0,custom-text-decorations,mwg:custom-text-decorations:4,text-decoration-inset,手工重現瀏覽器渲染,懸停長出的底線以往靠邊框或背景漸層假造，失去原生裝飾線的行為,部分改善,不適用,宣稱,有,新能力,導覽列、文章內連結、分頁的作用中指示可以讓真正的底線伸縮，多行連結也正確,有效
+2026-11-17,v1.0.0,custom-text-decorations,mwg:custom-text-decorations:5,"border-shape, corner-shape",裁切切掉不該切的,用 clip-path 切外框環時斜邊變細，也切掉焦點框與陰影,僵持,Limited,宣稱,有,新能力,價格標籤、對話氣泡、手繪感的波浪底線可以用一個屬性描邊，焦點框和背景照常。目前僅 Chromium,有效
+2026-11-17,v1.0.0,custom-text-decorations,mwg:custom-text-decorations:6,background-clip: border-area,裁切切掉不該切的,不支援時背景畫滿整個邊框盒，填滿文字底下而不只是外框,部分改善,Limited,宣稱,有,新能力,浮在照片或影片上的漸層外框按鈕、標籤、頭像圈可以真正中空透出背景。Firefox 仍需遮罩退路,有效
+2026-11-17,v1.0.0,dark-mode,mwg:dark-mode,<meta name=color-scheme>,主題配色對不上,瀏覽器不知道頁面支援深色時初始畫布是白的，載入時白閃,部分改善,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dark-mode,mwg:dark-mode:2,color-scheme 設在 :root,主題配色對不上,只設在 body 時根捲軸與畫布背景仍是淺色,勝,Widely,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dark-mode,mwg:dark-mode:3,light-dark() 色彩 token,樣式邏輯到處重複,指南只說省掉重複的媒體查詢，沒說用媒體查詢在哪個時刻出錯,部分改善,Newly,宣稱,缺,新能力,設計系統只維護一份成對 token，嵌在淺色頁裡的深色程式碼區塊、地圖、播放器改 color-scheme 就整塊換色,有效
+2026-11-17,v1.0.0,dark-mode,mwg:dark-mode:4,matchMedia 的 change 事件,生命週期假設錯,只讀一次 .matches 的程式在系統切換配色後停在舊配色,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,dark-mode,mwg:dark-mode:5,"light-dark() 圖片值, image-set() type() 退路",樣式邏輯到處重複,每張圖都要自己的媒體查詢分支，手動切換時得逐一翻轉,部分改善,Newly,宣稱,有,新能力,插畫風網站、地圖底圖、產品截圖可以一行宣告深淺兩版，元件放進深色區塊時圖片也自己換,有效
+2026-11-17,v1.0.0,dark-mode,mwg:dark-mode:6,"作用中選項給空值、不寫 type("""")",不認得的語法讓整條規則失效,"type("""") 被視為不支援，所有選項一起被丟掉",部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,equal-width-text-lines,mwg:equal-width-text-lines,text-fit: grow per-line-all,尺寸不跟內容走,指南只說瀏覽器在排版時縮放、調整大小改文案字型載入都正確，沒說腳本量測在哪個時刻出錯,僵持,Limited,宣稱,缺,新能力,活動主視覺、雜誌封面式標題、可翻譯的海報標語可以用真文字排，換語言或改文案自動重排。目前僅 Chromium,有效
+2026-11-17,v1.0.0,equal-width-text-lines,mwg:equal-width-text-lines:2,"per-line-all, 明確的 inline-size",新功能的副作用,per-line 跳過以強制換行結尾的行，每行一個區塊時什麼都不縮放；容器依內容決定寬度時也不起作用,僵持,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,equal-width-text-lines,mwg:equal-width-text-lines:3,"gap + text-box, 不靠 em／line-height",版面依賴錯的量測,text-fit 不改計算後的 font-size，em 間距不放大；line-height 間距隨字級變大,部分改善,Limited,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,equal-width-text-lines,mwg:equal-width-text-lines:4,"先全部讀再全部寫, ResizeObserver",主執行緒被重活卡住,在寫入迴圈裡讀 clientWidth，每一行強制重排一次,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,improve-text-layout-and-legibility,mwg:improve-text-layout-and-legibility,text-wrap: balance,版面擠壓破壞可讀性,指南只說讓文字平均分配到各行，沒說預設換行在哪個時刻出問題,部分改善,Newly,宣稱,缺,新能力,新聞列表、卡片標題、多語系行銷標語在任何寬度都自動斷得整齊，不必手插換行,有效
+2026-11-17,v1.0.0,improve-text-layout-and-legibility,mwg:improve-text-layout-and-legibility:2,text-wrap: pretty,版面擠壓破壞可讀性,貪婪換行讓段落最後一行只剩一個字,部分改善,Limited,宣稱,有,新能力,部落格、電子報、說明文件的段落由瀏覽器自動修整段尾，CMS 產生的內容也一樣。Firefox 暫不支援,有效
+2026-11-17,v1.0.0,improve-text-layout-and-legibility,mwg:improve-text-layout-and-legibility:3,balance／pretty 只套在需要的元素,優化用過頭反傷,balance 的二分搜尋很耗運算，超過行數上限又退回一般換行；全域套用拖慢排版,部分改善,Newly,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,improve-text-layout-and-legibility,mwg:improve-text-layout-and-legibility:4,有框元素不用 balance,新功能的副作用,balance 不改容器寬度，有邊框或底色的元素尾端留下空白,勝,不適用,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,precise-text-alignment,mwg:precise-text-alignment,text-box: trim-both cap alphabetic,版面依賴錯的量測,字型內建留白讓文字比旁邊圖示高或低、內距看起來不等，只能靠負邊距魔術數字,部分改善,Limited,宣稱,有,新能力,徽章、按鈕、標籤可以直接把設計稿的間距寫進 CSS，換字型也不必重調。Firefox 尚未支援,有效
+2026-11-17,v1.0.0,shaped-cutouts,mwg:shaped-cutouts,"遮罩套在相鄰裝飾元素, maskContentUnits=objectBoundingBox",裁切切掉不該切的,直接對含文字的元素套遮罩可能把文字切掉,勝,Widely,宣稱,有,糾錯,,有效

@@ -1,0 +1,268 @@
+---
+guide: stack-drill-down
+category: ui-components
+upstream: https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/stack-drill-down.md
+first_seen: 2026-11-17（v1.0.0，回溯拆出）
+license: CC-BY-4.0（上游指南）
+---
+
+# 堆疊式逐層深入導覽
+
+%% line-start id="mwg:stack-drill-down" %%
+## 用捲動吸附做逐層深入的堆疊，`scrollsnapchange` 統一處理所有「換頁」
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：水平 `scroll-snap-type: x mandatory` 容器，每個畫面是一個吸附點（`scroll-snap-stop: always`）；深入時 `pushState`、加入新畫面、捲過去；`scrollsnapchange` 的 `snapTargetInline` 當作「目前畫面變了」的唯一來源，更新 `inert`、焦點、歷史紀錄並修剪畫面；不支援時用 IntersectionObserver（`threshold: 1`）呼叫同一個函式
+- 被什麼擋：用 JS 驅動 `transform` 動畫時，畫面位置由補間決定、不是手指（引用："the snap mechanism gives the user direct gestural control of the panel's position (their finger drives it, not a tween)"）
+- 戰報：部分改善——滑回上一層的慣性、速度與中途反悔由瀏覽器處理，不必寫指標事件；滑動、點擊、程式捲動、`popstate` 都匯流到同一個回呼。Scroll snap events 僅 Chrome／Edge 129，其他瀏覽器以 IntersectionObserver 取得相同效果（官方宣稱）
+
+經過：手機版的設定頁一層層點進去，想用手勢滑回上一層，舊做法放手後播固定動畫、拉到一半無法反悔。改成捲動之後，畫面就在手指底下。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：自製控制項丟掉原生行為
+- 支援狀態：Scroll snap：Widely（2020-01-15 起）；Scroll snap events：Limited availability，Supported by: Chrome 129, Edge 129；Unsupported in: Firefox, Safari
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：新能力
+- 解鎖（發想，非指南原文）：以前像原生 app 那樣「滑回上一層」要手勢函式庫加路由同步 → 現在郵件串、檔案夾瀏覽、設定子頁、相簿詳情都能用捲動容器做出可滑回、可分享網址、支援系統返回鍵的堆疊導覽。scrollsnapchange 僅 Chromium，其他用 IntersectionObserver 補
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:2" %%
+## 位移效果套在吸附目標的子元素上，不套在吸附目標本身
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：`.Stack-view` 只負責吸附，視差的 `transform` 套在內層 `.Stack-viewContent`
+- 被什麼擋：吸附目標上的 transform 會回饋到捲動容器的吸附幾何，手勢途中畫面亂跳（引用："A transform on the snap target feeds back into the scroll container's snap geometry and the scroller will glitch mid-gesture."）
+- 戰報：勝——吸附位置不受視差影響，滑動平順（官方宣稱）
+
+經過：加了視差之後，滑到一半畫面突然跳一下，停在兩層之間。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：互動中畫面抖動
+- 支援狀態：結構做法，記 不適用
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:3" %%
+## 除了目前畫面，堆疊裡其他畫面都加 `inert`
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：在 `scrollsnapchange` 處理函式裡，對目前畫面以外的每一層 `toggleAttribute('inert', true)`
+- 被什麼擋：藏在視差後面的畫面仍可被 Tab 與讀屏走到，明眼人看不出來（引用："Without this, focus and screen-reader navigation leak into views hidden behind the parallax — invisible to sighted users but a severe accessibility failure."）
+- 戰報：勝——焦點、指標與讀屏都只到得了目前畫面（官方宣稱）
+
+經過：在第三層按 Tab，焦點跑到被蓋住的第一層清單裡，鍵盤使用者完全不知道自己在哪。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：視覺隱藏卻仍可觸及
+- 支援狀態：inert：Baseline Widely available（2023-04-11 起）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:4" %%
+## 讓瀏覽器的返回鍵和畫面同步：滑回時 `history.go()`、深層連結補一個根項目、`popstate` 裡不 `pushState`
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：每次深入 `pushState({depth})`；滑回後若目前畫面的深度與 `currentDepth` 不符，呼叫 `history.go(差值)`；從深層連結進來時，返回鈕改成 `pushState` 一個根項目並在左側插入根畫面；`popstate` 處理函式只捲動、不推新項目
+- 被什麼擋：滑回後不同步歷史，下一次系統返回會把使用者帶到意料之外的地方；深層連結上直接 `history.back()` 會離開整個 app；在 `popstate` 裡 `pushState` 則讓返回鍵失效（引用："Without this, a subsequent OS Back returns the user somewhere unexpected because the browser's history cursor is out of sync with what's on screen."）
+- 戰報：勝——系統返回手勢、瀏覽器上一頁／下一頁、深層連結都與畫面一致（官方宣稱）
+
+經過：用手勢滑回兩層，再按手機的返回鍵，結果跳回一個早就不在畫面上的頁面；從分享連結進來按返回，直接離開了網站。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：平台慣用操作沒有作用
+- 支援狀態：History API：指南未給支援資料，記 不適用
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:5" %%
+## 在捲動吸附容器裡還原焦點一律加 `preventScroll: true`
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：還原到原本點擊的連結、或聚焦新畫面的返回鈕時，呼叫 `.focus({ preventScroll: true })`
+- 被什麼擋：預設會把焦點目標捲進畫面，和吸附容器打架，使用者停在兩層之間（引用："The default `preventScroll: false` makes the browser scroll the focus target into view, which fights the snap container and can land the user mid-snap."）
+- 戰報：勝——焦點移動不再觸發額外捲動（官方宣稱）
+
+經過：滑回上一層後焦點還原到原本的連結，畫面卻又被拉動半格，卡在兩個畫面中間。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：互動中畫面抖動
+- 支援狀態：指南未給支援資料，記 不適用
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:6" %%
+## 每次換畫面都確保焦點落在新畫面裡，沒有目標就聚焦內容容器
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：優先還原到使用者點過的連結，其次是返回鈕；回到根畫面又沒有可還原的連結時，聚焦設了 `tabindex="-1"` 的 `.Stack-viewContent`；只在焦點原本就在堆疊裡時才移動
+- 被什麼擋：焦點留在被移除或 `inert` 的畫面裡，會掉回 `<body>`，鍵盤與讀屏使用者從頁首重來（引用："Focus left in a removed or `inert` view falls to `<body>`."）
+- 戰報：勝——深層連結返回、跳回根畫面後焦點都在可見的畫面裡（官方宣稱）
+
+經過：從深層連結按返回回到首頁，下一個 Tab 卻從網站最上方的 logo 開始。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：隱藏或停用把人擋在外面
+- 支援狀態：指南未給支援資料，記 不適用
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:7" %%
+## 每層都更新 `document.title`，返回鈕以要回去的那層命名
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：換畫面時把標題設成「目前畫面 | 應用名」，根畫面只用應用名；返回鈕的 `aria-label` 設成「Back to 上一層標題」
+- 被什麼擋：每次深入都多一筆歷史，標題不變時歷史清單、分頁與讀屏分不出這些項目；只寫「Back」又讓讀屏使用者不知道自己在哪（引用："Each drill-down adds a history entry, and the title is what the browser's history list, the tab and screen readers use to tell those entries apart."）
+- 戰報：勝——歷史清單與讀屏都能分辨每一層（官方宣稱）
+
+經過：長按瀏覽器的返回鍵，跳出五筆一模一樣的「Mail」，不知道該選哪一筆。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：語意結構失真
+- 支援狀態：指南未給支援資料，記 不適用
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:8" %%
+## 多步跳轉與往前的 `popstate` 用 `behavior: 'instant'`
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：`popstate` 時比較目標位置與目前位置；跨越超過一層或向右（前進）時用 `'instant'`，單步返回才用 `'auto'`
+- 被什麼擋：多步跳轉若平滑捲動，每經過一個吸附點都觸發 `scrollsnapchange`，做 N 輪 inert／焦點／歷史處理；iOS Safari 又會把邊緣滑動誤當成前進，播出使用者沒要求的深入動畫（引用："Multi-step jumps would otherwise fire `scrollsnapchange` at every intermediate snap and do N rounds of inert/focus/history work."）
+- 戰報：勝——跳轉直接到位，前進也不會誤導（官方宣稱）
+
+經過：在歷史清單裡直接跳回三層前，畫面一層層滑過去，焦點也跟著亂跳了三次。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：工作花在看不到的地方
+- 支援狀態：指南未給支援資料，記 不適用
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:9" %%
+## 平滑捲動交給 CSS 的 `scroll-behavior`，JS 一律傳 `behavior: 'auto'`
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：`scroll-behavior: smooth` 只寫在 `@media (prefers-reduced-motion: no-preference)` 裡，`scrollTo`／`scrollBy` 傳 `'auto'` 讓它照 CSS 走
+- 被什麼擋：在 JS 寫死 `behavior: 'smooth'` 會繞過使用者的減少動態設定（引用："Hard-coding `behavior: 'smooth'` bypasses the user's setting."）
+- 戰報：勝——系統設定自動把捲動降成即時，不必每次呼叫都判斷（官方宣稱）
+
+經過：開了減少動態的使用者每點一層，畫面照樣整頁滑過去。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：忽略使用者設定
+- 支援狀態：指南未給支援資料，記 不適用
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:10" %%
+## 深入的觸發點用真的 `<a href>`，並放行修飾鍵點擊
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：畫面裡用 `<a href>` 指向各層網址；點擊攔截時遇到 meta／ctrl／shift 或非左鍵就不攔，讓瀏覽器開新分頁
+- 被什麼擋：用 `<button onclick>` 或 `<div>` 會失去懸停預覽網址、分享、中鍵開新分頁、讀屏角色與 SEO（引用："Real anchors get URL preview on hover, shareability, middle-click, screen-reader role, and SEO for free."）
+- 戰報：勝——每一層都有可分享、可在新分頁開啟的網址（官方宣稱）
+
+經過：想把某封信用中鍵開在新分頁，結果什麼也沒發生，也沒辦法複製連結傳給同事。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：自製控制項丟掉原生行為
+- 支援狀態：指南未給支援資料，記 不適用
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:11" %%
+## 捲動驅動的視差整塊包在 `@supports (animation-timeline: view())`
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：`animation-timeline: view(inline)`、`animation-range` 與 `@keyframes` 都放在 `@supports` 區塊內
+- 被什麼擋：不支援的瀏覽器仍會解析 keyframes，把 `to` 狀態當成靜態樣式套用，每個畫面都永遠處於位移狀態（引用："Browsers without scroll-driven animations still parse the @keyframes and would apply the `to` state as a static style, leaving every view permanently transformed."）
+- 戰報：部分改善——不支援時畫面在吸附點之間直接切換，導覽功能完整（官方宣稱）
+
+經過：在舊版瀏覽器打開，每個畫面都偏了四分之三、整片變暗。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：新功能的副作用
+- 支援狀態：Scroll-driven animations：Baseline Newly available（2026-10-27 起）
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:12" %%
+## 視差、變暗與陰影用 `view(inline)` 時間軸跟著手指走，不用 `scroll` 監聽
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：`.Stack-viewContent` 設 `animation-timeline: view(inline)`，離場階段（`exit 0% exit 100%`）播視差＋變暗，深入的畫面另加左緣陰影
+- 被什麼擋：JS 的 `scroll` 監聽跑在主執行緒，手勢中會明顯掉幀（引用："a JS scroll listener runs on the main thread and will visibly drop frames during the gesture."）
+- 戰報：部分改善——CSS 路徑跑在合成器，動畫由手指驅動；Scroll-driven animations 為 Newly，舊瀏覽器可選擇用 scroll 監聽寫入 transform（官方宣稱）
+
+經過：滑回上一層時，底下那層應該從左邊緩緩推出、慢慢變亮；用 scroll 監聽做的版本在低階手機上一卡一卡。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：捲動連動效果靠JS監聽
+- 支援狀態：Scroll-driven animations：Baseline Newly available（2026-10-27 起），Supported by: Chrome 115, Edge 115, Firefox 159, Safari 26
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：新能力
+- 解鎖（發想，非指南原文）：以前「卡片疊上來、底層退後變暗」要逐幀計算 → 現在任何水平分頁（設定子頁、商品詳情、聊天串）都能讓轉場效果直接綁在拖動進度上，拖一半停住效果也停在一半
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:13" %%
+## 滑回後把後面已經離開的畫面從 DOM 移除，只留網址以便重建
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：`scrollsnapchange` 時移除目前畫面右邊的所有畫面，`entriesByDepth` 只保留它們的網址路徑，前進時再重建
+- 被什麼擋：長時間來回深入會累積幾十個脫離的子樹（引用："A long drill-down session can otherwise accumulate dozens of detached subtrees."）
+- 戰報：勝——堆疊永遠不超過目前深度＋1 個畫面（官方宣稱）
+
+經過：在檔案夾裡進進出出一個小時，頁面越來越慢，DOM 裡塞滿看不到的舊畫面。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：工作花在看不到的地方
+- 支援狀態：指南未給支援資料，記 不適用
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:14" %%
+## 堆疊容器設 `overscroll-behavior-x: none`，滑回手勢不要連到瀏覽器的上一頁
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：`.Stack { overscroll-behavior-x: none; }`
+- 被什麼擋：滑回手勢到底後會串到瀏覽器自己的返回手勢（iOS、部分 Android）或頁面的垂直捲動（引用："Prevent the swipe-back gesture from chaining into the browser's own history-back gesture (iOS, some Android) or the page's vertical scroll."）
+- 戰報：部分改善——滑到根畫面不會再觸發離開頁面；但 iOS Safari 即使設了仍會把邊緣滑動當成前進（官方宣稱）
+
+經過：在根畫面多滑了一下，整個網站退回上一個瀏覽的網頁。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：動作被意外觸發
+- 支援狀態：指南未給支援資料，記 不適用
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出
+
+%% line-start id="mwg:stack-drill-down:15" %%
+## 堆疊高度用 `100dvh`
+- 誰在做：開發者（或寫程式的代理）
+- 動作＋對象：`.Stack { height: 100dvh; }`，跟著行動裝置網址列顯示或隱藏變化
+- 被什麼擋：`svh` 在網址列動畫時會裁切，`vh` 會滲到網址列底下（引用："svh would clip during the address bar animation; vh leaks under it."）
+- 戰報：勝——高度跟著動態視窗走（官方宣稱）
+
+經過：手機上捲到底，最下方的按鈕藏在網址列後面點不到。
+%% line-end %%
+
+### 細節（不索引）
+- 對手組：版面意外溢出或位移
+- 支援狀態：dvh：指南未給支援資料，記 不適用
+- 槽判定：誰在做 有／動作＋對象 有／被什麼擋 有／戰報 有
+- 類型：糾錯
+- 註：與 `mwg:navigation-drawer:6`（抽屜用 `svh`，避免滑動中高度跳動）方向相反；兩份指南針對的元件不同，各照原文
+- 另有 3 個糾錯提醒未拆：偵測 `onscrollsnapchange` 要查 `HTMLElement.prototype` 而非 `window`；IntersectionObserver 退路要過濾 `intersectionRatio === 1` 的進場項目；初始化時用 `'instant'` 捲動避免首次繪製播視差
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出

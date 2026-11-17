@@ -97,7 +97,8 @@
     "繼承範圍不符預期": "Inheritance reaches further or less far than expected",
     "堆疊脈絡改變層級": "Stacking contexts change layering",
     "回饋落後於手勢": "Feedback lags behind the gesture",
-    "動作被意外觸發": "Actions get triggered by accident"
+    "動作被意外觸發": "Actions get triggered by accident",
+    "裁切只有硬邊": "Clipping only gives hard edges"
   },
   "guides": {
     "install-web-app": "Installing web apps",
@@ -278,7 +279,27 @@
     "dialog": "Dialog",
     "hovercard": "Build an interactive hovercard",
     "menu": "Build a popup menu",
-    "navigation-drawer": "Navigation drawer"
+    "navigation-drawer": "Navigation drawer",
+    "persistent-app-tours": "Creating persistent app tours",
+    "persistent-toast-notifications": "Creating toast notifications",
+    "progress": "Build a styled progress bar",
+    "progress-ring": "Progress ring",
+    "scrollspy": "Build a scrollspy navigation",
+    "spinner": "Loading spinner",
+    "stack-drill-down": "Stack drill down",
+    "content-first-noise-reduction": "Maximize content and reduce noise",
+    "adapt-scrollbar-to-contrast-preferences": "Adapt scrollbar to high-contrast preferences",
+    "browser-ui-theming": "Theming browser-generated UI",
+    "color": "Color",
+    "complex-shapes": "Complex shapes",
+    "contrast-color": "Ensure text readability with dynamic background colors",
+    "customize-scrollbar-color-and-thickness": "Customize the color or thickness of a scrollbar",
+    "custom-text-decorations": "Custom text decorations",
+    "dark-mode": "Dark mode",
+    "equal-width-text-lines": "Equal-width text lines",
+    "improve-text-layout-and-legibility": "Improve text layout and legibility",
+    "precise-text-alignment": "Precise text alignment",
+    "shaped-cutouts": "Shaped cutouts"
   },
   "lines": {
     "mwg:install-web-app": {
@@ -5392,6 +5413,726 @@
       "story": "Tapping the menu button made the drawer simply appear instead of sliding out. An initial scroll position parks it off-screen first, so there is something to slide.",
       "unlock": "Scroll-based drawers used to need a scripted jump plus two frames of waiting → bottom sheets, side drawers and pull-out comment panels can start off-screen before entering and open with a single scroll. Chromium only for now",
       "support": "scroll-initial-target: Limited availability. Supported by: Chrome 133, Edge 133. Unsupported in: Firefox, Safari"
+    },
+    "mwg:persistent-app-tours": {
+      "title": "Build tour steps with `popover=\"manual\"` and anchor positioning so a click on the page doesn't close them",
+      "action": "Each tour step is a `<dialog popover=\"manual\" aria-labelledby>` tethered next to the feature with `anchor-name`/`position-anchor`/`position-area`, with a \"Got it\" button using `popovertargetaction=\"hide\"`",
+      "blocker": "An auto popover closes as soon as the user clicks elsewhere, so the tour step vanishes while the user tries out the feature (quote: \"Unlike auto popovers, manual popovers do not close when the user clicks elsewhere on the page.\")",
+      "outcome": "The step stays next to the feature until the user presses its button; Popover is Newly available, and without anchor positioning it falls back to centered placement or a polyfill (official claim)",
+      "story": "A new-feature tip popped up, the user clicked the feature it described, and the tip disappeared. With a manual popover it stays beside the feature until the user says \"Got it\".",
+      "unlock": "Tour tips used to need JS positioning and got dismissed by clicks → \"what's new\" tips can be declared next to a button and stay open while the user tries it, each independent and seen when the user reaches that area",
+      "support": "Popover: Baseline Newly available (since 2025-01-27); Anchor positioning: recorded as Newly (core properties Baseline since 2026-01-13). The guide's \"Supported by: Safari 27 … Unsupported in: Chrome, Edge, and Firefox\" is the misleading group status, see `lines/ui-components/app-menus.md`; this line does not use `position-visibility`"
+    },
+    "mwg:persistent-app-tours:2": {
+      "title": "Move focus into the tour step when it opens and back to the related control when it closes, but never steal focus on page load",
+      "action": "Call `focus()` on the step's button after `showPopover()`; on dismissal move focus to the control being introduced; place the step in the DOM right before that control",
+      "blocker": "If focus doesn't move into a non-modal step, keyboard and screen reader users never notice it; if it moves on page load, it pulls users away from the goal they came with (quote: \"Focus must not be moved to these popovers on page load. This is to both prevent confusion from hijacking focus.\")",
+      "outcome": "The guide asks for both but doesn't say how the experience improves once focus moves in",
+      "story": "A keyboard user tabbed through the whole page without knowing a feature tip had appeared on the right; yet being pulled into the tour on arrival interrupted what they came to do.",
+      "unlock": "",
+      "support": "No support data in the guide for this practice; N/A"
+    },
+    "mwg:persistent-app-tours:3": {
+      "title": "Make tour content understandable on its own, not \"New feature. Click here\"",
+      "action": "Start each step with a heading and say what the feature is and does, e.g. \"New chat functionality. Start a chat to review items with fellow members\"",
+      "blocker": "\"Click here\" depends on what it points at visually, which some people can't see, and can't reach at all when the rest of the page is `inert` (quote: \"relies heavily on visual information that people may not have, or may not be able to access (particularly if the content outside the popover is `inert`)\")",
+      "outcome": "The step reads correctly in isolation, and screen reader users can jump to it by heading (official claim)",
+      "story": "The screen reader said \"New feature. Click here\" and the user had no idea where \"here\" was; with the rest of the page inert, they couldn't go looking either.",
+      "unlock": "",
+      "support": "Content-writing guidance; N/A"
+    },
+    "mwg:persistent-app-tours:4": {
+      "title": "Don't let a non-modal tour step cover the control receiving focus",
+      "action": "When keyboard focus moves to an element the step obscures, reposition the step, or dismiss it if it's no longer relevant",
+      "blocker": "A non-modal popover can cover a focused control, failing WCAG 2.4.11 (quote: \"Use of non-modal popovers may result in controls being obscured when they receive focus\")",
+      "outcome": "The guide admits there's no generic fix and only names two directions: reposition or dismiss",
+      "story": "The user tabbed to the next button and its focus ring landed under the tour step, leaving them unable to see where they were.",
+      "unlock": "",
+      "support": "No specific feature; N/A"
+    },
+    "mwg:persistent-toast-notifications": {
+      "title": "Build toasts with `popover=\"manual\"` so interacting with the page doesn't dismiss them",
+      "action": "Each toast is `popover=\"manual\"`, added to the same `role=\"region\" aria-label=\"Notifications\"` container, with a close button using `popovertargetaction=\"hide\"` that is reachable by Tab but doesn't take focus on appear",
+      "blocker": "Toasts shouldn't close like menus when the user interacts elsewhere; an auto popover's light dismiss would close them and wouldn't let several coexist (quote: \"Unlike menus, they should not close when a user interacts with other parts of the page.\")",
+      "outcome": "Notifications stay until the user closes them or a script times them out, and several can coexist; Popover is Newly available, older browsers need a polyfill (official claim)",
+      "story": "The \"form submitted\" toast appeared, the user clicked the next field, and the toast was gone. As a manual popover it waits in a fixed notification region for the user to close it.",
+      "unlock": "Toasts used to need hand-managed z-index stacking and got dismissed by clicks → upload-complete, new-message and sync-result notices can coexist in the top layer in one named region that screen reader users can find",
+      "support": "Popover: Baseline Newly available (since 2025-01-27)"
+    },
+    "mwg:persistent-toast-notifications:2": {
+      "title": "Announce toasts with `ariaNotify()` so screen reader users know they appeared",
+      "action": "Call `ariaNotify()` when a toast is shown, announcing only its visible text and not control names; append \"Actions available\" if it has actions besides close; without support, use an `aria-live` container present from page load with a preceding label",
+      "blocker": "Screen reader users who can't see the screen won't know a toast appeared (quote: \"This ensures that people using screen readers, who cannot see the screen, are aware of the presence of toast messages\")",
+      "outcome": "The screen reader reads the toast when it appears; ariaNotify() is Newly available, the fallback is a pre-existing live region (official claim)",
+      "story": "\"Saved\" flashed in the corner, the screen reader user heard nothing, assumed the save had failed and pressed it again.",
+      "unlock": "Announcing used to require a pre-planted live region and careful insertion timing → any transient status (\"Copied\", \"Added to cart\", \"Back online\") can be spoken with one call, with no hidden container in the DOM",
+      "support": "ariaNotify(): Baseline Newly available (since 2026-09-14). Supported by: Chrome 141, Edge 141, Firefox 150, Safari 27"
+    },
+    "mwg:persistent-toast-notifications:3": {
+      "title": "Make toasts persistent by default; pause auto-dismiss while focus is inside",
+      "action": "Prefer toasts the user closes; if using a timeout, check whether focus is on a control in the toast and wait until it leaves; make the toast's information available elsewhere too",
+      "blocker": "An auto-dismissing toast takes its information with it, disappearing while the user is still reading or about to press its button (quote: \"If the user is focused on a control inside the toast, pause dismissal until focus has left the toast.\")",
+      "outcome": "The information is still findable after the toast goes, and focus isn't pulled away (official claim)",
+      "story": "The user tabbed to the toast's \"Undo\" button and was about to press it when the toast timed out and focus fell into nothing.",
+      "unlock": "",
+      "support": "No specific feature; N/A"
+    },
+    "mwg:persistent-toast-notifications:4": {
+      "title": "Don't show toasts during focus redirection or while a modal dialog is open",
+      "action": "Skip toasts where focus is also being moved; hold notifications while a modal dialog is open and show them after it closes; don't put toasts inside modal dialogs",
+      "blocker": "Focus redirection can cancel out the toast announcement, and toasts behind an open modal are likely to be missed (quote: \"The focus redirection may cancel out the toast announcements, resulting in people missing information.\")",
+      "outcome": "Deferred until the dialog closes, notifications aren't announced where nobody can perceive them (official claim)",
+      "story": "After Save, focus jumped back to the list while a \"Saved\" toast appeared; the screen reader read the list item and the notice was swallowed.",
+      "unlock": "",
+      "support": "No specific feature; N/A"
+    },
+    "mwg:persistent-toast-notifications:5": {
+      "title": "Declare `transition-behavior: allow-discrete` separately, not inside the `transition` shorthand",
+      "action": "Add `transition-behavior: allow-discrete` on its own line after `transition` so toasts animate in and out of the top layer; provide a non-animated version under `prefers-reduced-motion`",
+      "blocker": "Inside the shorthand, older browsers ignore the whole `transition` declaration (quote: \"to animate entry and exit from the Top Layer without older browsers ignoring the `transition` declaration.\")",
+      "outcome": "Supporting browsers animate entry and exit, older ones keep the other transitions; without transition-behavior, use JS-added classes (official claim)",
+      "story": "After adding allow-discrete, every toast fade disappeared in older browsers.",
+      "unlock": "",
+      "support": "transition-behavior: no support data in this guide; N/A"
+    },
+    "mwg:progress": {
+      "title": "Style native `<progress>` either with safe properties only or fully with `appearance: none`, never halfway",
+      "action": "Use native `<progress>` (`max`, `value`, `<label for>`); for light styling stick to `accent-color`, `inline-size`, `writing-mode`, `opacity`, `filter` and the like; for more, use `appearance: none`, `border: 0 solid`, `overflow: clip`, paint the track on the element and the fill on `::-webkit-progress-value`/`::-moz-progress-bar`",
+      "blocker": "Properties like `border-radius`, `background` and `border` silently turn off the default progress bar styling (quote: \"Certain properties (e.g. `border-radius`, `background`, `border`) will silently disable the default progress bar styling.\")",
+      "outcome": "The native `progressbar` role and value announcements stay, and the look is fully under the author's control (official claim)",
+      "story": "All they wanted was rounded corners; after adding `border-radius` the fill vanished and the bar became a plain gray rectangle.",
+      "unlock": "",
+      "support": "`<progress>`, `appearance: none`: no support data in the guide, N/A; accent-color: the guide records Limited availability (Chrome 93, Edge 93, Firefox 92, Safari 26.2)"
+    },
+    "mwg:progress:2": {
+      "title": "Write `-webkit-` and `-moz-` progress pseudo-elements in separate rules",
+      "action": "Give `::-webkit-progress-value` and `::-moz-progress-bar` one rule each, each appearing once; pass state differences through custom properties on `progress`",
+      "blocker": "In one selector list, each browser doesn't recognize the other's pseudo-element, so the whole rule is dropped, and `:is()`/`:where()` can't help (quote: \"The rule will be deemed invalid and will be ignored. `:is()` and `:where()` do not help here, as they don't support pseudo-elements.\")",
+      "outcome": "Each engine gets its own rule (official claim)",
+      "story": "To save a few lines both pseudo-elements were joined with a comma, and the fill broke in Chrome and Firefox at once.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:progress:3": {
+      "title": "Move the indeterminate segment with `translate` in `cqi`, not margins or `scale`",
+      "action": "Set `container-type: inline-size` on `progress`; in keyframes set a real `inline-size` for length and move with `translate: -100%` to `100cqi`, with `margin-right: auto` in `from, to`; reverse the animation under `:dir(rtl)`",
+      "blocker": "Margins break in RTL: Firefox only uses the physical left margin so the segment never moves, and in Chromium/WebKit the left margin is ignored once margins exceed the track so it jumps to the edge; using `scale` for length distorts patterns on the fill (quote: \"Firefox positions the indeterminate fill using only its physical left margin, so `margin-inline-start` has no effect in RTL and the fill never moves.\")",
+      "outcome": "`translate` applies after layout so neither RTL problem occurs, and the animation stays on the compositor (official claim)",
+      "story": "In an Arabic UI the loading bar's segment sat still in Firefox and jumped around in Chrome.",
+      "unlock": "",
+      "support": "Container query units, `translate`: no support data in the guide; N/A"
+    },
+    "mwg:progress:4": {
+      "title": "Slow the indeterminate animation for reduced motion instead of `animation: none`",
+      "action": "Under `prefers-reduced-motion: reduce`, stretch `--progress-bar-indeterminate-animation-duration` to 10s",
+      "blocker": "The indeterminate fill only exists through its animation; turning it off leaves a zero-width fill in Chromium (quote: \"Never disable the indeterminate animation (`animation: none` leaves a zero-width fill in Chromium).\")",
+      "outcome": "Reduced-motion users still see a slowly moving segment (official claim)",
+      "story": "Honoring reduced motion by switching the animation off left an empty track that looked frozen.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:progress:5": {
+      "title": "Use `revert-rule` so an unset animation variable overrides nothing",
+      "action": "On the pseudo-elements write `animation: var(--progress-bar-animation, revert-rule)`, so the animation is only overridden when the variable is set (e.g. indeterminate state or a determinate shimmer)",
+      "blocker": "Missing — the guide only says this maximizes composability, without saying when things go wrong without `revert-rule`",
+      "outcome": "With the variable unset, the original rule stands; without support it degrades to a 0s animation named `revert-rule`, a harmless no-op (official claim)",
+      "story": "A component library wanted users to add a shimmer without clobbering defaults when they don't. `revert-rule` makes \"unset\" truly mean \"not written\".",
+      "unlock": "\"Don't override if unset\" used to need an extra selector layer or `@supports` → design-system components can expose any custom property as a hook, and unused hooks leave the defaults untouched",
+      "support": "revert-rule: Baseline Newly available (since 2026-09-14). Supported by: Chrome 148, Edge 148, Firefox 150, Safari 27"
+    },
+    "mwg:progress:6": {
+      "title": "Announce task completion with `role=\"status\"`, don't move focus to `<progress>`",
+      "action": "Don't set `tabindex` or call `.focus()` on `<progress>`; update a polite status element when the task finishes",
+      "blocker": "`<progress>` is non-interactive, and moving focus to it disrupts keyboard users (quote: \"it is non-interactive and moving focus to it disrupts keyboard users.\")",
+      "outcome": "The completion message is still announced and focus stays put (official claim)",
+      "story": "As soon as the upload finished, focus was yanked to the progress bar and the field the user was filling lost focus.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:progress:7": {
+      "title": "Hide loading regions with `hidden` instead of `aria-busy` plus `aria-describedby` on an unnamed `<div>`",
+      "action": "While a region isn't ready, hide it with `hidden` or `aria-hidden=\"true\"` and leave progress to a labeled `<progress>`",
+      "blocker": "`aria-busy` has inconsistent screen reader support, and `aria-describedby` on an unnamed `<div>` without a role is ignored (quote: \"`aria-busy` has inconsistent screen reader support, and `aria-describedby` on an unnamed `<div>` without a role is ignored by assistive technologies.\")",
+      "outcome": "Assistive tech doesn't read half-built content (official claim)",
+      "story": "A loading card had aria-busy and a description; the screen reader read the half-empty card anyway and never read the description.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:progress-ring": {
+      "title": "Draw a progress ring from `<progress>` with `conic-gradient()` and `attr()`, not SVG plus ARIA",
+      "action": "The `<progress value max aria-label>` itself is the ring: `--value: attr(value type(<number>))` reads the attribute, `conic-gradient()` paints the fill, `background-clip: border-area` with a transparent border hollows the center; native bar pseudo-elements are hidden and center text sits in a separate layer",
+      "blocker": "Missing — the guide only says it beats SVG-only approaches by using the semantic element instead of ARIA and fitting better into layouts and design systems, without saying when SVG goes wrong",
+      "outcome": "Changing the `value` attribute updates both the visuals and the announced value; `border-area` and typed `attr()` are both Limited, with `mask-image` and a MutationObserver as fallbacks (official claim)",
+      "story": "Dashboard cards needed circular progress. That used to mean drawing SVG arcs and maintaining `aria-valuenow` by hand; now it's still the same `<progress>`, just round.",
+      "unlock": "Circular progress used to mean hand-drawn SVG plus synced ARIA → quota rings, course completion and upload circles are one line of HTML with the value in an attribute CSS reads itself. Firefox lacks border-area and Safari lacks typed attr() for now, filled in by mask and MutationObserver",
+      "support": "background-clip: border-area: Limited availability. Supported by: Chrome 150, Edge 150, Safari 18.2. Unsupported in: Firefox. attr(): Limited availability. Supported by: Chrome 133, Edge 133, Firefox 155. Unsupported in: Safari"
+    },
+    "mwg:progress-ring:2": {
+      "title": "Redraw the ring with `forced-color-adjust: none` and system colors in forced colors mode",
+      "action": "Inside `@media (forced-colors: active)` set `forced-color-adjust: none`, fill `CanvasText`, track `Canvas`",
+      "blocker": "Forced colors mode removes background gradients, so the ring disappears (quote: \"Forced colors mode removes background gradients, so in `@media (forced-colors: active)`, opt the ring out with `forced-color-adjust: none` and draw it with system colors, or the ring disappears.\")",
+      "outcome": "The ring still shows in system colors in high contrast mode (official claim)",
+      "story": "In Windows high contrast mode every progress ring on the dashboard vanished, leaving only the percentages.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:progress-ring:3": {
+      "title": "Hide the center text from assistive tech and supply the same wording via `aria-valuetext`",
+      "action": "Add `aria-hidden=\"true\"` to the center content; if it shows a format like \"3 of 5 files\", write the same text into `aria-valuetext` on `<progress>` on every update",
+      "blocker": "`<progress>` already exposes its value, so unhidden center text is announced twice; hiding without supplying it leaves only the number (quote: \"The `<progress>` element already exposes its value, so screen readers would otherwise announce it twice.\")",
+      "outcome": "Announced once, in the same words as on screen (official claim)",
+      "story": "The screen reader said \"75%, progress bar 75\"; after the center changed to \"3 of 5 files\", it only said \"60\".",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:progress-ring:4": {
+      "title": "Register `--value` with `@property` so the ring animates, 0s by default and longer only with no motion preference",
+      "action": "`@property --value { syntax: '<number>'; ... }`, `transition: --value 0s`, switching to 0.4s under `prefers-reduced-motion: no-preference`",
+      "blocker": "Without registration the ring jumps straight to the new value (quote: \"If `@property` is not supported, the ring will jump to the new value instantly instead of transitioning smoothly.\")",
+      "outcome": "With support it turns smoothly; Registered custom properties are Newly available, and without them it jumps but still works, with rAF as an option if animation is essential (official claim)",
+      "story": "Progress went from 40% to 75% and the arc snapped across, so the increase was hard to notice.",
+      "unlock": "",
+      "support": "Registered custom properties: Baseline Newly available (since 2024-07-09)"
+    },
+    "mwg:scrollspy": {
+      "title": "Let the table of contents mark the current section with `scroll-target-group` and `:target-current`",
+      "action": "Set `scroll-target-group: auto` on the nav container, link sections with `href=\"#id\"`, and style the one in view with `nav a:target-current`",
+      "blocker": "Missing — the guide only says the traditional approach needed JavaScript and `IntersectionObserver`, without saying when that goes wrong",
+      "outcome": "Supporting browsers highlight with pure CSS; Chrome/Edge 140 only, Firefox and Safari still need the IntersectionObserver script (official claim)",
+      "story": "A long doc's sidebar TOC should light up as you scroll. That used to mean watching every section's intersection and toggling classes; now the links know whether their target is on screen.",
+      "unlock": "TOC highlighting used to mean an observer and tuned thresholds per section → docs sites, single-page product tours and long-form articles can have chapter navigation that declaratively follows the reader. Chromium only for now",
+      "support": "scroll-target-group: Limited availability. Supported by: Chrome 140, Edge 140. Unsupported in: Firefox, Safari"
+    },
+    "mwg:scrollspy:2": {
+      "title": "`:target-current` is visual only; sync `aria-current` for screen readers when scrolling stops",
+      "action": "When supported, after load and on every `scrollend`, find `nav a:target-current` and set `aria-current=\"true\"` on it and `false` on the rest",
+      "blocker": "`:target-current` only changes visuals; the state isn't exposed to screen readers (quote: \"While `:target-current` handles the visual aspect, this is not exposed to screen readers.\")",
+      "outcome": "Screen readers can tell which section is current; scroll-target-group is Limited, and the fallback script also sets aria-current (official claim)",
+      "story": "The TOC highlight followed the scroll, but a screen reader user browsing the TOC couldn't tell which item was current.",
+      "unlock": "",
+      "support": "scroll-target-group: Limited availability (Chrome 140, Edge 140)"
+    },
+    "mwg:scrollspy:3": {
+      "title": "Combine the native pseudo-class and fallback class with `:is()`, not a comma list",
+      "action": "Write `nav a:is(:target-current, .target-current)` and have the fallback script toggle `.target-current`",
+      "blocker": "With `nav a:target-current, nav a.target-current`, older browsers don't recognize the pseudo-class and drop the whole rule, fallback class included (quote: \"the unrecognized pseudoselector invalidates the entire rule in older browsers.\")",
+      "outcome": "Older browsers still get highlighting via the fallback class (official claim)",
+      "story": "The IntersectionObserver fallback was running in Firefox and the class was toggling, yet the TOC never lit up.",
+      "unlock": "",
+      "support": ":target-current: Limited availability along with scroll-target-group"
+    },
+    "mwg:spinner": {
+      "title": "Make the spinner a `<progress>` without `value`, with `@property` deciding whether to add the stretching arc",
+      "action": "`<progress aria-label=\"Loading\">` without `value` is indeterminate; `conic-gradient()` draws the trail, `background-clip: border-area` hollows it into a ring, `rotate` spins it; register `--arc-start`/`--arc-end` with `@property`, and let `--progress-dash-animation`'s `initial-value` add the dash animation so browsers without `@property` simply rotate",
+      "blocker": "Missing — the guide only says native `<progress>` ensures correct announcements, without saying when a hand-built spinner goes wrong",
+      "outcome": "Screen readers announce it as a progress bar and it looks like a stretching arc; `border-area` is Limited with a `mask-image` fallback, and without `@property` it degrades to plain rotation with no JS (official claim)",
+      "story": "The usual spinner is an empty `<div>` with an animation that screen readers know nothing about. As a `<progress>`, the same element is both the circle on screen and the \"loading\" users hear.",
+      "unlock": "\"Add a layer of animation if supported, simplify otherwise\" used to need JS detection → `@property`'s `initial-value` acts as a switch so any decorative animation can tier itself in CSS; in-button spinners and full-page loaders become announceable progress elements",
+      "support": "background-clip: border-area: Limited availability. Supported by: Chrome 150, Edge 150, Safari 18.2. Unsupported in: Firefox. Registered custom properties: Newly (since 2024-07-09)"
+    },
+    "mwg:spinner:2": {
+      "title": "Redraw the spinner with `forced-color-adjust: none` and system colors in forced colors mode",
+      "action": "Inside `@media (forced-colors: active)` set `forced-color-adjust: none`, `--spinner-color: CanvasText`, `--track-color: Canvas`",
+      "blocker": "Forced colors mode removes background gradients, so the spinner disappears (quote: \"Forced colors mode removes background gradients, so in `@media (forced-colors: active)`, opt the spinner out with `forced-color-adjust: none` and draw it with system colors, or the spinner disappears.\")",
+      "outcome": "The spinner is still visible in high contrast mode (official claim)",
+      "story": "A high contrast user pressed Submit and nothing on screen changed, so they couldn't tell the system was working.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:spinner:3": {
+      "title": "For reduced motion, slow the spinner and drop the stretching, but don't stop it",
+      "action": "Under `prefers-reduced-motion: reduce`, in the same selector, set the internal `--_used-spinner-duration` to 6s, empty `--progress-dash-animation` and fix `--arc-end`",
+      "blocker": "With the animation fully stopped, users can't tell the process is still running (quote: \"Slow down the animation significantly rather than stopping it entirely, so the user still knows that the process is active.\")",
+      "outcome": "A slow rotation remains, so activity is still visible (official claim)",
+      "story": "With reduced motion on, the spinner became a static arc and the user thought the page had frozen.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:stack-drill-down": {
+      "title": "Build a drill-down stack on scroll snap, with `scrollsnapchange` handling every view change",
+      "action": "A horizontal `scroll-snap-type: x mandatory` container with one snap stop per view (`scroll-snap-stop: always`); drilling down calls `pushState`, appends a view and scrolls to it; `scrollsnapchange`'s `snapTargetInline` is the single source of truth for \"the active view changed\", updating `inert`, focus and history and pruning views; without support an IntersectionObserver (`threshold: 1`) calls the same function",
+      "blocker": "With JS-driven `transform` animations, the panel's position follows a tween, not the finger (quote: \"the snap mechanism gives the user direct gestural control of the panel's position (their finger drives it, not a tween)\")",
+      "outcome": "Momentum, velocity and mid-gesture reversal on swipe-back come from the browser with no pointer-event code, and swipe, click, programmatic scroll and `popstate` all converge on one callback. Scroll snap events are Chrome/Edge 129 only; other browsers get the same effect via IntersectionObserver (official claim)",
+      "story": "Drilling into mobile settings and swiping back used to play a fixed animation on release, with no way to change your mind halfway. As a scroller, the view stays under your finger.",
+      "unlock": "Native-app \"swipe back a level\" used to need a gesture library plus router syncing → mail threads, folder browsers, settings sub-pages and gallery details can be scroll-container stacks that swipe back, have shareable URLs and respect the system Back button. scrollsnapchange is Chromium only, others use IntersectionObserver",
+      "support": "Scroll snap: Widely (since 2020-01-15); Scroll snap events: Limited availability. Supported by: Chrome 129, Edge 129. Unsupported in: Firefox, Safari"
+    },
+    "mwg:stack-drill-down:2": {
+      "title": "Apply transforms to a child of the snap target, not the snap target itself",
+      "action": "`.Stack-view` only snaps; the parallax `transform` goes on the inner `.Stack-viewContent`",
+      "blocker": "A transform on the snap target feeds back into snap geometry and the scroller glitches mid-gesture (quote: \"A transform on the snap target feeds back into the scroll container's snap geometry and the scroller will glitch mid-gesture.\")",
+      "outcome": "Snap positions are unaffected by the parallax and swiping stays smooth (official claim)",
+      "story": "After adding parallax, the view suddenly jumped halfway through a swipe and stopped between two levels.",
+      "unlock": "",
+      "support": "Structural practice; N/A"
+    },
+    "mwg:stack-drill-down:3": {
+      "title": "Make every view except the current one `inert`",
+      "action": "In the `scrollsnapchange` handler, `toggleAttribute('inert', true)` on every level other than the current view",
+      "blocker": "Views hidden behind the parallax remain reachable by Tab and screen readers, invisibly to sighted users (quote: \"Without this, focus and screen-reader navigation leak into views hidden behind the parallax — invisible to sighted users but a severe accessibility failure.\")",
+      "outcome": "Focus, pointer and screen readers only reach the current view (official claim)",
+      "story": "On the third level, Tab sent focus into the covered first-level list and the keyboard user had no idea where they were.",
+      "unlock": "",
+      "support": "inert: Baseline Widely available (since 2023-04-11)"
+    },
+    "mwg:stack-drill-down:4": {
+      "title": "Keep browser Back in sync with the screen: `history.go()` after swipes, a synthesized root entry for deep links, no `pushState` in `popstate`",
+      "action": "`pushState({depth})` on every drill-down; after a swipe-back, if the visible view's depth differs from `currentDepth`, call `history.go(diff)`; from a deep link, have Back push a root entry and prepend the root view; the `popstate` handler only scrolls, never pushes",
+      "blocker": "Without syncing after a swipe, the next OS Back lands somewhere unexpected; `history.back()` from a deep link leaves the app entirely; `pushState` inside `popstate` breaks the Back button (quote: \"Without this, a subsequent OS Back returns the user somewhere unexpected because the browser's history cursor is out of sync with what's on screen.\")",
+      "outcome": "The OS Back gesture, browser back/forward and deep links all agree with the screen (official claim)",
+      "story": "After swiping back two levels, the phone's Back button jumped to a page no longer on screen; arriving from a shared link, Back left the site altogether.",
+      "unlock": "",
+      "support": "History API: no support data in the guide; N/A"
+    },
+    "mwg:stack-drill-down:5": {
+      "title": "Always pass `preventScroll: true` when restoring focus inside a snap container",
+      "action": "Call `.focus({ preventScroll: true })` when restoring focus to the previously activated link or focusing a new view's back button",
+      "blocker": "By default focusing scrolls the target into view, fighting the snap container and leaving the user mid-snap (quote: \"The default `preventScroll: false` makes the browser scroll the focus target into view, which fights the snap container and can land the user mid-snap.\")",
+      "outcome": "Moving focus no longer triggers extra scrolling (official claim)",
+      "story": "After swiping back, focus returned to the original link and the view got dragged half a step, stuck between two screens.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:stack-drill-down:6": {
+      "title": "After every view change make sure focus lands in the new view, falling back to the content container",
+      "action": "Prefer restoring the link the user activated, then the back button; when returning to the root with nothing stored, focus `.Stack-viewContent` with `tabindex=\"-1\"`; only move focus if it was already in the stack",
+      "blocker": "Focus left in a removed or `inert` view falls to `<body>`, and keyboard and screen reader users restart from the top (quote: \"Focus left in a removed or `inert` view falls to `<body>`.\")",
+      "outcome": "After Back from a deep link or a jump to the root, focus is inside the visible view (official claim)",
+      "story": "Going Back from a deep link to the home view, the next Tab started at the site logo.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:stack-drill-down:7": {
+      "title": "Update `document.title` per level and name the back button after where it goes",
+      "action": "On view change set the title to \"Current view | App\", using the app name alone at the root; set the back button's `aria-label` to \"Back to <previous title>\"",
+      "blocker": "Every drill-down adds a history entry, and with an unchanged title the history list, tab and screen readers can't tell them apart; a bare \"Back\" tells screen reader users nothing (quote: \"Each drill-down adds a history entry, and the title is what the browser's history list, the tab and screen readers use to tell those entries apart.\")",
+      "outcome": "The history list and screen readers can distinguish every level (official claim)",
+      "story": "Long-pressing the browser's Back showed five identical \"Mail\" entries with no way to pick the right one.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:stack-drill-down:8": {
+      "title": "Use `behavior: 'instant'` for multi-step jumps and forward `popstate`",
+      "action": "On `popstate`, compare target and current positions; use `'instant'` when jumping more than one level or moving right (forward), and `'auto'` only for single-step back",
+      "blocker": "Smooth-scrolling a multi-step jump fires `scrollsnapchange` at every snap and runs N rounds of inert/focus/history work; iOS Safari also treats edge swipes as forward, playing a drill-down animation nobody asked for (quote: \"Multi-step jumps would otherwise fire `scrollsnapchange` at every intermediate snap and do N rounds of inert/focus/history work.\")",
+      "outcome": "Jumps land directly, and forward navigation isn't misleading (official claim)",
+      "story": "Jumping back three levels from the history list slid through every level, with focus bouncing three times.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:stack-drill-down:9": {
+      "title": "Leave smooth scrolling to CSS `scroll-behavior` and always pass `behavior: 'auto'` from JS",
+      "action": "Declare `scroll-behavior: smooth` only inside `@media (prefers-reduced-motion: no-preference)` and pass `'auto'` to `scrollTo`/`scrollBy` so it follows the CSS",
+      "blocker": "Hard-coding `behavior: 'smooth'` in JS bypasses the user's reduced-motion setting (quote: \"Hard-coding `behavior: 'smooth'` bypasses the user's setting.\")",
+      "outcome": "The OS setting downgrades scrolling to instant automatically with no per-call branching (official claim)",
+      "story": "A reduced-motion user tapped each level and the whole screen still slid across every time.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:stack-drill-down:10": {
+      "title": "Use real `<a href>` drill-down triggers and let modified clicks through",
+      "action": "Point `<a href>` at each level's URL; when intercepting clicks, skip meta/ctrl/shift or non-primary buttons so the browser opens a new tab",
+      "blocker": "`<button onclick>` or `<div>` loses hover URL preview, shareability, middle-click, the screen reader role and SEO (quote: \"Real anchors get URL preview on hover, shareability, middle-click, screen-reader role, and SEO for free.\")",
+      "outcome": "Every level has a URL that can be shared and opened in a new tab (official claim)",
+      "story": "Middle-clicking an email to open it in a new tab did nothing, and there was no link to copy for a colleague.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:stack-drill-down:11": {
+      "title": "Wrap the scroll-driven parallax in `@supports (animation-timeline: view())`",
+      "action": "Put `animation-timeline: view(inline)`, `animation-range` and the `@keyframes` inside the `@supports` block",
+      "blocker": "Unsupporting browsers still parse the keyframes and apply the `to` state statically, leaving every view permanently transformed (quote: \"Browsers without scroll-driven animations still parse the @keyframes and would apply the `to` state as a static style, leaving every view permanently transformed.\")",
+      "outcome": "Without support, views simply cut between snap stops and navigation still fully works (official claim)",
+      "story": "In an older browser every view was shifted three quarters across and dimmed.",
+      "unlock": "",
+      "support": "Scroll-driven animations: Baseline Newly available (since 2026-10-27)"
+    },
+    "mwg:stack-drill-down:12": {
+      "title": "Drive parallax, dimming and shadow with a `view(inline)` timeline that follows the finger, not a `scroll` listener",
+      "action": "Set `animation-timeline: view(inline)` on `.Stack-viewContent`, play parallax and dim during the exit range (`exit 0% exit 100%`), and add a left-edge shadow on drill-down views",
+      "blocker": "A JS `scroll` listener runs on the main thread and visibly drops frames during the gesture (quote: \"a JS scroll listener runs on the main thread and will visibly drop frames during the gesture.\")",
+      "outcome": "The CSS path runs on the compositor with the animation driven by the finger; Scroll-driven animations are Newly available, and older browsers can optionally write transforms from a scroll listener (official claim)",
+      "story": "Swiping back, the view underneath should slide out from the left and brighten; the scroll-listener version stuttered on low-end phones.",
+      "unlock": "\"Card stacks on top, the layer below recedes and dims\" used to need per-frame math → any horizontal pager (settings sub-pages, product details, chat threads) can bind its transition to drag progress, so stopping halfway leaves the effect halfway",
+      "support": "Scroll-driven animations: Baseline Newly available (since 2026-10-27). Supported by: Chrome 115, Edge 115, Firefox 159, Safari 26"
+    },
+    "mwg:stack-drill-down:13": {
+      "title": "Remove views the user swiped past from the DOM, keeping only their URLs for rebuilding",
+      "action": "On `scrollsnapchange`, remove every view to the right of the current one; `entriesByDepth` keeps only their URL paths and rebuilds them on forward navigation",
+      "blocker": "A long drill-down session accumulates dozens of detached subtrees (quote: \"A long drill-down session can otherwise accumulate dozens of detached subtrees.\")",
+      "outcome": "The stack never holds more than the current depth + 1 views (official claim)",
+      "story": "After an hour of going in and out of folders the page grew sluggish, the DOM full of invisible old views.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:stack-drill-down:14": {
+      "title": "Set `overscroll-behavior-x: none` so swipe-back doesn't chain into the browser's own Back",
+      "action": "`.Stack { overscroll-behavior-x: none; }`",
+      "blocker": "At the end of the stack, the swipe chains into the browser's history-back gesture (iOS, some Android) or the page's vertical scroll (quote: \"Prevent the swipe-back gesture from chaining into the browser's own history-back gesture (iOS, some Android) or the page's vertical scroll.\")",
+      "outcome": "Swiping at the root no longer leaves the page; iOS Safari still treats edge swipes as forward even with this set (official claim)",
+      "story": "One swipe too many at the root view sent the whole site back to the previously visited page.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:stack-drill-down:15": {
+      "title": "Size the stack with `100dvh`",
+      "action": "`.Stack { height: 100dvh; }`, tracking the mobile address bar as it shows and hides",
+      "blocker": "`svh` clips during the address bar animation and `vh` leaks under it (quote: \"svh would clip during the address bar animation; vh leaks under it.\")",
+      "outcome": "The height tracks the dynamic viewport (official claim)",
+      "story": "Scrolled to the bottom on a phone, the last button hid behind the address bar and couldn't be tapped.",
+      "unlock": "",
+      "support": "dvh: no support data in the guide; N/A"
+    },
+    "mwg:content-first-noise-reduction": {
+      "title": "Hide the top bar while scrolling down with `scroll-state(scrolled)` and bring it back on scroll up",
+      "action": "`html { container-type: scroll-state; }` and, under `@container scroll-state((scrolled: bottom) and (scrollable: top))`, `transform: translateY(-100%)` on the sticky top bar; slide bottom tab bars down the same way",
+      "blocker": "Missing — the guide only says the bar should get out of the way while reading and come back with one flick, with no script, without saying when persistent bars or scripted versions go wrong",
+      "outcome": "Supporting browsers collapse the bar by scroll direction in pure CSS, and `transform` avoids layout shifts; Chrome/Edge 144 only, elsewhere the bar never hides unless a scroll-listener script is added (official claim)",
+      "story": "Reading a long article on a phone, the top bar always ate a slice of the screen. Now it slides away as you read down and returns as soon as you flick up, with no JS.",
+      "unlock": "\"Hide on scroll down, show on scroll up\" used to mean tracking the last scrollY and handling rubber-banding → news site headers, reader toolbars and mobile bottom tab bars can collapse by scroll direction with one container query. Chromium only for now",
+      "support": "Container scroll-state queries: Limited availability. Supported by: Chrome 144, Edge 144. Unsupported in: Firefox, Safari"
+    },
+    "mwg:content-first-noise-reduction:2": {
+      "title": "Don't let a collapsing top bar hide keyboard focus or cover in-page link targets",
+      "action": "`.top-bar:focus-within { transform: none; }` keeps a focused bar visible; `:target { scroll-margin-top: 4rem; }` at least the bar's height",
+      "blocker": "Focus can still be inside a collapsed bar, and a sticky bar covers where in-page links land (quote: \"so in-page link targets don't land under the bar.\")",
+      "outcome": "The bar doesn't collapse while it holds focus, and link targets land below it (official claim)",
+      "story": "Clicking \"Section 3\" in the TOC put its heading right under the sticky nav; tabbing into the nav, it stayed tucked off-screen.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:content-first-noise-reduction:3": {
+      "title": "Add `(scrollable: top)` so the bar always shows after Home jumps to the top",
+      "action": "Write the query as `scroll-state((scrolled: bottom) and (scrollable: top))`, collapsing only when there is content above",
+      "blocker": "Jumps like the Home key don't update `scrolled`, so a direction-only query leaves the bar hidden at the top (quote: \"shows the bar at the very top, even after jumps such as the Home key, which don't update \"scrolled\".\")",
+      "outcome": "Supporting browsers always show the bar at the top; Chrome/Edge 144 only (official claim)",
+      "story": "Pressing Home mid-article returned to the top but the bar didn't come back until another flick up.",
+      "unlock": "",
+      "support": "Container scroll-state queries: Limited availability (Chrome 144, Edge 144)"
+    },
+    "mwg:content-first-noise-reduction:4": {
+      "title": "Put secondary UI in `popover`s and drawers instead of permanent toolbars or custom JS overlays",
+      "action": "Use `popover` with `popovertarget` for menus, overflow actions, tooltips, hover cards and tips; use a popover drawer pinned to one side for larger sets",
+      "blocker": "Missing — the guide only says to use popovers instead of permanent toolbars and custom JavaScript overlays, without saying when those go wrong",
+      "outcome": "Click, Enter and Space toggle it, auto popovers also close on Esc and outside click, and the top layer needs no z-index; Popover is Newly available (official claim)",
+      "story": "The header was packed with rarely used links. Tucked into a popover behind \"More\", the main screen keeps only the content and the keyboard still opens it.",
+      "unlock": "Every collapsible menu used to need hand-written toggle, Esc, outside-click and layering → blogs and docs sites can tuck author info, sharing and related links into HTML-declared overlays, leaving the main column for the article",
+      "support": "Popover: Baseline Newly available (since 2025-01-27)"
+    },
+    "mwg:content-first-noise-reduction:5": {
+      "title": "Prefer `popovertarget`; with `commandfor`, load the polyfill only after detection",
+      "action": "Toggle with `popovertarget`; if using `commandfor` with `command=\"toggle-popover\"`, dynamically import `invokers-polyfill` when `'commandForElement' in HTMLButtonElement.prototype` is false",
+      "blocker": "Browsers without invoker commands ignore `commandfor`, so the button does nothing (quote: \"Browsers without invoker commands ignore `commandfor`, so the button does nothing there.\")",
+      "outcome": "`popovertarget` works wherever popovers do; Invoker commands are Newly available (official claim)",
+      "story": "A \"More\" button wired with commandfor did nothing at all in an older Safari.",
+      "unlock": "",
+      "support": "Invoker commands: Baseline Newly available (since 2025-12-12)"
+    },
+    "mwg:adapt-scrollbar-to-contrast-preferences": {
+      "title": "Switch custom scrollbars to high-contrast colors with `prefers-contrast: more`",
+      "action": "Keep scrollbar colors in `--scrollbar-thumb`/`--scrollbar-track` applied via `scrollbar-color`; inside `@media (prefers-contrast: more)` switch to a solid black thumb on a white track",
+      "blocker": "Missing — the guide only says high-contrast users expect stark separation rather than subtle grays or theme colors, without saying when low-contrast scrollbars go wrong",
+      "outcome": "Users asking for more contrast get a stark scrollbar; the default still needs 3:1; scrollbar-color is Newly available, with `::-webkit-scrollbar` as an optional fallback (official claim)",
+      "story": "The brand theme's scrollbar was light gray on lighter gray: pretty, but hard to find. Users who turn on high contrast now get a black-and-white version while everyone else keeps the original.",
+      "unlock": "Scrollbar colors used to mean `-webkit-` pseudo-elements plus a separate Firefox path → code editors, chat sidebars and data tables can match scrollbars to the theme and switch to black and white when users ask for high contrast",
+      "support": "scrollbar-color: Baseline Newly available (since 2025-12-12). Supported by: Chrome 121, Edge 121, Firefox 64, Safari 26.2"
+    },
+    "mwg:adapt-scrollbar-to-contrast-preferences:2": {
+      "title": "On macOS `scrollbar-color` only applies with `scrollbar-width`, and the thumb can't rely on the track to be visible",
+      "action": "Set `scrollbar-width` (`thin` or `auto`) alongside custom colors; add `scrollbar-gutter: stable` to show a track color; pick a thumb color that stands out on a transparent track",
+      "blocker": "macOS uses overlay scrollbars and ignores `scrollbar-color` and `::-webkit-scrollbar` by default; even when applied, the track is transparent until hovered (quote: \"On macOS, `scrollbar-color` (standard) and `::-webkit-scrollbar` (legacy) properties are ignored by default because macOS uses native \"overlay\" scrollbars.\")",
+      "outcome": "macOS renders the custom colors, though the track may stay transparent (official claim)",
+      "story": "A high-contrast scrollbar tuned on Windows didn't change at all on a Mac; once it did show, the thumb blended into the background behind the transparent track.",
+      "unlock": "",
+      "support": "scrollbar-color: Newly (since 2025-12-12)"
+    },
+    "mwg:adapt-scrollbar-to-contrast-preferences:3": {
+      "title": "Don't animate or transition `scrollbar-color`",
+      "action": "Swap values directly when switching theme or contrast, with no `transition`",
+      "blocker": "A WebKit bug makes the scrollbar flicker every time `scrollbar-color` changes (quote: \"A [WebKit bug](https://bugs.webkit.org/show_bug.cgi?id=311752) causes the scrollbar to flicker every time `scrollbar-color` changes.\")",
+      "outcome": "No transition means no flicker trigger; the bug itself remains in the browser (official claim)",
+      "story": "A 0.2s fade on the scrollbar during theme switches made it flash several times in Safari.",
+      "unlock": "",
+      "support": "scrollbar-color: Newly (since 2025-12-12)"
+    },
+    "mwg:browser-ui-theming": {
+      "title": "Customize browser-generated UI with CSS hooks first, and rebuild only when they truly fall short",
+      "action": "Restyle form controls, scrollbars and selections with `::selection`, `accent-color`, `color-scheme`, `scrollbar-color`, `::placeholder`, `field-sizing: content`, `appearance: base-select` with `::picker(select)`, `label:has(:checked)`, `::file-selector-button`, slider track and thumb pseudo-elements and the like",
+      "blocker": "Rebuilding built-in UI loses the semantics, keyboard handling, IME and assistive tech integration the browser provides (quote: \"most notably losing accessible semantics, keyboard handling, IME, and AT integration that the native UI provides for free.\")",
+      "outcome": "Most built-in UI can be customized to some extent and degrades gracefully in older browsers, usually without polyfills (official claim)",
+      "story": "A dropdown was rewritten just to change its colors, and then Chinese IME candidate selection, screen reader support and arrow keys all had to be patched in. Most of the look was customizable on the native control all along.",
+      "unlock": "",
+      "support": "No support data in this guide; N/A"
+    },
+    "mwg:browser-ui-theming:2": {
+      "title": "Use `user-select: none` only on UI chrome, never on content text",
+      "action": "Limit `user-select: none` to drag handles, toolbars and redundant button labels",
+      "blocker": "On content text it breaks copy-paste, translation tools and AT \"read from here\" gestures (quote: \"breaks copy-paste, translation tools, and AT \"read from here\" gestures.\")",
+      "outcome": "Content stays selectable, copyable and translatable (official claim)",
+      "story": "Trying to copy an address from an article, no amount of dragging would select it, and the translation extension couldn't grab the text either.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:browser-ui-theming:3": {
+      "title": "Keep `scrollbar-width` at `auto` unless another accessible way to scroll is provided",
+      "action": "Don't set `scrollbar-width` to `thin` or `none` without an alternative accessible scroll control",
+      "blocker": "`thin` still has a thumb, but it's too small a target for some users to operate (quote: \"Although `scrollbar-width: thin` does provide a thumb, the target size of the thumb will be too small for some users to operate.\")",
+      "outcome": "The thumb stays a usable size (official claim)",
+      "story": "A user with an unsteady hand tried several times to grab the thin scrollbar and kept missing.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:browser-ui-theming:4": {
+      "title": "Style validity with `:user-invalid`/`:user-valid` and exclude range sliders",
+      "action": "Use `:user-invalid`/`:user-valid` instead of `:invalid`/`:valid`; when targeting broadly write `input:not(input[type=\"range\"]):user-valid`",
+      "blocker": "`:invalid` flags empty required fields as errors on load; without excluding sliders, adjusting one picks up field validity borders or backgrounds (quote: \"avoiding the hostile default of flagging required-empty fields as errors on page load.\")",
+      "outcome": "Only fields the user has interacted with show validity, and sliders are unaffected (official claim)",
+      "story": "The sign-up page opened with a row of red borders; nudging the volume slider gave it a green \"valid\" border too.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:color": {
+      "title": "Don't convey borders, separators or state only through background images, shadows or `border-image`; they vanish in forced colors",
+      "action": "Define system color fallbacks for color tokens in `@media (forced-colors: active)` and express boundaries and state with `outline` or `border` using `CanvasText`, `LinkText`, `Highlight` and similar keywords; reserve `forced-color-adjust: none` for places where color is the information (syntax highlighting, swatches), and set a compliant text and background pair there",
+      "blocker": "Forced colors mode overrides author colors and removes `box-shadow` and gradient backgrounds, while `border-image` and `url()` backgrounds may vanish or keep colors that don't contrast (quote: \"In forced colors they disappear or keep their own colors, which may not contrast with the system colors (and they often disappear in print too).\")",
+      "outcome": "Boundaries and state are drawn in system colors and stay visible in high contrast mode and print (official claim)",
+      "story": "An input's border drawn with an inset shadow disappeared in Windows high contrast mode, and users couldn't find where to type.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:color:2": {
+      "title": "Don't generate tints by adjusting only oklch lightness; use `color-mix()` or a blend of both",
+      "action": "Look for an existing design token first; when generating dynamically, use `color-mix(in oklab, …, white/black)` or combine a lightness adjustment (no more than 30%) with `color-mix()`",
+      "blocker": "Browsers don't implement gamut mapping yet, so changing `oklch`/`oklab` lightness directly gives unpredictable colors (quote: \"browsers do not yet implement gamut mapping, so the resulting color is unpredictable.\")",
+      "outcome": "`color-mix()` keeps colors in gamut but tends to wash them out; combining both balances the two (official claim)",
+      "story": "Raising the brand blue's lightness to 0.9 with relative color syntax produced different colors on different screens, some drifting purple.",
+      "unlock": "",
+      "support": "No support data in this guide; N/A"
+    },
+    "mwg:complex-shapes": {
+      "title": "Use `mask-image` for brush strokes and organic textures instead of hard-edged `clip-path`",
+      "action": "Point `mask-image` at a PNG/SVG with transparency, a CSS gradient, or an inline SVG `<mask>` (`maskContentUnits=\"objectBoundingBox\"` scales it with the element), with `-webkit-mask-*` alongside; SVG masks use luminance by default, set `mask-type: alpha` to use transparency",
+      "blocker": "`clip-path` only cuts geometric or vector shapes and can't do semi-transparency, soft edges or complex textures (quote: \"it supports semi-transparency, allowing for soft edges and complex textures that are difficult or impossible to achieve with `clip-path`.\")",
+      "outcome": "Any grayscale or alpha image can define what's visible; Masks are Widely available, and without support the element shows as a plain rectangle (official claim)",
+      "story": "The hero photo was meant to fade out at the edges like a watercolor brush stroke, but `clip-path` could only produce a sharp edge. With a mask image, the edge got its brush texture.",
+      "unlock": "",
+      "support": "Masks: Baseline Widely available (since 2023-12-07)"
+    },
+    "mwg:contrast-color": {
+      "title": "Pick black or white text from the background with `contrast-color()` so theme changes don't make text unreadable",
+      "action": "`color: contrast-color(var(--badge-bg))` with background and text sharing one variable; themes and user-chosen colors change only that variable; without support, compute black or white with relative color syntax in `xyz-d65` using a 0.17913 luminance threshold",
+      "blocker": "With a dynamic background, hard-coding text colors per state leaves text and background mismatched (quote: \"Hard-code a separate text color for each interaction state when the background is dynamic. Doing so reintroduces the very mismatch `contrast-color()` exists to prevent.\")",
+      "outcome": "The browser picks whichever of black and white contrasts most, and text follows theme changes; contrast-color() is Newly available, and the `color(xyz)` fallback uses Newly relative colors to meet WCAG 1.4.3 (official claim)",
+      "story": "A user picked pale yellow for a tag and its white text vanished. With text color computed from the background, any color stays readable.",
+      "unlock": "Letting users pick colors used to mean computing luminance in JS to choose a text color → project tags, kanban columns, calendar categories and user themes can accept any color, with text automatically black or white",
+      "support": "contrast-color(): Baseline Newly available (since 2026-04-10). Supported by: Chrome 147, Edge 147, Firefox 146, Safari 26; Relative colors: Newly (since 2024-09-16)"
+    },
+    "mwg:customize-scrollbar-color-and-thickness": {
+      "title": "Theme scrollbars with standard `scrollbar-color`, with a thumb at 3:1 against both track and background",
+      "action": "Set `scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track)` and `scrollbar-width` on the scroll container, one variable each for thumb and track",
+      "blocker": "A low-contrast thumb is invisible and users can't tell how far they've scrolled; macOS overlay scrollbars have a transparent track, so the thumb must also contrast with the container background (quote: \"so users can see the thumb and how far they've scrolled (WCAG 1.4.11 Non-text Contrast).\")",
+      "outcome": "Standard properties change color and thickness; scrollbar-color is Newly available, with a `::-webkit-scrollbar` fallback wrapped in `@supports not` if needed (official claim)",
+      "story": "A dark sidebar with a pale gray scrollbar: on a Mac the track was transparent and the thumb matched the background, so users didn't know the list continued.",
+      "unlock": "Scrollbar colors used to need non-standard pseudo-elements per engine → chat sidebars, code panels and dark dashboards can theme scrollbars in two lines of standard CSS, changing site-wide with one variable",
+      "support": "scrollbar-color: Baseline Newly available (since 2025-12-12); scrollbar-width: Newly (since 2024-12-11)"
+    },
+    "mwg:custom-text-decorations": {
+      "title": "Use native `text-decoration` for underlines, overlines and strikethroughs, not faked borders, gradients or pseudo-elements",
+      "action": "In `:where(.decorated)` set line, style, color and `max(1px, 0.08em)` thickness with the `text-decoration` shorthand and the gap with `text-underline-offset: 0.2em`; change `text-decoration-color` and thickness on hover",
+      "blocker": "Faked lines don't follow wrapped lines, track font metrics, skip descenders or inherit through nested elements (quote: \"A native decoration follows the text across wrapped lines, tracks the font's metrics, skips glyph descenders, and inherits through nested elements, so none of that needs to be reimplemented.\")",
+      "outcome": "Wrapping, font metrics, ink skipping and inheritance are handled by the browser (official claim)",
+      "story": "A link underline made with `border-bottom` only showed on the last line when the link wrapped, and cut straight through the tails of g and y.",
+      "unlock": "",
+      "support": "text-decoration family: no support data in the guide; N/A"
+    },
+    "mwg:custom-text-decorations:2": {
+      "title": "Decorated links should be real `<a href>`, not `javascript:void(0)`",
+      "action": "Point links at the real destination, adding `target=\"_blank\" rel=\"noopener\"` for new tabs; make underlined non-link text not look like a link",
+      "blocker": "`href=\"javascript:void(0)\"` with a script handler loses middle-click, copy-link and screen reader behavior (quote: \"A real link keeps middle-click, copy-link, and screen reader behavior.\")",
+      "outcome": "Middle-click, copy link and the screen reader link role are preserved (official claim)",
+      "story": "Right-click \"Copy link\" produced `javascript:void(0)`, useless to paste to anyone.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:custom-text-decorations:3": {
+      "title": "Use `text-decoration-skip-ink: all` so Chinese and Japanese underlines skip strokes",
+      "action": "Set `text-decoration-skip-ink: all` when the underline sits close enough to cross ideographs or mixed scripts must look consistent; leave Latin text at the default `auto`; use `none` for very thick or decorative lines",
+      "blocker": "The default `auto` skips ink in most scripts but not Japanese or Chinese, so the underline runs straight through characters (quote: \"all: also skip ink in scripts where auto does not, such as Japanese or Chinese.\")",
+      "outcome": "With support, CJK underlines also break around strokes; text-decoration-skip-ink: all is Newly available, and without it the browser keeps `auto`, so only CJK loses ink skipping (official claim)",
+      "story": "Link underlines in a Chinese article hugged the text and sliced through the bottom strokes of characters like 這 and 還, so whole lines looked struck through.",
+      "unlock": "CJK underlines used to be pushed far away or dropped altogether → Chinese blogs, Japanese docs and mixed-script interfaces can use thin underlines close to the text that break at strokes, keeping links recognizable and tidy",
+      "support": "text-decoration-skip-ink: all: Baseline Newly available (since 2026-05-07). Supported by: Chrome 148, Edge 148, Firefox 75, Safari 15.4"
+    },
+    "mwg:custom-text-decorations:4": {
+      "title": "Grow an underline on hover with `text-decoration-inset`",
+      "action": "`text-decoration-inset: 0 100%` trims the end to zero length, transitioning back to `0 0` on hover and `:focus-visible`; hide and animate only under `prefers-reduced-motion: no-preference`, otherwise keep the line visible; positive or negative values also shorten or extend either end",
+      "blocker": "This effect used to be faked with borders or background gradients, losing the native line's wrapping and ink skipping (quote: \"To reveal an underline on hover without a border or background gradient, trim the end by 100% and transition it back to 0\")",
+      "outcome": "The underline stays a native decoration and grows from left to right; without support the declaration is ignored and the link keeps a normal underline with no animation, no `@supports` needed (official claim)",
+      "story": "A nav wanted underlines that draw in from the left on hover, which used to mean a pseudo-element with `scaleX`. Now it's the real underline, just with an animated length.",
+      "unlock": "Hover underline animations used to need an extra pseudo-element → nav bars, inline article links and active-tab indicators can stretch the real underline, staying correct on multi-line links",
+      "support": "text-decoration-inset: no support data in the guide; N/A"
+    },
+    "mwg:custom-text-decorations:5": {
+      "title": "Use `border-shape` for squiggles and arrow tags, `corner-shape` when only corners change",
+      "action": "A pseudo-element with `border-shape: shape(…)` draws a squiggly underline, with a `clip-path` transition for a draw-on effect; `border-shape: polygon(…)` outlines a pointed tag; for bevels, scoops and notches use `corner-shape` with `border-radius`",
+      "blocker": "Without support, the outline ring must be cut with an `evenodd` `clip-path` on a pseudo-element, which thins diagonal strokes, and `clip-path` also clips focus rings and shadows (quote: \"`clip-path` also clips focus rings and `box-shadow`.\")",
+      "outcome": "With support the outline strokes along the shape; border-shape is Chrome/Edge 147 only, other browsers keep a rectangle or approximate with clip-path (official claim)",
+      "story": "A pointed price tag cut with clip-path showed no focus ring on keyboard focus, and its diagonal edges were thinner than the straight ones.",
+      "unlock": "Non-rectangular outlines used to mean clip-path or SVG → price tags, speech bubbles and hand-drawn squiggle underlines can be stroked with one CSS property, keeping focus rings and backgrounds. Chromium only for now",
+      "support": "border-shape: Limited availability. Supported by: Chrome 147, Edge 147. Unsupported in: Firefox, Safari. corner-shape: no support data in this guide (`mwg:breadcrumbs:2` records Limited)"
+    },
+    "mwg:custom-text-decorations:6": {
+      "title": "Make a gradient outline with a see-through middle using `background-clip: border-area`",
+      "action": "A transparent border with a `linear-gradient(…) border-box` background, plus `background-clip: border-area` so the background paints only under the border; inside `@supports`",
+      "blocker": "Without support the declaration is ignored and the background fills the whole border box, filling the text instead of only its outline (quote: \"the background paints under the whole border box, filling the text instead of only its outline.\")",
+      "outcome": "With support one property makes a hollow gradient outline; Chrome/Edge 150 and Safari 18.2 support it, Firefox needs an opaque surface layer or a masked pseudo-element (official claim)",
+      "story": "A gradient-outlined button with a transparent middle used to mean either assuming the backdrop color with a solid layer, or punching a hole with mask-composite. Now the background paints only on the border.",
+      "unlock": "Gradient outlines used to be faked over a known surface color → gradient-ringed buttons, tags and avatar rings over photos or video can be truly hollow. Firefox still needs the mask fallback",
+      "support": "background-clip: border-area: Limited availability. Supported by: Chrome 150, Edge 150, Safari 18.2. Unsupported in: Firefox"
+    },
+    "mwg:dark-mode": {
+      "title": "Put `<meta name=\"color-scheme\">` in `<head>` to reduce the white flash for dark-mode users",
+      "action": "Place `<meta name=\"color-scheme\" content=\"light dark\">` in `<head>` so the browser knows the supported schemes before rendering",
+      "blocker": "Without knowing the page supports dark, the browser starts with a white canvas, causing a flash of un-themed content (quote: \"To help prevent a \"flash of un-themed content\" (FOUC), place a `<meta>` tag in your `<head>` to ensure the browser knows which themes you support before it even starts rendering.\")",
+      "outcome": "The initial canvas is themed earlier; the guide adds it may not fully eliminate flashes in every browser or loading condition (official claim)",
+      "story": "Opening the site late at night in dark mode, the screen flashed white before turning dark.",
+      "unlock": "",
+      "support": "color-scheme: Baseline Widely available (since 2022-02-03)"
+    },
+    "mwg:dark-mode:2": {
+      "title": "Set `color-scheme` on `:root`, not only on `body`",
+      "action": "`:root { color-scheme: light dark; }`",
+      "blocker": "Browsers read the root element for viewport-wide theming; set only on `body`, the root scrollbar and initial canvas may stay light (quote: \"If applied only to the `body`, these global UI surfaces may remain in light mode because the `body` does not control the window's rendering context.\")",
+      "outcome": "Viewport scrollbars, canvas background and form controls all follow the scheme (official claim)",
+      "story": "The page content went dark, but the main scrollbar on the right stayed a white strip.",
+      "unlock": "",
+      "support": "color-scheme: Widely (since 2022-02-03)"
+    },
+    "mwg:dark-mode:3": {
+      "title": "Define self-switching color tokens with `light-dark()`",
+      "action": "Keep raw values in their own custom properties and compose tokens like `--color-brand: light-dark(var(--color-brand-light), var(--color-brand-dark))`; `accent-color`, `scrollbar-color`, `::selection` and others can use `light-dark()` too",
+      "blocker": "Missing — the guide only says `light-dark()` removes redundant media queries, without saying when media queries go wrong",
+      "outcome": "Colors follow each element's computed `color-scheme`, including subtrees with their own scheme; light-dark() is Newly available, falling back to custom properties switched by `prefers-color-scheme` (official claim)",
+      "story": "Every component needed its own dark-mode media query. With both values in one token, components just reference the token and `color-scheme` does the switching.",
+      "unlock": "Dark mode used to mean rewriting each component's colors → a design system maintains one set of paired tokens, and a dark code block, map or player embedded in a light page switches entirely by changing `color-scheme`",
+      "support": "light-dark(): Baseline Newly available (since 2024-05-13)"
+    },
+    "mwg:dark-mode:4": {
+      "title": "When JS reads `prefers-color-scheme`, always handle its `change` event",
+      "action": "Keep scheme branching in CSS where possible; when `matchMedia(\"(prefers-color-scheme: dark)\")` is needed, also listen for its `change` event",
+      "blocker": "The system scheme can change at any time, and code that reads `.matches` once stays on the old scheme (quote: \"MUST also handle its `change` event as the system preference can change at any time.\")",
+      "outcome": "The page updates when the system switches between light and dark (official claim)",
+      "story": "At dusk the system switched to dark and the CSS followed, but a JS-drawn chart kept its light background.",
+      "unlock": "",
+      "support": "No support data in the guide; N/A"
+    },
+    "mwg:dark-mode:5": {
+      "title": "One image per scheme: `light-dark()` now accepts image values",
+      "action": "`background-image: light-dark(url(hero-light.png), url(hero-dark.png))`; without support, define `--light-type`/`--dark-type` on `:root` and use `image-set()` with `type(\"image/do-not-use\")` so the inactive option is discarded",
+      "blocker": "Without image values, every image needs its own media query branch, and a manual toggle must flip each one (quote: \"every image needs its own media query branch, and a manual toggle must flip each one.\")",
+      "outcome": "Images switch with `color-scheme` like colors do, subtrees included; light-dark() image values are Newly available, and the `image-set()` fallback downloads only the chosen image but doesn't follow subtree `color-scheme` (official claim)",
+      "story": "The hero, illustrations and icons each had light and dark versions with a media query apiece, and adding a manual toggle meant editing every one again.",
+      "unlock": "Light/dark illustrations used to need a branch per image → illustrated sites, map tiles and product screenshots can declare both versions in one line, and images switch when a component sits in a dark section",
+      "support": "light-dark() image values: Baseline Newly available (since 2026-09-14). Supported by: Chrome 150, Edge 150, Firefox 150, Safari 27"
+    },
+    "mwg:dark-mode:6": {
+      "title": "Give the active `image-set()` option an empty value, not `type(\"\")`",
+      "action": "Set the active custom property to an empty value (`--light-type: ;`) so it's a plain option with no `type()`; only the inactive one gets the unsupported MIME type",
+      "blocker": "Browsers treat the empty string in `type(\"\")` as unsupported and drop every option (quote: \"Browsers treat the empty string as unsupported and drop every option.\")",
+      "outcome": "The fallback correctly selects one image; it serves browsers that don't yet support the Newly image values (official claim)",
+      "story": "Writing the active type as `type(\"\")` \"for clarity\" made both the light and dark hero images disappear.",
+      "unlock": "",
+      "support": "light-dark() image values: Newly (since 2026-09-14); image-set(): no support data in this guide"
+    },
+    "mwg:equal-width-text-lines": {
+      "title": "Make each line of a poster-style heading fill the width with `text-fit`",
+      "action": "Set `text-fit: grow per-line-all 300%` on the heading and wrap each forced line in a `display: block; white-space: nowrap` `<span>`; set the base `font-size` as the minimum and use the percentage as the cap",
+      "blocker": "Missing — the guide only says the browser scales each line during layout so it stays correct on resize, copy changes and font load, without saying when script measurement goes wrong",
+      "outcome": "With support every line matches the width; Chrome/Edge 150 only, other browsers need a ResizeObserver script for forced lines and have no faithful fallback for free lines (official claim)",
+      "story": "An event page wanted \"SUMMER / MUSIC / FEST\" on three equal-width lines at different sizes. Changing one word used to mean measuring again; now the browser recalculates on every layout.",
+      "unlock": "Equal-width lockups used to need libraries like fitty or be baked into images → event key visuals, magazine-cover headlines and translatable poster slogans can be set in real text that refits when the language or copy changes. Chromium only for now",
+      "support": "text-fit: Limited availability. Supported by: Chrome 150, Edge 150. Unsupported in: Firefox, Safari"
+    },
+    "mwg:equal-width-text-lines:2": {
+      "title": "Use `per-line-all`, not `per-line`, and give the container a definite width",
+      "action": "Write the `per-line-all` keyword; give the heading a definite `inline-size`, not `fit-content`/`max-content` or a content-sized flex/grid item",
+      "blocker": "`per-line` skips the last line and lines ending in a forced break, so with one block per line it scales nothing; content-sized containers also make `text-fit` do nothing (quote: \"`per-line` skips the last line and any line ending in a forced break, so with one block per line it scales nothing.\")",
+      "outcome": "Configured correctly, every line scales; the feature is Chrome/Edge 150 only (official claim)",
+      "story": "`text-fit` was written exactly as documented and nothing changed; it turned out the keyword lacked `-all` and the heading sat in a `fit-content` flex item.",
+      "unlock": "",
+      "support": "text-fit: Limited availability (Chrome 150, Edge 150)"
+    },
+    "mwg:equal-width-text-lines:3": {
+      "title": "Space lines with flex/grid `gap` and `text-box`, not `em` or `line-height`",
+      "action": "With all lines forced, give each line `text-box: trim-both cap alphabetic` and space them with flex or grid `gap`; with free lines skip `text-box` and let a small `line-height` govern",
+      "blocker": "`text-fit` doesn't change the computed `font-size`, so `em` spacing doesn't scale, while `line-height` gaps grow with each line's size (quote: \"IMPORTANT: Note that computed `font-size` is unchanged, so `em` spacing does not scale.\")",
+      "outcome": "Gaps between lines are uniform; text-box is Limited (Chrome, Edge, Safari), and without it the small `line-height` remains, with gaps scaling per line (official claim)",
+      "story": "After scaling, a big gap opened between lines two and three while lines one and two were crammed together.",
+      "unlock": "",
+      "support": "text-box: Limited availability. Supported by: Chrome 133, Edge 133, Safari 18.2. Unsupported in: Firefox"
+    },
+    "mwg:equal-width-text-lines:4": {
+      "title": "In the fallback script, do all reads and then all writes, never interleaved",
+      "action": "Clear the old `--text-fit-scale`, read every line's `offsetWidth` and the container width in one pass, then write every scale; refit via ResizeObserver on resize and font load",
+      "blocker": "Reading `lockup.clientWidth` inside the write loop forces a reflow per line (quote: \"Interleaving them (e.g. reading lockup.clientWidth inside the write loop) forces one reflow per line.\")",
+      "outcome": "Each refit triggers only one layout (official claim)",
+      "story": "Dragging the window edge made the heading's fitting script stutter the whole page.",
+      "unlock": "",
+      "support": "ResizeObserver: no support data in the guide; N/A"
+    },
+    "mwg:improve-text-layout-and-legibility": {
+      "title": "Balance heading line lengths with `text-wrap: balance`",
+      "action": "Set `text-wrap: balance` on `h1`–`h6`, subheadings and pull quotes",
+      "blocker": "Missing — the guide only says it distributes text evenly across lines for a more symmetrical look, without saying when default wrapping goes wrong",
+      "outcome": "Short headings get lines of similar length; text-wrap: balance is Newly available and falls back to normal wrapping (official claim)",
+      "story": "A two-line heading had a full first line and a single word on the second. With balance, the two lines are about the same length.",
+      "unlock": "Heading breaks used to need hand-placed `<br>` or JS balancing → news lists, card titles and multilingual marketing taglines break neatly at any width without per-language tweaks",
+      "support": "text-wrap: balance: Baseline Newly available (since 2024-05-13)"
+    },
+    "mwg:improve-text-layout-and-legibility:2": {
+      "title": "Use `text-wrap: pretty` on body text to stop paragraphs ending with a single word",
+      "action": "Set `text-wrap: pretty` on `p`, `blockquote`, `li` and other elements likely to hold long text",
+      "blocker": "Default greedy wrapping often leaves one word alone on a paragraph's last line (an orphan) (quote: \"It is specifically designed to prevent \"orphans\" (single words on the last line of a paragraph) and create a more pleasing visual \"rag\" for long blocks of text.\")",
+      "outcome": "With support paragraphs no longer end with a lone word; Chrome, Edge and Safari support it, Firefox falls back to normal wrapping (official claim)",
+      "story": "Every paragraph ended with one word dangling on its last line, making the whole page look ragged.",
+      "unlock": "Avoiding orphans used to mean hand-inserted non-breaking spaces → blogs, newsletters and docs get paragraph endings tidied by the browser, even for CMS-generated content. Not in Firefox yet",
+      "support": "text-wrap: pretty: Limited availability. Supported by: Chrome 117, Edge 117, Safari 26. Unsupported in: Firefox"
+    },
+    "mwg:improve-text-layout-and-legibility:3": {
+      "title": "Apply `balance` and `pretty` only where needed, never globally",
+      "action": "Give `balance` only to short multi-line elements and `pretty` only to paragraphs likely to run three or more lines; don't write `* { text-wrap: balance; }`",
+      "blocker": "`balance`'s binary search is expensive and reverts to normal wrapping beyond its line limit (about 6 lines in Chromium, 10 in Firefox); `pretty` also costs more than the default (quote: \"The iterative \"binary search\" algorithm used by browsers is computationally expensive.\")",
+      "outcome": "The performance cost is spent only where the effect is visible; balance is Newly available (official claim)",
+      "story": "Applying balance to everything for convenience slowed layout on text-heavy pages while long paragraphs didn't change at all.",
+      "unlock": "",
+      "support": "text-wrap: balance: Newly (since 2024-05-13)"
+    },
+    "mwg:improve-text-layout-and-legibility:4": {
+      "title": "Don't use `text-wrap: balance` on elements with borders or backgrounds",
+      "action": "Leave `balance` off buttons, tags and heading boxes with backgrounds",
+      "blocker": "`balance` changes where lines break, not the container width, leaving empty space at the end that shows inside a visible box (quote: \"Avoid elements that have visible boxes such as borders or backgrounds, as this can create unexpected visually empty areas in the layout.\")",
+      "outcome": "The box size matches the text (official claim)",
+      "story": "A callout box with a background got balance; its two lines became equally short and a big slab of background was left empty on the right.",
+      "unlock": "",
+      "support": "No support data in the guide for this case; N/A"
+    },
+    "mwg:precise-text-alignment": {
+      "title": "Trim the font's built-in leading with `text-box: trim-both cap alphabetic`",
+      "action": "Set `text-box: trim-both cap alphabetic` directly on the text element (it doesn't inherit); use `trim-start cap alphabetic` to align only the top, always specifying both edges; use it on headings, buttons and labels, not long body text",
+      "blocker": "Leading and ascender/descender space make text sit higher or lower than an adjacent icon, make button padding look uneven, and stop headings from aligning flush with an image top without magic-number negative margins (quote: \"Text appears visually lower or higher than an adjacent icon even when using `align-items: center`.\")",
+      "outcome": "The box hugs cap height and baseline, so `align-items: center` and `padding` follow the visible letters; Chrome, Edge and Safari support it, Firefox keeps the default leading (official claim)",
+      "story": "The icon and text in a button were vertically centered, yet the text always sat a pixel or two low, and a different font shifted it the other way. With the leading trimmed, centered looks centered.",
+      "unlock": "\"12px from text to border\" in a design used to need font-specific negative margins → design-system badges, buttons and tags can use the mockup's spacing directly, with no retuning when the font changes. Not in Firefox yet",
+      "support": "text-box: Limited availability. Supported by: Chrome 133, Edge 133, Safari 18.2. Unsupported in: Firefox"
+    },
+    "mwg:shaped-cutouts": {
+      "title": "On text cards, mask an adjacent decorative element rather than the text container",
+      "action": "Split the card into an unmasked `.card-body` for text and an empty `.card-accent` with an SVG `mask-image` (`maskContentUnits=\"objectBoundingBox\"`), sharing a background so they merge into one shaped card; `filter: drop-shadow()` on the parent follows the combined outline. Mask avatars and illustrations directly, and use a `radial-gradient` mask for simple notches",
+      "blocker": "Masking an element that contains text can clip the text (quote: \"Apply the mask to an adjacent element rather than the parent element containing text. This ensures that text doesn't get clipped and remains readable.\")",
+      "outcome": "The text container stays rectangular and fully readable; Masks are Widely available, and without support the accent is a same-colored rectangle so the card degrades to a clean rectangle (official claim)",
+      "story": "A membership card needed a concave curve on its right; masking the whole card meant text wrapping toward the right got eaten by the curve. Moving the curve onto an empty neighboring div kept the text safe.",
+      "unlock": "",
+      "support": "Masks: Baseline Widely available (since 2023-12-07)"
     }
   }
 }
