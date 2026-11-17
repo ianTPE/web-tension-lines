@@ -310,7 +310,9 @@
     "visually-stable-mixed-fonts": "Visually Stable Mixed Fonts",
     "visually-texture-content": "Adding Visual Texture to Content",
     "cpp-on-the-web": "Compile C/C++ to WebAssembly with Emscripten",
-    "agentic-forms": "Forms for Agents"
+    "agentic-forms": "Forms for Agents",
+    "agentic-javascript-tools": "Agentic JavaScript Tools",
+    "webmcp": "WebMCP"
   },
   "lines": {
     "mwg:install-web-app": {
@@ -6378,6 +6380,141 @@
       "story": "Users can see which form the agent changed and where confirmation is needed.",
       "unlock": "No native major-browser support.",
       "support": "An agent-fills, human-submits interface can clearly mark the active form and pending button, currently without native support."
+    },
+    "mwg:agentic-javascript-tools": {
+      "title": "Register page tools dynamically with registerTool()",
+      "action": "Register name, description, inputSchema, execute(), and annotations through document.modelContext, varying tools by route and user state.",
+      "blocker": "The guide presents imperative registration as suitable for dynamic SPAs without identifying a fixed-declaration failure. (quote: \"This is ideal for Single Page Applications (SPAs) where tools need to be added or removed based on the current route or user state.\")",
+      "outcome": "No major browser supports it natively; feature detection preserves normal page behavior.",
+      "story": "Pages produce tools and browser agents consume them out of band, without getTools() or executeTool().",
+      "unlock": "document.modelContext: no native browser support.",
+      "support": "SPAs can expose exactly what the current view can do without a backend MCP server, currently behind a Chromium flag."
+    },
+    "mwg:agentic-javascript-tools:2": {
+      "title": "Require mutual exposedTo and fromOrigins authorization across frames",
+      "action": "Providers list consumer origins in exposedTo and consumers query provider origins with fromOrigins, using secure origins only.",
+      "blocker": "One-sided authorization leaves cross-origin tools invisible, and untrustworthy origins cause SecurityError. (quote: \"Without `fromOrigins`, `getTools()` queries only same-origin documents.\")",
+      "outcome": "Mutual opt-in enables ancestor or sibling-frame discovery and execution; native support is absent.",
+      "story": "Both frames must declare trust before a checkout page can call its cart iframe.",
+      "unlock": "",
+      "support": "No native browser support."
+    },
+    "mwg:agentic-javascript-tools:3": {
+      "title": "Validate schema constraints and defaults inside execute",
+      "action": "Check types, enums, and required inputs and apply defaults in execute.",
+      "blocker": "The browser neither validates arguments against inputSchema nor applies defaults. (quote: \"The browser does not validate arguments against `inputSchema` or apply `default` values, so do both in `execute`.\")",
+      "outcome": "The tool rejects invalid input and supplies defaults itself; native support is absent.",
+      "story": "The schema describes the contract to the agent but is not a runtime validator.",
+      "unlock": "",
+      "support": "No native browser support."
+    },
+    "mwg:agentic-javascript-tools:4": {
+      "title": "Return actionable errors as structured values instead of throwing",
+      "action": "Return an error object with diagnostic details for recoverable failures; rethrow only cancellation.",
+      "blocker": "Thrown or rejected executions give the agent only a generic failure without the original message. (quote: \"The error message is not forwarded to the agent.\")",
+      "outcome": "The agent receives details it can use to correct or retry.",
+      "story": "Returning available items is more useful than a generic tool failure.",
+      "unlock": "",
+      "support": "No native browser support."
+    },
+    "mwg:agentic-javascript-tools:5": {
+      "title": "Use separate AbortSignals for registration and execution",
+      "action": "Abort registrations on route exit and pass each execution signal to async work, clearing timers and rolling back UI on cancellation.",
+      "blocker": "Aborting registration does not cancel running executions, which can consume resources and write stale UI. (quote: \"Aborting the registration signal only unregisters the tool — it does not cancel executions that are already running.\")",
+      "outcome": "Unregistered tools disappear while cancelled work stops requests and stale updates.",
+      "story": "Route changes require both tool cleanup and execution cleanup.",
+      "unlock": "",
+      "support": "No native browser support."
+    },
+    "mwg:agentic-javascript-tools:6": {
+      "title": "Keep application confirmation alongside consequentialHint",
+      "action": "Mark high-stakes tools consequentialHint:true and retain the application's own confirmation UI.",
+      "blocker": "The hint does not block execution and older browsers will not prompt. (quote: \"It does not block execution on its own, and browsers that predate the hint will not prompt at all.\")",
+      "outcome": "Supporting agents request confirmation, but the application remains the actual safeguard.",
+      "story": "Metadata cannot replace a confirmation gate for irreversible actions.",
+      "unlock": "",
+      "support": "consequentialHint: Chrome 154+; WebMCP has no native support."
+    },
+    "mwg:agentic-javascript-tools:7": {
+      "title": "Mark developer tools with annotations.debugging",
+      "action": "Set debugging:true on state dumps, feature-flag toggles, and test-data tools.",
+      "blocker": "The guide says the flag distinguishes developer tools but gives no concrete mixed-tool failure. (quote: \"This lets agents tell developer-only tools apart from tools meant to act for the user.\")",
+      "outcome": "In-page agents and tests can read the flag; native support is absent.",
+      "story": "Developer-only operations carry an explicit identity.",
+      "unlock": "annotations.debugging: Chrome 156+; WebMCP has no native support.",
+      "support": "Test consoles can expose only developer tools while general assistants avoid destructive debugging operations."
+    },
+    "mwg:agentic-javascript-tools:8": {
+      "title": "Use getTools() and executeTool() for in-page agents and tests",
+      "action": "Discover with getTools(), invoke with executeTool(), and monitor toolchange for embedded agents and automated tests.",
+      "blocker": "The guide distinguishes in-page from browser-agent consumers without identifying a misuse failure. (quote: \"The `getTools()` and `executeTool()` methods exist specifically for consumers running inside the JavaScript environment\")",
+      "outcome": "Tests can inspect metadata and simulate calls without a live external model.",
+      "story": "Browser agents need only registration; these methods serve embedded consumers.",
+      "unlock": "document.modelContext: no native browser support.",
+      "support": "Embedded copilots and browser tests can operate page tools without an external LLM harness."
+    },
+    "mwg:agentic-javascript-tools:9": {
+      "title": "Keep JSON-string input fallback for executeTool() on old Chrome",
+      "action": "Pass plain objects on Chrome 155+, retrying with JSON.stringify only after Failed to parse input.",
+      "blocker": "Older versions reject objects, while treating every error as a parse issue hides execution and cancellation errors. (quote: \"Since Chrome 155, `executeTool()` accepts a plain JavaScript object directly for `inputObject`, matching the input format your tool's `execute` callback receives.\")",
+      "outcome": "New and old versions can invoke tools, with fallback limited to parse failures.",
+      "story": "Circular references and BigInt still reject; functions and undefined are omitted.",
+      "unlock": "",
+      "support": "executeTool() object input: Chrome 155+; WebMCP has no native support."
+    },
+    "mwg:agentic-javascript-tools:10": {
+      "title": "Use official React, Angular, and Vue integrations for tool lifecycles",
+      "action": "Use each framework's WebMCP hook, provider, or composable and its enabled mechanism rather than component-level registration wrappers.",
+      "blocker": "Hand-written wrappers duplicate feature detection, AbortSignal cleanup, and lifecycle scoping already handled by integrations. (quote: \"Each integration already handles feature detection, `AbortSignal` cleanup, and scoping tools to the component or injector lifecycle.\")",
+      "outcome": "Official integrations centralize cleanup and scope but remain experimental.",
+      "story": "Framework integrations can also change result and error wrapping.",
+      "unlock": "",
+      "support": "Experimental framework integrations; no native browser support."
+    },
+    "mwg:webmcp": {
+      "title": "Use the browser tab as the tool registry instead of backend transports",
+      "action": "Expose client-side functionality through imperative registerTool() or declarative form attributes.",
+      "blocker": "The guide defines WebMCP as client-side but gives no backend-approach failure. (quote: \"WebMCP runs entirely **client-side** in the browser tab. It is *not* a backend server, and it does *not* use HTTP, Server-Sent Events (SSE), or `stdio` transports.\")",
+      "outcome": "Chromium 146 requires the testing flag; other browsers lack native support.",
+      "story": "The page is the registry; Resources and Prompts are unsupported.",
+      "unlock": "WebMCP: Chromium 146 flag preview only.",
+      "support": "Sites can expose client-side search, filters, and carts to browser assistants without an MCP server, currently only in Chromium preview."
+    },
+    "mwg:webmcp:2": {
+      "title": "Accept raw input and document every schema parameter",
+      "action": "Use explicit parameter types and purposes, explain option meanings, and avoid requiring agent calculations.",
+      "blocker": "Unclear schema structure and descriptions increase agent hallucinations. (quote: \"Always provide clear descriptions for every parameter to minimize agent hallucinations.\")",
+      "outcome": "The agent can construct more predictable input; support remains preview-only.",
+      "story": "Schema carries constraints while prose descriptions stay focused on purpose.",
+      "unlock": "",
+      "support": "No native browser support."
+    },
+    "mwg:webmcp:3": {
+      "title": "Return retryable errors only after UI state updates",
+      "action": "Validate in code, return descriptive errors and rate-limit handling, and resolve only after the UI is consistent.",
+      "blocker": "Returning before UI updates makes the tool result inconsistent with what the user sees. (quote: \"Ensure the function returns *after* UI state updates for consistency.\")",
+      "outcome": "Agent and user observe the same completed state and failures include retry information.",
+      "story": "A reported cart addition must already be visible in the interface.",
+      "unlock": "",
+      "support": "No native browser support."
+    },
+    "mwg:webmcp:4": {
+      "title": "Keep manual confirmation outside agent control for high-risk tools",
+      "action": "Do not auto-submit destructive or irreversible actions; require confirmation in UI outside the agent's control.",
+      "blocker": "Without an external guardrail, agents can directly execute destructive actions. (quote: \"Avoid auto-submitting tools for destructive or irreversible actions (e.g., deleting data) unless the UI requires manual user confirmation outside the agent's control.\")",
+      "outcome": "A person retains the final decision; WebMCP supplies no general safety guarantee.",
+      "story": "The safeguard belongs to product UI, not tool instructions.",
+      "unlock": "",
+      "support": "No native browser support."
+    },
+    "mwg:webmcp:5": {
+      "title": "Avoid agent tools when data changes faster than the agent",
+      "action": "Prefer ordinary realtime UI or refresh explicitly before calls for highly dynamic data.",
+      "blocker": "Agents can act on stale context when data changes faster than they react. (quote: \"If data changes faster than the agent can react, it may work with stale context.\")",
+      "outcome": "The guide recommends avoidance but provides no synchronization mechanism.",
+      "story": "Dynamic registration and aborts manage tool lifetime, not changing data.",
+      "unlock": "",
+      "support": "No native browser support."
     }
   }
 }

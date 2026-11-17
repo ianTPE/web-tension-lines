@@ -673,3 +673,18 @@
 2026-11-17,v1.0.0,agentic-forms,mwg:agentic-forms:4,欄位互相連動、自訂元件或多步驟的表單不用宣告式 API,表單假設錯的資料格式,合成出來的 schema 表達不了欄位間的相依；自訂元件的值不會自動序列化,僵持,不適用,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,agentic-forms,mwg:agentic-forms:5,`toolactivated`／`toolcancel` 先偵測該掛在 `document.modelContext` 還是 `window`,功能偵測不可靠,Chrome 156 起事件改在 `document.modelContext` 上派送，舊版在 `window`，只掛一邊會在另一種版本收不到,僵持,不適用,宣稱,有,糾錯,,有效
 2026-11-17,v1.0.0,agentic-forms,mwg:agentic-forms:6,用 `:tool-form-active`／`:tool-submit-active` 標出代理正在操作的表單與待確認的送出鈕,焦點或狀態指示消失,缺——指南只說用這兩個虛擬類別在代理互動時標亮表單，沒說不標示時在哪個時刻出問題,僵持,不適用,宣稱,缺,新能力,以前代理操作頁面時使用者看不出它動了哪裡 → 現在可以做「代理代填、人來按送出」的交接介面：被代理使用的表單整塊標亮，等待確認的按鈕用動畫提醒。目前沒有瀏覽器原生支援,有效
+2026-11-17,v1.0.0,agentic-javascript-tools,mwg:agentic-javascript-tools,用 registerTool() 依路由與使用者狀態註冊頁面工具,頁面功能對代理不透明,缺——指南只說命令式 API 適合需要動態增刪工具的 SPA，沒說固定宣告在哪個時刻出問題,僵持,無瀏覽器支援,宣稱,缺,新能力,SPA 可以把目前頁面真正能做的事交給瀏覽器代理，例如商品頁暴露查庫存、結帳頁暴露套用折扣，不必另做後端 MCP server。目前只有 Chromium 旗標預覽,有效
+2026-11-17,v1.0.0,agentic-javascript-tools,mwg:agentic-javascript-tools:2,跨框架工具要 exposedTo 與 fromOrigins 雙向授權,合法連線被安全規則擋下,只有單邊授權時跨來源工具仍不可見；不是潛在可信來源會讓 `registerTool()` 以 `SecurityError` 拒絕,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,agentic-javascript-tools,mwg:agentic-javascript-tools:3,inputSchema 的驗證與 default 都在 execute 裡處理,表單假設錯的資料格式,瀏覽器不會依 `inputSchema` 驗證引數，也不會套用 `default`，只寫 schema 會讓錯誤輸入直接進入工具,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,agentic-javascript-tools,mwg:agentic-javascript-tools:4,可修正的錯誤用結構化回傳值，不要 throw,播報時機或可靠度出錯,`execute` 拋錯或 Promise reject 時，代理只收到一般執行失敗，原始錯誤訊息不會轉交，無法自我修正或重試,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,agentic-javascript-tools,mwg:agentic-javascript-tools:5,註銷與執行各用 AbortSignal，避免孤兒請求寫回舊畫面,生命週期假設錯,abort 註冊訊號只會註銷工具，不會取消已在跑的工作；長任務不理會執行訊號時會繼續耗資源，並在代理離開後寫入過期資料,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,agentic-javascript-tools,mwg:agentic-javascript-tools:6,consequentialHint 之外仍保留應用程式自己的確認,防線形同虛設,這個標記只是提示，不會自行阻止執行；不認得標記的舊瀏覽器完全不會要求確認,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,agentic-javascript-tools,mwg:agentic-javascript-tools:7,除錯工具用 annotations.debugging 與使用者工具分開,確認到錯的身分,缺——指南只說標記能讓代理區分開發者工具與使用者任務，沒說混在一起的具體後果,僵持,無瀏覽器支援,宣稱,缺,新能力,測試控制台可以讓頁內代理只列開發工具，一般助理則避開重置資料、切旗標這類操作。目前只有 Chromium 旗標預覽,有效
+2026-11-17,v1.0.0,agentic-javascript-tools,mwg:agentic-javascript-tools:8,getTools()／executeTool() 給頁內代理與測試，不是暴露工具的必要步驟,頁面功能對代理不透明,缺——指南只區分瀏覽器代理的 out-of-band 消費與頁內消費，沒說誤用時出了什麼事,僵持,無瀏覽器支援,宣稱,缺,新能力,工具可以有不依賴外部模型的瀏覽器內測試，也能做成嵌入式 copilot 直接操作目前頁面。目前只有 Chromium 旗標預覽,有效
+2026-11-17,v1.0.0,agentic-javascript-tools,mwg:agentic-javascript-tools:9,executeTool() 對舊 Chrome 保留 JSON 字串輸入退路,生命週期假設錯,舊版不接受 plain object，若把所有錯誤都當成格式問題重試，會掩蓋真正的執行或取消錯誤,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,agentic-javascript-tools,mwg:agentic-javascript-tools:10,React／Angular／Vue 用官方整合，不自己包工具生命週期,生命週期假設錯,在元件裡直接呼叫 `registerTool()` 或自寫 wrapper，會重複處理功能偵測、AbortSignal 清理與元件／injector 生命週期,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,webmcp,mwg:webmcp,用瀏覽器分頁當工具註冊表，不架後端 MCP transport,頁面功能對代理不透明,缺——指南只說 WebMCP 全在瀏覽器分頁執行，沒說後端做法在哪個時刻出問題,僵持,無瀏覽器支援,宣稱,缺,新能力,網站不必另架 MCP server，就能讓瀏覽器內助理操作搜尋、篩選、購物車等 client-side 功能。目前僅 Chromium 旗標預覽，且沒有 Resources／Prompts,有效
+2026-11-17,v1.0.0,webmcp,mwg:webmcp:2,schema 收原始輸入並寫清參數用途，降低代理猜錯,表單假設錯的資料格式,schema 結構或參數描述不清會增加代理幻覺，讓它猜出不符合工具預期的輸入,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,webmcp,mwg:webmcp:3,回傳可重試錯誤，並等 UI 更新完才回應代理,生命週期假設錯,太早回傳會讓工具結果和畫面狀態不一致，代理拿到成功時使用者還看不到對應更新,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,webmcp,mwg:webmcp:4,高風險工具保留代理控制之外的人工確認,動作被意外觸發,沒有外部防護時，代理可能直接執行破壞性或不可逆操作,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效
+2026-11-17,v1.0.0,webmcp,mwg:webmcp:5,資料變得比代理反應快時不要暴露即時工具,生命週期假設錯,資料更新速度超過代理反應時，代理會拿過期脈絡判斷與執行,僵持,無瀏覽器支援,宣稱,有,糾錯,,有效

@@ -60,7 +60,7 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 </style></head><body><main>
 <p class="switch"><b>繁體中文</b> · <a href="en/">English</a> · <a href="weekly/">週記</a></p>
 <h1>Web 張力線</h1>
-<p class="lead">把 <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a> 的新指南拆成問題線：誰在做、做了什麼、被什麼擋、做完之後擋住的東西退了沒。找靈感時看<b>新能力</b>那幾條的「解鎖」。共 674 條線（新能力 191 條），處理到上游 v1.0.0。<a href="https://github.com/ianTPE/web-tension-lines">repo</a></p>
+<p class="lead">把 <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a> 的新指南拆成問題線：誰在做、做了什麼、被什麼擋、做完之後擋住的東西退了沒。找靈感時看<b>新能力</b>那幾條的「解鎖」。共 689 條線（新能力 195 條），處理到上游 v1.0.0。<a href="https://github.com/ianTPE/web-tension-lines">repo</a></p>
 <div class="bar">
 <input type="search" id="q" placeholder="搜尋：功能名、對手、指南…（Ctrl+F 也找得到摺起來的內容）" aria-label="搜尋問題線">
 <div class="row"><span class="lbl">類型</span><button type="button" class="chip" aria-pressed="true" data-f="kind" data-v="">全部</button><button type="button" class="chip" aria-pressed="false" data-f="kind" data-v="新能力">新能力</button><button type="button" class="chip" aria-pressed="false" data-f="kind" data-v="糾錯">糾錯</button></div>
@@ -4785,7 +4785,112 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 <span class="meta">給代理用的表單 · 焦點或狀態指示消失</span></summary>
 <div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>以前代理操作頁面時使用者看不出它動了哪裡 → 現在可以做「代理代填、人來按送出」的交接介面：被代理使用的表單整塊標亮，等待確認的按鈕用動畫提醒。目前沒有瀏覽器原生支援</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd><code>form:tool-form-active</code> 標示代理正在使用的表單；<code>button:tool-submit-active</code> 標示省略 <code>toolautosubmit</code> 時、瀏覽器暫停等使用者檢查的送出按鈕（例如虛線外框加脈動動畫）</dd><dt>被什麼擋</dt><dd>缺——指南只說用這兩個虛擬類別在代理互動時標亮表單，沒說不標示時在哪個時刻出問題</dd><dt>戰報</dt><dd>僵持——功能尚無主要瀏覽器原生支援（官方宣稱）</dd></dl><p class="story">代理在背景替使用者填訂房表單，使用者只看到欄位一個個自己變了。加上虛擬類別後，表單有框線標示，最後的送出鈕在閃，提醒輪到人確認。</p>
 <p class="support"><b>支援</b> Form-associated WebMCP attributes："not natively supported by any major browser yet"</p>
-<p class="links"><code>mwg:agentic-forms:6</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/agentic-forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/agentic-forms.md">線檔</a> · v1.0.0</p></div></details></div>
+<p class="links"><code>mwg:agentic-forms:6</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/agentic-forms.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/agentic-forms.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--agentic-javascript-tools" data-kind="新能力" data-result="僵持" data-group="頁面功能對代理不透明" data-guide="給代理用的 JavaScript 工具">
+<summary><span class="t">用 registerTool() 依路由與使用者狀態註冊頁面工具</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">給代理用的 JavaScript 工具 · 頁面功能對代理不透明</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>SPA 可以把目前頁面真正能做的事交給瀏覽器代理，例如商品頁暴露查庫存、結帳頁暴露套用折扣，不必另做後端 MCP server。目前只有 Chromium 旗標預覽</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>用 <code>document.modelContext.registerTool()</code> 註冊名稱、描述、<code>inputSchema</code>、<code>execute()</code> 與 annotations；SPA 依目前路由和使用者狀態動態增刪工具</dd><dt>被什麼擋</dt><dd>（缺）指南只說命令式 API 適合需要動態增刪工具的 SPA，沒說固定宣告在哪個時刻出問題（引用："This is ideal for Single Page Applications (SPAs) where tools need to be added or removed based on the current route or user state."）</dd><dt>戰報</dt><dd>僵持——<code>document.modelContext</code> 尚無主要瀏覽器原生支援；要用功能偵測保住一般頁面行為（官方宣稱）</dd></dl><p class="story">頁面是工具生產者，瀏覽器、擴充功能、DevTools 與系統助理是主要消費者。只要註冊即可，頁面不必為了暴露工具再呼叫 <code>getTools()</code> 或 <code>executeTool()</code>。</p>
+<p class="support"><b>支援</b> document.modelContext：無瀏覽器支援（Early Preview 需 Chromium 旗標）</p>
+<p class="links"><code>mwg:agentic-javascript-tools</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/agentic-javascript-tools.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--agentic-javascript-tools--2" data-kind="糾錯" data-result="僵持" data-group="合法連線被安全規則擋下" data-guide="給代理用的 JavaScript 工具">
+<summary><span class="t">跨框架工具要 exposedTo 與 fromOrigins 雙向授權</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">給代理用的 JavaScript 工具 · 合法連線被安全規則擋下</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>提供者註冊時用 <code>exposedTo</code> 列出可發現、執行的來源；消費者用 <code>getTools({ fromOrigins: [...] })</code> 明確查詢提供者，所有來源限 HTTPS 或 localhost</dd><dt>被什麼擋</dt><dd>只有單邊授權時跨來源工具仍不可見；不是潛在可信來源會讓 <code>registerTool()</code> 以 <code>SecurityError</code> 拒絕（引用："Without <code>fromOrigins</code>, <code>getTools()</code> queries only same-origin documents."）</dd><dt>戰報</dt><dd>僵持——雙向 opt-in 後祖先或兄弟框架才能發現並執行工具；WebMCP 尚無主要瀏覽器原生支援（官方宣稱）</dd></dl><p class="story">結帳頁要呼叫購物車 iframe 的工具，iframe 開放還不夠，外層也要指明信任哪個來源。預設仍只限本文件與同來源框架。</p>
+<p class="support"><b>支援</b> document.modelContext：無瀏覽器支援</p>
+<p class="links"><code>mwg:agentic-javascript-tools:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/agentic-javascript-tools.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--agentic-javascript-tools--3" data-kind="糾錯" data-result="僵持" data-group="表單假設錯的資料格式" data-guide="給代理用的 JavaScript 工具">
+<summary><span class="t">inputSchema 的驗證與 default 都在 execute 裡處理</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">給代理用的 JavaScript 工具 · 表單假設錯的資料格式</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在 <code>execute</code> 開頭檢查輸入型別、enum 與必要欄位，並在參數解構或函式內套用預設值</dd><dt>被什麼擋</dt><dd>瀏覽器不會依 <code>inputSchema</code> 驗證引數，也不會套用 <code>default</code>，只寫 schema 會讓錯誤輸入直接進入工具（引用："The browser does not validate arguments against <code>inputSchema</code> or apply <code>default</code> values, so do both in <code>execute</code>."）</dd><dt>戰報</dt><dd>僵持——工具自己擋下不合法輸入並補齊預設；WebMCP 尚無主要瀏覽器原生支援（官方宣稱）</dd></dl><p class="story">schema 是給代理理解的契約，不是執行時的守門員。排序值不在 enum 時要回傳可修正的錯誤，而不是拿去做查詢。</p>
+<p class="support"><b>支援</b> document.modelContext：無瀏覽器支援</p>
+<p class="links"><code>mwg:agentic-javascript-tools:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/agentic-javascript-tools.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--agentic-javascript-tools--4" data-kind="糾錯" data-result="僵持" data-group="播報時機或可靠度出錯" data-guide="給代理用的 JavaScript 工具">
+<summary><span class="t">可修正的錯誤用結構化回傳值，不要 throw</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">給代理用的 JavaScript 工具 · 播報時機或可靠度出錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>找不到項目、輸入錯誤、HTTP 失敗時回傳 <code>{ error, ...診斷資料 }</code>；只有執行被取消時重新拋出</dd><dt>被什麼擋</dt><dd><code>execute</code> 拋錯或 Promise reject 時，代理只收到一般執行失敗，原始錯誤訊息不會轉交，無法自我修正或重試（引用："The error message is not forwarded to the agent."）</dd><dt>戰報</dt><dd>僵持——代理能讀到具體錯誤與可用選項並調整下一次呼叫；WebMCP 尚無主要瀏覽器原生支援（官方宣稱）</dd></dl><p class="story">代理找不存在的餐點時，與其只得到「工具失敗」，不如回傳可用餐點清單。例外留給真正的取消與未處理程式錯誤。</p>
+<p class="support"><b>支援</b> document.modelContext：無瀏覽器支援</p>
+<p class="links"><code>mwg:agentic-javascript-tools:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/agentic-javascript-tools.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--agentic-javascript-tools--5" data-kind="糾錯" data-result="僵持" data-group="生命週期假設錯" data-guide="給代理用的 JavaScript 工具">
+<summary><span class="t">註銷與執行各用 AbortSignal，避免孤兒請求寫回舊畫面</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">給代理用的 JavaScript 工具 · 生命週期假設錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>註冊時傳 <code>signal</code> 供路由離開時 abort 註銷；每次 <code>execute(input, { signal })</code> 把執行訊號傳給 fetch／事件，計時器自行清除，並回復取消前的 UI 狀態</dd><dt>被什麼擋</dt><dd>abort 註冊訊號只會註銷工具，不會取消已在跑的工作；長任務不理會執行訊號時會繼續耗資源，並在代理離開後寫入過期資料（引用："Aborting the registration signal only unregisters the tool — it does not cancel executions that are already running."）</dd><dt>戰報</dt><dd>僵持——註銷不再發現工具，執行取消則停止請求與舊 UI 更新；WebMCP 尚無主要瀏覽器原生支援（官方宣稱）</dd></dl><p class="story">使用者換頁後工具消失了，上一頁的搜尋卻回來把新畫面蓋掉，因為兩種生命週期被混為一談。註冊與每次執行要分別收尾。</p>
+<p class="support"><b>支援</b> document.modelContext：無瀏覽器支援</p>
+<p class="links"><code>mwg:agentic-javascript-tools:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/agentic-javascript-tools.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--agentic-javascript-tools--6" data-kind="糾錯" data-result="僵持" data-group="防線形同虛設" data-guide="給代理用的 JavaScript 工具">
+<summary><span class="t">consequentialHint 之外仍保留應用程式自己的確認</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">給代理用的 JavaScript 工具 · 防線形同虛設</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>訂票、轉帳、寄訊息、刪資料的工具標 <code>consequentialHint: true</code>，同時保留應用程式原有的確認 UI</dd><dt>被什麼擋</dt><dd>這個標記只是提示，不會自行阻止執行；不認得標記的舊瀏覽器完全不會要求確認（引用："It does not block execution on its own, and browsers that predate the hint will not prompt at all."）</dd><dt>戰報</dt><dd>僵持——支援的代理會先請求明確確認，但高風險防線仍須由應用程式自己保住（官方宣稱）</dd></dl><p class="story">把提示當成安全機制，會讓不可復原動作在舊環境直接執行。標記改善代理判斷，不取代產品原有的確認門。</p>
+<p class="support"><b>支援</b> consequentialHint：Chrome 154 起；WebMCP 整體無瀏覽器支援</p>
+<p class="links"><code>mwg:agentic-javascript-tools:6</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/agentic-javascript-tools.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--agentic-javascript-tools--7" data-kind="新能力" data-result="僵持" data-group="確認到錯的身分" data-guide="給代理用的 JavaScript 工具">
+<summary><span class="t">除錯工具用 annotations.debugging 與使用者工具分開</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">給代理用的 JavaScript 工具 · 確認到錯的身分</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>測試控制台可以讓頁內代理只列開發工具，一般助理則避開重置資料、切旗標這類操作。目前只有 Chromium 旗標預覽</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>傾倒內部狀態、切 feature flag、填測試資料的工具設 <code>annotations.debugging: true</code></dd><dt>被什麼擋</dt><dd>（缺）指南只說標記能讓代理區分開發者工具與使用者任務，沒說混在一起的具體後果（引用："This lets agents tell developer-only tools apart from tools meant to act for the user."）</dd><dt>戰報</dt><dd>僵持——頁內代理與測試工具可從 <code>getTools()</code> 讀到標記；WebMCP 尚無主要瀏覽器原生支援（官方宣稱）</dd></dl><p class="story">同一個頁面既有「送出訂單」也有「重置測試資料」，metadata 至少讓消費者知道後者是開發用途。標記預設為 false。</p>
+<p class="support"><b>支援</b> annotations.debugging：Chrome 156 起；WebMCP 整體無瀏覽器支援</p>
+<p class="links"><code>mwg:agentic-javascript-tools:7</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/agentic-javascript-tools.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--agentic-javascript-tools--8" data-kind="新能力" data-result="僵持" data-group="頁面功能對代理不透明" data-guide="給代理用的 JavaScript 工具">
+<summary><span class="t">getTools()／executeTool() 給頁內代理與測試，不是暴露工具的必要步驟</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">給代理用的 JavaScript 工具 · 頁面功能對代理不透明</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>工具可以有不依賴外部模型的瀏覽器內測試，也能做成嵌入式 copilot 直接操作目前頁面。目前只有 Chromium 旗標預覽</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>頁內助理、iframe 代理與自動化測試用 <code>getTools()</code> 探索、<code>executeTool()</code> 呼叫；監聽 <code>toolchange</code> 更新清單</dd><dt>被什麼擋</dt><dd>（缺）指南只區分瀏覽器代理的 out-of-band 消費與頁內消費，沒說誤用時出了什麼事（引用："The <code>getTools()</code> and <code>executeTool()</code> methods exist specifically for consumers running inside the JavaScript environment"）</dd><dt>戰報</dt><dd>僵持——測試不必接真正的外部 LLM 就能檢查 metadata 並模擬呼叫；WebMCP 尚無主要瀏覽器原生支援（官方宣稱）</dd></dl><p class="story">一般網站註冊後已由瀏覽器代理發現；這兩個方法用在嵌入式聊天 widget 或 Playwright、Vitest 這類同頁消費者。</p>
+<p class="support"><b>支援</b> document.modelContext：無瀏覽器支援</p>
+<p class="links"><code>mwg:agentic-javascript-tools:8</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/agentic-javascript-tools.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--agentic-javascript-tools--9" data-kind="糾錯" data-result="僵持" data-group="生命週期假設錯" data-guide="給代理用的 JavaScript 工具">
+<summary><span class="t">executeTool() 對舊 Chrome 保留 JSON 字串輸入退路</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">給代理用的 JavaScript 工具 · 生命週期假設錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>Chrome 155 起直接傳 plain object；遇到 "Failed to parse input" 才改用 <code>JSON.stringify(inputObject)</code>，其他錯誤照樣拋出</dd><dt>被什麼擋</dt><dd>舊版不接受 plain object，若把所有錯誤都當成格式問題重試，會掩蓋真正的執行或取消錯誤（引用："Since Chrome 155, <code>executeTool()</code> accepts a plain JavaScript object directly for <code>inputObject</code>, matching the input format your tool's <code>execute</code> callback receives."）</dd><dt>戰報</dt><dd>僵持——新版直接傳物件，舊版仍能由 JSON 字串呼叫；只有解析錯誤走退路（官方宣稱）</dd></dl><p class="story">輸入是循環參照或含 BigInt 時仍會拒絕；函式與 undefined 則會在 JSON 序列化時被省略，不是拋錯。</p>
+<p class="support"><b>支援</b> executeTool() plain object：Chrome 155 起；WebMCP 整體無瀏覽器支援</p>
+<p class="links"><code>mwg:agentic-javascript-tools:9</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/agentic-javascript-tools.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--agentic-javascript-tools--10" data-kind="糾錯" data-result="僵持" data-group="生命週期假設錯" data-guide="給代理用的 JavaScript 工具">
+<summary><span class="t">React／Angular／Vue 用官方整合，不自己包工具生命週期</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">給代理用的 JavaScript 工具 · 生命週期假設錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>React 用 <code>useWebMCP</code>、Angular 用 provider／declare 整合、Vue 用 <code>useWebMCP</code> composable；React／Vue 以 <code>enabled</code> 控制可用性，不把 hook 放在條件裡</dd><dt>被什麼擋</dt><dd>在元件裡直接呼叫 <code>registerTool()</code> 或自寫 wrapper，會重複處理功能偵測、AbortSignal 清理與元件／injector 生命週期（引用："Each integration already handles feature detection, <code>AbortSignal</code> cleanup, and scoping tools to the component or injector lifecycle."）</dd><dt>戰報</dt><dd>僵持——官方整合統一收尾與作用域；這些 API 仍是實驗性，簽名要查當前套件文件（官方宣稱）</dd></dl><p class="story">工具定義的形狀不變，但註冊時機交給框架。整合可能把結果包成 <code>{ content, isError }</code>，錯誤格式不能直接假設與原生 API 相同。</p>
+<p class="support"><b>支援</b> 框架整合為實驗性；WebMCP 整體無瀏覽器支援</p>
+<p class="links"><code>mwg:agentic-javascript-tools:10</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/agentic-javascript-tools.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/agentic-javascript-tools.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--webmcp" data-kind="新能力" data-result="僵持" data-group="頁面功能對代理不透明" data-guide="WebMCP">
+<summary><span class="t">用瀏覽器分頁當工具註冊表，不架後端 MCP transport</span>
+<span class="badges"><span class="b k-新能力">新能力</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">WebMCP · 頁面功能對代理不透明</span></summary>
+<div class="body"><div class="unlock"><span class="tag">解鎖・發想</span>網站不必另架 MCP server，就能讓瀏覽器內助理操作搜尋、篩選、購物車等 client-side 功能。目前僅 Chromium 旗標預覽，且沒有 Resources／Prompts</div><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在分頁內用命令式 <code>document.modelContext.registerTool()</code> 或宣告式表單屬性，把 client-side 功能暴露成結構化工具</dd><dt>被什麼擋</dt><dd>（缺）指南只說 WebMCP 全在瀏覽器分頁執行，沒說後端做法在哪個時刻出問題（引用："WebMCP runs entirely **client-side** in the browser tab. It is *not* a backend server, and it does *not* use HTTP, Server-Sent Events (SSE), or <code>stdio</code> transports."）</dd><dt>戰報</dt><dd>僵持——Chromium 146.0.7672.0 起仍需開 <code>#enable-webmcp-testing</code>；其他瀏覽器沒有原生支援（官方宣稱）</dd></dl><p class="story">網頁自己就是 tool registry，目前只支援 Tools，不支援後端 MCP 的 Resources 或 Prompts。不要把 Node.js 背景程序、HTTP/SSE/stdio 架構搬進來。</p>
+<p class="support"><b>支援</b> WebMCP：無瀏覽器支援（Chromium 146 旗標 Early Preview）</p>
+<p class="links"><code>mwg:webmcp</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/webmcp.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/webmcp.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--webmcp--2" data-kind="糾錯" data-result="僵持" data-group="表單假設錯的資料格式" data-guide="WebMCP">
+<summary><span class="t">schema 收原始輸入並寫清參數用途，降低代理猜錯</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">WebMCP · 表單假設錯的資料格式</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>參數直接收使用者原始輸入，不讓代理先做數學換算；每個參數給明確型別與用途，選項意義寫在自己的 description</dd><dt>被什麼擋</dt><dd>schema 結構或參數描述不清會增加代理幻覺，讓它猜出不符合工具預期的輸入（引用："Always provide clear descriptions for every parameter to minimize agent hallucinations."）</dd><dt>戰報</dt><dd>僵持——代理能照 schema 組出較可預期的輸入；WebMCP 仍只有 Chromium 旗標預覽（官方宣稱）</dd></dl><p class="story">工具描述只說做什麼、何時用，參數名、型別、enum、default、限制都放 schema，不在散文重複。工具保持 atomic、composable，不把流程控制硬寫給代理。</p>
+<p class="support"><b>支援</b> WebMCP：無瀏覽器支援</p>
+<p class="links"><code>mwg:webmcp:2</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/webmcp.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/webmcp.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--webmcp--3" data-kind="糾錯" data-result="僵持" data-group="生命週期假設錯" data-guide="WebMCP">
+<summary><span class="t">回傳可重試錯誤，並等 UI 更新完才回應代理</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">WebMCP · 生命週期假設錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>在程式碼驗證限制、回傳描述性錯誤與 rate-limit 處理；<code>execute</code> 等畫面狀態更新完成後才回傳結果</dd><dt>被什麼擋</dt><dd>太早回傳會讓工具結果和畫面狀態不一致，代理拿到成功時使用者還看不到對應更新（引用："Ensure the function returns *after* UI state updates for consistency."）</dd><dt>戰報</dt><dd>僵持——代理與使用者看到同一個完成狀態，失敗時也有資訊可重試；WebMCP 仍只有 Chromium 旗標預覽（官方宣稱）</dd></dl><p class="story">代理收到「已加入購物車」時，畫面上的數量也必須已經改好。秘密不能放 client-side，資料庫仍要透過安全 API 層，重計算交給 Worker／WASM／WebGPU。</p>
+<p class="support"><b>支援</b> WebMCP：無瀏覽器支援</p>
+<p class="links"><code>mwg:webmcp:3</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/webmcp.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/webmcp.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--webmcp--4" data-kind="糾錯" data-result="僵持" data-group="動作被意外觸發" data-guide="WebMCP">
+<summary><span class="t">高風險工具保留代理控制之外的人工確認</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">WebMCP · 動作被意外觸發</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>刪除或不可逆動作不自動送出，UI 必須在代理控制之外要求使用者手動確認</dd><dt>被什麼擋</dt><dd>沒有外部防護時，代理可能直接執行破壞性或不可逆操作（引用："Avoid auto-submitting tools for destructive or irreversible actions (e.g., deleting data) unless the UI requires manual user confirmation outside the agent's control."）</dd><dt>戰報</dt><dd>僵持——最後確認仍由人決定；WebMCP 本身沒有提供普遍可用的安全保證（官方宣稱）</dd></dl><p class="story">工具描述得再清楚，都不能取代不可逆動作的確認門。這裡的防線在產品 UI，不是代理的一句指令。</p>
+<p class="support"><b>支援</b> WebMCP：無瀏覽器支援</p>
+<p class="links"><code>mwg:webmcp:4</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/webmcp.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/webmcp.md">線檔</a> · v1.0.0</p></div></details>
+<details class="line" id="mwg--webmcp--5" data-kind="糾錯" data-result="僵持" data-group="生命週期假設錯" data-guide="WebMCP">
+<summary><span class="t">資料變得比代理反應快時不要暴露即時工具</span>
+<span class="badges"><span class="b k-糾錯">糾錯</span><span class="b r-僵持">僵持</span><span class="b lv">無瀏覽器支援</span></span>
+<span class="meta">WebMCP · 生命週期假設錯</span></summary>
+<div class="body"><dl><dt>誰在做</dt><dd>開發者（或寫程式的代理）</dd><dt>動作＋對象</dt><dd>高頻變動資料避免直接依賴代理操作，改用一般即時 UI 或明確刷新後再呼叫</dd><dt>被什麼擋</dt><dd>資料更新速度超過代理反應時，代理會拿過期脈絡判斷與執行（引用："If data changes faster than the agent can react, it may work with stale context."）</dd><dt>戰報</dt><dd>僵持——指南只建議在這種情況避免 WebMCP，沒有提供同步機制（官方宣稱）</dd></dl><p class="story">報價、即時庫存每秒都在變，代理理解上一刻的畫面後再下指令，目標早已不同。動態註冊與 <code>AbortSignal</code> 也只能管工具生命週期，不能讓資料停止變動。</p>
+<p class="support"><b>支援</b> WebMCP：無瀏覽器支援</p>
+<p class="links"><code>mwg:webmcp:5</code> · <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/webmcp/webmcp.md">上游指南</a> · <a href="https://github.com/ianTPE/web-tension-lines/blob/main/lines/webmcp/webmcp.md">線檔</a> · v1.0.0</p></div></details></div>
 <p class="empty" id="empty" hidden>沒有符合的線</p>
 <footer>上游指南為 CC-BY 4.0（GoogleChrome/modern-web-guidance）。「解鎖」是發想，不是指南原文。這頁由 <code>scripts/build_page.py</code> 從 <code>lines/</code> 產生。</footer>
 </main>
