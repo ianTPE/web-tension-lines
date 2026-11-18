@@ -26,7 +26,8 @@ svg{display:block;width:100%;height:68vh;min-height:420px;touch-action:none;curs
 svg:active{cursor:grabbing}
 .edge{stroke:var(--edge);stroke-linecap:round;stroke-opacity:.55}
 .node circle{stroke:var(--card);stroke-width:1.5;cursor:pointer}
-.node text{font-size:12px;fill:var(--fg);pointer-events:none;paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round}
+.label{font-size:12px;fill:var(--fg);pointer-events:none;paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round}
+.label.hot{fill:var(--hl);font-weight:700}
 .dim{opacity:.12}
 .node.sel circle{stroke:var(--hl);stroke-width:3}
 .edge.hot{stroke:var(--hl)}
@@ -84,12 +85,13 @@ L.forEach(l => { nb[l.s].push([l.t, l.w]); nb[l.t].push([l.s, l.w]); });
 
 let minW = 2, selected = null;
 const LABEL = matchMedia("(max-width:600px)").matches ? 25 : 15;
-const edgeG = root.append("g"), nodeG = root.append("g");
+// 標籤放在最上層，不會被其他圓蓋住
+const edgeG = root.append("g"), nodeG = root.append("g"), labelG = root.append("g");
 const sim = d3.forceSimulation(N)
   .force("charge", d3.forceManyBody().strength(-260).distanceMax(420))
   .force("collide", d3.forceCollide(d => r(d) + 7))
   .force("x", d3.forceX().strength(.04)).force("y", d3.forceY().strength(.06));
-let edges, nodes;
+let edges, nodes, labels, hovered = null;
 
 function draw() {
   const ls = L.filter(l => l.w >= minW).map(l => ({source: N[l.s], target: N[l.t], w: l.w}));
@@ -104,17 +106,18 @@ function draw() {
         .on("drag", (e, d) => { d.fx = e.x; d.fy = e.y; })
         .on("end", (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }));
     g.append("circle");
-    g.append("text").attr("text-anchor", "middle");
     return g;
   });
   nodes.select("circle").attr("r", r).attr("fill", color);
-  nodes.select("text").text(d => d.name).attr("dy", d => r(d) + 12).style("display", d => d.n >= LABEL ? null : "none");
+  labels = labelG.selectAll("text").data(N, d => d.i).join("text").attr("class", "label").attr("text-anchor", "middle")
+    .text(d => d.name).style("display", d => d.n >= LABEL ? null : "none");
   sim.force("link", d3.forceLink(ls).distance(d => 150 - Math.min(80, d.w * 14)).strength(d => Math.min(.6, .08 * d.w)));
   sim.alpha(.8).restart();
 }
 sim.on("tick", () => {
   edges.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
   nodes.attr("transform", d => `translate(${d.x},${d.y})`);
+  labels.attr("x", d => d.x).attr("y", d => d.y + r(d) + 12);
 });
 
 function focusSet(d) {
@@ -124,13 +127,21 @@ function focusSet(d) {
 function paint(d) {
   const s = focusSet(d);
   nodes.classed("dim", n => s && !s.has(n.i)).classed("sel", n => selected && n.i === selected.i);
-  nodes.select("text").style("display", n => (n.n >= LABEL || (s && s.has(n.i))) ? null : "none");
+  labels.classed("dim", n => s && !s.has(n.i))
+    .classed("hot", n => (hovered && n.i === hovered.i) || (selected && n.i === selected.i))
+    .style("display", n => (n.n >= LABEL || (s && s.has(n.i)) || (hovered && n.i === hovered.i)) ? null : "none");
   edges.classed("dim", e => s && !(e.source.i === d.i || e.target.i === d.i)).classed("hot", e => s && (e.source.i === d.i || e.target.i === d.i));
 }
-function hover(d) { paint(d || selected); }
+function hover(d) {
+  hovered = d; paint(d || selected);
+  // 滑過的節點與標籤移到最上層
+  if (d) { nodes.filter(n => n.i === d.i).raise(); labels.filter(n => n.i === d.i).raise(); }
+  else if (selected) { nodes.filter(n => n.i === selected.i).raise(); labels.filter(n => n.i === selected.i).raise(); }
+}
 
 function select(d) {
   selected = d; paint(d);
+  nodes.filter(n => n.i === d.i).raise(); labels.filter(n => n.i === d.i).raise();
   const res = Object.entries(d.res).map(([k, v]) => `${esc(k)} ${v}`).join(" · ");
   const near = nb[d.i].slice().sort((a, b) => b[1] - a[1]).slice(0, 12);
   document.getElementById("panel").innerHTML = `
@@ -146,7 +157,7 @@ function select(d) {
 const zoom = d3.zoom().scaleExtent([.2, 5]).on("zoom", e => {
   root.attr("transform", e.transform);
   const k = e.transform.k;
-  nodeG.selectAll("text").style("font-size", `${12 / k}px`).style("stroke-width", `${3 / k}px`);
+  labelG.selectAll("text").style("font-size", `${12 / k}px`).style("stroke-width", `${3 / k}px`);
 });
 svg.call(zoom);
 // 佈局穩定後，把視野對準有連線的節點
@@ -171,7 +182,7 @@ document.getElementById("q").oninput = e => {
   if (!q) return paint(selected);
   const hit = new Set(N.filter(n => n.name.toLowerCase().includes(q) || n.zh.includes(q)).map(n => n.i));
   nodes.classed("dim", n => !hit.has(n.i));
-  nodes.select("text").style("display", n => hit.has(n.i) ? null : "none");
+  labels.classed("dim", n => !hit.has(n.i)).style("display", n => hit.has(n.i) ? null : "none");
   edges.classed("dim", true);
 };
 document.getElementById("q").onkeydown = e => {
