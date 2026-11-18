@@ -245,9 +245,9 @@ license: CC-BY-4.0（上游指南）
 - 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2
 
 %% line-start id="mwg:css-layout:14" %%
-## Grid lanes 尚未可用，先用多欄或接受 dense 的重排代價
+## Grid lanes 只有 Safari 支援，先用多欄或接受 dense 的重排代價
 - 做法：文件片段用 multi-column；卡片用 `grid-auto-flow: dense` 並接受視覺／DOM 順序差異；masonry 只在 `@supports` 中當增強
-- 對手：不同高度項目要緊密排列時，一般 grid 留空洞；grid lanes 卻尚無主要瀏覽器原生支援（引用："Grid lanes is not natively supported by any major browser yet."）
+- 對手：不同高度項目要緊密排列時，把 masonry 語法當硬性需求出貨，目前只有 Safari 27.2 排得出來，Chrome、Edge、Firefox 都不支援（引用："Don't ship `grid-template-rows: masonry` as a hard requirement until your Baseline target catches up."）
 - 退路：保住主要行為——先用 multi-column 或 `grid-auto-flow: dense` 緊密排列，只在 `@supports` 內加上 masonry
 - 解鎖：（缺）
 
@@ -256,9 +256,9 @@ license: CC-BY-4.0（上游指南）
 
 ### 細節（不索引）
 - 對手組：版面依賴錯的量測
-- 支援狀態：Grid lanes：無瀏覽器支援
+- 支援狀態：Grid lanes：Limited（Supported by: Safari 27.2. Unsupported in: Chrome, Edge, and Firefox.）
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：新能力
-- 發想（非指南原文）：原生 masonry 若普及，相簿、卡片牆、新聞首頁可兼顧緊密排列與 grid 軌道模型；目前只能以多欄或 dense 退回
-- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「保住主要行為」
+- 發想（非指南原文）：原生 masonry 若普及，相簿、卡片牆、新聞首頁可兼顧緊密排列與 grid 軌道模型；目前僅 Safari 27.2，其他瀏覽器以多欄或 dense 退回
+- 變更紀錄：2026-11-17（v1.0.0）補拆舊三條上限遺漏；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「保住主要行為」；2026-11-18（v1.0.1）上游支援由「無瀏覽器支援」改為 Limited（Safari 27.2），對手引文隨原句刪除而更換，戰報不變

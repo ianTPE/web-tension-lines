@@ -20,7 +20,7 @@ license: CC-BY-4.0（上游指南）
 
 ### 細節（不索引）
 - 對手組：手工重現瀏覽器渲染
-- 支援狀態：HTML-in-Canvas：Limited（Chrome 157 起，2026-11-03 進穩定版；Firefox、Safari 不支援）。指南的 fallback 段落仍寫 "HTML-in-canvas is not natively supported by any major browser yet."，已過時，照 PROMPT.md「已驗證的支援資料偏差」判
+- 支援狀態：HTML-in-Canvas：Limited（Chrome 157 起，2026-11-03 進穩定版；Firefox、Safari 不支援）。v1.0.1 起指南的 fallback 段落已改為 "Browser support for HTML-in-canvas: Limited availability. Supported by: Chrome 157 (Nov 2026) and Edge 157 (Nov 2026)."，與先前依 PROMPT.md「已驗證的支援資料偏差」所做的判定一致
 - 戰報：僵持（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
@@ -28,4 +28,4 @@ license: CC-BY-4.0（上游指南）
 - 現成 demo：無。WICG 範例沒有示範 `toBlob()`／`captureStream()` 匯出；相關討論見 https://github.com/WICG/html-in-canvas/issues/81 （截圖函式庫 snapdom 的使用情境）
 - 本 repo demo：https://iantpe.github.io/web-tension-lines/demos/ledger-chart/ （`docs/demos/ledger-chart/`）。同一張圖用 `toBlob()` 下載 PNG、用 `captureStream()` 錄 5 秒 WebM，輸出含標籤文字。2026-11-16 在 Chrome 157 上跑過，但只是自己寫的 demo 能動，不等於驗證了指南的戰報，ledger 的證據仍是 `宣稱`
 - 規格來源：https://github.com/WICG/html-in-canvas （四槽只依上游指南判定，這裡僅供追蹤）
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出（使用者指定 HTML-in-Canvas 的四份指南；不在每週差異內）；2026-11-16 支援狀態由「無瀏覽器支援」更正為 Limited（Chrome 157 已於 2026-11-03 進穩定版，指南 fallback 段落過時）；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出（使用者指定 HTML-in-Canvas 的四份指南；不在每週差異內）；2026-11-16 支援狀態由「無瀏覽器支援」更正為 Limited（Chrome 157 已於 2026-11-03 進穩定版，指南 fallback 段落過時）；2026-11-18 改為槽 v2；2026-11-18（v1.0.1）上游 fallback 段落改為 Limited（Chrome／Edge 157），與既有判定一致，支援狀態與戰報不變

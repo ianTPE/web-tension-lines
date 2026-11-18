@@ -1,0 +1,1439 @@
+{
+ "existing_groups": [
+  {
+   "name": "隱藏或停用把人擋在外面",
+   "count": 34,
+   "examples": [
+    "用 `display: none` 隱藏收合內容，頁內搜尋找不到、高度也無法動畫",
+    "顯示回饋期間停用按鈕，鍵盤焦點掉出去，還宣告了誤導的「不可用」狀態",
+    "用 `display: none` 或 `visibility: hidden` 藏按鈕，按鈕從 Tab 順序中消失，鍵盤使用者永遠到不了"
+   ]
+  },
+  {
+   "name": "焦點或狀態指示消失",
+   "count": 29,
+   "examples": [
+    "用 `clip-path` 切形狀會切掉邊框與焦點外框；強制色彩模式又移除背景，被切的段落失去輪廓",
+    "用 `box-shadow` 或背景畫底線，強制色彩模式把兩者都移除，選中狀態完全沒有指示",
+    "`outline: none` 直接拿掉焦點框，鍵盤使用者看不到自己在哪"
+   ]
+  },
+  {
+   "name": "版面意外溢出或位移",
+   "count": 29,
+   "examples": [
+    "替換元素預設 `display: inline`，在某些版面多出一條縫",
+    "媒體載入前沒有預留空間，載入後造成版面位移",
+    "`nowrap` 又沒有 overflow 處理，窄視窗下項目溢出容器"
+   ]
+  },
+  {
+   "name": "播報時機或可靠度出錯",
+   "count": 27,
+   "examples": [
+    "只靠 `:invalid`，一 Tab 進空的必填欄位讀屏就唸「Invalid entry」",
+    "標記裡就把錯誤訊息掛上 `aria-describedby`，隱藏的錯誤在互動前就被唸出",
+    "每則錯誤自己當 live region，「被顯示」而非「內容改變」時讀屏不一定會播"
+   ]
+  },
+  {
+   "name": "自製控制項丟掉原生行為",
+   "count": 27,
+   "examples": [
+    "從零自製控制項費時，容易出現可及性問題或漏掉狀態（例如 indeterminate）",
+    "用 JavaScript 從零重做下拉選單，常弄壞可及性、鍵盤操作與原生表單整合",
+    "只說可擺脫傳統直向清單、不必寫自訂 JS，沒說直向清單或自訂 JS 在哪個時刻出錯"
+   ]
+  },
+  {
+   "name": "生命週期假設錯",
+   "count": 27,
+   "examples": [
+    "並列的靜態 import 讓 app.js 在 polyfill 載完前就執行；Safari 15–26.6 多個模組同時匯入含 top-l",
+    "window 的 load 事件只看急載媒體，延遲載入的媒體就算一開始在視窗內也不算",
+    "新頁還沒就緒就開始轉場：元素變形到錯的位置、動畫中重排、結束後才換字型；形變目標未解析時退化成淡出淡入"
+   ]
+  },
+  {
+   "name": "語意結構失真",
+   "count": 19,
+   "examples": [
+    "一頁放多個 `<h1>`，螢幕閱讀器使用者分不出哪個才是主標題",
+    "觸發鈕加 aria-haspopup 等於承諾目標具備相對應的角色，這個按鈕群組模式沒有",
+    "會導覽或執行動作的觸發元素被唸成已收合，讓人以為按 Enter 會展開"
+   ]
+  },
+  {
+   "name": "尺寸動畫只能跳變",
+   "count": 19,
+   "examples": [
+    "不支援的瀏覽器裡，尺寸過渡到 `auto` 等關鍵字時直接瞬間跳到目標值",
+    "瀏覽器預設無法在長度和固有尺寸關鍵字之間插值（例如 `0px` 到 `auto`）",
+    "原生下拉選單的介面畫在頁面可控範圍之外，以前無法做動畫"
+   ]
+  },
+  {
+   "name": "表單假設錯的資料格式",
+   "count": 18,
+   "examples": [
+    "只列出單一欄位的好處（較簡單、可貼上、自動填入較簡單），沒直接說拆欄在哪個時刻出錯",
+    "只比對拉丁字母的正規表示式，把名字或地址含非拉丁字元的使用者擋在外面",
+    "只列出單一欄位的好處，沒直接說拆欄在哪個時刻出錯（與 autofill-address-form 指南逐字相同）"
+   ]
+  },
+  {
+   "name": "版面依賴錯的量測",
+   "count": 16,
+   "examples": [
+    "寫死的斷點：加一個連結、換一種語言、放大文字，導覽列就在錯的寬度擠爆或過早收合",
+    "用視窗寬度的 media query 排元件，同一個元件放進側欄或窄欄時無法跟著調整",
+    "用視窗單位做流體縮放，元件照螢幕寬度而不是自己的寬度縮放"
+   ]
+  },
+  {
+   "name": "載入優先序錯置",
+   "count": 16,
+   "examples": [
+    "CSS image-set() 裡的圖預載掃描器找不到，載入被延後、拖累 LCP",
+    "同時發出的多個請求搶同一段頻寬，使用者觸發的關鍵請求變慢",
+    "指南只說事先載入下一頁是改善載入最有效的方法之一，沒說不這麼做時具體出了什麼事"
+   ]
+  },
+  {
+   "name": "敏感資料外露",
+   "count": 15,
+   "examples": [
+    "用 GET 送敏感資料，資料出現在瀏覽紀錄與日誌裡",
+    "收了用不到的資料，外洩時就會一起丟掉",
+    "localStorage 裡的權杖與個資，頁面上任何嵌入的腳本都讀得到"
+   ]
+  },
+  {
+   "name": "捲動連動效果靠JS監聽",
+   "count": 15,
+   "examples": [
+    "指南只說原生實作比 scroll 監聽加 Web Animations 的退路更有效率，沒說舊做法在哪個時刻出問題",
+    "指南只說兩種提示都不需要 scroll 監聽器與額外元素，沒說那些做法在哪個時刻出問題",
+    "指南只說不必依賴 JS 的 scroll 監聽器或 observer，沒說那些做法在哪個時刻出問題"
+   ]
+  },
+  {
+   "name": "播報過量",
+   "count": 14,
+   "examples": [
+    "把 `aria-live` 放在清單上，每個被搬動的項目都被唸一次",
+    "把段落文字標成清單，讀屏唸出混亂又多餘的清單資訊",
+    "沒有 `/` 語法時，CSS 插入的裝飾符號會被讀屏照唸"
+   ]
+  },
+  {
+   "name": "功能偵測不可靠",
+   "count": 14,
+   "examples": [
+    "只說沒有 `at-rule()` 時要繞路偵測或最後用 JS，沒說這些做法在哪個時刻出問題",
+    "用 `@supports (container-type: style)` 或 `at-rule(@container style(...)",
+    "在 crypto.subtle 上找 supports 拿到 undefined，永遠判定不支援"
+   ]
+  },
+  {
+   "name": "合法連線被安全規則擋下",
+   "count": 13,
+   "examples": [
+    "混合內容檢查在 DNS 解析前執行，https 頁面對區網 http 裝置的請求被當成混合內容擋下",
+    "權限預設只允許 self，跨來源 iframe 無法發出區網或本機請求",
+    "標頭解析失敗時以空清單擋掉所有外連；結尾斜線讓樣式只符合根路徑；預設連同源重新導向都擋"
+   ]
+  },
+  {
+   "name": "忽略使用者設定",
+   "count": 12,
+   "examples": [
+    "使用者設定了系統大字級，行動瀏覽器預設不理會，頁面字級不變",
+    "只用 `font-size: 5vw`，字級不會完整回應使用者的文字縮放",
+    "在 `html` 寫死 `font-size: 16px`，可能讓瀏覽器無法套用文字縮放"
+   ]
+  },
+  {
+   "name": "手寫焦點管理",
+   "count": 11,
+   "examples": [
+    "只說要取代手動實作 roving tabindex 或 activedescendant，沒說手寫版在哪個情境出錯",
+    "指南規定「同時只能有一個項目在 Tab 順序中」，但沒有描述每個按鈕都是 Tab 停點時具體造成什麼",
+    "缺——指南只說 `<dialog>` 會自動困住焦點、暗化背景、支援 Esc，`closedby=\"any\"` 不必自訂 JS，沒說手寫版在"
+   ]
+  },
+  {
+   "name": "重建DOM丟狀態",
+   "count": 10,
+   "examples": [
+    "用 `innerHTML` 或整批重新 render 產生新節點，焦點、項目內捲動位置、圖片狀態全部丟失，view transition 也",
+    "排序時用 `innerHTML` 或重新 render 重建 `<tbody>`，焦點與列內狀態丟失、view transition 失效",
+    "佔位裡有目前焦點的元素時，被替換後焦點遺失"
+   ]
+  },
+  {
+   "name": "自動填入失效",
+   "count": 10,
+   "examples": [
+    "沒有 token 的欄位不會被自動填入；把街道地址拆到沒有 token 的多個欄位，自動填入就失效",
+    "沒有 autocomplete 時，使用者可能把卡片資料抄在紙上或用不安全的方式存起來",
+    "沒有 autocomplete 時，使用者比較可能把登入資料抄在紙上或不安全地存在裝置上"
+   ]
+  },
+  {
+   "name": "只能 hover 才看得到",
+   "count": 9,
+   "examples": [
+    "只靠 `title` 屬性顯示全文，鍵盤和觸控使用者都碰不到",
+    "只在 hover 時開選單，鍵盤和觸控使用者打不開",
+    "只能靠下拉手勢叫出的功能，不符合 WCAG 2.5.1 路徑型手勢要求"
+   ]
+  },
+  {
+   "name": "互動中畫面抖動",
+   "count": 9,
+   "examples": [
+    "拖曳時即時重排，兄弟項目跟著位移，畫面抖動",
+    "黏住時改尺寸，捲動錨定補償位移把元素推回非黏住狀態，來回振盪閃爍",
+    "沒記抓取偏移時從角落以外抓起元素會跳一下；沒夾限時元素被拖到看不到"
+   ]
+  },
+  {
+   "name": "層疊覆蓋不符意圖",
+   "count": 9,
+   "examples": [
+    "先套再覆寫的兩條規則一對調順序，停用的按鈕也出現 hover 背景",
+    "`.card :not(.content *)` 遇到巢狀卡片就不如預期",
+    "套在 `*` 的 reset，web component 與較低優先序的 cascade layer 都覆寫不了（除非用 `!importa"
+   ]
+  },
+  {
+   "name": "主執行緒被重活卡住",
+   "count": 9,
+   "examples": [
+    "大量運算或長迴圈占住主執行緒，事件處理被延後、INP 變差",
+    "捲動期間做版面重算、beacon、DOM 更新，塞滿主執行緒，掉幀與版面抖動",
+    "改動單一項目引發連鎖樣式與排版計算、整頁重排，掉幀與高 INP"
+   ]
+  },
+  {
+   "name": "確認到錯的身分",
+   "count": 9,
+   "examples": [
+    "allowCredentials 留空退回可發現憑證，可能回傳另一個使用者的有效通行金鑰",
+    "平台通行金鑰的 AAGUID 沒有密碼學證明，可被使用者代理改動或模擬",
+    "用即時模式重新驗證時省略 allowCredentials，使用者可能選到另一個帳號"
+   ]
+  },
+  {
+   "name": "原生捲動手勢不合用途",
+   "count": 9,
+   "examples": [
+    "手勢一開始偏向某軸，瀏覽器把整個手勢鎖在該軸，地圖、畫布上斜向或 L 形平移卡住",
+    "平移到邊界時捲動串接到父頁面，或觸發滑動上一頁、下拉重新整理",
+    "showModal() 不擋捲動，背景頁照樣被捲走；舊解法鎖 html／body 的 overflow 又讓捲軸消失、版面橫移、捲動位置跳走"
+   ]
+  },
+  {
+   "name": "時間模型失真",
+   "count": 9,
+   "examples": [
+    "缺——指南只說舊 `Date` 只記毫秒，讓跨月計算、日光節約轉換與單位進位「容易出錯」，以前得靠手算或外部函式庫，沒指出哪個具體情境算錯",
+    "缺——指南只說不要手動內插 `${duration.years}y ${duration.months}m...`，沒說手拼版在哪個時刻出錯",
+    "`Date` 永遠代表一個瞬間並以觀看者的時區顯示，存成 `Date` 的「1990-01-01」在 UTC 以西的使用者看來是「1989-"
+   ]
+  },
+  {
+   "name": "動作被意外觸發",
+   "count": 9,
+   "examples": [
+    "軌道可聚焦時方向鍵直接提交動作、沒有確認；滑動也很容易誤觸",
+    "退路的初始程式捲動被當成一次滑動，列一出現就被提交刪除",
+    "確認訊息出現時按鈕位移，第二下點在同一位置就按到捨棄"
+   ]
+  },
+  {
+   "name": "彈出層脫離觸發點",
+   "count": 8,
+   "examples": [
+    "沒有 anchor positioning 時 popover 退回視窗置中，選單脫離觸發鈕，置中的子選單還會蓋住父選單",
+    "tooltip 翻到錨點下方後，箭頭指錯方向也在錯的一側",
+    "無條件設 inset: auto 或 margin: 0，不支援錨點定位時 popover 卡在左上角或蓋住觸發鈕"
+   ]
+  },
+  {
+   "name": "版面擠壓破壞可讀性",
+   "count": 8,
+   "examples": [
+    "分頁換成多列，Tab 順序與選中的分頁都難以追蹤",
+    "大型資料表在小螢幕上欄位溢出或被壓縮到無法辨讀",
+    "預設 auto 不在中日文避開筆畫，底線直接壓過字"
+   ]
+  },
+  {
+   "name": "簡寫或屬性連動重設",
+   "count": 8,
+   "examples": [
+    "`transform` 改其中一個變換就得重寫整條變換鏈，單一變換難以獨立動畫",
+    "animation 簡寫寫在後面會把時間軸重設掉",
+    "animation 簡寫寫在後面會把時間軸重設掉"
+   ]
+  },
+  {
+   "name": "主題配色對不上",
+   "count": 8,
+   "examples": [
+    "指南只列出適用情境並說舊瀏覽器要在根元素用 prefers-color-scheme，沒說舊做法在哪個時刻出問題",
+    "light-dark() 在計算值階段解析，元件改了 color-scheme 後子樹的 accent-color、color 仍是原配色那",
+    "在沒有背景的元素上設 color-scheme，背景與文字來自不同配色，文字讀不出來"
+   ]
+  },
+  {
+   "name": "視覺隱藏卻仍可觸及",
+   "count": 7,
+   "examples": [
+    "只把高度收到 0，讀屏照唸，裡面的連結與控制項仍在 Tab 順序中",
+    "只用 `opacity: 0` 藏，可聚焦的子元素仍在 Tab 順序裡、焦點落在看不見的地方；不設延遲硬藏則腳本沒載入時內容永遠看不到",
+    "缺——指南只說 `inert` 會把這些區域移出 Tab 流程與無障礙樹，沒說留著不處理時具體發生什麼"
+   ]
+  },
+  {
+   "name": "裁切切掉不該切的",
+   "count": 7,
+   "examples": [
+    "`overflow: hidden` 在 padding box 切齊，子元素的陰影在容器邊界被切斷；舊解法要多包 wrapper 加負邊距",
+    "只說能省去手算 padding 的 calc()、解決 awkward nesting curves，沒說舊做法的內角在什麼情況出錯",
+    "用 clip-path 切外框環時斜邊變細，也切掉焦點框與陰影"
+   ]
+  },
+  {
+   "name": "載入超過需要的資源",
+   "count": 7,
+   "examples": [
+    "指南只說能把條件載入封裝在單一模組、讓下游等相依載完，沒說舊做法在哪個時刻出問題",
+    "指南只說能改善感知效能、瀏覽器挑最小的合用圖，沒說只寫單一 url() 在哪個時刻出問題",
+    "就算 preload 設 none 或 metadata，瀏覽器仍立刻抓 poster，metadata 還對每個播放器發範圍請求"
+   ]
+  },
+  {
+   "name": "內容要等JS才成形",
+   "count": 7,
+   "examples": [
+    "實驗腳本後改 DOM，先看到原版再閃成變體；防閃爍片段整頁 opacity: 0，犧牲漸進渲染、讓人誤點看不見的內容",
+    "指南只說可取代等整包 JSON 回來再手動建 DOM，沒說那樣做在哪個時刻出問題",
+    "指南只說 scrollIntoView() 與網址片段有限制、不好做，沒說在哪個時刻出問題"
+   ]
+  },
+  {
+   "name": "內容遭竄改未察覺",
+   "count": 7,
+   "examples": [
+    "未綁定時，竄改密文旁邊的中繼資料不會被發現",
+    "指南只說數位簽章保證完整性與簽署者真實性、不需共用秘密金鑰，沒說其他做法在哪個時刻出問題",
+    "共用金鑰時某用途的簽章可被拿到其他地方重放；古典演算法默默忽略 context"
+   ]
+  },
+  {
+   "name": "不認得的語法讓整條規則失效",
+   "count": 7,
+   "examples": [
+    "把兩家前綴偽元素用逗號放在同一條規則，瀏覽器遇到不認得的那個會丟掉整條規則",
+    "一般選擇器清單裡只要有一個不支援的選擇器，整條規則都會被丟掉",
+    "不認得 chain 的瀏覽器丟掉這行，留下先前的 contain／none，捲動被困住"
+   ]
+  },
+  {
+   "name": "浮層遮住說明",
+   "count": 7,
+   "examples": [
+    "提示放在欄位下方時，自動填入的浮層和行動裝置的虛擬鍵盤會把它蓋住",
+    "提示放在欄位下方，編輯時自動完成浮層或行動裝置鍵盤會把它蓋住",
+    "欄位下方的提示會被手機鍵盤或自動填入浮層遮住；只靠 placeholder 時一開始輸入就消失"
+   ]
+  },
+  {
+   "name": "用JS補樣式狀態",
+   "count": 6,
+   "examples": [
+    "只說不再需要 JS 在父元素切換修飾 class，沒說手寫切換在哪個時刻出錯",
+    "只說過去要用 JS 或模板條件注入修飾 class，沒說那樣做在哪個時刻出錯",
+    "只說過去要寫複雜的 `:nth-child` 迴圈或用 JS 注入行內樣式，沒說那樣做在哪個時刻出錯"
+   ]
+  },
+  {
+   "name": "樣式邏輯到處重複",
+   "count": 6,
+   "examples": [
+    "只說大型樣式表容易累積重複邏輯，沒說重複在哪個時刻造成可觀察的問題",
+    "只說直覺寫法會產生重複程式碼（同一組深色規則在 media query 與 `:root.dark` 各寫一次），沒說重複在哪個時刻出問題",
+    "指南只說沒有 class 時要為每個名稱各寫一次轉場，沒說重複在哪個時刻出問題"
+   ]
+  },
+  {
+   "name": "表單意外送出",
+   "count": 6,
+   "examples": [
+    "`<form>` 裡沒寫 type 的輔助按鈕預設是 submit，一按就送出表單",
+    "用輸入法選字時按 Enter，自訂的 keydown 處理就把還沒選完字的訊息送出",
+    "自訂 Enter 送出沒擋預設動作，`<form>` 裡的 `<input>` 被瀏覽器隱式送出第二次"
+   ]
+  },
+  {
+   "name": "效能量測失真或有盲點",
+   "count": 6,
+   "examples": [
+    "傳統停留時間把頁面待在背景的時間也算進去",
+    "腳本執行時才讀 document.visibilityState：背景開啟、腳本載完前切到前景，讀到 visible 而誤判成前景載入",
+    "實驗室資料只重現一小部分真實情境，與實地差很多，互動慢的根因難找；JS Self-Profiling 負擔較高"
+   ]
+  },
+  {
+   "name": "工作花在看不到的地方",
+   "count": 6,
+   "examples": [
+    "內容很多的頁面（無限捲動、複雜儀表板、長文）初次渲染很慢、互動遲鈍",
+    "指南只說它比 display: none 好，沒說 display: none 在切換時具體出了什麼事",
+    "指南只說元件沒被渲染時要暫停重工作以省資源與電量，沒說工作照跑時具體出了什麼事"
+   ]
+  },
+  {
+   "name": "手寫替代品悄悄弄壞資料",
+   "count": 6,
+   "examples": [
+    "JSON 來回把 `Date` 變字串、刪掉值為 `undefined` 的鍵、把 `NaN`／`Infinity` 和陣列空洞變成 `nu",
+    "反轉副本後 `findIndex()` 再換算原索引，沒找到時算出 `arr.length` 這個越界索引而不是 -1",
+    "用 `{}` 當 `reduce()` 累加器分組，`'constructor'`、`'toString'` 這類鍵會撞上 `Object."
+   ]
+  },
+  {
+   "name": "手工重現瀏覽器渲染",
+   "count": 5,
+   "examples": [
+    "舊做法靠肥大的第三方函式庫逐一解析 DOM 節點和 CSS 屬性、在 canvas 上重建一份仿製品，運算量大、容易出錯，而且常常不支援新的",
+    "邊框或背景漸層假造的線不跟換行、不隨字型度量、不避下伸部、不繼承",
+    "懸停長出的底線以往靠邊框或背景漸層假造，失去原生裝飾線的行為"
+   ]
+  },
+  {
+   "name": "得送雲端或載大型函式庫",
+   "count": 5,
+   "examples": [
+    "只說可減少對大型外部函式庫或昂貴伺服器呼叫的依賴，沒說舊做法在哪個時刻出問題",
+    "只列出本機執行的好處（隱私、降低伺服器成本、可離線），沒說舊做法在哪個時刻出問題",
+    "改由遠端服務處理時，本機隱私保證完全失效，還會產生伺服器端 API 費用"
+   ]
+  },
+  {
+   "name": "不可信內容當HTML解析",
+   "count": 5,
+   "examples": [
+    "模型輸出可能夾帶注入的標記，直接設 `innerHTML` 會變成 XSS",
+    "使用者產生的 HTML 裡的 script 標籤與 on* 屬性在進入 DOM 時就會執行",
+    "清理後序列化成字串再用 innerHTML 重新解析，可能重新引入突變型 XSS"
+   ]
+  },
+  {
+   "name": "用錯原生控制項",
+   "count": 5,
+   "examples": [
+    "單一的 radio 一旦選了就取消不掉",
+    "驗證碼是識別字串不是數量，`type=\"number\"` 會多出增減按鈕、可能吃掉開頭的 0，還會被滾輪意外改值",
+    "`type=\"number\"` 會增加增減鈕並去掉開頭的 0，把卡號當成會參與算術的數量"
+   ]
+  },
+  {
+   "name": "視覺順序與DOM順序脫鉤",
+   "count": 4,
+   "examples": [
+    "用 CSS `order` 或 `flex-direction: *-reverse` 改變畫面順序，DOM 順序沒變，Tab 鍵與螢幕閱讀",
+    "不對稱或會換行的版面用索引對應會選錯；隱藏元素位於原點的零尺寸矩形變成意外的上、左目標",
+    "視覺順序被 CSS 改變後，鍵盤仍按 DOM 順序移動，焦點在畫面上亂跳"
+   ]
+  },
+  {
+   "name": "每顆按鈕手接JS",
+   "count": 4,
+   "examples": [
+    "指南只說要取代 \"per-button JavaScript wiring\"，沒有指出舊寫法具體在哪個時刻出問題",
+    "指南只說能減少手動事件監聽、讓介面與實作脫鉤，沒說手接監聽在哪個時刻出問題",
+    "指南只說可移除脆弱的樣板程式、HTML 解析完就能互動，沒說手寫監聽器在哪個時刻出問題"
+   ]
+  },
+  {
+   "name": "尺寸不跟內容走",
+   "count": 4,
+   "examples": [
+    "表單控制項固定尺寸，不隨輸入內容變化，超出的內容只能在欄位裡捲動；舊瀏覽器要自動長高得用 JS 鏡像技巧",
+    "Grid 與 Flexbox 常把子元素拉伸填滿可用空間，欄位因此不肯隨內容縮小",
+    "指南只說瀏覽器在排版時縮放、調整大小改文案字型載入都正確，沒說腳本量測在哪個時刻出錯"
+   ]
+  },
+  {
+   "name": "優化用過頭反傷",
+   "count": 4,
+   "examples": [
+    "對大量元素無差別加 will-change，耗掉過多顯示記憶體，造成 GPU 當掉或渲染變慢",
+    "擋太多會延後轉場；擋繪製超過約 4 秒整個轉場被跳過，第三方延遲也算進逾時",
+    "balance 的二分搜尋很耗運算，超過行數上限又退回一般換行；全域套用拖慢排版"
+   ]
+  },
+  {
+   "name": "登入打斷使用者",
+   "count": 4,
+   "examples": [
+    "指南只說可發現憑證讓使用者不必先輸入帳號，沒說先輸入帳號的流程在哪個時刻出問題",
+    "一般的通行金鑰建立流程跳出顯眼的模態對話框打斷使用者",
+    "點登入、結帳、收藏或碰到付費牆時被導去登入頁，失去情境、流失率上升"
+   ]
+  },
+  {
+   "name": "憑證狀態錯亂",
+   "count": 4,
+   "examples": [
+    "指南只說 Signal API 讓密碼管理器與伺服器的憑證狀態同步，沒說不同步時在哪個時刻出問題",
+    "伺服器沒收下的憑證留在通行金鑰提供者裡成為孤兒",
+    "指南只說 Signal API 讓保管庫與後端資料庫保持一致，沒說不同步時在哪個時刻出問題"
+   ]
+  },
+  {
+   "name": "防線形同虛設",
+   "count": 4,
+   "examples": [
+    "以網域白名單當 script-src 主要防線，可被白名單網域上的開放重新導向、JSONP、相依注入繞過",
+    "對渲染好的 HTML 用正規表示式補 nonce，分不出注入的 script，等於替攻擊者授權",
+    "字元跳脫結果再插進屬性或 href 樣板，javascript: 網址不會被實體跳脫中和"
+   ]
+  },
+  {
+   "name": "封裝邊界切斷關聯",
+   "count": 4,
+   "examples": [
+    "`aria-labelledby`、`aria-describedby` 這類 id 參照只在自己那棵樹裡解析，Light DOM 指不到 ",
+    "在 `:host` 上設 `background`、`border`、`padding` 只會作用在宿主的盒子，不會層疊進被包住的元素",
+    "`mode: 'closed'` 會讓頁面腳本、測試工具與會走訪 shadow tree 的自動無障礙檢查器都拿不到 `element.sh"
+   ]
+  },
+  {
+   "name": "頁面功能對代理不透明",
+   "count": 4,
+   "examples": [
+    "缺——指南只說瀏覽器會從表單欄位合成 JSON Schema 並處理代理互動，沒說沒有這些屬性時代理在哪個時刻出問題",
+    "缺——指南只說命令式 API 適合需要動態增刪工具的 SPA，沒說固定宣告在哪個時刻出問題",
+    "缺——指南只區分瀏覽器代理的 out-of-band 消費與頁內消費，沒說誤用時出了什麼事"
+   ]
+  },
+  {
+   "name": "原生元素角色實作不一致",
+   "count": 3,
+   "examples": [
+    "在 `<summary>` 裡放 heading，JAWS 與 TalkBack 把 summary 當按鈕並丟掉裡面的標題，使用者無法用標",
+    "用 `<details>`/`<summary>` 做子選單，`summary` 該對應 button 角色卻沒有被一致實作",
+    "部分瀏覽器把 `<summary>` 暴露成按鈕並拿掉子元素所有角色，裡面的標題消失"
+   ]
+  },
+  {
+   "name": "重複內容干擾輔助技術",
+   "count": 3,
+   "examples": [
+    "複製投影片或在 DOM 裡搬動來做無限循環，和框架衝突，輔助技術也會讀到重複內容",
+    "中心文字不藏會被唸兩次；只藏不補時讀屏只拿到數字",
+    "缺少替代文字時讀屏以圖名等內容代替；裝飾圖沒隱藏則會多唸無關內容"
+   ]
+  },
+  {
+   "name": "快取策略錯置",
+   "count": 3,
+   "examples": [
+    "不更新資源雜湊或版本，使用者被困在無止盡的快取循環；盲目快取不透明回應耗用配額且靜默失敗",
+    "非敏感頁面用 no-store，失去 bfcache 資格，感知速度明顯變慢",
+    "使用者在相同搜尋或資料間來回時重跑推論，浪費本機運算並拖慢回應"
+   ]
+  },
+  {
+   "name": "使用者被暗中追蹤",
+   "count": 3,
+   "examples": [
+    "第三方腳本與資源是常見的隱私外洩來源，訪客還沒點任何東西就被記錄",
+    "身分提供者在使用者同意之前就能追蹤使用者去了哪些網站",
+    "指紋依賴不變的特徵、在看不見的地方發生，使用者無法退出也無法清除識別碼"
+   ]
+  },
+  {
+   "name": "權限請求不看時機",
+   "count": 3,
+   "examples": [
+    "指南只要求請求權限前先說明理由與情境，沒說直接跳出權限請求在哪個時刻出問題",
+    "從 Service Worker 發出第一個需授權的請求，沒有 Document 而立刻失敗；http 頂層頁面直接被拒",
+    "下載模型的 `create()` 需要使用者手勢，頁面載入時呼叫會以 `NotAllowedError` 拒絕"
+   ]
+  },
+  {
+   "name": "圖示樣式管不到",
+   "count": 3,
+   "examples": [
+    "用 <img> 加 CSS filter 改圖示顏色，無法可靠套用任意顏色值，改色麻煩又死板",
+    "<use> 的內容被複製進 shadow tree，頁面 CSS 選不到裡面的元素",
+    "SVG 與外部圖檔拿不到周遭的 CSS 變數與長度，圖樣不能跟著主題色或字級變"
+   ]
+  },
+  {
+   "name": "平台慣用操作沒有作用",
+   "count": 3,
+   "examples": [
+    "模態 dialog 以前只能用 Esc 關閉，行動裝置的返回鍵或返回手勢關不掉，自己實作也沒有好方法",
+    "無條件攔截方向鍵，邊界上按方向鍵整頁捲不動",
+    "滑回後歷史不同步，系統返回跳到意外位置；深層連結上 history.back() 直接離開 app"
+   ]
+  },
+  {
+   "name": "截字傷可及性",
+   "count": 2,
+   "examples": [
+    "在 script 裡把字串切短後，螢幕閱讀器、頁內搜尋、複製拿到的都是殘缺文字",
+    "固定高度、標題截斷與父層裁切，在窄螢幕或放大文字時讓文字或按鈕被切掉"
+   ]
+  },
+  {
+   "name": "比對錯型別",
+   "count": 2,
+   "examples": [
+    "直接比對畫面上格式化過的字串，數字與日期排出錯誤順序",
+    "以為逾時會以 `AbortError` 中止，`catch` 只比對這個名稱，逾時的 `TimeoutError` 被當成別的錯誤處理"
+   ]
+  },
+  {
+   "name": "canvas裡手寫互動",
+   "count": 2,
+   "examples": [
+    "只說不必再寫複雜的 raycasting 或自訂事件處理，沒說手寫版在哪個情境出錯",
+    "只說套了 shader 之後仍保有原生的可及性、文字選取與 DOM 事件，沒說以前的做法是什麼、壞在哪"
+   ]
+  },
+  {
+   "name": "堆疊脈絡改變層級",
+   "count": 2,
+   "examples": [
+    "只在 hover 時套變換，那一刻建立新的堆疊脈絡，造成意外的版面或 z-index 位移",
+    "多個延伸連結時最後一個蓋住整張卡；對整個容器設 z-index 會攔下無動作的點擊"
+   ]
+  },
+  {
+   "name": "完成時機靠猜",
+   "count": 2,
+   "examples": [
+    "用 setTimeout 對 scroll 做 debounce 猜結束點，可能在使用者還在捲時就觸發",
+    "setTimeout 猜捲動時間，長捲動太早觸發、短捲動太晚；scrollend 在目標已在畫面內時永遠不觸發"
+   ]
+  },
+  {
+   "name": "背景送出不可靠或過量",
+   "count": 2,
+   "examples": [
+    "在 unload 裡建 <img> 像素的舊技巧極不可靠（行動裝置尤其），還讓頁面失去 bfcache 資格",
+    "缺——指南說這是在即時更新與減少 beacon 之間的最佳做法，且使用者在逾時前離開也能可靠送出，但沒說舊做法在哪個時刻出問題"
+   ]
+  },
+  {
+   "name": "繼承範圍不符預期",
+   "count": 2,
+   "examples": [
+    "圖示屬性沒註冊成不繼承，按鈕上設的圖示讓每個子孫都畫出一個",
+    "表單控制項的 `font` 來自 UA 樣式表、不繼承，被包住的控制項會顯示系統字型而不是頁面字型，這是最常見的遺漏"
+   ]
+  },
+  {
+   "name": "可及名稱蓋掉可見文字",
+   "count": 2,
+   "examples": [
+    "`aria-label` 會覆寫 option 的文字，沒寫進 label 的可見文字，讀屏使用者就聽不到；日後改了選項文字也容易漏改",
+    "用 `ElementInternals` 設名稱，可能蓋掉使用端給的名稱，例如用 `<label for>` 標示的名稱"
+   ]
+  },
+  {
+   "name": "押注不會普及的功能",
+   "count": 2,
+   "examples": [
+    "`:host-context()` 只有 Chromium 支援，Firefox 與 Safari 已拒絕實作，CSSWG 也傾向不再發展",
+    "Safari 已永久拒絕實作自訂內建元素"
+   ]
+  },
+  {
+   "name": "安裝入口受限",
+   "count": 1,
+   "examples": [
+    "現有的 `beforeinstallprompt` 只能安裝目前這個 app，無法替目錄裡的其他 app 提供安裝"
+   ]
+  },
+  {
+   "name": "外觀暗示錯的結構",
+   "count": 1,
+   "examples": [
+    "做成膠囊或分段條卻拿掉分隔符，看起來像分頁或篩選器（同層項目），不像層級"
+   ]
+  },
+  {
+   "name": "canvas內容對瀏覽器隱形",
+   "count": 1,
+   "examples": [
+    "一般 `<canvas>` 畫出來的內容，螢幕閱讀器、搜尋索引、翻譯工具、頁內搜尋、列印全都看不到"
+   ]
+  },
+  {
+   "name": "樣式規則綁死結構",
+   "count": 1,
+   "examples": [
+    "後代選擇器必須同時寫出兩端，任一端改變都得改選擇器，也穿不過 shadow DOM"
+   ]
+  },
+  {
+   "name": "遷移時遺失使用者狀態",
+   "count": 1,
+   "examples": [
+    "換來源時要使用者手動解除安裝再重裝，失去工作列捷徑、通知權限等系統整合"
+   ]
+  },
+  {
+   "name": "動畫曲線只有簡單形狀",
+   "count": 1,
+   "examples": [
+    "ease-in、cubic-bezier() 只能畫簡單曲線，做不出彈跳或彈簧"
+   ]
+  },
+  {
+   "name": "回饋落後於手勢",
+   "count": 1,
+   "examples": [
+    "傳統捲動吸附只在手勢結束、元素停穩後才有回饋，拖動中看不出會停在哪"
+   ]
+  },
+  {
+   "name": "裁切只有硬邊",
+   "count": 1,
+   "examples": [
+    "clip-path 只能切幾何或向量形狀，做不出半透明、柔邊與複雜紋理"
+   ]
+  },
+  {
+   "name": "邊界往返吃掉效能",
+   "count": 1,
+   "examples": [
+    "每個像素、音訊取樣或頂點都呼叫一次匯出函式，跨邊界的開銷把 Wasm 的效能優勢吃光"
+   ]
+  },
+  {
+   "name": "移植時沿用原生假設",
+   "count": 1,
+   "examples": [
+    "Emscripten 預設堆疊只有 64 KB，比原生作業系統的堆疊小得多，深度遞迴會溢位並破壞線性記憶體"
+   ]
+  }
+ ],
+ "candidate_new_groups": [
+  {
+   "name": "參數或格式用錯就丟例外",
+   "definition": "API 的參數、格式、配額或呼叫順序不對，直接拋出例外或被拒"
+  },
+  {
+   "name": "新屬性的隱藏前提",
+   "definition": "新屬性或新 API 沒報錯，但在某些條件下被靜默忽略、效果不如預期"
+  },
+  {
+   "name": "轉場被跳過或錯亂",
+   "definition": "view transition 因命名、範圍、快照問題被跳過、變形或擋住互動"
+  },
+  {
+   "name": "彈出層互相干擾",
+   "definition": "popover、dialog、選單之間互相關掉、搶 Esc、焦點還原錯"
+  },
+  {
+   "name": "事件不冒泡收不到",
+   "definition": "新事件不冒泡，照事件委派掛在祖先上的監聽器收不到"
+  },
+  {
+   "name": "只改外觀沒改語意或焦點",
+   "definition": "畫面變了，但無障礙樹、語意或鍵盤焦點沒有跟著變"
+  }
+ ],
+ "items": [
+  {
+   "key": "mwg:accordion:2",
+   "title": "不用互斥 <details name>，避免內容跳出視野",
+   "action": "預設讓多個項目可同時展開，不使用 `<details name>` 的互斥行為",
+   "opponent": "互斥手風琴開一項就關另一項，內容位移出使用者的視野，對使用螢幕放大鏡的人影響很大（引用：\"They also can cause content to shift out of the user’s view which can cause significant problems for those using screen magnifiers.\"）",
+   "story": "`<details name>` 是 2024 年才 Baseline 的新能力，但指南建議避免使用。這條線的特別之處是：對手不是舊做法，而是新功能帶來的副作用。真的需要互斥時，原文要求只在不得已時用。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:animated-select-picker:2",
+   "title": "allow-discrete 另寫一條 transition-behavior，不塞進 transition 簡寫",
+   "action": "`transition` 簡寫只寫屬性與時間，另外寫一條 `transition-behavior: allow-discrete`",
+   "opponent": "把 `allow-discrete` 寫進 `transition` 簡寫，舊瀏覽器會忽略整條 `transition` 宣告（引用：\"it will make older browsers ignore the entire `transition` declaration.\"）",
+   "story": "為了讓 picker 在 `display: none` 之間也能過渡，加上 `allow-discrete` 是必要的，但順手寫進簡寫，舊瀏覽器就連 opacity 的過渡都不做了。拆成兩條，新語法壞掉時只壞自己那一條。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:custom-select-picker-layouts:2",
+   "title": "picker 的版面樣式只掛在 :open 上",
+   "action": "`display: grid` 等版面樣式寫在 `select:open::picker(select)`，不直接寫在 `select::picker(select)`",
+   "opponent": "直接對 `select::picker(select)` 設 `display`，選單關著時 picker 也會顯示出來（引用：\"If you style `select::picker(select)`, it will make the picker visible even when the select is closed!\"）",
+   "story": "照一般元素的直覺寫 `::picker(select) { display: grid }`，選單還沒打開，選項格就攤在畫面上。picker 的版面樣式要等選單打開才套。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:custom-select-picker-layouts:3",
+   "title": "<selectedcontent> 一定要包在 <button> 裡",
+   "action": "要在觸發鈕顯示選中項的豐富內容時，把 `<selectedcontent>` 放在 `<select>` 內的 `<button>` 裡",
+   "opponent": "`<selectedcontent>` 沒有被 `<button>` 包住時，只會變成 picker 裡的一般內容（引用：\"the `<selectedcontent>` will just become part of the picker, like any other content element.\"）",
+   "story": "想讓關起來的下拉選單顯示所選顏色的色塊，直接放了 `<selectedcontent>`，結果它跑進選項清單裡，觸發鈕還是只有文字。它必須在觸發鈕 `<button>` 裡才有作用。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:defer-rendering-heavy-content:3",
+   "title": "首屏內的元素不要加 content-visibility: auto",
+   "action": "只對初始視窗以外的區塊套 `content-visibility: auto`，首屏內的元素不套",
+   "opponent": "套在首屏元素上，瀏覽器得先判斷可見範圍才渲染，反而拖慢關鍵的頁面載入（引用：\"Doing so forces the browser to evaluate visibility boundaries before rendering, which paradoxically delays critical page load performance.\"）",
+   "story": "為了省事把整頁每個 section 都加上同一個 class，結果首屏也要先過一次可見性判斷，最需要快的那一塊反而變慢。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:efficient-background-processing:2",
+   "title": "contentvisibilityautostatechange 在部分實作不冒泡，委派要用 capture",
+   "action": "把監聽器直接掛在設了 `content-visibility: auto` 的元素上；要在父層委派時加 `{ capture: true }`",
+   "opponent": "這個事件在部分瀏覽器實作中不冒泡，掛在父層的一般監聽器收不到（引用：\"The `contentvisibilityautostatechange` event does not bubble in some browser implementations.\"）",
+   "story": "照一般事件委派的習慣在 `document` 上監聽，某些瀏覽器裡事件不往上傳，暫停邏輯從來沒跑過，而且不會報錯。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:faster-spa-view-transitions:2",
+   "title": "快取每個視圖會吃光記憶體，動態路由要有淘汰策略",
+   "action": "只在視圖數量少而固定時全部快取；動態產生大量報表或路由的 app 實作 LRU 之類的淘汰策略，到記憶體門檻就銷毀舊視圖",
+   "opponent": "無條件快取每個視圖，最後造成嚴重的記憶體膨脹，低階裝置上可能讓瀏覽器當掉（引用：\"Doing so will eventually cause severe memory bloat and may crash the browser on low-end devices.\"）",
+   "story": "`content-visibility: hidden` 留下所有 DOM、監聽器與狀態，每開一份報表就多一份。路由無上限時，用久了分頁就被撐爆。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:flicker-free-client-side-ab-testing:2",
+   "title": "render-blocking 腳本慢或 CDN 掛掉，整頁就不會繪製",
+   "action": "render-blocking 的腳本只放套用變體的小 stub（例如執行時間 100ms 以內），追蹤與分析另外用 `async`／`defer` 載入；分析等不影響畫面的腳本不加 `blocking=\"render\"`；效能關鍵頁考慮改在伺服器端分流",
+   "opponent": "渲染會一直等到腳本執行完，大或慢的腳本直接延後第一次繪製；第三方 CDN 故障時可能整頁不渲染，而且開發者沒有可控的逾時（引用：\"If the experiment SDK is hosted on a third-party CDN, a CDN outage could block rendering entirely.\"）",
+   "story": "把整包實驗 SDK 加上 `blocking=\"render\"`，閃爍沒了，但每次都要等它下載完才看到頁面；SDK 主機一出事，整站白屏，而且只能等瀏覽器自己的逾時。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:full-session-analytics:2",
+   "title": "fetchLater() 有每來源約 64KB 的配額，要縮小 payload 並包 try/catch",
+   "action": "把 payload 縮到最小，`fetchLater()` 呼叫包在 `try/catch` 裡處理配額錯誤；body 不用 `ReadableStream`",
+   "opponent": "超過配額時 `fetchLater()` 會丟錯；用 `ReadableStream` 當 body 也會出錯（引用：\"DO NOT use a `ReadableStream` object for the request body, as that will error.\"）",
+   "story": "每 10 秒重排一次的 beacon 帶著整段資料，資料越堆越大，某次超過配額就在 `fetchLater()` 呼叫處拋錯。指南要求事先縮小 payload，並把錯誤接住自行處理。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:improve-next-page-load-performance:2",
+   "title": "不要預載會改變狀態的網址，動態頁面小心過期內容",
+   "action": "document rule 裡用 `not` 排除 `/logout`、`add-to-cart` 這類網址、後台路徑與標了 `.do-not-prerender` 或 `rel~=nofollow` 的連結；內容常變的動態頁面慎用 prerender 與高 eagerness",
+   "opponent": "預載會觸發狀態改變的網址；動態頁面預載的內容可能已經過期（引用：\"DO NOT speculate URLs that likely trigger state changes, like `/logout` or `/add-to-cart`, and explicitly exclude them from your speculation rules if they are likely to be included in document rules.\"）",
+   "story": "一條 `href_matches: \"/*\"` 的規則把頁面上所有同源連結都納入，登出、加入購物車也在裡面，使用者沒有點，這些網址就可能被預先請求。排除清單是寬鬆規則的必要配件。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:interaction-paint-timing:2",
+   "title": "軟導覽的繪製要用 interactionId 配對，時間要用 duration",
+   "action": "收到 `soft-navigation` 時先呼叫 `getLargestInteractionContentfulPaint()` 當初始 LCP；之後的 `interaction-contentful-paint` 用 `interactionId` 配對，不用 `navigationId`；回報時用 `entry.duration`，不直接報 `presentationTime`",
+   "opponent": "先渲染再 `history.pushState()` 的 app，早期的繪製條目帶的是前一個 `navigationId`，用它配對會漏掉；所有時間戳都從最初硬導覽的時間原點起算，不是從軟導覽開始（引用：\"If the application painted content *before* updating the URL (for example, rendering a view and then calling `history.pushState()`), those early `interaction-contentful-paint` entries were emitted before the `soft-navigation` entry and still carry the *previous* `navigationId`.\"）",
+   "story": "直覺是「同一個 navigationId 就是同一頁」，但框架常先畫畫面再改網址，最重要的那次繪製反而掛在上一頁名下。直接報 `presentationTime` 則會得到從整個 app 開啟起算的數字。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:interaction-paint-timing:3",
+   "title": "長時間開著的 SPA 不能靠 getEntriesByType('soft-navigation')",
+   "action": "用 `PerformanceObserver` 持續接收 `soft-navigation` 條目，不靠事後查詢 `performance.getEntriesByType('soft-navigation')`",
+   "opponent": "瀏覽器的緩衝區只保留前 50 筆軟導覽條目（引用：\"DO NOT rely on `performance.getEntriesByType('soft-navigation')` to monitor long-lived single-page applications, as the browser's buffer is limited to the first 50 soft navigation entries.\"）",
+   "story": "後台、信箱這類一開就是一整天的 SPA，換頁很快超過 50 次。事後去查時間軸，之後的換頁全部不見，而且沒有任何錯誤提示。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:lazy-load-video-and-audio:2",
+   "title": "延遲載入的 video 要寫寬高、audio 要有 controls，否則永遠不載入",
+   "action": "`<video loading=\"lazy\">` 一律寫整數的 `width`、`height`；`<audio loading=\"lazy\">` 一律加 `controls`",
+   "opponent": "沒有 `controls` 的音訊元素沒有可見的盒子，碰不到視窗，永遠不載入也不自動播放；沒寫尺寸的影片預設 300×150，可能碰不到視窗而永遠不載入，或載入時造成版面位移（引用：\"an `<audio loading=\"lazy\">` element without `controls` cannot visibly intersect the viewport and will never load or autoplay.\"）",
+   "story": "背景音樂用沒有 controls 的 audio 加 lazy，或影片只靠 CSS 設尺寸，延遲載入的判斷根本不成立，媒體就靜靜地一直不出現。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:client-side-encryption:3",
+   "title": "新演算法不收 `'raw'`：明確寫 `'raw-public'`／`'raw-seed'`／`'raw-secret'`",
+   "action": "`MLKEM768-X25519`、`ML-KEM-*`、`ChaCha20-Poly1305` 的 `importKey()`／`exportKey()` 一律指定明確格式；匯入 KEM 私鑰只給 `['decapsulateKey']`；演算法名稱只用指南列出的三種",
+   "opponent": "沿用舊的 `'raw'` 格式，新演算法直接丟出 `NotSupportedError`（引用：\"Modern WebCrypto algorithms (…) **reject the legacy `'raw'` format** in `importKey()` and `exportKey()` with a `NotSupportedError`.\"）",
+   "story": "照舊習慣寫 `'raw'`，在新演算法上整段流程第一步就失敗。新舊兩條路徑的格式名稱不同，要分開寫。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:digital-signatures:3",
+   "title": "ML-DSA 不收 `'raw'`：公鑰用 `'raw-public'`、私鑰用 `'raw-seed'`",
+   "action": "ML-DSA 的匯入匯出指定 `'raw-public'`、`'raw-seed'`、`'spki'`、`'pkcs8'` 或 `'jwk'`；匯入公鑰只給 `['verify']`、私鑰只給 `['sign']`；不用 `'Dilithium'` 這類標準化前的名稱",
+   "opponent": "沿用舊的 `'raw'` 格式，ML-DSA 直接丟出 `NotSupportedError`（引用：\"`'ML-DSA-44'`, `'ML-DSA-65'`, and `'ML-DSA-87'` **reject the legacy `'raw'` format** in `importKey()` and `exportKey()` with a `NotSupportedError`.\"）",
+   "story": "與 mwg:client-side-encryption:3 同一個坑：新演算法改了格式名稱，照舊寫就在第一步失敗。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:local-network-access:4",
+   "title": "`WebSocket` 不吃 `{ targetAddressSpace }`，靠網址本身被辨認",
+   "action": "`new WebSocket(url, protocols)` 第二個參數只放子協定；用私有／回送 IP、`localhost` 或 `.local` 主機名讓瀏覽器從網址辨認；自訂 DNS 名稱的本機端點改用 `wss://`；`WebTransport` 也不傳 `targetAddressSpace`",
+   "opponent": "把 `{ targetAddressSpace }` 物件當第二個參數傳給 `WebSocket`，直接丟出 `SyntaxError`（引用：\"do **not** pass a `{ targetAddressSpace }` options object, which throws a `SyntaxError`.\"）",
+   "story": "`fetch` 要宣告位址空間，照樣套到 `WebSocket` 上卻直接報錯。WebSocket 的判斷靠網址長相，不靠選項。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:passkey-authentication:2",
+   "title": "按鈕登入前先中止背景的條件式請求，避免兩個提示相撞",
+   "action": "按下「用通行金鑰登入」時先 `abort()` 掛著的條件式 `get()`、換一個新的 `AbortController`；按鈕流程被取消後重新掛回條件式自動填入；`NotAllowedError`、`AbortError` 視為預期例外",
+   "opponent": "背景的條件式請求還在時又發出明確的通行金鑰提示，兩者相撞（引用：\"Abort any pending Conditional Get call to prevent passkey prompt collisions\"）",
+   "story": "自動填入的請求在背景等著，使用者又按了按鈕，兩個 WebAuthn 請求打架。先取消背景那個，取消後再掛回去。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:passkey-management:2",
+   "title": "Signal API 的 `rpId` 用伺服器給的，不要用 `window.location.hostname`",
+   "action": "列表與帳號更新端點回傳伺服器設定的 `rpId`，用戶端呼叫 Signal API 時直接使用",
+   "opponent": "憑證註冊在上層網域或透過 Related Origin Requests 共用時，`window.location.hostname` 對不上，同步默默送錯 RP ID 或丟出 `SecurityError`（引用：\"`window.location.hostname` will not match the credential's RP ID, causing password manager synchronization to silently target the wrong RP ID or throw a `SecurityError`.\"）",
+   "story": "設定頁在 `accounts.example.com`，通行金鑰卻註冊在 `example.com`。用目前網址當 RP ID，信號就送去一個不存在的地方。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:passkey-management:3",
+   "title": "傳給 Signal API 的 ID 必須是合法的 Base64URL，失敗只 `console.warn`",
+   "action": "所有 `userId` 與憑證 ID（包括原型資料與模擬後端）都存成不帶補位的 Base64URL；呼叫前先驗格式、不合法就跳過；Signal API 呼叫包在 `try/catch`，失敗用 `console.warn` 而非 `console.error`",
+   "opponent": "傳入 `'passkey-1'` 這類人類可讀的假 ID，頁面一載入就丟 `TypeError`；被動同步失敗印成 `console.error`，讓 Lighthouse 的 `errors-in-console` 判定失敗（引用：\"Passing arbitrary human-readable placeholder or mock IDs (…) throws `TypeError: Invalid base64url string for allAcceptedCredentialIds` on page load.\"）",
+   "story": "開發時用好讀的假資料，正式上線前沒人注意，Signal API 一載入就把頁面炸掉。先驗格式、失敗降級成警告，背景同步才真的是「背景」。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:passkey-registration:2",
+   "title": "`userVerification: \"preferred\"` 時，伺服器驗證要設 `requireUserVerification: false`",
+   "action": "建立選項用 `\"preferred\"` 時，伺服器端驗證函式庫設 `requireUserVerification: false`；但仍要求使用者在場（UP）旗標為 `true`",
+   "opponent": "選項說「偏好」驗證、伺服器卻「要求」驗證，沒開螢幕鎖的驗證器註冊時會被誤判失敗（引用：\"Otherwise, authenticators that register without user verification (e.g., screen locks disabled) will trigger spurious server verification failures.\"）",
+   "story": "瀏覽器照「偏好」完成註冊，伺服器照「必須」驗證，兩邊說的不是同一件事，使用者看到莫名其妙的失敗。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:passkeys",
+   "title": "RP ID 由伺服器決定並傳給用戶端，不在用戶端從網址推",
+   "action": "伺服器選項裡的 RP ID 必須等於目前來源的網域，或是它合法的可註冊上層網域，或經 `/.well-known/webauthn` 授權；用戶端（包括呼叫 Signal API 時）一律讀 `publicKey.rp.id`／`publicKey.rpId` 或後端回應",
+   "opponent": "RP ID 對不上時用戶端丟出 `SecurityError`；從 `window.location.hostname` 推出來的值對不上上層網域或相關來源的設定（引用：\"Mismatches result in `SecurityError` exceptions on the client side.\"）",
+   "story": "通行金鑰綁在 RP ID 上。登入頁在子網域、憑證綁在上層網域，用戶端自己從網址猜，就會猜錯。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:quick-sign-ins:2",
+   "title": "專門的登入頁不要用即時模式，否則按鈕按了沒反應",
+   "action": "最終的登入頁改用條件式 UI（`mediation: 'conditional'` 配 `autocomplete=\"username webauthn\"`）加一般的模態 `get()` 按鈕；即時模式只放在離開目前頁面「之前」的那一刻",
+   "opponent": "會到專門登入頁的人多半裝置上沒有本機憑證、或要用手機掃 QR code 或硬體金鑰，而即時模式關掉這些選項、沒有本機憑證就立刻丟 `NotAllowedError`（引用：\"using it on a dedicated sign-in page traps the user in a dead end where clicking the button does nothing.\"）",
+   "story": "把最順的按鈕放到登入頁，結果正好碰上最需要 QR code 的那群人，按下去什麼都沒發生。即時模式是攔截用的，不是終點。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:sanitize-untrusted-html:3",
+   "title": "自訂清理器會連內容一起刪，DOMPurify 退路的預設又不一樣",
+   "action": "想保留文字的外層元素列進 `replaceWithChildrenElements`；DOMPurify 退路設 `ALLOW_ARIA_ATTR: false`、`ALLOW_DATA_ATTR: false`、`KEEP_CONTENT: false` 並允許 `#text`；需要對齊退路的設定不用 `replaceWithChildrenElements`",
+   "opponent": "不在 `elements` 裡的元素連同內容一起被刪；DOMPurify 預設卻保留 `aria-*`、`data-*` 與被刪元素的文字，兩條路徑輸出不一致（引用：\"Elements that are not in `elements` are removed **together with their content**.\"）",
+   "story": "只允許幾個行內標籤，結果整段包在 `<div>` 裡的文字全不見了；換到 Safari 的 DOMPurify 退路，又多出一堆屬性。兩邊要刻意對齊。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:sanitize-untrusted-html:4",
+   "title": "強制 Trusted Types 時，DOMPurify 退路要回傳 TrustedHTML",
+   "action": "退路呼叫 `DOMPurify.sanitize()` 時傳 `RETURN_TRUSTED_TYPE: true`，並在 `trusted-types` CSP 指令允許 `dompurify` 政策名稱",
+   "opponent": "頁面強制 Trusted Types 時，把字串指派給 `innerHTML` 會丟出例外（引用：\"If the page enforces Trusted Types (`require-trusted-types-for 'script'`), assigning a string to `innerHTML` throws.\"）",
+   "story": "原生路徑在 Trusted Types 下暢通無阻，退路卻因為塞字串而被自家的安全政策擋下。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:secure-external-subresources:4",
+   "title": "`@font-face` 的 `src` 不要在同一個清單裡放未驗證的退路",
+   "action": "用**分開的** `src:` 宣告做漸進增強：先寫純 `url()`，再寫只有 `cross-origin()`／`referrer-policy()` 的版本，最後寫含 `integrity()` 的版本",
+   "opponent": "把驗證版與未驗證版寫在同一個逗號分隔的 `src` 裡，CDN 送來被竄改的字型時，驗證失敗被當成載入失敗，瀏覽器自動改用第二個未驗證的網址（引用：\"in a single `src` descriptor bypasses Subresource Integrity at runtime\"）",
+   "story": "為了相容多寫一個退路，結果退路成了後門：驗證一失敗，瀏覽器乖乖去載未驗證的同一個檔案。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:validate-origins:4",
+   "title": "`Origin` API 兩邊都要是 `Origin` 物件，呼叫要包 try/catch",
+   "action": "比對前兩邊都先 `Origin.from()`；取目前環境的來源用 `Origin.from(self)`；測試裡合成的 `MessageEvent` 退回解析 `event.origin`；對執行期輸入的呼叫全部包在 try/catch，失敗回 false",
+   "opponent": "把原始字串傳給 `isSameOrigin()`、把 `Location`／`Document` 傳給 `Origin.from()`，或在單元測試裡用 `new MessageEvent()` 合成事件，都會丟出 `TypeError`（引用：\"passing a raw string throws a `TypeError`.\"）",
+   "story": "新 API 比字串嚴格，嚴格到傳錯型別就直接丟錯。來源檢查一丟錯，訊息處理器整個中斷，所以每個呼叫都要有退路。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:verify-email-ownership:4",
+   "title": "EVT 沒有 `kid` 時逐把試驗供應商的金鑰",
+   "action": "`jwtVerify` 接到 `ERR_JWKS_MULTIPLE_MATCHING_KEYS` 時，用 `for await` 走過錯誤物件給出的每把候選金鑰逐一驗證；KB-JWT 的演算法在過渡期把 `Ed25519` 與 `EdDSA` 視為相同",
+   "opponent": "Gmail 等供應商的 EVT 標頭省略 `kid`，JWKS 裡有多把金鑰時 `jose` 直接丟出錯誤（引用：\"When `kid` is absent and the JWKS contains multiple keys, `jose` throws `ERR_JWKS_MULTIPLE_MATCHING_KEYS`\"）",
+   "story": "照教科書寫的驗證程式，碰到最大的信箱供應商就全部失敗，因為對方的權杖沒標是哪把鑰匙簽的。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:icons:3",
+   "title": "圖示 token 用根相對網址或 data URI",
+   "action": "圖示 token 的網址用根相對路徑（`url(\"/icons/trash.svg\")`）或 data URI；非用相對網址不可時，以 `<url>` 開頭的語法註冊、在 `:root` 宣告實際網址；圖示多時用 `CSS.registerProperty` 批次註冊",
+   "opponent": "透過自訂屬性使用相對網址，可能相對於「使用」它的樣式表而非「定義」它的樣式表解析，兩者在不同目錄時指到錯的檔案；把網址放在註冊屬性的 `initial-value` 只在 Firefox 有效（引用：\"If those stylesheets are in different directories, the URL may resolve to the wrong file.\"）",
+   "story": "同一個 token 在 A 目錄的樣式表定義、在 B 目錄的樣式表使用，瀏覽器可能拿 B 的路徑去找檔案，圖示就破了。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:icons:8",
+   "title": "針對 Safari 的兩個渲染錯誤加補丁",
+   "action": "用只命中 Safari 的 `@supports` 對 `::before`／`::after` 套一個空的關鍵影格動畫，放進 `@layer`；在 Safari 把 `--icon-start` 改註冊為可繼承，並在樣式查詢裡把子孫重設為 `initial`",
+   "opponent": "WebKit 的錯誤可能讓圖示在使用者互動前都不出現；另一個錯誤讓 hover 時直接覆寫 `--icon-start` 不生效（引用：\"can prevent them from appearing until user interaction\"）",
+   "story": "同一套圖示在 Chrome 好好的，在 Safari 要點一下頁面才冒出來。這是瀏覽器的錯，但得由頁面來繞。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:pull-to-reveal:2",
+   "title": "`scroll-initial-target` 不會移動鍵盤焦點",
+   "action": "目標若應該是鍵盤使用者的起點，自己呼叫 `element.focus()`",
+   "opponent": "這個屬性只移動視覺上的捲動位置，不移動鍵盤焦點（引用：\"This property only moves the **visual** viewport; it does not move the keyboard focus.\"）",
+   "story": "畫面從主內容開始，Tab 卻從被藏起來的搜尋列開始，第一下按下去畫面就跳回頂端。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:scrollability-affordance-hints:4",
+   "title": "右到左內容要翻轉淡出的漸層方向",
+   "action": "在 `:dir(rtl)` 裡翻轉 `--fade-dir`，並交換兩條漸層帶的位置",
+   "opponent": "捲動時間軸跟著書寫方向，但漸層方向與遮罩位置是實體方向，右到左內容不翻轉就對不上（引用：\"The scroll timeline follows the writing direction, but gradient directions and mask positions are physical.\"）",
+   "story": "動畫的起點會跟著語言方向調換，漸層卻不會。阿拉伯文介面裡，該淡出的那一端反而清楚，不該淡的那一端反而淡掉。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:animate-element-entry-exit:3",
+   "title": "`allow-discrete` 不要寫進 `transition` 簡寫",
+   "action": "另寫一條 `transition-behavior: allow-discrete`，放在 `transition` 之後",
+   "opponent": "把 `allow-discrete` 寫進 `transition` 簡寫，舊瀏覽器會忽略整條 `transition` 宣告（引用：\"it will make older browsers ignore the entire `transition` declaration.\"）",
+   "story": "為了一個新關鍵字，舊瀏覽器連透明度的淡入都一起丟掉。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:animate-to-from-top-layer:3",
+   "title": "`allow-discrete` 不要寫進 `transition` 簡寫",
+   "action": "另寫一條 `transition-behavior: allow-discrete`，放在 `transition` 之後",
+   "opponent": "把 `allow-discrete` 寫進 `transition` 簡寫，舊瀏覽器會忽略整條 `transition` 宣告（引用：\"it will make older browsers ignore the entire `transition` declaration.\"）",
+   "story": "和一般元素的進出場一樣，一個新關鍵字就能讓舊瀏覽器把整條過渡丟掉。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:carousel-snap-highlights:2",
+   "title": "吸附高亮不能拿來當「選取」",
+   "action": "吸附高亮只當視覺效果；不讓使用者靠捲動吸附來選擇，高亮外觀也不能暗示「作用中」或「已聚焦」，焦點框要和高亮分得開",
+   "opponent": "吸附狀態不在無障礙樹裡；容器內有互動元素時，焦點移入會帶動捲動、換掉吸附的項目，吸附到的不一定是聚焦的那個（引用：\"the snapped item is not exposed to the accessibility tree … This will likely be a source of confusion for users\"）",
+   "story": "「轉到哪張就是選了哪張」看起來很直覺，但只有看得到的人知道選了什麼；鍵盤一移焦點，吸附又跳到別張。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:consistent-cross-document-transitions:2",
+   "title": "`rel=\"expect\"` 不等圖片，轉場圖片要預載並給尺寸",
+   "action": "參與形變的圖片用 `<link rel=\"preload\" as=\"image\">` 預載（或預渲染目的頁），並寫 `width`/`height` 或 `aspect-ratio` 加佔位底色",
+   "opponent": "`<link rel=\"expect\">` 只等 DOM 元素被解析，不等圖片下載解碼，沒快取的 `<img>` 在新頁快照裡是一個空矩形（引用：\"an uncached `<img>` may be captured as an empty rectangle in the new-page snapshot\"）",
+   "story": "元素「在」不等於圖「到了」。擋到元素出現之後，主圖仍可能是一塊空白在飛。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:consistent-cross-document-transitions:4",
+   "title": "同一頁不能有重複的 `view-transition-name`",
+   "action": "每個 `view-transition-name` 在同一頁只給一個元素",
+   "opponent": "名稱重複時整個轉場被跳過（引用：\"Duplicate names cause the entire transition to be skipped.\"）",
+   "story": "清單裡每張卡都套同一個名字很容易發生，結果不是某張卡沒動畫，而是整個換頁都沒有。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:custom-button-actions:2",
+   "title": "`command` 事件不冒泡，監聽器要掛在目標上",
+   "action": "`command` 監聽器直接掛在目標元素上；目標不固定時在祖先用 `{ capture: true }`；目標可能在 shadow root 裡時用 `event.composedPath()[0]`",
+   "opponent": "`command` 事件不冒泡，照一般事件委派掛在祖先上的監聽器收不到（引用：\"The `command` event does not bubble.\"）",
+   "story": "習慣在 document 上做事件委派的人，第一次寫 `command` 會發現什麼都沒發生。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:declarative-dialog-popover-control:2",
+   "title": "同一顆按鈕別同時寫 `popovertarget` 和 `commandfor`",
+   "action": "控制同一個 popover 時只用 `popovertarget` 或 `commandfor` 其中一種",
+   "opponent": "兩個都寫會切換兩次，功能壞掉（引用：\"This will double-toggle it, breaking functionality.\"）",
+   "story": "兩套宣告式開關都做得到同一件事，疊在一起就是開了又關。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:declarative-dialog-popover-control:4",
+   "title": "popover polyfill 下別用 `popover` 屬性設值，`:popover-open` 要包 `:is()`",
+   "action": "polyfill 載入前用 `setAttribute()`／`removeAttribute()` 設 popover；樣式寫成 `[popover]:is(:popover-open, .\\:popover-open)`；polyfill 只在 `HTMLElement.prototype` 沒有 `popover` 時才載入",
+   "opponent": "polyfill 載好前用 IDL 屬性設值，元素不會被 polyfill 接手，還會永遠遮住 polyfill 加的存取子；單寫 `:popover-open` 時，不認得它的瀏覽器丟掉整條規則（引用：\"otherwise browsers that lack `:popover-open` discard the entire rule\"）",
+   "story": "polyfill 補不出真的偽類，也來不及攔截太早的屬性設定；照原生的寫法寫，舊瀏覽器裡 popover 就是開不起來或沒樣式。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:directional-navigation-transitions:2",
+   "title": "沒有 `startViewTransition` 時仍要直接更新 DOM",
+   "action": "導覽函式先檢查 `document.startViewTransition`，不存在就直接呼叫 `updateDOM()`",
+   "opponent": "不支援的瀏覽器裡 `document.startViewTransition` 是 `undefined`，沒做偵測就直接呼叫，畫面不會更新（引用：\"In unsupported browsers, `document.startViewTransition` will be `undefined`.\"）",
+   "story": "轉場是加分項，換頁本身不是。把轉場包在偵測裡，壞掉的只會是動畫。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:group-element-transitions:2",
+   "title": "轉場期間讓沒參與的元素仍可操作",
+   "action": "`::view-transition { pointer-events: none; }`，並在只轉場特定元素時設 `:root { view-transition-name: none; }` 關掉預設的 root 轉場",
+   "opponent": "轉場期間畫面是覆蓋在上面的快照，元素無法互動；root 轉場還會在兩張相同的整頁快照之間轉場，整頁都點不到（引用：\"during the transition, elements are not interactive\"）",
+   "story": "只是一個清單項目在動，使用者卻發現整頁按鈕在那半秒都沒反應。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:highlight-text-ranges:2",
+   "title": "有意義的標示用 `<mark>`，不用自訂高亮",
+   "action": "自訂高亮只用在搜尋結果、語法上色這類暫時的視覺效果；文字的標示本身有意義時用 `<mark>`；錯誤標示另加波浪底線、標籤或圖示",
+   "opponent": "自訂高亮純粹是外觀，不在無障礙樹裡，讀屏使用者感受不到標示傳達的意義（引用：\"Custom highlights are purely presentational and are not exposed to the accessibility tree.\"）",
+   "story": "同一個黃底，在搜尋結果裡只是提示，在教學文件裡可能就是重點；後者交給 highlight 畫，讀屏使用者就漏掉了。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:highlight-text-ranges:3",
+   "title": "註冊新高亮前先清掉舊的",
+   "action": "每次更新前 `CSS.highlights.clear()`，再 `set()` 新的高亮；文字節點清單快取起來，DOM 內容變了才重建",
+   "opponent": "沒清掉時，過期的範圍留在頁面上（引用：\"to avoid stale ranges persisting on the page\"）",
+   "story": "搜尋詞換了，上一個詞的標示卻還亮著；登記表不會自己過期。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:highlight-text-ranges:4",
+   "title": "`::highlight()` 只吃少數幾個屬性",
+   "action": "`::highlight()` 只用 `color`、`background-color`、`text-decoration`、`text-shadow`、`-webkit-text-stroke-*`、`-webkit-text-fill-color`",
+   "opponent": "`background-image`、`font-size`、`padding` 這類屬性寫了會被忽略（引用：\"Properties like `background-image`, `font-size`, or `padding` are ignored.\"）",
+   "story": "高亮不是元素，沒有盒子；要加粗、加框、改字級的設計在這裡做不到。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:interest-triggered-tooltips",
+   "title": "用 `popover=\"hint\"` 加 `interestfor` 做不會關掉選單的工具提示",
+   "action": "提示用 `<div popover=\"hint\" id>`，觸發的 `<button>`／`<a>` 寫 `interestfor`；觸發元素自動成為隱式錨點，用 `position-area: block-start` 與 `position-try-fallbacks: flip-block` 定位；toggletip 另加 `popovertarget` 與 `popovertargetaction=\"show\"`",
+   "opponent": "用 `auto` popover 做提示時，懸停經過提示就會把已打開的選單關掉（引用：\"hovering across a toggletip must not close an open menu, which an `auto` popover would\"）",
+   "story": "提示和選單都是 popover，以前開一個就關另一個。hint 是第三種類型，專給「看一眼就走」的內容，懸停、聚焦、長按都能叫出，不打擾正開著的東西。",
+   "kind": "新能力"
+  },
+  {
+   "key": "mwg:interest-triggered-tooltips:5",
+   "title": "`toggle` 不冒泡，同步 `aria-expanded` 要用捕獲",
+   "action": "在 `document` 用單一捕獲監聽器接 popover 的 `toggle` 事件，同步所有指向該提示的觸發元素；以 popover 為準，不從 `interest`／`loseinterest` 同步",
+   "opponent": "`toggle` 不冒泡，掛在 `document` 的一般監聽器永遠不會觸發；popover 也可能被 Esc、點外面或其他觸發元素關掉（引用：\"A bubbling listener on `document` never fires; use the capture phase (or a listener per popover).\"）",
+   "story": "以為從興趣事件同步就好，提示被 Esc 關掉後觸發元素卻還唸「已展開」。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:interest-triggered-tooltips:6",
+   "title": "不支援 `hint` 時，toggletip 要在 `beforetoggle` 改成 `auto`",
+   "action": "用探針元素設 `popover = \"hint\"` 再讀回判斷支援；不支援時在捕獲階段的 `beforetoggle` 裡，把要開啟的 toggletip 改成 `popover = \"auto\"`",
+   "opponent": "不支援 `hint` 的瀏覽器把它當成 `manual`：鍵盤聚焦開的提示，在指標懸停開另一個時可能還開著；用點擊開的 toggletip 沒有興趣可失去，永遠不會關（引用：\"so a `manual` fallback would never close\"）",
+   "story": "無效的屬性值會靜默變成 `manual`，看起來能開、卻關不掉。類型要在 `beforetoggle` 改，開著再改會直接把它關掉。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:light-dismiss-a-dialog:2",
+   "title": "對話框裡會用 Esc 的元件要自己攔住 Esc",
+   "action": "模態對話框裡有選單、combobox 這類用 Esc 的元件時，讓它們聚焦時自己處理 Esc",
+   "opponent": "元件想用 Esc 收起清單，結果整個對話框被意外關掉（引用：\"this may lead to the dialog being inadvertently closed\"）",
+   "story": "在對話框的下拉選單裡按 Esc 想取消選擇，填到一半的表單整個消失。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:light-dismiss-a-dialog:3",
+   "title": "`closedby` 只對 `showModal()` 開的對話框有用",
+   "action": "要點背景關閉時一律用 `showModal()` 開啟；非模態（`show()`）的對話框不依賴 `closedby`",
+   "opponent": "用 `show()` 開的非模態對話框沒有背景，不會觸發點外面關閉（引用：\"as they do not have a backdrop and won't trigger light-dismiss\"）",
+   "story": "屬性寫了、點外面卻沒反應，原因是對話框根本沒有「外面」那層。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:motion:4",
+   "title": "`transition-behavior: allow-discrete` 寫在 `transition` 之後、分開寫",
+   "action": "`transition` 列出 `opacity`、`display`、`overlay`，另起一行寫 `transition-behavior: allow-discrete`",
+   "opponent": "寫進簡寫或寫在簡寫之前，會被簡寫重設，或在舊瀏覽器失效（引用：\"Separate after transition so the shorthand doesn't reset it or fail in older browsers\"）",
+   "story": "和 mwg:animate-element-entry-exit:3 同一個坑，在總覽指南再提醒一次。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:rich-media-picker:5",
+   "title": "base-select 不再依最長選項定寬，要自己給寬度",
+   "action": "開啟 `appearance: base-select` 後，替 select 設固定寬度或用 flex／grid 限制尺寸",
+   "opponent": "`base-select` 拿掉了瀏覽器依最長選項決定 select 寬度的預設行為，選項一換寬度就跟著變，造成版面位移（引用：\"Setting `appearance: base-select` removes the default browser behavior of sizing the select based on its longest option width.\"）",
+   "story": "原生 select 會預先量最長的選項，所以選什麼寬度都不變。換成 base-select 後按鈕寬度跟著選中內容走，選一個長名字整排表單就被推開。補一個寬度限制就好。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:batch-analytics-events:2",
+   "title": "fetchLater() 有配額，要限制批次大小並包 try/catch",
+   "action": "設定佇列上限（例如 100 筆）以免超過每個來源約 64KB 的配額，呼叫包在 `try/catch` 裡；body 不用 `ReadableStream`",
+   "opponent": "批次太大會超出 `fetchLater()` 的配額而丟出錯誤；用 `ReadableStream` 當 body 也會出錯（引用：\"DO check to ensure you do not batch too many events together and exceed the `fetchLater()` quota (currently roughly 64KB per origin).\"）",
+   "story": "佇列無限累積，某次重新排程時超過配額直接拋錯，後面的事件再也沒排上。加上上限與 try/catch，最壞情況是重置佇列而不是整條管線停擺。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:same-document-transitions:2",
+   "title": "同一個 `view-transition-name` 前後各只能有一個元素，轉場完要清掉",
+   "action": "確保轉場前後每個名稱只對應一個元素；用 `.selected` 臨時加上的名稱，在 `transition.finished` 之後移除",
+   "opponent": "同名元素有兩個以上時，DOM 直接更新、完全沒有轉場（引用：\"If there are 2 or more elements with a given `view-transition-name`, the DOM will be updated to the new state immediately, without a transition.\"）",
+   "story": "第一次點進去有動畫，回到列表再點另一張就沒了——上一次留下的名稱還掛在舊項目上，跟新項目撞名。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:same-document-transitions:4",
+   "title": "文字轉場用 `fit-content` 固定比例，避免快照被拉伸",
+   "action": "轉場的文字元素在新舊視圖都設 `width: fit-content`；比例會變的元素把 `::view-transition-old/new()` 設 `height: 100%`，必要時用 `object-fit`",
+   "opponent": "瀏覽器預設在一個會同時容納新舊快照的群組裡交叉淡化，群組被拉伸，快照跟著變形（引用：\"By default, the browser cross-fades the old and new snapshots within a group that stretches to fit both.\"）",
+   "story": "標題從列表飛到詳細頁時被壓扁再撐開。快照是圖片，容器多寬它就被拉多寬。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:scoped-component-transitions",
+   "title": "用 `element.startViewTransition()` 把轉場關在元件裡，不再蓋住整頁",
+   "action": "在元件根元素上呼叫 `element.startViewTransition()`，子項目用 `view-transition-name: match-element`；重複出現的元件容器加 `view-transition-scope: all`，讓名稱不外洩",
+   "opponent": "`document.startViewTransition()` 把 `::view-transition` 疊層掛在 `:root`，轉場期間整頁點不到、不能同時跑兩個轉場，還會蓋住 `position: fixed` 標頭與開著的 popover（引用：\"blocks pointer events on the rest of the page, prevents concurrent transitions, and obscures `position: fixed` headers or open `[popover]` elements\"）",
+   "story": "側欄的清單在重排動畫，同時使用者想點頁首的按鈕卻點不到，打開的選單也被轉場蓋掉。把轉場範圍縮到元件本身，頁面其他地方不受影響；但目前只有 Chromium 做得到。",
+   "kind": "新能力"
+  },
+  {
+   "key": "mwg:scoped-component-transitions:3",
+   "title": "同一元件快速重複觸發轉場時，接住 `ready` 的 rejection",
+   "action": "每次 `element.startViewTransition()` 後加 `transition.ready.catch(() => {})`",
+   "opponent": "在同一個元素上再次呼叫會跳過進行中的轉場並讓 `ready` reject，沒接住就變成未處理的 promise 錯誤（引用：\"Re-triggering startViewTransition() on the same element skips the active transition and rejects `ready`.\"）",
+   "story": "使用者連點「排序」，主控台冒出一串 unhandled rejection。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:scoped-component-transitions:4",
+   "title": "會裁切溢出的範圍元素不要設 `view-transition-name: none`",
+   "action": "讓範圍元素保留瀏覽器預設的自我參與（`view-transition-name: root`），由 `::view-transition-group-children(root)` 自動套 `overflow: clip`",
+   "opponent": "退出自我參與就會關掉自動溢出裁切，轉場中的子項目會溢出元件邊界（引用：\"opting out of self-participation disables automatic overflow clipping.\"）",
+   "story": "可捲動的清單卡片在重排時，項目飛出卡片外面，蓋在旁邊的內容上。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:scoped-component-transitions:5",
+   "title": "外層轉場要搬動元件時，包一層有名稱的 wrapper 並把內層設成 `view-transition-scope: all`",
+   "action": "範圍元素外包一層 wrapper 並給它 `view-transition-name`，範圍元素加 `view-transition-scope: all`；或讓外層捕捉子項目時改用巢狀轉場群組並手動補 `overflow: clip`",
+   "opponent": "從父元件或 document 發起的外層轉場，會把範圍元素和裡面所有東西一起捕捉並動畫（引用：\"the outer transition will capture and animate the scope element and everything inside it.\"）",
+   "story": "頁面切版的大轉場一開始，卡片內正在跑的小轉場被打斷，裡面的項目被外層抓去亂飛。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:scroll-completion-effects:2",
+   "title": "被打斷的平滑捲動也會 resolve，用遞增 ID 擋掉過期的後續效果",
+   "action": "每次捲動前遞增一個操作 ID，`await` 之後若已不是最新 ID 就直接 return",
+   "opponent": "新的捲動打斷進行中的平滑捲動時，瀏覽器會讓所有等待中的 promise resolve 而不是 reject，舊的後續效果照樣執行（引用：\"the browser aborts the ongoing smooth scroll and **resolves** (does not reject) all pending scroll promises on that container.\"）",
+   "story": "使用者快速連點三個章節，三個章節都閃了高亮。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:scroll-completion-effects:4",
+   "title": "Chrome 捲動根捲動器時 promise 會太早 resolve，不要為此多包捲動容器",
+   "action": "知道這個 bug 存在；巢狀捲動容器上的 `scrollIntoView()` 正常，但不要為了繞過 bug 把內容包進 `overflow-y: auto` 的 div",
+   "opponent": "Chrome 捲動的是文件根捲動器時，`scrollIntoView()` 回傳的 promise 太早 resolve（引用：\"Chrome has a bug where the `Promise` returned by `scrollIntoView()` resolves too early when it is the document's root scroller that is scrolling.\"）",
+   "story": "同一段程式在側欄清單裡時間點剛好，用在整頁時高亮又提早閃了。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:scroll-entry-exit-effects:4",
+   "title": "單一 keyframes 寫進出場時，要明寫中段的靜止狀態",
+   "action": "用 `entry 100%, exit 0%` 一起設定靜止值（例如 `scale: 1`），搭配 `animation-fill-mode: both`",
+   "opponent": "沒寫中段的話，元素會從 `entry 0%` 一路內插到 `exit 100%`（引用：\"Explicitly set the resting state across the middle (`contain`) phase so the element doesn't interpolate straight from entry 0% to exit 100%\"）",
+   "story": "卡片一進畫面就開始慢慢縮，完全沒有「停在正常大小」的那段。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:scroll-target-on-load:2",
+   "title": "`scroll-initial-target` 只動畫面，不動鍵盤焦點",
+   "action": "目標若也該是鍵盤使用者的起點，另外呼叫 `element.focus()`",
+   "opponent": "這個屬性只移動視覺上的捲動位置，鍵盤焦點留在原處（引用：\"This property only moves the **visual** viewport; it does not move the keyboard focus.\"）",
+   "story": "畫面停在今天，按一下 Tab 卻跳回頁首的第一個連結。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:scroll-target-on-load:4",
+   "title": "網址片段與 `scroll-start` 會蓋過 `scroll-initial-target`，同一容器只設一個",
+   "action": "同一個捲動容器只給一個元素設 `scroll-initial-target`；記得網址片段與容器的 `scroll-start` 優先",
+   "opponent": "多個元素都設時瀏覽器只取 DOM 順序的第一個；網址帶片段時屬性被忽略（引用：\"A URL fragment (e.g., `example.com/#top`) and the container-level `scroll-start` property both take precedence over `scroll-initial-target`.\"）",
+   "story": "分享出去的連結帶了 `#top`，收到的人打開時清單停在最上面，而不是精選項目。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:search-hidden-content:2",
+   "title": "不要在 `hidden=\"until-found\"` 元素上再設 `display` 或 `visibility`",
+   "action": "隱藏完全交給 `hidden=\"until-found\"`，不另外寫 `display: none`、`visibility: hidden` 等樣式",
+   "opponent": "這些樣式會破壞原生行為，內容永遠從搜尋索引消失（引用：\"This breaks the native functionality and permanently hides the content from the search index.\"）",
+   "story": "為了保險又加了一行 `display: none`，結果 until-found 等於沒寫。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:swipe-to-remove:7",
+   "title": "`scroll-initial-target` 要等軌道真的變成捲動容器才套用",
+   "action": "把內容的 `scroll-initial-target: nearest` 包在 `.is-initialized` 選擇器裡，JS 接好之後才生效",
+   "opponent": "軌道還不是捲動容器時，這個屬性會往上找最近的可捲動祖先（通常是整頁），改掉頁面的初始捲動位置（引用：\"would let the property walk up to the nearest scrollable ancestor (typically the document) and shift the page's initial scroll position\"）",
+   "story": "清單在頁面中段，一打開頁面卻直接被捲到某一列。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:dialog:8",
+   "title": "未存修改的保護寫在 `cancel` 裡，不能只靠 `closedby=\"none\"`",
+   "action": "表單有未存修改時設 `closedby=\"none\"`，同時在 `cancel` 監聽裡擋下並顯示確認；取消鈕用 `command=\"request-close\"` 或 `requestClose()`",
+   "opponent": "不支援 `closedby` 的瀏覽器會忽略 `closedby=\"none\"`，按 Esc 照樣觸發 `cancel` 並關閉對話框（引用：\"`closedby=\"none\"` is ignored the same way: `Esc` fires `cancel` and then closes the dialog.\"）",
+   "story": "在 Safari 填了一半的長表單，順手按了 Esc，全部消失。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:hovercard:2",
+   "title": "預覽卡用 `popover=\"hint\"`，不會把已開的選單關掉",
+   "action": "卡片容器設 `popover=\"hint\"`",
+   "opponent": "用一般 popover 時，叫出預覽卡會關掉其他已開的 popover 選單（引用：\"Use `hint` to avoid closing unrelated popover menus that may be open.\"）",
+   "story": "選單開著，滑鼠經過某個連結，預覽卡一出來選單就收起來了。",
+   "kind": "新能力"
+  },
+  {
+   "key": "mwg:hovercard:7",
+   "title": "同步 `aria-expanded` 要在 document 上以捕獲階段聽 `toggle`",
+   "action": "在 `document` 上掛一個 `capture: true` 的 `toggle` 監聽，依 popover 狀態更新所有指向它、由腳本管理的觸發元素；不從 `interest`／`loseinterest` 同步",
+   "opponent": "`toggle` 不冒泡，掛在 document 的一般監聽永遠不會觸發；而 popover 也可能被 Esc、點外面或別的觸發元素關掉（引用：\"`toggle` does not bubble. A bubbling listener on `document` never fires\"）",
+   "story": "提示卡已經關了，讀屏還說「已展開」。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:hovercard:10",
+   "title": "`transition-behavior: allow-discrete` 獨立宣告在 `transition` 之後",
+   "action": "`transition` 列出 `opacity, transform, display, overlay`，再另起一行 `transition-behavior: allow-discrete`；進場值寫在 `@starting-style`，全部包在 `prefers-reduced-motion: no-preference` 裡",
+   "opponent": "把 `allow-discrete` 寫進簡寫，舊瀏覽器會忽略整條 transition（引用：\"Declare `transition-behavior: allow-discrete` as a separate property after `transition` rather than inside the `transition` shorthand so older browsers do not ignore the entire `transition` declaration.\"）",
+   "story": "新瀏覽器裡卡片優雅滑出，舊瀏覽器裡連最基本的淡入都沒了。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:menu:3",
+   "title": "窄螢幕的最後退路 `--below` 要允許子選單縮小",
+   "action": "`@position-try --below` 放在最後，內含 `min-inline-size: 0` 與 `max-inline-size: calc(100% - 1rem)`",
+   "opponent": "放不下的退路會被跳過；若沒有一個放得下，瀏覽器保留基本位置，寬了幾像素的子選單就靜靜蓋住自己的觸發項目（引用：\"a submenu that is a few pixels too wide silently covers its trigger.\"）",
+   "story": "手機上點「匯出」，子選單正好疊在「匯出」上面，想收回都找不到按鈕。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:menu:7",
+   "title": "子選單一次只關一層，焦點自己還給它的觸發項目",
+   "action": "子選單裡的 Esc 與左鍵呼叫 `stopPropagation()`；關閉時先聚焦觸發項目再 `hidePopover()`",
+   "opponent": "HTML 只替堆疊中第一個 `popover=\"auto\"` 還原焦點，巢狀層級得自己還；沒擋下冒泡時，父選單的監聽也會把自己關掉（引用：\"HTML restores focus only for the first `popover=\"auto\"` in a stack, so nested levels must restore focus to their trigger explicitly. … or the parent's listener closes it too.\"）",
+   "story": "在子選單按 Esc，整串選單一起消失，焦點掉到頁面某處。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:navigation-drawer:2",
+   "title": "滿版抽屜不要用 `closedby=\"any\"`，自己判斷點在抽屜外",
+   "action": "在 dialog 上聽 `click`，目標不在抽屜內就呼叫捲回關閉的 `closeDrawer()`",
+   "opponent": "dialog 佔滿整個視窗，點擊落在 dialog 上而不是 `::backdrop`，而且會在沒有滑出動畫的情況下直接關閉（引用：\"the dialog fills the viewport, so taps land on the dialog rather than its ::backdrop, and it would close without the slide-out animation.\"）",
+   "story": "加了 `closedby=\"any\"`，點暗處抽屜瞬間消失，沒有滑出去。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:navigation-drawer:4",
+   "title": "捲動驅動的背景動畫整塊包在 `@supports (animation-timeline: scroll())`",
+   "action": "`@keyframes`、`@property`、`animation-timeline` 都放進 `@supports` 區塊",
+   "opponent": "不支援的瀏覽器仍會解析 keyframes 並套用 `0%` 的值，背景永遠全暗（引用：\"would apply the animation's `0%` value (--drawer-backdrop: 1) at all times, leaving the backdrop permanently opaque.\"）",
+   "story": "在舊瀏覽器開過一次抽屜，關掉後背景還是一片暗。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:persistent-toast-notifications:5",
+   "title": "`transition-behavior: allow-discrete` 寫成獨立宣告，不寫進 `transition` 簡寫",
+   "action": "`transition` 之後另起一行 `transition-behavior: allow-discrete`，讓 toast 進出頂層有動畫；另提供 `prefers-reduced-motion` 的無動畫版本",
+   "opponent": "寫進簡寫時，舊瀏覽器會忽略整條 `transition` 宣告（引用：\"to animate entry and exit from the Top Layer without older browsers ignoring the `transition` declaration.\"）",
+   "story": "加了 allow-discrete 之後，舊版瀏覽器上 toast 的淡入淡出全部消失。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:stack-drill-down:11",
+   "title": "捲動驅動的視差整塊包在 `@supports (animation-timeline: view())`",
+   "action": "`animation-timeline: view(inline)`、`animation-range` 與 `@keyframes` 都放在 `@supports` 區塊內",
+   "opponent": "不支援的瀏覽器仍會解析 keyframes，把 `to` 狀態當成靜態樣式套用，每個畫面都永遠處於位移狀態（引用：\"Browsers without scroll-driven animations still parse the @keyframes and would apply the `to` state as a static style, leaving every view permanently transformed.\"）",
+   "story": "在舊版瀏覽器打開，每個畫面都偏了四分之三、整片變暗。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:content-first-noise-reduction:5",
+   "title": "開 popover 優先用 `popovertarget`；用 `commandfor` 時要偵測後才載 polyfill",
+   "action": "按鈕用 `popovertarget` 開關；若用 `commandfor` 與 `command=\"toggle-popover\"`，在 `'commandForElement' in HTMLButtonElement.prototype` 為 false 時動態載入 `invokers-polyfill`",
+   "opponent": "不支援 Invoker commands 的瀏覽器會忽略 `commandfor`，按鈕按了沒反應（引用：\"Browsers without invoker commands ignore `commandfor`, so the button does nothing there.\"）",
+   "story": "用 commandfor 寫的「更多」按鈕在舊版 Safari 上按了沒有任何反應。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:adapt-scrollbar-to-contrast-preferences:2",
+   "title": "覆蓋式捲軸的軌道可能透明，拇指顏色要同時對軌道與容器背景有對比",
+   "action": "挑拇指顏色時，同時對照軌道色與捲動容器本身的背景色，不靠軌道把拇指框出來",
+   "opponent": "覆蓋式捲軸（例如 macOS 預設）只在捲動時替拇指上色，軌道可能維持透明，只和軌道色有對比的拇指會融進容器背景（引用：\"With overlay scrollbars (such as the macOS default), `scrollbar-color` styles the thumb while scrolling, whereas the track may remain transparent.\"）",
+   "story": "在 Windows 上調好的高對比捲軸，拇指和淺灰軌道對比足夠；到了覆蓋式捲軸的環境，軌道透明，拇指直接疊在背景上，顏色一接近就看不見。指南要求拇指對兩者都要有對比。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:color:2",
+   "title": "動態產生深淺色不要只改 oklch 的亮度，改用 `color-mix()` 或兩者混用",
+   "action": "先找現成的設計 token；真要動態產生時用 `color-mix(in oklab, …, white/black)`，或把亮度調整（不超過 30%）和 `color-mix()` 混合使用",
+   "opponent": "瀏覽器還沒實作色域映射，直接改 `oklch`／`oklab` 的亮度得到的顏色無法預期（引用：\"browsers do not yet implement gamut mapping, so the resulting color is unpredictable.\"）",
+   "story": "用相對色彩語法把品牌藍的亮度拉到 0.9，在不同螢幕上出來的顏色各不相同，有的還偏紫。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:equal-width-text-lines:2",
+   "title": "用 `per-line-all` 而不是 `per-line`，容器要有明確寬度",
+   "action": "關鍵字寫 `per-line-all`；標題容器給定 `inline-size`，不要是 `fit-content`／`max-content` 或依內容決定寬度的 flex／grid 項目",
+   "opponent": "`per-line` 會跳過最後一行與以強制換行結尾的行，每行一個區塊時什麼都不縮放；容器寬度依內容時 `text-fit` 也不起作用（引用：\"`per-line` skips the last line and any line ending in a forced break, so with one block per line it scales nothing.\"）",
+   "story": "照文件寫了 `text-fit`，畫面完全沒變，查半天才發現是關鍵字少了 `-all`，標題又放在一個 `fit-content` 的 flex 項目裡。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:improve-text-layout-and-legibility:4",
+   "title": "有邊框或底色的元素不要用 `text-wrap: balance`",
+   "action": "按鈕、標籤、有底色的標題框不套 `balance`",
+   "opponent": "`balance` 不改容器寬度，只改換行位置，容器尾端留下空白，有框的元素會看到一塊意外的空區（引用：\"Avoid elements that have visible boxes such as borders or backgrounds, as this can create unexpected visually empty areas in the layout.\"）",
+   "story": "有底色的提示框套了 balance，文字兩行變得一樣短，右邊空出一大截底色。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:typography:8",
+   "title": "有背景或邊框的元素不用 `text-wrap: balance`",
+   "action": "按鈕、標籤、有背景色、邊框或陰影的標題框不加 `balance`",
+   "opponent": "`balance` 只改容器內的換行位置，不改容器寬度，可見的盒子尾端留下一塊空白（引用：\"it does not change the container's width, it only affects how text wraps *within* that width. This can leave empty space at the end of the container\"）",
+   "story": "有底色的提示框加了 balance，兩行字變得一樣短，右側卻留下一大塊空著的底色。拿掉後文字填回整個寬度。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:visual-effects",
+   "title": "漸層與 `color-mix()` 明確指定插值色彩空間，預設 `in oklab`，混中性色不用 `in oklch`",
+   "action": "漸層與 `color-mix()` 加上插值空間；`color-mix()` 預設用 `in oklab`，尤其是混中性色；`in oklch` 只用在兩個飽和色相之間的漸層（保住彩度，但色差大時較容易超出色域）；除非有特定理由（例如做 sRGB 取色器），不用 `in srgb`",
+   "opponent": "用 `in oklch` 混中性色時，Chromium 的 bug 讓低彩度顏色的色相解成 `0deg`，混出不該有的偏紅／粉紅色（引用：\"low chroma oklch colors have powerless hue angles (`none`), which resolve to `0deg` (magenta-red) and cause an unintended reddish/pink tint shift when rendered.\"）",
+   "story": "把品牌色和白或灰混成淡色時寫了 `in oklch`，在 Chromium 上中性色意外帶了一層粉紅。`in oklab` 用直角座標往 (0, 0) 縮，不必算色相角，色相保持不變。兩個飽和色相之間的漸層才值得用 oklch 換中段鮮豔。",
+   "kind": "新能力"
+  },
+  {
+   "key": "mwg:agentic-forms:3",
+   "title": "Angular Signal Forms 用 `experimentalWebMcpTool` 選項，不再加 `toolname`",
+   "action": "用 `@angular/forms/signals` 的 `form()` 建的表單，不加 `toolname`／`tooldescription`；改在 app providers 加 `provideExperimentalWebMcpForms()`，並把 `experimentalWebMcpTool: { name, description }` 傳給 `form()`，由 Angular 從 signal 模型建 schema 並接上驗證與送出",
+   "opponent": "兩種做法同時用，同一張表單被註冊兩次（引用：\"Using both approaches registers the same form twice.\"）",
+   "story": "Angular 專案照 HTML 範例在模板上加了 `toolname`，又在 `form()` 開了 WebMCP 選項，代理看到兩個一樣的工具。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:language-model:15",
+   "title": "不用 maxLength 逼模型縮短，生成後由程式截斷",
+   "action": "讓模型自然生成，再由 client-side 邏輯依 UI 需要截斷，不在 structured output schema 寫嚴格字元上限",
+   "opponent": "超過上限時模型可能改用外語或 emoji 高密度壓縮，輸出變成無意義內容（引用：\"the model might switch to high-density tokens like foreign languages or emoji to compress meaning, resulting in nonsensical output.\"）",
+   "story": "125 字元限制不是單純截斷指令，模型會自己想辦法塞進去，結果可能更短卻不可讀。",
+   "kind": "糾錯"
+  },
+  {
+   "key": "mwg:js:4",
+   "title": "用 Promise.withResolvers() 在 executor 外結算，但搬出來的同步程式要自己接錯",
+   "action": "`resolve`／`reject` 要交給事件監聽、worker 訊息或取消權杖時，用 `const { promise, resolve, reject } = Promise.withResolvers()`；操作本身能寫在 executor 裡時，仍用 `new Promise()`",
+   "opponent": "把原本在 executor 裡的同步設定搬出來後，那段程式丟的錯不再自動變成 rejection，而是變成未捕捉的同步例外（引用：\"synchronous throws inside an executor automatically reject the promise, whereas throws after `Promise.withResolvers()` become uncaught synchronous exceptions.\"）",
+   "story": "把 `let resolve, reject` 外掛變數改寫成 `withResolvers()` 看起來只是整理程式碼，但原本 executor 會替你接住同步錯誤，搬出來之後呼叫端的 `.catch()` 就等不到它。搬動時要包 `try / catch` 並呼叫 `reject(err)`。",
+   "kind": "糾錯"
+  }
+ ]
+}

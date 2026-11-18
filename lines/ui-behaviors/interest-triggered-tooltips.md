@@ -19,13 +19,13 @@ license: CC-BY-4.0（上游指南）
 %% line-end %%
 
 ### 細節（不索引）
-- 對手組：新功能的副作用
+- 對手組：彈出層互相干擾
 - 支援狀態：Interest invokers：Limited（Chrome 149, Edge 149）；popover="hint"：Limited（Chrome 151, Edge 151, Firefox 153；Unsupported in: Safari）；Anchor positioning 核心屬性：Newly。指南原寫 "Supported by: Safari 27 (Sep 2026). Unsupported in: Chrome, Edge, and Firefox."，群組狀態誤導，見 `lines/ui-components/app-menus.md`；本線沒用到 `position-visibility`
 - 戰報：僵持（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：以前提示要自己接 hover/focus/Esc 還會跟選單搶 → 現在圖示按鈕的說明、術語解釋、連結預覽卡可以幾乎全宣告式做出來，選單開著也能看提示。原生僅 Chromium，其他靠 polyfill
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「失去主要好處」
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「失去主要好處」；2026-11-18 對手組由「新功能的副作用」改為「彈出層互相干擾」
 
 %% line-start id="mwg:interest-triggered-tooltips:2" %%
 ## 會自己做事的觸發元素不加 `aria-expanded`
@@ -92,12 +92,12 @@ license: CC-BY-4.0（上游指南）
 %% line-end %%
 
 ### 細節（不索引）
-- 對手組：新功能的副作用
+- 對手組：事件不冒泡收不到
 - 支援狀態：Popover：Newly；Interest invokers：Limited
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 對手組由「新功能的副作用」改為「事件不冒泡收不到」
 
 %% line-start id="mwg:interest-triggered-tooltips:6" %%
 ## 不支援 `hint` 時，toggletip 要在 `beforetoggle` 改成 `auto`
@@ -110,12 +110,12 @@ license: CC-BY-4.0（上游指南）
 %% line-end %%
 
 ### 細節（不索引）
-- 對手組：新功能的副作用
+- 對手組：沒防護不支援的瀏覽器
 - 支援狀態：popover="hint"：Limited（Unsupported in: Safari）
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 對手組由「新功能的副作用」改為「沒防護不支援的瀏覽器」
 
 %% line-start id="mwg:interest-triggered-tooltips:7" %%
 ## 不用錨點定位 polyfill 時，`inset: auto` 要包進 `@supports`

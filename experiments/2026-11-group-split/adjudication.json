@@ -1,0 +1,128 @@
+{
+ "mwg:faster-spa-view-transitions:2": {
+  "group": "優化用過頭反傷",
+  "agree": "乙",
+  "reason": "出事的機制是把一個優化手段（content-visibility 快取視圖）無上限地套用，結果記憶體被撐爆、瀏覽器當掉，和對大量元素無差別加 will-change 耗光顯示記憶體同一個形狀；「快取策略錯置」那組講的是 HTTP／Service Worker 快取的失效與配額問題，機制不同。",
+  "sided": "agy"
+ },
+ "mwg:improve-next-page-load-performance:2": {
+  "group": "動作被意外觸發",
+  "agree": "乙",
+  "reason": "「經過」寫的是寬鬆的 document rule 把 /logout、add-to-cart 也拿去預先請求，使用者沒點就觸發了登出或加入購物車，出事方式是動作被意外觸發，不是優化做過頭拖慢效能。",
+  "sided": "kimi"
+ },
+ "mwg:passkey-authentication:2": {
+  "group": "生命週期假設錯",
+  "agree": "乙",
+  "reason": "出事的原因是沒先結束背景那個條件式請求，就以為可以再發一個明確請求；這是對請求生命週期的假設錯了，不是參數或格式用錯。",
+  "sided": "kimi"
+ },
+ "mwg:sanitize-untrusted-html:3": {
+  "group": "新屬性的隱藏前提",
+  "agree": "乙",
+  "reason": "出事的是新的 Sanitizer API 本身：沒有報錯，卻照它的預設把不在 `elements` 裡的元素連內容一起刪掉，而且和 DOMPurify 的預設不同。這是新 API 靜默地沒有達到預期效果；DOMPurify 是現成的函式庫，不是手寫替代品，所以甲不符。",
+  "sided": "agy"
+ },
+ "mwg:icons:3": {
+  "group": "相對網址解析基準錯",
+  "agree": "甲",
+  "reason": "這條線主要的出事機制是：透過自訂屬性傳遞的相對網址，相對於使用它的樣式表解析，而不是定義它的樣式表，結果指到錯的檔案。這正是甲組的定義；initial-value 只在 Firefox 有效只是附帶的一點。",
+  "sided": "kimi"
+ },
+ "mwg:icons:8": {
+  "group": "瀏覽器實作有缺陷",
+  "agree": "甲",
+  "reason": "出事的原因是 WebKit 的實作 bug：圖示要等使用者互動才出現，hover 時覆寫屬性也沒作用；照規格寫的程式只在 Safari 壞掉，得對 Safari 另外繞路，這不是新屬性本身有隱藏前提。",
+  "sided": "agy"
+ },
+ "mwg:scrollability-affordance-hints:4": {
+  "group": "邏輯方向與實體方向脫鉤",
+  "agree": "甲",
+  "reason": "捲動時間軸跟著書寫方向走，漸層方向和遮罩位置卻是實體方向，所以到了 RTL 就對不上，這正好符合這組的定義；它不是新屬性被靜默忽略的問題。",
+  "sided": "kimi"
+ },
+ "mwg:consistent-cross-document-transitions:2": {
+  "group": "生命週期假設錯",
+  "agree": "甲",
+  "reason": "出事的機制是誤以為「元素已解析」就等於「圖片已載入解碼」，這是在錯的時間點假設資源已就緒，和「load 事件只看急載媒體」屬同一形狀；快照裡出現空矩形只是轉場這邊看到的結果，不是出事的機制。",
+  "sided": "agy"
+ },
+ "mwg:declarative-dialog-popover-control:2": {
+  "group": "兩套機制重複作用",
+  "agree": "甲",
+  "reason": "popovertarget 和 commandfor 都在宣告同一個開關，按一下兩套各切換一次，開了又關，正是「兩套機制重複作用、互相抵消」的形狀；乙說的是使用者不小心觸發，這裡沒有誤觸。",
+  "sided": "agy"
+ },
+ "mwg:interest-triggered-tooltips:6": {
+  "group": "沒防護不支援的瀏覽器",
+  "agree": "乙",
+  "reason": "出事的原因是不支援 `hint` 的瀏覽器把它靜默當成 `manual`，又沒做偵測或改成 `auto` 的退路，提示才關不掉；這不是支援的瀏覽器在某些條件下忽略新屬性。",
+  "sided": "agy"
+ },
+ "mwg:scroll-completion-effects:2": {
+  "group": "完成時機靠猜",
+  "agree": "乙",
+  "reason": "出事的原因是把捲動 promise 的 resolve 當成「捲動已完成」的訊號，但被打斷時它照樣 resolve；這跟 setTimeout 猜結束點、scrollend 不觸發一樣，都是誤判捲動何時真正完成，不是模組或頁面生命週期的順序問題",
+  "sided": "agy"
+ },
+ "mwg:scroll-completion-effects:4": {
+  "group": "瀏覽器實作有缺陷",
+  "agree": "乙",
+  "reason": "出事的原因是 Chrome 的 bug：捲動文件根捲動器時，scrollIntoView() 回傳的 promise 太早 resolve。照規格寫的程式本身沒錯，也不是對生命週期的假設錯了。",
+  "sided": "agy"
+ },
+ "mwg:dialog:8": {
+  "group": "沒防護不支援的瀏覽器",
+  "agree": "甲",
+  "reason": "出事的原因是不支援 `closedby` 的瀏覽器直接忽略這個屬性，又沒有在 `cancel` 裡另做防護，正好符合甲組「沒偵測或退路，功能因此壞掉」的定義；乙組講的是支援的瀏覽器在特定條件下的隱藏前提，跟這條不同。",
+  "sided": "agy"
+ },
+ "mwg:navigation-drawer:4": {
+  "group": "沒防護不支援的瀏覽器",
+  "agree": "甲",
+  "reason": "不支援 `animation-timeline` 的瀏覽器忽略這個屬性，卻照樣套用 keyframes 的 `0%` 值；問題出在沒用 `@supports` 擋住、也沒有退路，不是支援它的瀏覽器在某些條件下靜默忽略新屬性。",
+  "sided": "agy"
+ },
+ "mwg:stack-drill-down:11": {
+  "group": "沒防護不支援的瀏覽器",
+  "agree": "甲",
+  "reason": "出事是因為瀏覽器不支援 scroll-driven animations，卻沒有用 @supports 擋住，keyframes 的終點就變成固定樣式，正好對上「不支援又沒偵測或退路，功能壞掉」；不是新屬性在支援的環境裡被靜默忽略。",
+  "sided": "agy"
+ },
+ "mwg:content-first-noise-reduction:5": {
+  "group": "沒防護不支援的瀏覽器",
+  "agree": "甲",
+  "reason": "舊版 Safari 不支援 Invoker commands，會忽略 commandfor；沒先偵測、也沒載 polyfill，按鈕就沒反應，正好是甲組的定義。乙組講的是支援的瀏覽器在特定條件下靜默失效，跟這條不同。",
+  "sided": "agy"
+ },
+ "mwg:improve-text-layout-and-legibility:4": {
+  "group": "新屬性的隱藏前提",
+  "agree": "乙",
+  "reason": "`balance` 沒報錯也照常生效，但它有個隱藏前提：只改換行位置、不縮容器寬度。所以套在有框或有底色的元素上，尾端會空出一塊，效果跟預期不同。這不是優化用過頭造成的反傷。",
+  "sided": "agy"
+ },
+ "mwg:typography:8": {
+  "group": "新屬性的隱藏前提",
+  "agree": "甲",
+  "reason": "balance 沒報錯，但它的隱藏前提是只在原本的容器寬度內重排換行、不會縮窄盒子，所以盒子有可見底色或邊框時就留下空白，效果不如預期；這和優化做過頭反傷自己無關",
+  "sided": "agy"
+ },
+ "mwg:visual-effects": {
+  "group": "瀏覽器實作有缺陷",
+  "agree": "甲",
+  "reason": "依規格，中性色的色相是 none，插值時應改用另一個顏色的色相；Chromium 卻把它當成 0deg，才混出偏紅。出事的原因是某個瀏覽器的實作 bug，要靠改用 in oklab 繞過，不是新屬性被靜默忽略的隱藏前提。",
+  "sided": "agy"
+ },
+ "mwg:language-model:15": {
+  "group": "優化用過頭反傷",
+  "agree": "乙",
+  "reason": "maxLength 並沒有被靜默忽略。模型照著限制硬壓縮，結果輸出不可讀；這是限制用過頭反傷，不是新屬性的前提沒滿足而失效。",
+  "sided": "kimi"
+ },
+ "mwg:js:4": {
+  "group": "新屬性的隱藏前提",
+  "agree": "甲",
+  "reason": "這條線出事是因為 withResolvers() 少了 executor 原本會替你接住同步錯誤的隱藏前提，API 本身不報錯，只是錯誤處理不如預期；跟執行時機或順序無關，所以不歸生命週期假設錯。",
+  "sided": "agy"
+ }
+}

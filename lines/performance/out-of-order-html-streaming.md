@@ -39,12 +39,12 @@ license: CC-BY-4.0（上游指南）
 
 ### 細節（不索引）
 - 對手組：內容要等JS才成形
-- 支援狀態：HTML setter methods／HTML streaming setters："not natively supported by any major browser yet."
+- 支援狀態：HTML setter methods：Limited（Supported by: Chrome 157, Edge 157. Unsupported in: Firefox and Safari.）；HTML streaming setters（`streamHTML()` 等，本線關鍵功能）："not natively supported by any major browser yet."，故整條仍記無瀏覽器支援
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
-- 發想（非指南原文）：伺服器回傳 HTML 片段的「孤島式」頁面，點連結後新內容一段一段流進主區塊，不必寫 JSON API 加前端模板。目前沒有瀏覽器原生支援
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「保住主要行為」
+- 發想（非指南原文）：伺服器回傳 HTML 片段的「孤島式」頁面，點連結後新內容一段一段流進主區塊，不必寫 JSON API 加前端模板。目前串流 setter 沒有瀏覽器原生支援
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：退路改為「保住主要行為」；2026-11-18（v1.0.1）上游把非串流的 HTML setter methods 改為 Limited（Chrome／Edge 157）；串流 setter 仍無支援，支援狀態與戰報不變
 
 %% line-start id="mwg:out-of-order-html-streaming:3" %%
 ## live region 只包進度文字，不包整塊串流內容，也不用 `role="alert"`

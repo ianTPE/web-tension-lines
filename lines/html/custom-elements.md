@@ -82,21 +82,21 @@ license: CC-BY-4.0（上游指南）
 - 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
 
 %% line-start id="mwg:custom-elements:5" %%
-## 用延遲的 opacity 動畫隱藏未定義元素，不要用 visibility: hidden 硬藏
-- 做法：`my-element:not(:defined)` 設 `opacity: 0` 並加一個 2 秒後轉為不透明的動畫；只對需要的元素或子樹（`:has(:not(:defined))`）設，不對整個 `body`
-- 對手：硬藏未升級的元素時，腳本一旦沒載入或載得慢，內容就永遠看不到；把守衛設在整個 `body`，一個不重要的小工具就會拖住整頁繪製（引用："so a failed or slow script never hides content for good."）
+## 用 visibility: hidden 加延遲動畫藏未定義元素，不要只靠 opacity: 0
+- 做法：`my-element:not(:defined)` 設 `visibility: hidden`（可另加 `opacity: 0` 讓它淡入），再用延遲 2 秒的動畫把 `visibility` 轉回 `visible`，腳本沒載入也會現身；只對需要的元素或子樹（`:has(:not(:defined))`）設，不對整個 `body`
+- 對手：只用 `opacity: 0` 藏，裡面可聚焦的子元素仍留在 Tab 順序裡，鍵盤焦點落在看不見的地方；不設延遲直接硬藏，腳本沒載入時內容就永遠看不到（引用："`opacity: 0` on its own leaves focusable descendants in the tab order, invisible"）
 - 退路：不需要——支援狀態不適用，不必退路
 - 解鎖：（缺）
 
-經過：為了避免元件升級前的閃爍，在 `:not(:defined)` 寫 `visibility: hidden`，結果分享按鈕的腳本被擋掉時整塊內容永遠空白。改成延遲淡入，最壞情況只是晚兩秒出現。
+經過：為了避免元件升級前的閃爍，在 `:not(:defined)` 寫 `opacity: 0`，畫面乾淨了，鍵盤使用者卻會 Tab 進一顆看不見的按鈕。改用 `visibility: hidden` 把內容同時移出 Tab 順序與無障礙樹，再靠延遲動畫 fail open，最壞情況只是晚兩秒出現。
 %% line-end %%
 
 ### 細節（不索引）
-- 對手組：隱藏或停用把人擋在外面
+- 對手組：視覺隱藏卻仍可觸及
 - 支援狀態：不適用（本指南未附支援資料）
 - 戰報：勝（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18（v1.0.1）上游把做法從 `opacity: 0` 反轉為 `visibility: hidden`，對手改為「opacity 隱藏的可聚焦子元素仍在 Tab 順序」，對手組由「隱藏或停用把人擋在外面」改為「視覺隱藏卻仍可觸及」
 
 另有 3 個糾錯提醒未拆：只用於樣式的內部狀態改用 custom states（`:state()`）而非反射合成屬性（指南沒說合成屬性在哪個時刻出錯）；不要用自己的屬性遮蔽 `style`、`id`、`slot` 等全域屬性；setter 寫屬性會重入 `attributeChangedCallback`，要比對新舊值。

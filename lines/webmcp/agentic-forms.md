@@ -56,12 +56,12 @@ license: CC-BY-4.0（上游指南）
 %% line-end %%
 
 ### 細節（不索引）
-- 對手組：新功能的副作用
+- 對手組：兩套機制重複作用
 - 支援狀態：Form-associated WebMCP attributes："not natively supported by any major browser yet"
 - 戰報：勝（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 對手組由「新功能的副作用」改為「兩套機制重複作用」
 
 %% line-start id="mwg:agentic-forms:4" %%
 ## 欄位互相連動、自訂元件或多步驟的表單不用宣告式 API

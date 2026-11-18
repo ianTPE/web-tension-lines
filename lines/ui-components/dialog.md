@@ -146,10 +146,10 @@ license: CC-BY-4.0（上游指南）
 %% line-end %%
 
 ### 細節（不索引）
-- 對手組：新功能的副作用
+- 對手組：沒防護不支援的瀏覽器
 - 支援狀態：<dialog closedby>：Limited availability，Supported by: Chrome 134, Edge 134, Firefox 141；Unsupported in: Safari
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
 - 另有 3 個糾錯提醒未拆：不要依賴 `preventDefault()` 擋下沒有使用者啟用的連續 Esc；popover polyfill 的 `:popover-open` 要用 `:is()` 合併（同 `mwg:declarative-dialog-popover-control:4`）；Invoker Commands polyfill 只在偵測不到時載入
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 交叉核對仲裁：解鎖改為缺；2026-11-18 對手組由「新功能的副作用」改為「沒防護不支援的瀏覽器」

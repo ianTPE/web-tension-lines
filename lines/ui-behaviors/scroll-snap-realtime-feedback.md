@@ -19,7 +19,7 @@ license: CC-BY-4.0（上游指南）
 %% line-end %%
 
 ### 細節（不索引）
-- 對手組：回饋落後於手勢（新開，見下）
+- 對手組：回饋落後於手勢
 - 支援狀態：Scroll snap events：Limited availability，Supported by: Chrome 129, Edge 129；Unsupported in: Firefox, Safari（Scroll snap 本身為 Widely）
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 有

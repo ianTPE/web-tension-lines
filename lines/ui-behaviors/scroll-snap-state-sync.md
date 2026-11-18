@@ -30,7 +30,7 @@ license: CC-BY-4.0（上游指南）
 %% line-start id="mwg:scroll-snap-state-sync:2" %%
 ## 吸附事件只同步畫面，作用中狀態要另外用 `aria-current` 告訴輔助技術
 - 做法：目錄連結作用中時設 `aria-current="true"` 或 `"location"`，並把目錄包在有名稱的 `<nav>` 裡
-- 對手：捲動吸附事件讓畫面同步，但不會自動把這些資訊暴露給程式（引用："it does not automatically expose that information programmatically."）
+- 對手：捲動吸附事件讓畫面同步，但不會自動把這些資訊暴露給程式（引用："they do not automatically expose that information programmatically."）
 - 退路：不需要——aria-current 與導覽地標屬既有語意屬性，不論走原生事件或觀察器退路皆可同步標註
 - 解鎖：（缺）
 

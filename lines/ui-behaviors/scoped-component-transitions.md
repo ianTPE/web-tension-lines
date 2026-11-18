@@ -19,13 +19,13 @@ license: CC-BY-4.0（上游指南）
 %% line-end %%
 
 ### 細節（不索引）
-- 對手組：新功能的副作用
+- 對手組：轉場被跳過或錯亂
 - 支援狀態：Element-scoped view transitions：Limited availability，Supported by: Chrome 147, Edge 147；Unsupported in: Firefox, Safari（View transitions 本身為 Newly）
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：以前一個小元件的動畫會凍住整頁 → 現在儀表板上多個卡片可以各自同時做排序、增刪動畫，頁首、浮動工具列照常可按。目前僅 Chromium
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 對手組由「新功能的副作用」改為「轉場被跳過或錯亂」
 
 %% line-start id="mwg:scoped-component-transitions:2" %%
 ## `match-element` 要搬動既有節點，不能用 `innerHTML` 重建
@@ -56,12 +56,12 @@ license: CC-BY-4.0（上游指南）
 %% line-end %%
 
 ### 細節（不索引）
-- 對手組：新功能的副作用
+- 對手組：轉場被跳過或錯亂
 - 支援狀態：Element-scoped view transitions：Limited
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 對手組由「新功能的副作用」改為「轉場被跳過或錯亂」
 
 %% line-start id="mwg:scoped-component-transitions:4" %%
 ## 會裁切溢出的範圍元素不要設 `view-transition-name: none`
@@ -74,12 +74,12 @@ license: CC-BY-4.0（上游指南）
 %% line-end %%
 
 ### 細節（不索引）
-- 對手組：新功能的副作用
+- 對手組：轉場被跳過或錯亂
 - 支援狀態：Element-scoped view transitions：Limited
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 對手組由「新功能的副作用」改為「轉場被跳過或錯亂」
 
 %% line-start id="mwg:scoped-component-transitions:5" %%
 ## 外層轉場要搬動元件時，包一層有名稱的 wrapper 並把內層設成 `view-transition-scope: all`
@@ -92,10 +92,10 @@ license: CC-BY-4.0（上游指南）
 %% line-end %%
 
 ### 細節（不索引）
-- 對手組：新功能的副作用
+- 對手組：轉場被跳過或錯亂
 - 支援狀態：Element-scoped view transitions：Limited
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
 - 另有 2 個糾錯提醒未拆：用 `prefers-reduced-motion` 關掉轉場動畫；刪除聚焦中的項目時在更新回呼裡把焦點移到相鄰項目
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 對手組由「新功能的副作用」改為「轉場被跳過或錯亂」

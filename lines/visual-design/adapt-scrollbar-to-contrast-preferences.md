@@ -28,22 +28,23 @@ license: CC-BY-4.0（上游指南）
 - 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
 
 %% line-start id="mwg:adapt-scrollbar-to-contrast-preferences:2" %%
-## macOS 上 `scrollbar-color` 要搭 `scrollbar-width` 才會生效，拇指也不能靠軌道顏色才看得見
-- 做法：自訂顏色時一併設 `scrollbar-width`（`thin` 或 `auto`）；要顯示軌道底色再加 `scrollbar-gutter: stable`；拇指顏色要能在透明軌道上單獨辨識
-- 對手：macOS 使用覆蓋式捲軸，預設忽略 `scrollbar-color` 與 `::-webkit-scrollbar`；即使生效，軌道預設透明、只在滑過時出現（引用："On macOS, `scrollbar-color` (standard) and `::-webkit-scrollbar` (legacy) properties are ignored by default because macOS uses native "overlay" scrollbars."）
+## 覆蓋式捲軸的軌道可能透明，拇指顏色要同時對軌道與容器背景有對比
+- 做法：挑拇指顏色時，同時對照軌道色與捲動容器本身的背景色，不靠軌道把拇指框出來
+- 對手：覆蓋式捲軸（例如 macOS 預設）只在捲動時替拇指上色，軌道可能維持透明，只和軌道色有對比的拇指會融進容器背景（引用："With overlay scrollbars (such as the macOS default), `scrollbar-color` styles the thumb while scrolling, whereas the track may remain transparent."）
 - 退路：保住主要行為——退回 `::-webkit-scrollbar` 或系統預設捲軸仍可捲動，僅失去標準樣式控制
 - 解鎖：（缺）
 
-經過：在 Windows 上調好的高對比捲軸，到 Mac 上完全沒變；好不容易出現了，拇指又和透明軌道後面的背景混在一起。
+經過：在 Windows 上調好的高對比捲軸，拇指和淺灰軌道對比足夠；到了覆蓋式捲軸的環境，軌道透明，拇指直接疊在背景上，顏色一接近就看不見。指南要求拇指對兩者都要有對比。
 %% line-end %%
 
 ### 細節（不索引）
-- 對手組：新功能的副作用
+- 對手組：焦點或狀態指示消失
 - 支援狀態：scrollbar-color：Newly（2025-12-12 起）
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 備註：v1.0.1 另加一條提醒：計算值不是 `auto` 的 `scrollbar-width` 或 `scrollbar-color`（含繼承來的）會停用 `::-webkit-scrollbar`，所以退路區塊要在 `@supports not (scrollbar-color: auto)` 裡把 `scrollbar-width` 重設回 `auto`（同見 customize-scrollbar-color-and-thickness、dark-mode）
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18（v1.0.1）上游刪除「macOS 預設忽略 scrollbar-color、須搭 scrollbar-width 與 scrollbar-gutter」的說法，對手改為覆蓋式捲軸的透明軌道，做法刪去 `scrollbar-width`／`scrollbar-gutter`；2026-11-18 對手組由「新功能的副作用」改為「焦點或狀態指示消失」
 
 %% line-start id="mwg:adapt-scrollbar-to-contrast-preferences:3" %%
 ## 不要對 `scrollbar-color` 做動畫或過渡

@@ -37,10 +37,10 @@ license: CC-BY-4.0（上游指南）
 %% line-end %%
 
 ### 細節（不索引）
-- 對手組：新功能的副作用
+- 對手組：參數或格式用錯就丟例外
 - 支援狀態：同上，記 Newly
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
 - 另有 3 個糾錯提醒未拆（伺服器驗證失敗時呼叫 `signalUnknownCredential()`，同 mwg:passkey-conditional-create:2；rpId 取自 `publicKey.rp.id`，見 mwg:passkeys；推廣流程設 `authenticatorAttachment: "platform"`、管理頁省略）
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-18 對手組由「新功能的副作用」改為「參數或格式用錯就丟例外」

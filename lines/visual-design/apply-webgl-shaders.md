@@ -20,11 +20,11 @@ license: CC-BY-4.0（上游指南）
 
 ### 細節（不索引）
 - 對手組：canvas裡手寫互動
-- 支援狀態：HTML-in-Canvas：Limited（Chrome 157 起，2026-11-03 進穩定版；Firefox、Safari 不支援）。指南的 fallback 段落仍寫 "HTML-in-canvas is not natively supported by any major browser yet."，已過時，照 PROMPT.md「已驗證的支援資料偏差」判
+- 支援狀態：HTML-in-Canvas：Limited（Chrome 157 起，2026-11-03 進穩定版；Firefox、Safari 不支援）。v1.0.1 起指南的 fallback 段落已改為 "Browser support for HTML-in-canvas: Limited availability. Supported by: Chrome 157 (Nov 2026) and Edge 157 (Nov 2026)."，與先前依 PROMPT.md「已驗證的支援資料偏差」所做的判定一致
 - 戰報：僵持（由支援狀態與退路推出）
 - 槽判定：對手 缺／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：按下去會起漣漪的真按鈕、帶玻璃折射或 CRT 掃描線的真輸入框：效果是 GPU shader，但仍然可以打字、選字、被螢幕閱讀器讀到。目前僅 Chrome 157 起
 - 現成 demo：[webgpu-jelly-slider](https://wicg.github.io/html-in-canvas/Examples/webgpu-jelly-slider/)（果凍效果的滑桿；用的是 WebGPU `drawElementImageToTexture()`，不是這份指南的 WebGL 路徑）、[webGL](https://wicg.github.io/html-in-canvas/Examples/webGL.html)（WebGL 貼圖，沒有自訂 shader 效果）（WICG 範例，尚未自己實測）
 - 規格來源：https://github.com/WICG/html-in-canvas （四槽只依上游指南判定，這裡僅供追蹤）
-- 變更紀錄：2026-11-16（v1.0.0）回溯拆出（使用者指定 HTML-in-Canvas 的四份指南；不在每週差異內）；2026-11-16 支援狀態由「無瀏覽器支援」更正為 Limited（Chrome 157 已於 2026-11-03 進穩定版，指南 fallback 段落過時）；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-16（v1.0.0）回溯拆出（使用者指定 HTML-in-Canvas 的四份指南；不在每週差異內）；2026-11-16 支援狀態由「無瀏覽器支援」更正為 Limited（Chrome 157 已於 2026-11-03 進穩定版，指南 fallback 段落過時）；2026-11-18 改為槽 v2；2026-11-18（v1.0.1）上游 fallback 段落改為 Limited（Chrome／Edge 157），與既有判定一致，支援狀態與戰報不變

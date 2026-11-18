@@ -31,8 +31,8 @@
     "重建DOM丟狀態": "Rebuilding the DOM loses state",
     "播報過量": "Over-announcing",
     "比對錯型別": "Comparing the wrong type",
+    "手寫替代品悄悄弄壞資料": "Hand-rolled workarounds silently corrupt data",
     "原生元素角色實作不一致": "Inconsistent roles of native elements",
-    "新功能的副作用": "Side effects of a new feature",
     "隱藏或停用把人擋在外面": "Hiding or disabling locks people out",
     "彈出層脫離觸發點": "Popups detach from their trigger",
     "外觀暗示錯的結構": "Appearance implies the wrong structure",
@@ -106,7 +106,18 @@
     "裁切只有硬邊": "Clipping only gives hard edges",
     "邊界往返吃掉效能": "Boundary crossings consume performance",
     "移植時沿用原生假設": "Native assumptions survive porting",
-    "頁面功能對代理不透明": "Page capabilities are opaque to agents"
+    "頁面功能對代理不透明": "Page capabilities are opaque to agents",
+    "參數或格式用錯就丟例外": "Wrong arguments or formats throw",
+    "新屬性的隱藏前提": "Hidden preconditions of new features",
+    "轉場被跳過或錯亂": "Transitions skipped or broken",
+    "彈出層互相干擾": "Popups interfere with each other",
+    "事件不冒泡收不到": "Non-bubbling events never arrive",
+    "只改外觀沒改語意或焦點": "Visual change without semantics or focus",
+    "沒防護不支援的瀏覽器": "No guard for unsupported browsers",
+    "瀏覽器實作有缺陷": "Browser implementation bugs",
+    "兩套機制重複作用": "Two mechanisms acting twice",
+    "相對網址解析基準錯": "Relative URLs resolve against the wrong base",
+    "邏輯方向與實體方向脫鉤": "Logical and physical directions out of sync"
   },
   "guides": {
     "install-web-app": "Installing web apps",
@@ -266,6 +277,7 @@
     "capture-location-agnostic-data": "Capture Location-independent and Partial Dates with Temporal",
     "coordinate-global-events": "Coordinate Global Events with Temporal",
     "sort-high-precision-timestamps": "Sort High-precision Timestamps with Temporal.Instant",
+    "js": "JavaScript (built-in primitives instead of hand-rolled workarounds)",
     "support-global-calendar-systems": "Support Global Calendar Systems with Temporal",
     "batch-analytics-events": "Debounce and Batch Analytics Events",
     "prevent-page-scroll-under-modal-dialog": "Prevent the page underneath a modal dialog from scrolling",
@@ -410,6 +422,86 @@
       "story": "\"1,200\" sorting before \"950\", or \"2026/1/10\" before \"2025/12/3\", is what string comparison does. The guide has each column declare its type instead of guessing from content.",
       "support": "—"
     },
+    "mwg:js": {
+      "title": "Deep-copy with structuredClone() so a JSON round trip doesn't wash out data types",
+      "action": "Use `structuredClone(value)` to copy nested state in memory instead of `JSON.parse(JSON.stringify(value))` or `_.cloneDeep`; pass `{ transfer: [...] }` to move `ArrayBuffer` ownership",
+      "opponent": "A JSON round trip turns `Date` into strings, drops keys whose value is `undefined`, and turns `NaN`/`Infinity` and sparse holes into `null` (quote: \"converting `NaN`, `Infinity`, `-Infinity`, and sparse array holes to `null` (and `-0` to `+0`)\")",
+      "fallback": "The guide gives no support data, so this is N/A; no fallback needed",
+      "unlock": "Deep-copy objects with cycles, `Map`, `Set`, `Date`, and TypedArrays without a library",
+      "idea": "",
+      "story": "Snapshotting state through JSON brings `createdAt` back as something other than a `Date`, and optional `undefined` keys vanish. `structuredClone()` keeps those values, plus cycles, `Map` and `Set`, but it doesn't keep custom class prototypes and throws `DataCloneError` on functions and DOM nodes; callers that rely on JSON normalization (`toJSON()`, replacers) should not switch.",
+      "support": "N/A (the guide gives no support data)"
+    },
+    "mwg:js:2": {
+      "title": "Use toSorted(), with() and findLastIndex() instead of copy-then-mutate, so reversed index math can't go wrong",
+      "action": "Use `toSorted()`, `toReversed()`, `toSpliced()` and `with(index, value)` for non-mutating transforms, and `findLast()` / `findLastIndex()` for reverse search instead of `[...arr].reverse()`",
+      "opponent": "Hand-written \"reverse a copy, `findIndex()`, then convert back\" yields `arr.length - 1 - (-1)`, i.e. `arr.length`, an out-of-bounds index on a miss instead of -1 (quote: \"`arr.length - 1 - (-1) === arr.length` evaluates to an out-of-bounds index on a miss whereas `findLastIndex()` returns `-1`.\")",
+      "fallback": "The guide gives no support data, so this is N/A; no fallback needed",
+      "unlock": "",
+      "idea": "",
+      "story": "Looking up \"the last completed task\" by reversing a copy and converting the index returns a nonexistent position on the miss, and the next update writes to the wrong place. `findLastIndex()` just returns -1. The guide also warns that `Set`, `NodeList` and strings lack these methods and still need converting, and that a TypedArray's `toSorted()` sorts numerically unlike a plain array's string sort.",
+      "support": "N/A (the guide gives no support data)"
+    },
+    "mwg:js:3": {
+      "title": "Group with Object.groupBy() / Map.groupBy() so a reduce accumulator can't collide with prototype keys",
+      "action": "Group by string keys with `Object.groupBy(items, fn)` and read buckets with `groups[key] ?? []` or `Object.hasOwn()`; use `Map.groupBy()` when keys are objects or must keep number/boolean types",
+      "opponent": "Grouping with `reduce()` into a `{}` accumulator lets keys like `'constructor'` or `'toString'` collide with existing `Object.prototype` properties (quote: \"keys like `'constructor'` or `'toString'` never collide with `Object.prototype`\")",
+      "fallback": "The guide gives no support data, so this is N/A; no fallback needed",
+      "unlock": "",
+      "idea": "",
+      "story": "Grouping by user-entered tags works until someone's tag is `constructor`: on a plain object that key already has an inherited value, and the grouping comes out wrong. `Object.groupBy()` returns a null-prototype object without that problem, which is also why `groups.hasOwnProperty()` can't be called on it. Keep `reduce()` when grouping also transforms values or computes totals.",
+      "support": "N/A (the guide gives no support data)"
+    },
+    "mwg:js:4": {
+      "title": "Settle promises outside the executor with Promise.withResolvers(), but catch errors in code moved out of it",
+      "action": "Use `const { promise, resolve, reject } = Promise.withResolvers()` when `resolve`/`reject` go to event listeners, worker messages or cancellation tokens; keep `new Promise()` when the work fits inside the executor",
+      "opponent": "Once synchronous setup is moved out of the executor, its throws no longer reject the promise automatically and become uncaught synchronous exceptions (quote: \"synchronous throws inside an executor automatically reject the promise, whereas throws after `Promise.withResolvers()` become uncaught synchronous exceptions.\")",
+      "fallback": "The guide gives no support data, so this is N/A; no fallback needed",
+      "unlock": "",
+      "idea": "",
+      "story": "Rewriting outer `let resolve, reject` variables into `withResolvers()` looks like tidying, but the executor used to catch synchronous errors for you; once the code moves out, the caller's `.catch()` never sees them. Wrap moved code in `try / catch` and call `reject(err)`.",
+      "support": "N/A (the guide gives no support data)"
+    },
+    "mwg:js:5": {
+      "title": "Set deadlines with AbortSignal.timeout() and any(), and tell TimeoutError from AbortError",
+      "action": "Pass `{ signal: AbortSignal.timeout(ms) }` straight to `fetch()` and other abortable APIs; combine user cancellation and a deadline with `AbortSignal.any([controller.signal, AbortSignal.timeout(ms)])`; check both `'TimeoutError'` and `'AbortError'` in `catch`",
+      "opponent": "Assuming a timeout aborts with `AbortError` and matching only that name in `catch` handles the timeout's `TimeoutError` as some other error (quote: \"DO NOT assume `AbortSignal.timeout(ms)` aborts with `error.name === 'AbortError'`.\")",
+      "fallback": "The guide gives no support data, so this is N/A; no fallback needed",
+      "unlock": "One signal can express both \"the user pressed cancel\" and \"the deadline passed\", aborting on whichever comes first with its reason",
+      "idea": "",
+      "story": "After replacing a hand-written `AbortController` plus `setTimeout` with `AbortSignal.timeout()`, a timeout's `error.name` is `TimeoutError`, and a branch that only recognized `AbortError` misses it. Idle timers that reset on activity, or that need a custom abort reason before expiry, should stay hand-written.",
+      "support": "N/A (the guide gives no support data)"
+    },
+    "mwg:js:6": {
+      "title": "Parse query strings with URLSearchParams so split('=') can't cut equals signs out of values",
+      "action": "Read and write query strings with `new URLSearchParams(search)`, use `new URL(url, base).searchParams` for full URLs, and `slice(1)` `location.hash` before parsing",
+      "opponent": "A hand-written `.split('=')[1]` cuts `=` out of values, such as Base64 padding (quote: \"such as Base64 padding `?token=aGVsbG8=`, which `.split('=')[1]` truncates\")",
+      "fallback": "The guide gives no support data, so this is N/A; no fallback needed",
+      "unlock": "",
+      "idea": "",
+      "story": "Pulling a token out of the URL with split loses the trailing `==` and validation fails. `URLSearchParams` keeps equals signs in values and doesn't write keys onto `Object.prototype`. But it follows form-encoding rules, decoding `+` as a space; for duplicate keys `get()` returns the first while `Object.fromEntries()` keeps the last; and it can't parse semicolon-separated cookies.",
+      "support": "N/A (the guide gives no support data)"
+    },
+    "mwg:js:7": {
+      "title": "Convert UTF-8 with TextDecoder / TextEncoder so fromCharCode can't garble text or overflow the stack",
+      "action": "Decode bytes with `new TextDecoder().decode(bytes)` and encode with `new TextEncoder().encode(str)`; for chunked streams reuse one decoder with `{ stream: true }` and finish with a final `decode()` call",
+      "opponent": "`String.fromCharCode(...bytes)` treats bytes as UTF-16 code units, garbling multi-byte UTF-8, and overflows the call stack past about 65 KB (quote: \"corrupting multi-byte UTF-8 into Latin-1 mojibake and overflowing the call stack at ~65 KB+\")",
+      "fallback": "The guide gives no support data, so this is N/A; no fallback needed",
+      "unlock": "A chunked UTF-8 stream decodes correctly even when a multi-byte character is split across chunks",
+      "idea": "",
+      "story": "Reading WebSocket frames or file chunks, a Chinese character or emoji lands across two chunks and per-chunk `fromCharCode` decoding produces mojibake; with a big file it overflows the call stack. `TextDecoder`'s stream mode carries the partial bytes into the next chunk. The exception: raw binary strings for `btoa()` still need chunked `fromCharCode`, or `btoa()` throws `InvalidCharacterError`.",
+      "support": "N/A (the guide gives no support data)"
+    },
+    "mwg:js:8": {
+      "title": "Clear or replace children with replaceChildren() so a removal loop can't skip half of them",
+      "action": "Call `container.replaceChildren()` with no arguments to clear, or with nodes/strings to clear and insert in one step; for `<template>`, use `template.content.replaceChildren()`",
+      "opponent": "A forward removal loop over live `children`/`childNodes` skips every other node, and `innerHTML = ''` invokes the HTML parser and fails under Trusted Types (quote: \"forward `for` loops over live `children`/`childNodes` skip every other node\")",
+      "fallback": "The guide gives no support data, so this is N/A; no fallback needed",
+      "unlock": "",
+      "idea": "",
+      "story": "Redrawing a notification list with a for loop that removes old nodes: removing index 0 shifts index 1 into its place, and only half get removed. `replaceChildren()` does it in one operation, and a `MutationObserver` gets a single record. It also removes text and comment nodes and doesn't parse HTML strings; for untrusted HTML see sanitize-untrusted-html.",
+      "support": "N/A (the guide gives no support data)"
+    },
     "mwg:accordion": {
       "title": "Don't put headings inside summary when items need their own heading",
       "action": "Build accordions from adjacent `<details>`; when each item needs its own heading, build a custom accordion instead",
@@ -472,13 +564,13 @@
     },
     "mwg:carousel": {
       "title": "Loop a carousel without cloning slides by parking one with order",
-      "action": "For looping, use `--current` and CSS `order` to park the first or last slide beside the current one and mark it `inert`, without cloning or moving slides",
+      "action": "For looping, use `--current` and CSS `order` to park the first or last slide beside the current one, changing only visual order without cloning or moving slides; on a marker click, set `--current` to `initial` first so the scroll runs in sequence order",
       "opponent": "Cloning slides or moving them in the DOM for infinite looping conflicts with frameworks and makes assistive tech read duplicate content (quote: \"Do not clone slides or move them in the DOM, which conflicts with frameworks and duplicates content for assistive technology.\")",
-      "fallback": "When `sibling-index()` is unsupported, fall back to a finite carousel disabling buttons at the ends",
+      "fallback": "When `sibling-count()` is unsupported, a script sets `--children-count` with the slide count and the carousel still loops",
       "unlock": "Use CSS `order` to wrap first/last slides seamlessly for looping carousels without cloning or moving DOM",
       "idea": "An infinitely looping carousel without cloned slides: park one slide with CSS order and compensate the offset once scrolling settles. Content exists once, so frameworks and screen readers don't fight.",
-      "story": "The usual infinite carousel clones a slide at each end, so screen readers hear the same slide twice. The guide instead visually parks a single slide at the other end and makes it inert, so Tab order and the accessibility tree match what is on screen. The guide also says not to use `::scroll-button()` / `::scroll-marker` \"for now\", without giving a reason.",
-      "support": "Scroll snap: Widely (2020-01-15); scrollend: Newly (2025-12-12); Scroll-driven animations: Newly (2026-10-27)"
+      "story": "The usual infinite carousel clones a slide at each end, so screen readers hear the same slide twice. The guide instead visually parks a single slide at the other end; DOM order stays the reading and focus order, and no slide is made inert or aria-hidden. The guide also says not to use `::scroll-button()` / `::scroll-marker` \"for now\", without giving a reason.",
+      "support": "Scroll snap: Widely (2020-01-15); scrollend: Newly (2025-12-12); sibling-count() and sibling-index(): Newly (2026-08-18); Scroll-driven animations: Newly (2026-10-27); overscroll-behavior: Limited (Chrome 144, Edge 144, Firefox 150; not Safari; a progressive enhancement per the guide, not split into a line)"
     },
     "mwg:copy-button": {
       "title": "Don't disable the button while showing feedback",
@@ -628,7 +720,7 @@
       "unlock": "Place real DOM inside `<canvas content=\"drawable\">` so rendered content retains screen-reader, translation, search, and print support",
       "idea": "Text drawn on a canvas (charts, whiteboards, map labels) can be found with Ctrl+F, translated and read by screen readers without maintaining a hidden DOM copy. Chrome 157+ only for now.",
       "story": "A canvas has always been an opaque block of pixels: text on it cannot be selected, searched or translated, and assistive tech cannot read it. The new API keeps the canvas's children laid out and in the DOM tree while the canvas only decides how to paint them; in 2D the browser even aligns hit testing automatically. Cross-origin content cannot be drawn, and with Chrome-only support you have to maintain the fallback alongside it to cover other browsers.",
-      "support": "HTML-in-Canvas: Limited (Chrome 157+, stable since 2026-11-03; not Firefox or Safari). The guide's fallback section still says \"HTML-in-canvas is not natively supported by any major browser yet.\", which is out of date"
+      "support": "HTML-in-Canvas: Limited (Chrome 157+, stable since 2026-11-03; not Firefox or Safari). Since v1.0.1 the guide's fallback section also says \"Browser support for HTML-in-canvas: Limited availability. Supported by: Chrome 157 (Nov 2026) and Edge 157 (Nov 2026).\", matching this rating"
     },
     "mwg:export-html-media-from-canvas": {
       "title": "Let the browser paint HTML into the canvas and export it, instead of a library redrawing the DOM",
@@ -638,7 +730,7 @@
       "unlock": "Native rendering paints real DOM subtrees into canvas for pixel-accurate `toDataURL()`, `toBlob()`, and `captureStream()` export",
       "idea": "Dashboards, styled documents and interactive charts can be saved as a PNG identical to the screen, or an HTML interaction can be recorded as video with `captureStream()`, without loading a screenshot library. Chrome 157+ only for now.",
       "story": "Saving a piece of the page as an image has meant a library re-implementing the browser's layout and painting in JS, and getting it wrong whenever a new CSS feature shows up. The new API has the real engine paint the HTML subtree into a canvas, after which the existing canvas export methods work. Outside Chrome, the fallback is those same libraries, so the opponent stands untouched.",
-      "support": "HTML-in-Canvas: Limited (Chrome 157+, stable since 2026-11-03; not Firefox or Safari). The guide's fallback section still says \"HTML-in-canvas is not natively supported by any major browser yet.\", which is out of date"
+      "support": "HTML-in-Canvas: Limited (Chrome 157+, stable since 2026-11-03; not Firefox or Safari). Since v1.0.1 the guide's fallback section also says \"Browser support for HTML-in-canvas: Limited availability. Supported by: Chrome 157 (Nov 2026) and Edge 157 (Nov 2026).\", matching this rating"
     },
     "mwg:interactive-content-in-3d-scenes": {
       "title": "Project real DOM into a 3D scene and hand interaction back to the browser",
@@ -648,7 +740,7 @@
       "unlock": "Project real DOM elements into WebGL/WebGPU/Three.js scenes while keeping clicks, selection, and focus without manual raycasting",
       "idea": "Screens, boards and control panels inside a 3D scene can be real forms and buttons that accept typing, selection and keyboard focus, with no raycasting-to-event code. Good for product showcases or property panels in a 3D editor. Chrome 157+ only for now.",
       "story": "A panel in a 3D scene used to be a texture: clicks had to be converted with raycasting and events dispatched by hand. With the new API a real element sits behind the texture, and the developer only converts the MVP matrix into a `canvasTransform` each frame to tell the browser where it was drawn. The opponent is described only as \"complex\": effort, not an observable failure. Matrix syncing is still manual, though Three.js's `InteractionManager` does it for you.",
-      "support": "HTML-in-Canvas: Limited (Chrome 157+, stable since 2026-11-03; not Firefox or Safari). The guide's fallback section still says \"HTML-in-canvas is not natively supported by any major browser yet.\", which is out of date"
+      "support": "HTML-in-Canvas: Limited (Chrome 157+, stable since 2026-11-03; not Firefox or Safari). Since v1.0.1 the guide's fallback section also says \"Browser support for HTML-in-canvas: Limited availability. Supported by: Chrome 157 (Nov 2026) and Edge 157 (Nov 2026).\", matching this rating"
     },
     "mwg:apply-webgl-shaders": {
       "title": "Apply shaders directly to interactive HTML",
@@ -658,7 +750,7 @@
       "unlock": "Apply WebGL shaders directly to real buttons and inputs while keeping native accessibility, text selection, and DOM events",
       "idea": "A real button that ripples when pressed, or a real input with glass refraction or CRT scanlines: the effect is a GPU shader, yet you can still type, select text and reach it with a screen reader. Chrome 157+ only for now.",
       "story": "Effects like ripple distortion, lighting and color grading only work on textures, and a texture is not an element. The new API turns a real element's painted output into a texture while the element itself stays in the DOM to receive input. The guide never describes the old approach, so the opponent is marked missing. You still have to allocate the texture with `texImage2D()`, reallocate only on size change, and handle `captureElementImage()` throwing before the first paint.",
-      "support": "HTML-in-Canvas: Limited (Chrome 157+, stable since 2026-11-03; not Firefox or Safari). The guide's fallback section still says \"HTML-in-canvas is not natively supported by any major browser yet.\", which is out of date"
+      "support": "HTML-in-Canvas: Limited (Chrome 157+, stable since 2026-11-03; not Firefox or Safari). Since v1.0.1 the guide's fallback section also says \"Browser support for HTML-in-canvas: Limited availability. Supported by: Chrome 157 (Nov 2026) and Edge 157 (Nov 2026).\", matching this rating"
     },
     "mwg:accessibility": {
       "title": "One h1 per page so screen readers can find the main heading",
@@ -1926,9 +2018,9 @@
       "opponent": "The guide only says this replaces waiting for a full JSON payload and building the DOM by hand, without saying when that goes wrong (quote: \"Stream large UI transitions in SPAs using `streamHTML()` instead of waiting for a full JSON payload and manual DOM construction.\")",
       "fallback": "Fall back to the html-setters polyfill, losing the native streaming setters",
       "unlock": "Pipe fetch streams straight into the DOM with `streamHTML()` to paint incrementally without waiting or manual chunking",
-      "idea": "Island-style pages whose server returns HTML fragments could stream new content into the main region piece by piece after a link click, with no JSON API or client templates. No native browser support yet.",
+      "idea": "Island-style pages whose server returns HTML fragments could stream new content into the main region piece by piece after a link click, with no JSON API or client templates. No native browser support for the streaming setters yet.",
       "story": "SPA navigations wait for the whole JSON and then assemble the DOM by hand. Streaming setters would let HTML render as it arrives, but today it's only an API shape propped up by a polyfill.",
-      "support": "HTML setter methods / HTML streaming setters: \"not natively supported by any major browser yet.\""
+      "support": "HTML setter methods: Limited (Supported by: Chrome 157, Edge 157. Unsupported in: Firefox and Safari.); HTML streaming setters (`streamHTML()` etc., this line's key feature): \"not natively supported by any major browser yet.\", so the line stays at no browser support"
     },
     "mwg:out-of-order-html-streaming:3": {
       "title": "Put the live region around the progress text only, not the streamed content, and don't use `role=\"alert\"`",
@@ -3642,9 +3734,9 @@
     },
     "mwg:dynamic-sibling-animations": {
       "title": "Stagger list items into view with `sibling-index()`",
-      "action": "`animation-delay: calc(sibling-index() * var(--stagger-time))` delays each item by its position; disable under reduced motion; for older browsers, first declare a version using a JS-set `--sibling-index`",
+      "action": "`animation-delay: calc(sibling-index() * var(--stagger-time))` delays each item by its position; disable under reduced motion; for older browsers, use a JS-set `--sibling-index` as the base declaration and wrap the `sibling-index()` rule in an `@supports` test that uses a literal time value",
       "opponent": "The guide only describes the stagger effect, without saying when the old approaches (per-item `:nth-child` or JS delays) go wrong (quote: \"multiple ordered elements animate sequentially with a slight delay between each, rather than all animating at once\")",
-      "fallback": "When unsupported, JS writes `--sibling-index` before the native rule so older browsers still stagger entry animations",
+      "fallback": "When unsupported, JS writes `--sibling-index` and `sibling-index()` sits inside `@supports`, so older browsers still stagger entry animations",
       "unlock": "Pure CSS staggers list or menu entry animations sequentially and recalculates delays automatically as item counts change",
       "idea": "Staggered entrances needed JS to set each delay → search results, notification lists, and dashboard cards can appear one after another in pure CSS and stay in step when the count changes",
       "story": "Stagger delays used to come from JS or a long list of nth-child rules. Now CSS knows \"which one am I\", and adding or removing items needs no recalculation.",
@@ -4291,13 +4383,13 @@
       "support": "No support data; N/A."
     },
     "mwg:custom-elements:5": {
-      "title": "Use delayed opacity for undefined elements instead of permanent hiding",
-      "action": "Give :not(:defined) opacity zero with a delayed fade-in, scoped only to the affected elements.",
-      "opponent": "Hard hiding leaves content invisible after failed or slow scripts; a body-wide guard lets one widget block the whole page. (quote: \"so a failed or slow script never hides content for good.\")",
+      "title": "Hide undefined elements with visibility: hidden plus a delayed reveal, not opacity: 0 alone",
+      "action": "Give `my-element:not(:defined)` `visibility: hidden` (optionally `opacity: 0` for a fade) and animate `visibility` back after a 2s delay so content appears even if the script never loads; scope it to the elements or subtree that need it, not the whole `body`",
+      "opponent": "Hiding with `opacity: 0` alone leaves focusable descendants in the Tab order, so keyboard focus lands on something invisible; hard-hiding without a delay keeps content hidden forever if the script fails (quote: \"`opacity: 0` on its own leaves focusable descendants in the tab order, invisible\")",
       "fallback": "Support status is N/A; no fallback needed",
       "unlock": "",
       "idea": "",
-      "story": "Fail open rather than allowing a styling guard to hide content forever.",
+      "story": "Writing `opacity: 0` on `:not(:defined)` avoids the flash before upgrade, but keyboard users can Tab into an invisible button. `visibility: hidden` takes the content out of the Tab order and the accessibility tree, and the delayed animation still fails open: at worst the content shows up two seconds late.",
       "support": "No support data; N/A."
     },
     "mwg:form-associated-custom-elements": {
@@ -5143,7 +5235,7 @@
     "mwg:scroll-snap-state-sync:2": {
       "title": "Snap events only sync visuals; expose the active state with `aria-current`",
       "action": "Set `aria-current=\"true\"` or `\"location\"` on the active TOC link and wrap the TOC in a named `<nav>`",
-      "opponent": "Scroll snap events sync the screen but don't expose that state programmatically (quote: \"it does not automatically expose that information programmatically.\")",
+      "opponent": "Scroll snap events sync the screen but don't expose that state programmatically (quote: \"they do not automatically expose that information programmatically.\")",
       "fallback": "`aria-current` and nav landmarks are existing semantics that update accurately under both native snap events and observer fallback",
       "unlock": "",
       "idea": "",
@@ -6471,13 +6563,13 @@
       "support": "scrollbar-color: Baseline Newly available (since 2025-12-12). Supported by: Chrome 121, Edge 121, Firefox 64, Safari 26.2"
     },
     "mwg:adapt-scrollbar-to-contrast-preferences:2": {
-      "title": "On macOS `scrollbar-color` only applies with `scrollbar-width`, and the thumb can't rely on the track to be visible",
-      "action": "Set `scrollbar-width` (`thin` or `auto`) alongside custom colors; add `scrollbar-gutter: stable` to show a track color; pick a thumb color that stands out on a transparent track",
-      "opponent": "macOS uses overlay scrollbars and ignores `scrollbar-color` and `::-webkit-scrollbar` by default; even when applied, the track is transparent until hovered (quote: \"On macOS, `scrollbar-color` (standard) and `::-webkit-scrollbar` (legacy) properties are ignored by default because macOS uses native \"overlay\" scrollbars.\")",
+      "title": "Overlay scrollbar tracks may be transparent, so the thumb must contrast with both the track and the container background",
+      "action": "Choose the thumb color against both the track color and the scroll container's own background, without relying on the track to frame the thumb",
+      "opponent": "Overlay scrollbars (such as the macOS default) only color the thumb while scrolling and the track may stay transparent, so a thumb that only contrasts with the track blends into the container background (quote: \"With overlay scrollbars (such as the macOS default), `scrollbar-color` styles the thumb while scrolling, whereas the track may remain transparent.\")",
       "fallback": "Falls back to `::-webkit-scrollbar` or system scrollbars, keeping scrolling intact while losing standard styling",
       "unlock": "",
       "idea": "",
-      "story": "A high-contrast scrollbar tuned on Windows didn't change at all on a Mac; once it did show, the thumb blended into the background behind the transparent track.",
+      "story": "A high-contrast scrollbar tuned on Windows had a thumb that stood out against the light gray track; with overlay scrollbars the track is transparent, the thumb sits directly on the background, and a similar color makes it vanish. The guide asks for contrast against both.",
       "support": "scrollbar-color: Newly (since 2025-12-12)"
     },
     "mwg:adapt-scrollbar-to-contrast-preferences:3": {
@@ -6891,14 +6983,14 @@
       "support": "No support data; N/A."
     },
     "mwg:visual-effects": {
-      "title": "Specify OKLCH or OKLab interpolation for gradients and color-mix()",
-      "action": "Choose an explicit interpolation space according to chroma and gamut needs rather than default sRGB.",
-      "opponent": "The guide discourages sRGB but gives no concrete interpolation failure.",
+      "title": "Specify the interpolation space for gradients and color-mix(), defaulting to `in oklab` and never `in oklch` for neutrals",
+      "action": "Add an interpolation space to gradients and `color-mix()`; default to `in oklab` for `color-mix()`, especially with neutrals; use `in oklch` only for gradients between two saturated hues (keeps chroma but leaves gamut more easily); avoid `in srgb` unless there is a specific reason",
+      "opponent": "Mixing neutrals `in oklch` hits a Chromium bug where low-chroma colors resolve their hue to `0deg`, producing an unintended reddish/pink tint (quote: \"low chroma oklch colors have powerless hue angles (`none`), which resolve to `0deg` (magenta-red) and cause an unintended reddish/pink tint shift when rendered.\")",
       "fallback": "Support status is N/A; older browsers can use conditional variables to fall back to default interpolation",
       "unlock": "Specify `in oklch` or `in oklab` on gradients and `color-mix()` to preserve saturation or stay within gamut",
-      "idea": "No Baseline data; N/A.",
-      "story": "Interpolation becomes a deliberate design choice.",
-      "support": "Brand gradients, visualization scales, and hover colors can choose their interpolation space."
+      "idea": "Gradients used to accept the browser's default mixing → brand two-color gradients, continuous data-viz scales, and `color-mix()` hover colors can choose the space they mix in, trading saturation against gamut per screen",
+      "story": "Mixing a brand color with white or gray `in oklch` gave neutrals a pink cast in Chromium. `in oklab` scales the Cartesian (a, b) toward (0, 0) without computing a hue angle, so the hue stays put. Only gradients between two saturated hues are worth trading for oklch's vivid midpoints.",
+      "support": "No Baseline data in the guide; it only says some pre-2024 browsers lack gradient interpolation spaces; N/A"
     },
     "mwg:visual-effects:2": {
       "title": "Feature-detect interpolation-space variables and retain a nonempty gradient preamble",
@@ -7441,14 +7533,14 @@
       "support": "No support data; N/A."
     },
     "mwg:css-layout:14": {
-      "title": "Use multi-column or dense fallback until grid lanes ships",
+      "title": "Grid lanes is Safari-only, so use multi-column or accept dense reordering",
       "action": "Use multi-column for fragments and dense grid for cards, treating masonry only as detected enhancement.",
-      "opponent": "Tight varied-height layouts leave gaps in ordinary grid, but grid lanes has no native browser support. (quote: \"Grid lanes is not natively supported by any major browser yet.\")",
+      "opponent": "For tight varied-height layouts, shipping masonry syntax as a hard requirement only lays out in Safari 27.2; Chrome, Edge and Firefox don't support it (quote: \"Don't ship `grid-template-rows: masonry` as a hard requirement until your Baseline target catches up.\")",
       "fallback": "Start with multi-column or `grid-auto-flow: dense` packing and add masonry only inside `@supports`",
       "unlock": "",
-      "idea": "Grid lanes: no browser support.",
-      "story": "Experimental masonry syntax cannot be a production requirement.",
-      "support": "Native masonry could eventually combine tight packing with grid tracks; current sites need fallbacks."
+      "idea": "Native masonry could eventually let photo galleries, card walls and news front pages combine tight packing with the grid track model; Safari 27.2 only for now, other browsers fall back to multi-column or dense.",
+      "story": "The spec name is `display: grid-lanes`, while early prototypes used `grid-template-rows: masonry`. A gallery or waterfall layout today can't treat that syntax as the only path.",
+      "support": "Grid lanes: Limited (Supported by: Safari 27.2. Unsupported in: Chrome, Edge, and Firefox.)"
     },
     "mwg:language-model:4": {
       "title": "Call create() from a user gesture when model download is required",

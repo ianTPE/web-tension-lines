@@ -1,0 +1,1049 @@
+{
+ "kimi": {
+  "mwg:accordion:2": {
+   "key": "mwg:accordion:2",
+   "group": "版面意外溢出或位移",
+   "source": "existing",
+   "reason": "互斥展開會關閉另一項，讓內容位移並離開使用者的視野。"
+  },
+  "mwg:animated-select-picker:2": {
+   "key": "mwg:animated-select-picker:2",
+   "group": "不認得的語法讓整條規則失效",
+   "source": "existing",
+   "reason": "舊瀏覽器不認得簡寫中的 allow-discrete，會連整條 transition 都忽略。"
+  },
+  "mwg:custom-select-picker-layouts:2": {
+   "key": "mwg:custom-select-picker-layouts:2",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "picker 的 display 樣式必須限縮在 :open，否則關閉時也會顯示。"
+  },
+  "mwg:custom-select-picker-layouts:3": {
+   "key": "mwg:custom-select-picker-layouts:3",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "selectedcontent 必須位於觸發按鈕內，放錯位置會靜默退成 picker 的一般內容。"
+  },
+  "mwg:defer-rendering-heavy-content:3": {
+   "key": "mwg:defer-rendering-heavy-content:3",
+   "group": "優化用過頭反傷",
+   "source": "existing",
+   "reason": "把延遲渲染套到首屏，反而增加關鍵載入前的可見性判斷。"
+  },
+  "mwg:efficient-background-processing:2": {
+   "key": "mwg:efficient-background-processing:2",
+   "group": "事件不冒泡收不到",
+   "source": "candidate",
+   "reason": "事件在部分實作不冒泡，父層的一般委派監聽器收不到。"
+  },
+  "mwg:faster-spa-view-transitions:2": {
+   "key": "mwg:faster-spa-view-transitions:2",
+   "group": "快取策略錯置",
+   "source": "existing",
+   "reason": "對不限量的動態視圖全部快取，會造成記憶體膨脹甚至瀏覽器當掉。"
+  },
+  "mwg:flicker-free-client-side-ab-testing:2": {
+   "key": "mwg:flicker-free-client-side-ab-testing:2",
+   "group": "優化用過頭反傷",
+   "source": "existing",
+   "reason": "為防閃爍而阻塞渲染，慢腳本或 CDN 故障會反過來延後或阻止整頁繪製。"
+  },
+  "mwg:full-session-analytics:2": {
+   "key": "mwg:full-session-analytics:2",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "payload 超過配額或使用不接受的 ReadableStream，都會讓 fetchLater 直接出錯。"
+  },
+  "mwg:improve-next-page-load-performance:2": {
+   "key": "mwg:improve-next-page-load-performance:2",
+   "group": "動作被意外觸發",
+   "source": "existing",
+   "reason": "過寬的預載規則會在使用者未點擊時觸發登出或加入購物車等狀態改變。"
+  },
+  "mwg:interaction-paint-timing:2": {
+   "key": "mwg:interaction-paint-timing:2",
+   "group": "效能量測失真或有盲點",
+   "source": "existing",
+   "reason": "用錯 navigationId 配對或誤用時間原點，會漏掉繪製並回報錯誤時間。"
+  },
+  "mwg:interaction-paint-timing:3": {
+   "key": "mwg:interaction-paint-timing:3",
+   "group": "效能量測失真或有盲點",
+   "source": "existing",
+   "reason": "事後查詢只能拿到緩衝區保留的前 50 筆，後續軟導覽會從量測中消失。"
+  },
+  "mwg:lazy-load-video-and-audio:2": {
+   "key": "mwg:lazy-load-video-and-audio:2",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "延遲載入依賴可見交集，缺 controls 或尺寸的媒體可能永遠不載入。"
+  },
+  "mwg:client-side-encryption:3": {
+   "key": "mwg:client-side-encryption:3",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "新演算法拒收舊的 raw 金鑰格式，匯入或匯出會直接丟 NotSupportedError。"
+  },
+  "mwg:digital-signatures:3": {
+   "key": "mwg:digital-signatures:3",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "ML-DSA 拒收舊的 raw 格式，沿用會在匯入或匯出時丟 NotSupportedError。"
+  },
+  "mwg:local-network-access:4": {
+   "key": "mwg:local-network-access:4",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "WebSocket 第二參數不是選項物件，傳入 targetAddressSpace 會直接丟 SyntaxError。"
+  },
+  "mwg:passkey-authentication:2": {
+   "key": "mwg:passkey-authentication:2",
+   "group": "生命週期假設錯",
+   "source": "existing",
+   "reason": "背景條件式請求仍在等待時又啟動按鈕登入，兩個未協調的請求會相撞。"
+  },
+  "mwg:passkey-management:2": {
+   "key": "mwg:passkey-management:2",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "用目前網址猜出的 rpId 可能與憑證不符，導致同步送錯目標或被 SecurityError 拒絕。"
+  },
+  "mwg:passkey-management:3": {
+   "key": "mwg:passkey-management:3",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "人類可讀的假 ID 不是合法 Base64URL，傳入 Signal API 會直接丟 TypeError。"
+  },
+  "mwg:passkey-registration:2": {
+   "key": "mwg:passkey-registration:2",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "用戶端偏好與伺服器強制使用者驗證的設定不一致，會讓合法註冊被伺服器誤拒。"
+  },
+  "mwg:passkeys": {
+   "key": "mwg:passkeys",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "用戶端自行推測的 RP ID 若與憑證設定不符，API 會直接丟 SecurityError。"
+  },
+  "mwg:quick-sign-ins:2": {
+   "key": "mwg:quick-sign-ins:2",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "在專門登入頁誤用即時模式，缺少本機憑證時會拒絕請求並關閉其他登入選項。"
+  },
+  "mwg:sanitize-untrusted-html:3": {
+   "key": "mwg:sanitize-untrusted-html:3",
+   "group": "手寫替代品悄悄弄壞資料",
+   "source": "existing",
+   "reason": "自訂清理規則會連文字一起刪除，DOMPurify 退路的不同預設又讓輸出悄悄分歧。"
+  },
+  "mwg:sanitize-untrusted-html:4": {
+   "key": "mwg:sanitize-untrusted-html:4",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "Trusted Types 要求退路回傳 TrustedHTML，改塞一般字串會直接拋出例外。"
+  },
+  "mwg:secure-external-subresources:4": {
+   "key": "mwg:secure-external-subresources:4",
+   "group": "防線形同虛設",
+   "source": "existing",
+   "reason": "同一 src 清單的未驗證退路會在完整性檢查失敗後接手，繞過 SRI 防線。"
+  },
+  "mwg:validate-origins:4": {
+   "key": "mwg:validate-origins:4",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "Origin API 對輸入型別有嚴格要求，傳入字串或不接受的物件會丟 TypeError。"
+  },
+  "mwg:verify-email-ownership:4": {
+   "key": "mwg:verify-email-ownership:4",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "權杖缺 kid 且 JWKS 有多把金鑰時，驗證函式庫會因無法選鍵而直接丟錯。"
+  },
+  "mwg:icons:3": {
+   "key": "mwg:icons:3",
+   "group": "相對網址解析基準錯",
+   "source": "new",
+   "reason": "現有與候選組都未涵蓋 token 的相對網址在定義與使用樣式表之間改變解析基準。"
+  },
+  "mwg:icons:8": {
+   "key": "mwg:icons:8",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "WebKit 錯誤會讓圖示初次不顯示或互動時的自訂屬性覆寫不生效。"
+  },
+  "mwg:pull-to-reveal:2": {
+   "key": "mwg:pull-to-reveal:2",
+   "group": "只改外觀沒改語意或焦點",
+   "source": "candidate",
+   "reason": "屬性只改視覺捲動位置，鍵盤焦點仍留在原處。"
+  },
+  "mwg:scrollability-affordance-hints:4": {
+   "key": "mwg:scrollability-affordance-hints:4",
+   "group": "邏輯方向與實體方向脫鉤",
+   "source": "new",
+   "reason": "現有與候選組都未涵蓋捲動時間軸隨書寫方向翻轉、漸層與遮罩卻維持實體方向的錯位。"
+  },
+  "mwg:animate-element-entry-exit:3": {
+   "key": "mwg:animate-element-entry-exit:3",
+   "group": "不認得的語法讓整條規則失效",
+   "source": "existing",
+   "reason": "舊瀏覽器不認得簡寫中的 allow-discrete，會忽略整條 transition。"
+  },
+  "mwg:animate-to-from-top-layer:3": {
+   "key": "mwg:animate-to-from-top-layer:3",
+   "group": "不認得的語法讓整條規則失效",
+   "source": "existing",
+   "reason": "舊瀏覽器遇到不認得的簡寫關鍵字，會把整條過渡宣告丟掉。"
+  },
+  "mwg:carousel-snap-highlights:2": {
+   "key": "mwg:carousel-snap-highlights:2",
+   "group": "只改外觀沒改語意或焦點",
+   "source": "candidate",
+   "reason": "吸附高亮只有視覺狀態，未進無障礙樹，焦點移動還會讓吸附目標改變。"
+  },
+  "mwg:consistent-cross-document-transitions:2": {
+   "key": "mwg:consistent-cross-document-transitions:2",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "rel expect 只等元素不等圖片，未載入的圖會在新頁快照中留下空矩形。"
+  },
+  "mwg:consistent-cross-document-transitions:4": {
+   "key": "mwg:consistent-cross-document-transitions:4",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "同頁重複的 view-transition-name 會讓整個轉場被跳過。"
+  },
+  "mwg:custom-button-actions:2": {
+   "key": "mwg:custom-button-actions:2",
+   "group": "事件不冒泡收不到",
+   "source": "candidate",
+   "reason": "command 不冒泡，掛在祖先的一般事件委派監聽器收不到。"
+  },
+  "mwg:declarative-dialog-popover-control:2": {
+   "key": "mwg:declarative-dialog-popover-control:2",
+   "group": "動作被意外觸發",
+   "source": "existing",
+   "reason": "同時使用兩套控制屬性會讓同一次操作切換兩次，開啟後又立即關閉。"
+  },
+  "mwg:declarative-dialog-popover-control:4": {
+   "key": "mwg:declarative-dialog-popover-control:4",
+   "group": "不認得的語法讓整條規則失效",
+   "source": "existing",
+   "reason": "不支援 :popover-open 的瀏覽器會丟掉整條選擇器規則，需用 :is 隔離。"
+  },
+  "mwg:directional-navigation-transitions:2": {
+   "key": "mwg:directional-navigation-transitions:2",
+   "group": "沒防護不支援的瀏覽器",
+   "source": "new",
+   "reason": "現有與候選組都不涵蓋把必要 DOM 更新綁在可選轉場 API 上，導致不支援時連主流程也不執行。"
+  },
+  "mwg:group-element-transitions:2": {
+   "key": "mwg:group-element-transitions:2",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "整頁轉場快照會覆蓋畫面並擋住互動，未參與的元素也點不到。"
+  },
+  "mwg:highlight-text-ranges:2": {
+   "key": "mwg:highlight-text-ranges:2",
+   "group": "只改外觀沒改語意或焦點",
+   "source": "candidate",
+   "reason": "自訂高亮只改外觀，標示意義沒有暴露到無障礙樹。"
+  },
+  "mwg:highlight-text-ranges:3": {
+   "key": "mwg:highlight-text-ranges:3",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "高亮登記表不會自動過期，更新前未清除就會留下過期範圍。"
+  },
+  "mwg:highlight-text-ranges:4": {
+   "key": "mwg:highlight-text-ranges:4",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "highlight 偽元素只接受少數屬性，其他盒模型與字級宣告會被靜默忽略。"
+  },
+  "mwg:interest-triggered-tooltips": {
+   "key": "mwg:interest-triggered-tooltips",
+   "group": "彈出層互相干擾",
+   "source": "candidate",
+   "reason": "用 auto popover 當提示會在懸停經過時關掉已開啟的選單。"
+  },
+  "mwg:interest-triggered-tooltips:5": {
+   "key": "mwg:interest-triggered-tooltips:5",
+   "group": "事件不冒泡收不到",
+   "source": "candidate",
+   "reason": "toggle 不冒泡，document 上的一般監聽器收不到關閉事件。"
+  },
+  "mwg:interest-triggered-tooltips:6": {
+   "key": "mwg:interest-triggered-tooltips:6",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "不支援 hint 時會靜默退成 manual，讓提示保有錯誤的關閉行為。"
+  },
+  "mwg:light-dismiss-a-dialog:2": {
+   "key": "mwg:light-dismiss-a-dialog:2",
+   "group": "彈出層互相干擾",
+   "source": "candidate",
+   "reason": "子元件與對話框同時回應 Esc，想收清單卻把整個對話框關掉。"
+  },
+  "mwg:light-dismiss-a-dialog:3": {
+   "key": "mwg:light-dismiss-a-dialog:3",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "closedby 的點外關閉依賴 showModal 產生的背景，非模態對話框不會觸發。"
+  },
+  "mwg:motion:4": {
+   "key": "mwg:motion:4",
+   "group": "簡寫或屬性連動重設",
+   "source": "existing",
+   "reason": "transition 簡寫會重設先寫的 transition-behavior，夾在簡寫裡也會失效。"
+  },
+  "mwg:rich-media-picker:5": {
+   "key": "mwg:rich-media-picker:5",
+   "group": "版面意外溢出或位移",
+   "source": "existing",
+   "reason": "base-select 移除依最長選項定寬的行為，選項切換會改變控制項寬度並推動版面。"
+  },
+  "mwg:batch-analytics-events:2": {
+   "key": "mwg:batch-analytics-events:2",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "批次超過配額或 body 使用 ReadableStream，都會讓 fetchLater 直接出錯。"
+  },
+  "mwg:same-document-transitions:2": {
+   "key": "mwg:same-document-transitions:2",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "同名元素超過一個會讓 DOM 直接更新並跳過轉場。"
+  },
+  "mwg:same-document-transitions:4": {
+   "key": "mwg:same-document-transitions:4",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "新舊快照在會拉伸的群組中交叉淡化，讓文字快照變形。"
+  },
+  "mwg:scoped-component-transitions": {
+   "key": "mwg:scoped-component-transitions",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "文件層級轉場會擋住整頁互動、阻止並行轉場並遮住其他頂層內容。"
+  },
+  "mwg:scoped-component-transitions:3": {
+   "key": "mwg:scoped-component-transitions:3",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "同元素重複啟動會跳過進行中的轉場，並讓 ready promise rejection。"
+  },
+  "mwg:scoped-component-transitions:4": {
+   "key": "mwg:scoped-component-transitions:4",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "範圍元素退出自我參與會停用自動裁切，轉場子項目因此溢出邊界。"
+  },
+  "mwg:scoped-component-transitions:5": {
+   "key": "mwg:scoped-component-transitions:5",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "外層轉場會捕捉整個範圍與其子項目，干擾元件內正在進行的轉場。"
+  },
+  "mwg:scroll-completion-effects:2": {
+   "key": "mwg:scroll-completion-effects:2",
+   "group": "生命週期假設錯",
+   "source": "existing",
+   "reason": "平滑捲動被打斷仍會 resolve，若把完成當成未被取代就會執行過期效果。"
+  },
+  "mwg:scroll-completion-effects:4": {
+   "key": "mwg:scroll-completion-effects:4",
+   "group": "生命週期假設錯",
+   "source": "existing",
+   "reason": "根捲動器的 promise 會早於實際捲動完成而 resolve，完成時機假設因此失真。"
+  },
+  "mwg:scroll-entry-exit-effects:4": {
+   "key": "mwg:scroll-entry-exit-effects:4",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "共用進出場 keyframes 時必須明寫中段靜止值，否則會從進場起點一路插值到出場終點。"
+  },
+  "mwg:scroll-target-on-load:2": {
+   "key": "mwg:scroll-target-on-load:2",
+   "group": "只改外觀沒改語意或焦點",
+   "source": "candidate",
+   "reason": "scroll-initial-target 只改視覺捲動位置，沒有同步移動鍵盤焦點。"
+  },
+  "mwg:scroll-target-on-load:4": {
+   "key": "mwg:scroll-target-on-load:4",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "多個目標只取 DOM 第一個，網址片段與 scroll-start 又會優先而讓屬性被忽略。"
+  },
+  "mwg:search-hidden-content:2": {
+   "key": "mwg:search-hidden-content:2",
+   "group": "隱藏或停用把人擋在外面",
+   "source": "existing",
+   "reason": "額外的 display 或 visibility 隱藏會破壞 until-found，讓內容永遠無法被搜尋。"
+  },
+  "mwg:swipe-to-remove:7": {
+   "key": "mwg:swipe-to-remove:7",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "元素尚未成為捲動容器時套用屬性，會往上找到頁面並改錯初始捲動位置。"
+  },
+  "mwg:dialog:8": {
+   "key": "mwg:dialog:8",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "不支援 closedby 時 none 會被忽略，Esc 仍觸發 cancel 並關閉對話框。"
+  },
+  "mwg:hovercard:2": {
+   "key": "mwg:hovercard:2",
+   "group": "彈出層互相干擾",
+   "source": "candidate",
+   "reason": "一般 popover 預覽卡出現時會關掉其他已開啟的 popover 選單。"
+  },
+  "mwg:hovercard:7": {
+   "key": "mwg:hovercard:7",
+   "group": "事件不冒泡收不到",
+   "source": "candidate",
+   "reason": "toggle 不冒泡，document 的一般監聽器永遠收不到，狀態同步因而失效。"
+  },
+  "mwg:hovercard:10": {
+   "key": "mwg:hovercard:10",
+   "group": "不認得的語法讓整條規則失效",
+   "source": "existing",
+   "reason": "舊瀏覽器不認得簡寫裡的 allow-discrete，會連整條 transition 都忽略。"
+  },
+  "mwg:menu:3": {
+   "key": "mwg:menu:3",
+   "group": "彈出層脫離觸發點",
+   "source": "existing",
+   "reason": "放不下的定位退路被跳過後，過寬子選單會留在基本位置並蓋住觸發項目。"
+  },
+  "mwg:menu:7": {
+   "key": "mwg:menu:7",
+   "group": "彈出層互相干擾",
+   "source": "candidate",
+   "reason": "子選單的 Esc 冒泡會連父選單一起關，巢狀層級的原生焦點還原也不完整。"
+  },
+  "mwg:navigation-drawer:2": {
+   "key": "mwg:navigation-drawer:2",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "closedby any 依賴點擊背景，滿版 dialog 會讓點擊落在自身並跳過預期關閉動畫。"
+  },
+  "mwg:navigation-drawer:4": {
+   "key": "mwg:navigation-drawer:4",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "不支援捲動時間軸時 keyframes 仍會留下靜態起點值，讓背景永久全暗。"
+  },
+  "mwg:persistent-toast-notifications:5": {
+   "key": "mwg:persistent-toast-notifications:5",
+   "group": "不認得的語法讓整條規則失效",
+   "source": "existing",
+   "reason": "舊瀏覽器不認得簡寫中的 allow-discrete，會忽略整條 transition。"
+  },
+  "mwg:stack-drill-down:11": {
+   "key": "mwg:stack-drill-down:11",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "不支援捲動動畫時仍會套用 keyframes 終點，讓每個視圖永久位移。"
+  },
+  "mwg:content-first-noise-reduction:5": {
+   "key": "mwg:content-first-noise-reduction:5",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "不支援 Invoker commands 的瀏覽器會忽略 commandfor，按鈕因此沒有反應。"
+  },
+  "mwg:adapt-scrollbar-to-contrast-preferences:2": {
+   "key": "mwg:adapt-scrollbar-to-contrast-preferences:2",
+   "group": "焦點或狀態指示消失",
+   "source": "existing",
+   "reason": "覆蓋式捲軸的軌道透明時，只對軌道有對比的拇指會融入背景而失去位置指示。"
+  },
+  "mwg:color:2": {
+   "key": "mwg:color:2",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "直接調整亮度的色彩運算依賴尚未實作的色域映射，結果會無法預期。"
+  },
+  "mwg:equal-width-text-lines:2": {
+   "key": "mwg:equal-width-text-lines:2",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "per-line 會略過特定行，容器寬度若由內容決定也會讓 text-fit 不起作用。"
+  },
+  "mwg:improve-text-layout-and-legibility:4": {
+   "key": "mwg:improve-text-layout-and-legibility:4",
+   "group": "優化用過頭反傷",
+   "source": "existing",
+   "reason": "對可見盒子套用換行平衡只縮文字不縮容器，反而留下突兀空白。"
+  },
+  "mwg:typography:8": {
+   "key": "mwg:typography:8",
+   "group": "優化用過頭反傷",
+   "source": "existing",
+   "reason": "balance 不改盒子寬度，套在有背景或邊框的元素上會留下意外空區。"
+  },
+  "mwg:visual-effects": {
+   "key": "mwg:visual-effects",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "Chromium 對低彩度 oklch 色相的錯誤處理，會讓混色靜默偏向紅色或粉紅色。"
+  },
+  "mwg:agentic-forms:3": {
+   "key": "mwg:agentic-forms:3",
+   "group": "兩套機制重複作用",
+   "source": "new",
+   "reason": "現有與候選組都不涵蓋兩種表單宣告並用，讓同一張表單被代理註冊兩次。"
+  },
+  "mwg:language-model:15": {
+   "key": "mwg:language-model:15",
+   "group": "優化用過頭反傷",
+   "source": "existing",
+   "reason": "用嚴格字元上限逼模型縮短，反而可能讓它改用高密度文字而產生無意義輸出。"
+  },
+  "mwg:js:4": {
+   "key": "mwg:js:4",
+   "group": "生命週期假設錯",
+   "source": "existing",
+   "reason": "同步設定搬出 Promise executor 後不再自動轉成 rejection，錯誤處理的生命週期因此改變。"
+  }
+ },
+ "agy": {
+  "mwg:accordion:2": {
+   "key": "mwg:accordion:2",
+   "group": "版面意外溢出或位移",
+   "source": "existing",
+   "reason": "互斥手風琴展開一項便關掉另一項，導致內容意外位移出使用者視野（對放大鏡使用者尤甚）。"
+  },
+  "mwg:animated-select-picker:2": {
+   "key": "mwg:animated-select-picker:2",
+   "group": "不認得的語法讓整條規則失效",
+   "source": "existing",
+   "reason": "將 allow-discrete 塞進 transition 簡寫，舊瀏覽器因不認得關鍵字而整條忽略 transition。"
+  },
+  "mwg:custom-select-picker-layouts:2": {
+   "key": "mwg:custom-select-picker-layouts:2",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "直接對 ::picker(select) 設 display 而未限定在 :open 狀態，覆寫預設隱藏導致選單關閉時仍顯示。"
+  },
+  "mwg:custom-select-picker-layouts:3": {
+   "key": "mwg:custom-select-picker-layouts:3",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "<selectedcontent> 未放在 <button> 內作為前提時不報錯，但靜默失去鏡像選中項功能而變成一般清單內容。"
+  },
+  "mwg:defer-rendering-heavy-content:3": {
+   "key": "mwg:defer-rendering-heavy-content:3",
+   "group": "優化用過頭反傷",
+   "source": "existing",
+   "reason": "將延後渲染優化 content-visibility: auto 誤套用到首屏元素，反而增加可見範圍計算而拖慢關鍵載入。"
+  },
+  "mwg:efficient-background-processing:2": {
+   "key": "mwg:efficient-background-processing:2",
+   "group": "事件不冒泡收不到",
+   "source": "candidate",
+   "reason": "contentvisibilityautostatechange 在部分瀏覽器實作不冒泡，掛在父層的一般委派監聽器完全收不到。"
+  },
+  "mwg:faster-spa-view-transitions:2": {
+   "key": "mwg:faster-spa-view-transitions:2",
+   "group": "優化用過頭反傷",
+   "source": "existing",
+   "reason": "為了加速切換而無上限保留所有視圖快取，最終造成嚴重記憶體膨脹與低階裝置當機。"
+  },
+  "mwg:flicker-free-client-side-ab-testing:2": {
+   "key": "mwg:flicker-free-client-side-ab-testing:2",
+   "group": "優化用過頭反傷",
+   "source": "existing",
+   "reason": "為防閃爍而讓整包第三方 SDK 阻塞渲染，大腳本或 CDN 故障直接拖慢甚至完全阻斷首次繪製。"
+  },
+  "mwg:full-session-analytics:2": {
+   "key": "mwg:full-session-analytics:2",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "fetchLater() 超過 64KB 配額或使用 ReadableStream 當請求體會直接拋出例外。"
+  },
+  "mwg:improve-next-page-load-performance:2": {
+   "key": "mwg:improve-next-page-load-performance:2",
+   "group": "優化用過頭反傷",
+   "source": "existing",
+   "reason": "過度寬鬆地預先渲染所有連結反而提前觸發登出／加購物車等狀態改變，動態頁亦可能顯示過期內容。"
+  },
+  "mwg:interaction-paint-timing:2": {
+   "key": "mwg:interaction-paint-timing:2",
+   "group": "效能量測失真或有盲點",
+   "source": "existing",
+   "reason": "先繪製再 pushState 會讓早期條目掛在前一個 navigationId 下且時間原點未重算，造成效能數據錯算或漏採。"
+  },
+  "mwg:interaction-paint-timing:3": {
+   "key": "mwg:interaction-paint-timing:3",
+   "group": "效能量測失真或有盲點",
+   "source": "existing",
+   "reason": "getEntriesByType('soft-navigation') 緩衝區只留前 50 筆，長生命週期 SPA 後續換頁紀錄全部漏失。"
+  },
+  "mwg:lazy-load-video-and-audio:2": {
+   "key": "mwg:lazy-load-video-and-audio:2",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "loading=\"lazy\" 需要元素具備可見渲染盒才能與視窗相交，audio 缺 controls 或 video 缺尺寸時靜默永遠不載入。"
+  },
+  "mwg:client-side-encryption:3": {
+   "key": "mwg:client-side-encryption:3",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "對現代 WebCrypto 演算法沿用舊的 'raw' 格式參數時直接拋出 NotSupportedError。"
+  },
+  "mwg:digital-signatures:3": {
+   "key": "mwg:digital-signatures:3",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "對 ML-DSA 沿用舊的 'raw' 格式參數或錯誤用途權限時直接拋出 NotSupportedError。"
+  },
+  "mwg:local-network-access:4": {
+   "key": "mwg:local-network-access:4",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "將 fetch 選項物件 { targetAddressSpace } 誤傳為 WebSocket 第二參數直接拋出 SyntaxError。"
+  },
+  "mwg:passkey-authentication:2": {
+   "key": "mwg:passkey-authentication:2",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "背景條件式 get() 尚未 abort 就再呼叫明確的憑證 get()，因呼叫狀態衝突而互相碰撞失敗。"
+  },
+  "mwg:passkey-management:2": {
+   "key": "mwg:passkey-management:2",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "Signal API 傳入誤推的 hostname 而非實際 RP ID 時會拋出 SecurityError 或送錯目標。"
+  },
+  "mwg:passkey-management:3": {
+   "key": "mwg:passkey-management:3",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "Signal API 傳入非合法 Base64URL 的假 ID 直接在頁面載入時拋出 TypeError。"
+  },
+  "mwg:passkey-registration:2": {
+   "key": "mwg:passkey-registration:2",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "前後端 userVerification 與 requireUserVerification 設定參數對不上，導致合法驗證器註冊被誤判失敗。"
+  },
+  "mwg:passkeys": {
+   "key": "mwg:passkeys",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "用戶端自網址猜錯 RP ID 導致參數與來源設定不符，直接拋出 SecurityError。"
+  },
+  "mwg:quick-sign-ins:2": {
+   "key": "mwg:quick-sign-ins:2",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "在專門登入頁誤用僅適合攔截流程的 immediate mediation 參數，缺少本機憑證即丟 NotAllowedError 導致無反應。"
+  },
+  "mwg:sanitize-untrusted-html:3": {
+   "key": "mwg:sanitize-untrusted-html:3",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "原生 Sanitizer 預設連同未列入元素內的文字一併刪除，而 DOMPurify 退路預設相反，兩者靜默產生不同結果。"
+  },
+  "mwg:sanitize-untrusted-html:4": {
+   "key": "mwg:sanitize-untrusted-html:4",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "強制 Trusted Types 時退路回傳純字串而非 TrustedHTML，指派給 innerHTML 直接拋出例外。"
+  },
+  "mwg:secure-external-subresources:4": {
+   "key": "mwg:secure-external-subresources:4",
+   "group": "防線形同虛設",
+   "source": "existing",
+   "reason": "在同一 src 清單放入未驗證網址當退路，SRI 驗證失敗時會改載未驗證來源，直接繞過完整性防線。"
+  },
+  "mwg:validate-origins:4": {
+   "key": "mwg:validate-origins:4",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "傳給 Origin API 原始字串、Location／Document 或測試合成事件等非期望參數型別時直接拋出 TypeError。"
+  },
+  "mwg:verify-email-ownership:4": {
+   "key": "mwg:verify-email-ownership:4",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "EVT 標頭缺少 kid 且 JWKS 有多把金鑰時，預設呼叫直接因參數／索引不足拋出 ERR_JWKS_MULTIPLE_MATCHING_KEYS。"
+  },
+  "mwg:icons:3": {
+   "key": "mwg:icons:3",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "自訂屬性裡的相對網址會依使用方而非定義方樣式表解析，initial-value 相對路徑亦跨瀏覽器解析不一致。"
+  },
+  "mwg:icons:8": {
+   "key": "mwg:icons:8",
+   "group": "瀏覽器實作有缺陷",
+   "source": "new",
+   "reason": "這是 WebKit 引擎本身的渲染與重算 bug（非現有規格誤用或候選組之 API 前提問題），需針對瀏覽器錯漏額外打補丁。"
+  },
+  "mwg:pull-to-reveal:2": {
+   "key": "mwg:pull-to-reveal:2",
+   "group": "只改外觀沒改語意或焦點",
+   "source": "candidate",
+   "reason": "scroll-initial-target 只改變初始視覺捲動位置，鍵盤焦點仍留在上方隱藏元素上沒有同步移動。"
+  },
+  "mwg:scrollability-affordance-hints:4": {
+   "key": "mwg:scrollability-affordance-hints:4",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "捲動時間軸依書寫方向走，但漸層方向與遮罩座標預設實體方向，未在 :dir(rtl) 翻轉時方向會靜默對反。"
+  },
+  "mwg:animate-element-entry-exit:3": {
+   "key": "mwg:animate-element-entry-exit:3",
+   "group": "不認得的語法讓整條規則失效",
+   "source": "existing",
+   "reason": "將 allow-discrete 寫進 transition 簡寫，舊瀏覽器因不認得該關鍵字而忽略整條 transition 宣告。"
+  },
+  "mwg:animate-to-from-top-layer:3": {
+   "key": "mwg:animate-to-from-top-layer:3",
+   "group": "不認得的語法讓整條規則失效",
+   "source": "existing",
+   "reason": "將 allow-discrete 寫進 transition 簡寫，舊瀏覽器因不認得該關鍵字而忽略整條 transition 宣告。"
+  },
+  "mwg:carousel-snap-highlights:2": {
+   "key": "mwg:carousel-snap-highlights:2",
+   "group": "只改外觀沒改語意或焦點",
+   "source": "candidate",
+   "reason": "捲動吸附高亮只提供視覺效果，不在無障礙樹中暴露選取狀態，也常與鍵盤焦點錯位。"
+  },
+  "mwg:consistent-cross-document-transitions:2": {
+   "key": "mwg:consistent-cross-document-transitions:2",
+   "group": "生命週期假設錯",
+   "source": "existing",
+   "reason": "誤以為 rel=\"expect\" 會等圖片就緒，但它只等 DOM 解析完不等圖片解碼，導致未快取圖片快照變成空矩形。"
+  },
+  "mwg:consistent-cross-document-transitions:4": {
+   "key": "mwg:consistent-cross-document-transitions:4",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "同一頁出現重複的 view-transition-name 時，瀏覽器直接跳過整場 view transition。"
+  },
+  "mwg:custom-button-actions:2": {
+   "key": "mwg:custom-button-actions:2",
+   "group": "事件不冒泡收不到",
+   "source": "candidate",
+   "reason": "command 事件不會冒泡，依照慣例掛在祖先上的事件委派監聽器完全收不到。"
+  },
+  "mwg:declarative-dialog-popover-control:2": {
+   "key": "mwg:declarative-dialog-popover-control:2",
+   "group": "兩套機制重複作用",
+   "source": "new",
+   "reason": "現有與候選組皆未涵蓋在同一元素混用兩套宣告式開關導致單次操作觸發兩次而壞掉的形狀。"
+  },
+  "mwg:declarative-dialog-popover-control:4": {
+   "key": "mwg:declarative-dialog-popover-control:4",
+   "group": "不認得的語法讓整條規則失效",
+   "source": "existing",
+   "reason": "單寫 :popover-open 選擇器會讓不認得的舊瀏覽器把整條規則丟掉（且載入前操作 IDL 屬性也會失敗）。"
+  },
+  "mwg:directional-navigation-transitions:2": {
+   "key": "mwg:directional-navigation-transitions:2",
+   "group": "沒防護不支援的瀏覽器",
+   "source": "new",
+   "reason": "現有與候選組皆未包含未做特性偵測就呼叫新方法（undefined），導致不支援瀏覽器連核心 DOM 更新都中斷。"
+  },
+  "mwg:group-element-transitions:2": {
+   "key": "mwg:group-element-transitions:2",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "預設 ::view-transition 快照疊層與 root 轉場會在轉場期間擋住整頁指標事件，導致元素都點不到。"
+  },
+  "mwg:highlight-text-ranges:2": {
+   "key": "mwg:highlight-text-ranges:2",
+   "group": "只改外觀沒改語意或焦點",
+   "source": "candidate",
+   "reason": "Custom Highlight API 純粹只改視覺外觀而不會進無障礙樹，螢幕閱讀器無法感知標示的語意。"
+  },
+  "mwg:highlight-text-ranges:3": {
+   "key": "mwg:highlight-text-ranges:3",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "CSS.highlights 登記表不會隨重設自動清掉舊範圍，未先 clear() 就會把過期高亮一直留在畫面上。"
+  },
+  "mwg:highlight-text-ranges:4": {
+   "key": "mwg:highlight-text-ranges:4",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "::highlight() 不是盒模型元素，寫入 background-image、font-size 或 padding 等屬性會被靜默忽略。"
+  },
+  "mwg:interest-triggered-tooltips": {
+   "key": "mwg:interest-triggered-tooltips",
+   "group": "彈出層互相干擾",
+   "source": "candidate",
+   "reason": "誤用 popover=\"auto\" 做提示時，滑過提示會把頁面上已開啟的其他選單 popover 一併關掉。"
+  },
+  "mwg:interest-triggered-tooltips:5": {
+   "key": "mwg:interest-triggered-tooltips:5",
+   "group": "事件不冒泡收不到",
+   "source": "candidate",
+   "reason": "popover 的 toggle 事件不冒泡，掛在 document 的冒泡監聽器永遠不會觸發。"
+  },
+  "mwg:interest-triggered-tooltips:6": {
+   "key": "mwg:interest-triggered-tooltips:6",
+   "group": "沒防護不支援的瀏覽器",
+   "source": "new",
+   "reason": "現有與候選組未涵蓋不支援屬性值靜默退化成 manual 導致無法關閉、須於支持缺口主動轉換類型的降級防護缺失。"
+  },
+  "mwg:light-dismiss-a-dialog:2": {
+   "key": "mwg:light-dismiss-a-dialog:2",
+   "group": "彈出層互相干擾",
+   "source": "candidate",
+   "reason": "對話框內的選單或組合框未攔截 Esc，導致按 Esc 想收起子元件時卻連整個外層對話框一起被關掉。"
+  },
+  "mwg:light-dismiss-a-dialog:3": {
+   "key": "mwg:light-dismiss-a-dialog:3",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "closedby=\"any\" 需要 showModal() 產生的 backdrop 才能運作，用在 show() 非模態對話框時會被靜默忽略。"
+  },
+  "mwg:motion:4": {
+   "key": "mwg:motion:4",
+   "group": "簡寫或屬性連動重設",
+   "source": "existing",
+   "reason": "transition-behavior: allow-discrete 寫在 transition 簡寫前會被簡寫重設，寫進簡寫裡則在舊瀏覽器整條失效。"
+  },
+  "mwg:rich-media-picker:5": {
+   "key": "mwg:rich-media-picker:5",
+   "group": "版面意外溢出或位移",
+   "source": "existing",
+   "reason": "appearance: base-select 拿掉了依最長選項定寬的預設行為，未另設寬度時每次換選項都會推擠旁邊版面位移。"
+  },
+  "mwg:batch-analytics-events:2": {
+   "key": "mwg:batch-analytics-events:2",
+   "group": "參數或格式用錯就丟例外",
+   "source": "candidate",
+   "reason": "批次事件總量超出 fetchLater() 約 64KB 配額或 body 使用 ReadableStream 時會直接拋出錯誤。"
+  },
+  "mwg:same-document-transitions:2": {
+   "key": "mwg:same-document-transitions:2",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "未即時清掉舊名稱導致轉場前後同名元素超過一個，瀏覽器跳過整個轉場直接換掉 DOM。"
+  },
+  "mwg:same-document-transitions:4": {
+   "key": "mwg:same-document-transitions:4",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "新舊快照在預設群組裡被拉伸至兩者共通大小交叉淡化，造成文字與元素的轉場快照變形。"
+  },
+  "mwg:scoped-component-transitions": {
+   "key": "mwg:scoped-component-transitions",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "全頁 document.startViewTransition() 把疊層掛在 :root，轉場期間擋住整頁點擊、阻擋並行轉場並蓋住固定標頭與 popover。"
+  },
+  "mwg:scoped-component-transitions:3": {
+   "key": "mwg:scoped-component-transitions:3",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "同元素快速連點重觸轉場會跳過進行中的轉場並讓 transition.ready reject，未接住即噴出未處理錯誤。"
+  },
+  "mwg:scoped-component-transitions:4": {
+   "key": "mwg:scoped-component-transitions:4",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "對範圍元件設 view-transition-name: none 會關掉範圍內的自動溢出裁切，使轉場子項目飛出元件邊界。"
+  },
+  "mwg:scoped-component-transitions:5": {
+   "key": "mwg:scoped-component-transitions:5",
+   "group": "轉場被跳過或錯亂",
+   "source": "candidate",
+   "reason": "父元件發起的外層轉場因未隔離範圍，將內部元件與其正在動畫的子項目一併捕捉而打亂轉場。"
+  },
+  "mwg:scroll-completion-effects:2": {
+   "key": "mwg:scroll-completion-effects:2",
+   "group": "完成時機靠猜",
+   "source": "existing",
+   "reason": "平滑捲動被打斷時 promise 仍會 resolve 而非 reject，僅靠 await 結束當成捲動完成會誤觸發過期後續動作。"
+  },
+  "mwg:scroll-completion-effects:4": {
+   "key": "mwg:scroll-completion-effects:4",
+   "group": "瀏覽器實作有缺陷",
+   "source": "new",
+   "reason": "這是 Chrome 捲動根捲動器時 scrollIntoView() promise 過早 resolve 的瀏覽器實作 bug，非現有或候選組之用法錯誤。"
+  },
+  "mwg:scroll-entry-exit-effects:4": {
+   "key": "mwg:scroll-entry-exit-effects:4",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "單一 keyframes 若未明寫 entry 100%, exit 0% 的靜止狀態，動畫會在橫跨視窗期間一路線性內插而不停頓。"
+  },
+  "mwg:scroll-target-on-load:2": {
+   "key": "mwg:scroll-target-on-load:2",
+   "group": "只改外觀沒改語意或焦點",
+   "source": "candidate",
+   "reason": "scroll-initial-target 只移動視覺上的捲動捲軸位置，鍵盤焦點仍留在原處未跟著移動。"
+  },
+  "mwg:scroll-target-on-load:4": {
+   "key": "mwg:scroll-target-on-load:4",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "同一容器重複設定只取 DOM 第一個，且網址片段與 scroll-start 優先權更高，未留意前提時屬性會被靜默蓋過。"
+  },
+  "mwg:search-hidden-content:2": {
+   "key": "mwg:search-hidden-content:2",
+   "group": "隱藏或停用把人擋在外面",
+   "source": "existing",
+   "reason": "在 hidden=\"until-found\" 元素額外加設 display: none 或 visibility: hidden，反而破壞可搜尋性把內容完全藏出索引外。"
+  },
+  "mwg:swipe-to-remove:7": {
+   "key": "mwg:swipe-to-remove:7",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "在軌道尚未成為捲動容器前就設 scroll-initial-target: nearest，會靜默往上鎖定整個頁面而偏移頁面初始捲動位置。"
+  },
+  "mwg:dialog:8": {
+   "key": "mwg:dialog:8",
+   "group": "沒防護不支援的瀏覽器",
+   "source": "new",
+   "reason": "現有與候選組皆未涵蓋單靠新屬性防護、未實作標準事件退路，導致不支援瀏覽器直接忽略屬性並失守的風險。"
+  },
+  "mwg:hovercard:2": {
+   "key": "mwg:hovercard:2",
+   "group": "彈出層互相干擾",
+   "source": "candidate",
+   "reason": "用一般 auto popover 顯示懸浮預覽卡時，會把頁面上其他已打開的 popover 選單一併關掉。"
+  },
+  "mwg:hovercard:7": {
+   "key": "mwg:hovercard:7",
+   "group": "事件不冒泡收不到",
+   "source": "candidate",
+   "reason": "popover 的 toggle 事件不冒泡，掛在 document 的一般氣泡階段監聽器永遠不會觸發。"
+  },
+  "mwg:hovercard:10": {
+   "key": "mwg:hovercard:10",
+   "group": "不認得的語法讓整條規則失效",
+   "source": "existing",
+   "reason": "將 allow-discrete 寫進 transition 簡寫，舊瀏覽器因不認得關鍵字而把整條 transition 宣告丟掉。"
+  },
+  "mwg:menu:3": {
+   "key": "mwg:menu:3",
+   "group": "彈出層脫離觸發點",
+   "source": "existing",
+   "reason": "備案因超寬幾像素被跳過時，瀏覽器退回預設位置使子選單靜靜蓋住自己的觸發項目。"
+  },
+  "mwg:menu:7": {
+   "key": "mwg:menu:7",
+   "group": "彈出層互相干擾",
+   "source": "candidate",
+   "reason": "嵌套子選單未阻擋冒泡或未明確手動還焦時，按 Esc 會連帶關掉父選單且焦點無法還原至子觸發鈕。"
+  },
+  "mwg:navigation-drawer:2": {
+   "key": "mwg:navigation-drawer:2",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "closedby=\"any\" 假設點外面會落在 ::backdrop 上；當對話框佔滿全視窗作滑動區時，點擊落在 dialog 上且會無動畫瞬間關閉。"
+  },
+  "mwg:navigation-drawer:4": {
+   "key": "mwg:navigation-drawer:4",
+   "group": "沒防護不支援的瀏覽器",
+   "source": "new",
+   "reason": "現有與候選組皆未涵蓋未用 @supports 包住動畫，導致不支援新時間軸的瀏覽器仍套用 keyframes 靜態狀態而毀壞畫面。"
+  },
+  "mwg:persistent-toast-notifications:5": {
+   "key": "mwg:persistent-toast-notifications:5",
+   "group": "不認得的語法讓整條規則失效",
+   "source": "existing",
+   "reason": "將 allow-discrete 寫進 transition 簡寫，舊瀏覽器因不認得關鍵字而忽略整條 transition 宣告。"
+  },
+  "mwg:stack-drill-down:11": {
+   "key": "mwg:stack-drill-down:11",
+   "group": "沒防護不支援的瀏覽器",
+   "source": "new",
+   "reason": "現有與候選組皆未涵蓋未用 @supports 包住捲動動畫，導致不支援瀏覽器仍靜態套用 keyframes 終態而讓畫面永遠位移。"
+  },
+  "mwg:content-first-noise-reduction:5": {
+   "key": "mwg:content-first-noise-reduction:5",
+   "group": "沒防護不支援的瀏覽器",
+   "source": "new",
+   "reason": "現有與候選組皆未涵蓋未檢查支援度或補載 polyfill 即使用 commandfor，導致不支援瀏覽器靜默忽略屬性、按鈕完全失效。"
+  },
+  "mwg:adapt-scrollbar-to-contrast-preferences:2": {
+   "key": "mwg:adapt-scrollbar-to-contrast-preferences:2",
+   "group": "焦點或狀態指示消失",
+   "source": "existing",
+   "reason": "覆蓋式捲軸軌道維持透明時，只對軌道調出對比的捲軸拇指會直接融進容器背景而失去可見對比指示。"
+  },
+  "mwg:color:2": {
+   "key": "mwg:color:2",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "瀏覽器尚未實作色域映射，在相對色彩語法直接調高 oklch／oklab 亮度不報錯但會產出不可預期的超色域色彩。"
+  },
+  "mwg:equal-width-text-lines:2": {
+   "key": "mwg:equal-width-text-lines:2",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "text-fit 用 per-line 會跳過末行、且容器依內容撐開時不縮放，沒報錯卻在少設條件下靜默毫無作用。"
+  },
+  "mwg:improve-text-layout-and-legibility:4": {
+   "key": "mwg:improve-text-layout-and-legibility:4",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "text-wrap: balance 只調換行不縮容器寬度，套在有可見底色或邊框的元素時會在盒子尾端意外留下一塊空白。"
+  },
+  "mwg:typography:8": {
+   "key": "mwg:typography:8",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "text-wrap: balance 不改容器寬度而只改變換行位置，套在有背景或邊框的元素上會在尾端留出意外空白。"
+  },
+  "mwg:visual-effects": {
+   "key": "mwg:visual-effects",
+   "group": "瀏覽器實作有缺陷",
+   "source": "new",
+   "reason": "這是 Chromium 引擎處理低彩度 oklch 色相角為 0deg 的實作 bug，導致中性色混出偏紅／粉紅，非現有或候選組所述原因。"
+  },
+  "mwg:agentic-forms:3": {
+   "key": "mwg:agentic-forms:3",
+   "group": "兩套機制重複作用",
+   "source": "new",
+   "reason": "現有與候選組皆未涵蓋同時啟用聲明式屬性與框架選項兩套註冊機制，導致同一表單被重複註冊兩次的碰撞形狀。"
+  },
+  "mwg:language-model:15": {
+   "key": "mwg:language-model:15",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "在 structured output schema 加上嚴格 maxLength 雖不報錯，但模型會改用外語或 emoji 強行壓縮而吐出無意義內容。"
+  },
+  "mwg:js:4": {
+   "key": "mwg:js:4",
+   "group": "新屬性的隱藏前提",
+   "source": "candidate",
+   "reason": "未留意 Promise.withResolvers() 不像 new Promise(executor) 會自動將同步 throw 轉成 rejection，使同步錯直接逃逸成未捕捉例外。"
+  }
+ },
+ "dis": [
+  "mwg:faster-spa-view-transitions:2",
+  "mwg:improve-next-page-load-performance:2",
+  "mwg:passkey-authentication:2",
+  "mwg:sanitize-untrusted-html:3",
+  "mwg:icons:3",
+  "mwg:icons:8",
+  "mwg:scrollability-affordance-hints:4",
+  "mwg:consistent-cross-document-transitions:2",
+  "mwg:declarative-dialog-popover-control:2",
+  "mwg:interest-triggered-tooltips:6",
+  "mwg:scroll-completion-effects:2",
+  "mwg:scroll-completion-effects:4",
+  "mwg:dialog:8",
+  "mwg:navigation-drawer:4",
+  "mwg:stack-drill-down:11",
+  "mwg:content-first-noise-reduction:5",
+  "mwg:improve-text-layout-and-legibility:4",
+  "mwg:typography:8",
+  "mwg:visual-effects",
+  "mwg:language-model:15",
+  "mwg:js:4"
+ ]
+}

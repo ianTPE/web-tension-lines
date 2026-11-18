@@ -45,6 +45,11 @@ def parse_lines() -> dict[str, dict]:
                 "unlock": unlock,
                 "opp_missing": opp.startswith("（缺）"),
             }
+        # 對手組以線檔細節為準
+        for lid, detail in re.findall(r'%% line-start id="([^"]+)" %%.*?%% line-end %%\n(.*?)(?=%% line-start|\Z)', text, re.S):
+            g = re.search(r"^- 對手組：(.+)$", detail, re.M)
+            if lid in parsed and g:
+                parsed[lid]["group"] = g.group(1).strip()
     return parsed
 
 
@@ -83,7 +88,7 @@ def main() -> int:
             d["guide_id"],
             lid,
             d["功能"],
-            d["對手組"],
+            info.get("group") or d["對手組"],
             opp_exists,
             d["對手"],
             fallback,

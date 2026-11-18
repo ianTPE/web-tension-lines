@@ -68,7 +68,7 @@ def read_lines(paths):
             if sj != f"對手 {'缺' if opp.startswith('（缺）') else '有'}／解鎖 {'缺' if unlock.startswith('（缺）') else '有'}": err(w, f"槽判定與槽內容不符：{sj}")
             out[lid] = dict(where=w, fallback=m.group(1) if m else None, verdict=re.match(r"(勝|部分改善|僵持)", det.get("戰報", "")),
                             opp_missing=opp.startswith("（缺）"), unlock_missing=unlock.startswith("（缺）"),
-                            support_detail=det.get("支援狀態", ""))
+                            support_detail=det.get("支援狀態", ""), group=det.get("對手組", ""))
     return out
 
 def check_ledger(lines):
@@ -94,6 +94,7 @@ def check_ledger(lines):
         if l["fallback"] and l["fallback"] != d["退路"]: err(w, f"退路與線檔不同（線檔 {l['fallback']}）")
         if l["verdict"] and l["verdict"].group(1) != d["戰報"]: err(w, f"戰報與線檔細節不同（線檔 {l['verdict'].group(1)}）")
         if l["opp_missing"] != (d["對手有無"] == "缺"): err(w, "對手有無與線檔的（缺）不一致")
+        if l["group"] and l["group"] != d["對手組"]: err(w, f"對手組與線檔不同（線檔 {l['group']}）")
         if l["unlock_missing"] != (d["解鎖"].strip() == ""): err(w, "解鎖是否留空與線檔不一致")
     for lid in lines:
         if lid not in led: err(lid, "ledger 沒有這條線")
