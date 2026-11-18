@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Opponent Group Chart · HTML-in-Canvas</title>
+<meta name="description" content="A chart module built with HTML-in-Canvas: the labels are real DOM, so they are searchable, keyboard-accessible, and included when exporting">
+<style>
+:root{--bg:#fbfaf7;--fg:#1f1d1a;--mute:#6b665e;--line:#e4e0d8;--card:#fff;--accent:#2f5d50;--sel:#eef4f1;
+  --r-win:#2f7d5b;--r-part:#c98a1b;--r-stall:#b4493f;--r-miss:#8d877c;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161513;--fg:#ece8e1;--mute:#a19b91;--line:#34312c;--card:#1e1c19;--accent:#8cc3b0;--sel:#26302c;
+  --r-win:#5fb58c;--r-part:#e0ab4a;--r-stall:#e07a6e;--r-miss:#8d877c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161513;--fg:#ece8e1;--mute:#a19b91;--line:#34312c;--card:#1e1c19;--accent:#8cc3b0;--sel:#26302c;
+  --r-win:#5fb58c;--r-part:#e0ab4a;--r-stall:#e07a6e;--r-miss:#8d877c;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,"Noto Sans TC","PingFang TC",sans-serif}
+main{max-width:46rem;margin:0 auto;padding:2rem 16px 4rem}
+nav{font-size:.9rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:.25rem 1rem}
+a{color:var(--accent)} :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1{font-size:1.5rem;line-height:1.35;text-wrap:balance;margin:0 0 .75rem}
+h2{font-size:1.1rem;margin:2rem 0 .5rem}
+p,li{text-wrap:pretty;overflow-wrap:anywhere}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.88em;background:color-mix(in srgb,var(--line) 60%,transparent);padding:.05em .3em;border-radius:3px}
+.badge{display:inline-block;font-size:.85rem;padding:.1rem .6rem;border-radius:999px;border:1px solid var(--line);background:var(--card)}
+.badge.ok{border-color:var(--r-win);color:var(--r-win)} .badge.no{border-color:var(--r-stall);color:var(--r-stall)}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0 .75rem}
+.bar button{font:inherit;font-size:.9rem;padding:.35rem .8rem;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);cursor:pointer}
+.bar button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:600}
+.bar button:disabled{opacity:.55;cursor:default}
+.bar .gap{flex:1 1 0}
+#status{min-height:1.7em;font-size:.9rem;color:var(--mute);margin:0 0 .5rem}
+
+/* Chart: the canvas children are real DOM, drawn in with drawElementImage() */
+.stage{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+#chart{display:block;width:100%}
+#chart>*,.overlay>*{width:max-content;max-width:100%;font:14px/20px system-ui,"Noto Sans TC","PingFang TC",sans-serif;color:var(--fg)}
+.cap{font-weight:600;font-size:15px!important}
+.cap small{font-weight:400;color:var(--mute);margin-left:.5em}
+.legend{display:flex!important;flex-wrap:wrap;gap:2px 14px;color:var(--mute)!important;font-size:13px!important}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px}
+.lab{appearance:none;border:0;background:none;padding:2px 6px;margin:0;border-radius:5px;cursor:pointer;text-align:start}
+.lab:hover{background:var(--sel)} .lab[aria-pressed="true"]{font-weight:600}
+.lab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.lab span{color:var(--mute);font-weight:400;margin-left:.6em;font-size:13px}
+/* Fallback without support: overlay the same elements on the canvas */
+.overlay{position:absolute;inset:0;pointer-events:none}
+.overlay>*{position:absolute;left:0;top:0;pointer-events:auto}
+
+#detail{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:.75rem 1rem;margin-top:1rem}
+#detail h2{margin:0 0 .25rem} #detail ul{margin:.25rem 0;padding-left:1.2rem}
+#detail .r{font-size:.85rem;color:var(--mute)}
+footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
+</style></head><body><main>
+<nav><a href="../../">← All problem lines</a><a href="../">All demos</a><a href="https://github.com/WICG/html-in-canvas">WICG/html-in-canvas</a><a href="../../../demos/ledger-chart/">繁體中文</a></nav>
+
+<h1>Opponent group chart</h1>
+<p>This chart is a module built with <strong>HTML-in-Canvas</strong>, using this repo's <code>ledger.csv</code> as data. The bars are drawn on the canvas, but every label is a real DOM button, so you can search, select, translate, and use the keyboard on them, and export the whole chart directly.</p>
+<p><span id="support" class="badge">Checking…</span></p>
+
+<div class="bar" role="group" aria-label="Chart controls">
+  <button type="button" id="sort-count" aria-pressed="true">Sort by line count</button>
+  <button type="button" id="sort-stuck" aria-pressed="false">Sort by unresolved</button>
+  <span class="gap"></span>
+  <button type="button" id="png">Download PNG</button>
+  <button type="button" id="rec">Record a 5-second video</button>
+</div>
+<p id="status" role="status"></p>
+
+<div class="stage">
+  <canvas id="chart" content="drawable" role="group" aria-label="Number of problem lines and outcomes per opponent group">
+    <div class="cap" drawable></div>
+    <div class="legend" drawable>
+      <span><i style="background:var(--r-win)"></i>Win</span>
+      <span><i style="background:var(--r-part)"></i>Partial</span>
+      <span><i style="background:var(--r-stall)"></i>Stalemate</span>
+    </div>
+  </canvas>
+</div>
+
+<section id="detail" aria-live="polite"><h2>Pick an opponent group</h2><p class="r">Click a label in the chart, or Tab to one and press Enter, to list that group's lines here.</p></section>
+
+<h2>Try it</h2>
+<ul>
+  <li>Press Ctrl+F and search for “focus”: the matches are inside the chart. Text drawn on an ordinary canvas can't be found.</li>
+  <li>Drag to select label text and copy it, or use the browser's translation feature on it.</li>
+  <li>Press Tab: focus moves through the labels in on-screen order. Sorting moves the DOM order too, so the two never drift apart.</li>
+  <li>“Download PNG” and “Record a 5-second video” use the canvas's existing <code>toBlob()</code> and <code>captureStream()</code>, and the output includes the label text.</li>
+</ul>
+
+<h2>Related problem lines</h2>
+<ul>
+  <li><a href="../../#mwg--expose-canvas-content-to-browser-features"><code>mwg:expose-canvas-content-to-browser-features</code></a>: canvas content is invisible to the browser</li>
+  <li><a href="../../#mwg--export-html-media-from-canvas"><code>mwg:export-html-media-from-canvas</code></a>: export without a screenshot library redrawing the DOM</li>
+  <li><a href="../../#mwg--drag-and-drop"><code>mwg:drag-and-drop</code></a>: move real nodes when sorting, keeping visual and DOM order aligned</li>
+</ul>
+
+<footer>HTML-in-Canvas is currently supported only in Chrome 157 and later. Other browsers get a fallback: the labels are overlaid on the canvas with CSS, so search and keyboard still work, but exported images and videos don't include the label text. Data is generated from <code>ledger.csv</code> by <code>scripts/build_demo.py</code>.</footer>
+</main>
+
+<script type="module">
+const RESULTS = [["Win", "--r-win"], ["Partial", "--r-part"], ["Stalemate", "--r-stall"]];
+const PAD = 16, HEAD = 74, LABEL_H = 24, BAR_H = 12, ROW = 48, ANIM_MS = 450;
+
+const canvas = document.getElementById("chart");
+const ctx = canvas.getContext("2d");
+const stage = canvas.parentElement;
+const statusEl = document.getElementById("status");
+const detail = document.getElementById("detail");
+const cap = canvas.querySelector(".cap");
+const legend = canvas.querySelector(".legend");
+const SUPPORTED = "content" in HTMLCanvasElement.prototype && "drawElementImage" in ctx;
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+const badge = document.getElementById("support");
+badge.textContent = SUPPORTED ? "Your browser supports HTML-in-Canvas: the labels are real DOM drawn into the canvas" : "Your browser doesn't support HTML-in-Canvas: this is the fallback, with labels overlaid on the canvas";
+badge.classList.add(SUPPORTED ? "ok" : "no");
+
+const data = await (await fetch("data.json")).json();
+cap.innerHTML = `Opponent groups × outcome<small>${data.total} lines, ${data.groups.length} groups, updated ${data.updated}</small>`;
+
+const count = (g, r) => g.lines.filter(l => l.result === r).length;
+const rows = data.groups.map(g => {
+  const el = document.createElement("button");
+  el.type = "button"; el.className = "lab"; el.setAttribute("drawable", ""); el.setAttribute("aria-pressed", "false");
+  const parts = RESULTS.map(([r]) => [r, count(g, r)]).filter(([, n]) => n).map(([r, n]) => `${r} ${n}`).join(" · ");
+  el.append(g.name);
+  el.appendChild(document.createElement("span")).textContent = `${g.lines.length} lines: ${parts}`;
+  const row = { g, el, y: 0, from: 0, to: 0 };
+  el.addEventListener("click", () => select(row));
+  return row;
+});
+const maxLines = Math.max(...rows.map(r => r.g.lines.length));
+
+// Fallback: canvas children don't render in unsupported browsers, so move them all into an overlay
+let host = canvas;
+if (!SUPPORTED) {
+  host = stage.appendChild(document.createElement("div"));
+  host.className = "overlay";
+  host.append(cap, legend);
+}
+
+let selected = null, animStart = 0;
+const sorters = {
+  count: (a, b) => b.g.lines.length - a.g.lines.length,
+  stuck: (a, b) => stuck(b.g) - stuck(a.g) || b.g.lines.length - a.g.lines.length,
+};
+const stuck = g => count(g, "Stalemate");
+
+function sortBy(key, animate) {
+  rows.sort(sorters[key]);
+  rows.forEach((r, i) => {
+    r.from = r.y; r.to = HEAD + i * ROW;
+    if (!animate) r.y = r.from = r.to;
+    // Keep DOM order in step with on-screen order so Tab doesn't jump around; moveBefore() keeps focus while moving
+    if (host.moveBefore && r.el.parentNode === host) host.moveBefore(r.el, null); else host.append(r.el);
+  });
+  animStart = animate && !reduceMotion.matches ? performance.now() : 0;
+  for (const k in sorters) document.getElementById(`sort-${k}`).setAttribute("aria-pressed", String(k === key));
+  canvas.style.height = `${HEAD + rows.length * ROW + PAD - 12}px`;
+  schedule();
+}
+
+function select(row) {
+  selected = row;
+  for (const r of rows) r.el.setAttribute("aria-pressed", String(r === row));
+  const items = row.g.lines.map(l =>
+    `<li><a href="../../#${l.id.replaceAll(":", "--")}"><code>${l.id}</code></a> <span class="r">${l.result} · ${l.kind} · ${l.level}</span><br>${esc(l.feature)}</li>`).join("");
+  detail.innerHTML = `<h2>${esc(row.g.name)}</h2><ul>${items}</ul>`;
+  schedule();
+}
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+// Place an element at (x, y) in CSS pixels. With support, draw it into the canvas and the browser aligns hit testing; otherwise translate it with CSS
+function place(el, x, y, s) {
+  if (SUPPORTED) ctx.drawElementImage(el, Math.round(x * s), Math.round(y * s));
+  else el.style.transform = `translate(${x}px,${y}px)`;
+}
+
+function draw() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (!w || !canvas.width) return;
+  const s = canvas.width / w;
+  const css = getComputedStyle(canvas);
+  const v = name => css.getPropertyValue(name).trim();
+
+  let t = 1;
+  if (animStart) {
+    t = Math.min(1, (performance.now() - animStart) / ANIM_MS);
+    if (t === 1) animStart = 0;
+  }
+  const ease = 1 - (1 - t) ** 3;
+  for (const r of rows) r.y = r.from + (r.to - r.from) * ease;
+
+  ctx.reset();
+  ctx.scale(s, s);
+  ctx.fillStyle = v("--card");
+  ctx.fillRect(0, 0, w, h);
+
+  const unit = (w - PAD * 2) / maxLines;
+  for (const r of rows) {
+    if (r === selected) {
+      ctx.fillStyle = v("--sel");
+      ctx.beginPath(); ctx.roundRect(PAD - 8, r.y - 4, w - PAD * 2 + 16, ROW - 4, 8); ctx.fill();
+    }
+    let x = PAD;
+    for (const [res, color] of RESULTS) {
+      for (let i = count(r.g, res); i > 0; i--) {
+        ctx.fillStyle = v(color);
+        ctx.beginPath(); ctx.roundRect(x, r.y + LABEL_H + 2, unit - 3, BAR_H, 3); ctx.fill();
+        x += unit;
+      }
+    }
+  }
+
+  ctx.resetTransform();
+  try {
+    place(cap, PAD, PAD, s);
+    place(legend, PAD, PAD + 26, s);
+    for (const r of rows) place(r.el, PAD - 6, r.y, s);
+  } catch {
+    canvas.requestPaint();  // The element has no paint record yet; draw on the next paint
+    return;
+  }
+  canvas.dataset.painted = "1";
+  if (animStart || recording) schedule();
+}
+
+// With support, draw in the paint event (fired whenever a child's appearance changes); the fallback uses requestAnimationFrame
+let queued = false;
+function schedule() {
+  if (SUPPORTED) return canvas.requestPaint();
+  if (queued) return;
+  queued = true;
+  requestAnimationFrame(() => { queued = false; draw(); });
+}
+if (SUPPORTED) canvas.onpaint = draw;
+
+// Match the canvas grid to device pixels to avoid blur
+const hasDpBox = "devicePixelContentBoxSize" in ResizeObserverEntry.prototype;
+new ResizeObserver(([e]) => {
+  const dp = e.devicePixelContentBoxSize?.[0];
+  canvas.width = dp ? dp.inlineSize : Math.round(e.contentRect.width * devicePixelRatio);
+  canvas.height = dp ? dp.blockSize : Math.round(e.contentRect.height * devicePixelRatio);
+  schedule();
+}).observe(canvas, hasDpBox ? { box: "device-pixel-content-box" } : {});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", schedule);
+
+document.getElementById("sort-count").addEventListener("click", () => sortBy("count", true));
+document.getElementById("sort-stuck").addEventListener("click", () => sortBy("stuck", true));
+sortBy("count", false);
+
+// Export: the canvas's existing methods; labels drawn in with HTML-in-Canvas are included
+const noLabels = SUPPORTED ? "" : " (fallback: labels are HTML overlaid on top, so they are not in the output)";
+function save(blob, name) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+document.getElementById("png").addEventListener("click", () => {
+  canvas.toBlob(blob => {
+    if (!blob) { statusEl.textContent = "Export failed."; return; }
+    save(blob, "ledger-chart.png");
+    statusEl.textContent = `Downloaded PNG, ${canvas.width}×${canvas.height} pixels${noLabels}`;
+  }, "image/png");
+});
+
+let recording = false;
+const recBtn = document.getElementById("rec");
+recBtn.addEventListener("click", () => {
+  const type = ["video/webm;codecs=vp9", "video/webm"].find(t => window.MediaRecorder?.isTypeSupported(t));
+  if (!type) { statusEl.textContent = "This browser can't record WebM."; return; }
+  const stream = canvas.captureStream(30);
+  const rec = new MediaRecorder(stream, { mimeType: type });
+  const chunks = [];
+  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
+  rec.onstop = () => {
+    recording = false; recBtn.disabled = false;
+    stream.getTracks().forEach(t => t.stop());
+    save(new Blob(chunks, { type: "video/webm" }), "ledger-chart.webm");
+    statusEl.textContent = `Downloaded a 5-second video${noLabels}`;
+  };
+  recording = true; recBtn.disabled = true;
+  statusEl.textContent = "Recording; you have 5 seconds to switch sorting or click labels…";
+  rec.start(); schedule();
+  setTimeout(() => rec.stop(), 5000);
+});
+</script>
+</body></html>

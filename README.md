@@ -34,7 +34,7 @@
 | `docs/ideas/`、`docs/en/ideas/` | 靈感頁：只列新能力的線，依「現在能不能用」分成今天就能用、漸進增強、只在支援的瀏覽器有效、先追蹤，可依主題篩選。由 `scripts/build_ideas.py` 每週重建 |
 | `docs/en/graph/` | 對手組關係圖（英文網頁）：每個對手組一個圓，出現在同一份指南就連線，點進去看該組的線。由 `scripts/build_graph.py` 每週重建 |
 | `docs/weekly/` | 週記的網頁版：目錄頁加每篇一頁，週記裡的 `mwg:…` 可以點，會跳到主頁並展開那條線。由 `scripts/build_weekly.py` 產生 |
-| `docs/demos/` | 用新能力做的模組 demo。目前有 `ledger-chart/`：用 HTML-in-Canvas 畫的對手組戰報圖，標籤是真 DOM，可搜尋、可匯出（僅 Chrome 157 起，其他瀏覽器走 fallback）。資料由 `scripts/build_demo.py` 從 `ledger.csv` 產生 |
+| `docs/demos/` | 用新能力做的模組 demo。目前有 `ledger-chart/`：用 HTML-in-Canvas 畫的對手組戰報圖，標籤是真 DOM，可搜尋、可匯出（僅 Chrome 157 起，其他瀏覽器走 fallback）。資料由 `scripts/build_demo.py` 從 `ledger.csv` 產生；英文版在 `docs/en/demos/ledger-chart/` |
 | `groups/` | 每個對手組一頁的 Obsidian 索引（加一頁 `對手組總覽`）：列出該組的線、常一起出現的組。用 Obsidian 開這個 repo、打開關係圖，就看得到哪些對手常在同一份指南出現。由 `scripts/build_groups.py` 每週重建 |
 | `docs/demos/` 底下其餘 | 可以直接在瀏覽器試的新能力小範例（錯開進場、滑動底線、捲動進出場、手風琴、自動對比文字、宣告式按鈕、預覽卡、深淺色 token），每頁先檢查支援度、不支援時示範退路。總覽在 `docs/demos/index.html`；英文版在 `docs/en/demos/`。手寫，不由腳本產生 |
 | `i18n/en.json` | 英文版網頁用的譯文。線檔維持中文，每週任務會替新線補上譯文；缺譯時英文頁退回顯示中文 |

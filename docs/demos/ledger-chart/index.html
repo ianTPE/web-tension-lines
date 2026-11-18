@@ -49,7 +49,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:.88em;background:color-m
 #detail .r{font-size:.85rem;color:var(--mute)}
 footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 </style></head><body><main>
-<nav><a href="../../">← 所有問題線</a><a href="../../weekly/">週記</a><a href="https://github.com/WICG/html-in-canvas">WICG/html-in-canvas</a></nav>
+<nav><a href="../../">← 所有問題線</a><a href="../../weekly/">週記</a><a href="../">所有 demo</a><a href="https://github.com/WICG/html-in-canvas">WICG/html-in-canvas</a><a href="../../en/demos/ledger-chart/">English</a></nav>
 
 <h1>對手組戰報圖</h1>
 <p>這張圖表是一個用 <strong>HTML-in-Canvas</strong> 做的模組，資料是這個 repo 的 <code>ledger.csv</code>。長條是 canvas 畫的，但每個標籤都是真的 DOM 按鈕，所以可以搜尋、選取、翻譯、用鍵盤操作，整張圖也能直接匯出。</p>
@@ -71,7 +71,6 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
       <span><i style="background:var(--r-win)"></i>勝</span>
       <span><i style="background:var(--r-part)"></i>部分改善</span>
       <span><i style="background:var(--r-stall)"></i>僵持</span>
-      <span><i style="background:var(--r-miss)"></i>缺</span>
     </div>
   </canvas>
 </div>
@@ -97,7 +96,7 @@ footer{color:var(--mute);font-size:.85rem;margin-top:3rem}
 </main>
 
 <script type="module">
-const RESULTS = [["勝", "--r-win"], ["部分改善", "--r-part"], ["僵持", "--r-stall"], ["缺", "--r-miss"]];
+const RESULTS = [["勝", "--r-win"], ["部分改善", "--r-part"], ["僵持", "--r-stall"]];
 const PAD = 16, HEAD = 74, LABEL_H = 24, BAR_H = 12, ROW = 48, ANIM_MS = 450;
 
 const canvas = document.getElementById("chart");
@@ -143,7 +142,7 @@ const sorters = {
   count: (a, b) => b.g.lines.length - a.g.lines.length,
   stuck: (a, b) => stuck(b.g) - stuck(a.g) || b.g.lines.length - a.g.lines.length,
 };
-const stuck = g => count(g, "僵持") + count(g, "缺");
+const stuck = g => count(g, "僵持");
 
 function sortBy(key, animate) {
   rows.sort(sorters[key]);

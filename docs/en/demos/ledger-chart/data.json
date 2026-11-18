@@ -1,0 +1,5759 @@
+{
+ "total": 754,
+ "updated": "2026-11-18",
+ "groups": [
+  {
+   "name": "Install entry points are limited",
+   "lines": [
+    {
+     "id": "mwg:install-web-app",
+     "feature": "<install>, navigator.install()",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "No browser support"
+    }
+   ]
+  },
+  {
+   "name": "Truncation hurts accessibility",
+   "lines": [
+    {
+     "id": "mwg:single-line-overflow",
+     "feature": "text-overflow, mask-image",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:form-factor-adaptation:2",
+     "feature": "min-block-size, text-wrap",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "Only reachable by hover",
+   "lines": [
+    {
+     "id": "mwg:single-line-overflow:2",
+     "feature": "scroll-driven animations, container style queries",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:natural-interactions:2",
+     "feature": "popover, popovertarget",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:pull-to-reveal:3",
+     "feature": "可見的替代按鈕",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:interest-triggered-action-previews",
+     "feature": "interestfor, interest/loseinterest 事件",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:html:6",
+     "feature": "不要用 title 屬性做提示",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:swipe-to-remove:4",
+     "feature": "每個滑動動作配一顆可見按鈕",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:swipe-to-reveal:4",
+     "feature": "觸發按鈕 aria-expanded, 切換 tabindex",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:hovercard",
+     "feature": "interestfor, interest-delay, :interest-source",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:accessibility:11",
+     "feature": "不用 title 當控制項名稱",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Visual order drifts from DOM order",
+   "lines": [
+    {
+     "id": "mwg:drag-and-drop",
+     "feature": "moveBefore(), reading-flow",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:spatial-navigation:2",
+     "feature": "getBoundingClientRect() 即時幾何, checkVisibility()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:forms:4",
+     "feature": "不用 CSS 改變表單的視覺順序",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:css-layout:6",
+     "feature": "不用 order、*-reverse、dense 改變互動內容的視覺順序",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Jitter during interaction",
+   "lines": [
+    {
+     "id": "mwg:drag-and-drop:2",
+     "feature": "pointer capture, ::before/::after 標記",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:state-aware-sticky-headers:2",
+     "feature": "父層 overflow-anchor: none",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:drag",
+     "feature": "pointerdown 偏移, setPointerCapture(), 夾限函式",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:physics-based-easing:2",
+     "feature": "彈跳曲線不套 opacity",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:scroll-completion-effects:3",
+     "feature": "focus({ preventScroll: true })",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:swipe-to-remove:6",
+     "feature": "Safari 延後 remove(), inert",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:stack-drill-down:2",
+     "feature": "位移套在吸附目標的子元素",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:stack-drill-down:5",
+     "feature": "focus({ preventScroll: true })",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:adapt-scrollbar-to-contrast-preferences:3",
+     "feature": "不過渡 scrollbar-color",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Rebuilding the DOM loses state",
+   "lines": [
+    {
+     "id": "mwg:dynamic-sort",
+     "feature": "moveBefore(), view transitions",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sortable-table",
+     "feature": "aria-sort, insertBefore",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:out-of-order-html-streaming:5",
+     "feature": "替換佔位時保住焦點",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:highlight-text-ranges",
+     "feature": "Range, Highlight, CSS.highlights, ::highlight()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:move-dom-element-without-losing-state",
+     "feature": "moveBefore()",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:persistent-top-layer-ui",
+     "feature": "moveBefore()",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:custom-elements",
+     "feature": "用 connectedMoveCallback 接住 moveBefore() 的搬移，擋掉搬一次就重來",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:prerendering-custom-elements:2",
+     "feature": "hydrate 時沿用伺服器的 shadow root，不要重新渲染",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:scoped-component-transitions:2",
+     "feature": "搬動既有節點而非 innerHTML 重建",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:language-model:16",
+     "feature": "AI 改寫保留版本、比較與復原，不覆蓋唯一草稿",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Over-announcing",
+   "lines": [
+    {
+     "id": "mwg:dynamic-sort:2",
+     "feature": "role=status",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:accessibility:3",
+     "feature": "<ul>/<ol>",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessible-generated-content",
+     "feature": "content 替代文字（/ 語法）",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:accessible-generated-content:2",
+     "feature": "content 替代文字（/ 語法）",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:language-model:3",
+     "feature": "aria-busy, aria-live",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:out-of-order-html-streaming:3",
+     "feature": "live region 只包進度文字",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:responsive-table:3",
+     "feature": "只對非文字內容給替代文字",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:interest-triggered-action-previews:2",
+     "feature": "預覽不用 live region",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:interest-triggered-tooltips:3",
+     "feature": "提示與名稱相同時不加描述",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:required-field-feedback:5",
+     "feature": "必填星號加 aria-hidden，避免重複播報",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:card",
+     "feature": "延伸連結 .card-link::after, inset: 0",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:hovercard:3",
+     "feature": "提示與名稱相同時不加 ARIA",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:forms:11",
+     "feature": "不要每打一個字就驗證並播報錯誤",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:14",
+     "feature": "標籤保持精簡，說明與狀態不要重複塞進去",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Comparing the wrong type",
+   "lines": [
+    {
+     "id": "mwg:sortable-table:2",
+     "feature": "data-type 宣告",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:js:5",
+     "feature": "AbortSignal.timeout(), AbortSignal.any()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Inconsistent roles of native elements",
+   "lines": [
+    {
+     "id": "mwg:accordion",
+     "feature": "<details>/<summary>",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:navbar:2",
+     "feature": "<button aria-expanded>",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:accessibility:2",
+     "feature": "heading 包住 button 的 ARIA disclosure",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Layout unexpectedly overflows or shifts",
+   "lines": [
+    {
+     "id": "mwg:accordion:2",
+     "feature": "<details name>",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:css-layout",
+     "feature": "display: block",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:css-layout:2",
+     "feature": "aspect-ratio",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:css-layout:3",
+     "feature": "flex-wrap: wrap",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:responsive-design",
+     "feature": "dvh, dvw",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:responsive-design:2",
+     "feature": "aspect-ratio",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-highlight-inputs:3",
+     "feature": ":autofill, inset box-shadow",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:form-fields-automatically-fit-contents:2",
+     "feature": "min-inline-size, max-inline-size",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:form-fields-automatically-fit-contents:3",
+     "feature": "textarea 固定寬度",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:defer-rendering-heavy-content:2",
+     "feature": "contain-intrinsic-size",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:out-of-order-html-streaming:6",
+     "feature": "佔位尺寸, aspect-ratio",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:performance:7",
+     "feature": "width/height 屬性",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:icons:4",
+     "feature": "flex: none",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:viewport-aware-dropdowns",
+     "feature": "position-area, position-try-fallbacks, popover",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:rich-media-picker:5",
+     "feature": "base-select 不再依最長選項定寬，要自己給寬度",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:validate-input-after-interaction:2",
+     "feature": "規則清單滿足後用 visibility: hidden 隱藏，不要收掉空間",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:html:8",
+     "feature": "img 與 video 都寫 width 與 height",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:animated-select-picker:5",
+     "feature": "base-select 的觸發鈕要自行限制寬度",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:custom-select-picker-layouts:4",
+     "feature": "base-select 的觸發鈕要自行限制寬度",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-target-on-load:3",
+     "feature": "媒體設 aspect-ratio 或 width/height",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:search-hidden-content:3",
+     "feature": "框線與內距放內層 wrapper",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:card:3",
+     "feature": ":has(> :checked) 只改邊框顏色",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:menu:9",
+     "feature": "固定寬前導欄, margin-inline-start: auto",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:navigation-drawer:6",
+     "feature": "height: 100svh",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:stack-drill-down:15",
+     "feature": "height: 100dvh",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:typography:4",
+     "feature": "長網址用 `overflow-wrap` 斷開，內文不用 `nowrap` 與固定寬度",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:visually-stable-font-fallbacks",
+     "feature": "用 `font-size-adjust: from-font` 讓退路字型和網頁字型一樣大，換字時不跳",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:forms:12",
+     "feature": "表單字級至少 1rem，避免 iOS 自動放大",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:css-layout:8",
+     "feature": "子項目數量不固定時 subgrid 只沿一個軸",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:css-layout:10",
+     "feature": "用 scrollbar-gutter: stable 先留捲軸位置",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:css-layout:12",
+     "feature": "全寬版面不用 100vw，避免捲軸寬造成水平溢出",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "Hiding or disabling locks people out",
+   "lines": [
+    {
+     "id": "mwg:accordion:3",
+     "feature": "::details-content, content-visibility",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:copy-button",
+     "feature": "Async Clipboard",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:copy-button:3",
+     "feature": "opacity, (hover: none)",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:toolbar",
+     "feature": "aria-disabled",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:animated-select-picker:3",
+     "feature": "::picker(select) 保持可捲動",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:defer-rendering-heavy-content:5",
+     "feature": "hidden=until-found, 鍵盤實測",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:quick-sign-ins:5",
+     "feature": "焦點還給原動作, role=status",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:carousel-slide-effects:3",
+     "feature": "tabindex=0, 可及名稱",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:responsive-table:2",
+     "feature": "tabindex=0, role=region",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:scroll-position-aware-elements:2",
+     "feature": "@supports 裡才預設隱藏",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-position-aware-elements:3",
+     "feature": "主內容底部留空間",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:carousel-snap-highlights:3",
+     "feature": "非吸附項目維持對比",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:declarative-dialog-popover-control:3",
+     "feature": "關閉後焦點送回觸發鈕",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:interactive-content-reveal:2",
+     "feature": "pointer-events: none, 內容預設完整可見",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:motion:6",
+     "feature": "預設靜態、停在最終狀態",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:form-associated-custom-elements:2",
+     "feature": "formDisabledCallback 只停用內部控制項，不要設宿主的 disabled",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:html:5",
+     "feature": "可捲動的程式碼區塊加 tabindex=\"0\" 與 role=\"region\"",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:8",
+     "feature": "密碼欄位允許貼上",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:8",
+     "feature": "密碼欄位允許貼上",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:required-field-feedback:6",
+     "feature": "送出鈕保持可按，讓瀏覽器揭示所有必填錯誤",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:same-document-transitions:3",
+     "feature": "轉場後把焦點送到新標題（tabindex=-1）",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-snap-state-sync:3",
+     "feature": "scroll-snap-type: proximity",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:scrollytelling:4",
+     "feature": "隱藏樣式只掛在 .scroll-fallback, reduced-motion 時強制可見",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:search-hidden-content",
+     "feature": "<details>, hidden=until-found, beforematch",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:search-hidden-content:2",
+     "feature": "不在 until-found 元素上設 display／visibility",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-remove:11",
+     "feature": "移除前把焦點移到下一列",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:persistent-app-tours:3",
+     "feature": "提示內容可獨立理解並以標題開頭",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:persistent-toast-notifications:3",
+     "feature": "預設手動關閉、焦點在內時暫停逾時",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:stack-drill-down:6",
+     "feature": "焦點退到 tabindex=-1 的內容容器",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:content-first-noise-reduction:3",
+     "feature": "scroll-state(scrollable: top)",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:browser-ui-theming:2",
+     "feature": "user-select: none 只用在介面外框",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:browser-ui-theming:3",
+     "feature": "scrollbar-width: auto",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:forms:10",
+     "feature": "不要停用送出鈕來阻止驗證",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:8",
+     "feature": "要讓使用者找到停用原因時用 aria-disabled，不用 disabled",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:17",
+     "feature": "iframe 不要關捲動，放大後才到得了全部內容",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Popups detach from their trigger",
+   "lines": [
+    {
+     "id": "mwg:app-menus",
+     "feature": "popover, anchor positioning, focusgroup",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:position-aware-tooltips",
+     "feature": "container-type: anchored, @container anchored(fallback)",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:viewport-aware-dropdowns:2",
+     "feature": "inset/margin 重設包進 @supports",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:interest-triggered-tooltips:7",
+     "feature": "inset/margin 重設包進 @supports, 明確 anchor-name",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:hovercard:8",
+     "feature": "position-area, position-try-fallbacks, 隱式錨點",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:hovercard:9",
+     "feature": "inset/margin 重設包進 @supports",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:menu:2",
+     "feature": "position-area, position-try-fallbacks, @position-try",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:menu:3",
+     "feature": "@position-try --below 允許縮小（min-inline-size: 0）",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:menu:4",
+     "feature": "showPopover({ source }), 零尺寸 fixed 佔位錨點",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Appearance implies the wrong structure",
+   "lines": [
+    {
+     "id": "mwg:breadcrumbs",
+     "feature": "::before 產生的分隔符",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "Focus or state indicators disappear",
+   "lines": [
+    {
+     "id": "mwg:breadcrumbs:2",
+     "feature": "corner-shape, border-shape",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:tabs:2",
+     "feature": "::after border, aria-selected",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:natural-interactions",
+     "feature": ":focus-visible",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-highlight-inputs",
+     "feature": ":autofill",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:autofill-highlight-inputs:2",
+     "feature": ":autofill:focus-visible, outline",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:brand-consistent-forms:2",
+     "feature": "accent-color, color-scheme",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:icons:5",
+     "feature": "forced-color-adjust: none",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:position-aware-tooltips:2",
+     "feature": "調整位置或關閉 tooltip",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scrollability-affordance-hints:2",
+     "feature": "減去式遮罩, scroll-padding",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:shrinking-header-on-scroll:2",
+     "feature": "scroll-padding-top, padding-top",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:state-aware-sticky-headers:3",
+     "feature": "scroll-padding-top",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:anchor-positioning-tab-underline:3",
+     "feature": "border-block-end",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:motion",
+     "feature": "焦點框畫在未裁切的父層",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:validate-input-after-interaction:3",
+     "feature": "密碼要有自己的錯誤文字，不能只把規則清單變紅",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:accessible-web-components:2",
+     "feature": "宿主自帶角色時不要開 delegatesFocus",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:html:4",
+     "feature": "不要隨手用 focus({ preventScroll: true })",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-highlight-inputs:4",
+     "feature": "覆寫自動填入顏色時要保留焦點陰影與游標顏色",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-snap-state-sync:2",
+     "feature": "aria-current 標示作用中連結",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:swipe-to-remove:12",
+     "feature": "forced-colors 下 CanvasText + mask",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:checkbox:2",
+     "feature": "在 Safari 實測 accent-color 對比",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:progress:4",
+     "feature": "減少動態時放慢不確定動畫",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:progress-ring:2",
+     "feature": "forced-color-adjust: none, CanvasText／Canvas",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:spinner:2",
+     "feature": "forced-color-adjust: none, 系統色",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:spinner:3",
+     "feature": "減少動態時放慢、拿掉伸縮",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:content-first-noise-reduction:2",
+     "feature": ":focus-within 保持顯示, scroll-margin-top",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:adapt-scrollbar-to-contrast-preferences:2",
+     "feature": "拇指顏色對軌道與容器背景都要有對比",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:color",
+     "feature": "forced-colors 系統色, outline/border 表達邊界",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:customize-scrollbar-color-and-thickness",
+     "feature": "scrollbar-color, scrollbar-width",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:agentic-forms:6",
+     "feature": "用 `:tool-form-active`／`:tool-submit-active` 標出代理正在操作的表單與待確認的送出鈕",
+     "result": "Win",
+     "kind": "New capability",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:language-model:5",
+     "feature": "模型下載顯示可及進度與完成狀態",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Duplicate content confuses assistive tech",
+   "lines": [
+    {
+     "id": "mwg:carousel",
+     "feature": "scroll snap, order, sibling-count(), scrollend",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:progress-ring:3",
+     "feature": "中心內容 aria-hidden, aria-valuetext",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:20",
+     "feature": "圖片與 SVG 的替代文字依用途提供或留空",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Wiring JS to every button",
+   "lines": [
+    {
+     "id": "mwg:copy-button:2",
+     "feature": "Invoker commands",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:custom-button-actions",
+     "feature": "command=\"--自訂\", commandfor",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:declarative-dialog-popover-control",
+     "feature": "command=show-modal/close/toggle-popover, commandfor",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:content-first-noise-reduction:4",
+     "feature": "popover, popovertarget",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Layout depends on the wrong measurement",
+   "lines": [
+    {
+     "id": "mwg:navbar",
+     "feature": "popover, scrollWidth 量測",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:form-factor-adaptation",
+     "feature": "container queries",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:fluid-scaling",
+     "feature": "cqi/cqb, clamp()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:size-aware-styling",
+     "feature": "container queries",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:shrinking-header-on-scroll:3",
+     "feature": "動畫元素脫離文件流",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:styling-web-components:5",
+     "feature": "display: contents 讓宿主量不到尺寸，錨點定位會壞",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:styling-web-components:6",
+     "feature": "元件要用 container query 時，先給 :host 一個區塊盒",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:card:5",
+     "feature": "container-type: inline-size 在卡片上, :has(> img)",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:progress:3",
+     "feature": "translate + cqi, :dir(rtl) 反轉動畫",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:equal-width-text-lines:3",
+     "feature": "gap + text-box, 不靠 em／line-height",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:precise-text-alignment",
+     "feature": "text-box: trim-both cap alphabetic",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:visually-stable-mixed-fonts",
+     "feature": "混排字型時用 `font-size-adjust` 以 x 高度對齊大小，不再只看 `font-size`",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:css-layout:7",
+     "feature": "用 subgrid 對齊不同卡片裡的標題、 metadata 與 CTA",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:css-layout:9",
+     "feature": "container-type: size 要同時給容器明確高度",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:css-layout:13",
+     "feature": "repeat(auto-fit／auto-fill) 前容器要有明確寬度",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:css-layout:14",
+     "feature": "Grid lanes 只有 Safari 支援，先用多欄或接受 dense 的重排代價",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Hand-written focus management",
+   "lines": [
+    {
+     "id": "mwg:tabs",
+     "feature": "focusgroup",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:toolbar:2",
+     "feature": "focusgroup",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:html",
+     "feature": "用 <dialog> 的 showModal() 與 closedby=\"any\" 做模態框，不自己寫焦點陷阱與關閉",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:dialog",
+     "feature": "<dialog> showModal(), command=show-modal",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:menu",
+     "feature": "focusgroup=menu nomemory, command=toggle-popover, popover=auto",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:persistent-app-tours:2",
+     "feature": "showPopover() 後 focus(), 關閉時送回控制項",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:progress:6",
+     "feature": "role=status, 不聚焦 <progress>",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:language-model:6",
+     "feature": "下載或停止鈕消失前把焦點移到合理目標",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:accessibility:5",
+     "feature": "重複導覽前提供 skip link，但不要堆一堆",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:18",
+     "feature": "不用正數 tabindex，焦點順序交給 DOM",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:22",
+     "feature": "模態用原生 dialog.showModal()，自訂覆層才裝 inert 與焦點",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Cramped layout hurts readability",
+   "lines": [
+    {
+     "id": "mwg:tabs:3",
+     "feature": "scroll-driven animations, hidden=until-found",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:responsive-table",
+     "feature": "position: sticky, @container 堆疊版面",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:custom-text-decorations:3",
+     "feature": "text-decoration-skip-ink: all",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:improve-text-layout-and-legibility",
+     "feature": "text-wrap: balance",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:improve-text-layout-and-legibility:2",
+     "feature": "text-wrap: pretty",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:typography:3",
+     "feature": "避免兩端對齊；非用不可時配 `hyphens: auto` 並宣告 `lang`",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:typography:6",
+     "feature": "標題用 `text-wrap: balance`，長篇內文用 `text-wrap: pretty`",
+     "result": "Win",
+     "kind": "New capability",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:css-layout:4",
+     "feature": "用 flex-wrap: balance 避免最後一列只剩一個孤兒項目",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Canvas content is invisible to the browser",
+   "lines": [
+    {
+     "id": "mwg:expose-canvas-content-to-browser-features",
+     "feature": "<canvas content=\"drawable\">, drawElementImage()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Re-implementing browser rendering by hand",
+   "lines": [
+    {
+     "id": "mwg:export-html-media-from-canvas",
+     "feature": "drawElementImage(), toBlob(), captureStream()",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:custom-text-decorations",
+     "feature": "text-decoration, text-underline-offset, :where()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:custom-text-decorations:4",
+     "feature": "text-decoration-inset",
+     "result": "Win",
+     "kind": "New capability",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:soft-edge-content-fade",
+     "feature": "用 `mask-image` 漸層讓內容本身淡出，不再蓋一層半透明疊層",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:visually-texture-content",
+     "feature": "用 `mask-image` 紋理讓內容本身斑駁，而不是蓋一層紋理圖",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "Hand-written interaction inside canvas",
+   "lines": [
+    {
+     "id": "mwg:interactive-content-in-3d-scenes",
+     "feature": "texElementSubImage2D(), drawElementImageToTexture(), updateElementGeometry()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:apply-webgl-shaders",
+     "feature": "texElementSubImage2D(), updateElementGeometry()",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Semantic structure misrepresents the page",
+   "lines": [
+    {
+     "id": "mwg:accessibility",
+     "feature": "<h1>",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:viewport-aware-dropdowns:4",
+     "feature": "不加 role=menu 與 aria-haspopup",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:interest-triggered-tooltips:2",
+     "feature": "role=tooltip + aria-describedby, 不加 aria-expanded",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:motion:5",
+     "feature": "暫停鈕不加 aria-pressed",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:rich-media-picker:2",
+     "feature": "option 文字要能獨立讀懂，擋掉退回時黏成一串的選項",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:spatial-navigation:3",
+     "feature": "grid/listbox/tablist 等複合角色",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:card:2",
+     "feature": "閱讀更多加視覺隱藏的完整名稱",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:hovercard:4",
+     "feature": "role=tooltip + aria-describedby, 不加 aria-expanded",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:navigation-drawer:8",
+     "feature": "role=dialog 一般元素, 側欄狀態拿掉 role",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:stack-drill-down:7",
+     "feature": "document.title, 返回鈕以上一層命名",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:language-model:7",
+     "feature": "輸出語言不同時在輸出元素設 lang",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:accessibility:4",
+     "feature": "視覺版面不要用 table，資料表也要控制複雜度",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:7",
+     "feature": "互動 ARIA 角色不要蓋掉結構元素的角色",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:9",
+     "feature": "互動元素不要用 role=\"presentation\" 拿掉語意",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:10",
+     "feature": "label 用 for／id 明確連到控制項",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:12",
+     "feature": "placeholder 只當提示，不當標籤",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:13",
+     "feature": "同樣是 Edit 的按鈕用可及名稱分出對象",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:15",
+     "feature": "頁面與局部語言變化都用 lang 標正確",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:16",
+     "feature": "每頁給獨特且前置重點的 title，SPA 換頁也更新",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Announcements mistimed or unreliable",
+   "lines": [
+    {
+     "id": "mwg:accessible-error-announcement",
+     "feature": ":user-invalid, aria-invalid",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:accessible-error-announcement:2",
+     "feature": "aria-describedby 動態掛載",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:accessible-error-announcement:3",
+     "feature": "單一 polite live region",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:style-parent-with-has:2",
+     "feature": "aria-invalid 同步, :user-invalid",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:style-parent-with-has:3",
+     "feature": "aria-describedby 動態掛載",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:required-field-feedback",
+     "feature": ":user-invalid, required",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:required-field-feedback:2",
+     "feature": "aria-invalid 依 :user-invalid 同步",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:required-field-feedback:3",
+     "feature": "aria-describedby 動態掛載",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:out-of-order-html-streaming:4",
+     "feature": "aria-busy, 通知放在面板外",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:interest-triggered-tooltips:4",
+     "feature": "描述型提示只放可錯過的內容",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:rich-media-picker:4",
+     "feature": "不要在 option 裡放互動元素",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:select-menu-interaction",
+     "feature": "用 select:user-invalid 讓必選下拉等互動後才標錯",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:validate-input-after-interaction",
+     "feature": "用 :user-invalid 等使用者打完再報錯，擋掉邊打邊變紅",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:style-parent-with-has:4",
+     "feature": "錯誤用全頁一個 polite live region 延遲播報",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:required-field-feedback:4",
+     "feature": "錯誤用全頁一個 polite live region 延遲播報",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:swipe-to-remove:10",
+     "feature": "預先存在的 role=status",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:dialog:5",
+     "feature": "可見訊息 + aria-describedby",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:hovercard:5",
+     "feature": "描述型提示只放可錯過的內容",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:hovercard:6",
+     "feature": "DOM 解析完就一次接好 ARIA",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:persistent-toast-notifications:2",
+     "feature": "ariaNotify(), aria-live 退路",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:persistent-toast-notifications:4",
+     "feature": "焦點轉移或模態開著時延後 toast",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:progress:7",
+     "feature": "hidden／aria-hidden 取代 aria-busy",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:scrollspy:2",
+     "feature": "scrollend 時同步 aria-current",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:browser-ui-theming:4",
+     "feature": ":user-invalid／:user-valid, 排除 range",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:agentic-javascript-tools:4",
+     "feature": "可修正的錯誤用結構化回傳值，不要 throw",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "No browser support"
+    },
+    {
+     "id": "mwg:forms:9",
+     "feature": "錯誤樣式用 :user-invalid，不單用 :invalid",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:21",
+     "feature": "live region 控制數量與時機，inert 內容不要送播報",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "User settings get ignored",
+   "lines": [
+    {
+     "id": "mwg:respect-os-text-scale",
+     "feature": "<meta name=\"text-scale\">, rem",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:respect-os-text-scale:2",
+     "feature": "clamp(), rem + vw",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:respect-os-text-scale:3",
+     "feature": "<meta name=\"text-scale\">",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:fluid-scaling:2",
+     "feature": "clamp() 比例上限",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:responsive-design:3",
+     "feature": "clamp(), rem + vw",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:parallax-scroll-effects:4",
+     "feature": "退路腳本檢查 matchMedia(reduce)",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:animated-select-picker:4",
+     "feature": "減少動態偏好下關掉選單與箭頭動畫",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:dark-mode-toggle:3",
+     "feature": "只在儲存當下比對系統偏好",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:stack-drill-down:9",
+     "feature": "CSS scroll-behavior, JS 傳 behavior: 'auto'",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:adapt-scrollbar-to-contrast-preferences",
+     "feature": "prefers-contrast: more, scrollbar-color",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:typography",
+     "feature": "字級用 `rem`，不用 `px`",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:typography:5",
+     "feature": "流體字級用 `clamp()` 混合 `rem` 與 `vw`，上限不超過下限的 2.5 倍",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Must send to the cloud or load a big library",
+   "lines": [
+    {
+     "id": "mwg:language-detection",
+     "feature": "LanguageDetector",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:language-model",
+     "feature": "LanguageModel（Prompt API）",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:summarizer",
+     "feature": "Summarizer",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:translator",
+     "feature": "Translator",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:support-global-calendar-systems",
+     "feature": "用 withCalendar() 讓日期直接以希伯來曆、伊斯蘭曆、農曆運算",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Untrusted content parsed as HTML",
+   "lines": [
+    {
+     "id": "mwg:language-model:2",
+     "feature": "textContent, Sanitizer API",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:sanitize-untrusted-html",
+     "feature": "setHTML(), Sanitizer, Document.parseHTML()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sanitize-untrusted-html:2",
+     "feature": "replaceChildren() 搬節點",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:security:3",
+     "feature": "textContent, setHTML(), require-trusted-types-for",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:trusted-types",
+     "feature": "trustedTypes.createPolicy(), require-trusted-types-for",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Size changes jump instead of animating",
+   "lines": [
+    {
+     "id": "mwg:animate-to-intrinsic-sizes",
+     "feature": "interpolate-size, calc-size()",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:calculate-with-intrinsic-sizes",
+     "feature": "calc-size()",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:animated-select-picker",
+     "feature": "appearance: base-select, @starting-style, allow-discrete",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scrollability-affordance-hints:3",
+     "feature": "@property 註冊淡出寬度",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:anchor-positioning-tab-underline",
+     "feature": "anchor-name, position-anchor, anchor(), transition: inset",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:anchor-positioning-tab-underline:2",
+     "feature": "inset + anchor() 取代 position-area",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:animate-element-entry-exit",
+     "feature": "@starting-style, transition-behavior: allow-discrete",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:animate-element-entry-exit:4",
+     "feature": "getAnimations().finished, 保險逾時",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:animate-to-from-top-layer",
+     "feature": "overlay, allow-discrete, @starting-style, ::backdrop",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:cross-document-transitions",
+     "feature": "@view-transition, ::view-transition-old/new(root)",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:cross-document-transitions:2",
+     "feature": "@view-transition types, pagereveal, :active-view-transition-type()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:directional-navigation-transitions",
+     "feature": "startViewTransition({ types }), :active-view-transition-type()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:interactive-content-reveal",
+     "feature": "@property, mask-image radial-gradient",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:motion:3",
+     "feature": "View Transitions",
+     "result": "Win",
+     "kind": "New capability",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:same-document-transitions",
+     "feature": "document.startViewTransition(), view-transition-name",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:menu:10",
+     "feature": "@starting-style, allow-discrete 獨立宣告",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:navigation-drawer:5",
+     "feature": "@property 註冊 --drawer-backdrop 為 number",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:navigation-drawer:9",
+     "feature": "scroll-initial-target: nearest（關閉位置）",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:progress-ring:4",
+     "feature": "@property --value, 減少動態預設 0s",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Visually hidden but still reachable",
+   "lines": [
+    {
+     "id": "mwg:calculate-with-intrinsic-sizes:2",
+     "feature": "visibility: hidden",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:custom-elements:5",
+     "feature": "用 visibility: hidden 加延遲動畫藏未定義元素，不要只靠 opacity: 0",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:html:2",
+     "feature": "用 inert 把整塊隱藏區域移出 Tab 順序與無障礙樹",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:html:3",
+     "feature": "不要對可聚焦的元素或其祖先加 aria-hidden 或 role=\"presentation\"",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:stack-drill-down:3",
+     "feature": "非目前畫面加 inert",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:forms:13",
+     "feature": "視覺隱藏控制項不用 display: none",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:forms:15",
+     "feature": "非作用中的精靈步驟移出 Tab 與無障礙樹",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Feature detection is unreliable",
+   "lines": [
+    {
+     "id": "mwg:atrule-support-conditionals",
+     "feature": "@supports at-rule()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:atrule-support-conditionals:2",
+     "feature": "恆真的 @container style() 查詢",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:client-side-encryption:4",
+     "feature": "SubtleCrypto.supports()",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:digital-signatures:4",
+     "feature": "SubtleCrypto.supports()",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:local-network-access:3",
+     "feature": "只查細分權限名",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:quick-sign-ins:3",
+     "feature": "capabilities.immediateGet",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:viewport-aware-dropdowns:3",
+     "feature": "polyfill 規則不包 @supports",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:animate-element-entry-exit:2",
+     "feature": "探針元素實測 display 過渡",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:animate-to-from-top-layer:2",
+     "feature": "探針實測, CSS.supports(overlay)",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:parallax-scroll-effects:2",
+     "feature": "@supports 加 (animation-range: entry)",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:prevent-page-scroll-under-modal-dialog:2",
+     "feature": "不用 @supports 偵測、直接當漸進增強",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-entry-exit-effects:2",
+     "feature": "@supports 加 (animation-range: entry)",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scrollytelling:2",
+     "feature": "@supports 加 (animation-range: 0% 100%)",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:agentic-forms:5",
+     "feature": "`toolactivated`／`toolcancel` 先偵測該掛在 `document.modelContext` 還是 `window`",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "JS patches in styling state",
+   "lines": [
+    {
+     "id": "mwg:child-state-based-styling",
+     "feature": ":has()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:content-based-styling",
+     "feature": ":has()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:dynamic-sibling-styling",
+     "feature": "sibling-index(), sibling-count()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:style-parent-with-has",
+     "feature": ":has(), :user-invalid",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:dynamic-sibling-animations",
+     "feature": "sibling-index() 乘上延遲",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:slider",
+     "feature": "用 progress() 與 attr() 在 CSS 裡算出滑桿的填色比例",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Cascade overrides don't match intent",
+   "lines": [
+    {
+     "id": "mwg:css",
+     "feature": ":not()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:css:2",
+     "feature": "@scope",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:css:3",
+     "feature": "針對元素類型的 reset",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:design-token-reactivity",
+     "feature": "container style queries",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:styling-web-components:2",
+     "feature": "公開的自訂屬性不要在 :host 上設值，用私有別名放預設",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:dark-mode-toggle",
+     "feature": "meta color-scheme + :root:has() 映射回 color-scheme",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:dialog:7",
+     "feature": "display 寫在 dialog[open]",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:menu:8",
+     "feature": "aria-checked 勾號選擇器提高特異度",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:progress:5",
+     "feature": "var(--progress-bar-animation, revert-rule)",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Shorthands or linked properties reset settings",
+   "lines": [
+    {
+     "id": "mwg:individual-transform-properties",
+     "feature": "translate, rotate, scale",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:carousel-slide-effects:2",
+     "feature": "animation-timeline 寫在簡寫之後",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-progress-indicator:2",
+     "feature": "animation-timeline 寫在簡寫之後",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:shrinking-header-on-scroll:4",
+     "feature": "animation-timeline 寫在簡寫之後",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:motion:4",
+     "feature": "獨立的 transition-behavior 宣告",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:parallax-scroll-effects:3",
+     "feature": "animation-timeline 寫在簡寫之後",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-entry-exit-effects:3",
+     "feature": "animation-timeline 寫在簡寫之後",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scrollytelling:3",
+     "feature": "animation-timeline 寫在簡寫之後",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:progress",
+     "feature": "<progress>, appearance: none, 廠商偽元素",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Stacking contexts change layering",
+   "lines": [
+    {
+     "id": "mwg:individual-transform-properties:2",
+     "feature": "恆等變換",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:card:4",
+     "feature": "單一 .card-link, 互動元素逐一 z-index: 1",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Clipping cuts off what it shouldn't",
+   "lines": [
+    {
+     "id": "mwg:overflow-clipping-control",
+     "feature": "overflow: clip, overflow-clip-margin",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:overflow-clipping-control:2",
+     "feature": "overflow-clip-margin: content-box",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:custom-text-decorations:5",
+     "feature": "border-shape, corner-shape",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:custom-text-decorations:6",
+     "feature": "background-clip: border-area",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:shaped-cutouts",
+     "feature": "遮罩套在相鄰裝飾元素, maskContentUnits=objectBoundingBox",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:css-layout:5",
+     "feature": "置中對齊加 safe，窄容器不裁掉焦點內容",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:css-layout:11",
+     "feature": "只要裁切用 overflow: clip，不要 hidden 或永遠顯示捲軸",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Style logic duplicated everywhere",
+   "lines": [
+    {
+     "id": "mwg:reduce-style-repetition",
+     "feature": "@function",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:selector-atrule-combinations",
+     "feature": "container style queries, 自訂屬性旗標",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:group-element-transitions",
+     "feature": "view-transition-class, ::view-transition-group(.class), :only-child",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:shadow-dom",
+     "feature": "大量實例共用一份 adoptedStyleSheets，不要每個實例各帶一份 <style>",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:dark-mode:3",
+     "feature": "light-dark() 色彩 token",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:dark-mode:5",
+     "feature": "light-dark() 圖片值, image-set() type() 退路",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Style rules hard-wired to structure",
+   "lines": [
+    {
+     "id": "mwg:usage-aware-component-variations",
+     "feature": "container style queries",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Unrecognized syntax invalidates the whole rule",
+   "lines": [
+    {
+     "id": "mwg:animated-select-picker:2",
+     "feature": "transition-behavior: allow-discrete",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:animate-element-entry-exit:3",
+     "feature": "獨立的 transition-behavior 宣告",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:animate-to-from-top-layer:3",
+     "feature": "獨立的 transition-behavior 宣告",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:declarative-dialog-popover-control:4",
+     "feature": "setAttribute(popover), :is(:popover-open, .\\:popover-open)",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:slider:2",
+     "feature": "WebKit 與 Firefox 的滑桿偽元素分開寫，不要放同一個選擇器清單",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:validate-input-after-interaction:5",
+     "feature": "fallback 選擇器用 :is() 包起來，擋掉一個不認得就整條失效",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:swipe-to-reveal:6",
+     "feature": "overscroll-behavior: auto 寫在 chain 前面",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:hovercard:10",
+     "feature": "獨立的 transition-behavior 宣告",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:persistent-toast-notifications:5",
+     "feature": "獨立的 transition-behavior 宣告",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:progress:2",
+     "feature": "-webkit-／-moz- 偽元素分開寫",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:scrollspy:3",
+     "feature": ":is(:target-current, .target-current)",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:dark-mode:6",
+     "feature": "作用中選項給空值、不寫 type(\"\")",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:visual-effects:2",
+     "feature": "用 `@supports` 設定的自訂屬性帶入插值空間，並保留非空的漸層前導",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Autofill fails",
+   "lines": [
+    {
+     "id": "mwg:autofill-address-form",
+     "feature": "autocomplete, address-line1/2",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-payment-form",
+     "feature": "autocomplete cc-*, shipping/billing 前綴",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form",
+     "feature": "autocomplete=\"username\"/\"current-password\", 固定 name/id",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form",
+     "feature": "autocomplete=\"username\"/\"new-password\", 固定 name/id",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:sms-otp-form",
+     "feature": "用 WebOTP 與綁網域的簡訊格式自動帶入驗證碼，擋掉切 app 抄碼",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sms-otp-form:3",
+     "feature": "驗證碼用單一欄位，不要拆成六個格子",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:html:9",
+     "feature": "登入、地址、付款欄位不要用 autocomplete=\"off\"，改給具體 token",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-payment-form:7",
+     "feature": "卡號與電話各用一個欄位，不拆成多格",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:forms:7",
+     "feature": "單一值不要拆成自動跳格的多欄位",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:forms:8",
+     "feature": "驗證欄位不要擋貼上或關 autocomplete",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Forms assume the wrong data shape",
+   "lines": [
+    {
+     "id": "mwg:autofill-address-form:2",
+     "feature": "單一姓名欄位, autocomplete=\"name\"",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-address-form:3",
+     "feature": "Unicode 正規表示式（\\p{L}）",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-payment-form:2",
+     "feature": "單一姓名欄位, autocomplete=\"name\"",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-payment-form:3",
+     "feature": "Unicode 正規表示式（\\p{L}）",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:2",
+     "feature": "spellcheck=\"false\", autocorrect, autocapitalize",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:3",
+     "feature": "單一姓名欄位, autocomplete=\"name\"",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:2",
+     "feature": "spellcheck=\"false\", autocorrect, autocapitalize",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:3",
+     "feature": "單一姓名欄位, autocomplete=\"name\"",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-payment-form:6",
+     "feature": "安全碼不要遮罩，讓使用者送出前檢查數字",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-payment-form:8",
+     "feature": "卡號 pattern 允許不同長度與空格",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:4",
+     "feature": "姓名驗證改用 Unicode 字母，不只收拉丁字母",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:6",
+     "feature": "登入不要求輸入兩次 email 或密碼",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:4",
+     "feature": "姓名驗證改用 Unicode 字母，不只收拉丁字母",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:6",
+     "feature": "註冊不要求輸入兩次 email 或密碼",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:agentic-forms:4",
+     "feature": "欄位互相連動、自訂元件或多步驟的表單不用宣告式 API",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:agentic-javascript-tools:3",
+     "feature": "inputSchema 的驗證與 default 都在 execute 裡處理",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "No browser support"
+    },
+    {
+     "id": "mwg:webmcp:2",
+     "feature": "schema 收原始輸入並寫清參數用途，降低代理猜錯",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "No browser support"
+    },
+    {
+     "id": "mwg:language-model:10",
+     "feature": "用 responseConstraint 的 JSON Schema 擋掉閒聊與解析失敗",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Hand-built controls lose native behavior",
+   "lines": [
+    {
+     "id": "mwg:brand-consistent-forms",
+     "feature": "accent-color",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:branded-select-styling",
+     "feature": "appearance: base-select, ::picker(select), <selectedcontent>",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:custom-select-picker-layouts",
+     "feature": "appearance: base-select, display: grid",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:2d-panning:3",
+     "feature": "scrollLeft/scrollTop",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:2d-panning:4",
+     "feature": "touch-action: pinch-zoom 只用在退路",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:drag:2",
+     "feature": "touch-action/user-select 只套把手, -webkit-user-select",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:light-dismiss-a-dialog",
+     "feature": "<dialog closedby=\"any\">, showModal()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:rich-media-picker",
+     "feature": "用 appearance: base-select 讓 option 放圖示與說明，擋掉「只能純文字、只好自製下拉」",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:switch",
+     "feature": "用 <input type=\"checkbox\" switch> 做原生開關",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:form-associated-custom-elements",
+     "feature": "用 formAssociated 與 ElementInternals 讓自訂控制項自己送值，不要藏一個 input",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:web-components",
+     "feature": "包住真正的 <button>，不要重做原生語意",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:5",
+     "feature": "登入資料放在真正的 form 裡，不靠 div 加 JS 才能送",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:5",
+     "feature": "註冊資料放在真正的 form 裡，不靠 div 加 JS 才能送",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:custom-select-picker-layouts:5",
+     "feature": "格狀選單用實際幾何補左右鍵，上下鍵仍走完整清單",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-remove",
+     "feature": "scroll-snap-type: x mandatory, IntersectionObserver 門檻",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:swipe-to-reveal",
+     "feature": "scroll-snap-type: x mandatory, grid 100% max-content",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:checkbox",
+     "feature": "accent-color, appearance: none + mask",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:checkbox:3",
+     "feature": "appearance: none 後用相對單位給尺寸",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:navigation-drawer",
+     "feature": "scroll-snap 開關, scroll-timeline + @property 背景暗度, IntersectionObserver",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:progress-ring",
+     "feature": "<progress>, conic-gradient(), attr(value type(<number>)), background-clip: border-area",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:spinner",
+     "feature": "無 value 的 <progress>, conic-gradient(), background-clip: border-area, @property initial-value 開關",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:stack-drill-down",
+     "feature": "scroll-snap-type, scrollsnapchange, snapTargetInline, pushState",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:stack-drill-down:10",
+     "feature": "<a href>, 放行修飾鍵點擊",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:browser-ui-theming",
+     "feature": "accent-color, color-scheme, scrollbar-color, ::selection, field-sizing, appearance: base-select",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:custom-text-decorations:2",
+     "feature": "真的 <a href> 取代 javascript:void(0)",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:forms:14",
+     "feature": "AJAX 表單保留 JS 失敗時的伺服器退路",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:accessibility:6",
+     "feature": "用原生 button，不用 div role=\"button\" 自己補行為",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Hidden preconditions of new features",
+   "lines": [
+    {
+     "id": "mwg:custom-select-picker-layouts:2",
+     "feature": "select:open::picker(select)",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:custom-select-picker-layouts:3",
+     "feature": "<button><selectedcontent>",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:lazy-load-video-and-audio:2",
+     "feature": "video 寫 width/height, audio 加 controls",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sanitize-untrusted-html:3",
+     "feature": "replaceWithChildrenElements, DOMPurify 設定對齊",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:highlight-text-ranges:3",
+     "feature": "CSS.highlights.clear()",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:highlight-text-ranges:4",
+     "feature": "::highlight() 允許的屬性",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:light-dismiss-a-dialog:3",
+     "feature": "closedby 搭配 showModal()",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-entry-exit-effects:4",
+     "feature": "entry 100%, exit 0% 明寫靜止值",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-target-on-load:4",
+     "feature": "同一容器只設一個目標、注意片段與 scroll-start 優先",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-remove:7",
+     "feature": "scroll-initial-target 包在 .is-initialized 裡",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:navigation-drawer:2",
+     "feature": "不用 closedby=any、自己判斷點在抽屜外",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:color:2",
+     "feature": "color-mix(in oklab), 亮度調整不超過 30%",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:equal-width-text-lines:2",
+     "feature": "per-line-all, 明確的 inline-size",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:improve-text-layout-and-legibility:4",
+     "feature": "有框元素不用 balance",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:typography:8",
+     "feature": "有背景或邊框的元素不用 `text-wrap: balance`",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:js:4",
+     "feature": "Promise.withResolvers()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Size doesn't follow content",
+   "lines": [
+    {
+     "id": "mwg:form-fields-automatically-fit-contents",
+     "feature": "field-sizing: content",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:form-fields-automatically-fit-contents:4",
+     "feature": "Grid／Flexbox 裡的自動尺寸欄位要取消預設拉伸",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:equal-width-text-lines",
+     "feature": "text-fit: grow per-line-all",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:typography:2",
+     "feature": "有文字的元件不設固定高度，改用 `min-block-size`",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Forms submit unintentionally",
+   "lines": [
+    {
+     "id": "mwg:forms",
+     "feature": "type=\"button\"",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:ime-safe-enter-submit",
+     "feature": "KeyboardEvent.isComposing, keyCode 229",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:ime-safe-enter-submit:2",
+     "feature": "preventDefault()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:sms-otp-form:4",
+     "feature": "自動取碼後用 requestSubmit()，不要用 form.submit()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:agentic-forms:2",
+     "feature": "不可逆、金流、對外發送與帳號設定的表單不加 `toolautosubmit`",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:forms:5",
+     "feature": "改選項不要自動送出表單",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Sensitive data leaks",
+   "lines": [
+    {
+     "id": "mwg:forms:2",
+     "feature": "method=\"POST\"",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:privacy",
+     "feature": "資料最小化（年齡區間、訪客結帳、差分隱私）",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:privacy:2",
+     "feature": "HttpOnly cookie",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:privacy:3",
+     "feature": "Clear-Site-Data",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:privacy:4",
+     "feature": "Referrer-Policy",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:privacy:5",
+     "feature": "速率限制",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:client-side-encryption",
+     "feature": "encapsulateKey(), MLKEM768-X25519, ChaCha20-Poly1305",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:restrict-outbound-connections",
+     "feature": "Connection-Allowlist",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:restrict-outbound-connections:3",
+     "feature": "CSP form-action, worker-src self",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:secure-external-subresources:5",
+     "feature": "referrerpolicy=no-referrer, Referrer-Policy",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:security:5",
+     "feature": "__Host- 前綴, HttpOnly",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:security:9",
+     "feature": "Sec-Fetch-* 先擋再驗證, Vary",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:security:11",
+     "feature": "Clear-Site-Data: cookies, storage, cache",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:search-hidden-content:4",
+     "feature": "敏感資料不放進 until-found 區塊",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:language-model:9",
+     "feature": "對話歷史存 localStorage 前先處理個資風險",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Wrong native control for the job",
+   "lines": [
+    {
+     "id": "mwg:forms:3",
+     "feature": "<input type=\"checkbox\">",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:sms-otp-form:2",
+     "feature": "驗證碼用 type=\"text\" 加 inputmode=\"numeric\"，不要用 type=\"number\"",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:autofill-payment-form:4",
+     "feature": "卡號用文字欄位加數字鍵盤，不用 type=\"number\"",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:dialog:3",
+     "feature": "<dialog popover>",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:forms:6",
+     "feature": "卡號、郵遞區號、OTP 用文字欄位加 inputmode",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Heavy work blocks the main thread",
+   "lines": [
+    {
+     "id": "mwg:break-up-long-tasks",
+     "feature": "scheduler.yield()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:defer-work-until-scroll-ends:2",
+     "feature": "scroll 只做輕量回饋, scrollend",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:interactions-in-complex-layouts",
+     "feature": "content-visibility: auto, contain: layout style paint",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:performance:4",
+     "feature": "scheduler.yield()",
+     "result": "Win",
+     "kind": "New capability",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:performance:5",
+     "feature": "contain: layout style paint, content-visibility: auto",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:schedule-tasks-by-priority",
+     "feature": "scheduler.postTask()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:equal-width-text-lines:4",
+     "feature": "先全部讀再全部寫, ResizeObserver",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:cpp-on-the-web:4",
+     "feature": "超過幾毫秒的 Wasm 計算移到 Worker、多執行緒，或拆成逐幀讓出",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:language-model:14",
+     "feature": "只送任務所需輸入，避免大資料讓本機模型像壞掉",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Performance measurement is skewed or blind",
+   "lines": [
+    {
+     "id": "mwg:calculate-total-foreground-time",
+     "feature": "visibility-state 效能條目",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:detect-initial-visibility-state",
+     "feature": "visibility-state 效能條目",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:identify-heavy-scripts",
+     "feature": "Long Animation Frames（PerformanceScriptTiming）",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:identify-inp-causes",
+     "feature": "Event Timing（INP 三段拆分）",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:identify-inp-causes:2",
+     "feature": "LoAF styleDuration/layoutDuration, forcedStyleDuration/forcedLayoutDuration",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:interaction-paint-timing",
+     "feature": "interaction-contentful-paint, soft-navigation",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:interaction-paint-timing:2",
+     "feature": "interactionId 配對, entry.duration",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:interaction-paint-timing:3",
+     "feature": "PerformanceObserver 持續接收",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Loading more than is needed",
+   "lines": [
+    {
+     "id": "mwg:conditional-async-dependencies",
+     "feature": "top-level await, 動態 import()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:deliver-optimized-decorative-images",
+     "feature": "image-set()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:lazy-load-video-and-audio",
+     "feature": "<video>/<audio> loading=\"lazy\"",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:performance:8",
+     "feature": "srcset + sizes, <picture>",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:performance:9",
+     "feature": "動態 import()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:resolution-optimized-pseudo-elements",
+     "feature": "image-set(), ::before/::after",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:cpp-on-the-web",
+     "feature": "用 `-sENVIRONMENT=web`、靜態連結與乾淨的發行設定，只出貨瀏覽器需要的程式碼",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Wrong lifecycle assumptions",
+   "lines": [
+    {
+     "id": "mwg:conditional-async-dependencies:2",
+     "feature": "單一入口, 串接 await import()",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:lazy-load-video-and-audio:3",
+     "feature": "不依賴 window load 事件",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:passkey-authentication:2",
+     "feature": "AbortController 中止條件式 get()",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:consistent-cross-document-transitions",
+     "feature": "blocking=\"render\", <link rel=\"expect\">",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:consistent-cross-document-transitions:2",
+     "feature": "<link rel=preload as=image>, width/height",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:consistent-cross-document-transitions:5",
+     "feature": "pagereveal, viewTransition.finished 後清名稱",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:motion:8",
+     "feature": "getAnimations() 為空時直接繼續",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:move-dom-element-without-losing-state:2",
+     "feature": "connectedMoveCallback()",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:accessible-web-components:3",
+     "feature": "tabIndex 在 connectedCallback 設，不要在 constructor 設",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:custom-elements:2",
+     "feature": "connectedCallback 要能重跑，teardown 寫在 disconnectedCallback",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:custom-elements:3",
+     "feature": "生命週期回呼與 observedAttributes 要在 define() 之前就寫好",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:custom-elements:4",
+     "feature": "升級時屬性可能已在、子節點可能還沒到，用 slotchange 與 attributeChangedCallback 補",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:shadow-dom:2",
+     "feature": "用 slotchange 與 assignedElements() 判斷 slot 有沒有內容",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:scroll-snap-realtime-feedback:2",
+     "feature": "載入時跑一次幾何計算同步初始狀態",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-remove:9",
+     "feature": "進入畫面才初始化, MutationObserver 接新列",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:dialog:4",
+     "feature": "讀完 returnValue 就重設為空字串",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:hovercard:11",
+     "feature": "@view-transition, :popover-open 內的 view-transition-name, blocking=render",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:menu:6",
+     "feature": "在 toggle 事件裡移焦點",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:navigation-drawer:3",
+     "feature": "先捲回、觀察器看到離開才 close()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:dark-mode:4",
+     "feature": "matchMedia 的 change 事件",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:cpp-on-the-web:3",
+     "feature": "開了記憶體成長時，每次 Wasm 呼叫後重新讀取 `HEAPU8`",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:agentic-javascript-tools:5",
+     "feature": "註銷與執行各用 AbortSignal，避免孤兒請求寫回舊畫面",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "No browser support"
+    },
+    {
+     "id": "mwg:agentic-javascript-tools:9",
+     "feature": "executeTool() 對舊 Chrome 保留 JSON 字串輸入退路",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "No browser support"
+    },
+    {
+     "id": "mwg:agentic-javascript-tools:10",
+     "feature": "React／Angular／Vue 用官方整合，不自己包工具生命週期",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "No browser support"
+    },
+    {
+     "id": "mwg:webmcp:3",
+     "feature": "回傳可重試錯誤，並等 UI 更新完才回應代理",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "No browser support"
+    },
+    {
+     "id": "mwg:webmcp:5",
+     "feature": "資料變得比代理反應快時不要暴露即時工具",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "No browser support"
+    },
+    {
+     "id": "mwg:language-model:8",
+     "feature": "監看 context 用量，避免舊訊息被靜默丟棄",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:language-model:12",
+     "feature": "不相干任務從乾淨 base session clone，不共用舊脈絡",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:language-model:13",
+     "feature": "用完的 session 明確 destroy() 釋放裝置記憶體",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Work spent on what nobody can see",
+   "lines": [
+    {
+     "id": "mwg:defer-rendering-heavy-content",
+     "feature": "content-visibility: auto",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:defer-rendering-heavy-content:4",
+     "feature": "content-visibility: hidden, @supports",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:efficient-background-processing",
+     "feature": "contentvisibilityautostatechange, content-visibility: auto",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:faster-spa-view-transitions",
+     "feature": "content-visibility: hidden",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:stack-drill-down:8",
+     "feature": "behavior: 'instant'（多步與前進）",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:stack-drill-down:13",
+     "feature": "修剪滑過的畫面只留網址",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Over-applied optimizations backfire",
+   "lines": [
+    {
+     "id": "mwg:defer-rendering-heavy-content:3",
+     "feature": "content-visibility: auto 只用在首屏以下",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:faster-spa-view-transitions:2",
+     "feature": "LRU 淘汰策略",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:flicker-free-client-side-ab-testing:2",
+     "feature": "小 stub, 分析腳本不加 blocking",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:performance:6",
+     "feature": "will-change 只在需要時加",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:consistent-cross-document-transitions:3",
+     "feature": "blocking=render 只用於首屏關鍵資源",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:improve-text-layout-and-legibility:3",
+     "feature": "balance／pretty 只套在需要的元素",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:typography:7",
+     "feature": "`balance`／`pretty` 只套在需要的元素，不套在 `*`",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:language-model:15",
+     "feature": "不用 maxLength 逼模型縮短，生成後由程式截斷",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Guessing when something has finished",
+   "lines": [
+    {
+     "id": "mwg:defer-work-until-scroll-ends",
+     "feature": "scrollend",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-completion-effects",
+     "feature": "await scrollIntoView()/scrollTo()/scrollBy()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-completion-effects:2",
+     "feature": "遞增操作 ID 擋掉過期效果",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Loading priority is misplaced",
+   "lines": [
+    {
+     "id": "mwg:deliver-optimized-decorative-images:2",
+     "feature": "<img>/<picture>, <link rel=preload media>",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:deprioritize-background-fetches",
+     "feature": "fetch() priority: 'low'",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:improve-next-page-load-performance",
+     "feature": "Speculation Rules（prefetch/prerender）",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:lazy-load-video-and-audio:4",
+     "feature": "首屏影片省略 loading",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:optimize-image-priority",
+     "feature": "fetchpriority=\"high\"/\"low\"",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:optimize-image-priority:2",
+     "feature": "fetchpriority 限量並避開 lazy 圖",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:optimize-preload-priority",
+     "feature": "<link rel=preload fetchpriority=\"high\">",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:optimize-preload-priority:2",
+     "feature": "預載限量, 正確的 as/type",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:optimize-script-priority",
+     "feature": "<script fetchpriority>",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:optimize-script-priority:2",
+     "feature": "fetchpriority 限量",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:out-of-order-html-streaming",
+     "feature": "<template for>, <?start>/<?marker>",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:performance",
+     "feature": "async/defer, 內嵌關鍵 CSS, <link media>",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:performance:2",
+     "feature": "LCP 圖寫在 HTML, fetchpriority=high",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:performance:3",
+     "feature": "fetchpriority 與預載限量",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:html:7",
+     "feature": "首屏主圖不要 loading=\"lazy\"，改給 fetchpriority=\"high\"",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:language-model:11",
+     "feature": "使用者意圖明確時先暖機，initialPrompts 在建立時給齊",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Non-bubbling events never arrive",
+   "lines": [
+    {
+     "id": "mwg:efficient-background-processing:2",
+     "feature": "直接掛監聽, { capture: true }",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:custom-button-actions:2",
+     "feature": "監聽掛在目標, { capture: true }",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:interest-triggered-tooltips:5",
+     "feature": "document 上捕獲 toggle 事件",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:hovercard:7",
+     "feature": "document 上 capture 的 toggle 監聽",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Content takes shape only after JS runs",
+   "lines": [
+    {
+     "id": "mwg:flicker-free-client-side-ab-testing",
+     "feature": "blocking=\"render\"",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:out-of-order-html-streaming:2",
+     "feature": "streamHTML(), setHTMLUnsafe()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "No browser support"
+    },
+    {
+     "id": "mwg:pull-to-reveal",
+     "feature": "scroll-initial-target: nearest",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:prerendering-custom-elements",
+     "feature": "用 Declarative Shadow DOM 從伺服器送出 shadow tree，擋掉等 JS 才有樣式的閃爍",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:scroll-target-on-load",
+     "feature": "scroll-initial-target: nearest",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-reveal:5",
+     "feature": "scroll-initial-target: nearest（雙側面板）",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:dark-mode-toggle:2",
+     "feature": "緊接 meta 的同步內嵌腳本",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Background sends are unreliable or excessive",
+   "lines": [
+    {
+     "id": "mwg:full-session-analytics",
+     "feature": "fetchLater(), AbortController",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:batch-analytics-events",
+     "feature": "用 fetchLater() 的 activateAfter 把一段時間內的事件併成一個 beacon",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Wrong arguments or formats throw",
+   "lines": [
+    {
+     "id": "mwg:full-session-analytics:2",
+     "feature": "縮小 payload, try/catch",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:client-side-encryption:3",
+     "feature": "raw-public/raw-seed/raw-secret 格式",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:digital-signatures:3",
+     "feature": "raw-public/raw-seed 格式",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:local-network-access:4",
+     "feature": "WebSocket 靠網址辨認",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:passkey-management:2",
+     "feature": "伺服器提供的 rpId",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:passkey-management:3",
+     "feature": "Base64URL 驗證, console.warn",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:passkey-registration:2",
+     "feature": "requireUserVerification: false",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:passkeys",
+     "feature": "伺服器決定的 RP ID",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:quick-sign-ins:2",
+     "feature": "登入頁改用條件式 UI",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sanitize-untrusted-html:4",
+     "feature": "RETURN_TRUSTED_TYPE",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:validate-origins:4",
+     "feature": "Origin.from(self), try/catch",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:verify-email-ownership:4",
+     "feature": "逐把試驗 JWKS 金鑰",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:batch-analytics-events:2",
+     "feature": "fetchLater() 有配額，要限制批次大小並包 try/catch",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Actions get triggered by accident",
+   "lines": [
+    {
+     "id": "mwg:improve-next-page-load-performance:2",
+     "feature": "document rule 的 not 排除",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-remove:5",
+     "feature": "有按鈕的列不讓軌道可聚焦, 復原提示",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:swipe-to-remove:8",
+     "feature": "退路捲動先於觀察器, ResizeObserver 補設",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:dialog:6",
+     "feature": "visibility 預留訊息空間, 破壞性按鈕放在不位移處",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:menu:5",
+     "feature": "clip-path 安全三角, --pointer-x/y, sign()",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:navigation-drawer:7",
+     "feature": "popover=manual",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:persistent-app-tours",
+     "feature": "popover=\"manual\", anchor-name, position-area",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:persistent-toast-notifications",
+     "feature": "popover=\"manual\", role=region 容器",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:stack-drill-down:14",
+     "feature": "overscroll-behavior-x: none",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:webmcp:4",
+     "feature": "高風險工具保留代理控制之外的人工確認",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "No browser support"
+    }
+   ]
+  },
+  {
+   "name": "Caching strategy misapplied",
+   "lines": [
+    {
+     "id": "mwg:performance:10",
+     "feature": "Service Worker 快取策略, 版本化",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:performance:11",
+     "feature": "Cache-Control: no-cache",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:language-model:17",
+     "feature": "重複輸入用本機快取，不重新跑相同推論",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Users tracked covertly",
+   "lines": [
+    {
+     "id": "mwg:privacy:6",
+     "feature": "façade 模式, 靜態分享連結",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:privacy:7",
+     "feature": "FedCM, CHIPS（Partitioned）",
+     "result": "Win",
+     "kind": "New capability",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:privacy:8",
+     "feature": "功能偵測, UA Client Hints",
+     "result": "Win",
+     "kind": "New capability",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Permission requests fired out of context",
+   "lines": [
+    {
+     "id": "mwg:privacy:9",
+     "feature": "<permission> 元素（PEPC）",
+     "result": "Win",
+     "kind": "New capability",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:local-network-access:2",
+     "feature": "permissions.query(), 使用者手勢觸發",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:language-model:4",
+     "feature": "需要下載模型時由使用者手勢呼叫 create()",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Migration loses user state",
+   "lines": [
+    {
+     "id": "mwg:migrate-web-app-origin",
+     "feature": "manifest migrate_from/migrate_to, web-app-origin-association",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Tampering goes undetected",
+   "lines": [
+    {
+     "id": "mwg:client-side-encryption:2",
+     "feature": "AEAD additionalData",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:digital-signatures",
+     "feature": "ML-DSA sign()/verify(), Ed25519",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:digital-signatures:2",
+     "feature": "ContextParams context",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:passkey-authentication:4",
+     "feature": "驗證等級存在伺服器工作階段",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:secure-external-subresources",
+     "feature": "integrity（SRI）, 版本固定網址",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:secure-external-subresources:3",
+     "feature": "CSS url() integrity()/cross-origin()/referrer-policy()",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:verify-email-ownership:3",
+     "feature": "伺服器端 SD-JWT 驗證, DNS 委派",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Legitimate connections blocked by security rules",
+   "lines": [
+    {
+     "id": "mwg:local-network-access",
+     "feature": "targetAddressSpace, local-network/loopback-network 權限",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:local-network-access:5",
+     "feature": "iframe allow, Permissions-Policy",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:restrict-outbound-connections:2",
+     "feature": "RFC 9651 Inner List, redirects=allow",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:secure-external-subresources:2",
+     "feature": "crossorigin=anonymous",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:security:4",
+     "feature": "HSTS max-age 逐步拉長",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:security:6",
+     "feature": "SameSite=None; Secure; Partitioned",
+     "result": "Win",
+     "kind": "New capability",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:security:7",
+     "feature": "frame-ancestors, 省略 X-Frame-Options",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:security:8",
+     "feature": "Document-Isolation-Policy: isolate-and-credentialless",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:security:10",
+     "feature": "動態 Access-Control-Allow-Origin",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:security:12",
+     "feature": "SRI 只用於有版本的資源",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:trusted-types:2",
+     "feature": "Report-Only, 暫時的 default 政策",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:icons:6",
+     "feature": "內嵌 SVG + <use href=#id>",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:agentic-javascript-tools:2",
+     "feature": "跨框架工具要 exposedTo 與 fromOrigins 雙向授權",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "No browser support"
+    }
+   ]
+  },
+  {
+   "name": "Sign-in interrupts the user",
+   "lines": [
+    {
+     "id": "mwg:passkey-authentication",
+     "feature": "mediation: conditional, getClientCapabilities()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:passkey-conditional-create",
+     "feature": "create() 的 mediation: conditional",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:quick-sign-ins",
+     "feature": "uiMode: immediate, password: true",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:verify-email-ownership",
+     "feature": "autocomplete=email-verification-token, Email Verification Protocol",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Credential state gets out of sync",
+   "lines": [
+    {
+     "id": "mwg:passkey-authentication:3",
+     "feature": "signalUnknownCredential()",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:passkey-conditional-create:2",
+     "feature": "signalUnknownCredential()",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:passkey-management",
+     "feature": "signalAllAcceptedCredentials(), signalCurrentUserDetails()",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:passkey-registration",
+     "feature": "excludeCredentials",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Verifying the wrong identity",
+   "lines": [
+    {
+     "id": "mwg:passkey-reauthentication",
+     "feature": "allowCredentials, 伺服器核對擁有者",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:passkeys:2",
+     "feature": "AAGUID 只做 UX 提示",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:quick-sign-ins:4",
+     "feature": "重新驗證用 allowCredentials",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:validate-origins",
+     "feature": "Origin.from(), isSameOrigin()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:validate-origins:2",
+     "feature": "isSameSite()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:validate-origins:3",
+     "feature": "Origin.from(event), new Origin()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:verify-email-ownership:2",
+     "feature": "伺服器端 nonce, Cache-Control: no-store",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:motion:7",
+     "feature": "event.animation",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:agentic-javascript-tools:7",
+     "feature": "除錯工具用 annotations.debugging 與使用者工具分開",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "No browser support"
+    }
+   ]
+  },
+  {
+   "name": "Defenses configured into no-ops",
+   "lines": [
+    {
+     "id": "mwg:secure-external-subresources:4",
+     "feature": "分開的 @font-face src 宣告",
+     "result": "Stalemate",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:security",
+     "feature": "CSP nonce, 'strict-dynamic'",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:security:2",
+     "feature": "樣板渲染時發 nonce",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:trusted-types:3",
+     "feature": "textContent, 完整清理器",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:agentic-javascript-tools:6",
+     "feature": "consequentialHint 之外仍保留應用程式自己的確認",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "No browser support"
+    }
+   ]
+  },
+  {
+   "name": "Scroll-linked effects rely on JS listeners",
+   "lines": [
+    {
+     "id": "mwg:carousel-slide-effects",
+     "feature": "view(), view-timeline",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scrollability-affordance-hints",
+     "feature": "container-type: scroll-state, scroll(self) 遮罩",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-position-aware-elements",
+     "feature": "scroll-state(scrollable: top)",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scroll-progress-indicator",
+     "feature": "scroll(), scroll-timeline",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:shrinking-header-on-scroll",
+     "feature": "scroll(block root), animation-range",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:state-aware-sticky-headers",
+     "feature": "scroll-state(stuck: top)",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:carousel-snap-highlights",
+     "feature": "container-type: scroll-state, scroll-state(snapped)",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:motion:2",
+     "feature": "animation-timeline: scroll()",
+     "result": "Win",
+     "kind": "New capability",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:parallax-scroll-effects",
+     "feature": "view-timeline, sibling-index(), animation-range",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-entry-exit-effects",
+     "feature": "view(), animation-range: entry/exit, timeline-range 關鍵影格",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-snap-state-sync",
+     "feature": "scrollsnapchange, snapTargetBlock",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scrollytelling",
+     "feature": "具名 view-timeline, timeline-scope, animation-range",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scrollspy",
+     "feature": "scroll-target-group: auto, :target-current",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:stack-drill-down:12",
+     "feature": "animation-timeline: view(inline), animation-range",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:content-first-noise-reduction",
+     "feature": "container-type: scroll-state, scroll-state(scrolled: bottom)",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Theme colors don't match their context",
+   "lines": [
+    {
+     "id": "mwg:component-specific-light-dark-theme",
+     "feature": "color-scheme, light-dark()",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:component-specific-light-dark-theme:2",
+     "feature": "重新指定繼承的顏色屬性",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:component-specific-light-dark-theme:3",
+     "feature": "只在有背景的區塊設 color-scheme",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:component-specific-light-dark-theme:4",
+     "feature": "網址參數, postMessage() 傳配色",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:dark-mode-toggle:4",
+     "feature": "prefers-color-scheme + :root:has(meta) 分支",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:contrast-color",
+     "feature": "contrast-color(), color(from … xyz-d65) 退路",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:dark-mode",
+     "feature": "<meta name=color-scheme>",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:dark-mode:2",
+     "feature": "color-scheme 設在 :root",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "Icon styling can't reach the icon",
+   "lines": [
+    {
+     "id": "mwg:icons",
+     "feature": "@container style(), @property, mask + currentColor",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:icons:7",
+     "feature": "symbol 內的 var() 掛鉤, CSS d",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:visual-effects:3",
+     "feature": "條紋、棋盤、圓點、圓餅用 CSS 漸層畫，不用 SVG 或外部圖檔",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Inheritance reaches further or less far than expected",
+   "lines": [
+    {
+     "id": "mwg:icons:2",
+     "feature": "@property inherits: false",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:styling-web-components:3",
+     "feature": "包住原生控制項時設 font: inherit",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Relative URLs resolve against the wrong base",
+   "lines": [
+    {
+     "id": "mwg:icons:3",
+     "feature": "根相對網址, <url> 語法註冊",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Browser implementation bugs",
+   "lines": [
+    {
+     "id": "mwg:icons:8",
+     "feature": "Safari 專用 @supports, @layer 補丁",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-completion-effects:4",
+     "feature": "不為 Chrome 根捲動器 bug 多包捲動容器",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:visual-effects",
+     "feature": "漸層與 `color-mix()` 明確指定插值色彩空間，預設 `in oklab`",
+     "result": "Win",
+     "kind": "New capability",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Visual change without semantics or focus",
+   "lines": [
+    {
+     "id": "mwg:pull-to-reveal:2",
+     "feature": "element.focus()",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:carousel-snap-highlights:2",
+     "feature": "吸附高亮只當視覺效果",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:highlight-text-ranges:2",
+     "feature": "有意義的標示用 <mark>",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scroll-target-on-load:2",
+     "feature": "另外呼叫 element.focus()",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Logical and physical directions out of sync",
+   "lines": [
+    {
+     "id": "mwg:scrollability-affordance-hints:4",
+     "feature": ":dir(rtl) 翻轉漸層",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Native scroll gestures don't fit the use",
+   "lines": [
+    {
+     "id": "mwg:2d-panning",
+     "feature": "scroll-axis-lock: none",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:2d-panning:2",
+     "feature": "overscroll-behavior: none/contain",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:prevent-page-scroll-under-modal-dialog",
+     "feature": "overscroll-behavior: contain（dialog:modal 與 ::backdrop）, ::backdrop overflow: hidden",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-remove:2",
+     "feature": "overscroll-behavior-x: none",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-remove:3",
+     "feature": "scroll-snap-type: x mandatory",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:swipe-to-reveal:2",
+     "feature": "overscroll-behavior: chain",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:swipe-to-reveal:3",
+     "feature": "scroll-snap-type: x mandatory",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:dialog:2",
+     "feature": "overscroll-behavior: contain（dialog:modal 與 ::backdrop）",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:accessibility:19",
+     "feature": "自訂手勢不要用 touch-action: none 鎖死整塊捲動",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Transitions skipped or broken",
+   "lines": [
+    {
+     "id": "mwg:consistent-cross-document-transitions:4",
+     "feature": "唯一的 view-transition-name",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:group-element-transitions:2",
+     "feature": "::view-transition { pointer-events: none }, :root view-transition-name: none",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:same-document-transitions:2",
+     "feature": "唯一的 view-transition-name、finished 後清除",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:same-document-transitions:4",
+     "feature": "width: fit-content, ::view-transition-old/new height: 100%",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:scoped-component-transitions",
+     "feature": "element.startViewTransition(), view-transition-name: match-element, view-transition-scope",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scoped-component-transitions:3",
+     "feature": "transition.ready.catch()",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scoped-component-transitions:4",
+     "feature": "範圍元素保留自我參與（不設 view-transition-name: none）",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:scoped-component-transitions:5",
+     "feature": "具名 wrapper, view-transition-scope: all",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Two mechanisms acting twice",
+   "lines": [
+    {
+     "id": "mwg:declarative-dialog-popover-control:2",
+     "feature": "popovertarget 與 commandfor 擇一",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:agentic-forms:3",
+     "feature": "Angular Signal Forms 用 `experimentalWebMcpTool` 選項，不再加 `toolname`",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "No guard for unsupported browsers",
+   "lines": [
+    {
+     "id": "mwg:directional-navigation-transitions:2",
+     "feature": "偵測 startViewTransition 後再呼叫",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:interest-triggered-tooltips:6",
+     "feature": "beforetoggle 裡改成 popover=auto",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:dialog:8",
+     "feature": "cancel 監聽保護未存修改, request-close",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:navigation-drawer:4",
+     "feature": "@supports (animation-timeline: scroll()) 包住整塊",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:stack-drill-down:11",
+     "feature": "@supports (animation-timeline: view())",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:content-first-noise-reduction:5",
+     "feature": "popovertarget, 偵測後才載 invokers-polyfill",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Popups interfere with each other",
+   "lines": [
+    {
+     "id": "mwg:interest-triggered-tooltips",
+     "feature": "popover=\"hint\", interestfor, 隱式錨點",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:light-dismiss-a-dialog:2",
+     "feature": "元件自行攔截 Esc",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:hovercard:2",
+     "feature": "popover=\"hint\"",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:menu:7",
+     "feature": "stopPropagation(), 關閉前先聚焦觸發項目",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    }
+   ]
+  },
+  {
+   "name": "Easing curves limited to simple shapes",
+   "lines": [
+    {
+     "id": "mwg:physics-based-easing",
+     "feature": "linear() 多停點緩動",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "Familiar platform controls have no effect",
+   "lines": [
+    {
+     "id": "mwg:platform-controls-dismiss-dialog",
+     "feature": "showModal(), closedby",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:spatial-navigation",
+     "feature": "沒有候選時不 preventDefault()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:stack-drill-down:4",
+     "feature": "history.go() 同步, 深層連結補根項目, popstate 不 pushState",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Accessible names hide visible text",
+   "lines": [
+    {
+     "id": "mwg:rich-media-picker:3",
+     "feature": "不要在 option 上加 aria-label 覆寫文字",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:form-associated-custom-elements:3",
+     "feature": "不要用 ElementInternals 直接給可及名稱",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "Popovers cover instructions",
+   "lines": [
+    {
+     "id": "mwg:sms-otp-form:5",
+     "feature": "格式提示放在欄位上方，擋掉被自動填入浮層和鍵盤蓋住",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:validate-input-after-interaction:4",
+     "feature": "格式提示與密碼規則放在欄位上方",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-payment-form:5",
+     "feature": "付款格式提示放在欄位上方",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-sign-in-form:7",
+     "feature": "登入欄位與送出鈕放在手機鍵盤遮不到的位置",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:autofill-sign-up-form:7",
+     "feature": "註冊欄位與送出鈕放在手機鍵盤遮不到的位置",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:persistent-app-tours:4",
+     "feature": "調整提示位置或關閉提示",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:forms:16",
+     "feature": "多步驟表單避免手機鍵盤遮住欄位與按鈕",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Encapsulation boundaries break relationships",
+   "lines": [
+    {
+     "id": "mwg:accessible-web-components",
+     "feature": "用 ariaLabelledByElements 等元素參照跨過 shadow 邊界，擋掉 id 參照默默失效",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:styling-web-components:4",
+     "feature": ":host 的樣式不會傳到內部控制項，用 ::part 或自訂屬性轉交",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    },
+    {
+     "id": "mwg:web-components:2",
+     "feature": "shadow root 用 open 模式",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:spatial-navigation:4",
+     "feature": "e.composedPath()[0]",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Betting on features that will not ship",
+   "lines": [
+    {
+     "id": "mwg:styling-web-components",
+     "feature": "用繼承的自訂屬性做主題，不要用 :host-context()",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:web-components:3",
+     "feature": "不要用自訂內建元素（is=\"…\"）",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "The time model misrepresents reality",
+   "lines": [
+    {
+     "id": "mwg:calculate-event-differentials",
+     "feature": "用 ZonedDateTime 的 since()／until() 算時間差，不用 Date 毫秒相減",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:calculate-event-differentials:2",
+     "feature": "用 Intl.DurationFormat 輸出在地化時長，不要手拼單位字串",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:capture-location-agnostic-data",
+     "feature": "生日、鬧鐘這類日期用 Temporal.PlainDate／PlainTime，擋掉跨時區少一天",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:capture-location-agnostic-data:2",
+     "feature": "信用卡到期、年度紀念日用 PlainYearMonth／PlainMonthDay，不要塞假的日",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:capture-location-agnostic-data:3",
+     "feature": "時區用 IANA 名稱，不要用固定的 UTC 偏移",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:coordinate-global-events",
+     "feature": "用 ZonedDateTime 的 disambiguation 偵測日光節約跳過或重複的時刻",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sort-high-precision-timestamps",
+     "feature": "用 Temporal.Instant 解析奈秒時間戳，擋掉同一毫秒內的事件排序錯亂",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:sort-high-precision-timestamps:2",
+     "feature": "間隔保持 Temporal.Duration 再格式化，不要轉成奈秒數字",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    },
+    {
+     "id": "mwg:support-global-calendar-systems:2",
+     "feature": "用 monthsInYear、monthCode，不要假設一年 12 個月",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Feedback lags behind the gesture",
+   "lines": [
+    {
+     "id": "mwg:scroll-snap-realtime-feedback",
+     "feature": "scrollsnapchanging, scrollsnapchange, snapTargetInline",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Limited"
+    }
+   ]
+  },
+  {
+   "name": "Clipping only gives hard edges",
+   "lines": [
+    {
+     "id": "mwg:complex-shapes",
+     "feature": "mask-image, SVG <mask>, mask-type",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
+    }
+   ]
+  },
+  {
+   "name": "Boundary crossings consume performance",
+   "lines": [
+    {
+     "id": "mwg:cpp-on-the-web:2",
+     "feature": "Wasm 入口一次處理整塊緩衝區，不逐像素跨越 JS 邊界",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Native assumptions survive porting",
+   "lines": [
+    {
+     "id": "mwg:cpp-on-the-web:5",
+     "feature": "深度遞迴改成迴圈或加大 `-sSTACK_SIZE`，開發時用 `-sASSERTIONS` 驗證",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  },
+  {
+   "name": "Page capabilities are opaque to agents",
+   "lines": [
+    {
+     "id": "mwg:agentic-forms",
+     "feature": "用 `toolname`／`tooldescription` 把一般 `<form>` 變成代理可呼叫的 WebMCP 工具",
+     "result": "Win",
+     "kind": "New capability",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:agentic-javascript-tools",
+     "feature": "用 registerTool() 依路由與使用者狀態註冊頁面工具",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "No browser support"
+    },
+    {
+     "id": "mwg:agentic-javascript-tools:8",
+     "feature": "getTools()／executeTool() 給頁內代理與測試，不是暴露工具的必要步驟",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "No browser support"
+    },
+    {
+     "id": "mwg:webmcp",
+     "feature": "用瀏覽器分頁當工具註冊表，不架後端 MCP transport",
+     "result": "Stalemate",
+     "kind": "New capability",
+     "level": "No browser support"
+    }
+   ]
+  },
+  {
+   "name": "Hand-rolled workarounds silently corrupt data",
+   "lines": [
+    {
+     "id": "mwg:js",
+     "feature": "structuredClone()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:js:2",
+     "feature": "toSorted(), toReversed(), toSpliced(), with(), findLast(), findLastIndex()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:js:3",
+     "feature": "Object.groupBy(), Map.groupBy()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:js:6",
+     "feature": "URLSearchParams",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:js:7",
+     "feature": "TextDecoder, TextEncoder",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    },
+    {
+     "id": "mwg:js:8",
+     "feature": "replaceChildren()",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "N/A"
+    }
+   ]
+  }
+ ]
+}
