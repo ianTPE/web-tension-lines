@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Automatic Text Contrast · contrast-color()</title>
+<meta name="description" content="Change the background to any color and contrast-color() picks black or white text automatically">
+<link rel="stylesheet" href="../../../demos/demo.css">
+<style>
+.picker{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;margin:0 0 1rem}
+.picker input[type=color]{inline-size:3rem;block-size:2.2rem;border:1px solid var(--line);border-radius:6px;background:none;padding:2px}
+.swatches{display:flex;flex-wrap:wrap;gap:.35rem}
+.swatches button{inline-size:1.8rem;block-size:1.8rem;border-radius:50%;border:2px solid var(--card);outline:1px solid var(--line);cursor:pointer;background:var(--c)}
+.preview{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:.6rem}
+.chip{--bg:#e02424;background-color:var(--bg);border-radius:10px;padding:1rem;font-weight:600;
+  /* Fallback: relative color in XYZ space picks black or white from the WCAG luminance threshold */
+  --wcag-y-threshold:.17913;
+  --y:max(0, sign(var(--wcag-y-threshold) - y));
+  color:color(from var(--bg) xyz-d65 calc(var(--y) * .9505) var(--y) calc(var(--y) * 1.089));
+}
+@supports (color: contrast-color(red)){.chip{color:contrast-color(var(--bg))}}
+.chip small{display:block;font-weight:400;opacity:.85}
+</style></head><body><main>
+<p class="nav"><a href="../">← All demos</a> · <a href="../../ideas/">Ideas</a> · <a href="../../#mwg--contrast-color">View line</a> · <a href="../../../demos/contrast-color/">繁體中文</a></p>
+<h1>Automatic text contrast with <code>contrast-color()</code></h1>
+<p class="lead">Change the background and the text picks whichever of black or white contrasts better. Useful for user-customizable labels, theme colors, or anywhere the background color isn't known in advance.</p>
+<p class="support" id="support"></p>
+<div class="stage">
+  <div class="picker">
+    <label>Pick a color <input type="color" id="c" value="#e02424"></label>
+    <div class="swatches" role="group" aria-label="Preset colors"></div>
+  </div>
+  <div class="preview" id="preview"></div>
+</div>
+<h2>How it works</h2>
+<pre><code>.chip {
+  background-color: var(--bg);
+  color: contrast-color(var(--bg));
+}</code></pre>
+<p>Previously you converted the color to luminance in JavaScript and computed the contrast yourself, or hand-wrote a text color for every theme color. With theme switching or user-chosen colors, unreadable combinations slipped through easily.</p>
+<h2>Without support</h2>
+<ul class="notes">
+  <li>Relative color syntax computes black or white in the XYZ D65 color space from the WCAG luminance threshold, with the same result. That is what this page does in browsers without support.</li>
+  <li>Use <code>contrast-color()</code> only for foreground colors such as text, never for the background.</li>
+</ul>
+<footer>Adapted from the modern-web-guidance guide <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/visual-design/contrast-color.md">contrast-color</a> (CC-BY 4.0).</footer>
+</main>
+<script>
+const ok = CSS.supports("color", "contrast-color(red)");
+const s = document.getElementById("support");
+s.textContent = ok ? "Your browser supports contrast-color()" : "Your browser doesn't support contrast-color(); this is the relative-color fallback";
+s.className = "support " + (ok ? "ok" : "no");
+
+const preview = document.getElementById("preview"), input = document.getElementById("c");
+const labels = ["New", "Done", "In review", "Urgent"];
+const sw = ["#e02424", "#fbbf24", "#2f5d50", "#bfdbfe", "#7c3aed", "#f5f5f4", "#111827", "#22c55e"];
+document.querySelector(".swatches").innerHTML = sw.map(c => `<button type="button" style="--c:${c}" data-c="${c}" aria-label="${c}"></button>`).join("");
+function paint(base) {
+  // One hue at four lightnesses, to watch the text flip between dark and light
+  const mixes = [["white", 60], ["white", 25], ["black", 0], ["black", 45]];
+  preview.innerHTML = mixes.map(([m, pct], i) =>
+    `<div class="chip" style="--bg: color-mix(in oklab, ${base}, ${m} ${pct}%)">${labels[i]}<small>${m === "white" ? "+ white" : pct ? "+ black" : "original"} ${pct}%</small></div>`).join("");
+}
+input.oninput = () => paint(input.value);
+document.querySelector(".swatches").onclick = e => { const b = e.target.closest("button"); if (b) { input.value = b.dataset.c; paint(b.dataset.c); } };
+paint(input.value);
+</script>
+</body></html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scroll Entry and Exit · view()</title>
+<meta name="description" content="Cards rise in as they scroll into view and fade out as they leave, driven by a view() timeline instead of scroll listeners">
+<link rel="stylesheet" href="../../../demos/demo.css">
+<style>
+.scroller{block-size:26rem;overflow-y:auto;border-radius:10px;background:var(--soft);padding:9rem 1rem;display:grid;gap:1rem}
+.scroller > .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1rem 1.1rem;min-block-size:7rem}
+.card b{display:block;font-size:1.05rem}
+.card span{color:var(--mute);font-size:.9rem}
+@media (prefers-reduced-motion: no-preference){
+  /* Also check animation-range to rule out browsers with partial support */
+  @supports ((animation-timeline: view()) and (animation-range: entry)){
+    @keyframes rise-and-fade{
+      entry 0%{opacity:0;scale:.85;translate:0 2rem}
+      /* Spell out the resting state, or it interpolates from entry 0% straight to exit 100% */
+      entry 100%,exit 0%{opacity:1;scale:1;translate:0 0}
+      exit 100%{opacity:0;scale:.92;translate:0 -1rem}
+    }
+    .scroller > .card{
+      animation:rise-and-fade auto linear both;
+      /* After the animation shorthand, so the shorthand doesn't reset it */
+      animation-timeline:view();
+    }
+  }
+}
+</style></head><body><main>
+<p class="nav"><a href="../">← All demos</a> · <a href="../../ideas/">Ideas</a> · <a href="../../#mwg--scroll-entry-exit-effects">View line</a> · <a href="../../../demos/scroll-entry-exit/">繁體中文</a></p>
+<h1>Scroll entry and exit with <code>view()</code></h1>
+<p class="lead">Scroll inside the box below. Cards grow in as they enter and shrink away as they leave. The animation's progress is tied directly to each card's position in the scroll area: it plays as far as you scroll, and runs backwards when you scroll back.</p>
+<p class="support" id="support"></p>
+<div class="stage">
+  <div class="scroller" tabindex="0" aria-label="Scrollable list of cards">
+    <div class="card"><b>Scroll snap</b><span>Carousels that stop on a whole card</span></div>
+    <div class="card"><b>Container queries</b><span>Components change layout based on their own width</span></div>
+    <div class="card"><b>Anchor positioning</b><span>Popups that stay attached to their trigger</span></div>
+    <div class="card"><b>View transitions</b><span>Elements move smoothly between page states</span></div>
+    <div class="card"><b>:has()</b><span>Style a parent from its children's state</span></div>
+    <div class="card"><b>popover</b><span>Popups with no JavaScript</span></div>
+    <div class="card"><b>light-dark()</b><span>Light and dark colors in one line</span></div>
+    <div class="card"><b>sibling-index()</b><span>Stagger animations by position</span></div>
+  </div>
+</div>
+<h2>How it works</h2>
+<pre><code>@keyframes rise-and-fade {
+  entry 0%            { opacity: 0; scale: .85; }
+  entry 100%, exit 0% { opacity: 1; scale: 1; }
+  exit 100%           { opacity: 0; scale: .92; }
+}
+.card {
+  animation: rise-and-fade auto linear both;
+  animation-timeline: view();
+}</code></pre>
+<p><code>view()</code> creates a timeline that follows how visible this element is in its scroll area; <code>entry</code> and <code>exit</code> are the stretches where it comes in and goes out. Previously this took an <code>IntersectionObserver</code> or a scroll listener, computing on the main thread on every scroll.</p>
+<h2>Without support</h2>
+<ul class="notes">
+  <li>A script uses <code>IntersectionObserver</code> to scale cards by how visible they are. The effect is close, but it runs on the main thread.</li>
+  <li>When the system asks for reduced motion, the cards stay still.</li>
+</ul>
+<footer>Adapted from the modern-web-guidance guide <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-entry-exit-effects.md">scroll-entry-exit-effects</a> (CC-BY 4.0).</footer>
+</main>
+<script>
+const ok = CSS.supports("(animation-timeline: view()) and (animation-range: entry)");
+const s = document.getElementById("support");
+s.textContent = ok ? "Your browser supports scroll-driven animations; this is the native effect" : "Your browser doesn't support scroll-driven animations; this is the IntersectionObserver fallback";
+s.className = "support " + (ok ? "ok" : "no");
+// The fallback also runs only when the user hasn't asked for reduced motion
+if (!ok && matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+  const io = new IntersectionObserver(es => {
+    for (const e of es) { e.target.style.scale = 0.85 + e.intersectionRatio * 0.15; e.target.style.opacity = 0.3 + e.intersectionRatio * 0.7; }
+  }, { root: document.querySelector(".scroller"), threshold: Array.from({ length: 21 }, (_, i) => i / 20) });
+  document.querySelectorAll(".scroller > .card").forEach(el => io.observe(el));
+}
+</script>
+</body></html>

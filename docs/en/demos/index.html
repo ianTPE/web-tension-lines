@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Demos · New Capabilities to Try</title>
+<meta name="description" content="New capabilities you can use today, each as a minimal example you can try right in the browser">
+<link rel="stylesheet" href="../../demos/demo.css">
+<style>
+main{max-width:60rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(16rem,1fr));gap:.75rem;margin-top:1rem}
+.grid a{display:flex;flex-direction:column;gap:.3rem;text-decoration:none;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem}
+.grid a:hover{border-color:var(--accent)}
+.grid b{font-size:1.02rem}
+.grid code{color:var(--accent);font-size:.85rem}
+.grid span{color:var(--mute);font-size:.9rem}
+h2{margin-top:2rem}
+</style></head><body><main>
+<p class="nav"><a href="../">← All problem lines</a> · <a href="../ideas/">Ideas</a> · <a href="../graph/">Opponent graph</a> · <a href="../../demos/">繁體中文</a></p>
+<h1>New capabilities you can try</h1>
+<p class="lead">The most visual of the “use it today” capabilities from the ideas page, each as a minimal example. Every page first checks whether your browser supports the feature, shows the fallback when it doesn't, and includes the key code.</p>
+<div class="grid">
+  <a href="stagger/"><b>Staggered entry</b><code>sibling-index()</code><span>List items slide in one after another, no JS delays</span></a>
+  <a href="tab-underline/"><b>Sliding tab underline</b><code>anchor-name / anchor()</code><span>Click a tab and the underline slides under it</span></a>
+  <a href="scroll-entry-exit/"><b>Scroll entry and exit</b><code>animation-timeline: view()</code><span>Cards rise in as they enter and fade as they leave</span></a>
+  <a href="accordion/"><b>Animated accordion</b><code>::details-content</code><span>Native details with an animation, still searchable when closed</span></a>
+  <a href="contrast-color/"><b>Automatic text contrast</b><code>contrast-color()</code><span>Change the background; text picks black or white</span></a>
+  <a href="invoker-commands/"><b>Declarative buttons</b><code>command / commandfor</code><span>Open and close dialogs without JS, plus custom commands</span></a>
+  <a href="hovercard/"><b>Hovercard</b><code>interestfor / position-area</code><span>A preview card anchored to its link that flips when it won't fit</span></a>
+  <a href="light-dark/"><b>Light and dark tokens</b><code>light-dark()</code><span>Define both schemes in one line and switch them together</span></a>
+</div>
+<h2>Built for this repo</h2>
+<div class="grid">
+  <a href="../../demos/ledger-chart/"><b>Opponent group chart (Chinese)</b><code>HTML-in-Canvas</code><span>Labels are real DOM drawn into a canvas: searchable and exportable (Chrome 157+ for now)</span></a>
+</div>
+<footer>Examples adapted from guides in GoogleChrome/modern-web-guidance (CC-BY 4.0).</footer>
+</main></body></html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Animated Accordion · ::details-content</title>
+<meta name="description" content="Native details with an open and close animation, while collapsed content stays findable with Ctrl+F">
+<link rel="stylesheet" href="../../../demos/demo.css">
+<style>
+.accordion details{border-top:1px solid var(--line)}
+.accordion details:last-child{border-bottom:1px solid var(--line)}
+summary{list-style:none;display:flex;align-items:center;gap:.5ch;padding:.7rem .2rem;cursor:pointer;font-weight:600}
+summary::-webkit-details-marker{display:none}
+/* A custom chevron placed right before the label text */
+summary::before{content:"";inline-size:.9em;block-size:.9em;flex-shrink:0;background-color:currentColor;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center/contain;
+  rotate:-90deg}
+summary:dir(rtl)::before{rotate:90deg}
+details[open] > summary::before{rotate:0deg}
+details::details-content{
+  /* Lets block-size transition between 0 and the content's real height */
+  interpolate-size:allow-keywords;overflow:clip;contain:layout;
+}
+details:not([open])::details-content{block-size:0}
+@media (prefers-reduced-motion: no-preference){
+  summary::before{transition:rotate .2s}
+  details::details-content{
+    transition:block-size,content-visibility,display;transition-duration:.3s;transition-timing-function:ease-in-out;
+    /* A separate declaration: inside the transition shorthand, older browsers drop the whole transition */
+    transition-behavior:allow-discrete;
+  }
+}
+.accordion p{margin:0 0 .9rem 1.4rem;color:var(--mute)}
+.tip{background:var(--soft);border-radius:8px;padding:.6rem .8rem;font-size:.92rem}
+</style></head><body><main>
+<p class="nav"><a href="../">← All demos</a> · <a href="../../ideas/">Ideas</a> · <a href="../../#mwg--accordion--3">View line</a> · <a href="../../../demos/accordion/">繁體中文</a></p>
+<h1>Animated accordion with <code>::details-content</code></h1>
+<p class="lead">A native <code>&lt;details&gt;</code> gets an open and close height animation from a few lines of CSS. Collapsed content isn't <code>display: none</code>, so find-in-page still finds it and opens the item on a match.</p>
+<p class="support" id="support"></p>
+<div class="stage">
+  <p class="tip">Try it: collapse everything, then press Ctrl+F (⌘F on a Mac) and search for “<b>hidden answer</b>”.</p>
+  <section class="accordion" aria-label="Frequently asked questions">
+    <details><summary>What does this repo do?</summary><p>It breaks new modern-web-guidance guides into problem lines: action, opponent, fallback, and unlock.</p></details>
+    <details><summary>What's the difference between a new capability and a correction?</summary><p>A new capability makes something newly possible; a correction uses a long-available technique and just fixes a common mistake.</p></details>
+    <details><summary>Can I find collapsed content?</summary><p>Yes. This is the hidden answer: the browser hides it with content-visibility, and find-in-page opens it automatically on a match.</p></details>
+  </section>
+</div>
+<h2>How it works</h2>
+<pre><code>details::details-content {
+  interpolate-size: allow-keywords;
+  overflow: clip;
+  transition: block-size, content-visibility, display;
+  transition-duration: .3s;
+  transition-behavior: allow-discrete;
+}
+details:not([open])::details-content { block-size: 0; }</code></pre>
+<p><code>::details-content</code> is the part of a details element that opens and closes. It used to be impossible to select, so animating it meant replacing details with a custom component and losing its native keyboard behavior and find-in-page along the way.</p>
+<h2>Without support</h2>
+<ul class="notes">
+  <li>Browsers without <code>interpolate-size</code> open and close normally, just without the animation.</li>
+  <li>When the system asks for reduced motion, items open and close instantly.</li>
+  <li>The accordion itself is a native element and works in every browser.</li>
+</ul>
+<footer>Adapted from the modern-web-guidance guide <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/accordion.md">accordion</a> (CC-BY 4.0).</footer>
+</main>
+<script>
+const ok = CSS.supports("interpolate-size: allow-keywords") && CSS.supports("selector(::details-content)");
+const s = document.getElementById("support");
+s.textContent = ok ? "Your browser supports the open and close animation" : "Your browser doesn't support the animation; the accordion still opens and closes";
+s.className = "support " + (ok ? "ok" : "no");
+</script>
+</body></html>

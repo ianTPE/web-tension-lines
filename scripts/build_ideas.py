@@ -67,9 +67,9 @@ UI = {
                up="https://github.com/GoogleChrome/modern-web-guidance", empty="沒有符合的卡片", unit="張", main="../#", demos="../demos/", trydemo="▶ 試試 demo"),
     "en": dict(lang="en", title="Ideas: New capabilities", h1="New capabilities · Ideas",
                lead=lambda n: f"{n} problem lines marked <b>new capability</b>: what the platform added that makes something newly possible or much cheaper. Grouped by <b>whether you can use it now</b>. On each card, <b>Unlock</b> points back to the guide; <b>Idea</b> is brainstorming, not guide text.",
-               nav='<a href="../">← All problem lines</a> · <a href="../../demos/">Demos (Chinese)</a> · <a href="../../ideas/">繁體中文</a> · <a href="../graph/">Opponent graph</a> · <a href="../../weekly/">Weekly notes (Chinese)</a>',
+               nav='<a href="../">← All problem lines</a> · <a href="../demos/">Demos</a> · <a href="../../ideas/">繁體中文</a> · <a href="../graph/">Opponent graph</a> · <a href="../../weekly/">Weekly notes (Chinese)</a>',
                ph="Search: feature, something you want to build…", all="All themes", unlock="Unlock", idea="Idea", fb="Without support", guide="Guide", line="View line",
-               up="https://github.com/GoogleChrome/modern-web-guidance", empty="No matching cards", unit="cards", main="../#", demos="../../demos/", trydemo="▶ Try the demo (Chinese)"),
+               up="https://github.com/GoogleChrome/modern-web-guidance", empty="No matching cards", unit="cards", main="../#", demos="../demos/", trydemo="▶ Try the demo"),
 }
 
 CSS = """

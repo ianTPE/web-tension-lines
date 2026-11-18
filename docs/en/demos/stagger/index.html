@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Staggered Entry · sibling-index()</title>
+<meta name="description" content="List items slide in one after another using sibling-index(), with no JavaScript to compute each delay">
+<link rel="stylesheet" href="../../../demos/demo.css">
+<style>
+#stagger-list{list-style:none;margin:0 0 1rem;padding:0;display:grid;gap:.5rem}
+#stagger-list > .item{
+  --stagger-time:.08s;
+  background:var(--soft);border-radius:8px;padding:.6rem .9rem;
+  animation:slide-in .45s cubic-bezier(.2,.7,.3,1) both;
+  /* Fallback: without sibling-index(), a script sets --sibling-index */
+  animation-delay:calc(var(--sibling-index, 0) * var(--stagger-time));
+}
+/* Detect with a literal time: var() inside @supports always reports support */
+@supports (animation-delay: calc(sibling-index() * 0.1s)){
+  #stagger-list > .item{animation-delay:calc(sibling-index() * var(--stagger-time))}
+}
+@keyframes slide-in{from{opacity:0;translate:-1.5rem 0}}
+@media (prefers-reduced-motion: reduce){#stagger-list > .item{animation:none}}
+</style></head><body><main>
+<p class="nav"><a href="../">← All demos</a> · <a href="../../ideas/">Ideas</a> · <a href="../../#mwg--dynamic-sibling-animations">View line</a> · <a href="../../../demos/stagger/">繁體中文</a></p>
+<h1>Staggered entry with <code>sibling-index()</code></h1>
+<p class="lead">List items slide in one after another. CSS works out each item's delay from its position among its siblings, so adding or removing items needs no code changes.</p>
+<p class="support" id="support"></p>
+<div class="stage">
+  <ul id="stagger-list"></ul>
+  <button class="btn" type="button" id="replay">Replay</button>
+  <button class="btn" type="button" id="more">Add three more</button>
+</div>
+<h2>How it works</h2>
+<pre><code>.item {
+  --stagger-time: 0.08s;
+  animation: slide-in 0.45s both;
+  animation-delay: calc(sibling-index() * var(--stagger-time));
+}</code></pre>
+<p><code>sibling-index()</code> returns the element's position among its siblings (starting at 1); multiply it by a time to get the delay. Previously you wrote one <code>:nth-child()</code> rule per item, or set styles on each item from JavaScript.</p>
+<h2>Without support</h2>
+<ul class="notes">
+  <li>A script sets <code>--sibling-index</code> on each item. The effect is the same, at the cost of running some JavaScript.</li>
+  <li>Detect support in <code>@supports</code> with a literal time (<code>0.1s</code>). Using <code>var()</code> there reports support in every browser and resets the fallback delay to 0.</li>
+  <li>When the system asks for reduced motion, nothing animates.</li>
+</ul>
+<footer>Adapted from the modern-web-guidance guide <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/dynamic-sibling-animations.md">dynamic-sibling-animations</a> (CC-BY 4.0).</footer>
+</main>
+<script>
+const ok = CSS.supports("animation-delay: calc(sibling-index() * 0.1s)");
+const s = document.getElementById("support");
+s.textContent = ok ? "Your browser supports sibling-index(); this is the native effect" : "Your browser doesn't support sibling-index(); this is the script fallback";
+s.className = "support " + (ok ? "ok" : "no");
+
+const words = ["Inbox", "Starred", "Drafts", "Sent", "Archive", "Spam", "All mail", "Scheduled", "Labels", "Trash"];
+let n = 5;
+// Swap in a fresh list each time so the animation replays from the start
+function render() {
+  const cur = document.getElementById("stagger-list"), fresh = cur.cloneNode(false);
+  for (let i = 0; i < n; i++) {
+    const li = document.createElement("li");
+    li.className = "item"; li.textContent = words[i % words.length];
+    fresh.append(li);
+  }
+  // Only number the items when the browser lacks sibling-index()
+  if (!ok) [...fresh.children].forEach((el, i) => el.style.setProperty("--sibling-index", i + 1));
+  cur.replaceWith(fresh);
+}
+document.getElementById("replay").onclick = render;
+document.getElementById("more").onclick = () => { n = Math.min(n + 3, 10); render(); };
+render();
+</script>
+</body></html>

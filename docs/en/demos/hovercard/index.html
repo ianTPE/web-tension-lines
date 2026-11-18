@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hovercard · Anchor Positioning</title>
+<meta name="description" content="A preview card appears on hover or focus, anchored next to the link and flipping to the other side when it doesn't fit">
+<link rel="stylesheet" href="../../../demos/demo.css">
+<style>
+.links{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.75rem 1.5rem}
+.links a{font-weight:600}
+[interestfor]{interest-delay:.2s .1s}
+[popover].hovercard{
+  margin:.4rem;inline-size:min(17rem, 80vw);padding:.85rem 1rem;border:1px solid var(--line);border-radius:12px;
+  background:var(--card);color:var(--fg);box-shadow:0 8px 24px rgb(0 0 0 / .15);
+  /* Below the link, extending toward the inline end; flip when it doesn't fit */
+  position-area:block-end span-inline-end;
+  position-try-fallbacks:flip-block, flip-inline, flip-block flip-inline;
+  opacity:0;transform-origin:top;
+}
+[popover].hovercard:popover-open{opacity:1;transform:translateY(0) scale(1)}
+@starting-style{[popover].hovercard:popover-open{opacity:0;transform:translateY(-8px) scale(.96)}}
+@media (prefers-reduced-motion: no-preference){
+  [popover].hovercard{transition:opacity, transform, display, overlay;transition-duration:.25s;
+    /* A separate declaration, so older browsers don't drop the whole transition */
+    transition-behavior:allow-discrete}
+}
+.hovercard h2{font-size:1rem;margin:0 0 .25rem}
+.hovercard p{margin:0;color:var(--mute);font-size:.9rem}
+</style></head><body><main>
+<p class="nav"><a href="../">← All demos</a> · <a href="../../ideas/">Ideas</a> · <a href="../../#mwg--hovercard--8">View line</a> · <a href="../../../demos/hovercard/">繁體中文</a></p>
+<h1>Hovercard with anchor positioning</h1>
+<p class="lead">Move the mouse onto a link below, or Tab to it, and after a moment a preview card appears. The card stays attached to its link; the rightmost link has no room on its right, so its card flips to the left automatically.</p>
+<p class="support" id="support"></p>
+<div class="stage">
+  <div class="links">
+    <a href="../../ideas/" interestfor="card-ideas">Ideas</a>
+    <a href="../../graph/" interestfor="card-graph">Opponent graph</a>
+    <a href="../../../weekly/" interestfor="card-weekly">Weekly notes</a>
+  </div>
+  <div id="card-ideas" popover="hint" class="hovercard"><h2>New capabilities · Ideas</h2><p>199 new capabilities grouped by whether you can use them now, each with what it unlocks and an idea.</p></div>
+  <div id="card-graph" popover="hint" class="hovercard"><h2>Opponent graph</h2><p>95 opponent groups, linked when they appear in the same guide, showing which old problems come up together.</p></div>
+  <div id="card-weekly" popover="hint" class="hovercard"><h2>Weekly notes (Chinese)</h2><p>Written whenever upstream adds new guides: this week's opponents, stalemated lines, and ideas.</p></div>
+</div>
+<h2>How it works</h2>
+<pre><code>&lt;a href="/ideas/" interestfor="card-ideas"&gt;Ideas&lt;/a&gt;
+&lt;div id="card-ideas" popover="hint" class="hovercard"&gt;…&lt;/div&gt;
+
+.hovercard {
+  position-area: block-end span-inline-end;
+  position-try-fallbacks: flip-block, flip-inline;
+}</code></pre>
+<p><code>interestfor</code> lets both hover and keyboard focus show the card, and makes the link the card's anchor; <code>popover="hint"</code> doesn't close other menus that are already open. Previously this took JavaScript to measure coordinates, handle delays, and detect overflow.</p>
+<h2>Without support</h2>
+<ul class="notes">
+  <li>Treat it as a progressive enhancement: the trigger is an ordinary link, so browsers without support can still follow it; they just don't show a card.</li>
+  <li>Only put supplemental information in the card, something also available after following the link.</li>
+  <li>For cards in every browser, load the popover and interestfor polyfills as the guide describes; this demo doesn't.</li>
+</ul>
+<footer>Adapted from the modern-web-guidance guide <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/hovercard.md">hovercard</a> (CC-BY 4.0).</footer>
+</main>
+<script>
+const ok = "interestForElement" in HTMLButtonElement.prototype && CSS.supports("position-area: block-end");
+const s = document.getElementById("support");
+s.textContent = ok ? "Your browser supports interestfor and anchor positioning; hover a link to see its card" : "Your browser doesn't support interestfor or anchor positioning yet; links still work, but no card appears";
+s.className = "support " + (ok ? "ok" : "no");
+// Each card summarizes the link's destination: make it a tooltip that describes the link
+document.querySelectorAll("[interestfor]").forEach(a => {
+  const card = document.getElementById(a.getAttribute("interestfor"));
+  if (!card) return;
+  if (!card.hasAttribute("role")) card.setAttribute("role", "tooltip");
+  if (!a.hasAttribute("aria-describedby")) a.setAttribute("aria-describedby", card.id);
+});
+</script>
+</body></html>

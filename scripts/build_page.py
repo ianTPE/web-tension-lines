@@ -47,7 +47,7 @@ UI = {
    slots=("做法","對手","退路","解鎖"),
    foot='上游指南為 CC-BY 4.0（GoogleChrome/modern-web-guidance）。「發想」不是指南原文。這頁由 <code>scripts/build_page.py</code> 從 <code>lines/</code> 產生。'),
  "en": dict(lang="en", title="Web Tension Lines", desc="New modern-web-guidance guides broken into problem lines: which new technique defeats which old problem",
-   switch='<a href="../">繁體中文</a> · <b>English</b> · <a href="ideas/">Ideas</a> · <a href="graph/">Opponent graph</a> · <a href="../weekly/">Weekly notes (Chinese)</a>',
+   switch='<a href="../">繁體中文</a> · <b>English</b> · <a href="ideas/">Ideas</a> · <a href="demos/">Demos</a> · <a href="graph/">Opponent graph</a> · <a href="../weekly/">Weekly notes (Chinese)</a>',
    lead=lambda n,k,rel: f'New guides from <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a>, broken into problem lines: action, opponent, fallback, and what it unlocks. For ideas, read <b>Unlock</b> and the <b>Idea</b> box on the <b>New capability</b> lines. {n} lines ({k} new capabilities), up to upstream {rel}. <a href="https://github.com/ianTPE/web-tension-lines">repo</a>',
    ph="Search: feature, opponent, fallback, guide… (Ctrl+F also finds collapsed content)", aria="Search problem lines",
    l_kind="Type", l_result="Outcome", l_group="Group by", all="All", by_group="Opponent", by_guide="Guide",

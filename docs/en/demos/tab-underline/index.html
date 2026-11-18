@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sliding Tab Underline · Anchor Positioning</title>
+<meta name="description" content="The tab underline slides to the newly selected tab with anchor positioning, without measuring positions in JavaScript">
+<link rel="stylesheet" href="../../../demos/demo.css">
+<style>
+.tabs ul{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;list-style:none;margin:0;padding:0 0 .5rem;position:relative}
+.tabs a{display:block;padding:.35rem .1rem;text-decoration:none;color:var(--fg)}
+.tabs a[aria-current="page"]{color:var(--accent);font-weight:600}
+.tabs li.active{anchor-name:--active-tab}
+/* The underline is a pseudo-element on the ul that follows the active tab */
+.tabs ul::before{
+  content:"";position:absolute;position-anchor:--active-tab;
+  inset-block-start:calc(anchor(bottom) + .1lh);
+  inset-inline-start:anchor(left);inset-inline-end:anchor(right);
+  /* Draw with a border: forced colors mode removes backgrounds and box-shadow */
+  border-block-end:.2lh solid var(--accent);
+}
+@media (prefers-reduced-motion: no-preference){.tabs ul::before{transition:inset .25s ease}}
+@supports not (position-anchor: auto){
+  .tabs ul::before{content:none}
+  .tabs li.active{border-bottom:.2lh solid var(--accent)}
+}
+.panel{margin-top:1rem;color:var(--mute)}
+</style></head><body><main>
+<p class="nav"><a href="../">← All demos</a> · <a href="../../ideas/">Ideas</a> · <a href="../../#mwg--anchor-positioning-tab-underline">View line</a> · <a href="../../../demos/tab-underline/">繁體中文</a></p>
+<h1>Sliding tab underline with anchor positioning</h1>
+<p class="lead">Click a different tab and the underline slides under it. CSS anchor positioning works out the position, so there is no JavaScript measuring tab widths and coordinates, and tabs of different lengths just work.</p>
+<p class="support" id="support"></p>
+<div class="stage">
+  <nav class="tabs" aria-label="Example tabs">
+    <ul>
+      <li class="active"><a href="#overview" aria-current="page">Overview</a></li>
+      <li><a href="#activity">Recent activity</a></li>
+      <li><a href="#settings">Settings</a></li>
+      <li><a href="#members">Members and permissions</a></li>
+    </ul>
+  </nav>
+  <p class="panel" id="panel">You are on “Overview”.</p>
+</div>
+<h2>How it works</h2>
+<pre><code>li.active { anchor-name: --active-tab; }
+
+ul::before {
+  content: "";
+  position: absolute;
+  position-anchor: --active-tab;
+  inset-block-start: calc(anchor(bottom) + .1lh);
+  inset-inline-start: anchor(left);
+  inset-inline-end: anchor(right);
+  border-block-end: .2lh solid;
+  transition: inset .25s;
+}</code></pre>
+<p>The script only moves the <code>active</code> class and <code>aria-current</code> to the clicked tab; CSS handles the underline's position and animation. The underline is only a visual cue, so the current tab still needs <code>aria-current</code> for assistive technology.</p>
+<h2>Without support</h2>
+<ul class="notes">
+  <li>The active tab gets its own <code>border-bottom</code> instead. The underline is still there; it just doesn't slide.</li>
+  <li>When the system asks for reduced motion, the underline jumps straight to its new position.</li>
+</ul>
+<footer>Adapted from the modern-web-guidance guide <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/anchor-positioning-tab-underline.md">anchor-positioning-tab-underline</a> (CC-BY 4.0).</footer>
+</main>
+<script>
+const ok = CSS.supports("position-anchor: auto");
+const s = document.getElementById("support");
+s.textContent = ok ? "Your browser supports anchor positioning; the underline slides" : "Your browser doesn't support anchor positioning; the underline won't slide";
+s.className = "support " + (ok ? "ok" : "no");
+
+const links = [...document.querySelectorAll(".tabs a")];
+document.querySelector(".tabs").addEventListener("click", e => {
+  const a = e.target.closest("a"); if (!a) return;
+  e.preventDefault();
+  for (const l of links) { l.removeAttribute("aria-current"); l.parentElement.classList.remove("active"); }
+  a.setAttribute("aria-current", "page"); a.parentElement.classList.add("active");
+  document.getElementById("panel").textContent = `You are on “${a.textContent}”.`;
+});
+</script>
+</body></html>
