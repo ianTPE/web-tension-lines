@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>深淺色 token・light-dark()</title>
+<meta name="description" content="用 light-dark() 定義會自己切換的色彩 token，換 color-scheme 就整組換色">
+<link rel="stylesheet" href="../demo.css">
+<style>
+.themed{
+  /* 原始色值分開存，方便組合與退路 */
+  --surface-light:#ffffff; --surface-dark:#1b1d22;
+  --text-light:#1f2328;    --text-dark:#e6e8eb;
+  --brand-light:oklch(45% .2 265); --brand-dark:oklch(82% .13 210);
+  --muted-light:#eef0f3;   --muted-dark:#2a2e35;
+  --surface:light-dark(var(--surface-light), var(--surface-dark));
+  --text:light-dark(var(--text-light), var(--text-dark));
+  --brand:light-dark(var(--brand-light), var(--brand-dark));
+  --muted:light-dark(var(--muted-light), var(--muted-dark));
+  color-scheme:light dark;
+  background:var(--surface);color:var(--text);border-radius:12px;padding:1.25rem;border:1px solid var(--muted);
+  accent-color:var(--brand);
+}
+.themed[data-scheme="light"]{color-scheme:light}
+.themed[data-scheme="dark"]{color-scheme:dark}
+/* 退路：不支援 light-dark() 時，用媒體查詢切換同一組 token */
+@supports not (color: light-dark(white, black)){
+  .themed{--surface:var(--surface-light);--text:var(--text-light);--brand:var(--brand-light);--muted:var(--muted-light)}
+  @media (prefers-color-scheme: dark){.themed:not([data-scheme="light"]){--surface:var(--surface-dark);--text:var(--text-dark);--brand:var(--brand-dark);--muted:var(--muted-dark)}}
+  .themed[data-scheme="dark"]{--surface:var(--surface-dark);--text:var(--text-dark);--brand:var(--brand-dark);--muted:var(--muted-dark)}
+}
+.themed h2{margin:0 0 .4rem;color:var(--brand)}
+.themed code{background:var(--muted);color:inherit}
+.themed .box{background:var(--muted);border-radius:8px;padding:.7rem .9rem;margin:.75rem 0}
+.themed .primary{font:inherit;background:var(--brand);color:var(--surface);border:0;border-radius:8px;padding:.45rem 1rem;font-weight:600}
+.scheme{display:flex;flex-wrap:wrap;gap:.75rem;margin:0 0 1rem}
+.scheme label{display:flex;gap:.35rem;align-items:center}
+</style></head><body><main>
+<p class="nav"><a href="../">← 所有 demo</a> · <a href="../../ideas/">靈感</a> · <a href="../../#mwg--dark-mode--3">這條線</a></p>
+<h1>深淺色 token：用 <code>light-dark()</code></h1>
+<p class="lead">每個顏色 token 一行同時寫好淺色和深色的值。切換下面的選項，整塊區域的背景、文字、品牌色、表單控制項一起換，不用寫兩套樣式或一堆媒體查詢。</p>
+<p class="support" id="support"></p>
+<div class="stage">
+  <fieldset class="scheme" style="border:0;padding:0">
+    <legend style="font-weight:600;margin-bottom:.3rem">配色</legend>
+    <label><input type="radio" name="s" value="" checked> 跟系統</label>
+    <label><input type="radio" name="s" value="light"> 淺色</label>
+    <label><input type="radio" name="s" value="dark"> 深色</label>
+  </fieldset>
+  <div class="themed" id="themed">
+    <h2>帳號設定</h2>
+    <p>這塊區域所有顏色都來自 <code>light-dark()</code> token。</p>
+    <div class="box">
+      <label><input type="checkbox" checked> 接收每週摘要</label><br>
+      <label>通知頻率 <input type="range" value="60"></label>
+    </div>
+    <button class="primary" type="button">儲存</button>
+  </div>
+</div>
+<h2>怎麼做</h2>
+<pre><code>:root { color-scheme: light dark; }
+
+.themed {
+  --surface: light-dark(#fff, #1b1d22);
+  --brand: light-dark(oklch(45% .2 265), oklch(82% .13 210));
+  background: var(--surface);
+}
+.themed[data-scheme="dark"] { color-scheme: dark; }</code></pre>
+<p><code>light-dark()</code> 依元素實際的 <code>color-scheme</code> 挑值，所以只要換一個區域的 <code>color-scheme</code>，裡面所有 token 就跟著換。以前要用 <code>prefers-color-scheme</code> 媒體查詢把每個 token 重寫一遍，手動切換時還得再寫一套 class。</p>
+<h2>不支援時</h2>
+<ul class="notes">
+  <li>淺色和深色的原始值分開存成 custom property，再用 <code>prefers-color-scheme</code> 媒體查詢切換同一組 token，效果相同。</li>
+  <li>頁首的 <code>&lt;meta name="color-scheme"&gt;</code> 讓瀏覽器一開始就知道支援深淺色，減少畫面閃一下。</li>
+</ul>
+<footer>改寫自 modern-web-guidance 的 <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/visual-design/dark-mode.md">dark-mode</a>（CC-BY 4.0）。</footer>
+</main>
+<script>
+const ok = CSS.supports("color", "light-dark(white, black)");
+const s = document.getElementById("support");
+s.textContent = ok ? "你的瀏覽器支援 light-dark()" : "你的瀏覽器不支援 light-dark()，看到的是媒體查詢退路";
+s.className = "support " + (ok ? "ok" : "no");
+document.querySelector(".scheme").addEventListener("change", e => {
+  const t = document.getElementById("themed");
+  if (e.target.value) t.dataset.scheme = e.target.value; else delete t.dataset.scheme;
+});
+</script>
+</body></html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Demo・可以直接試的新能力</title>
+<meta name="description" content="挑出今天就能用的新能力，各做一個可以直接在瀏覽器試的最小範例">
+<link rel="stylesheet" href="demo.css">
+<style>
+main{max-width:60rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(16rem,1fr));gap:.75rem;margin-top:1rem}
+.grid a{display:flex;flex-direction:column;gap:.3rem;text-decoration:none;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem}
+.grid a:hover{border-color:var(--accent)}
+.grid b{font-size:1.02rem}
+.grid code{color:var(--accent);font-size:.85rem}
+.grid span{color:var(--mute);font-size:.9rem}
+h2{margin-top:2rem}
+</style></head><body><main>
+<p class="nav"><a href="../">← 所有問題線</a> · <a href="../ideas/">靈感</a> · <a href="../en/graph/">對手組關係圖（英文）</a></p>
+<h1>可以直接試的新能力</h1>
+<p class="lead">從靈感頁「今天就能用」的新能力裡，挑出畫面感最強的幾個，各做一個最小範例。每頁都會先檢查你的瀏覽器支不支援，不支援時示範退路效果，並附上關鍵程式碼。</p>
+<div class="grid">
+  <a href="stagger/"><b>錯開進場</b><code>sibling-index()</code><span>清單項目一個接一個滑進來，不用 JS 算延遲</span></a>
+  <a href="tab-underline/"><b>滑動底線</b><code>anchor-name / anchor()</code><span>點分頁，底線滑到新分頁下方</span></a>
+  <a href="scroll-entry-exit/"><b>捲動進出場</b><code>animation-timeline: view()</code><span>卡片捲進來浮現、捲出去淡出</span></a>
+  <a href="accordion/"><b>會動的手風琴</b><code>::details-content</code><span>原生 details 加展開動畫，收起來仍搜尋得到</span></a>
+  <a href="contrast-color/"><b>自動對比文字</b><code>contrast-color()</code><span>換背景色，文字自動選黑或白</span></a>
+  <a href="invoker-commands/"><b>宣告式按鈕</b><code>command / commandfor</code><span>開關對話框不寫 JS，還能自訂指令</span></a>
+  <a href="hovercard/"><b>預覽卡</b><code>interestfor / position-area</code><span>預覽卡貼在連結旁，放不下自動翻轉</span></a>
+  <a href="light-dark/"><b>深淺色 token</b><code>light-dark()</code><span>一行定義深淺色，切換整組一起換</span></a>
+</div>
+<h2>這個 repo 自己的應用</h2>
+<div class="grid">
+  <a href="ledger-chart/"><b>對手組戰報圖</b><code>HTML-in-Canvas</code><span>標籤是畫進 canvas 的真 DOM，可搜尋、可匯出（目前僅 Chrome 157 起）</span></a>
+</div>
+<footer>範例改寫自 GoogleChrome/modern-web-guidance 的指南（CC-BY 4.0）。</footer>
+</main></body></html>

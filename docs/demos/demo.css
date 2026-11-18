@@ -1,0 +1,22 @@
+/* demo 共用外框：標題、支援檢查、說明、程式碼。各 demo 自己的樣式寫在自己的頁面裡。 */
+:root{--bg:#fbfaf7;--fg:#1f1d1a;--mute:#6b665e;--line:#e4e0d8;--card:#fff;--accent:#2f5d50;--soft:#f3efe2;--ok:#2f6f4f;--no:#9a3b2f;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161513;--fg:#ece8e1;--mute:#a19b91;--line:#34312c;--card:#1e1c19;--accent:#8cc3b0;--soft:#2a2720;--ok:#7fc79f;--no:#ee8f7f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161513;--fg:#ece8e1;--mute:#a19b91;--line:#34312c;--card:#1e1c19;--accent:#8cc3b0;--soft:#2a2720;--ok:#7fc79f;--no:#ee8f7f;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,"Noto Sans TC","PingFang TC",sans-serif}
+main{max-width:46rem;margin:0 auto;padding:1.75rem 16px 4rem}
+a{color:var(--accent)} :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.nav{font-size:.85rem;color:var(--mute);margin:0 0 .5rem}
+h1{font-size:1.5rem;line-height:1.35;margin:0 0 .4rem;text-wrap:balance}
+.lead{color:var(--mute);margin:0 0 .75rem;text-wrap:pretty}
+.support{display:inline-block;font-size:.85rem;border:1px solid var(--line);border-radius:999px;padding:.1rem .7rem;margin:0 0 1rem}
+.support.ok{border-color:var(--ok);color:var(--ok)} .support.no{border-color:var(--no);color:var(--no)}
+.stage{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.25rem;margin:0 0 1.25rem}
+h2{font-size:1.05rem;margin:1.5rem 0 .4rem}
+pre{background:var(--soft);border-radius:8px;padding:.75rem 1rem;overflow-x:auto;font-size:.85rem;line-height:1.5}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.9em}
+p code,li code{background:var(--soft);padding:.05em .3em;border-radius:3px}
+ul.notes{padding-left:1.2rem} ul.notes li{margin:.25rem 0}
+footer{color:var(--mute);font-size:.82rem;margin-top:2.5rem}
+.btn{font:inherit;font-size:.92rem;padding:.4rem .9rem;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);cursor:pointer}
+.btn:hover{border-color:var(--accent)}

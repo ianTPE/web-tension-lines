@@ -29,6 +29,12 @@ TIERS = [  # (key, 中文, 英文, 說明中, 說明英)
     ("watch", "先追蹤", "Watch", "還沒有瀏覽器支援，先記下來。", "No browser supports it yet; keep an eye on it."),
 ]
 
+# 有可以直接試的 demo 的線（docs/demos/<路徑>/）
+DEMOS = {"mwg:dynamic-sibling-animations": "stagger", "mwg:anchor-positioning-tab-underline": "tab-underline",
+         "mwg:scroll-entry-exit-effects": "scroll-entry-exit", "mwg:accordion:3": "accordion", "mwg:contrast-color": "contrast-color",
+         "mwg:declarative-dialog-popover-control": "invoker-commands", "mwg:custom-button-actions": "invoker-commands",
+         "mwg:hovercard:8": "hovercard", "mwg:dark-mode:3": "light-dark"}
+
 def tier(level, fb):
     if level == "無瀏覽器支援": return "watch"
     if level == "不適用" or (level == "Newly" and fb == "保住主要行為"): return "ready"
@@ -56,14 +62,14 @@ def inline(s):
 UI = {
     "zh": dict(lang="zh-Hant", title="靈感：新能力", h1="新能力・靈感",
                lead=lambda n: f"從 {n} 條「新能力」問題線整理：平台新增了什麼，讓以前做不到或很難的事變得可行。依<b>現在能不能用</b>分區；每張卡片的「解鎖」能指回指南原文，「發想」是延伸的點子，不是指南原文。",
-               nav='<a href="../">← 所有問題線</a> · <a href="../en/ideas/">English</a> · <a href="../weekly/">週記</a> · <a href="../en/graph/">對手組關係圖（英文）</a>',
+               nav='<a href="../">← 所有問題線</a> · <a href="../demos/">Demo</a> · <a href="../en/ideas/">English</a> · <a href="../weekly/">週記</a> · <a href="../en/graph/">對手組關係圖（英文）</a>',
                ph="搜尋：功能、想做的東西…", all="全部主題", unlock="解鎖", idea="發想", fb="不支援時", guide="指南", line="看這條線",
-               up="https://github.com/GoogleChrome/modern-web-guidance", empty="沒有符合的卡片", unit="張", main="../#"),
+               up="https://github.com/GoogleChrome/modern-web-guidance", empty="沒有符合的卡片", unit="張", main="../#", demos="../demos/", trydemo="▶ 試試 demo"),
     "en": dict(lang="en", title="Ideas: New capabilities", h1="New capabilities · Ideas",
                lead=lambda n: f"{n} problem lines marked <b>new capability</b>: what the platform added that makes something newly possible or much cheaper. Grouped by <b>whether you can use it now</b>. On each card, <b>Unlock</b> points back to the guide; <b>Idea</b> is brainstorming, not guide text.",
-               nav='<a href="../">← All problem lines</a> · <a href="../../ideas/">繁體中文</a> · <a href="../graph/">Opponent graph</a> · <a href="../../weekly/">Weekly notes (Chinese)</a>',
+               nav='<a href="../">← All problem lines</a> · <a href="../../demos/">Demos (Chinese)</a> · <a href="../../ideas/">繁體中文</a> · <a href="../graph/">Opponent graph</a> · <a href="../../weekly/">Weekly notes (Chinese)</a>',
                ph="Search: feature, something you want to build…", all="All themes", unlock="Unlock", idea="Idea", fb="Without support", guide="Guide", line="View line",
-               up="https://github.com/GoogleChrome/modern-web-guidance", empty="No matching cards", unit="cards", main="../#"),
+               up="https://github.com/GoogleChrome/modern-web-guidance", empty="No matching cards", unit="cards", main="../#", demos="../../demos/", trydemo="▶ Try the demo (Chinese)"),
 }
 
 CSS = """
@@ -100,6 +106,7 @@ section > p{color:var(--mute);margin:0 0 .75rem;font-size:.92rem}
 .card .u b,.card .i b,.card .f b{font-size:.75rem;letter-spacing:.03em;color:var(--mute);display:block}
 .card .i{margin:0;background:var(--soft);border-radius:8px;padding:.45rem .6rem;font-size:.92rem}
 .card .f{margin:0;font-size:.85rem;color:var(--mute)}
+.card .m a.demo{font-weight:600}
 .card .m{margin-top:auto;display:flex;flex-wrap:wrap;gap:.3rem .6rem;font-size:.78rem;color:var(--mute);align-items:center}
 .tag{border:1px solid var(--line);border-radius:999px;padding:0 .45rem}
 code{font-family:ui-monospace,Menlo,monospace;font-size:.86em;background:color-mix(in srgb,var(--line) 60%,transparent);padding:.05em .3em;border-radius:3px;overflow-wrap:anywhere}
@@ -129,7 +136,7 @@ def page(lang):
             text = html.escape(" ".join([t["title"], t["unlock"], t["idea"], i["guide"]]).lower(), quote=True)
             cards.append(f'''<article class="card t-{key}" data-cat="{i["cat"]}" data-text="{text}">
 <h3>{inline(t["title"])}</h3>{unlock}{idea}{fb}
-<div class="m"><span class="tag">{THEMES.get(i["cat"], (i["cat"],) * 2)[0 if zh else 1]}</span><span>{html.escape(level)}</span><span>{html.escape(gname)}</span><a href="{u["main"]}{i["anchor"]}">{u["line"]} →</a></div>
+<div class="m"><span class="tag">{THEMES.get(i["cat"], (i["cat"],) * 2)[0 if zh else 1]}</span><span>{html.escape(level)}</span><span>{html.escape(gname)}</span><a href="{u["main"]}{i["anchor"]}">{u["line"]} →</a>{f'<a class="demo" href="{u["demos"]}{DEMOS[i["id"]]}/">{u["trydemo"]}</a>' if i["id"] in DEMOS else ""}</div>
 </article>''')
         secs.append(f'<section id="{key}" class="t-{key}"><h2>{tz if zh else te}</h2><p>{dz if zh else de}</p><div class="grid">{"".join(cards)}</div></section>')
     return f'''<!doctype html>

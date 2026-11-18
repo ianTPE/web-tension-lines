@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>預覽卡・錨點定位</title>
+<meta name="description" content="滑過或聚焦連結時出現預覽卡，用錨點定位貼在連結旁，放不下時自動翻到另一側">
+<link rel="stylesheet" href="../demo.css">
+<style>
+.links{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.75rem 1.5rem}
+.links a{font-weight:600}
+[interestfor]{interest-delay:.2s .1s}
+[popover].hovercard{
+  margin:.4rem;inline-size:min(17rem, 80vw);padding:.85rem 1rem;border:1px solid var(--line);border-radius:12px;
+  background:var(--card);color:var(--fg);box-shadow:0 8px 24px rgb(0 0 0 / .15);
+  /* 貼在連結下方、往行尾延伸；放不下就翻轉 */
+  position-area:block-end span-inline-end;
+  position-try-fallbacks:flip-block, flip-inline, flip-block flip-inline;
+  opacity:0;transform-origin:top;
+}
+[popover].hovercard:popover-open{opacity:1;transform:translateY(0) scale(1)}
+@starting-style{[popover].hovercard:popover-open{opacity:0;transform:translateY(-8px) scale(.96)}}
+@media (prefers-reduced-motion: no-preference){
+  [popover].hovercard{transition:opacity, transform, display, overlay;transition-duration:.25s;
+    /* 獨立宣告，避免舊瀏覽器丟掉整條 transition */
+    transition-behavior:allow-discrete}
+}
+.hovercard h2{font-size:1rem;margin:0 0 .25rem}
+.hovercard p{margin:0;color:var(--mute);font-size:.9rem}
+</style></head><body><main>
+<p class="nav"><a href="../">← 所有 demo</a> · <a href="../../ideas/">靈感</a> · <a href="../../#mwg--hovercard--8">這條線</a></p>
+<h1>預覽卡：用錨點定位</h1>
+<p class="lead">把滑鼠移到下面的連結上，或用 Tab 鍵移過去，等一下就會出現預覽卡。卡片貼在連結旁邊；最右邊那個連結放不下時，卡片會自動翻到左邊。</p>
+<p class="support" id="support"></p>
+<div class="stage">
+  <div class="links">
+    <a href="../../ideas/" interestfor="card-ideas">靈感頁</a>
+    <a href="../../en/graph/" interestfor="card-graph">對手組關係圖</a>
+    <a href="../../weekly/" interestfor="card-weekly">週記</a>
+  </div>
+  <div id="card-ideas" popover="hint" class="hovercard"><h2>新能力・靈感</h2><p>199 條新能力，依「現在能不能用」分成四區，每張卡片附解鎖和發想。</p></div>
+  <div id="card-graph" popover="hint" class="hovercard"><h2>對手組關係圖</h2><p>95 個對手組，出現在同一份指南就連線，看哪些老問題總是一起出現。</p></div>
+  <div id="card-weekly" popover="hint" class="hovercard"><h2>週記</h2><p>每週上游有新指南時寫一篇：這週的對手、僵持中的線、本週靈感。</p></div>
+</div>
+<h2>怎麼做</h2>
+<pre><code>&lt;a href="/ideas/" interestfor="card-ideas"&gt;靈感頁&lt;/a&gt;
+&lt;div id="card-ideas" popover="hint" class="hovercard"&gt;…&lt;/div&gt;
+
+.hovercard {
+  position-area: block-end span-inline-end;
+  position-try-fallbacks: flip-block, flip-inline;
+}</code></pre>
+<p><code>interestfor</code> 讓滑過和鍵盤聚焦都能叫出卡片，連結本身成為卡片的錨點；<code>popover="hint"</code> 不會把頁面上其他已開的選單關掉。以前要寫 JavaScript 量座標、處理延遲、偵測有沒有超出視窗。</p>
+<h2>不支援時</h2>
+<ul class="notes">
+  <li>當作漸進增強：觸發元素是一般連結，不支援的瀏覽器照常可以點過去，只是沒有預覽卡。</li>
+  <li>預覽卡只放「點進去也看得到」的補充資訊，不放只有卡片裡才有的內容。</li>
+  <li>要在所有瀏覽器都有預覽卡，得依指南分別載入 popover 與 interestfor 的 polyfill；這個 demo 沒有載入。</li>
+</ul>
+<footer>改寫自 modern-web-guidance 的 <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/hovercard.md">hovercard</a>（CC-BY 4.0）。</footer>
+</main>
+<script>
+const ok = "interestForElement" in HTMLButtonElement.prototype && CSS.supports("position-area: block-end");
+const s = document.getElementById("support");
+s.textContent = ok ? "你的瀏覽器支援 interestfor 與錨點定位，滑過連結就會出現預覽卡" : "你的瀏覽器還不支援 interestfor 或錨點定位，連結照常可點，但不會出現預覽卡";
+s.className = "support " + (ok ? "ok" : "no");
+// 預覽卡重複的是連結目的地的摘要：設成 tooltip，並讓連結以它當描述
+document.querySelectorAll("[interestfor]").forEach(a => {
+  const card = document.getElementById(a.getAttribute("interestfor"));
+  if (!card) return;
+  if (!card.hasAttribute("role")) card.setAttribute("role", "tooltip");
+  if (!a.hasAttribute("aria-describedby")) a.setAttribute("aria-describedby", card.id);
+});
+</script>
+</body></html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>錯開進場・sibling-index()</title>
+<meta name="description" content="用 sibling-index() 讓清單項目一個接一個進場，不用 JavaScript 算每一項的延遲">
+<link rel="stylesheet" href="../demo.css">
+<style>
+#stagger-list{list-style:none;margin:0 0 1rem;padding:0;display:grid;gap:.5rem}
+#stagger-list > .item{
+  --stagger-time:.08s;
+  background:var(--soft);border-radius:8px;padding:.6rem .9rem;
+  animation:slide-in .45s cubic-bezier(.2,.7,.3,1) both;
+  /* 退路：不支援 sibling-index() 時由腳本設 --sibling-index */
+  animation-delay:calc(var(--sibling-index, 0) * var(--stagger-time));
+}
+/* 用字面時間值偵測，var() 放在 @supports 裡永遠會判成支援 */
+@supports (animation-delay: calc(sibling-index() * 0.1s)){
+  #stagger-list > .item{animation-delay:calc(sibling-index() * var(--stagger-time))}
+}
+@keyframes slide-in{from{opacity:0;translate:-1.5rem 0}}
+@media (prefers-reduced-motion: reduce){#stagger-list > .item{animation:none}}
+</style></head><body><main>
+<p class="nav"><a href="../">← 所有 demo</a> · <a href="../../ideas/">靈感</a> · <a href="../../#mwg--dynamic-sibling-animations">這條線</a></p>
+<h1>錯開進場：用 <code>sibling-index()</code></h1>
+<p class="lead">清單項目一個接一個滑進來。每一項的延遲由 CSS 依它是第幾個兄弟元素自己算，增加或刪掉項目也不用改程式。</p>
+<p class="support" id="support"></p>
+<div class="stage">
+  <ul id="stagger-list"></ul>
+  <button class="btn" type="button" id="replay">重新播放</button>
+  <button class="btn" type="button" id="more">多加三項</button>
+</div>
+<h2>怎麼做</h2>
+<pre><code>.item {
+  --stagger-time: 0.08s;
+  animation: slide-in 0.45s both;
+  animation-delay: calc(sibling-index() * var(--stagger-time));
+}</code></pre>
+<p><code>sibling-index()</code> 回傳這個元素是第幾個兄弟（從 1 開始），乘上時間就是延遲。以前得用 <code>:nth-child()</code> 一條一條寫，或用 JavaScript 替每一項設樣式。</p>
+<h2>不支援時</h2>
+<ul class="notes">
+  <li>腳本替每一項設 <code>--sibling-index</code>，效果一樣，只是多跑一段 JavaScript。</li>
+  <li><code>@supports</code> 要用字面時間值（<code>0.1s</code>）偵測。寫成 <code>var()</code> 會在所有瀏覽器判成支援，退路的延遲被蓋成 0。</li>
+  <li>系統設定減少動態效果時，不播放動畫。</li>
+</ul>
+<footer>改寫自 modern-web-guidance 的 <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/dynamic-sibling-animations.md">dynamic-sibling-animations</a>（CC-BY 4.0）。</footer>
+</main>
+<script>
+const ok = CSS.supports("animation-delay: calc(sibling-index() * 0.1s)");
+const s = document.getElementById("support");
+s.textContent = ok ? "你的瀏覽器支援 sibling-index()，看到的是原生效果" : "你的瀏覽器不支援 sibling-index()，看到的是腳本退路";
+s.className = "support " + (ok ? "ok" : "no");
+
+const words = ["收件匣", "已加星號", "草稿", "已傳送", "封存", "垃圾郵件", "所有郵件", "排程", "標籤", "垃圾桶"];
+let n = 5;
+// 每次換一份新清單，讓動畫從頭播放
+function render() {
+  const cur = document.getElementById("stagger-list"), fresh = cur.cloneNode(false);
+  for (let i = 0; i < n; i++) {
+    const li = document.createElement("li");
+    li.className = "item"; li.textContent = words[i % words.length];
+    fresh.append(li);
+  }
+  // 只有不支援時才替每一項標序號
+  if (!ok) [...fresh.children].forEach((el, i) => el.style.setProperty("--sibling-index", i + 1));
+  cur.replaceWith(fresh);
+}
+document.getElementById("replay").onclick = render;
+document.getElementById("more").onclick = () => { n = Math.min(n + 3, 10); render(); };
+render();
+</script>
+</body></html>

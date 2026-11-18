@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>會動的手風琴・::details-content</title>
+<meta name="description" content="原生 details 加上展開動畫，收起來的內容 Ctrl+F 仍找得到">
+<link rel="stylesheet" href="../demo.css">
+<style>
+.accordion details{border-top:1px solid var(--line)}
+.accordion details:last-child{border-bottom:1px solid var(--line)}
+summary{list-style:none;display:flex;align-items:center;gap:.5ch;padding:.7rem .2rem;cursor:pointer;font-weight:600}
+summary::-webkit-details-marker{display:none}
+/* 自己畫箭頭，緊貼在標籤文字前面 */
+summary::before{content:"";inline-size:.9em;block-size:.9em;flex-shrink:0;background-color:currentColor;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center/contain;
+  rotate:-90deg}
+summary:dir(rtl)::before{rotate:90deg}
+details[open] > summary::before{rotate:0deg}
+details::details-content{
+  /* 讓 block-size 能在 0 和內容實際高度之間過渡 */
+  interpolate-size:allow-keywords;overflow:clip;contain:layout;
+}
+details:not([open])::details-content{block-size:0}
+@media (prefers-reduced-motion: no-preference){
+  summary::before{transition:rotate .2s}
+  details::details-content{
+    transition:block-size,content-visibility,display;transition-duration:.3s;transition-timing-function:ease-in-out;
+    /* 獨立宣告：寫進 transition 簡寫的話，舊瀏覽器會丟掉整條 transition */
+    transition-behavior:allow-discrete;
+  }
+}
+.accordion p{margin:0 0 .9rem 1.4rem;color:var(--mute)}
+.tip{background:var(--soft);border-radius:8px;padding:.6rem .8rem;font-size:.92rem}
+</style></head><body><main>
+<p class="nav"><a href="../">← 所有 demo</a> · <a href="../../ideas/">靈感</a> · <a href="../../#mwg--accordion--3">這條線</a></p>
+<h1>會動的手風琴：用 <code>::details-content</code></h1>
+<p class="lead">原生的 <code>&lt;details&gt;</code>，加幾行 CSS 就有展開與收合的高度動畫。收起來的內容不是 <code>display: none</code>，所以頁內搜尋仍找得到，命中時會自動展開。</p>
+<p class="support" id="support"></p>
+<div class="stage">
+  <p class="tip">試試看：先全部收起，再按 Ctrl+F（Mac 是 ⌘F）搜尋「<b>藏起來的答案</b>」。</p>
+  <section class="accordion" aria-label="常見問題">
+    <details><summary>這個 repo 在做什麼？</summary><p>把 modern-web-guidance 的新指南拆成問題線：做法、對手、退路、解鎖。</p></details>
+    <details><summary>新能力和糾錯有什麼不同？</summary><p>新能力讓以前做不到的事變得可行；糾錯用的是早就能用的做法，只是糾正常見錯誤。</p></details>
+    <details><summary>收起來的內容找得到嗎？</summary><p>找得到。這裡就是那段藏起來的答案：瀏覽器用 content-visibility 把它藏起來，頁內搜尋命中時會自動展開。</p></details>
+  </section>
+</div>
+<h2>怎麼做</h2>
+<pre><code>details::details-content {
+  interpolate-size: allow-keywords;
+  overflow: clip;
+  transition: block-size, content-visibility, display;
+  transition-duration: .3s;
+  transition-behavior: allow-discrete;
+}
+details:not([open])::details-content { block-size: 0; }</code></pre>
+<p><code>::details-content</code> 是 details 裡展開內容的那一塊。以前它不能被選取，要做動畫就得把 details 換成自製元件，順帶失去原生的鍵盤操作和頁內搜尋。</p>
+<h2>不支援時</h2>
+<ul class="notes">
+  <li>沒有 <code>interpolate-size</code> 的瀏覽器：照常開合，只是沒有動畫。</li>
+  <li>系統設定減少動態效果時，直接開合。</li>
+  <li>手風琴本身是原生元素，任何瀏覽器都能用。</li>
+</ul>
+<footer>改寫自 modern-web-guidance 的 <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-components/accordion.md">accordion</a>（CC-BY 4.0）。</footer>
+</main>
+<script>
+const ok = CSS.supports("interpolate-size: allow-keywords") && CSS.supports("selector(::details-content)");
+const s = document.getElementById("support");
+s.textContent = ok ? "你的瀏覽器支援展開動畫" : "你的瀏覽器不支援展開動畫，手風琴照常開合";
+s.className = "support " + (ok ? "ok" : "no");
+</script>
+</body></html>

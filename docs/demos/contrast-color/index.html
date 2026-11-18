@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>自動對比文字・contrast-color()</title>
+<meta name="description" content="背景色隨便換，contrast-color() 自動選黑字或白字">
+<link rel="stylesheet" href="../demo.css">
+<style>
+.picker{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;margin:0 0 1rem}
+.picker input[type=color]{inline-size:3rem;block-size:2.2rem;border:1px solid var(--line);border-radius:6px;background:none;padding:2px}
+.swatches{display:flex;flex-wrap:wrap;gap:.35rem}
+.swatches button{inline-size:1.8rem;block-size:1.8rem;border-radius:50%;border:2px solid var(--card);outline:1px solid var(--line);cursor:pointer;background:var(--c)}
+.preview{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:.6rem}
+.chip{--bg:#e02424;background-color:var(--bg);border-radius:10px;padding:1rem;font-weight:600;
+  /* 退路：用相對色彩在 XYZ 色彩空間依 WCAG 亮度門檻算黑或白 */
+  --wcag-y-threshold:.17913;
+  --y:max(0, sign(var(--wcag-y-threshold) - y));
+  color:color(from var(--bg) xyz-d65 calc(var(--y) * .9505) var(--y) calc(var(--y) * 1.089));
+}
+@supports (color: contrast-color(red)){.chip{color:contrast-color(var(--bg))}}
+.chip small{display:block;font-weight:400;opacity:.85}
+</style></head><body><main>
+<p class="nav"><a href="../">← 所有 demo</a> · <a href="../../ideas/">靈感</a> · <a href="../../#mwg--contrast-color">這條線</a></p>
+<h1>自動對比文字：用 <code>contrast-color()</code></h1>
+<p class="lead">換背景色，文字自己在黑和白之間選對比較高的那個。適合使用者可以自訂顏色的標籤、主題色，或任何背景色事先不知道的地方。</p>
+<p class="support" id="support"></p>
+<div class="stage">
+  <div class="picker">
+    <label>選一個顏色 <input type="color" id="c" value="#e02424"></label>
+    <div class="swatches" role="group" aria-label="預設顏色"></div>
+  </div>
+  <div class="preview" id="preview"></div>
+</div>
+<h2>怎麼做</h2>
+<pre><code>.chip {
+  background-color: var(--bg);
+  color: contrast-color(var(--bg));
+}</code></pre>
+<p>以前要在 JavaScript 裡把顏色轉成亮度、自己算對比，或替每一個主題色手寫一個文字色。換主題或讓使用者自選顏色時，很容易出現看不清的組合。</p>
+<h2>不支援時</h2>
+<ul class="notes">
+  <li>用相對色彩語法（relative color）在 XYZ D65 色彩空間依 WCAG 亮度門檻算出黑或白，效果相同。這頁在不支援的瀏覽器就是這樣做的。</li>
+  <li><code>contrast-color()</code> 只用在文字等前景色，不要拿來設背景色。</li>
+</ul>
+<footer>改寫自 modern-web-guidance 的 <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/visual-design/contrast-color.md">contrast-color</a>（CC-BY 4.0）。</footer>
+</main>
+<script>
+const ok = CSS.supports("color", "contrast-color(red)");
+const s = document.getElementById("support");
+s.textContent = ok ? "你的瀏覽器支援 contrast-color()" : "你的瀏覽器不支援 contrast-color()，看到的是相對色彩計算的退路";
+s.className = "support " + (ok ? "ok" : "no");
+
+const preview = document.getElementById("preview"), input = document.getElementById("c");
+const labels = ["新功能", "已完成", "待審核", "緊急"];
+const sw = ["#e02424", "#fbbf24", "#2f5d50", "#bfdbfe", "#7c3aed", "#f5f5f4", "#111827", "#22c55e"];
+document.querySelector(".swatches").innerHTML = sw.map(c => `<button type="button" style="--c:${c}" data-c="${c}" aria-label="${c}"></button>`).join("");
+function paint(base) {
+  // 同一個色相、四種亮度，看文字在深淺之間自動換色
+  const mixes = [["white", 60], ["white", 25], ["black", 0], ["black", 45]];
+  preview.innerHTML = mixes.map(([m, pct], i) =>
+    `<div class="chip" style="--bg: color-mix(in oklab, ${base}, ${m} ${pct}%)">${labels[i]}<small>${m === "white" ? "加白" : pct ? "加黑" : "原色"} ${pct}%</small></div>`).join("");
+}
+input.oninput = () => paint(input.value);
+document.querySelector(".swatches").onclick = e => { const b = e.target.closest("button"); if (b) { input.value = b.dataset.c; paint(b.dataset.c); } };
+paint(input.value);
+</script>
+</body></html>

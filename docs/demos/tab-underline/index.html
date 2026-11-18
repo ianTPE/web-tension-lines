@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>滑動底線・錨點定位</title>
+<meta name="description" content="用錨點定位讓分頁底線滑到新選中的分頁，不用 JavaScript 量位置">
+<link rel="stylesheet" href="../demo.css">
+<style>
+.tabs ul{display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;list-style:none;margin:0;padding:0 0 .5rem;position:relative}
+.tabs a{display:block;padding:.35rem .1rem;text-decoration:none;color:var(--fg)}
+.tabs a[aria-current="page"]{color:var(--accent);font-weight:600}
+.tabs li.active{anchor-name:--active-tab}
+/* 底線是 ul 的偽元素，跟著作用中的分頁走 */
+.tabs ul::before{
+  content:"";position:absolute;position-anchor:--active-tab;
+  inset-block-start:calc(anchor(bottom) + .1lh);
+  inset-inline-start:anchor(left);inset-inline-end:anchor(right);
+  /* 用 border 畫：強制色彩模式會拿掉背景和 box-shadow */
+  border-block-end:.2lh solid var(--accent);
+}
+@media (prefers-reduced-motion: no-preference){.tabs ul::before{transition:inset .25s ease}}
+@supports not (position-anchor: auto){
+  .tabs ul::before{content:none}
+  .tabs li.active{border-bottom:.2lh solid var(--accent)}
+}
+.panel{margin-top:1rem;color:var(--mute)}
+</style></head><body><main>
+<p class="nav"><a href="../">← 所有 demo</a> · <a href="../../ideas/">靈感</a> · <a href="../../#mwg--anchor-positioning-tab-underline">這條線</a></p>
+<h1>滑動底線：用錨點定位</h1>
+<p class="lead">點不同的分頁，底線會滑到新分頁下方。位置由 CSS 錨點定位算，不用 JavaScript 量分頁的寬度和座標，分頁文字長短不一也沒關係。</p>
+<p class="support" id="support"></p>
+<div class="stage">
+  <nav class="tabs" aria-label="示範分頁">
+    <ul>
+      <li class="active"><a href="#overview" aria-current="page">總覽</a></li>
+      <li><a href="#activity">最近動態</a></li>
+      <li><a href="#settings">設定</a></li>
+      <li><a href="#members">成員與權限管理</a></li>
+    </ul>
+  </nav>
+  <p class="panel" id="panel">目前在「總覽」。</p>
+</div>
+<h2>怎麼做</h2>
+<pre><code>li.active { anchor-name: --active-tab; }
+
+ul::before {
+  content: "";
+  position: absolute;
+  position-anchor: --active-tab;
+  inset-block-start: calc(anchor(bottom) + .1lh);
+  inset-inline-start: anchor(left);
+  inset-inline-end: anchor(right);
+  border-block-end: .2lh solid;
+  transition: inset .25s;
+}</code></pre>
+<p>腳本只負責把 <code>active</code> 和 <code>aria-current</code> 換到被點的分頁；底線的位置和動畫全由 CSS 處理。底線只是視覺提示，目前分頁仍要用 <code>aria-current</code> 告訴輔助科技。</p>
+<h2>不支援時</h2>
+<ul class="notes">
+  <li>改用作用中分頁自己的 <code>border-bottom</code>，底線照樣在，只是不會滑動。</li>
+  <li>系統設定減少動態效果時，底線直接跳到新位置。</li>
+</ul>
+<footer>改寫自 modern-web-guidance 的 <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/anchor-positioning-tab-underline.md">anchor-positioning-tab-underline</a>（CC-BY 4.0）。</footer>
+</main>
+<script>
+const ok = CSS.supports("position-anchor: auto");
+const s = document.getElementById("support");
+s.textContent = ok ? "你的瀏覽器支援錨點定位，底線會滑動" : "你的瀏覽器不支援錨點定位，底線不會滑動";
+s.className = "support " + (ok ? "ok" : "no");
+
+const links = [...document.querySelectorAll(".tabs a")];
+document.querySelector(".tabs").addEventListener("click", e => {
+  const a = e.target.closest("a"); if (!a) return;
+  e.preventDefault();
+  for (const l of links) { l.removeAttribute("aria-current"); l.parentElement.classList.remove("active"); }
+  a.setAttribute("aria-current", "page"); a.parentElement.classList.add("active");
+  document.getElementById("panel").textContent = `目前在「${a.textContent}」。`;
+});
+</script>
+</body></html>

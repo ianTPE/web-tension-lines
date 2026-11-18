@@ -38,7 +38,7 @@ EN = json.load(open(ROOT / "i18n" / "en.json", encoding="utf-8"))
 
 UI = {
  "zh": dict(lang="zh-Hant", title="Web 張力線", desc="把 modern-web-guidance 的新指南拆成問題線：哪個新做法擋掉了哪個老問題",
-   switch='<b>繁體中文</b> · <a href="en/">English</a> · <a href="weekly/">週記</a> · <a href="ideas/">靈感</a> · <a href="en/graph/">對手組關係圖（英文）</a>',
+   switch='<b>繁體中文</b> · <a href="en/">English</a> · <a href="weekly/">週記</a> · <a href="ideas/">靈感</a> · <a href="demos/">Demo</a> · <a href="en/graph/">對手組關係圖（英文）</a>',
    lead=lambda n,k,rel: f'把 <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a> 的新指南拆成問題線：做法、對手、退路與解鎖。找靈感時看<b>新能力</b>那幾條的「解鎖」與「發想」。共 {n} 條線（新能力 {k} 條），處理到上游 {rel}。<a href="https://github.com/ianTPE/web-tension-lines">repo</a>',
    ph="搜尋：功能名、對手、退路、指南…（Ctrl+F 也找得到摺起來的內容）", aria="搜尋問題線",
    l_kind="類型", l_result="戰報", l_group="分組", all="全部", by_group="對手組", by_guide="指南",

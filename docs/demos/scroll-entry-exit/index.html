@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>捲動進出場・view()</title>
+<meta name="description" content="用 view() 時間軸讓卡片捲進畫面時浮現、捲出時淡出，不用 scroll 監聽">
+<link rel="stylesheet" href="../demo.css">
+<style>
+.scroller{block-size:26rem;overflow-y:auto;border-radius:10px;background:var(--soft);padding:9rem 1rem;display:grid;gap:1rem}
+.scroller > .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1rem 1.1rem;min-block-size:7rem}
+.card b{display:block;font-size:1.05rem}
+.card span{color:var(--mute);font-size:.9rem}
+@media (prefers-reduced-motion: no-preference){
+  /* 一定要同時偵測 animation-range，排除只部分支援的瀏覽器 */
+  @supports ((animation-timeline: view()) and (animation-range: entry)){
+    @keyframes rise-and-fade{
+      entry 0%{opacity:0;scale:.85;translate:0 2rem}
+      /* 明寫中段靜止狀態，否則會從 entry 0% 一路內插到 exit 100% */
+      entry 100%,exit 0%{opacity:1;scale:1;translate:0 0}
+      exit 100%{opacity:0;scale:.92;translate:0 -1rem}
+    }
+    .scroller > .card{
+      animation:rise-and-fade auto linear both;
+      /* 寫在 animation 簡寫後面，免得被簡寫重設 */
+      animation-timeline:view();
+    }
+  }
+}
+</style></head><body><main>
+<p class="nav"><a href="../">← 所有 demo</a> · <a href="../../ideas/">靈感</a> · <a href="../../#mwg--scroll-entry-exit-effects">這條線</a></p>
+<h1>捲動進出場：用 <code>view()</code></h1>
+<p class="lead">在下面的框裡捲動。卡片捲進來時放大浮現，捲出去時縮小淡出，動畫進度直接綁在卡片在捲動區裡的位置上，捲多少就播多少，倒著捲也會倒著播。</p>
+<p class="support" id="support"></p>
+<div class="stage">
+  <div class="scroller" tabindex="0" aria-label="可捲動的卡片清單">
+    <div class="card"><b>捲動吸附</b><span>讓輪播停在整張卡片上</span></div>
+    <div class="card"><b>容器查詢</b><span>元件依自己的寬度換版面</span></div>
+    <div class="card"><b>錨點定位</b><span>彈出層黏在觸發鈕上</span></div>
+    <div class="card"><b>檢視轉場</b><span>頁面切換時元素平滑移動</span></div>
+    <div class="card"><b>:has()</b><span>依子元素狀態改父元素樣式</span></div>
+    <div class="card"><b>popover</b><span>不寫 JS 的彈出層</span></div>
+    <div class="card"><b>light-dark()</b><span>一行定義深淺色</span></div>
+    <div class="card"><b>sibling-index()</b><span>依位置錯開動畫</span></div>
+  </div>
+</div>
+<h2>怎麼做</h2>
+<pre><code>@keyframes rise-and-fade {
+  entry 0%           { opacity: 0; scale: .85; }
+  entry 100%, exit 0% { opacity: 1; scale: 1; }
+  exit 100%          { opacity: 0; scale: .92; }
+}
+.card {
+  animation: rise-and-fade auto linear both;
+  animation-timeline: view();
+}</code></pre>
+<p><code>view()</code> 建立一條跟著「這個元素在捲動區可見程度」走的時間軸；<code>entry</code>、<code>exit</code> 分別是進場與離場那一段。以前要用 <code>IntersectionObserver</code> 或 scroll 監聽，每次捲動都在主執行緒算。</p>
+<h2>不支援時</h2>
+<ul class="notes">
+  <li>腳本改用 <code>IntersectionObserver</code> 依可見比例調整大小，效果接近，但跑在主執行緒上。</li>
+  <li>系統設定減少動態效果時，卡片靜止不動。</li>
+</ul>
+<footer>改寫自 modern-web-guidance 的 <a href="https://github.com/GoogleChrome/modern-web-guidance/blob/main/skills/modern-web-guidance/guides/ui-behaviors/scroll-entry-exit-effects.md">scroll-entry-exit-effects</a>（CC-BY 4.0）。</footer>
+</main>
+<script>
+const ok = CSS.supports("(animation-timeline: view()) and (animation-range: entry)");
+const s = document.getElementById("support");
+s.textContent = ok ? "你的瀏覽器支援捲動驅動動畫，看到的是原生效果" : "你的瀏覽器不支援捲動驅動動畫，看到的是 IntersectionObserver 退路";
+s.className = "support " + (ok ? "ok" : "no");
+// 退路也只在使用者沒要求減少動態時執行
+if (!ok && matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+  const io = new IntersectionObserver(es => {
+    for (const e of es) { e.target.style.scale = 0.85 + e.intersectionRatio * 0.15; e.target.style.opacity = 0.3 + e.intersectionRatio * 0.7; }
+  }, { root: document.querySelector(".scroller"), threshold: Array.from({ length: 21 }, (_, i) => i / 20) });
+  document.querySelectorAll(".scroller > .card").forEach(el => io.observe(el));
+}
+</script>
+</body></html>
