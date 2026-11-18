@@ -2,3 +2,4 @@
 logs/
 .obsidian/workspace*.json
 .env
+.obsidian/appearance.json
