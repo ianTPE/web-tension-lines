@@ -39,9 +39,8 @@
 
 **已驗證的支援資料偏差**（照這裡判，不照指南原文）：
 
-- **Anchor positioning**：指南寫 "Supported by: Safari 27 … Unsupported in: Chrome, Edge, and Firefox"，那是 web-features 整個群組的狀態，只因 `position-visibility: anchor-valid / anchor-visible` 兩個值而拖累。若該線沒用到 `position-visibility`，支援狀態記 `Newly`（核心屬性 2026-01-13 起 Baseline），並在細節註明「群組狀態誤導，見 `lines/ui-components/app-menus.md`」。（2026-11-12 驗證，web-features 3.45.0）
+- **Anchor positioning**：指南寫 "Browser support for Anchor positioning: Limited availability. Supported by: Chrome 157 (Nov 2026), Edge 157 (Nov 2026), and Safari 27 (Sep 2026)."（v1.0.1 起；v1.0.0 時寫的是 "Supported by: Safari 27 … Unsupported in: Chrome, Edge, and Firefox"），那是 web-features 整個群組的狀態，只因 `position-visibility: anchor-valid / anchor-visible` 兩個值而拖累。若該線沒用到 `position-visibility`，支援狀態記 `Newly`（核心屬性 2026-01-13 起 Baseline），並在細節註明「群組狀態誤導，見 `lines/ui-components/app-menus.md`」。（2026-11-12 驗證，web-features 3.45.0；2026-11-18 依 v1.0.1 更新引文，判法不變）
 
-- **HTML-in-Canvas**：四份指南（`visual-design/` 的 `expose-canvas-content-to-browser-features`、`export-html-media-from-canvas`、`interactive-content-in-3d-scenes`、`apply-webgl-shaders`）的 fallback 段落寫 "HTML-in-canvas is not natively supported by any major browser yet."，同一份指南前面又註 "HTML-in-Canvas is supported from Chrome 157."。Chrome 157 已於 2026-11-03 進穩定版，所以支援狀態記 `Limited`（僅 Chrome 157 起），戰報維持 `僵持`。指南改掉那句之前都照這裡判。（2026-11-16 驗證：chromiumdash 穩定版 157.0.8103.x、Chrome for Developers 2026-10-26 文章；規格進度見 https://github.com/WICG/html-in-canvas ）
 
 每條線的戰報都是**官方宣稱**，在 ledger 的「證據」欄寫 `宣稱`。只有使用者自己實測過的才改成 `實測`（自動任務永遠不寫 `實測`）。
 
