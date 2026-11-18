@@ -83,6 +83,98 @@ python3 .agents/skills/web-tension-lines/scripts/search.py --id mwg:move-dom-ele
 
 上游沒有新 commit 就直接結束，不呼叫 claude。有拆出新線時，腳本會自動 commit 並 push 到 `origin main`。執行紀錄在 `logs/<日期>.log`（不進 git）。手動跑一次：`scripts/weekly.sh`。
 
+## 附錄：HTML-in-Canvas 速查
+
+[HTML-in-Canvas](https://github.com/WICG/html-in-canvas)（WICG 提案）讓 `<canvas>` 的子元素照常排版、留在 DOM 裡，再由你決定畫進 canvas 的哪裡。畫出來的是瀏覽器真正繪製的結果，文字仍然能被搜尋、選取、翻譯、被螢幕閱讀器讀到。
+
+**支援**：Chrome、Edge 157 起（2026-11 進穩定版）；Firefox、Safari 不支援。上游指南標為 Limited。
+
+### 什麼時候用
+
+| 做法 | 文字能搜尋、選取、讀屏 | 直接存成 PNG 或影片 | 像素特效、WebGL、大量資料點 |
+|---|---|---|---|
+| 一般 HTML／SVG | ✅ 天生就可以 | ❌ 要靠 html2canvas 等函式庫重畫，新的 CSS 常畫錯 | ❌ |
+| 一般 canvas | ❌ 文字變成像素，要另外維護隱藏的 DOM | ✅ `toBlob()` | ✅ |
+| HTML-in-Canvas | ✅ | ✅ | ✅ |
+
+**不需要 canvas 的東西，用一般 HTML 就好**，所有瀏覽器都支援。HTML-in-Canvas 值得用在本來就必須用 canvas 的地方：輸出影片或圖片、套 shader 或 WebGL、3D 場景裡的真表單、整個畫面都在 canvas 上的遊戲、白板、地圖。
+
+### 五個基本元件
+
+| 元件 | 作用 |
+|---|---|
+| `<canvas content="drawable">` | 讓 canvas 的子元素參與排版（預設的 `fallback` 只當替代內容） |
+| 子元素加 `drawable` | 標記可以被畫進 canvas 的元素；巢狀的 `drawable` 會被排除，要另外畫 |
+| `paint` 事件、`canvas.requestPaint()` | 子元素外觀改變時觸發 `paint`，在裡面畫；需要每幀重畫時呼叫 `requestPaint()` |
+| `ctx.drawElementImage(el, x, y)` | 2D：畫出元素最新的快照，瀏覽器自動把點擊位置和焦點框對齊到畫的位置。WebGL 用 `texElementSubImage2D()`、WebGPU 用 `drawElementImageToTexture()` 畫進貼圖 |
+| `canvas.updateElementGeometry(el, { canvasTransform })` | 3D 時要自己告訴瀏覽器元素畫在哪裡，點擊和讀屏才對得上；2D 由 `drawElementImage()` 自動處理 |
+
+另有 `canvas.captureElementImage(el)`：取得元素快照（例如拿來決定貼圖大小，或傳到 worker 給 `OffscreenCanvas` 畫）。
+
+### 最小範例：畫一個可輸入的表單，並匯出成 PNG
+
+```html
+<canvas id="canvas" content="drawable" style="width: 400px; height: 200px;">
+  <form id="form" drawable>
+    <label>名字 <input></label>
+  </form>
+</canvas>
+<button id="download">下載 PNG</button>
+
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+  const form = document.getElementById("form");
+
+  if (!("content" in HTMLCanvasElement.prototype)) {
+    // 不支援：退路是把 HTML 用 CSS 疊在 canvas 上，或乾脆不用 canvas
+  }
+
+  canvas.onpaint = () => {
+    ctx.reset();
+    ctx.drawElementImage(form, 20, 20); // 點擊與打字會自動對到這個位置
+  };
+
+  // canvas 格線對齊裝置像素，避免模糊；不要寫在 onpaint 裡
+  new ResizeObserver(([entry]) => {
+    const box = entry.devicePixelContentBoxSize?.[0];
+    canvas.width = box ? box.inlineSize : Math.round(entry.contentRect.width * devicePixelRatio);
+    canvas.height = box ? box.blockSize : Math.round(entry.contentRect.height * devicePixelRatio);
+    canvas.requestPaint();
+  }).observe(canvas, { box: "device-pixel-content-box" });
+
+  // 匯出用 canvas 既有的方法，輸出包含表單的樣子
+  document.getElementById("download").onclick = () =>
+    canvas.toBlob(blob => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "form.png";
+      a.click();
+    });
+</script>
+```
+
+錄影改用 `canvas.captureStream()` 接 `MediaRecorder`；需要逐幀精確的影片，要自己逐幀畫、再用 WebCodecs 編碼。
+
+### 注意
+
+- **跨來源內容畫不進去**：跨來源的 `<iframe>`、圖片、`url()` 背景都不會出現在畫面上。拼字錯誤標記、已造訪連結的顏色、自動填入中的值等隱私資訊也會被排除。
+- **焦點框和游標會被畫出來**，不必自己補。
+- **3D 情境要每幀呼叫 `updateElementGeometry()`**，否則點不到、讀屏的位置也不對。
+- **退路**：疊一層 HTML 在 canvas 上（失去匯出和特效），或用 `three-html-render` polyfill。匯出則退回 html2canvas 等函式庫。
+
+### 範例在哪裡
+
+- **WICG 官方 demo**（要用 Chrome 157 以上開）：
+  - [complex-text](https://wicg.github.io/html-in-canvas/Examples/complex-text.html)：旋轉的複雜文字
+  - [pie-chart](https://wicg.github.io/html-in-canvas/Examples/pie-chart.html)：多行標籤的圓餅圖
+  - [webGL](https://wicg.github.io/html-in-canvas/Examples/webGL.html)：把 HTML 貼在 3D 卡片上
+  - [webgpu-jelly-slider](https://wicg.github.io/html-in-canvas/Examples/webgpu-jelly-slider/)：果凍效果的滑桿
+  - [nested-sparkles](https://wicg.github.io/html-in-canvas/Examples/nested-sparkles.html)：巢狀的 `drawable` 元素
+- **本 repo 的 demo**：[對手組戰報圖](https://iantpe.github.io/web-tension-lines/demos/ledger-chart/)（[英文](https://iantpe.github.io/web-tension-lines/en/demos/ledger-chart/)），示範匯出 PNG 和錄影。
+- **實際產品**：Remotion 的瀏覽器端渲染可以選用 HTML-in-Canvas 截取每一幀（[文件](https://www.remotion.dev/docs/client-side-rendering/html-in-canvas)）。
+- **四條相關的問題線**（附上游指南全文連結）：`mwg:expose-canvas-content-to-browser-features`、`mwg:export-html-media-from-canvas`、`mwg:interactive-content-in-3d-scenes`、`mwg:apply-webgl-shaders`，在 `lines/visual-design/`。
+
 ## 授權
 
 上游指南為 CC-BY 4.0。這裡的引文與摘要若要公開發表，請標註來源：GoogleChrome/modern-web-guidance。

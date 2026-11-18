@@ -93,6 +93,98 @@ A user crontab entry runs every Wednesday at 09:00 (upstream usually releases on
 
 If upstream has no new commit, the script exits without calling claude. When new lines are produced, it rebuilds the page, commits and pushes to `origin main`; GitHub Pages redeploys from `docs/`. Logs go to `logs/<date>.log` (not tracked). Run it by hand with `scripts/weekly.sh`.
 
+## Appendix: HTML-in-Canvas quick reference
+
+[HTML-in-Canvas](https://github.com/WICG/html-in-canvas) (a WICG proposal) lets the children of a `<canvas>` lay out normally and stay in the DOM, while you decide where on the canvas to draw them. What you draw is the browser's real rendering, so text can still be searched, selected, translated, and read by screen readers.
+
+**Support**: Chrome and Edge 157+ (stable since November 2026); not Firefox or Safari. The upstream guides mark it Limited.
+
+### When to use it
+
+| Approach | Text searchable, selectable, read aloud | Save directly as PNG or video | Pixel effects, WebGL, many data points |
+|---|---|---|---|
+| Plain HTML / SVG | ✅ built in | ❌ needs a library like html2canvas to redraw it, often wrong with newer CSS | ❌ |
+| Plain canvas | ❌ text becomes pixels; you maintain a hidden DOM copy | ✅ `toBlob()` | ✅ |
+| HTML-in-Canvas | ✅ | ✅ | ✅ |
+
+**If you don't need a canvas, use plain HTML**; it works in every browser. HTML-in-Canvas pays off where a canvas is required anyway: exporting images or video, shaders or WebGL, real forms inside a 3D scene, and games, whiteboards, or maps that render everything on a canvas.
+
+### The five building blocks
+
+| Piece | What it does |
+|---|---|
+| `<canvas content="drawable">` | Lets the canvas's children take part in layout (the default, `fallback`, treats them as fallback content only) |
+| `drawable` on a child | Marks an element that can be drawn into the canvas; nested `drawable` elements are excluded and drawn separately |
+| `paint` event, `canvas.requestPaint()` | `paint` fires when a child's appearance changes; draw inside it. Call `requestPaint()` when you need to redraw every frame |
+| `ctx.drawElementImage(el, x, y)` | 2D: draws the element's latest snapshot, and the browser aligns hit testing and focus rings with where you drew it. WebGL uses `texElementSubImage2D()`, WebGPU uses `drawElementImageToTexture()` to draw into a texture |
+| `canvas.updateElementGeometry(el, { canvasTransform })` | In 3D you tell the browser where the element was drawn, so clicks and screen readers line up; in 2D `drawElementImage()` does this for you |
+
+There is also `canvas.captureElementImage(el)`, which returns a snapshot of the element (for example to size a texture, or to hand to an `OffscreenCanvas` in a worker).
+
+### Minimal example: draw a form you can type into, then export it as PNG
+
+```html
+<canvas id="canvas" content="drawable" style="width: 400px; height: 200px;">
+  <form id="form" drawable>
+    <label>Name <input></label>
+  </form>
+</canvas>
+<button id="download">Download PNG</button>
+
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+  const form = document.getElementById("form");
+
+  if (!("content" in HTMLCanvasElement.prototype)) {
+    // No support: overlay the HTML on the canvas with CSS, or skip the canvas
+  }
+
+  canvas.onpaint = () => {
+    ctx.reset();
+    ctx.drawElementImage(form, 20, 20); // clicks and typing line up with this position
+  };
+
+  // Match the canvas grid to device pixels to avoid blur; not inside onpaint
+  new ResizeObserver(([entry]) => {
+    const box = entry.devicePixelContentBoxSize?.[0];
+    canvas.width = box ? box.inlineSize : Math.round(entry.contentRect.width * devicePixelRatio);
+    canvas.height = box ? box.blockSize : Math.round(entry.contentRect.height * devicePixelRatio);
+    canvas.requestPaint();
+  }).observe(canvas, { box: "device-pixel-content-box" });
+
+  // Export with the canvas's existing methods; the output includes the form
+  document.getElementById("download").onclick = () =>
+    canvas.toBlob(blob => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "form.png";
+      a.click();
+    });
+</script>
+```
+
+For video, feed `canvas.captureStream()` into a `MediaRecorder`; for frame-accurate video, draw frame by frame yourself and encode with WebCodecs.
+
+### Watch out for
+
+- **Cross-origin content isn't drawn**: cross-origin `<iframe>`s, images, and `url()` backgrounds don't appear. Privacy-sensitive details such as spelling markers, visited-link colors, and pending autofill values are excluded too.
+- **Focus rings and carets are drawn for you.**
+- **In 3D, call `updateElementGeometry()` every frame**, or clicks miss and screen-reader positions are wrong.
+- **Fallback**: overlay HTML on the canvas (losing export and effects), or use the `three-html-render` polyfill. For export, fall back to libraries such as html2canvas.
+
+### Where to find examples
+
+- **WICG demos** (open in Chrome 157+):
+  - [complex-text](https://wicg.github.io/html-in-canvas/Examples/complex-text.html): rotated complex text
+  - [pie-chart](https://wicg.github.io/html-in-canvas/Examples/pie-chart.html): a pie chart with multi-line labels
+  - [webGL](https://wicg.github.io/html-in-canvas/Examples/webGL.html): HTML on a 3D card
+  - [webgpu-jelly-slider](https://wicg.github.io/html-in-canvas/Examples/webgpu-jelly-slider/): a jelly-effect slider
+  - [nested-sparkles](https://wicg.github.io/html-in-canvas/Examples/nested-sparkles.html): nested `drawable` elements
+- **This repo's demo**: the [opponent group chart](https://iantpe.github.io/web-tension-lines/en/demos/ledger-chart/), which exports PNG and records video.
+- **A real product**: Remotion's client-side rendering can optionally capture frames with HTML-in-Canvas ([docs](https://www.remotion.dev/docs/client-side-rendering/html-in-canvas)).
+- **The four related problem lines** (with links to the full upstream guides): `mwg:expose-canvas-content-to-browser-features`, `mwg:export-html-media-from-canvas`, `mwg:interactive-content-in-3d-scenes`, `mwg:apply-webgl-shaders`, in `lines/visual-design/`.
+
 ## License
 
 Upstream guides are CC-BY 4.0. If you republish quotes or summaries from this repo, credit GoogleChrome/modern-web-guidance.
