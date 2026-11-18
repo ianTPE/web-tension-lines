@@ -38,7 +38,7 @@ EN = json.load(open(ROOT / "i18n" / "en.json", encoding="utf-8"))
 
 UI = {
  "zh": dict(lang="zh-Hant", title="Web 張力線", desc="把 modern-web-guidance 的新指南拆成問題線：哪個新做法擋掉了哪個老問題",
-   switch='<b>繁體中文</b> · <a href="en/">English</a> · <a href="weekly/">週記</a> · <a href="en/graph/">對手組關係圖（英文）</a>',
+   switch='<b>繁體中文</b> · <a href="en/">English</a> · <a href="weekly/">週記</a> · <a href="ideas/">靈感</a> · <a href="en/graph/">對手組關係圖（英文）</a>',
    lead=lambda n,k,rel: f'把 <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a> 的新指南拆成問題線：做法、對手、退路與解鎖。找靈感時看<b>新能力</b>那幾條的「解鎖」與「發想」。共 {n} 條線（新能力 {k} 條），處理到上游 {rel}。<a href="https://github.com/ianTPE/web-tension-lines">repo</a>',
    ph="搜尋：功能名、對手、退路、指南…（Ctrl+F 也找得到摺起來的內容）", aria="搜尋問題線",
    l_kind="類型", l_result="戰報", l_group="分組", all="全部", by_group="對手組", by_guide="指南",
@@ -47,7 +47,7 @@ UI = {
    slots=("做法","對手","退路","解鎖"),
    foot='上游指南為 CC-BY 4.0（GoogleChrome/modern-web-guidance）。「發想」不是指南原文。這頁由 <code>scripts/build_page.py</code> 從 <code>lines/</code> 產生。'),
  "en": dict(lang="en", title="Web Tension Lines", desc="New modern-web-guidance guides broken into problem lines: which new technique defeats which old problem",
-   switch='<a href="../">繁體中文</a> · <b>English</b> · <a href="graph/">Opponent graph</a> · <a href="../weekly/">Weekly notes (Chinese)</a>',
+   switch='<a href="../">繁體中文</a> · <b>English</b> · <a href="ideas/">Ideas</a> · <a href="graph/">Opponent graph</a> · <a href="../weekly/">Weekly notes (Chinese)</a>',
    lead=lambda n,k,rel: f'New guides from <a href="https://github.com/GoogleChrome/modern-web-guidance">modern-web-guidance</a>, broken into problem lines: action, opponent, fallback, and what it unlocks. For ideas, read <b>Unlock</b> and the <b>Idea</b> box on the <b>New capability</b> lines. {n} lines ({k} new capabilities), up to upstream {rel}. <a href="https://github.com/ianTPE/web-tension-lines">repo</a>',
    ph="Search: feature, opponent, fallback, guide… (Ctrl+F also finds collapsed content)", aria="Search problem lines",
    l_kind="Type", l_result="Outcome", l_group="Group by", all="All", by_group="Opponent", by_guide="Guide",

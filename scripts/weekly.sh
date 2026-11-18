@@ -54,7 +54,7 @@ fi
 if ! python3 scripts/check_lines.py; then
   echo "WARN: check_lines.py failed, not committing"; exit 1
 fi
-python3 scripts/build_page.py && python3 scripts/build_weekly.py && python3 scripts/build_demo.py && python3 scripts/build_groups.py && python3 scripts/build_graph.py
+python3 scripts/build_page.py && python3 scripts/build_weekly.py && python3 scripts/build_demo.py && python3 scripts/build_groups.py && python3 scripts/build_graph.py && python3 scripts/build_ideas.py
 git add -A lines ledger.csv weekly state.json docs i18n groups
 if ! git diff --cached --quiet; then
   git commit -q -m "weekly: modern-web-guidance $MWG_RELEASE ($MWG_FROM..$MWG_TO)"

@@ -99,7 +99,7 @@ aside li .m{display:block;color:var(--mute);font-size:.78rem}
 .list button span{color:var(--mute);margin-left:.3rem}
 footer{color:var(--mute);font-size:.82rem;margin-top:2rem}
 </style></head><body><main>
-<p class="switch"><a href="../">← All problem lines</a> · <a href="../../">繁體中文</a> · <a href="../../weekly/">Weekly notes (Chinese)</a></p>
+<p class="switch"><a href="../">← All problem lines</a> · <a href="../ideas/">Ideas</a> · <a href="../../">繁體中文</a> · <a href="../../weekly/">Weekly notes (Chinese)</a></p>
 <h1>Opponent graph</h1>
 <p class="lead">Each circle is an <b>opponent group</b>: one recurring way that old techniques fail. Two groups are linked when they appear in the same upstream guide, so groups that cluster together are problems that tend to come up together. Circle size is the number of lines; darker means more of them are <b>new capabilities</b>. <span id="summary"></span></p>
 <div class="controls">
