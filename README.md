@@ -2,7 +2,7 @@
 
 **繁體中文** · [English](README.en.md)
 
-**[線上瀏覽](https://iantpe.github.io/web-tension-lines/)**（可搜尋、可篩選、可展開；[英文版](https://iantpe.github.io/web-tension-lines/en/)、[週記](https://iantpe.github.io/web-tension-lines/weekly/)、[demo](https://iantpe.github.io/web-tension-lines/demos/ledger-chart/)）
+**[線上瀏覽](https://iantpe.github.io/web-tension-lines/)**（可搜尋、可篩選、可展開；[英文版](https://iantpe.github.io/web-tension-lines/en/)、[週記](https://iantpe.github.io/web-tension-lines/weekly/)、[demo](https://iantpe.github.io/web-tension-lines/demos/ledger-chart/)、[對手組關係圖（英文）](https://iantpe.github.io/web-tension-lines/en/graph/)）
 
 每週檢查 [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance) 的新指南，用張力句四槽（做法／對手／退路／解鎖）拆成問題線。拆出來的不是功能清單，而是「哪個新做法擋掉了哪個老問題、退回時怎麼辦」，再從「解鎖」與「發想」去想新應用。
 
@@ -31,6 +31,7 @@
 | `ledger.csv` | 累積表，一條線一列；按「對手組」篩選可以看到哪些老問題被反覆對付 |
 | `weekly/<日期>.md` | 每期週記：這週的對手、僵持中的線、**本週靈感**（用新能力組出的應用點子與小 demo） |
 | `docs/index.html`、`docs/en/index.html` | 一頁看完所有線（中文版、英文版）：可搜尋（Ctrl+F 也找得到摺起來的內容）、按類型和戰報篩選、按對手組或指南分組。由 `scripts/build_page.py` 產生，每週自動重建 |
+| `docs/en/graph/` | 對手組關係圖（英文網頁）：每個對手組一個圓，出現在同一份指南就連線，點進去看該組的線。由 `scripts/build_graph.py` 每週重建 |
 | `docs/weekly/` | 週記的網頁版：目錄頁加每篇一頁，週記裡的 `mwg:…` 可以點，會跳到主頁並展開那條線。由 `scripts/build_weekly.py` 產生 |
 | `docs/demos/` | 用新能力做的模組 demo。目前有 `ledger-chart/`：用 HTML-in-Canvas 畫的對手組戰報圖，標籤是真 DOM，可搜尋、可匯出（僅 Chrome 157 起，其他瀏覽器走 fallback）。資料由 `scripts/build_demo.py` 從 `ledger.csv` 產生 |
 | `groups/` | 每個對手組一頁的 Obsidian 索引（加一頁 `對手組總覽`）：列出該組的線、常一起出現的組。用 Obsidian 開這個 repo、打開關係圖，就看得到哪些對手常在同一份指南出現。由 `scripts/build_groups.py` 每週重建 |
