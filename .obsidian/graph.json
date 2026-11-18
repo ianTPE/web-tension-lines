@@ -1,0 +1,15 @@
+{
+  "search": "path:groups OR path:lines",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": true,
+  "showOrphans": false,
+  "colorGroups": [
+    { "query": "path:groups", "color": { "a": 1, "rgb": 14701138 } },
+    { "query": "path:lines", "color": { "a": 1, "rgb": 5431473 } }
+  ],
+  "showArrow": false,
+  "textFadeMultiplier": 0,
+  "nodeSizeMultiplier": 1,
+  "lineSizeMultiplier": 1
+}

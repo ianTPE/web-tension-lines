@@ -33,6 +33,7 @@
 | `docs/index.html`、`docs/en/index.html` | 一頁看完所有線（中文版、英文版）：可搜尋（Ctrl+F 也找得到摺起來的內容）、按類型和戰報篩選、按對手組或指南分組。由 `scripts/build_page.py` 產生，每週自動重建 |
 | `docs/weekly/` | 週記的網頁版：目錄頁加每篇一頁，週記裡的 `mwg:…` 可以點，會跳到主頁並展開那條線。由 `scripts/build_weekly.py` 產生 |
 | `docs/demos/` | 用新能力做的模組 demo。目前有 `ledger-chart/`：用 HTML-in-Canvas 畫的對手組戰報圖，標籤是真 DOM，可搜尋、可匯出（僅 Chrome 157 起，其他瀏覽器走 fallback）。資料由 `scripts/build_demo.py` 從 `ledger.csv` 產生 |
+| `groups/` | 每個對手組一頁的 Obsidian 索引（加一頁 `對手組總覽`）：列出該組的線、常一起出現的組。用 Obsidian 開這個 repo、打開關係圖，就看得到哪些對手常在同一份指南出現。由 `scripts/build_groups.py` 每週重建 |
 | `i18n/en.json` | 英文版網頁用的譯文。線檔維持中文，每週任務會替新線補上譯文；缺譯時英文頁退回顯示中文 |
 | `wants.md` | 你自己「想做但卡住的事」。有寫東西時，週記會多一節「對到你的清單」，列出剛好擋掉這些問題的新功能 |
 | `.agents/skills/web-tension-lines/` | 顧問型 Agent Skill：從開發者描述的阻礙檢索相關線，回報新做法、戰報、限制與原文 |
