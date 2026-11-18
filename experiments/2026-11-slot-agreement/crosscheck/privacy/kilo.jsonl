@@ -1,0 +1,9 @@
+{"key": "mwg:privacy", "fallback": "不需要", "fallback_text": "資料收集粒度是後端與表單的設計選擇，不涉及瀏覽器功能支援", "unlock": "（缺）"}
+{"key": "mwg:privacy:2", "fallback": "不需要", "fallback_text": "cookie 的 `HttpOnly`、`Secure`、`SameSite` 都是既有屬性，不涉及新功能支援", "unlock": "（缺）"}
+{"key": "mwg:privacy:3", "fallback": "不需要", "fallback_text": "`Clear-Site-Data` 是既有回應標頭，不涉及新功能支援", "unlock": "（缺）"}
+{"key": "mwg:privacy:4", "fallback": "不需要", "fallback_text": "`Referrer-Policy` 是既有回應標頭，不涉及新功能支援", "unlock": "（缺）"}
+{"key": "mwg:privacy:5", "fallback": "不需要", "fallback_text": "速率限制是伺服器端流程，不涉及瀏覽器功能支援", "unlock": "（缺）"}
+{"key": "mwg:privacy:6", "fallback": "不需要", "fallback_text": "嵌入與分享的做法是頁面自己的安排，不涉及瀏覽器功能支援", "unlock": "（缺）"}
+{"key": "mwg:privacy:7", "fallback": "不需要", "fallback_text": "指南未附 FedCM 與 CHIPS 的瀏覽器支援資料，只對 FedCM 失敗與 cookie 分割給了處理建議", "unlock": "以前第三方登入在使用者同意前就被身分提供者記錄，現在 FedCM 由瀏覽器中介登入流程，嵌入的 cookie 也能用分割方式不共用狀態"}
+{"key": "mwg:privacy:8", "fallback": "不需要", "fallback_text": "指南未附 UA Client Hints 的支援資料，功能偵測本身就直接帶退路分支", "unlock": "以前判斷瀏覽器能力只能嗅探 UA 字串，既不準又牽涉指紋；現在可用功能偵測，或用 UA Client Hints 只取必要欄位"}
+{"key": "mwg:privacy:9", "fallback": "不需要", "fallback_text": "指南未附 `<permission>` 的支援資料，範例裡本來就放了不支援時的一般按鈕", "unlock": "以前權限請求只能由自己的程式碼跳出，無法表達成由使用者主動發起的宣告式控制；現在 `<permission>` 元素讓請求可宣告並附退路按鈕"}

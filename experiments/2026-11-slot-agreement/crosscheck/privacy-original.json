@@ -1,0 +1,56 @@
+{
+ "mwg:privacy": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——表單選單、訪客結帳與後端資料最小化屬通用設計原則，不依賴特定瀏覽器能力",
+  "unlock": "（缺）",
+  "owner": "kimi+agy"
+ },
+ "mwg:privacy:2": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——HttpOnly、Secure 與 SameSite 屬標準 HTTP Cookie 旗標，無瀏覽器支援限制",
+  "unlock": "（缺）",
+  "owner": "kimi+agy"
+ },
+ "mwg:privacy:3": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——指南未列支援限制，依標準 HTTP 回應標頭於登出及子資源回應送出即可",
+  "unlock": "（缺）",
+  "owner": "kimi+agy"
+ },
+ "mwg:privacy:4": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——Referrer-Policy 屬標準 HTTP 隱私標頭且指南未列支援限制，直接設定即可",
+  "unlock": "（缺）",
+  "owner": "kimi+agy"
+ },
+ "mwg:privacy:5": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——敏感端點速率限制在伺服器端實作，不依賴客戶端瀏覽器特性支援",
+  "unlock": "（缺）",
+  "owner": "kimi+agy"
+ },
+ "mwg:privacy:6": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——靜態縮圖替身與純 HTML 分享連結屬基礎網頁寫法，所有瀏覽器皆可直接運作",
+  "unlock": "（缺）",
+  "owner": "kimi+agy"
+ },
+ "mwg:privacy:7": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——指南未附瀏覽器支援資料，FedCM 呼叫可用 try/catch 接住失敗情境",
+  "unlock": "FedCM 可由瀏覽器中介登入，CHIPS 可把嵌入 cookie 按頂層網站分割",
+  "owner": "kimi+agy"
+ },
+ "mwg:privacy:8": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——指南未附支援資料且實作已採能力偵測與 navigator.userAgentData 存在檢查",
+  "unlock": "UA Client Hints 可只要求必要的裝置欄位，不必解析完整 UA 或做指紋",
+  "owner": "kimi+agy"
+ },
+ "mwg:privacy:9": {
+  "fallback": "不需要",
+  "fallback_text": "不需要——指南未附瀏覽器支援資料，且 `<permission>` 內層可直接放一般按鈕作為退路",
+  "unlock": "用頁面內嵌的 `<permission>` 元素讓權限請求變成宣告式、由使用者主動發起，不必直接彈出打擾對話框",
+  "owner": "kimi+agy"
+ }
+}
