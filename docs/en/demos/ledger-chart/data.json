@@ -1,6 +1,6 @@
 {
- "total": 754,
- "updated": "2026-11-18",
+ "total": 764,
+ "updated": "2026-11-25",
  "groups": [
   {
    "name": "Install entry points are limited",
@@ -644,6 +644,13 @@
      "result": "Win",
      "kind": "Correction",
      "level": "Widely"
+    },
+    {
+     "id": "mwg:context-menu",
+     "feature": "零尺寸 fixed 佔位錨點, showPopover({ source }), position-try",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
     }
    ]
   },
@@ -894,6 +901,13 @@
      "result": "Win",
      "kind": "Correction",
      "level": "N/A"
+    },
+    {
+     "id": "mwg:context-menu:2",
+     "feature": "可見按鈕 command=toggle-popover, commandfor",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
     }
    ]
   },
@@ -959,6 +973,13 @@
     {
      "id": "mwg:menu:4",
      "feature": "showPopover({ source }), 零尺寸 fixed 佔位錨點",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:context-menu:3",
+     "feature": "ToggleEvent.source, beforetoggle",
      "result": "Partial",
      "kind": "New capability",
      "level": "Newly"
@@ -1365,6 +1386,13 @@
      "result": "Partial",
      "kind": "New capability",
      "level": "Limited"
+    },
+    {
+     "id": "mwg:teaser:2",
+     "feature": "漸層停點用 lh",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
     }
    ]
   },
@@ -1548,15 +1576,15 @@
      "level": "N/A"
     },
     {
-     "id": "mwg:soft-edge-content-fade",
-     "feature": "用 `mask-image` 漸層讓內容本身淡出，不再蓋一層半透明疊層",
+     "id": "mwg:visually-texture-content",
+     "feature": "用 `mask-image` 紋理讓內容本身斑駁，而不是蓋一層紋理圖",
      "result": "Win",
      "kind": "Correction",
      "level": "Widely"
     },
     {
-     "id": "mwg:visually-texture-content",
-     "feature": "用 `mask-image` 紋理讓內容本身斑駁，而不是蓋一層紋理圖",
+     "id": "mwg:teaser",
+     "feature": "mask-image 淡出試閱片段",
      "result": "Win",
      "kind": "Correction",
      "level": "Widely"
@@ -2119,14 +2147,14 @@
      "feature": "anchor-name, position-anchor, anchor(), transition: inset",
      "result": "Partial",
      "kind": "New capability",
-     "level": "Newly"
+     "level": "Limited"
     },
     {
      "id": "mwg:anchor-positioning-tab-underline:2",
      "feature": "inset + anchor() 取代 position-area",
      "result": "Partial",
      "kind": "Correction",
-     "level": "Newly"
+     "level": "Limited"
     },
     {
      "id": "mwg:animate-element-entry-exit",
@@ -2272,6 +2300,13 @@
      "result": "Win",
      "kind": "Correction",
      "level": "N/A"
+    },
+    {
+     "id": "mwg:teaser:3",
+     "feature": "淡出區不放連結與控制項",
+     "result": "Win",
+     "kind": "Correction",
+     "level": "Widely"
     }
    ]
   },
@@ -2631,6 +2666,13 @@
      "result": "Win",
      "kind": "Correction",
      "level": "N/A"
+    },
+    {
+     "id": "mwg:teaser:5",
+     "feature": "模糊偽元素外伸 --bleed",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
     }
    ]
   },
@@ -3303,6 +3345,27 @@
      "result": "Win",
      "kind": "Correction",
      "level": "N/A"
+    },
+    {
+     "id": "mwg:teaser:4",
+     "feature": "外層 ::after 的 backdrop-filter: blur(), mask-image",
+     "result": "Partial",
+     "kind": "New capability",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:teaser:6",
+     "feature": "淡出比模糊長（9lh 對 5lh）",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:teaser:7",
+     "feature": "小半徑 blur(), 疊 4～6 層",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
     }
    ]
   },
@@ -5357,6 +5420,13 @@
     {
      "id": "mwg:content-first-noise-reduction:5",
      "feature": "popovertarget, 偵測後才載 invokers-polyfill",
+     "result": "Partial",
+     "kind": "Correction",
+     "level": "Newly"
+    },
+    {
+     "id": "mwg:teaser:8",
+     "feature": "不用 backdrop-filter: url() 的 SVG 濾鏡",
      "result": "Partial",
      "kind": "Correction",
      "level": "Newly"

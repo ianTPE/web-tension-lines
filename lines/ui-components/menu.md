@@ -12,7 +12,7 @@ license: CC-BY-4.0（上游指南）
 ## 用 `focusgroup="menu"` 加 `command="toggle-popover"` 宣告彈出選單
 - 做法：觸發鈕設 `commandfor` 與 `command="toggle-popover"`，選單是緊接在後的 `popover="auto"`，裡面巢一層 `<div focusgroup="menu nomemory">`；不寫 `role="menu"`／`menuitem`，由 focusgroup 推斷；子選單是放在父選單 focusgroup 內的另一個 `popover="auto"`
 - 對手：指南只要求不要在 focusgroup 裡再做一套 roving tabindex、明寫角色會擋住推斷，沒說手寫版在哪個時刻出錯（引用："Do not add a second roving-tabindex system inside a focusgroup."）
-- 退路：保住主要行為——不支援時以腳本補上開合、方向鍵與角色，保留選單行為
+- 退路：保住主要行為——不支援時用 `popovertarget` 開合、腳本補方向鍵與角色，選單照常
 - 解鎖：選單可用屬性宣告開合、方向鍵移動與角色，不必全部手寫
 
 經過：選單的開關、點外面關閉、方向鍵移動、角色，以前全是自己的 JS。現在大半是屬性；開子選單預覽、焦點還原仍得自己寫，focusgroup 也只有 Chromium。
@@ -25,7 +25,7 @@ license: CC-BY-4.0（上游指南）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：以前一個有子選單的「⋯」選單要幾百行鍵盤處理 → 現在表格列的動作選單、編輯器的匯出子選單可以大半宣告式寫出，點外面關閉與子選單關係由瀏覽器管。focusgroup 目前僅 Chromium
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-25（v1.0.2）上游的 Invoker Commands 退路由腳本改為 `popovertarget`，退路句跟著改，分類不變
 
 %% line-start id="mwg:menu:2" %%
 ## 子選單用錨點定位貼在父項目旁，不能退回視窗置中
@@ -39,12 +39,12 @@ license: CC-BY-4.0（上游指南）
 
 ### 細節（不索引）
 - 對手組：彈出層脫離觸發點
-- 支援狀態：Anchor positioning：記 Newly（核心屬性 2026-01-13 起 Baseline）。指南寫 "Supported by: Safari 27 … Unsupported in: Chrome, Edge, and Firefox"，為群組狀態誤導，見 `lines/ui-components/app-menus.md`；本線未用 `position-visibility`
+- 支援狀態：css.properties.position-area：Newly（2026-01-13），Supported by: Chrome 129, Edge 129, Firefox 147, Safari 26（v1.0.2 前指南寫的是群組狀態，見 `lines/ui-components/app-menus.md`）；本線未用 `position-visibility`
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
 - 發想（非指南原文）：以前多層選單要定位函式庫逐層算位置 → 現在檔案管理器的右鍵選單、編輯器的巢狀「插入」選單可以純 CSS 逐層展開並自動翻邊
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-25（v1.0.2）上游支援段改列 `position-area`（Newly），判定不變
 
 %% line-start id="mwg:menu:3" %%
 ## 窄螢幕的最後退路 `--below` 要允許子選單縮小
@@ -105,7 +105,7 @@ license: CC-BY-4.0（上游指南）
 ## 開啟後移焦點要在 `toggle` 事件裡做，不在 `command` 裡
 - 做法：鍵盤開啟時在 `toggle` 監聽裡把焦點移到第一個可用項目；`aria-expanded` 也只在 `toggle` 裡設
 - 對手：`command` 事件在 `toggle-popover` 打開選單之前觸發，那時焦點移不進去（引用："The `command` event fires before `toggle-popover` opens the menu, so focus cannot move into the menu there."）
-- 退路：保住主要行為——不支援 Invoker Commands 時用 click 監聽開合，仍由 toggle 移焦點
+- 退路：保住主要行為——不支援 Invoker Commands 時改用 `popovertarget` 開合，仍由 toggle 移焦點
 - 解鎖：（缺）
 
 經過：按 Enter 開了選單，焦點卻還留在觸發鈕上，按下鍵沒反應。
@@ -117,7 +117,7 @@ license: CC-BY-4.0（上游指南）
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-25（v1.0.2）上游退路由 click 監聽改為 `popovertarget`，退路句跟著改，分類不變
 
 %% line-start id="mwg:menu:7" %%
 ## 子選單一次只關一層，焦點自己還給它的觸發項目
@@ -189,5 +189,5 @@ license: CC-BY-4.0（上游指南）
 - 戰報：勝（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 另有 5 個糾錯提醒未拆：明寫 `role="menu"`／`menuitem` 會擋住 focusgroup 推斷；選單放在觸發鈕正後方以免出現隱式 `aria-details`；子選單觸發項目不要同時執行指令；指標操作後還原焦點要 `focus({ focusVisible: false })`，否則出現鍵盤焦點框；關閉後觸發鈕只在 `:focus-visible` 時顯示作用中樣式
+- 另有 5 個糾錯提醒未拆：明寫 `role="menu"`／`menuitem` 會擋住 focusgroup 推斷；選單放在觸發鈕正後方以免出現隱式 `aria-details`；子選單觸發項目不要同時執行指令；不要覆寫 `focusVisible`，焦點框由瀏覽器依輸入方式決定（v1.0.2 反轉，原本要求 `focus({ focusVisible: false })`）；關閉後觸發鈕只在 `:focus-visible` 時顯示作用中樣式
 - 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2

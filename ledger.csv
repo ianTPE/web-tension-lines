@@ -238,7 +238,7 @@
 2026-11-17,v1.0.0,security,mwg:security:5,"__Host- 前綴, HttpOnly",敏感資料外露,有,工作階段 cookie 沒有 HttpOnly，被注入的腳本讀得到,不需要,勝,不適用,宣稱,糾錯,,,有效
 2026-11-17,v1.0.0,security,mwg:security:6,SameSite=None; Secure; Partitioned,合法連線被安全規則擋下,有,嵌入第三方情境的 app 依賴未分割的 SameSite=None cookie，正被防追蹤機制封鎖,不需要,勝,不適用,宣稱,新能力,以前第三方 cookie 被封鎖，嵌在別人頁面裡的小工具就記不住使用者；現在分割 cookie 讓每個嵌入網站各有一份,嵌在別人頁面裡的留言框、客服視窗、付款小工具可以用分割 cookie 保住在該網站內的登入與偏好，不必變成跨站追蹤器,有效
 2026-11-17,v1.0.0,security,mwg:security:7,"frame-ancestors, 省略 X-Frame-Options",合法連線被安全規則擋下,有,需要跨來源嵌入時還送 X-Frame-Options DENY/SAMEORIGIN，只看 XFO 的用戶端把夥伴的嵌入擋掉,不需要,勝,不適用,宣稱,糾錯,,,有效
-2026-11-17,v1.0.0,security,mwg:security:8,Document-Isolation-Policy: isolate-and-credentialless,合法連線被安全規則擋下,有,COOP+COEP require-corp 要求每個子資源都送 CORP，沒送的瀏覽器不載入,失去主要好處,僵持,Limited,宣稱,新能力,以前要開跨來源隔離，頁面上每張第三方圖片都得對方加標頭，不配合就破圖；現在新政策改成載入但剝掉憑據,瀏覽器裡的 Wasm 多執行緒工具（影片轉檔、本機影像處理）可以開啟跨來源隔離，同時照常嵌入沒送 CORP 的外部素材。目前主要僅 Chrome,有效
+2026-11-17,v1.0.0,security,mwg:security:8,Document-Isolation-Policy: isolate-and-credentialless,合法連線被安全規則擋下,有,COOP+COEP require-corp 要求每個跨來源子資源以 CORP 或 CORS 明確同意、跨來源 iframe 也要啟用 COEP，否則瀏覽器擋下,失去主要好處,僵持,Limited,宣稱,新能力,以前要開跨來源隔離，頁面上每張第三方圖片都得對方加標頭，不配合就破圖；現在新政策改成載入但剝掉憑據,瀏覽器裡的 Wasm 多執行緒工具（影片轉檔、本機影像處理）可以開啟跨來源隔離，同時照常嵌入沒送 CORP 的外部素材。目前僅 Chrome、Edge,有效
 2026-11-17,v1.0.0,security,mwg:security:9,"Sec-Fetch-* 先擋再驗證, Vary",敏感資料外露,有,驗證之後才拒絕跨站請求，回應時間洩漏資源或工作階段是否存在；沒加 Vary 時 CDN 可能把快取回應送給攻擊者,不需要,勝,不適用,宣稱,糾錯,,,有效
 2026-11-17,v1.0.0,security,mwg:security:10,動態 Access-Control-Allow-Origin,合法連線被安全規則擋下,有,帶憑證的 CORS 把 Access-Control-Allow-Origin 設成 *，瀏覽器拒絕回應,不需要,勝,不適用,宣稱,糾錯,,,有效
 2026-11-17,v1.0.0,security,mwg:security:11,"Clear-Site-Data: cookies, storage, cache",敏感資料外露,有,登出時少了任一指令，工作階段 cookie、Web Storage 或快取的已登入頁面留在瀏覽器裡,不需要,勝,不適用,宣稱,糾錯,,,有效
@@ -301,8 +301,8 @@
 2026-11-17,v1.0.0,2d-panning,mwg:2d-panning:2,overscroll-behavior: none/contain,原生捲動手勢不合用途,有,平移到邊界時捲動串接到父頁面，或觸發滑動上一頁、下拉重新整理,不需要,勝,不適用,宣稱,糾錯,,,有效
 2026-11-17,v1.0.0,2d-panning,mwg:2d-panning:3,scrollLeft/scrollTop,自製控制項丟掉原生行為,有,用 transform 平移，元素不再是捲動容器，捲軸、邊界夾限、方向鍵、scroll 事件、IntersectionObserver 全失效,不需要,勝,不適用,宣稱,糾錯,,,有效
 2026-11-17,v1.0.0,2d-panning,mwg:2d-panning:4,touch-action: pinch-zoom 只用在退路,自製控制項丟掉原生行為,有,無條件設 touch-action 關掉原生觸控捲動；設成 none 連雙指縮放一起關掉,不需要,勝,不適用,宣稱,糾錯,,,有效
-2026-11-17,v1.0.0,anchor-positioning-tab-underline,mwg:anchor-positioning-tab-underline,"anchor-name, position-anchor, anchor(), transition: inset",尺寸動畫只能跳變,有,沒有錨點定位時只能在作用中分頁畫 border-bottom，切換時底線沒有動畫,保住主要行為,部分改善,Newly,宣稱,新能力,用錨點定位讓純 CSS 底線跟著作用中分頁平滑移動並配合寬度變化，不必新增 DOM,分頁列、分段控制、垂直側欄的作用中指示可以純 CSS 從舊位置滑到新位置、寬度跟著變，不必 JS 量位置,有效
-2026-11-17,v1.0.0,anchor-positioning-tab-underline,mwg:anchor-positioning-tab-underline:2,inset + anchor() 取代 position-area,尺寸動畫只能跳變,有,用 position-area 定位的底線無法過渡,保住主要行為,部分改善,Newly,宣稱,糾錯,,,有效
+2026-11-17,v1.0.0,anchor-positioning-tab-underline,mwg:anchor-positioning-tab-underline,"anchor-name, position-anchor, anchor(), transition: inset",尺寸動畫只能跳變,有,沒有錨點定位時只能在作用中分頁畫靜態的 border-block-end，切換時底線不會滑動,保住主要行為,部分改善,Limited,宣稱,新能力,用錨點定位讓純 CSS 底線跟著作用中分頁平滑移動並配合寬度變化，不必新增 DOM,分頁列、分段控制、垂直側欄的作用中指示可以純 CSS 從舊位置滑到新位置、寬度跟著變，不必 JS 量位置。Firefox 目前只會跳、不會滑,有效
+2026-11-17,v1.0.0,anchor-positioning-tab-underline,mwg:anchor-positioning-tab-underline:2,inset + anchor() 取代 position-area,尺寸動畫只能跳變,有,用 position-area 定位的底線無法過渡,保住主要行為,部分改善,Limited,宣稱,糾錯,,,有效
 2026-11-17,v1.0.0,anchor-positioning-tab-underline,mwg:anchor-positioning-tab-underline:3,border-block-end,焦點或狀態指示消失,有,用 background 或 box-shadow 畫底線，強制色彩模式移除兩者，沒有任何指示,不需要,勝,不適用,宣稱,糾錯,,,有效
 2026-11-17,v1.0.0,animate-element-entry-exit,mwg:animate-element-entry-exit,"@starting-style, transition-behavior: allow-discrete",尺寸動畫只能跳變,有,瀏覽器跳過元素的第一次樣式更新，剛加入 DOM 或 display 從 none 變化的元素無法過渡,保住主要行為,部分改善,Limited,宣稱,新能力,用 `@starting-style` 與 `allow-discrete` 讓 `display: none` 切換與新插入元素都能宣告式過渡,通知、展開的說明、篩選結果卡片可以只切 hidden 屬性就淡入淡出，不必 JS 先改 class 等影格再加動畫 class。Firefox 的離場仍需 JS 退路,有效
 2026-11-17,v1.0.0,animate-element-entry-exit,mwg:animate-element-entry-exit:2,探針元素實測 display 過渡,功能偵測不可靠,有,Firefox 129+ 的 CSS.supports() 對 allow-discrete 回傳 true，實際不過渡 display，元素離場立刻消失,保住主要行為,部分改善,Limited,宣稱,糾錯,,,有效
@@ -647,7 +647,7 @@
 2026-11-17,v1.0.0,improve-text-layout-and-legibility,mwg:improve-text-layout-and-legibility:4,有框元素不用 balance,新屬性的隱藏前提,有,balance 不改容器寬度，有邊框或底色的元素尾端留下空白,不需要,勝,不適用,宣稱,糾錯,,,有效
 2026-11-17,v1.0.0,precise-text-alignment,mwg:precise-text-alignment,text-box: trim-both cap alphabetic,版面依賴錯的量測,有,字型內建留白讓文字比旁邊圖示高或低、內距看起來不等，只能靠負邊距魔術數字,失去主要好處,僵持,Limited,宣稱,新能力,用 `text-box` 將文字上下多餘行高留白修剪到字高與基線，不必靠負邊距即可精準對齊,徽章、按鈕、標籤可以直接把設計稿的間距寫進 CSS，換字型也不必重調。Firefox 尚未支援,有效
 2026-11-17,v1.0.0,shaped-cutouts,mwg:shaped-cutouts,"遮罩套在相鄰裝飾元素, maskContentUnits=objectBoundingBox",裁切切掉不該切的,有,直接對含文字的元素套遮罩可能把文字切掉,不需要,勝,Widely,宣稱,糾錯,,,有效
-2026-11-17,v1.0.0,soft-edge-content-fade,mwg:soft-edge-content-fade,用 `mask-image` 漸層讓內容本身淡出，不再蓋一層半透明疊層,手工重現瀏覽器渲染,有,用半透明疊層假造淡出時，要先知道背景色，而且疊層會擋住文字選取與點擊,不需要,勝,Widely,宣稱,糾錯,,,有效
+2026-11-17,v1.0.0,soft-edge-content-fade,mwg:soft-edge-content-fade,用 `mask-image` 漸層讓內容本身淡出，不再蓋一層半透明疊層,手工重現瀏覽器渲染,有,用半透明疊層假造淡出時，要先知道背景色，而且疊層會擋住文字選取與點擊,不需要,勝,Widely,宣稱,糾錯,,,上游已刪除
 2026-11-17,v1.0.0,typography,mwg:typography,字級用 `rem`，不用 `px`,忽略使用者設定,有,`px` 字級不理會使用者在瀏覽器設定的字級偏好,不需要,勝,不適用,宣稱,糾錯,,,有效
 2026-11-17,v1.0.0,typography,mwg:typography:2,有文字的元件不設固定高度，改用 `min-block-size`,尺寸不跟內容走,有,使用者加大行高、段距、字距與詞距時，固定高度的元件裡文字溢出或被裁掉,不需要,勝,不適用,宣稱,糾錯,,,有效
 2026-11-17,v1.0.0,typography,mwg:typography:3,避免兩端對齊；非用不可時配 `hyphens: auto` 並宣告 `lang`,版面擠壓破壞可讀性,有,兩端對齊在字與字之間撐出過大的空白、讓文字更難讀,不需要,勝,不適用,宣稱,糾錯,,,有效
@@ -753,3 +753,14 @@
 2026-11-18,v1.0.1,js,mwg:js:6,URLSearchParams,手寫替代品悄悄弄壞資料,有,手寫 `.split('=')[1]` 會把值裡的 `=` 切掉，例如 Base64 結尾的補位,不需要,勝,不適用,宣稱,糾錯,,,有效
 2026-11-18,v1.0.1,js,mwg:js:7,"TextDecoder, TextEncoder",手寫替代品悄悄弄壞資料,有,`String.fromCharCode(...bytes)` 把多位元組 UTF-8 解成亂碼，資料超過約 65 KB 還撐爆呼叫堆疊,不需要,勝,不適用,宣稱,糾錯,分塊讀進來的 UTF-8 串流，切在多位元組字元中間也能正確接回,,有效
 2026-11-18,v1.0.1,js,mwg:js:8,replaceChildren(),手寫替代品悄悄弄壞資料,有,對即時的 `children`／`childNodes` 正向跑刪除迴圈會每隔一個漏刪；`innerHTML = ''` 在 Trusted Types 下失敗,不需要,勝,不適用,宣稱,糾錯,,,有效
+2026-11-25,v1.0.2,context-menu,mwg:context-menu,"零尺寸 fixed 佔位錨點, showPopover({ source }), position-try",版面意外溢出或位移,有,用 JavaScript 算 `inset` 座標擺選單，不會處理溢出，在視窗邊緣按右鍵時選單會超出畫面,失去主要好處,部分改善,Newly,宣稱,新能力,右鍵選單可以對齊游標位置，又由 CSS 錨點定位避免溢出,網頁版檔案管理器、看板、畫布編輯器、地圖標點都可以做出貼著游標、靠邊自動翻面的右鍵選單，定位只靠 CSS,有效
+2026-11-25,v1.0.2,context-menu,mwg:context-menu:2,"可見按鈕 command=toggle-popover, commandfor",隱藏或停用把人擋在外面,有,長按不一定會觸發右鍵選單，iOS Safari 就不會，只靠右鍵時觸控使用者打不開,保住主要行為,部分改善,Newly,宣稱,糾錯,,,有效
+2026-11-25,v1.0.2,context-menu,mwg:context-menu:3,"ToggleEvent.source, beforetoggle",彈出層脫離觸發點,缺,指南只說這樣可以依來源調整位置，沒說分不出來源時出了什麼事,保住主要行為,部分改善,Newly,宣稱,新能力,同一個選單可依是誰打開它，換不同的位置與樣式,一張動作選單、說明卡或顏色面板可以掛在多個入口上，依來源換位置、換標題，開啟邏輯只寫一處,有效
+2026-11-25,v1.0.2,teaser,mwg:teaser,mask-image 淡出試閱片段,手工重現瀏覽器渲染,缺,指南只說半透明疊層會限制背景與互動的設計，沒指出在哪個時刻出錯,不需要,勝,Widely,宣稱,糾錯,,,有效
+2026-11-25,v1.0.2,teaser,mwg:teaser:2,漸層停點用 lh,版面依賴錯的量測,有,百分比會跟著內容變長，摘錄一長，大半篇都變淡,不需要,勝,Widely,宣稱,糾錯,,,有效
+2026-11-25,v1.0.2,teaser,mwg:teaser:3,淡出區不放連結與控制項,視覺隱藏卻仍可觸及,有,遮罩和模糊只改繪製，淡掉的連結看不清卻仍能聚焦,不需要,勝,Widely,宣稱,糾錯,,,有效
+2026-11-25,v1.0.2,teaser,mwg:teaser:4,"外層 ::after 的 backdrop-filter: blur(), mask-image",新屬性的隱藏前提,有,把 backdrop-filter 寫在加了遮罩的元素裡面，那個元素的文字不會變模糊,保住主要行為,部分改善,Newly,宣稱,新能力,試閱尾端可以漸進變模糊，讀者看得出還有文字但讀不到,付費文章、課程講義、電子報存檔頁可以直接用真文字做漸進模糊的結尾，換背景、換主題都不必重做。模糊擋不住複製與讀屏，真正的內容仍要在伺服器端截斷,有效
+2026-11-25,v1.0.2,teaser,mwg:teaser:5,模糊偽元素外伸 --bleed,裁切切掉不該切的,有,backdrop-filter 只畫在自己的元素範圍內，不外伸時模糊的字在文字邊緣被切成一條直線,保住主要行為,部分改善,Newly,宣稱,糾錯,,,有效
+2026-11-25,v1.0.2,teaser,mwg:teaser:6,淡出比模糊長（9lh 對 5lh）,新屬性的隱藏前提,有,淡出與模糊從同一點開始時，文字在模糊起點反而更搶眼，然後才淡掉,保住主要行為,部分改善,Newly,宣稱,糾錯,,,有效
+2026-11-25,v1.0.2,teaser,mwg:teaser:7,"小半徑 blur(), 疊 4～6 層",新屬性的隱藏前提,有,遮罩在清晰字與模糊字之間交叉淡化，半徑一大，清晰的字像鬼影透過模糊顯現,保住主要行為,部分改善,Newly,宣稱,糾錯,,,有效
+2026-11-25,v1.0.2,teaser,mwg:teaser:8,不用 backdrop-filter: url() 的 SVG 濾鏡,沒防護不支援的瀏覽器,有,Safari 與 Firefox 的 backdrop-filter 不套用 SVG 濾鏡，用 SVG 做的模糊在那裡完全沒有效果,保住主要行為,部分改善,Newly,宣稱,糾錯,,,有效

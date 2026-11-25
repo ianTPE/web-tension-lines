@@ -38,7 +38,7 @@ license: CC-BY-4.0（上游指南）
 
 ### 細節（不索引）
 - 對手組：手寫焦點管理
-- 支援狀態：focusgroup：Limited（Chrome/Edge 150）；Anchor positioning 核心屬性：Newly（指南寫的 Limited 是群組狀態，見 app-menus）
+- 支援狀態：focusgroup：Limited（Chrome/Edge 150）；css.properties.position-area：Newly（2026-01-13；v1.0.2 前指南寫的 Limited 是群組狀態，見 app-menus）
 - 戰報：部分改善（由支援狀態與退路推出）
 - 槽判定：對手 缺／解鎖 有
 - 類型：新能力

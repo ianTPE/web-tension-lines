@@ -329,7 +329,9 @@
     "cpp-on-the-web": "Compile C/C++ to WebAssembly with Emscripten",
     "agentic-forms": "Forms for Agents",
     "agentic-javascript-tools": "Agentic JavaScript Tools",
-    "webmcp": "WebMCP"
+    "webmcp": "WebMCP",
+    "context-menu": "Context menu",
+    "teaser": "Teaser (fade and blur)"
   },
   "lines": {
     "mwg:install-web-app": {
@@ -539,8 +541,8 @@
       "fallback": "When anchor positioning is unsupported, script positioning keeps menus tethered next to their triggers",
       "unlock": "Popovers tether directly next to trigger buttons or submenus with CSS anchor positioning",
       "idea": "A desktop-style File/Edit/View menu bar can be built almost declaratively with popover plus anchor positioning, with menus attached to their buttons. Web tools can look and behave like desktop programs.",
-      "story": "A menu bar is one widget: one Tab stop, left/right arrows switch menus, focus previews. Each menu must sit under its trigger, but a native popover defaults to the middle of the viewport. The guide's support section says anchor positioning is \"supported only in Safari 27\", but that is the status of the whole feature group, not of the properties this guide uses; see the details.",
-      "support": "Anchor positioning core properties: Newly (2026-01-13; `position-anchor` 2026-09-14). The guide says \"Supported by: Safari 27. Unsupported in: Chrome, Edge, and Firefox.\", which is the lowest common support of the whole web-features `anchor-positioning` group (325 sub-features); Chrome and Firefox only lack the `position-visibility: anchor-valid / anchor-visible` values (Chrome 157 beta, not Firefox), which this guide does not use. Popover: Newly (2025-01-27); focusgroup: Limited (Chrome/Edge 150)"
+      "story": "A menu bar is one widget: one Tab stop, left/right arrows switch menus, focus previews. Each menu must sit under its trigger, but a native popover defaults to the middle of the viewport. The guide's support section used to give the status of the whole feature group; since v1.0.2 it lists `position-area` itself (Newly), which matches this line's verdict; see the details.",
+      "support": "Anchor positioning core properties: Newly (2026-01-13; `position-anchor` 2026-09-14). The guide originally said \"Supported by: Safari 27. Unsupported in: Chrome, Edge, and Firefox.\", which is the lowest common support of the whole web-features `anchor-positioning` group (325 sub-features); Chrome and Firefox only lack the `position-visibility: anchor-valid / anchor-visible` values (Chrome 157 beta, not Firefox), which this guide does not use. Since v1.0.2 it lists css.properties.position-area: Newly (2026-01-13), supported by Chrome 129, Edge 129, Firefox 147, Safari 26. Popover: Newly (2025-01-27); focusgroup: Limited (Chrome/Edge 150)"
     },
     "mwg:breadcrumbs": {
       "title": "Keep separators so breadcrumbs read as a hierarchy, not siblings",
@@ -670,7 +672,7 @@
       "unlock": "`focusgroup` handles toolbar arrow-key navigation and roving tab stops natively",
       "idea": "Like focusgroup for tabs: the whole toolbar is one Tab stop with arrow-key movement handled by the browser. Keyboard support for editor-style tools comes almost for free.",
       "story": "Same shape as the tabs focusgroup line: a new attribute replaces hand-written focus management, but the opponent is stated only as a rule.",
-      "support": "focusgroup: Limited (Chrome/Edge 150); Anchor positioning core properties: Newly (the Limited stated in the guide is the group status; see app-menus)"
+      "support": "focusgroup: Limited (Chrome/Edge 150); css.properties.position-area: Newly (2026-01-13; the Limited stated before v1.0.2 was the group status, see app-menus)"
     },
     "mwg:form-factor-adaptation": {
       "title": "Lay out components with container queries, not viewport width",
@@ -2804,13 +2806,13 @@
     },
     "mwg:security:8": {
       "title": "Get cross-origin isolation with `Document-Isolation-Policy` instead of adding CORP to every subresource",
-      "action": "Only isolate when `SharedArrayBuffer` is needed (e.g. WebAssembly threads); in Chromium prefer `Document-Isolation-Policy: isolate-and-credentialless`, which strips credentials from non-CORS cross-origin fetches instead of blocking them; use `isolate-and-require-corp` when blocking is wanted",
-      "opponent": "The cross-browser path (`COOP: same-origin` plus `COEP: require-corp`) requires every embedded subresource to send a CORP header or the browser won't load it (quote: \"Every embedded subresource (images, styles, external media) MUST serve an explicit `Cross-Origin-Resource-Policy` header or the browser will prevent it from loading.\")",
-      "fallback": "Falling back to cross-browser COOP+COEP still requires every third-party subresource to opt in with CORP headers",
+      "action": "Only isolate when `SharedArrayBuffer` is needed (e.g. WebAssembly threads); COOP plus COEP is the cross-browser default, and where supported you can send `Document-Isolation-Policy: isolate-and-credentialless` instead, which strips credentials from non-CORS cross-origin fetches rather than blocking them; use `isolate-and-require-corp` when blocking is wanted",
+      "opponent": "The cross-browser path (`COOP: same-origin` plus `COEP: require-corp`) requires every cross-origin subresource to opt in through CORP or CORS, and embedded cross-origin iframes to enforce COEP, or the browser blocks them (quote: \"every cross-origin subresource (images, scripts, styles, media) MUST explicitly opt in via either a `Cross-Origin-Resource-Policy` header (`cross-origin` or `same-site`) or CORS\")",
+      "fallback": "Falling back to COOP+COEP, third-party resources and iframes again need the other side's cooperation to load",
       "unlock": "Previously cross-origin isolation broke any third-party image lacking CORP headers; the new policy loads them with credentials stripped",
-      "idea": "Using SharedArrayBuffer used to require every third-party image, font, and video host to add CORP → now in-browser Wasm thread tools (video transcoding, local image processing) can enable isolation while still embedding outside assets. Mainly Chrome for now",
-      "story": "Turning on isolation for SharedArrayBuffer used to mean every third-party image needed its host to add a header, or it broke. The new policy loads them without cookies instead, but only in Chrome for now.",
-      "support": "Document-Isolation-Policy: the guide says \"supported primarily in Chrome (142+) and other vendors have not yet shown interest\"; recorded as Limited"
+      "idea": "Using SharedArrayBuffer used to require every third-party image, font, and video host to add CORP → now in-browser Wasm thread tools (video transcoding, local image processing) can enable isolation while still embedding outside assets. Chrome and Edge only for now",
+      "story": "Turning on isolation for SharedArrayBuffer used to mean every third-party image needed its host to add a header, or it broke. The new policy loads them without cookies instead and does not sever cross-origin popups' `window.opener`, but only in Chrome and Edge for now. The guide therefore makes COOP plus COEP the default and this the alternative where supported.",
+      "support": "Document-Isolation-Policy: Limited availability. Supported by: Chrome 137 (May 2025), Edge 137 (May 2025). Unsupported in: Firefox, Safari"
     },
     "mwg:security:9": {
       "title": "Use Fetch Metadata to reject cross-site requests before authentication",
@@ -3434,23 +3436,23 @@
     },
     "mwg:anchor-positioning-tab-underline": {
       "title": "Slide the tab underline to the newly active tab with anchor positioning",
-      "action": "Draw the underline in the `<ul>`'s `::before` with `position: absolute` and `position-anchor: --active`; set `anchor-name: --active` on the active `<li>`; position with inset properties and `anchor()` (`inset-inline-start: anchor(left)` and so on), adding `transition: inset .2s` under `prefers-reduced-motion: no-preference`",
-      "opponent": "Without anchor positioning you can only draw a `border-bottom` on the active tab, and switching tabs doesn't animate the underline (quote: \"If anchor positioning is not supported in the browser, use a `border-bottom` to add an underline. It will not be animated.\")",
-      "fallback": "When unsupported, `@supports` falls back to `border-bottom`, keeping active tab indication just without sliding animation",
+      "action": "Draw the underline in the `<ul>`'s `::before` with `position: absolute` and `position-anchor: --active`; set `anchor-name: --active` on the active `<li>`; position with logical inset properties and `anchor(self-start)`/`anchor(self-end)`, adding `transition: inset .2s` under `prefers-reduced-motion: no-preference`",
+      "opponent": "Without anchor positioning you can only draw a static `border-block-end` on the active tab, and the underline doesn't slide when tabs switch (quote: \"hide the pseudo-element and draw a static `border-block-end` on the active tab.\")",
+      "fallback": "Falls back to a static `border-block-end`, or the underline jumps straight to the new tab, losing the sliding animation",
       "unlock": "Use anchor positioning for a pure-CSS underline that glides and resizes with the active tab without extra DOM",
-      "idea": "Sliding active indicators used to need JS measurement → now tab bars, segmented controls, and vertical sidebars can slide the indicator from old position to new in pure CSS, width and all; the same trick could make a highlight box that follows the hovered row",
-      "story": "Sliding an underline from one tab to another used to mean measuring both tabs and pushing it over with JS. Now the underline just follows whichever element holds that anchor name; when the name moves, so does the line.",
-      "support": "Anchor positioning core properties: Newly (2026-01-13; `position-anchor` 2026-09-14). The guide says \"Supported by: Safari 27 (Sep 2026). Unsupported in: Chrome, Edge, and Firefox.\"; that group status is misleading, see `lines/ui-components/app-menus.md`; this line doesn't use `position-visibility`"
+      "idea": "Sliding active indicators used to need JS measurement → now tab bars, segmented controls, and vertical sidebars can slide the indicator from old position to new in pure CSS, width and all; the same trick could make a highlight box that follows the hovered row. Firefox jumps rather than slides for now",
+      "story": "Sliding an underline from one tab to another used to mean measuring both tabs and pushing it over with JS. Now the underline just follows whichever element holds that anchor name; when the name moves, so does the line. Firefox can position it but cannot yet transition `anchor()` values, so there the line jumps straight to the new tab.",
+      "support": "Anchor positioning animations and transitions: Limited availability. Supported by: Chrome 125, Edge 125, Safari 26. Unsupported in: Firefox. css.types.anchor: Newly (2026-01-13), supported by Chrome 125, Edge 125, Firefox 147, Safari 26"
     },
     "mwg:anchor-positioning-tab-underline:2": {
       "title": "Don't use `position-area` on anchored elements you want to animate",
       "action": "Position the underline with inset properties and `anchor()`, not `position-area`",
       "opponent": "`position-area` can't be transitioned (quote: \"DO NOT use position-area, which can not be transitioned.\")",
-      "fallback": "When anchor positioning is unsupported, `@supports` falls back to static `border-bottom`, avoiding transition issues",
+      "fallback": "Where `anchor()` can't be transitioned, the anchored underline stays and jumps straight to the new tab, losing the animation",
       "unlock": "",
       "idea": "",
       "story": "`position-area` is the easiest to write, but it picks a region in a grid rather than a number, so going from A to B can only teleport.",
-      "support": "Same as mwg:anchor-positioning-tab-underline; recorded as Newly"
+      "support": "Same as mwg:anchor-positioning-tab-underline; anchor animations recorded as Limited (not in Firefox)"
     },
     "mwg:anchor-positioning-tab-underline:3": {
       "title": "Draw the underline with a border, not a background or shadow",
@@ -5906,7 +5908,7 @@
       "title": "Declare popup menus with `focusgroup=\"menu\"` and `command=\"toggle-popover\"`",
       "action": "Give the trigger `commandfor` and `command=\"toggle-popover\"`; the menu is the next-sibling `popover=\"auto\"` containing `<div focusgroup=\"menu nomemory\">`; don't write `role=\"menu\"`/`menuitem` so focusgroup can infer them; submenus are another `popover=\"auto\"` inside the parent focusgroup",
       "opponent": "The guide only says not to add a second roving tabindex inside a focusgroup and that explicit roles block inference, not when a hand-written version fails (quote: \"Do not add a second roving-tabindex system inside a focusgroup.\")",
-      "fallback": "When unsupported, scripts handle open/close, arrow keys, and roles to preserve menu behavior",
+      "fallback": "When unsupported, `popovertarget` handles open/close and scripts supply arrow keys and roles, so the menu works as usual",
       "unlock": "Menus declare open/close triggers, arrow-key navigation, and roles via attributes without hand-coding everything",
       "idea": "A \"⋯\" menu with a submenu used to need hundreds of lines of keyboard handling → table row action menus and an editor's Export submenu can be mostly declarative, with light dismiss and submenu relationships managed by the browser. focusgroup is Chromium only for now",
       "story": "Opening, closing, light dismiss, arrow keys and roles used to be your own JS. Now most of it is attributes; submenu preview and focus restoration are still script, and focusgroup is Chromium only.",
@@ -5920,7 +5922,7 @@
       "unlock": "CSS anchor positioning tethers nested menus beside trigger items and auto-flips on overflow",
       "idea": "Multi-level menus used to need a positioning library per level → file-manager context menus and an editor's nested Insert menu can cascade in pure CSS and flip at edges",
       "story": "Opening \"Export ›\" made the submenu jump to the centre of the screen, completely covering the menu you came from.",
-      "support": "Anchor positioning: recorded as Newly (core properties Baseline since 2026-01-13). The guide's \"Supported by: Safari 27 … Unsupported in: Chrome, Edge, and Firefox\" is a misleading group status (see lines/ui-components/app-menus.md); this line does not use `position-visibility`"
+      "support": "css.properties.position-area: Newly (2026-01-13), supported by Chrome 129, Edge 129, Firefox 147, Safari 26 (before v1.0.2 the guide gave the group status, see lines/ui-components/app-menus.md); this line does not use `position-visibility`"
     },
     "mwg:menu:3": {
       "title": "Let the narrow-screen `--below` fallback shrink the submenu",
@@ -5956,7 +5958,7 @@
       "title": "Move focus into the menu in the `toggle` event, not `command`",
       "action": "On keyboard open, focus the first enabled item in the `toggle` listener; set `aria-expanded` only there too",
       "opponent": "The `command` event fires before `toggle-popover` opens the menu, so focus can't move in yet (quote: \"The `command` event fires before `toggle-popover` opens the menu, so focus cannot move into the menu there.\")",
-      "fallback": "When Invoker Commands are unsupported, click listeners open menus while `toggle` still shifts focus",
+      "fallback": "When Invoker Commands are unsupported, `popovertarget` opens menus while `toggle` still shifts focus",
       "unlock": "",
       "idea": "",
       "story": "Enter opened the menu but focus stayed on the trigger, and Down did nothing.",
@@ -7871,6 +7873,116 @@
       "idea": "",
       "story": "A custom overlay must not sit inside its own inert ancestor.",
       "support": "No support data; N/A."
+    },
+    "mwg:context-menu": {
+      "title": "Open a context menu at the cursor with a zero-size anchor and anchor positioning, not hand-computed coordinates",
+      "action": "Keep a zero-size `position: fixed` invisible anchor inside the card, right before the visible button; use `contextmenu` only to suppress the browser's menu, and on `pointerup` move the anchor to `clientX`/`clientY` and call `popover.showPopover({ source: menuAnchor })`; place the menu with `position-area: block-end span-inline-end` plus `position-try: flip-inline, flip-block, flip-start`",
+      "opponent": "Placing the menu from JavaScript-computed `inset` coordinates does not handle overflow, so right-clicking near a viewport edge pushes the menu off screen (quote: \"you must manually calculate the `inset` coordinates of the popover in JavaScript … but note that this does not handle overflow.\")",
+      "fallback": "Falls back to script placing the menu at the click point, losing automatic flipping on overflow",
+      "unlock": "A context menu can align to the cursor while CSS anchor positioning keeps it from overflowing",
+      "idea": "Custom context menus used to need hand-computed coordinates and collision handling → web file managers, kanban boards, canvas editors and map pins can have menus that stick to the cursor and flip at edges, positioned in CSS alone. Same technique as `mwg:menu:4`; this guide adds the full right-click trigger flow",
+      "story": "A kanban card's context menu used to read pointer coordinates and sit right there, so clicking in the bottom-right corner pushed it out of the viewport unless you computed the bounds yourself. Now you only move an invisible dot to the cursor and CSS does the flipping. Browsers without anchor positioning still get hand-computed coordinates, overflow included.",
+      "support": "Anchor positioning: recorded as Newly (core properties Baseline since 2026-01-13). The guide says \"Browser support for Anchor positioning: Limited availability. Supported by: Chrome 157 (Nov 2026), Edge 157 (Nov 2026), and Safari 27 (Sep 2026). Unsupported in: Firefox.\", a misleading group status, see `lines/ui-components/app-menus.md`; this line does not use `position-visibility`. Popover: Newly (2025-01-27)"
+    },
+    "mwg:context-menu:2": {
+      "title": "Back the right-click menu with an always-visible button that opens the same menu",
+      "action": "Give each item a `command=\"toggle-popover\"` button whose `commandfor` points at the same menu, with the item's name in `aria-label` and `aria-expanded` kept in sync with the popover; keep the button visible at all times rather than on hover or focus",
+      "opponent": "A long press does not always trigger the context menu, and notably not in iOS Safari, so touch users cannot open a right-click-only menu (quote: \"On some platforms (though notably not iOS Safari) this may also be triggered with a long press, but that is not a universal behavior.\")",
+      "fallback": "Without Invoker Commands, `popovertarget` makes the same button open the menu",
+      "unlock": "",
+      "idea": "",
+      "story": "Delete and Share live in the context menu, which is handy on desktop, but long-pressing the card on an iPhone does nothing. A \"⋯\" button gets touch, keyboard and voice control to the same menu. The guide accepts right-click only when the item can be selected first and the same actions exist elsewhere.",
+      "support": "Invoker commands: Newly (2025-12-12), supported by Chrome 135, Edge 135, Firefox 144, Safari 26.2; Popover: Newly (2025-01-27)"
+    },
+    "mwg:context-menu:3": {
+      "title": "Use `ToggleEvent.source` to tell whether a right-click or a button opened the menu",
+      "action": "In the popover's `beforetoggle`, read `event.source`, write the source element's tag name to an attribute on the menu, and use `[popover][source=\"button\" i]` to give button-opened menus a different `position-area`",
+      "opponent": "(missing) The guide only says this lets you adjust positioning by source, not what goes wrong when you cannot tell (quote: \"To differentiate between the source, for instance to adjust the positioning, check `event.source` in the popover's `beforetoggle` event\")",
+      "fallback": "Without `source`, set `position-area` in each trigger's own listener",
+      "unlock": "One menu can change its position and styling depending on what opened it",
+      "idea": "Sharing one popup between several entry points used to mean tracking who opened it → an action menu, info card or color panel can hang off several entry points and change placement and title by source, with the opening logic written once",
+      "story": "The same menu should align to the cursor on right-click and to the far side of the button when \"⋯\" opens it. Because the opening event carries its source, the menu can decide its placement in one place instead of every trigger recording it.",
+      "support": "ToggleEvent source: Newly (2026-05-11), supported by Chrome 140, Edge 140, Firefox 145, Safari 26.5"
+    },
+    "mwg:teaser": {
+      "title": "Fade the end of a teaser with `mask-image`, not a translucent overlay",
+      "action": "Set `mask-image: linear-gradient(to top, transparent, black 3lh)` on a teaser truncated at the source, without `-webkit-mask-image`; for vertical writing modes point the gradient in the block direction",
+      "opponent": "(missing) The guide only says a semi-transparent overlay constrains the background and interaction design, not when it fails (quote: \"NOT a semi-transparent overlay which imposes design constraints on the background and interaction.\")",
+      "fallback": "Masks are Widely available; no fallback needed",
+      "unlock": "",
+      "idea": "",
+      "story": "The first paragraphs of a paid article should fade into the page. The guide wants the text itself to turn transparent rather than a near-background gradient laid on top. This covers content truncated at the source; hinting that a scroller has more is a different guide.",
+      "support": "Masks: Widely (2023-12-07)"
+    },
+    "mwg:teaser:2": {
+      "title": "Size the fade in `lh`, not percentages",
+      "action": "Write gradient stops in line-based lengths such as `black 3lh`",
+      "opponent": "A percentage grows with the content, so a long excerpt ends up mostly faded (quote: \"a percentage grows with the content, so a long excerpt would be mostly faded\")",
+      "fallback": "The `lh` unit is Widely available; no fallback needed",
+      "unlock": "",
+      "idea": "",
+      "story": "The same `black 80%` that suits a two-paragraph excerpt makes several closing paragraphs of a twenty-paragraph one unreadable. Measured in lines, only the last few lines fade however long the excerpt is.",
+      "support": "lh unit: Widely (2023-11-21); Masks: Widely (2023-12-07)"
+    },
+    "mwg:teaser:3": {
+      "title": "Leave no links or controls in the faded part",
+      "action": "Keep links and controls out of the faded area; put calls to action such as a subscribe button after the masked element",
+      "opponent": "Masks and blurs only change painting; the content stays in the DOM, accessibility tree, find-in-page and copy and paste, so a faded link is unreadable but still focusable (quote: \"DO NOT leave links or controls in the faded part: they stay focusable while they are unreadable.\")",
+      "fallback": "Masks are Widely available; no fallback needed",
+      "unlock": "",
+      "idea": "",
+      "story": "Tabbing through, a keyboard user lands on nearly transparent text with no idea which link it is. A mask does not stop anyone reading, so paid content has to be truncated at the source, and the subscribe button has to sit outside the mask or it fades too.",
+      "support": "Masks: Widely (2023-12-07)"
+    },
+    "mwg:teaser:4": {
+      "title": "Blur a paywall teaser with an outer pseudo-element's `backdrop-filter`, not inside the faded element",
+      "action": "Give the outer `.teaser-blur` `position: relative`, cover the last lines with its `::after` using `backdrop-filter: blur(0.1em)`, and ramp it in with `mask-image: linear-gradient(to top, black 5lh, transparent)`; keep the fade mask on the inner `.teaser`",
+      "opponent": "A `backdrop-filter` placed inside a masked element does not blur that element's text (quote: \"A `backdrop-filter` inside a masked element does not blur that element's text.\")",
+      "fallback": "Without `backdrop-filter`, the text is not blurred but still fades out",
+      "unlock": "The end of a teaser can blur gradually, so readers see there is more text but cannot read it",
+      "idea": "A \"you can see there's text but can't read it\" teaser usually meant an overlay image or a separate blurred version → paid articles, course notes and newsletter archives can end in a progressive blur over real text, with nothing to redo when the background or theme changes. Blur does not stop copying or screen readers, so truncate the real content on the server",
+      "story": "To fade and blur the last lines of a paid article, the instinct is a pseudo-element on the same element, and the text stays sharp. Moving the blur layer to the parent makes it take effect, and the mask ramps it in so you cannot see where it starts.",
+      "support": "backdrop-filter: Newly (2024-09-16), supported by Chrome 76, Edge 79, Firefox 103, Safari 18"
+    },
+    "mwg:teaser:5": {
+      "title": "Extend the blur layer past the sides and end by at least one blur radius",
+      "action": "Use negative `inset-inline` and `inset-block-end` to extend the pseudo-element by `--bleed`, twice the blur radius (at least once)",
+      "opponent": "`backdrop-filter` only paints inside its element, so without the bleed the blurred text is cut in a straight line at the text edges (quote: \"without this bleed the blurred text is cut off in a straight line at the edges of the text.\")",
+      "fallback": "Without `backdrop-filter` there is no blur and no cut edge; the text still fades out",
+      "unlock": "",
+      "idea": "",
+      "story": "Blur spreads the glyphs outward, but the filter only paints inside its box, so both sides look sliced off. A little extra room lets the spread finish.",
+      "support": "backdrop-filter: Newly (2024-09-16)"
+    },
+    "mwg:teaser:6": {
+      "title": "Start the fade before the blur",
+      "action": "Make the fade longer than the blur, for example a 9lh fade and a 5lh blur, but not so long that the blurred part is nearly transparent",
+      "opponent": "Blurred text looks heavier than crisp text at the same opacity, so if both start at the same point the text gets more prominent where the blur begins and only then fades (quote: \"If both start at the same point, the text gets more prominent where the blur begins, then fades.\")",
+      "fallback": "Without `backdrop-filter` there is no blur; the text still fades out",
+      "unlock": "",
+      "idea": "",
+      "story": "With fade and blur set to the same length, a darker band shows up at the fifth line from the end. Fading first and blurring later makes the weight drop steadily.",
+      "support": "backdrop-filter: Newly (2024-09-16)"
+    },
+    "mwg:teaser:7": {
+      "title": "Keep a single blur layer's radius small, and stack 4–6 layers for a growing blur",
+      "action": "Use only a tiny radius (such as `0.1em`) for a single blur layer; to grow the radius toward the end, stack 4–6 elements with increasing `blur()` values (such as `1px`, `2px`, `4px`, `8px`) blended by overlapping `mask-image` bands",
+      "opponent": "The mask cross-fades sharp and blurred text, so a large radius lets the sharp text show through like a ghost (quote: \"a large radius shows a ghost of the sharp text through the blur.\")",
+      "fallback": "Without `backdrop-filter` there is no blur; the text still fades out",
+      "unlock": "",
+      "idea": "",
+      "story": "Raising the blur to 8px to hide the text better makes blurred and sharp letters appear together in the transition zone. Stacking avoids it, at the cost of one element and one compositing pass per step.",
+      "support": "backdrop-filter: Newly (2024-09-16)"
+    },
+    "mwg:teaser:8": {
+      "title": "Don't use an SVG-filter `backdrop-filter: url(…)` to save elements",
+      "action": "Build a progressive blur from several `backdrop-filter: blur()` layers rather than referencing an SVG filter with `backdrop-filter: url(…)` to save a few elements",
+      "opponent": "Safari and Firefox do not apply SVG filters in `backdrop-filter`, so an SVG-based blur has no effect there (quote: \"`backdrop-filter` does not apply SVG filter references (`url(…)`) in Safari and Firefox, so an SVG-based blur renders no blur at all there.\")",
+      "fallback": "Without `backdrop-filter` there is no blur; the text still fades out",
+      "unlock": "",
+      "idea": "",
+      "story": "One SVG filter can draw a graduated blur and looks economical in Chrome, but in Safari the whole passage stays sharp. The guide would rather spend a few extra elements.",
+      "support": "backdrop-filter: Newly (2024-09-16); SVG filter references `url(…)` are not applied in Safari or Firefox"
     }
   }
 }

@@ -137,22 +137,22 @@ license: CC-BY-4.0（上游指南）
 
 %% line-start id="mwg:security:8" %%
 ## 用 `Document-Isolation-Policy` 取得跨來源隔離，不必替每個子資源補 CORP
-- 做法：只有需要 `SharedArrayBuffer`（例如 WebAssembly 多執行緒）才做跨來源隔離；Chromium 環境優先送 `Document-Isolation-Policy: isolate-and-credentialless`，對非 CORS 的跨來源資源剝掉憑證而不是擋下；需要擋下時改用 `isolate-and-require-corp`
-- 對手：跨瀏覽器的做法（`COOP: same-origin` 加 `COEP: require-corp`）要求每個嵌入的子資源都送 CORP 標頭，否則瀏覽器不載入（引用："Every embedded subresource (images, styles, external media) MUST serve an explicit `Cross-Origin-Resource-Policy` header or the browser will prevent it from loading."）
-- 退路：失去主要好處——退回 COOP＋COEP 的跨瀏覽器路徑，每個第三方子資源還是要對方送 CORP 才會載入
+- 做法：只有需要 `SharedArrayBuffer`（例如 WebAssembly 多執行緒）才做跨來源隔離；跨瀏覽器預設是 COOP 加 COEP，在支援的瀏覽器可改送 `Document-Isolation-Policy: isolate-and-credentialless`，對非 CORS 的跨來源資源剝掉憑證而不是擋下；需要擋下時改用 `isolate-and-require-corp`
+- 對手：跨瀏覽器的做法（`COOP: same-origin` 加 `COEP: require-corp`）要求每個跨來源子資源都以 CORP 或 CORS 明確同意，嵌入的跨來源 iframe 還要自己啟用 COEP，否則瀏覽器擋下（引用："every cross-origin subresource (images, scripts, styles, media) MUST explicitly opt in via either a `Cross-Origin-Resource-Policy` header (`cross-origin` or `same-site`) or CORS"）
+- 退路：失去主要好處——退回 COOP＋COEP，第三方資源與 iframe 又要對方配合才載得進來
 - 解鎖：以前要開跨來源隔離，頁面上每張第三方圖片都得對方加標頭，不配合就破圖；現在新政策改成載入但剝掉憑據
 
-經過：為了用 SharedArrayBuffer 開啟隔離，頁面上每張第三方圖片都得對方配合加標頭，不配合的就破圖。新政策改成「載入但不帶 cookie」，只是目前只在 Chrome。
+經過：為了用 SharedArrayBuffer 開啟隔離，頁面上每張第三方圖片都得對方配合加標頭，不配合的就破圖。新政策改成「載入但不帶 cookie」，也不切斷跨來源彈窗的 `window.opener`，只是目前只在 Chrome 與 Edge。指南因此把 COOP 加 COEP 當預設，這條當作支援時的替代。
 %% line-end %%
 
 ### 細節（不索引）
 - 對手組：合法連線被安全規則擋下
-- 支援狀態：Document-Isolation-Policy：指南原文 "supported primarily in Chrome (142+) and other vendors have not yet shown interest"，記 Limited
+- 支援狀態：Document-Isolation-Policy：Limited availability，Supported by: Chrome 137 (May 2025), Edge 137 (May 2025)；Unsupported in: Firefox, Safari
 - 戰報：僵持（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 有
 - 類型：新能力
-- 發想（非指南原文）：以前要用 SharedArrayBuffer，頁面上每個第三方圖片、字型、影片都得對方補 CORP 標頭 → 現在瀏覽器裡的 Wasm 多執行緒工具（影片轉檔、本機影像處理）可以開啟隔離，同時照常嵌入外部素材。目前主要僅 Chrome
-- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
+- 發想（非指南原文）：以前要用 SharedArrayBuffer，頁面上每個第三方圖片、字型、影片都得對方補 CORP 標頭 → 現在瀏覽器裡的 Wasm 多執行緒工具（影片轉檔、本機影像處理）可以開啟隔離，同時照常嵌入外部素材。目前僅 Chrome、Edge
+- 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2；2026-11-25（v1.0.2）上游改以 COOP＋COEP 為預設、DIP 為替代，原對手引文被改寫，對手改引新句並補上 iframe 要啟用 COEP；支援資料改為 Chrome／Edge 137（仍 Limited），退路分類與戰報不變
 
 %% line-start id="mwg:security:9" %%
 ## 用 Fetch Metadata 在驗證之前拒絕跨站請求
@@ -224,5 +224,5 @@ license: CC-BY-4.0（上游指南）
 - 戰報：勝（由支援狀態與退路推出）
 - 槽判定：對手 有／解鎖 缺
 - 類型：糾錯
-- 另有 7 個糾錯提醒未拆：postMessage 驗證 `event.origin`、指定目標來源（詳見 `validate-origins`）；違規報告雜訊多、要用 `'report-sample'` 與過濾；報告裡不放個資與權杖；COOP 不要直接上 `same-origin`；Fetch Metadata 設錯會擋掉 webhook 與 SSO；Permissions-Policy 誤擋委派功能讓第三方小工具靜默失敗、第三方 iframe 搶焦點；`X-Content-Type-Options: nosniff` 與正確的 `Content-Type`
+- 另有 7 個糾錯提醒未拆：postMessage 驗證 `event.origin`、指定目標來源（詳見 `validate-origins`）；違規報告雜訊多、要用 `'report-sample'` 與過濾；報告裡不放個資與權杖；COOP 不要直接上 `same-origin`；Fetch Metadata 設錯會擋掉 webhook 與 SSO；Permissions-Policy 誤擋委派功能讓第三方小工具靜默失敗（第三方 iframe 搶焦點的建議已於 v1.0.2 移除）；`X-Content-Type-Options: nosniff` 與正確的 `Content-Type`
 - 變更紀錄：2026-11-17（v1.0.0）回溯拆出；2026-11-18 改為槽 v2
